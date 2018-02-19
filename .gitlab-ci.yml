@@ -7,6 +7,6 @@ deploy_staging:
     - echo "Deploy to staging server"
   environment:
     name: staging
-    url: https://dash-game.vue-components.thrill.house
+    url: https://vue-components.dash-game.thrill.house
   only:
   - master
