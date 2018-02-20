@@ -33,7 +33,7 @@
 		  <header>
 			  <h3>Ability socket</h3>
 		  </header>
-		  <ability-socket :model="sampleAbilitySocket"></ability-socket>
+		  <ability-socket :model="sampleAbilitySocket" :event="sampleAbilityEvent" :ability="sampleEnabledAbility"></ability-socket>
 	  </section>
 	  
 	  <section>
@@ -71,18 +71,17 @@
 	    EnabledAbility
 	  },
 	  computed: {
-		  localComputed() {
-			  return {
-				  sampleDataSource: function() {
-					  return _.find(this.dataSources, { id: 1 });
-				  },
-				  sampleAbilitySocket: function() {
-					  return _.head(this.sampleDataSource.sockets);
-				  },
-				  sampleEnabledAbility: function() {
-					  return _.find(this.abilities, { id: 1 });
-				  }
-			  }
+		  sampleDataSource: function() {
+			  return _.head(this.dataSources);
+		  },
+		  sampleAbilityEvent: function() {
+			  return _.find(this.events, { type: 'abilities' });
+		  },
+		  sampleAbilitySocket: function() {
+			  return _.head(this.sampleDataSource.sockets);
+		  },
+		  sampleEnabledAbility: function() {
+			  return _.head(this.abilities);
 		  },
 		  ...mapState(['options', 'dataSources', 'abilities', 'events']),
 		}

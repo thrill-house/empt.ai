@@ -15,17 +15,20 @@
 </template>
 
 <script>
-	import app from '../app.vue'
+	import { mapState } from 'vuex'
+	import store from '../store'
 	
 	export default {
 	  name: 'enabled-ability',
 	  props: {
 	    model: Object
 	  },
+	  store,
 	  computed: {
 		  event: function() {
-		    return _.find(app.events, { type: 'abilities', abilitiesId: this.model.id, active: true });
+		    return _.find(this.events, { type: 'abilities', abilitiesId: this.model.id, active: true });
 	    },
+		  ...mapState(['events']),
 	  }
 	}
 </script>
@@ -34,6 +37,6 @@
 	@import '../assets/scss/variables';
 	
 	#enabled-ability {
-	  background: green;
+	  background: $ability;
 	}
 </style>

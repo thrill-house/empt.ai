@@ -22,12 +22,14 @@
 </template>
 
 <script>
+	import { mapState } from 'vuex'
 	import _ from 'lodash'
-	import app from '../app.vue'
 	import AbilitySocket from './ability-socket.vue'
+	import store from '../store'
 	
 	export default {
 	  name: 'data-source',
+	  store,
 	  components: {
 	    AbilitySocket
 	  },
@@ -37,14 +39,15 @@
 	  computed: {
 	    abilities: function() {
 		    var abilitiesIDs = _.map(this.events, 'abilitiesId');
-		    return _.filter(app.abilities, function(o) { return _.indexOf(abilitiesIDs, o.id) >= 0; });
+		    return _.filter(this.abilities, function(o) { return _.indexOf(abilitiesIDs, o.id) >= 0; });
 	    },
 	  	events: function() {
-		    return _.filter(app.events, { type: 'abilities', dataSourcesId: this.model.id, active: true });
+		    return _.filter(this.events, { type: 'abilities', dataSourcesId: this.model.id, active: true });
 	    },
 	  	event: function() {
-		    return _.find(app.events, { type: 'dataSources', dataSourcesId: this.model.id, active: true });
+		    return _.find(this.events, { type: 'dataSources', dataSourcesId: this.model.id, active: true });
 	    },
+		  ...mapState(['abilities', 'events']),
 	  }
 	}
 </script>
@@ -53,6 +56,6 @@
 	@import '../assets/scss/variables';
 	
 	#data-source {
-	  background: green;
+	  background: $source;
 	}
 </style>
