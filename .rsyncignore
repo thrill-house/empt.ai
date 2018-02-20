@@ -1,3 +1,13 @@
-.rsyncignore
-.git
+.babelrc
+.editorconfig
+.gitignore
 .gitlab-ci.yml
+.rsyncignore
+package-lock.json
+package.json
+README.md
+webpack.config.js
+
+.git
+node_modules
+src
