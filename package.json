@@ -3,6 +3,7 @@
   "description": "Vue.js components for the Dash Game",
   "version": "1.0.0",
   "author": "info@michaelpierce.trade",
+  "url": "git@git.thrill.house:dash-game/vue-components.git",
   "license": "MIT",
   "private": true,
   "scripts": {
