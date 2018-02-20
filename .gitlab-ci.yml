@@ -5,7 +5,7 @@ deploy_staging:
   stage: deploy
   script:
     - echo "Deploy to staging server"
-    - rsync -av --delete ./ /var/www/vue-components.dash-game.thrill.house
+    - rsync -av --delete --exclude-from .rsyncignore ./ /var/www/vue-components.dash-game.thrill.house
   environment:
     name: staging
     url: https://vue-components.dash-game.thrill.house
