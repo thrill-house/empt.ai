@@ -7,8 +7,8 @@
 	  <header>
 		  <img src="./assets/img/logo.png" class="logo">
 		  <div>
-			  <h1>Dash Game — Vue components</h1>
-			  <h2>This is the library of all components used to make up the user interface of the Dash Game.</h2>
+			  <h1 class="h2">Dash Game — Vue components</h1>
+			  <h2 class="h3">This is the library of all components used to make up the user interface of the Dash Game.</h2>
 		  </div>
 		</header>
 	  
