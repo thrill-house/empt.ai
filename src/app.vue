@@ -130,6 +130,7 @@
 			header {
 				border-bottom: 1px solid $sky;
 				padding-bottom: 2rem;
+				margin-bottom: 2rem;
 				
 				* + * {
 					margin-top: 1rem;
