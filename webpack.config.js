@@ -1,6 +1,8 @@
 var path = require('path')
 var webpack = require('webpack')
 
+const docsLoader = require.resolve('./custom-loaders/docs-loader.js')
+
 module.exports = {
   entry: './src/main.js',
   output: {
@@ -50,7 +52,10 @@ module.exports = {
               'vue-style-loader',
               'css-loader',
               'sass-loader?indentedSyntax'
-            ]
+						],
+						'docs': [
+							docsLoader
+						]
           }
           // other vue-loader options go here
         }

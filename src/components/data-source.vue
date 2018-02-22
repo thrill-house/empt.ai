@@ -1,9 +1,7 @@
-<documentation>
-	The data source is the base element that abilities are attached to. When enabled, their multipliers are applied to the score calculation.
-	
-	Properties
-	model: A data source model.
-</documentation>
+<docs>
+	### The data source is the base element that abilities are attached to. When enabled, their multipliers are applied to the score calculation.
+	- `model` A data source model.
+</docs>
 
 <template>
   <div id="data-source">

@@ -1,9 +1,7 @@
-<documentation>
-	The ability socket is a space attached to 0 or 1 data sources. When an ability is assigned to the socket, it's multipliers will be included in the score calculation.
-	
-	Properties
-	model: An ability socket model, that may or may not have abilities assigned to it.
-</documentation>
+<docs>
+	### The ability socket is a space attached to 0 or 1 data sources. When an ability is assigned to the socket, it's multipliers will be included in the score calculation.
+	- `model` An ability socket model, that may or may not have abilities assigned to it.
+</docs>
 
 <template>
   <div id="ability-socket">

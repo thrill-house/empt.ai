@@ -1,9 +1,7 @@
-<documentation>
-	The enabled ability is an ability that is currently enabled within a socket.
-	
-	Properties
-	model: An ability model.
-</documentation>
+<docs>
+	### The enabled ability is an ability that is currently enabled within a socket.
+	- `model` An ability model.
+</docs>
 
 <template>
   <div id="enabled-ability">

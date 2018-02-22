@@ -1,6 +1,6 @@
-<documentation>
-	This is the app component that controls the display of all the child components. Generally, this file won't need to be changed very often. 
-</documentation>
+<docs>
+	### This is the app component that controls the display of all the child components. Generally, this file won't need to be changed very often.
+</docs>
 
 <template>
 	<main id="app">
@@ -14,10 +14,11 @@
 	  
 	  <section>
 		  <header>
-			  <h3>Test</h3>
-			  <div class="manipulators">
-				  <p><label>message: <input v-model="message" /></label></p>
-			  </div>
+			  <div v-html="docs.test" class="docs"></div>
+			  <div class="tweakers">
+					<label for="test-message">Message</label>
+					<input id="test-message" v-model="message" />
+				</div>
 		  </header>
 		  <test :message="message"></test>
 	  </section>
@@ -60,8 +61,8 @@
 	  name: 'app',
 	  data: function() {
 		  return {
-				message: 'Test'
-			}
+			  message: 'This and that'
+		  }
 	  },
 	  store,
 	  components: {
@@ -71,6 +72,16 @@
 	    EnabledAbility
 	  },
 	  computed: {
+		  docs: function() {
+				return _.transform(this.$options.components, function(result, component) {
+					result[component.name] = component.__docs;
+				});
+		  },
+		  tweakers: function() {
+				return _.transform(this.$options.components, function(result, component) {
+					result[component.name] = component.__tweakers;
+				});
+		  },
 		  sampleDataSource: function() {
 			  return _.head(this.dataSources);
 		  },
@@ -93,7 +104,6 @@
 	
 	#app {
 		display: grid;
-		grid-gap: 2rem;
 		padding: 2rem;
 		justify-content: start;
 		
@@ -108,51 +118,24 @@
 				max-width: 100%;
 				height: auto;
 		  }
-		  
-		  h1 {
-			  font-size: 2rem;
-			  line-height: 1.5;
-		  }
-		  
-		  h2 {
-			  font-size: 1.5rem;
-			  line-height: 1.5;
-		  }
 	  }
 	  
 	  > section {
 		  display: grid;
 			grid-gap: 1rem;
+			padding: 2rem 0;
+			border-bottom: 3px solid $sky;
 			
 			header {
-				h3 {
-				  font-size: 1.25rem;
-				  line-height: 1.5;
-			  }
-			  
-			  .manipulators {
-				  position: relative;
-				  margin: 2rem 0 1rem;
-				  
-			  	&:before {
-				  	content: "Manipulate";
-				  	position: absolute;
-				  	top: -1rem;
-				  	font-size: 0.75rem;
-					  line-height: 1;
-					  font-style: italic;
-			  	}
-			  	
-			  	label {
-				  	font-weight: bold;
-			  	}
-			  	
-				  input {
-					  font-size: 1rem;
-					  line-height: 1.5;
-					  padding: 0.5rem;
-				  }
-			  }
+				.docs {
+					* + * {
+						margin-top: 1rem;
+					}
+					
+					& + .tweakers {
+						margin-top: 2rem;
+					}
+				}
 			}
 	  }
 	}
