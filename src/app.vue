@@ -128,14 +128,11 @@
 			border-bottom: 3px solid $sky;
 			
 			header {
-				.docs {
-					* + * {
-						margin-top: 1rem;
-					}
-					
-					& + .tweakers {
-						margin-top: 2rem;
-					}
+				border-bottom: 1px solid $sky;
+				padding-bottom: 2rem;
+				
+				* + * {
+					margin-top: 1rem;
 				}
 			}
 	  }
