@@ -27,7 +27,7 @@ This is a sample component, file and folder structure should be preserved to mat
 		min-height: 1rem;
 		padding: 1rem;
 		width: 10rem;
-	  background: pink;
+	  background: $peach;
 	  text-align: center;
 	}
 </style>
