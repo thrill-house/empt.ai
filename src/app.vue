@@ -16,6 +16,7 @@
 		  <header>
 			  <div v-html="docs.test" class="docs"></div>
 			  <div class="tweakers">
+					<h4>Tweakers</h4>
 					<label for="test-message">Message</label>
 					<input id="test-message" v-model="message" />
 				</div>
