@@ -9,7 +9,7 @@ The data source is the base element that abilities are attached to. When enabled
 </docs>
 
 <template>
-  <div v-if="event" id="data-source">
+  <div id="data-source">
     {{ event }}
     <h4>
       {{ dataSource.name }}
@@ -45,10 +45,12 @@ The data source is the base element that abilities are attached to. When enabled
 		    return this.dataSources[this.label];
 	    },
 	  	event: function() {
-		    return _.find(this.getEvents('data-source'), { dataSource: this.label });
+		    //return _.find(this.getEvents('data-source'), { dataSource: this.label });
+		    return _.find(this.gameSession.events, { type: 'data-source', dataSource: this.label });
+		    
 	    },
-		  ...mapState(['dataSources']),
-		  ...mapGetters(['getEvents'])
+		  ...mapState(['gameSession', 'dataSources']),
+		  //...mapGetters(['getEvents'])
 	  }
 	}
 </script>

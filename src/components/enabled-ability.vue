@@ -10,7 +10,6 @@ The enabled ability is an ability that is currently enabled within a socket.
 
 <template>
   <div id="enabled-ability">
-    {{ label }}
     {{ event }}
     <h5>
       {{ ability.name }}
@@ -34,10 +33,12 @@ The enabled ability is an ability that is currently enabled within a socket.
 		    return this.abilities[this.label];
 	    },
 	  	event: function() {
-		    return _.find(this.getEvents('ability'), { ability: this.label });
+		    //return _.find(this.getEvents('ability'), { ability: this.label });
+		    console.log(this.gameSession.events);
+		    return _.find(this.gameSession.events, { type: 'data-source', ability: this.label });
 	    },
-		  ...mapState(['abilities']),
-		  ...mapGetters(['getEvents'])
+		  ...mapState(['gameSession', 'abilities']),
+		  //...mapGetters(['getEvents'])
 	  }
 	}
 </script>

@@ -6,7 +6,7 @@ The component lists all events associated with the game that are stored in the g
 
 <template>
   <div id="game-events">
-    <div class="event" v-for="(event, index) in events" v-if="index < gameSession.now">
+    <div class="event" v-for="(event, index) in gameSession.events" v-if="index < gameSession.now">
 	    <output>{{ index }}</output>
 	    <pre>{{ event }}</pre>
     </div>
@@ -21,7 +21,7 @@ The component lists all events associated with the game that are stored in the g
 	export default {
 	  name: 'game-events',
 	  store,
-	  computed: mapState(['gameSession', 'events'])
+	  computed: mapState(['gameSession'])
 	}
 </script>
 
