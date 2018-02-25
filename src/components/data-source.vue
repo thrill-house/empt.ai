@@ -1,29 +1,35 @@
 <docs>
-	### The data source is the base element that abilities are attached to. When enabled, their multipliers are applied to the score calculation.
-	- `model` A data source model.
+### Data source
+
+The data source is the base element that abilities are attached to. When enabled, their multipliers are applied to the score calculation.
+
+##### Attributes
+
+- `label` — A label referring to a data source in the global store.
 </docs>
 
 <template>
-  <div id="data-source">
+  <div v-if="event" id="data-source">
+    {{ event }}
     <h4>
-      {{ model.label }}
-      <em v-if="model.type">— {{ model.type }}</em>
+      {{ dataSource.name }}
+      <em v-if="dataSource.type">— {{ dataSource.type }}</em>
     </h4>
 		<div class="sockets">
       <ability-socket
-        v-for="(socket, index) in model.sockets"
+        v-for="(socket, index) in dataSource.sockets"
         :key="index"
-        :model="socket">
+        :label="socket">
       </ability-socket>
     </div>
   </div>
 </template>
 
 <script>
-	import { mapState } from 'vuex'
 	import _ from 'lodash'
-	import AbilitySocket from './ability-socket.vue'
+	import { mapState, mapGetters } from 'vuex'
 	import store from '../store'
+	import AbilitySocket from './ability-socket.vue'
 	
 	export default {
 	  name: 'data-source',
@@ -32,20 +38,17 @@
 	    AbilitySocket
 	  },
 	  props: {
-	    model: Object
+	    label: String
 	  },
 	  computed: {
-	    abilities: function() {
-		    var abilitiesIDs = _.map(this.events, 'abilitiesId');
-		    return _.filter(this.abilities, function(o) { return _.indexOf(abilitiesIDs, o.id) >= 0; });
-	    },
-	  	events: function() {
-		    return _.filter(this.events, { type: 'abilities', dataSourcesId: this.model.id, active: true });
+	    dataSource: function() {
+		    return this.dataSources[this.label];
 	    },
 	  	event: function() {
-		    return _.find(this.events, { type: 'dataSources', dataSourcesId: this.model.id, active: true });
+		    return _.find(this.getEvents('data-source'), { dataSource: this.label });
 	    },
-		  ...mapState(['abilities', 'events']),
+		  ...mapState(['dataSources']),
+		  ...mapGetters(['getEvents'])
 	  }
 	}
 </script>

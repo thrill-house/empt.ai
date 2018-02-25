@@ -3,27 +3,27 @@ h1, h2, h3, h4, h5, h6 {
 }
 		  
 h1, .h1 {
-  font-size: 3.1rem;
-  line-height: 1.5;
-}
-
-h2, .h2 {
   font-size: 2.3rem;
   line-height: 1.5;
 }
 
-h3, .h3 {
+h2, .h2 {
   font-size: 1.8rem;
   line-height: 1.5;
 }
 
-h4, .h4 {
+h3, .h3 {
   font-size: 1.5rem;
   line-height: 1.5;
 }
 
-h5, .h5 {
+h4, .h4 {
   font-size: 1.3rem;
+  line-height: 1.5;
+}
+
+h5, .h5 {
+  font-size: 1rem;
   line-height: 1.5;
 }
 
@@ -45,15 +45,40 @@ ul, ol {
 	}
 }
 
+.body {
+	* + * {
+		margin-top: 1rem;
+	}
+}
+
+code, pre, output {
+	font-family: $font-monospace;
+	border-radius: 0.2rem;
+}
+
 code {
 	display: inline-block;
 	vertical-align: middle;
 	background: $sky;
 	color: $purple;
-	font-family: $font-monospace;
 	padding: 0.25rem;
 	font-size: 0.75rem;
-	border-radius: 0.2rem;
+}
+
+output {
+	display: block;
+	background: $peach;
+	color: $orange;
+	padding: 0.5rem;
+	font-size: 1rem;
+}
+
+pre {
+	display: block;
+	background: darken($light, 10%);
+	color: lighten($dark, 25%);
+	padding: 0.25rem;
+	font-size: 1rem;
 }
 
 label {

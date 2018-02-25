@@ -7,96 +7,107 @@
 	  <header>
 		  <img src="./assets/img/logo.png" class="logo">
 		  <div>
-			  <h1 class="h2">Dash Game — Vue components</h1>
-			  <h2 class="h3">This is the library of all components used to make up the user interface of the Dash Game.</h2>
+			  <h1>Dash Game — Vue components</h1>
+			  <h2>This is the library of all components used to make up the user interface of the Dash Game.</h2>
 		  </div>
 		</header>
+		
+	  <section>
+		  <header>
+			  <h3>Current time</h3>
+		  </header>
+		  <pre>{{ gameSession }}</pre>
+	  </section>
 	  
 	  <section>
 		  <header>
-			  <div v-html="docs.test" class="docs"></div>
+			  <div v-html="docs.sampleComponent" class="docs"></div>
 			  <div class="tweakers">
-					<h4>Tweakers</h4>
-					<label for="test-message">Message</label>
-					<input id="test-message" v-model="message" />
+					<h5>Tweakers</h5>
+					<label for="sample-component-message">Message</label>
+					<input id="sample-component-message" v-model="message" />
 				</div>
 		  </header>
-		  <test :message="message"></test>
+		  <sample-component :message="message"></sample-component>
 	  </section>
 	  
 	  <section>
 		  <header>
-			  <h3>Data source</h3>
+			  <div v-html="docs.gameEvents" class="docs"></div>
 		  </header>
-		  <data-source :model="sampleDataSource"></data-source>
+		  <game-events></game-events>
 	  </section>
 	  
 	  <section>
 		  <header>
-			  <h3>Ability socket</h3>
+			  <div v-html="docs.dataSource" class="docs"></div>
 		  </header>
-		  <ability-socket :model="sampleAbilitySocket" :event="sampleAbilityEvent" :ability="sampleEnabledAbility"></ability-socket>
+		  <data-source label="root"></data-source>
 	  </section>
 	  
 	  <section>
 		  <header>
-			  <h3>Enabled Ability</h3>
+			  <div v-html="docs.abilitySocket" class="docs"></div>
 		  </header>
-		  <enabled-ability :model="sampleEnabledAbility"></enabled-ability>
+		  <ability-socket label="root-1"></ability-socket>
+	  </section>
+	  
+	  <section>
+		  <header>
+			  <div v-html="docs.enabledAbility" class="docs"></div>
+		  </header>
+		  <enabled-ability label="neutral-1"></enabled-ability>
 	  </section>
 	</main>
 </template>
 
 <script>
-	import { mapState } from 'vuex'
 	import _ from 'lodash'
-	
-	import Test from './components/test.vue'
+	import { mapState, mapMutations } from 'vuex'
+	import store from './store'
+	import SampleComponent from './components/sample-component.vue'
+	import GameEvents from './components/game-events.vue'
 	import DataSource from './components/data-source.vue'
 	import AbilitySocket from './components/ability-socket.vue'
 	import EnabledAbility from './components/enabled-ability.vue'
-	
-	import store from './store'
 	
 	export default {
 	  name: 'app',
 	  data: function() {
 		  return {
-			  message: 'This and that'
+			  message: 'This and that',
+			  start: _.now()
 		  }
 	  },
 	  store,
 	  components: {
-	    Test,
+	    SampleComponent,
+	    GameEvents,
 	    DataSource,
 	    AbilitySocket,
 	    EnabledAbility
 	  },
+	  created: function() {
+		  var self = this;
+			window.setInterval(function() {
+			  self.$store.commit('setNow');
+		  }, 1000);
+	  },
 	  computed: {
 		  docs: function() {
 				return _.transform(this.$options.components, function(result, component) {
-					result[component.name] = component.__docs;
+					result[_.camelCase(component.name)] = component.__docs;
 				});
 		  },
-		  tweakers: function() {
-				return _.transform(this.$options.components, function(result, component) {
-					result[component.name] = component.__tweakers;
-				});
-		  },
-		  sampleDataSource: function() {
-			  return _.head(this.dataSources);
-		  },
-		  sampleAbilityEvent: function() {
-			  return _.find(this.events, { type: 'abilities' });
-		  },
-		  sampleAbilitySocket: function() {
-			  return _.head(this.sampleDataSource.sockets);
-		  },
-		  sampleEnabledAbility: function() {
-			  return _.head(this.abilities);
-		  },
-		  ...mapState(['options', 'dataSources', 'abilities', 'events']),
-		}
+		  ...mapState(['gameSession'])
+		},
+		watch: {
+    	start: function(newTime) {
+	    	this.gameSession.start = newTime;
+	    	//console.log(this.$store.commit('setStart', newTime));
+	      //this.$store.commit('setStart', newTime);
+	    }
+	  },
 	}
 </script>
 
@@ -112,8 +123,10 @@
 			display: grid;
 			grid-template-columns: 120px 1fr;
 			grid-gap: 2rem;
+			padding-bottom: 2rem;
 			font-family: 'Menlo', 'Courier', monospace;
 			align-items: center;
+			border-bottom: 3px solid $purple;
 			
 		  .logo {
 				max-width: 100%;
@@ -125,12 +138,17 @@
 		  display: grid;
 			grid-gap: 1rem;
 			padding: 2rem 0;
-			border-bottom: 3px solid $sky;
+			border-bottom: 3px solid $purple;
 			
-			header {
+			> header {
 				border-bottom: 1px solid $sky;
-				padding-bottom: 2rem;
-				margin-bottom: 2rem;
+				padding-bottom: 1rem;
+				margin-bottom: 1rem;
+				
+				.tweakers {
+					border-top: 1px solid $sky;
+					padding-top: 1rem;
+				}
 				
 				* + * {
 					margin-top: 1rem;

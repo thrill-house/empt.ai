@@ -1,23 +1,25 @@
 <docs>
-	### The ability socket is a space attached to 0 or 1 data sources. When an ability is assigned to the socket, it's multipliers will be included in the score calculation.
-	- `model` An ability socket model, that may or may not have abilities assigned to it.
+### Ability socket
+
+The ability socket is a space attached to 0 or 1 data sources. When an ability is assigned to the socket, it's multipliers will be included in the score calculation.
+
+##### Attributes
+
+- `label` — An ability socket model, that may or may not have abilities assigned to it
 </docs>
 
 <template>
   <div id="ability-socket">
-	  <div v-if="!event">
-		  --- no ability ---
-	  </div>
 	  <enabled-ability v-if="event"
-	    :model="ability">
+	    :label="abilityLabel">
 	  </enabled-ability>
   </div>
 </template>
 
 <script>
-	import { mapState } from 'vuex'
-	import EnabledAbility from './enabled-ability.vue'
+	import { mapState, mapGetters } from 'vuex'
 	import store from '../store'
+	import EnabledAbility from './enabled-ability.vue'
 		
 	export default {
 	  name: 'ability-socket',
@@ -26,16 +28,16 @@
 	    EnabledAbility
 	  },
 	  props: {
-	    model: Object
+	    label: String
 	  },
 	  computed: {
-		  ability: function() {
-		    return this.event? _.find(this.abilities, { id: this.event.abilitiesId }): {};
+		  event: function() {
+		    return _.find(this.getEvents('data-source'), { dataSourceSlot: this.label });
 	    },
-	  	event: function() {
-		    return _.find(this.events, { type: 'abilities', dataSourcesSlotId: this.model.id, active: true });
+		  abilityLabel: function() {
+		    return this.event? this.event.ability: '';
 	    },
-		  ...mapState(['abilities', 'events']),
+		  ...mapGetters(['getEvents'])
 	  }
 	}
 </script>
