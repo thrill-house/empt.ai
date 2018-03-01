@@ -194,13 +194,16 @@
 			border-bottom: 3px solid $purple;
 			
 			> header {
-				border-bottom: 1px solid $sky;
-				padding-bottom: 1rem;
 				margin-bottom: 1rem;
 				
+				hr {
+					border: none;
+					border-bottom: 1px solid $sky;
+				}
+				
 				.tweakers {
-					border-top: 1px solid $sky;
-					padding-top: 1rem;
+					border-bottom: 1px solid $sky;
+					padding-bottom: 1rem;
 				}
 				
 				* + * {

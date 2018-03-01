@@ -5,8 +5,6 @@ deploy_staging:
   stage: deploy
   script:
     - echo "Deploy to staging server"
-    - npm install
-    - npm run build
     - rsync -av --delete --exclude-from .rsyncignore ./ /var/www/vue-components.dash-game.thrill.house
     - chown -R www-data:www-data /var/www/vue-components.dash-game.thrill.house
     - chmod -R 0755 /var/www/vue-components.dash-game.thrill.house
