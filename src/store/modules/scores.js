@@ -1,4 +1,4 @@
-var scoresInit = { data: 0, confidence: 0, dataPerSecond: 0, confidencePerSecond: 0 };
+var scoresInit = { data: 0, confidence: 0 };
 
 // getters
 const getters = {
@@ -17,9 +17,7 @@ const getters = {
 	  
 		var score = {
 			data: previous.data + data,
-			confidence: previous.confidence + confidence,
-			dataPerSecond: previous.dataPerSecond + dataPerSecond,
-			confidencePerSecond: previous.confidencePerSecond + confidencePerSecond
+			confidence: previous.confidence + confidence
 		};
 	  
 	  if (remainingEvents.length) {

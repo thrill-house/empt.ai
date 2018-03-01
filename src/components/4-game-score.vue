@@ -10,8 +10,8 @@ The component provides a representation of the player's current game score, mean
 
 <template>
   <div id="game-score" class="body">
-    <h5 v-if="data">Data: <output>{{ data | bits }}</output> @ <output class="em">{{ dataPerSecond | bits }}/s</output></h5>
-    <h5 v-if="confidence">Confidence: <output>{{ confidence }}</output> @ <output class="em">{{ confidencePerSecond }}/s</output></h5>
+    <h5 v-if="data">Data: <output>{{ data | bits }}</output></h5>
+    <h5 v-if="confidence">Confidence: <output>{{ confidence }}</output></h5>
   </div>
 </template>
 
@@ -38,12 +38,6 @@ The component provides a representation of the player's current game score, mean
 		  },
 		  confidence: function() {
 			  return this.scores().confidence;
-		  },
-		  dataPerSecond: function() {
-			  return this.scores().dataPerSecond;
-		  },
-		  confidencePerSecond: function() {
-			  return this.scores().confidencePerSecond;
 		  },
 			...mapGetters({
 				scores: 'getScores'

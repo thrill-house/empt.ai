@@ -126,14 +126,14 @@
 		  },
 		  initEvents: function() {
 			  return [
-				  { type: 'data-socket', dataSocket: 'root', timestamp: +moment(this.start).subtract(5, 'seconds') },
-				  { type: 'ability', ability: 'neutral-1', dataSocket: 'root', dataSocketSlot: 'root-1', timestamp: +moment(this.start).add(10, 'seconds') },
-				  { type: 'ability', ability: 'neutral-2', dataSocket: 'root', dataSocketSlot: 'root-2', timestamp: +moment(this.start).add(20, 'seconds') },
-					{ type: 'ability', ability: 'neutral-3', dataSocket: 'root', dataSocketSlot: 'root-3', timestamp: +moment(this.start).add(30, 'seconds') },
+					{ type: 'data-socket', dataSocket: 'root', timestamp: +moment(this.start).subtract(2, 'seconds') },
+					{ type: 'ability', ability: 'neutral-1', dataSocket: 'root', dataSocketSlot: 'root-1', timestamp: +moment(this.start).add(5, 'seconds') },
+					{ type: 'ability', ability: 'neutral-2', dataSocket: 'root', dataSocketSlot: 'root-2', timestamp: +moment(this.start).add(10, 'seconds') },
+					{ type: 'ability', ability: 'neutral-3', dataSocket: 'root', dataSocketSlot: 'root-3', timestamp: +moment(this.start).add(15, 'seconds') },
 					{ type: 'data-socket', dataSocket: 'neutral-1', timestamp: +moment(this.start).add(1, 'minutes') },
 					{ type: 'ability', ability: 'science-1', dataSocket: 'neutral-1', dataSocketSlot: 'neutral-1-1', timestamp: +moment(this.start).add(8, 'minutes') },
 					{ type: 'ability', ability: 'economy-1', dataSocket: 'neutral-1', dataSocketSlot: 'neutral-1-2', timestamp: +moment(this.start).add(13, 'minutes') },
-					{ type: 'data-socket', dataSocket: 'neutral-2', timestamp: +moment(this.start).add(20, 'seconds') },
+					{ type: 'data-socket', dataSocket: 'neutral-2', timestamp: +moment(this.start).add(20, 'minutes') },
 					{ type: 'ability', ability: 'society-1', dataSocket: 'neutral-2', dataSocketSlot: 'neutral-2-2', timestamp: +moment(this.start).add(21, 'minutes') },
 					{ type: 'ability', ability: 'science-2', dataSocket: 'neutral-2', dataSocketSlot: 'neutral-2-2', timestamp: +moment(this.start).add(34, 'minutes') },
 					{ type: 'data-socket', dataSocket: 'neutral-3', timestamp: +moment(this.start).add(55, 'minutes') },
@@ -144,7 +144,6 @@
 		  ...mapState({
 			  start: state => state.gameSession.start,
 			  now: state => state.gameSession.now,
-			  events: state => state.gameSession.events,
 			  options: state => state.options
 			})
 		},
