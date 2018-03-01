@@ -1,29 +1,14 @@
-const state =  {
-	data: 0,
-	confidence: 0,
-	dataPerSecond: 0,
-	confidencePerSecond: 0
-}
-
 // getters
 const getters = {
-  getScores: (state)  => (events, before, previous) => {
-    if(events == undefined) {
-		  var events = state.events;
-	  }
-	  
-	  if(before == undefined) {
-		  var before = _.now();
-	  }
-    
-    if(previous == undefined) {
-		  var previous = { data: 0, confidence: 0, dataPerSecond: 0, confidencePerSecond: 0 };
-	  }
+  getScores: (state, getters)  => (events, before = state.now, previous = { data: 0, confidence: 0, dataPerSecond: 0, confidencePerSecond: 0 }) => {
+    if(events === undefined) {
+	    events = getters.getEvents();
+    }
     
     var firstEvent = _.head(events);
 	  var remainingEvents = _.tail(events);
-	  var factors = state.factors.getBefore(before);
-	  var duration = _.round(before - firstEvent.timestamp);
+	  var factors = getters.getFactors(before);
+	  var duration = getters.getDuration(firstEvent.timestamp, before);
 	  var dataPerSecond = factors.bandwidth;
 	  var confidencePerSecond = factors.processor * factors.journalCitations * factors.returnOnInvestment * factors.approvalRating;
 	  var data = duration * dataPerSecond;
@@ -36,25 +21,14 @@ const getters = {
 		};
 	  
 	  if (remainingEvents.length) {
-		  return this.getBefore(remainingEvents, nextEvent.timestamp, score);
+		  var nextEvent = _.head(remainingEvents);
+		  return getters.getScores(remainingEvents, nextEvent.timestamp, score);
 	  }
 	  
 	  return score;
   }
 }
 
-// mutations
-const mutations = {
-  setScores: (state)  => (scores) => {
-    _.each(scores, function(score, value) {
-	  	if(state.score[score] != undefined) {
-		  	state.score[score] = value;
-	  	}
-    });
-  }
-}
-
 export default {
-	state,
 	getters
 }

@@ -1,20 +1,23 @@
 <docs>
 ### Enabled ability
-
 The enabled ability is an ability that is currently enabled within a socket.
 
-##### Attributes
+##### Properties
+- `label` — A label referring to an ability in the global store. Determining whether the ability is displayed is whether a corresponding valid event exists. 
 
-- `label` — An ability model
+##### Instantiation
+`<enabled-ability label="data-socket-slot-label"></enabled-ability>`
 </docs>
 
 <template>
   <div id="enabled-ability">
-    {{ event }}
-    <h5>
-      {{ ability.name }}
-      <em v-if="ability.type">— {{ ability.type }}</em>
-    </h5>
+    <div v-if="event">
+	    <h5>
+	      {{ ability.name }}
+	      <em v-if="ability.type">— {{ ability.type }}</em>
+	    </h5>
+    </div>
+    <div v-else>No valid event for ability.</div>
   </div>
 </template>
 
@@ -33,12 +36,10 @@ The enabled ability is an ability that is currently enabled within a socket.
 		    return this.abilities[this.label];
 	    },
 	  	event: function() {
-		    //return _.find(this.getEvents('ability'), { ability: this.label });
-		    console.log(this.gameSession.events);
-		    return _.find(this.gameSession.events, { type: 'data-source', ability: this.label });
+		    return _.find(this.getEvents('ability'), { ability: this.label });
 	    },
-		  ...mapState(['gameSession', 'abilities']),
-		  //...mapGetters(['getEvents'])
+		  ...mapState(['abilities']),
+		  ...mapGetters(['getEvents'])
 	  }
 	}
 </script>

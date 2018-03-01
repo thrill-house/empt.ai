@@ -51,6 +51,14 @@ ul, ol {
 	}
 }
 
+em {
+	font-style: italic;
+}
+
+strong {
+	font-weight: bold;
+}
+
 code, pre, output {
 	font-family: $font-monospace;
 	border-radius: 0.2rem;
@@ -66,7 +74,7 @@ code {
 }
 
 output {
-	display: block;
+	display: inline-block;
 	background: $peach;
 	color: $orange;
 	padding: 0.5rem;
@@ -98,7 +106,8 @@ label {
 	}
 }
 
-input {
+input, select {
+	-webkit-appearance: none;
 	display: inline-block;
 	vertical-align: middle;
 	font-size: 1rem;

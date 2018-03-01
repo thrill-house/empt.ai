@@ -1,4 +1,6 @@
-# dash-game-vue-components
+# Dash Game — Vue components
+
+## Component library of user interface elements.
 
 > Vue.js components for the Dash Game
 

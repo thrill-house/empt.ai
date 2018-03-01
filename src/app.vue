@@ -1,32 +1,12 @@
-<docs>
-	### This is the app component that controls the display of all the child components. Generally, this file won't need to be changed very often.
-</docs>
-
 <template>
 	<main id="app">
 	  <header>
 		  <img src="./assets/img/logo.png" class="logo">
-		  <div>
+		  <div class="docs">
 			  <h1>Dash Game — Vue components</h1>
-			  <h2>This is the library of all components used to make up the user interface of the Dash Game.</h2>
+				<h2>Component library of user interface elements.</h2>
 		  </div>
 		</header>
-		
-	  <section>
-		  <header>
-			  <h3>Current time</h3>
-			  <div class="tweakers">
-					<h5>Tweakers</h5>
-					<label for="sample-component-message">Start</label>
-					<input id="sample-component-message" v-model="start" />
-				</div>
-		  </header>
-		  <h6>Start: <output>{{ gameSession.start }}</output></h6>
-		  <h6>Now: <output>{{ gameSession.now }}</output></h6>
-		  <pre>
-			  {{ events }}
-		  </pre>
-	  </section>
 	  
 	  <section>
 		  <header>
@@ -49,16 +29,32 @@
 	  
 	  <section>
 		  <header>
-			  <div v-html="docs.dataSource" class="docs"></div>
+			  <div v-html="docs.gameTime" class="docs"></div>
+			  <div class="tweakers">
+					<h5>Tweakers</h5>
+					<label for="game-time-start">Start</label>
+					<select v-model="sessionDuration">
+					  <option v-for="option in options" :value="option.value">
+					    {{ option.label }}
+					  </option>
+					</select>
+				</div>
 		  </header>
-		  <data-source label="root"></data-source>
+		  <game-time></game-time>
 	  </section>
 	  
 	  <section>
 		  <header>
-			  <div v-html="docs.abilitySocket" class="docs"></div>
+			  <div v-html="docs.gameScore" class="docs"></div>
 		  </header>
-		  <ability-socket label="root-1"></ability-socket>
+		  <game-score></game-score>
+	  </section>
+	  
+	  <section>
+		  <header>
+			  <div v-html="docs.gameFactors" class="docs"></div>
+		  </header>
+		  <game-factors></game-factors>
 	  </section>
 	  
 	  <section>
@@ -67,41 +63,60 @@
 		  </header>
 		  <enabled-ability label="neutral-1"></enabled-ability>
 	  </section>
+	  
+	  <section>
+		  <header>
+			  <div v-html="docs.abilitySocket" class="docs"></div>
+		  </header>
+		  <ability-slot label="root-1"></ability-slot>
+	  </section>
+	  
+	  <section>
+		  <header>
+			  <div v-html="docs.dataSocket" class="docs"></div>
+		  </header>
+		  <data-socket label="root"></data-socket>
+	  </section>
+	  
 	</main>
 </template>
 
 <script>
 	import _ from 'lodash'
 	import moment from 'moment'
-	import { mapState } from 'vuex'
+	import { mapState, mapMutations, mapActions } from 'vuex'
 	import store from './store'
-	import SampleComponent from './components/sample-component.vue'
-	import GameEvents from './components/game-events.vue'
-	import DataSource from './components/data-source.vue'
-	import AbilitySocket from './components/ability-socket.vue'
-	import EnabledAbility from './components/enabled-ability.vue'
+	import SampleComponent from './components/1-sample-component.vue'
+	import GameEvents from './components/2-game-events.vue'
+	import GameTime from './components/3-game-time.vue'
+	import GameScore from './components/4-game-score.vue'
+	import GameFactors from './components/5-game-factors.vue'
+	import EnabledAbility from './components/6-enabled-ability.vue'
+	import AbilitySlot from './components/7-ability-slot.vue'
+	import DataSocket from './components/8-data-socket.vue'
 	
 	export default {
 	  name: 'app',
+	  created: function() {
+			this.updateEvents();
+			this.startSession();
+	  },
 	  data: function() {
 		  return {
 			  message: 'This and that',
+			  sessionDuration: 0
 		  }
 	  },
 	  store,
 	  components: {
 	    SampleComponent,
 	    GameEvents,
-	    DataSource,
-	    AbilitySocket,
+	    GameTime,
+	    GameScore,
+	    GameFactors,
+	    DataSocket,
+	    AbilitySlot,
 	    EnabledAbility
-	  },
-	  created: function() {
-		  var self = this;
-			this.updateEvents();
-			window.setInterval(function() {
-			  self.$store.commit('setNow');
-		  }, 1000);
 	  },
 	  computed: {
 		  docs: function() {
@@ -109,39 +124,41 @@
 					result[_.camelCase(component.name)] = component.__docs;
 				});
 		  },
-		  start: {
-			  set: function(timestamp) {
-				  this.gameSession.start = timestamp * 1;
-				  this.updateEvents();
-				  //this.$store.commit('gameSession.setStart', timestamp);
-				},
-			  get: function() {
-				  return this.gameSession.start;
-				}
-			},
-		  events: function() {
-			  return {
-				  [+moment(this.start).subtract(10, 'seconds')]: { type: 'data-source', dataSource: 'root' },
-				  [+moment(this.start).add(10, 'seconds')]: { type: 'ability', ability: 'neutral-1', dataSource: 'root', dataSourceSlot: 'root-1' },
-				  [+moment(this.start).add(20, 'seconds')]: { type: 'ability', ability: 'neutral-2', dataSource: 'root', dataSourceSlot: 'root-2' },
-					[+moment(this.start).add(30, 'seconds')]: { type: 'ability', ability: 'neutral-3', dataSource: 'root', dataSourceSlot: 'root-3' },
-					[+moment(this.start).add(1, 'minutes')]: { type: 'data-source', dataSource: 'neutral-1' },
-					[+moment(this.start).add(8, 'minutes')]: { type: 'ability', ability: 'science-1', dataSource: 'neutral-1', dataSourceSlot: 'neutral-1-1' },
-					[+moment(this.start).add(13, 'minutes')]: { type: 'ability', ability: 'economy-1', dataSource: 'neutral-1', dataSourceSlot: 'neutral-1-2' },
-					[+moment(this.start).add(20, 'minutes')]: { type: 'data-source', dataSource: 'neutral-2' },
-					[+moment(this.start).add(21, 'minutes')]: { type: 'ability', ability: 'society-1', dataSource: 'neutral-2', dataSourceSlot: 'neutral-2-2' },
-					[+moment(this.start).add(34, 'minutes')]: { type: 'ability', ability: 'science-2', dataSource: 'neutral-2', dataSourceSlot: 'neutral-2-2' },
-					[+moment(this.start).add(55, 'minutes')]: { type: 'data-source', dataSource: 'neutral-3' },
-					[+moment(this.start).add(1, 'hours')]: { type: 'ability', ability: 'economy-2', dataSource: 'neutral-3', dataSourceSlot: 'neutral-3-1' },
-					[+moment(this.start).add(2, 'hours')]: { type: 'ability', ability: 'society-2', dataSource: 'neutral-3', dataSourceSlot: 'neutral-3-2' }
-				}
+		  initEvents: function() {
+			  return [
+				  { type: 'data-socket', dataSocket: 'root', timestamp: +moment(this.start).subtract(5, 'seconds') },
+				  { type: 'ability', ability: 'neutral-1', dataSocket: 'root', dataSocketSlot: 'root-1', timestamp: +moment(this.start).add(10, 'seconds') },
+				  { type: 'ability', ability: 'neutral-2', dataSocket: 'root', dataSocketSlot: 'root-2', timestamp: +moment(this.start).add(20, 'seconds') },
+					{ type: 'ability', ability: 'neutral-3', dataSocket: 'root', dataSocketSlot: 'root-3', timestamp: +moment(this.start).add(30, 'seconds') },
+					{ type: 'data-socket', dataSocket: 'neutral-1', timestamp: +moment(this.start).add(1, 'minutes') },
+					{ type: 'ability', ability: 'science-1', dataSocket: 'neutral-1', dataSocketSlot: 'neutral-1-1', timestamp: +moment(this.start).add(8, 'minutes') },
+					{ type: 'ability', ability: 'economy-1', dataSocket: 'neutral-1', dataSocketSlot: 'neutral-1-2', timestamp: +moment(this.start).add(13, 'minutes') },
+					{ type: 'data-socket', dataSocket: 'neutral-2', timestamp: +moment(this.start).add(20, 'seconds') },
+					{ type: 'ability', ability: 'society-1', dataSocket: 'neutral-2', dataSocketSlot: 'neutral-2-2', timestamp: +moment(this.start).add(21, 'minutes') },
+					{ type: 'ability', ability: 'science-2', dataSocket: 'neutral-2', dataSocketSlot: 'neutral-2-2', timestamp: +moment(this.start).add(34, 'minutes') },
+					{ type: 'data-socket', dataSocket: 'neutral-3', timestamp: +moment(this.start).add(55, 'minutes') },
+					{ type: 'ability', ability: 'economy-2', dataSocket: 'neutral-3', dataSocketSlot: 'neutral-3-1', timestamp: +moment(this.start).add(1, 'hours') },
+					{ type: 'ability', ability: 'society-2', dataSocket: 'neutral-3', dataSocketSlot: 'neutral-3-2', timestamp: +moment(this.start).add(2, 'hours') },
+				]
 		  },
-		  ...mapState(['gameSession'])
+		  ...mapState({
+			  start: state => state.gameSession.start,
+			  now: state => state.gameSession.now,
+			  events: state => state.gameSession.events,
+			  options: state => state.options
+			})
 		},
 	  methods: {
 		  updateEvents: function() {
-			  this.gameSession.events = this.events;
-			  //this.$store.commit('setEvents', this.events);
+			  this.setEvents(this.initEvents);
+		  },
+		  ...mapMutations(['setStart', 'setEvents']),
+		  ...mapActions(['startSession'])
+	  },
+	  watch: {
+		  sessionDuration: function(value) {
+			  this.setStart(this.now - value);
+			  this.updateEvents();
 		  }
 	  }
 	}

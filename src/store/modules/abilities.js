@@ -24,27 +24,27 @@ const state = {
 		}
 	},
 	'economy-2': { name: 'Economy (1)', type: 'economy', era: 2, adders: {
-			neutral: { bandwidth: 3, processor: 3, journalCitations: 2 },
-			economy: { bandwidth: 3, processor: 3, journalCitations: 3 },
-			other: { bandwidth: 2, processor: 2, journalCitations: 2 }
+			neutral: { bandwidth: 3, processor: 3, returnOnInvestment: 2 },
+			economy: { bandwidth: 3, processor: 3, returnOnInvestment: 3 },
+			other: { bandwidth: 2, processor: 2, returnOnInvestment: 2 }
 		}
 	},
 	'economy-2': { name: 'Economy (2)', type: 'economy', era: 2, adders: {
-			neutral: { bandwidth: 3, processor: 3, journalCitations: 2 },
-			economy: { bandwidth: 3, processor: 3, journalCitations: 3 },
-			other: { bandwidth: 2, processor: 2, journalCitations: 2 }
+			neutral: { bandwidth: 3, processor: 3, returnOnInvestment: 2 },
+			economy: { bandwidth: 3, processor: 3, returnOnInvestment: 3 },
+			other: { bandwidth: 2, processor: 2, returnOnInvestment: 2 }
 		}
 	},
 	'society-2': { name: 'Society (1)', type: 'society', era: 2, adders: {
-			neutral: { bandwidth: 3, processor: 3, journalCitations: 2 },
-			society: { bandwidth: 3, processor: 3, journalCitations: 3 },
-			other: { bandwidth: 2, processor: 2, journalCitations: 2 }
+			neutral: { bandwidth: 3, processor: 3, approvalRating: 2 },
+			society: { bandwidth: 3, processor: 3, approvalRating: 3 },
+			other: { bandwidth: 2, processor: 2, approvalRating: 2 }
 		}
 	},
 	'society-2': { name: 'Society (1)', type: 'society', era: 2, adders: {
-			neutral: { bandwidth: 3, processor: 3, journalCitations: 2 },
-			society: { bandwidth: 3, processor: 3, journalCitations: 3 },
-			other: { bandwidth: 2, processor: 2, journalCitations: 2 }
+			neutral: { bandwidth: 3, processor: 3, approvalRating: 2 },
+			society: { bandwidth: 3, processor: 3, approvalRating: 3 },
+			other: { bandwidth: 2, processor: 2, approvalRating: 2 }
 		}
 	}
 }
