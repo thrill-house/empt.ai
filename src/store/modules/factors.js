@@ -1,38 +1,32 @@
+
+
 // getters
 const getters = {
-  getFactors: (state, getters) => (before = state.now) => {
-		var dataSocketsEvents = getters.getEvents('data-sockets', before);
-	  var abilitiesEvents = getters.getEvents('abilities', before);
-		var bandwidth = 1;
-		var processor = 1;
-		var journalCitations = 1;
-		var returnOnInvestment = 1;
-		var approvalRating = 1;
+  getFactors: (state, getters, rootState) => (before = state.now, events = getters.getEvents(state.now)) => {
+		var factors = { bandwidth: 1, processor: 1, journalCitations: 1, returnOnInvestment: 1, approvalRating: 1 };
 		
-	  _.each(abilitiesEvents, function(event) {
-	  	var ability = state.abilities[event.ability];
-	  	var dataSocket = state.dataSockets[event.dataSocket];
-	  	var adder = (dataSocket.type === 'neutral')? ability.adders.neutral: ((dataSocket.type === ability.type)? ability.adders[ability.type]: ability.adders.other);
-	  	
-	  	bandwidth += adder.bandwidth;
-	  	processor += adder.processor;
-	  	journalCitations += adder.journalCitations;
-	  	returnOnInvestment += adder.returnOnInvestment;
-	  	approvalRating += adder.approvalRating;
-	  });
-	  
-	  _.each(dataSocketsEvents, function(event) {
-	  	var dataSocket = state.dataSockets[event.dataSocket];
-	  	bandwidth = state.bandwidth * dataSocket.bandwidth;
-	  });
-	  
-	  return {
-		  bandwidth: bandwidth,
-		  processor: processor,
-		  journalCitations: journalCitations,
-		  returnOnInvestment: returnOnInvestment,
-		  approvalRating: approvalRating,
-		};
+		_.each(events, function(event) {
+			switch(event.type) {
+				case 'data-socket':
+					var dataSocket = rootState.dataSockets[event.dataSocket];
+					
+					_.each(dataSocket.multipliers, function(multiplier, key) {
+						factors[key] *= multiplier;
+					});
+				break;
+		  	
+				case 'ability':
+			  	//var dataSocket = rootState.dataSockets[event.dataSocket];
+					var ability = rootState.abilities[event.ability];
+			  	
+			  	_.each(ability.adders, function(adder, key) {
+						factors[key] += adder;
+					});
+			  break;
+			}
+		});
+		
+	  return factors;
 	}
 }
 

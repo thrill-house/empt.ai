@@ -9,14 +9,8 @@ const getters = {
   getDuration: (state)  => (start = state.start, end = state.now) => {
   	return _.round(end - start);
   },
-  getEvents: (state) => (type, before = state.now) => {
-  	var events = _.filter(state.events, function(value) { return value.timestamp < before; });
-	  
-    if(type !== undefined) {
-	    events = _.filter(events, { type: type });
-    }
-    
-    return _.sortBy(events, 'timestamp');
+  getEvents: (state) => (before = state.now) => {
+  	return _.sortBy(_.filter(state.events, function(value) { return value.timestamp < before; }), 'timestamp');
   }
 }
 

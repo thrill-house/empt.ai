@@ -1,18 +1,20 @@
+var scoresInit = { data: 0, confidence: 0, dataPerSecond: 0, confidencePerSecond: 0 };
+
 // getters
 const getters = {
-  getScores: (state, getters)  => (events, before = state.now, previous = { data: 0, confidence: 0, dataPerSecond: 0, confidencePerSecond: 0 }) => {
-    if(events === undefined) {
-	    events = getters.getEvents();
-    }
-    
+  getScores: (state, getters)  => (before = state.now, events = getters.getEvents(before), previous = scoresInit) => {
     var firstEvent = _.head(events);
 	  var remainingEvents = _.tail(events);
-	  var factors = getters.getFactors(before);
+	  
 	  var duration = getters.getDuration(firstEvent.timestamp, before);
+	  var factors = getters.getFactors(before, events);
+	  
 	  var dataPerSecond = factors.bandwidth;
 	  var confidencePerSecond = factors.processor * factors.journalCitations * factors.returnOnInvestment * factors.approvalRating;
-	  var data = duration * dataPerSecond;
-	  var confidence = duration * confidencePerSecond;
+	  
+	  var data = duration * dataPerSecond / 1000;
+	  var confidence = duration * confidencePerSecond / 1000;
+	  
 		var score = {
 			data: previous.data + data,
 			confidence: previous.confidence + confidence,
@@ -22,7 +24,7 @@ const getters = {
 	  
 	  if (remainingEvents.length) {
 		  var nextEvent = _.head(remainingEvents);
-		  return getters.getScores(remainingEvents, nextEvent.timestamp, score);
+		  return getters.getScores(nextEvent.timestamp, remainingEvents, score);
 	  }
 	  
 	  return score;

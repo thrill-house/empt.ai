@@ -50,7 +50,7 @@ The data socket is the base component that abilities are attached to. When enabl
 		    return this.dataSockets[this.label];
 	    },
 	  	event: function() {
-		    return _.find(this.getEvents('data-socket'), { dataSocket: this.label });
+		    return _.find(this.getEvents(), { type: 'data-socket', dataSocket: this.label });
 	    },
 		  ...mapState(['dataSockets']),
 		  ...mapGetters(['getEvents'])

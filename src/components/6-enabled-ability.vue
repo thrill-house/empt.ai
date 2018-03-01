@@ -38,7 +38,7 @@ The enabled ability is an ability that is currently enabled within a socket.
 		    return this.abilities[this.label];
 	    },
 	  	event: function() {
-		    return _.find(this.getEvents('ability'), { ability: this.label });
+		    return _.find(this.getEvents(), { type: 'ability', ability: this.label });
 	    },
 		  ...mapState(['abilities']),
 		  ...mapGetters(['getEvents'])

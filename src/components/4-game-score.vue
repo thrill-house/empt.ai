@@ -26,7 +26,7 @@ The component provides a representation of the player's current game score, mean
 	  store,
 	  filters: {
 		  bits: function (value) {
-			  return math.unit(value, 'B').toString();
+			  return math.unit(value, 'kb').toString();
 			},
 			frequency: function (value) {
 			  return math.unit(value, 'Hz').toString();
