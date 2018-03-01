@@ -1,10 +1,10 @@
 <docs>
----
 ### Game time
 The component displays how much time has elapsed between the first event and the current time.
 
 ##### Instantiation
 `<game-time></game-time>`
+
 ---
 </docs>
 

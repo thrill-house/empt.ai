@@ -1,10 +1,10 @@
 <docs>
----
 ### Game score
 The component provides a representation of the player's current game score, meaning the number of **data** and **confidence** resources it has currently accumulated.
 
 ##### Instantiation
 `<game-score></game-score>`
+
 ---
 </docs>
 

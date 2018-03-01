@@ -1,5 +1,4 @@
 <docs>
----
 ### Enabled ability
 The enabled ability is an ability that is currently enabled within a socket.
 
@@ -8,6 +7,7 @@ The enabled ability is an ability that is currently enabled within a socket.
 
 ##### Instantiation
 `<enabled-ability label="data-socket-slot-label"></enabled-ability>`
+
 ---
 </docs>
 

@@ -1,10 +1,10 @@
 <docs>
----
 ### Playing field
 The component displays all **data sockets**, **socket slots** and **enabled abilities** on the field in their correct locations.
 
 ##### Instantiation
 `<playing-field></playing-field>`
+
 ---
 </docs>
 

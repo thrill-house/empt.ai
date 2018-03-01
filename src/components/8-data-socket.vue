@@ -1,5 +1,4 @@
 <docs>
----
 ### Data socket
 The data socket is the base component that abilities are attached to. When enabled, their multipliers are applied to the score calculation.
 
@@ -8,6 +7,7 @@ The data socket is the base component that abilities are attached to. When enabl
 
 ##### Instantiation
 `<data-socket label="data-socket-label"></data-socket>`
+
 ---
 </docs>
 
