@@ -13,7 +13,8 @@
     "stage-dist": "git add dist/*"
   },
   "pre-commit": [
-    "build", "stage-dist"
+    "build",
+    "stage-dist"
   ],
   "dependencies": {
     "lodash": "^4.17.5",
@@ -40,6 +41,7 @@
     "file-loader": "^1.1.4",
     "markdown": "^0.5.0",
     "node-sass": "^4.5.3",
+    "only-if-changed-webpack-plugin": "0.0.1",
     "pre-commit": "^1.2.2",
     "raw-loader": "^0.5.1",
     "sass-loader": "^6.0.6",

@@ -1,6 +1,7 @@
 var path = require('path')
 var webpack = require('webpack')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
+var OnlyIfChangedPlugin = require('only-if-changed-webpack-plugin')
 var docsLoader = require.resolve('./custom-loaders/docs-loader.js')
 
 module.exports = {
@@ -89,7 +90,7 @@ module.exports = {
 
 if (process.env.NODE_ENV === 'docs') {
   module.exports.output = {
-    path: path.resolve(__dirname, './docs'),
+    path: path.resolve(__dirname, './.tmp/docs'),
     filename: 'build.js'
   },
   
@@ -133,6 +134,10 @@ if (process.env.NODE_ENV === 'production') {
       'process.env': {
         NODE_ENV: '"production"'
       }
+    }),
+    new OnlyIfChangedPlugin({
+      cacheDirectory: path.resolve(__dirname, './.tmp/cache'),
+      cacheIdentifier: process.env.NODE_ENV 
     }),
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: true,
