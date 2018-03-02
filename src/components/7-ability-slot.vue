@@ -21,7 +21,7 @@ The ability slot is a space attached to a data sources. When an ability is assig
 <script>
 	import { mapState, mapGetters } from 'vuex'
 	import store from '../store'
-	import EnabledAbility from './6-enabled-ability.vue'
+	import EnabledAbility from './8-enabled-ability.vue'
 		
 	export default {
 	  name: 'ability-socket',

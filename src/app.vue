@@ -91,9 +91,9 @@
 	import GameTime from './components/3-game-time.vue'
 	import GameScore from './components/4-game-score.vue'
 	import GameFactors from './components/5-game-factors.vue'
-	import EnabledAbility from './components/6-enabled-ability.vue'
+	import DataSocket from './components/6-data-socket.vue'
 	import AbilitySlot from './components/7-ability-slot.vue'
-	import DataSocket from './components/8-data-socket.vue'
+	import EnabledAbility from './components/8-enabled-ability.vue'
 	
 	export default {
 	  name: 'app',

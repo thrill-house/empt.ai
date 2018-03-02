@@ -87,7 +87,7 @@ module.exports = {
   devtool: '#eval-source-map'
 }
 
-if (process.env.NODE_ENV === 'pre-commit') {
+if (process.env.NODE_ENV === 'docs') {
   module.exports.output = {
     path: path.resolve(__dirname, './docs'),
     filename: 'build.js'
