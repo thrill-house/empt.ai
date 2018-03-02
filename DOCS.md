@@ -74,3 +74,91 @@ The data socket is the base component that abilities are attached to. When enabl
 `<data-socket label="data-socket-label"></data-socket>`
 
 ---
+
+### Available ability
+The component displays an ability that is defined within the global data store. If the player is not determined to be past the ability threshold, it will not be shown in any form to the player. If they are, depending on the whether a corresponding **research** or **purchase** event exists for the ability, it either displays options to enable it within the playing field, or to research it using in-game resources.
+
+##### Instantiation
+`<available-ability></available-ability>`
+
+---
+
+### Ability library
+The component displays abilities that are available to the player to research or enable within the playing field.
+
+##### Instantiation
+`<ability-library></ability-library>`
+
+---
+
+### Purchaseable ability
+Displays an ability that is listed on the marketplace and is available for purchase by the player.
+
+##### Instantiation
+`<purchaseable-ability></purchaseable-ability>`
+
+---
+
+### Ability market
+Lists all abilities that are available on the marketplace for the player to purchase.
+
+##### Instantiation
+`<ability-market></ability-market>`
+
+---
+
+### Primary navigation
+Provides a method to navigate between the different primary screens of the game interface.
+
+##### Instantiation
+`<primary-navigation></primary-navigation>`
+
+---
+
+### Playing field
+The component displays all **data sockets**, **socket slots** and **enabled abilities** on the field in their correct locations.
+
+##### Instantiation
+`<playing-field></playing-field>`
+
+---
+
+### Emotion diagram
+Displays the player's emotional status as a result of their currently enabled abilities on the playing field. 
+
+##### Instantiation
+`<emotion-diagram></emotion-diagram>`
+
+---
+
+### Leader boards
+Displays a players progress in relation to other players of the game, based on a variety of different criteria.
+
+##### Instantiation
+`<leader-boards></leader-boards>`
+
+---
+
+### Narrative output
+Displays story elements that occur throughout the course of the narrative as a result of in-game events.
+
+##### Instantiation
+`<narrative-output></narrative-output>`
+
+---
+
+### User profile
+Displays information pertaining to the player's profile.
+
+##### Instantiation
+`<user-profile></user-profile>`
+
+---
+
+### Mini-game
+Displays a mini-game to the user that can be completed to receive a score bonus in the game.
+
+##### Instantiation
+`<mini-game></mini-game>`
+
+---

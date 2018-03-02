@@ -1,15 +1,15 @@
 <docs>
-### Leader board
+### Leader boards
 Displays a players progress in relation to other players of the game, based on a variety of different criteria.
 
 ##### Instantiation
-`<leader-board></leader-board>`
+`<leader-boards></leader-boards>`
 
 ---
 </docs>
 
 <template>
-  <div id="leader-board">
+  <div id="leader-boards">
 	  ...
   </div>
 </template>
@@ -19,7 +19,7 @@ Displays a players progress in relation to other players of the game, based on a
 	import store from '../store'
 	
 	export default {
-	  name: 'leader-board',
+	  name: 'leader-boards',
 	  store
 	}
 </script>
@@ -27,6 +27,6 @@ Displays a players progress in relation to other players of the game, based on a
 <style lang="scss">
 	@import '../assets/scss/variables';
 	
-	#leader-board {
+	#leader-boards {
 	}
 </style>

@@ -94,6 +94,17 @@
 	import DataSocket from './components/6-data-socket.vue'
 	import AbilitySlot from './components/7-ability-slot.vue'
 	import EnabledAbility from './components/8-enabled-ability.vue'
+	import AvailableAbility from './components/9-available-ability.vue'
+	import AbilityLibrary from './components/10-ability-library.vue'
+	import PurchaseableAbility from './components/11-purchaseable-ability.vue'
+	import AbilityMarket from './components/12-ability-market.vue'
+	import PrimaryNavigation from './components/13-primary-navigation.vue'
+	import PlayingField from './components/14-playing-field.vue'
+	import EmotionDiagram from './components/15-emotion-diagram.vue'
+	import LeaderBoard from './components/16-leader-boards.vue'
+	import NarrativeOutput from './components/17-narrative-output.vue'
+	import UserProfile from './components/18-user-profile.vue'
+	import MiniGame from './components/19-mini-game.vue'
 	
 	export default {
 	  name: 'app',

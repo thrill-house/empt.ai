@@ -9,10 +9,11 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
     "docs": "cross-env NODE_ENV=docs webpack --progress --hide-modules",
-    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules"
+    "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
+    "stage-build": "git add dist/*"
   },
   "pre-commit": [
-    "build"
+    "build", "stage-build"
   ],
   "dependencies": {
     "lodash": "^4.17.5",
