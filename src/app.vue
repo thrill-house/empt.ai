@@ -7,7 +7,6 @@
 				<h2>Component library of user interface elements.</h2>
 		  </div>
 		</header>
-	  
 	  <section>
 		  <header>
 			  <div v-html="docs.sampleComponent" class="docs"></div>
@@ -19,14 +18,12 @@
 		  </header>
 		  <sample-component :message="message"></sample-component>
 	  </section>
-	  
 	  <section>
 		  <header>
 			  <div v-html="docs.gameEvents" class="docs"></div>
 		  </header>
 		  <game-events></game-events>
 	  </section>
-	  
 	  <section>
 		  <header>
 			  <div v-html="docs.gameTime" class="docs"></div>
@@ -34,6 +31,7 @@
 					<h5>Tweakers</h5>
 					<label for="game-time-start">Start</label>
 					<select v-model="sessionDuration">
+						<option value="0">Choose</option>
 					  <option v-for="option in options" :value="option.value">
 					    {{ option.label }}
 					  </option>
@@ -42,42 +40,102 @@
 		  </header>
 		  <game-time></game-time>
 	  </section>
-	  
 	  <section>
 		  <header>
 			  <div v-html="docs.gameScore" class="docs"></div>
 		  </header>
 		  <game-score></game-score>
 	  </section>
-	  
 	  <section>
 		  <header>
 			  <div v-html="docs.gameFactors" class="docs"></div>
 		  </header>
 		  <game-factors></game-factors>
 	  </section>
-	  
 	  <section>
 		  <header>
 			  <div v-html="docs.enabledAbility" class="docs"></div>
 		  </header>
 		  <enabled-ability label="neutral-1"></enabled-ability>
 	  </section>
-	  
 	  <section>
 		  <header>
 			  <div v-html="docs.abilitySocket" class="docs"></div>
 		  </header>
 		  <ability-slot label="root-1"></ability-slot>
 	  </section>
-	  
 	  <section>
 		  <header>
 			  <div v-html="docs.dataSocket" class="docs"></div>
 		  </header>
 		  <data-socket label="root"></data-socket>
 	  </section>
-	  
+	  <section>
+		  <header>
+			  <div v-html="docs.availableAbility" class="docs"></div>
+		  </header>
+		  <available-ability></available-ability>
+	  </section>
+	  <section>
+		  <header>
+			  <div v-html="docs.abilityLibrary" class="docs"></div>
+		  </header>
+		  <ability-library></ability-library>
+	  </section>
+	  <section>
+		  <header>
+			  <div v-html="docs.purchaseableAbility" class="docs"></div>
+		  </header>
+		  <purchaseable-ability></purchaseable-ability>
+	  </section>
+	  <section>
+		  <header>
+			  <div v-html="docs.abilityMarket" class="docs"></div>
+		  </header>
+		  <ability-market></ability-market>
+	  </section>
+	  <section>
+		  <header>
+			  <div v-html="docs.primaryNavigation" class="docs"></div>
+		  </header>
+		  <primary-navigation></primary-navigation>
+	  </section>
+	  <section>
+		  <header>
+			  <div v-html="docs.playingField" class="docs"></div>
+		  </header>
+		  <playing-field></playing-field>
+	  </section>
+	  <section>
+		  <header>
+			  <div v-html="docs.emotionDiagram" class="docs"></div>
+		  </header>
+		  <emotion-diagram></emotion-diagram>
+	  </section>
+	  <section>
+		  <header>
+			  <div v-html="docs.leaderBoards" class="docs"></div>
+		  </header>
+		  <leader-boards></leader-boards>
+	  </section>
+	  <section>
+		  <header>
+			  <div v-html="docs.narrativeOutput" class="docs"></div>
+		  </header>
+		  <narrative-output></narrative-output>
+	  </section>
+	  <section>
+		  <header>
+			  <div v-html="docs.userProfile" class="docs"></div>
+		  </header>
+		  <user-profile></user-profile>
+	  </section>
+	  <section>
+		  <header>
+			  <div v-html="docs.miniGame" class="docs"></div>
+		  </header>
+		  <mini-game></mini-game>
+	  </section>
 	</main>
 </template>
 
@@ -101,7 +159,7 @@
 	import PrimaryNavigation from './components/13-primary-navigation.vue'
 	import PlayingField from './components/14-playing-field.vue'
 	import EmotionDiagram from './components/15-emotion-diagram.vue'
-	import LeaderBoard from './components/16-leader-boards.vue'
+	import LeaderBoards from './components/16-leader-boards.vue'
 	import NarrativeOutput from './components/17-narrative-output.vue'
 	import UserProfile from './components/18-user-profile.vue'
 	import MiniGame from './components/19-mini-game.vue'
@@ -127,7 +185,18 @@
 	    GameFactors,
 	    DataSocket,
 	    AbilitySlot,
-	    EnabledAbility
+	    EnabledAbility,
+	    AvailableAbility,
+			AbilityLibrary,
+			PurchaseableAbility,
+			AbilityMarket,
+			PrimaryNavigation,
+			PlayingField,
+			EmotionDiagram,
+			LeaderBoards,
+			NarrativeOutput,
+			UserProfile,
+			MiniGame
 	  },
 	  computed: {
 		  docs: function() {
@@ -138,9 +207,9 @@
 		  initEvents: function() {
 			  return [
 					{ type: 'data-socket', dataSocket: 'root', timestamp: +moment(this.start).subtract(2, 'seconds') },
-					{ type: 'ability', ability: 'neutral-1', dataSocket: 'root', dataSocketSlot: 'root-1', timestamp: +moment(this.start).add(5, 'seconds') },
-					{ type: 'ability', ability: 'neutral-2', dataSocket: 'root', dataSocketSlot: 'root-2', timestamp: +moment(this.start).add(10, 'seconds') },
-					{ type: 'ability', ability: 'neutral-3', dataSocket: 'root', dataSocketSlot: 'root-3', timestamp: +moment(this.start).add(15, 'seconds') },
+					{ type: 'ability', ability: 'neutral-1', dataSocket: 'root', dataSocketSlot: 'root-1', timestamp: +moment(this.start).add(15, 'seconds') },
+					{ type: 'ability', ability: 'neutral-2', dataSocket: 'root', dataSocketSlot: 'root-2', timestamp: +moment(this.start).add(30, 'seconds') },
+					{ type: 'ability', ability: 'neutral-3', dataSocket: 'root', dataSocketSlot: 'root-3', timestamp: +moment(this.start).add(45, 'seconds') },
 					{ type: 'data-socket', dataSocket: 'neutral-1', timestamp: +moment(this.start).add(1, 'minutes') },
 					{ type: 'ability', ability: 'science-1', dataSocket: 'neutral-1', dataSocketSlot: 'neutral-1-1', timestamp: +moment(this.start).add(8, 'minutes') },
 					{ type: 'ability', ability: 'economy-1', dataSocket: 'neutral-1', dataSocketSlot: 'neutral-1-2', timestamp: +moment(this.start).add(13, 'minutes') },
