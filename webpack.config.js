@@ -1,8 +1,7 @@
 var path = require('path')
 var webpack = require('webpack')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
-
-const docsLoader = require.resolve('./custom-loaders/docs-loader.js')
+var docsLoader = require.resolve('./custom-loaders/docs-loader.js')
 
 module.exports = {
   entry: './src/main.js',
@@ -88,21 +87,48 @@ module.exports = {
   devtool: '#eval-source-map'
 }
 
-if (process.env.NODE_ENV === 'production') {
-  module.exports.module.rules[0].options.loaders.docs.push(
-  	...ExtractTextPlugin.extract({
-			use: 'raw-loader',
-			publicPath: '/'
-		})
-	);
+if (process.env.NODE_ENV === 'pre-commit') {
+  module.exports.output = {
+    path: path.resolve(__dirname, './docs'),
+    filename: 'build.js'
+  },
+  
+  module.exports.module.rules = [
+	  {
+      test: /\.vue$/,
+      loader: 'vue-loader',
+      options: {
+        loaders: {
+          docs: ExtractTextPlugin.extract({
+						use: 'raw-loader',
+						publicPath: '/'
+					})
+        }
+      }
+    },
+    {
+      test: /\.(png|jpg|gif|svg)$/,
+      loader: 'file-loader',
+      options: {
+        name: '[name].[ext]?[hash]'
+      }
+    }
+  ];
 	
-  module.exports.devtool = '#source-map'
+	module.exports.resolve.extensions = ['.js', '.vue'];
   
   module.exports.plugins = (module.exports.plugins || []).concat([
     new ExtractTextPlugin({
 	    filename: '../DOCS.md',
-	    ignoreOrder: true
-	  }),
+	    allChunks: true
+	  })
+  ]);
+}
+
+if (process.env.NODE_ENV === 'production') {
+  module.exports.devtool = '#source-map'
+  
+  module.exports.plugins = (module.exports.plugins || []).concat([
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: '"production"'
@@ -117,5 +143,5 @@ if (process.env.NODE_ENV === 'production') {
     new webpack.LoaderOptionsPlugin({
       minimize: true
     })
-  ])
+  ]);
 }
