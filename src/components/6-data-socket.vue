@@ -76,30 +76,31 @@ The data socket is the base component that abilities are attached to. When enabl
 		  position: relative;
 		  width: 215px;
 			height: 215px;
-			padding: 0 47.5px;
+			padding: 0 0 0 47.5px;
 		  
 		  .name, .multipliers, .minigame {
 			  width: 120px;
 			  height: 120px;
-			  line-height: 120px;
+			  padding: 20px 5px;
 			  color: $light;
 			  position: absolute;
 			  text-align: center;
+			  box-shadow: inset 0 0 20px rgba($orange, 0.6);
 		  }
 		  
 		  .name {
-			  background: lighten($orange, 10%);
+			  background: lighten($orange, 15%);
 			  transform: rotate(-45deg) skew(15deg, 15deg);
 		  }
 		  
 		  .multipliers {
-			  background: lighten($orange, 5%);
 			  text-transform: capitalize;
+			  background: lighten($orange, 10%);
 			  transform: rotate(15deg) skew(15deg, 15deg) translate(-50%, 100%);
 		  }
 		  
 		  .minigame {
-			  background: $orange;
+			  background: lighten($orange, 5%);
 			  transform: rotate(-15deg) skew(-15deg, -15deg) translate(50%, 100%);
 		  }
 	  }
@@ -111,11 +112,12 @@ The data socket is the base component that abilities are attached to. When enabl
 		  
 		  * + * {
 			  margin-left: 107.5px;
+			  margin-top: -60px;
 		  }
 		  
 		  > *:last-child {
 			  margin-left: -107.5px;
-			  margin-top: -186px;
+			  margin-top: -240px;
 		  }
 	  }
 	}
