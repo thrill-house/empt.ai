@@ -13,8 +13,10 @@ The ability slot is a space attached to a data sources. When an ability is assig
 
 <template>
   <div id="ability-socket">
-	  <enabled-ability v-if="event" :label="abilityLabel"></enabled-ability>
-	  <div v-else>No ability assigned.</div>
+	  <div class="ability-socket">
+		  <enabled-ability v-if="event" :label="abilityLabel"></enabled-ability>
+		  <div v-else>No ability assigned.</div>
+	  </div>
   </div>
 </template>
 
@@ -48,6 +50,49 @@ The ability slot is a space attached to a data sources. When an ability is assig
 	@import '../assets/scss/variables';
 	
 	#ability-socket {
-	  background: $socket;
+	  position: relative;
+	  width: 215px; 
+	  height: 124.13px;
+	  background-color: $peach;
+	  color: $light;
+	  margin: 62.07px 0;
+	  box-sizing: content-box;
+	  border-left: solid 2px #333333;
+	  border-right: solid 2px #333333;
+		
+		&:before, &:after {
+		  content: "";
+		  position: absolute;
+		  z-index: 1;
+		  width: 152.03px;
+		  height: 152.03px;
+		  transform: scaleY(0.5774) rotate(-45deg);
+		  background-color: inherit;
+		  left: 29.4860px;
+		  box-sizing: content-box;
+		}
+		
+		&:before {
+		  top: -76.0140px;
+		  border-top: solid 2.8284px #333333;
+		  border-right: solid 2.8284px #333333;
+		}
+		
+		&:after {
+		  bottom: -76.0140px;
+		  border-bottom: solid 2.8284px #333333;
+		  border-left: solid 2.8284px #333333;
+		}
+		
+		.ability-socket {
+		  display: block;
+		  position: absolute;
+		  top: 0;
+		  left: 0;
+		  width:215px;
+		  height:124.1303px;
+		  z-index: 2;
+		  //background: inherit;
+		}
 	}
 </style>

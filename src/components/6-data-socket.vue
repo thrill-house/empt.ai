@@ -13,11 +13,21 @@ The data socket is the base component that abilities are attached to. When enabl
 
 <template>
   <div id="data-socket">
-    <div v-if="event">
-	    <h4>
-	      {{ dataSocket.name }}
-	      <em v-if="dataSocket.type">— {{ dataSocket.type }}</em>
-	    </h4>
+    <template v-if="event">
+	    <div class="data-socket">
+		    <div class="name">
+			      {{ dataSocket.name }}
+			      <em v-if="dataSocket.type">({{ dataSocket.type }})</em>
+		    </div>
+		    <div class="multipliers">
+			    <template v-for="(value, multiplier) in dataSocket.multipliers">
+				    {{ multiplier }}: <strong>{{ value }}</strong>
+			    </template>
+		    </div>
+		    <a href="#" class="minigame">
+			    mini game
+		    </a>
+	    </div>
 			<div class="slots">
 	      <ability-slot
 	        v-for="(socket, index) in dataSocket.slots"
@@ -25,8 +35,8 @@ The data socket is the base component that abilities are attached to. When enabl
 	        :label="socket">
 	      </ability-slot>
 	    </div>
-    </div>
-    <div v-else>Socket not yet enabled.</div>
+    </template>
+    <template v-else>Socket not yet enabled.</template>
   </div>
 </template>
 
@@ -62,6 +72,51 @@ The data socket is the base component that abilities are attached to. When enabl
 	@import '../assets/scss/variables';
 	
 	#data-socket {
-	  background: $source;
+	  .data-socket {
+		  position: relative;
+		  width: 215px;
+			height: 215px;
+			padding: 0 47.5px;
+		  
+		  .name, .multipliers, .minigame {
+			  width: 120px;
+			  height: 120px;
+			  line-height: 120px;
+			  color: $light;
+			  position: absolute;
+			  text-align: center;
+		  }
+		  
+		  .name {
+			  background: lighten($orange, 10%);
+			  transform: rotate(-45deg) skew(15deg, 15deg);
+		  }
+		  
+		  .multipliers {
+			  background: lighten($orange, 5%);
+			  text-transform: capitalize;
+			  transform: rotate(15deg) skew(15deg, 15deg) translate(-50%, 100%);
+		  }
+		  
+		  .minigame {
+			  background: $orange;
+			  transform: rotate(-15deg) skew(-15deg, -15deg) translate(50%, 100%);
+		  }
+	  }
+	  
+	  .slots {
+		  position: relative;
+		  top: -215px;
+		  left: 50%;
+		  
+		  * + * {
+			  margin-left: 107.5px;
+		  }
+		  
+		  > *:last-child {
+			  margin-left: -107.5px;
+			  margin-top: -186px;
+		  }
+	  }
 	}
 </style>
