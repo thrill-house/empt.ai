@@ -44,7 +44,7 @@ The data socket is the base component that abilities are attached to. When enabl
 	import _ from 'lodash'
 	import { mapState, mapGetters } from 'vuex'
 	import store from '../store'
-	import AbilitySlot from './7-ability-slot.vue'
+	import AbilitySlot from './ability-slot.vue'
 	
 	export default {
 	  name: 'data-socket',
