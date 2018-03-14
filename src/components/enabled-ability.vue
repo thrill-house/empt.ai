@@ -12,12 +12,12 @@ The enabled ability is an ability that is currently enabled within a socket.
 </docs>
 
 <template>
-  <div id="enabled-ability">
-    <template v-if="event">
-      {{ ability.name }}
-      <em v-if="ability.type">— {{ ability.type }}</em>
-    </template>
-    <div v-else>No valid event for ability.</div>
+  <div class="ability enabled" v-if="event">
+    {{ ability.name }}
+    <em v-if="ability.type">— {{ ability.type }}</em>
+  </div>
+  <div class="ability disabled" v-else>
+    No valid event for ability.
   </div>
 </template>
 
@@ -47,7 +47,24 @@ The enabled ability is an ability that is currently enabled within a socket.
 <style lang="scss">
 	@import '../assets/scss/variables';
 	
-	#enabled-ability {
+	.ability {
+	  position: relative;
 		text-align: center;
+	  width: 162px; 
+	  height: 187px;
+	  padding: 60px 10px;
+	  -webkit-clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+	  
+	  &.enabled {
+		  background: $purple;
+		  color: $light;
+		}
+		
+		&.disabled {
+		  background: $sky;
+		  color: $dark;
+		}
 	}
+	
+	
 </style>
