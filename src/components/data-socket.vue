@@ -12,9 +12,9 @@ The data socket is the base component that abilities are attached to. When enabl
 </docs>
 
 <template>
-  <div id="data-socket">
+  <div class="data-socket">
     <template v-if="event">
-	    <div class="data-socket">
+	    <div class="details">
 		    <div class="name">
 			      {{ dataSocket.name }}
 			      <em v-if="dataSocket.type">({{ dataSocket.type }})</em>
@@ -28,13 +28,12 @@ The data socket is the base component that abilities are attached to. When enabl
 			    mini game
 		    </a>
 	    </div>
-			<div class="slots">
-	      <ability-slot
-	        v-for="(socket, index) in dataSocket.slots"
-	        :key="index"
-	        :label="socket">
-	      </ability-slot>
-	    </div>
+      <ability-slot
+        v-for="(socket, index) in dataSocket.slots"
+        :key="index"
+        :label="index"
+        :class="socket.position">
+      </ability-slot>
     </template>
     <template v-else>Socket not yet enabled.</template>
   </div>
@@ -71,16 +70,29 @@ The data socket is the base component that abilities are attached to. When enabl
 <style lang="scss">
 	@import '../assets/scss/variables';
 	
-	#data-socket {
-	  .data-socket {
-		  position: relative;
-		  width: 215px;
-			height: 215px;
-			padding: 0 0 0 47.5px;
+	.data-socket {
+		display: grid;
+		grid-template-rows: repeat(6, 70px);
+		grid-template-columns: repeat(6, 81px);
+		grid-row-gap: -35px;
+		grid-template-areas:
+		". a a b b ."
+		". a a b b ."
+		"c c d d e e"
+		"c c d d e e"
+		". f f g g ."
+		". f f g g .";
+		margin-bottom: 47px;
+		
+	  .details {
+		  grid-area: d;
+		  width: 162px;
+			height: 187px;
+			padding: 2px 0 0 36px;
 		  
 		  .name, .multipliers, .minigame {
-			  width: 120px;
-			  height: 120px;
+			  width: 90px;
+			  height: 90px;
 			  padding: 20px 5px;
 			  color: $light;
 			  position: absolute;
@@ -105,20 +117,28 @@ The data socket is the base component that abilities are attached to. When enabl
 		  }
 	  }
 	  
-	  .slots {
-		  position: relative;
-		  top: -215px;
-		  left: 50%;
-		  
-		  * + * {
-			  margin-left: 107.5px;
-			  margin-top: -60px;
-		  }
-		  
-		  > *:last-child {
-			  margin-left: -107.5px;
-			  margin-top: -240px;
-		  }
+	  .top-left {
+		  grid-area: a;
+	  }
+	  
+	  .top-right {
+		  grid-area: b;
+	  }
+	  
+	  .left {
+		  grid-area: c;
+	  }
+	  
+	  .right {
+		  grid-area: e;
+	  }
+	  
+	  .bottom-left {
+		  grid-area: f;
+	  }
+	  
+	  .bottom-right {
+		  grid-area: g;
 	  }
 	}
 </style>

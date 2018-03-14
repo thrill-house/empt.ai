@@ -49,8 +49,8 @@ The ability slot is a space attached to a data sources. When an ability is assig
 	
 	#ability-socket {
 	  position: relative;
-	  width: 215px; 
-	  height: 240px;
+	  width: 162px; 
+	  height: 187px;
 	  padding: 60px 10px;
 	  background: $peach;
 	  box-shadow: inset 0 0 20px rgba($orange, 0.6);
