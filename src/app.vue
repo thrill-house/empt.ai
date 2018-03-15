@@ -37,7 +37,7 @@
 					  </option>
 					</select>
 					<br>
-					<label>Toggle interval</label>
+					<label>Interval</label>
 					<button v-if="interval" @click="stopSession">Stop</button>
 					<button v-else @click="startSession">Start</button>
 				</div>
@@ -263,7 +263,7 @@
 			  interval: state => state.gameSession.interval,
 			  options: state => state.options,
 			  abilities: state => state.abilities,
-			  abilitySlots: state => _.flattenDeep(_.map(_.map(state.dataSockets, 'slots'), function(o) { return _.keysIn(o) })),
+			  abilitySlots: state => _.flattenDeep(_.map(state.dataSockets, function(o) { return _.keysIn(o.slots) })),
 			  dataSockets: state => state.dataSockets
 			})
 		},
