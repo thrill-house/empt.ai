@@ -62,7 +62,7 @@
 		  <header>
 			  <div v-html="docs.abilitySocket" class="docs"></div>
 		  </header>
-		  <ability-slot label="root-1"></ability-slot>
+		  <ability-slot label="does-not-exist"></ability-slot>
 	  </section>
 	  <section>
 		  <header>

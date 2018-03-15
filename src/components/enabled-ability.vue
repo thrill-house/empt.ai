@@ -60,15 +60,13 @@ The enabled ability is an ability that is currently enabled within a socket.
 	  -webkit-clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
 	  
 	  &.enabled {
-		  background: $purple;
+		  background: radial-gradient($sky, $purple);
 		  color: $light;
 		}
 		
 		&.disabled {
-		  background: $sky;
+		  background: radial-gradient($sky, $light);
 		  color: $dark;
 		}
 	}
-	
-	
 </style>

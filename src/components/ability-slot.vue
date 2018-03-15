@@ -12,8 +12,9 @@ The ability slot is a space attached to a data sources. When an ability is assig
 </docs>
 
 <template>
-  <div class="ability-socket">
-	  <enabled-ability :label="abilityLabel"></enabled-ability>
+  <enabled-ability v-if="event" :label="abilityLabel"></enabled-ability>
+  <div v-else class="ability-socket">
+	  No valid event for this socket.
   </div>
 </template>
 
@@ -46,4 +47,14 @@ The ability slot is a space attached to a data sources. When an ability is assig
 <style lang="scss">
 	@import '../assets/scss/variables';
 	
+	.ability-socket {
+	  position: relative;
+		text-align: center;
+	  width: 162px; 
+	  height: 187px;
+	  padding: 60px 10px;
+	  -webkit-clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+		background: radial-gradient($light, $sky);
+	  color: $dark;
+	}
 </style>
