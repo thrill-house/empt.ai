@@ -10,8 +10,8 @@ The component provides a representation of the player's current game score, mean
 
 <template>
   <div id="game-score" class="body">
-    <h5 v-if="data">Data: <output>{{ data | bits }}</output></h5>
-    <h5 v-if="confidence">Confidence: <output>{{ confidence }}</output></h5>
+    <h5 v-if="scores.data">Data: <output>{{ scores.data|bytes }}</output> <output>+{{ factors.bandwidth|bytes }}/s</output></h5>
+    <h5 v-if="scores.confidence">Confidence: <output>{{ scores.confidence }}</output> <output>+{{ factors.persuasion }}/s</output></h5>
   </div>
 </template>
 
@@ -24,16 +24,13 @@ The component provides a representation of the player's current game score, mean
 	  name: 'game-score',
 	  store,
 	  computed: {
+		  factors: function() {
+			  return this.getFactors();
+		  },
 		  scores: function() {
 			  return this.getScores();
 		  },
-		  data: function() {
-			  return this.scores.data;
-		  },
-		  confidence: function() {
-			  return this.scores.confidence;
-		  },
-			...mapGetters(['getScores'])
+			...mapGetters(['getScores', 'getFactors'])
 		}
 	}
 </script>

@@ -23,7 +23,6 @@ The enabled ability is an ability that is currently enabled within a socket.
   </div>
   <div class="ability disabled" v-else>
     No valid event for ability.
-    {{ label }}
   </div>
 </template>
 

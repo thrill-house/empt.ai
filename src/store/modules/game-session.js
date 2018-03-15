@@ -15,8 +15,15 @@ const getters = {
   getEvents: (state) => (before = state.now) => {
   	return _.sortBy(_.filter(state.events, function(value) { return value.timestamp < before; }), 'timestamp');
   },
+  getEventsOfType: (state, getters) => (label, type, id = 'label') => {
+		return _.filter(getters.getEvents(), { [id]: label, type: type });
+	},
   getEventOfType: (state, getters) => (label, type, id = 'label') => {
-		return _.find(getters.getEvents(), { [id]: label, type: type });
+		return _.head(getters.getEventsOfType(label, type, id));
+	},
+  getEventObject: (state, getters) => (event, id = 'label') => {
+		var functionName = 'get' + _.upperFirst(_.camelCase(event.type));
+		return getters[functionName](event[id]);
 	}
 }
 

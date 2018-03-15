@@ -10,11 +10,11 @@ The component displays the current values for multipliers used to calculate the 
 
 <template>
   <div id="game-factors" class="body">
-    <h5>Bandwidth: <output>{{ bandwidth }}/s</output></h5>
-    <h5>Processor: <output>{{ processor }}</output></h5>
-    <h5 v-if="journalCitations > 1">Journal citations: <output>{{ journalCitations }}</output></h5>
-    <h5 v-if="returnOnInvestment > 1">Return on investment: <output>{{ returnOnInvestment }}</output></h5>
-    <h5 v-if="approvalRating > 1">Approval rating: <output>{{ approvalRating }}</output></h5>
+    <h5>Bandwidth: <output>{{ factors.bandwidth|bytes }}/s</output></h5>
+    <h5>Processor: <output>{{ factors.processor|frequency }}</output></h5>
+    <h5 v-if="factors.journalCitations > 1">Journal citations: <output>{{ factors.journalCitations }}</output></h5>
+    <h5 v-if="factors.returnOnInvestment > 1">Return on investment: <output>{{ factors.returnOnInvestment }}</output></h5>
+    <h5 v-if="factors.approvalRating > 1">Approval rating: <output>{{ factors.approvalRating }}</output></h5>
   </div>
 </template>
 
@@ -29,21 +29,6 @@ The component displays the current values for multipliers used to calculate the 
 	  computed: {
 		  factors: function() {
 			  return this.getFactors();
-		  },
-		  bandwidth: function() {
-			  return this.factors.bandwidth;
-		  },
-		  processor: function() {
-			  return this.factors.processor;
-		  },						
-		  journalCitations: function() {
-			  return this.factors.journalCitations;
-		  },
-		  returnOnInvestment: function() {
-			  return this.factors.returnOnInvestment;
-		  },
-		  approvalRating: function() {
-			  return this.factors.approvalRating;
 		  },
 		  ...mapGetters(['getFactors'])
 	  }

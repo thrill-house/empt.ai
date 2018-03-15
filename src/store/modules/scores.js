@@ -1,8 +1,10 @@
-var scoresInit = { data: 1, confidence: 100 };
+const SCORES_INIT = { data: 1, confidence: 100 };
+const FACTORS_INIT = { bandwidth: 1, processor: 0, journalCitations: 0, returnOnInvestment: 0, approvalRating: 0, persuasion: 0 };
+const COSTS_INIT = { data: 0, confidence: 0 };
 
 // getters
 const getters = {
-  getScores: (state, getters) => (before = getters.getNow(), events = getters.getEvents(before), previous = scoresInit) => {
+  getScores: (state, getters) => (before = getters.getNow(), events = getters.getEvents(before), previous = _.defaults({}, SCORES_INIT)) => {
     var firstEvent = _.head(events);
 	  var remainingEvents = _.tail(events);
 		var nextEvent = _.head(remainingEvents);
@@ -12,14 +14,11 @@ const getters = {
 	  if(firstEvent.cachedScore === undefined) {
 		  var duration = getters.getDuration(firstEvent.timestamp, nextTimestamp);
 		  var factors = getters.getFactors(nextTimestamp);
-		  //var costs = getters.getCosts(firstEvent);
-		  
-		  var dataPerSecond = factors.bandwidth;
-		  var confidencePerSecond = factors.processor + factors.journalCitations + factors.returnOnInvestment + factors.approvalRating;
+		  var costs = getters.getCosts(firstEvent);
 		  
 			var eventScore = {
-				data: (duration * dataPerSecond), // - costs.data,
-				confidence: (duration * confidencePerSecond)// - costs.confidence
+				data: (duration * factors.bandwidth) - costs.data,
+				confidence: (duration * factors.persuasion) - costs.confidence
 			};
 		} else {
 			var eventScore = firstEvent.cachedScore;
@@ -39,7 +38,32 @@ const getters = {
 	  }
 	  
 	  return score;
-  }
+  },
+  getFactors: (state, getters) => (before = getters.getNow()) => {
+	  var events =  getters.getEvents(before);
+		var factors = _.defaults({}, FACTORS_INIT);
+		
+		_.each(events, function(event) {
+			var eventObject = getters.getEventObject(event);
+			
+			_.each(eventObject.multipliers, function(multiplier, key) {
+				factors[key] *= multiplier;
+			});
+			
+			_.each(eventObject.adders, function(adder, key) {
+				factors[key] += adder;
+			});
+		});
+		
+		factors.persuasion = factors.processor + factors.journalCitations + factors.returnOnInvestment + factors.approvalRating;
+		
+	  return factors;
+	},
+  getCosts: (state, getters) => (event) => {
+	  var eventObject = getters.getEventObject(event);
+		
+		return _.defaults(eventObject.costs, COSTS_INIT);
+	}
 }
 
 export default {

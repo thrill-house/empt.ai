@@ -6,6 +6,7 @@ const state = [
   { label: '30 sec', value: +moment.duration(30, 'seconds') },
   { label: '45 sec', value: +moment.duration(45, 'seconds') },
   { label: '1 min', value: +moment.duration(1, 'minutes') },
+  { label: '2 min', value: +moment.duration(2, 'minutes') },
   { label: '5 min', value: +moment.duration(5, 'minutes') },
   { label: '10 min', value: +moment.duration(10, 'minutes') },
   { label: '15 min', value: +moment.duration(15, 'minutes') },
