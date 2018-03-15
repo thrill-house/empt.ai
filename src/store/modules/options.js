@@ -1,6 +1,10 @@
 import moment from 'moment'
 
 const state = [
+  { label: '1 sec', value: +moment.duration(1, 'seconds') },
+  { label: '15 sec', value: +moment.duration(15, 'seconds') },
+  { label: '30 sec', value: +moment.duration(30, 'seconds') },
+  { label: '45 sec', value: +moment.duration(45, 'seconds') },
   { label: '1 min', value: +moment.duration(1, 'minutes') },
   { label: '5 min', value: +moment.duration(5, 'minutes') },
   { label: '10 min', value: +moment.duration(10, 'minutes') },

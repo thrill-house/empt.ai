@@ -17,31 +17,23 @@ The component provides a representation of the player's current game score, mean
 
 <script>
 	import _ from 'lodash'
-	import math from 'mathjs'
 	import { mapState, mapGetters } from 'vuex'
 	import store from '../store'
 	
 	export default {
 	  name: 'game-score',
 	  store,
-	  filters: {
-		  bits: function (value) {
-			  return math.unit(value, 'kb').toString();
-			},
-			frequency: function (value) {
-			  return math.unit(value, 'Hz').toString();
-			},
-	  },
 	  computed: {
+		  scores: function() {
+			  return this.getScores();
+		  },
 		  data: function() {
-			  return this.scores().data;
+			  return this.scores.data;
 		  },
 		  confidence: function() {
-			  return this.scores().confidence;
+			  return this.scores.confidence;
 		  },
-			...mapGetters({
-				scores: 'getScores'
-			})
+			...mapGetters(['getScores'])
 		}
 	}
 </script>

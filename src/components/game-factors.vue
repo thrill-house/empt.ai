@@ -10,8 +10,8 @@ The component displays the current values for multipliers used to calculate the 
 
 <template>
   <div id="game-factors" class="body">
-    <h5 v-if="bandwidth > 1">Bandwidth: <output>{{ bandwidth }}/s</output></h5>
-    <h5 v-if="processor > 1">Processor: <output>{{ processor }}</output></h5>
+    <h5>Bandwidth: <output>{{ bandwidth }}/s</output></h5>
+    <h5>Processor: <output>{{ processor }}</output></h5>
     <h5 v-if="journalCitations > 1">Journal citations: <output>{{ journalCitations }}</output></h5>
     <h5 v-if="returnOnInvestment > 1">Return on investment: <output>{{ returnOnInvestment }}</output></h5>
     <h5 v-if="approvalRating > 1">Approval rating: <output>{{ approvalRating }}</output></h5>
@@ -27,20 +27,23 @@ The component displays the current values for multipliers used to calculate the 
 	  name: 'game-factors',
 	  store,
 	  computed: {
+		  factors: function() {
+			  return this.getFactors();
+		  },
 		  bandwidth: function() {
-			  return this.getFactors().bandwidth;
+			  return this.factors.bandwidth;
 		  },
 		  processor: function() {
-			  return this.getFactors().processor;
-		  },
+			  return this.factors.processor;
+		  },						
 		  journalCitations: function() {
-			  return this.getFactors().journalCitations;
+			  return this.factors.journalCitations;
 		  },
 		  returnOnInvestment: function() {
-			  return this.getFactors().returnOnInvestment;
+			  return this.factors.returnOnInvestment;
 		  },
 		  approvalRating: function() {
-			  return this.getFactors().approvalRating;
+			  return this.factors.approvalRating;
 		  },
 		  ...mapGetters(['getFactors'])
 	  }

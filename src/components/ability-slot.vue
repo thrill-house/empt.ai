@@ -33,12 +33,12 @@ The ability slot is a space attached to a data sources. When an ability is assig
 	  },
 	  computed: {
 		  event: function() {
-		    return _.find(this.getEvents(), { type: 'ability', dataSocketSlot: this.label });
+		    return this.getEventOfType(this.label, 'ability', 'dataSocketSlot');
 	    },
 		  abilityLabel: function() {
-		    return this.event? this.event.ability: '';
+		    return this.event? this.event.label: '';
 	    },
-		  ...mapGetters(['getEvents'])
+		  ...mapGetters(['getEventOfType'])
 	  }
 	}
 </script>

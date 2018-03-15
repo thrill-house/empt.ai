@@ -15,9 +15,15 @@ The enabled ability is an ability that is currently enabled within a socket.
   <div class="ability enabled" v-if="event">
     {{ ability.name }}
     <em v-if="ability.type">— {{ ability.type }}</em>
+    <div class="adders">
+	    <template v-for="(value, adder) in ability.adders">
+		    {{ adder }}: <strong>{{ value }}</strong>
+	    </template>
+    </div>
   </div>
   <div class="ability disabled" v-else>
     No valid event for ability.
+    {{ label }}
   </div>
 </template>
 
@@ -33,13 +39,12 @@ The enabled ability is an ability that is currently enabled within a socket.
 	  store,
 	  computed: {
 		  ability: function() {
-		    return this.abilities[this.label];
+		    return this.getAbility(this.label);
 	    },
 	  	event: function() {
-		    return _.find(this.getEvents(), { type: 'ability', ability: this.label });
+		    return this.getEventOfType(this.label, 'ability');
 	    },
-		  ...mapState(['abilities']),
-		  ...mapGetters(['getEvents'])
+		  ...mapGetters(['getEventOfType', 'getAbility'])
 	  }
 	}
 </script>

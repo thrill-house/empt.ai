@@ -15,8 +15,6 @@ The component displays how much time has elapsed between the first event and the
 </template>
 
 <script>
-	import moment from 'moment'
-	import math from 'mathjs'
 	import { mapState, mapGetters, mapMutations } from 'vuex'
 	import _ from 'lodash'
 	import store from '../store'
@@ -24,11 +22,6 @@ The component displays how much time has elapsed between the first event and the
 	export default {
 	  name: 'game-time',
 	  store,
-	  filters: {
-		  duration: function (value) {
-			  return math.unit(_.round(value / 1000), 's').splitUnit(['years', 'months', 'days', 'hours', 'minutes', 'seconds']).toString();
-			},
-	  },
 	  computed: {
 		  elapsed: function() {
 			  return this.now - this.start;

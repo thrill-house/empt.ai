@@ -1,14 +1,13 @@
-
-
 // getters
 const getters = {
-  getFactors: (state, getters, rootState) => (before = state.now, events = getters.getEvents(state.now)) => {
-		var factors = { bandwidth: 1, processor: 1, journalCitations: 1, returnOnInvestment: 1, approvalRating: 1 };
+  getFactors: (state, getters) => (before = getters.getNow()) => {
+	  var events =  getters.getEvents(before);
+		var factors = { bandwidth: 1, processor: 0, journalCitations: 0, returnOnInvestment: 0, approvalRating: 0 };
 		
 		_.each(events, function(event) {
 			switch(event.type) {
 				case 'data-socket':
-					var dataSocket = rootState.dataSockets[event.dataSocket];
+					var dataSocket = getters.getDataSocket(event.label);
 					
 					_.each(dataSocket.multipliers, function(multiplier, key) {
 						factors[key] *= multiplier;
@@ -16,8 +15,7 @@ const getters = {
 				break;
 		  	
 				case 'ability':
-			  	//var dataSocket = rootState.dataSockets[event.dataSocket];
-					var ability = rootState.abilities[event.ability];
+					var ability = getters.getAbility(event.label);
 			  	
 			  	_.each(ability.adders, function(adder, key) {
 						factors[key] += adder;

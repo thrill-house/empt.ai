@@ -5,6 +5,8 @@ const state = {
 	  	'root-3': { position: 'left' }
 	  }, multipliers: {
 		  bandwidth: 1
+	  }, costs: {
+		  data: 1
 	  }
   },
 	'neutral-1': { name: 'Neutral (2)', type: 'neutral', era: 'university', parent: 'root', slots: {
@@ -12,24 +14,38 @@ const state = {
 	  	'neutral-1-2': { position: 'right' }
 	  }, multipliers: {
 		  bandwidth: 2
+	  }, costs: {
+		  confidence: 1000
 	  }
   },
 	'neutral-2': { name: 'Neutral (2)', type: 'neutral', era: 'university', parent: 'root', slots: {
 	  	'neutral-2-1': { position: 'right' },
 	  	'neutral-2-2': { position: 'bottom-left' }
 	  }, multipliers: {
-		  bandwidth: 3
+		  bandwidth: 2
+	  }, costs: {
+		  confidence: 2000
 	  }
   },
 	'neutral-3': { name: 'Neutral (2)', type: 'neutral', era: 'university', parent: 'root', slots: {
 	  	'neutral-3-1': { position: 'top-left' },
 	  	'neutral-3-2': { position: 'bottom-left' }
 	  }, multipliers: {
-		  bandwidth: 5
+		  bandwidth: 2
+	  }, costs: {
+		  confidence: 3000
 	  }
   }
 }
 
+// getters
+const getters = {
+  getDataSocket: (state, getters) => (id) => {
+		return state[id];
+	}
+}
+
 export default {
-	state
+	state,
+	getters
 }

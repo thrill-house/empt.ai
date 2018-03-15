@@ -25,14 +25,14 @@ The data socket is the base component that abilities are attached to. When enabl
 			    </template>
 		    </div>
 		    <a href="#" class="minigame">
-			    mini game
+			    Mini game
 		    </a>
 	    </div>
       <ability-slot
         v-for="(socket, index) in dataSocket.slots"
         :key="index"
         :label="index"
-        :class="socket.position">
+        :class="[socket.position, index]">
       </ability-slot>
     </template>
     <template v-else>Socket not yet enabled.</template>
@@ -56,13 +56,12 @@ The data socket is the base component that abilities are attached to. When enabl
 	  },
 	  computed: {
 	    dataSocket: function() {
-		    return this.dataSockets[this.label];
+		    return this.getDataSocket(this.label);
 	    },
 	  	event: function() {
-		    return _.find(this.getEvents(), { type: 'data-socket', dataSocket: this.label });
+		    return this.getEventOfType(this.label, 'data-socket');
 	    },
-		  ...mapState(['dataSockets']),
-		  ...mapGetters(['getEvents'])
+		  ...mapGetters(['getEventOfType', 'getDataSocket'])
 	  }
 	}
 </script>
