@@ -24,7 +24,7 @@ The ability slot is a space attached to a data sources. When an ability is assig
 	import EnabledAbility from './enabled-ability.vue'
 		
 	export default {
-	  name: 'ability-socket',
+	  name: 'ability-slot',
 	  store,
 	  components: {
 	    EnabledAbility

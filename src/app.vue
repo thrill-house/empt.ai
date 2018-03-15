@@ -12,11 +12,11 @@
 			  <div v-html="docs.sampleComponent" class="docs"></div>
 			  <div class="tweakers">
 					<h5>Tweakers</h5>
-					<label for="sample-component-message">Message</label>
-					<input id="sample-component-message" v-model="message" />
+					<label>Message</label>
+					<input v-model="messageTweaker" />
 				</div>
 		  </header>
-		  <sample-component :message="message"></sample-component>
+		  <sample-component :message="messageTweaker"></sample-component>
 	  </section>
 	  <section>
 		  <header>
@@ -29,8 +29,8 @@
 			  <div v-html="docs.gameTime" class="docs"></div>
 			  <div class="tweakers">
 					<h5>Tweakers</h5>
-					<label for="game-time-start">Start</label>
-					<select v-model="sessionDuration">
+					<label>Start</label>
+					<select v-model="sessionDurationTweaker">
 						<option value="0">Choose</option>
 					  <option v-for="option in options" :value="option.value">
 					    {{ option.label }}
@@ -55,20 +55,49 @@
 	  <section>
 		  <header>
 			  <div v-html="docs.enabledAbility" class="docs"></div>
+			  <div class="tweakers">
+					<h5>Tweakers</h5>
+					<label>Enabled Ability</label>
+					<select v-model="enabledAbilityTweaker">
+						<option value="none">Choose</option>
+					  <option v-for="(ability, index) in abilities" :value="index">
+					    {{ ability.name }}
+					  </option>
+					</select>
+				</div>
 		  </header>
-		  <enabled-ability label="neutral-1"></enabled-ability>
+		  <enabled-ability :label="enabledAbilityTweaker"></enabled-ability>
 	  </section>
 	  <section>
 		  <header>
-			  <div v-html="docs.abilitySocket" class="docs"></div>
+			  <div v-html="docs.abilitySlot" class="docs"></div>
+			  <div class="tweakers">
+					<h5>Tweakers</h5>
+					<label>Ability Slot</label>
+					<select v-model="abilitySlotTweaker">
+						<option value="none">Choose</option>
+					  <option v-for="abilitySlot in abilitySlots" :value="abilitySlot">
+					    {{ abilitySlot }}
+					  </option>
+					</select>
+				</div>
 		  </header>
-		  <ability-slot label="does-not-exist"></ability-slot>
+		  <ability-slot :label="abilitySlotTweaker"></ability-slot>
 	  </section>
 	  <section>
 		  <header>
 			  <div v-html="docs.dataSocket" class="docs"></div>
+			  <div class="tweakers">
+					<h5>Tweakers</h5>
+					<label>Data Socket</label>
+					<select v-model="dataSocketTweaker">
+						<option v-for="(dataSocket, index) in dataSockets" :value="index">
+					    {{ dataSocket.name }}
+					  </option>
+					</select>
+				</div>
 		  </header>
-		  <data-socket label="root"></data-socket>
+		  <data-socket :label="dataSocketTweaker"></data-socket>
 	  </section>
 	  <section>
 		  <header>
@@ -172,8 +201,11 @@
 	  },
 	  data: function() {
 		  return {
-			  message: 'This and that',
-			  sessionDuration: 0
+			  messageTweaker: 'This and that',
+			  sessionDurationTweaker: 0,
+			  enabledAbilityTweaker: 'none',
+			  abilitySlotTweaker: 'none',
+			  dataSocketTweaker: 'root'
 		  }
 	  },
 	  store,
@@ -224,7 +256,10 @@
 		  ...mapState({
 			  start: state => state.gameSession.start,
 			  now: state => state.gameSession.now,
-			  options: state => state.options
+			  options: state => state.options,
+			  abilities: state => state.abilities,
+			  abilitySlots: state => _.flattenDeep(_.map(_.map(state.dataSockets, 'slots'), function(o) { return _.keysIn(o) })),
+			  dataSockets: state => state.dataSockets
 			})
 		},
 	  methods: {
@@ -235,7 +270,7 @@
 		  ...mapActions(['startSession'])
 	  },
 	  watch: {
-		  sessionDuration: function(value) {
+		  sessionDurationTweaker: function(value) {
 			  this.setStart(this.now - value);
 			  this.updateEvents();
 		  }
