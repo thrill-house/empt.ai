@@ -1,5 +1,5 @@
-const SCORES_INIT = { data: 1, confidence: 100 };
-const FACTORS_INIT = { bandwidth: 1, processor: 0, journalCitations: 0, returnOnInvestment: 0, approvalRating: 0, persuasion: 0 };
+const SCORES_INIT = { data: 0, confidence: 100 };
+const FACTORS_INIT = { bandwidth: 1000, processor: 0, journalCitations: 0, returnOnInvestment: 0, approvalRating: 0, persuasion: 0 };
 const COSTS_INIT = { data: 0, confidence: 0 };
 
 // getters

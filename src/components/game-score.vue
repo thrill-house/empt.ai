@@ -10,7 +10,7 @@ The component provides a representation of the player's current game score, mean
 
 <template>
   <div id="game-score" class="body">
-    <h5 v-if="scores.data">Data: <output>{{ scores.data|bytes }}</output> <output>+{{ factors.bandwidth|bytes }}/s</output></h5>
+    <h5 v-if="scores.data">Data: <output>{{ scores.data|bytes }}</output> <output>+{{ factors.bandwidth|bits }}/s</output></h5>
     <h5 v-if="scores.confidence">Confidence: <output>{{ scores.confidence }}</output> <output>+{{ factors.persuasion }}/s</output></h5>
   </div>
 </template>

@@ -92,21 +92,22 @@ pre {
 label {
 	display: inline-block;
 	vertical-align: middle;
-	background: $dark;
-	color: $light;
+	background: $grey;
+	color: $dark;
 	padding: 0.5rem;
 	font-size: 1rem;
 	line-height: 1;
+	font-weight: bold;
 	font-style: italic;
 	border-radius: 0.2rem;
 	margin: 0;
 	
 	&:after {
-		content: "";
+		content: ": ";
 	}
 }
 
-input, select {
+input, select, button {
 	-webkit-appearance: none;
 	display: inline-block;
 	vertical-align: middle;

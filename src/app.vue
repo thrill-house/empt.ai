@@ -36,6 +36,10 @@
 					    {{ option.label }}
 					  </option>
 					</select>
+					<br>
+					<label>Toggle interval</label>
+					<button v-if="interval" @click="stopSession">Stop</button>
+					<button v-else @click="startSession">Start</button>
 				</div>
 		  </header>
 		  <game-time></game-time>
@@ -256,6 +260,7 @@
 		  ...mapState({
 			  start: state => state.gameSession.start,
 			  now: state => state.gameSession.now,
+			  interval: state => state.gameSession.interval,
 			  options: state => state.options,
 			  abilities: state => state.abilities,
 			  abilitySlots: state => _.flattenDeep(_.map(_.map(state.dataSockets, 'slots'), function(o) { return _.keysIn(o) })),
@@ -267,7 +272,7 @@
 			  this.setEvents(this.initEvents);
 		  },
 		  ...mapMutations(['setStart', 'setEvents']),
-		  ...mapActions(['startSession'])
+		  ...mapActions(['startSession', 'stopSession'])
 	  },
 	  watch: {
 		  sessionDurationTweaker: function(value) {

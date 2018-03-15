@@ -1,7 +1,8 @@
 const state =  {
 	start: _.now(),
   now: _.now(),
-  events: {}
+  events: {},
+  interval: false
 }
 
 // getters
@@ -35,6 +36,9 @@ const mutations = {
   setNow: (state, now = _.now()) => {
     state.now = now;
   },
+  setInterval: (state, interval = false) => {
+    state.interval = interval;
+  },
   addEvent: (state, event, timestamp = _.now()) => {
     state.events[timestamp] = event;
   },
@@ -48,9 +52,15 @@ const mutations = {
 // actions
 const actions = {
   startSession: (context) => {
-	  window.setInterval(function() {
-		  context.commit('setNow');
-		}, 1000);
+		context.commit('setInterval',
+			window.setInterval(function() {
+			  context.commit('setNow');
+			}, 1000)
+		);
+  },
+  stopSession: (context) => {
+	  window.clearInterval(context.state.interval);
+	  context.commit('setInterval');
   }
 }
 
