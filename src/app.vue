@@ -31,7 +31,6 @@
 					<h5>Tweakers</h5>
 					<label>Start</label>
 					<select v-model="sessionDurationTweaker">
-						<option value="0">Choose</option>
 					  <option v-for="option in options" :value="option.value">
 					    {{ option.label }}
 					  </option>
@@ -63,7 +62,6 @@
 					<h5>Tweakers</h5>
 					<label>Enabled Ability</label>
 					<select v-model="enabledAbilityTweaker">
-						<option value="none">Choose</option>
 					  <option v-for="(ability, index) in abilities" :value="index">
 					    {{ ability.name }}
 					  </option>
@@ -79,8 +77,7 @@
 					<h5>Tweakers</h5>
 					<label>Ability Slot</label>
 					<select v-model="abilitySlotTweaker">
-						<option value="none">Choose</option>
-					  <option v-for="abilitySlot in abilitySlots" :value="abilitySlot">
+					  <option v-for="abilitySlot in getSlots()" :value="abilitySlot">
 					    {{ abilitySlot }}
 					  </option>
 					</select>
@@ -175,7 +172,7 @@
 <script>
 	import _ from 'lodash'
 	import moment from 'moment'
-	import { mapState, mapMutations, mapActions } from 'vuex'
+	import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 	import store from './store'
 	import SampleComponent from './components/sample-component.vue'
 	import GameEvents from './components/game-events.vue'
@@ -207,8 +204,8 @@
 		  return {
 			  messageTweaker: 'This and that',
 			  sessionDurationTweaker: 0,
-			  enabledAbilityTweaker: 'none',
-			  abilitySlotTweaker: 'none',
+			  enabledAbilityTweaker: 'neutral-1',
+			  abilitySlotTweaker: 'root-1',
 			  dataSocketTweaker: 'root'
 		  }
 	  },
@@ -242,30 +239,18 @@
 		  },
 		  initEvents: function() {
 			  return [
-					{ type: 'data-socket', label: 'root', timestamp: +moment(this.start).subtract(1, 'seconds') },
-					{ type: 'ability', label: 'neutral-1', dataSocket: 'root', dataSocketSlot: 'root-1', timestamp: +moment(this.start).add(15, 'seconds') },
-					{ type: 'ability', label: 'neutral-2', dataSocket: 'root', dataSocketSlot: 'root-2', timestamp: +moment(this.start).add(30, 'seconds') },
-					{ type: 'ability', label: 'neutral-3', dataSocket: 'root', dataSocketSlot: 'root-3', timestamp: +moment(this.start).add(45, 'seconds') },
-					{ type: 'data-socket', label: 'neutral-1', timestamp: +moment(this.start).add(60, 'seconds') },
-					{ type: 'ability', label: 'science-1', dataSocket: 'neutral-1', dataSocketSlot: 'neutral-1-1', timestamp: +moment(this.start).add(2, 'minutes') },
-					{ type: 'ability', label: 'economy-1', dataSocket: 'neutral-1', dataSocketSlot: 'neutral-1-2', timestamp: +moment(this.start).add(5, 'minutes') },
-					{ type: 'data-socket', label: 'neutral-2', timestamp: +moment(this.start).add(8, 'minutes') },
-					{ type: 'ability', label: 'society-1', dataSocket: 'neutral-2', dataSocketSlot: 'neutral-2-2', timestamp: +moment(this.start).add(13, 'minutes') },
-					{ type: 'ability', label: 'science-2', dataSocket: 'neutral-2', dataSocketSlot: 'neutral-2-2', timestamp: +moment(this.start).add(21, 'minutes') },
-					{ type: 'data-socket', label: 'neutral-3', timestamp: +moment(this.start).add(34, 'minutes') },
-					{ type: 'ability', label: 'economy-2', dataSocket: 'neutral-3', dataSocketSlot: 'neutral-3-1', timestamp: +moment(this.start).add(1, 'hours') },
-					{ type: 'ability', label: 'society-2', dataSocket: 'neutral-3', dataSocketSlot: 'neutral-3-2', timestamp: +moment(this.start).add(3, 'hours') },
+					{ type: 'data-socket', label: 'root', timestamp: +moment(this.start).subtract(1, 'seconds') }
 				]
 		  },
 		  ...mapState({
-			  start: state => state.gameSession.start,
-			  now: state => state.gameSession.now,
-			  interval: state => state.gameSession.interval,
-			  options: state => state.options,
-			  abilities: state => state.abilities,
-			  abilitySlots: state => _.flattenDeep(_.map(state.dataSockets, function(o) { return _.keysIn(o.slots) })),
-			  dataSockets: state => state.dataSockets
-			})
+			  start: 'gameSession.start',
+			  now: 'gameSession.now',
+			  interval: 'gameSession.interval',
+			  options: 'options',
+			  abilities: 'abilities',
+			  dataSockets: 'dataSockets'
+			}),
+			...mapGetters(['getSlots'])
 		},
 	  methods: {
 		  updateEvents: function() {

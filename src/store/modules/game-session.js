@@ -1,8 +1,8 @@
 const state =  {
 	start: _.now(),
   now: _.now(),
-  events: {},
-  interval: false
+  interval: false,
+  events: {}
 }
 
 // getters
@@ -40,7 +40,11 @@ const mutations = {
     state.interval = interval;
   },
   addEvent: (state, event, timestamp = _.now()) => {
-    state.events[timestamp] = event;
+	  event.timestamp = timestamp;
+	  console.log(event);
+    state.events.push(event);
+    
+    console.log(state.events);
   },
   setEvents: (state, events) => {
     if(events !== undefined) {

@@ -14,12 +14,17 @@ The ability slot is a space attached to a data sources. When an ability is assig
 <template>
   <enabled-ability v-if="event" :label="abilityLabel"></enabled-ability>
   <div v-else class="ability-socket">
-	  No valid event for this socket.
+	  No ability assigned to this slot.
+	  <select v-model="selectedLabel">
+		  <option v-for="(ability, index) in abilities" :value="index">
+		  	{{ ability.name }}
+		  </option>
+		</select>
   </div>
 </template>
 
 <script>
-	import { mapState, mapGetters } from 'vuex'
+	import { mapState, mapGetters, mapMutations } from 'vuex'
 	import store from '../store'
 	import EnabledAbility from './enabled-ability.vue'
 		
@@ -32,14 +37,38 @@ The ability slot is a space attached to a data sources. When an ability is assig
 	  props: {
 	    label: String
 	  },
+	  data: function () {
+		  return {
+		    selectedLabel: ''
+		  }
+		},
 	  computed: {
+		  dataSocket: function() {
+			  return this.getSocketForSlot(this.label);
+		  },
 		  event: function() {
 		    return this.getEventOfType(this.label, 'ability', 'dataSocketSlot');
 	    },
 		  abilityLabel: function() {
 		    return this.event? this.event.label: '';
 	    },
-		  ...mapGetters(['getEventOfType'])
+		  ...mapState(['abilities']),
+		  ...mapGetters(['getEventOfType', 'getSlots', 'getSocketForSlot'])
+	  },
+	  methods: {
+		  ...mapMutations(['addEvent'])
+	  },
+	  watch: {
+		  selectedLabel: function(newLabel) {
+	      var event = {
+		      type: 'ability',
+		      label: newLabel,
+		      //dataSocket: this.dataSocket,
+		      dataSocketSlot: this.label
+		    };
+		    
+	      this.addEvent(event);
+	    }
 	  }
 	}
 </script>

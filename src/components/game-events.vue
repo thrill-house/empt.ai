@@ -47,7 +47,7 @@ The component lists all events associated with the game that are stored in the g
 	@import '../assets/scss/variables';
 	
 	#game-events {
-		height: 500px;
+		max-height: 500px;
 		overflow: auto;
 		
 		.event {

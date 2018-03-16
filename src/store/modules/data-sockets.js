@@ -10,7 +10,7 @@ const state = {
 		  data: 1
 	  }
   },
-	'neutral-1': { name: 'Neutral (2)', type: 'neutral', era: 'university', parent: 'root', slots: {
+	'neutral-1': { name: 'Neutral (1)', type: 'neutral', era: 'university', parent: 'root', slots: {
 	  	'neutral-1-1': { position: 'top-left' },
 	  	'neutral-1-2': { position: 'right' }
 	  }, multipliers: {
@@ -30,7 +30,7 @@ const state = {
 		  confidence: 2000
 	  }
   },
-	'neutral-3': { name: 'Neutral (2)', type: 'neutral', era: 'university', parent: 'root', slots: {
+	'neutral-3': { name: 'Neutral (3)', type: 'neutral', era: 'university', parent: 'root', slots: {
 	  	'neutral-3-1': { position: 'top-left' },
 	  	'neutral-3-2': { position: 'bottom-left' }
 	  }, multipliers: {
@@ -46,6 +46,12 @@ const state = {
 const getters = {
   getDataSocket: (state, getters) => (id) => {
 		return state[id];
+	},
+	getSlots: (state, getters) => () => {
+		return _.flattenDeep(_.map(state, function(o) { return _.keysIn(o.slots) }));
+	},
+	getSocketForSlot: (state, getters) => (slot) => {
+		return _.find(state, function(o) { return _.includes(_.keys(o.slots), slot) });
 	}
 }
 
