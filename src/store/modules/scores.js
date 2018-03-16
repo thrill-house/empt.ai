@@ -55,7 +55,9 @@ const getters = {
 			_.each(eventObject.adders, function(adder, key) {
 				factors[key] += adder;
 			});
+			
 		});
+		
 		
 		factors.persuasion = factors.processor + factors.journalCitations + factors.returnOnInvestment + factors.approvalRating;
 		

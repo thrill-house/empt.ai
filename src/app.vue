@@ -25,7 +25,6 @@
 					    {{ option.label }}
 					  </option>
 					</select>
-					<output>{{ getDuration() }}</output>
 					<br>
 					<label>Interval</label>
 					<button v-if="interval" @click="stopSession">Stop</button>

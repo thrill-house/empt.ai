@@ -16,9 +16,9 @@ The enabled ability is an ability that is currently enabled within a socket.
     {{ ability.name }}
     <em v-if="ability.type">— {{ ability.type }}</em>
     <div class="adders">
-	    <template v-for="(value, adder) in ability.adders">
-		    {{ adder }}: <strong>{{ value }}</strong>
-	    </template>
+	    <output v-for="(value, factor) in factors">
+		    +{{ prettyUnit(value, factor) }}
+	    </output>
     </div>
   </div>
   <div class="ability disabled" v-else>
@@ -40,10 +40,13 @@ The enabled ability is an ability that is currently enabled within a socket.
 		  ability: function() {
 		    return this.getAbility(this.label);
 	    },
+	    factors: function() {
+		    return _.merge({}, this.ability.adders, this.ability.multipliers);
+	    },
 	  	event: function() {
 		    return this.getEventOfType(this.label, 'ability');
 	    },
-		  ...mapGetters(['getEventOfType', 'getAbility'])
+		  ...mapGetters(['getEventOfType', 'getAbility', 'prettyUnit'])
 	  }
 	}
 </script>
