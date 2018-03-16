@@ -16,6 +16,7 @@ The ability slot is a space attached to a data sources. When an ability is assig
   <div v-else class="ability-socket">
 	  No ability assigned to this slot.
 	  <select v-model="selectedLabel">
+			<option disabled value="">Choose</option>
 		  <option v-for="(ability, index) in abilities" :value="index">
 		  	{{ ability.name }}
 		  </option>
@@ -63,7 +64,7 @@ The ability slot is a space attached to a data sources. When an ability is assig
 	      var event = {
 		      type: 'ability',
 		      label: newLabel,
-		      dataSocket: this.dataSocket,
+		      dataSocket: this.dataSocket.label,
 		      dataSocketSlot: this.label
 		    };
 		    

@@ -1,3 +1,5 @@
+import Vue from 'vue';
+
 const SCORES_INIT = { data: 1, confidence: 100 };
 const FACTORS_INIT = { bandwidth: 1, processor: 0, journalCitations: 0, returnOnInvestment: 0, approvalRating: 0, persuasion: 0 };
 const COSTS_INIT = { data: 0, confidence: 0 };
@@ -63,7 +65,10 @@ const getters = {
 	  var eventObject = getters.getEventObject(event);
 		
 		return _.defaults(eventObject.costs, COSTS_INIT);
-	}
+	},
+  prettyUnit: (state, getters) => (value, filter) => {
+  	return Vue.filter(filter)(value);
+  },
 }
 
 export default {

@@ -7,6 +7,9 @@ const state =  {
 
 // getters
 const getters = {
+  getStart: (state) => () => {
+  	return state.start;
+  },
   getNow: (state) => () => {
   	return state.now;
   },

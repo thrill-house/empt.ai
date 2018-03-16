@@ -9,17 +9,6 @@
 		</header>
 	  <section>
 		  <header>
-			  <div v-html="docs.sampleComponent" class="docs"></div>
-			  <div class="tweakers">
-					<h5>Tweakers</h5>
-					<label>Message</label>
-					<input v-model="messageTweaker" />
-				</div>
-		  </header>
-		  <sample-component :message="messageTweaker"></sample-component>
-	  </section>
-	  <section>
-		  <header>
 			  <div v-html="docs.gameEvents" class="docs"></div>
 		  </header>
 		  <game-events></game-events>
@@ -31,10 +20,12 @@
 					<h5>Tweakers</h5>
 					<label>Start</label>
 					<select v-model="sessionDurationTweaker">
+					  <option disabled value="">Choose</option>
 					  <option v-for="option in options" :value="option.value">
 					    {{ option.label }}
 					  </option>
 					</select>
+					<output>{{ getDuration() }}</output>
 					<br>
 					<label>Interval</label>
 					<button v-if="interval" @click="stopSession">Stop</button>
@@ -62,6 +53,7 @@
 					<h5>Tweakers</h5>
 					<label>Enabled Ability</label>
 					<select v-model="enabledAbilityTweaker">
+					  <option disabled value="">Choose</option>
 					  <option v-for="(ability, index) in abilities" :value="index">
 					    {{ ability.name }}
 					  </option>
@@ -77,6 +69,7 @@
 					<h5>Tweakers</h5>
 					<label>Ability Slot</label>
 					<select v-model="abilitySlotTweaker">
+					  <option disabled value="">Choose</option>
 					  <option v-for="abilitySlot in getSlots()" :value="abilitySlot">
 					    {{ abilitySlot }}
 					  </option>
@@ -92,6 +85,7 @@
 					<h5>Tweakers</h5>
 					<label>Data Socket</label>
 					<select v-model="dataSocketTweaker">
+					  <option disabled value="">Choose</option>
 						<option v-for="(dataSocket, index) in dataSockets" :value="index">
 					    {{ dataSocket.name }}
 					  </option>
@@ -165,6 +159,17 @@
 			  <div v-html="docs.miniGame" class="docs"></div>
 		  </header>
 		  <mini-game></mini-game>
+	  </section>
+	  <section>
+		  <header>
+			  <div v-html="docs.sampleComponent" class="docs"></div>
+			  <div class="tweakers">
+					<h5>Tweakers</h5>
+					<label>Message</label>
+					<input v-model="messageTweaker" />
+				</div>
+		  </header>
+		  <sample-component :message="messageTweaker"></sample-component>
 	  </section>
 	</main>
 </template>
@@ -243,14 +248,14 @@
 				]
 		  },
 		  ...mapState({
-			  start: 'gameSession.start',
-			  now: 'gameSession.now',
-			  interval: 'gameSession.interval',
+			  start: state => state.gameSession.start,
+			  now: state => state.gameSession.now,
+			  interval: state => state.gameSession.interval,
 			  options: 'options',
 			  abilities: 'abilities',
 			  dataSockets: 'dataSockets'
 			}),
-			...mapGetters(['getSlots'])
+			...mapGetters(['getStart', 'getNow', 'getDuration', 'getEvents', 'getSlots'])
 		},
 	  methods: {
 		  updateEvents: function() {
@@ -261,8 +266,17 @@
 	  },
 	  watch: {
 		  sessionDurationTweaker: function(value) {
-			  this.setStart(this.now - value);
-			  this.updateEvents();
+			  var oldStart = this.getStart();
+			  var newStart = this.getNow() - value;
+			  var events = _.map(this.getEvents(), function(e) {
+				  var difference = e.timestamp - oldStart;
+				  e.timestamp = newStart + difference;
+				  e.cachedScore = undefined;
+				  return e;
+			  });
+			  
+			  this.setEvents(events);
+			  this.setStart(newStart);
 		  }
 	  }
 	}

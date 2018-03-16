@@ -15,16 +15,18 @@ The data socket is the base component that abilities are attached to. When enabl
   <div class="data-socket" :class="{ enabled: event }">
     <div class="details">
 	    <div class="name">
-		      {{ dataSocket.name }}
-		      <em v-if="dataSocket.type">({{ dataSocket.type }})</em>
+		      {{ dataSocket.name }} <output>{{ dataSocket.type }}</output>
 	    </div>
 	    <div class="multipliers">
 		    <template v-for="(value, multiplier) in dataSocket.multipliers">
-			    {{ multiplier }}: <strong>{{ value }}</strong>
+			    <output>+{{ prettyUnit(value, multiplier) }}/s</output>
 		    </template>
 	    </div>
 	    <button v-if="event" class="actions">Mini game</button>
-	    <button v-else class="actions" @click="activate">Activate</button>
+	    <button v-else class="actions" @click="activate">
+	    	Activate
+	    	<output>C:{{ dataSocket.costs.confidence }}</output>
+			</button>
     </div>
     <ability-slot
 			v-if="event"
@@ -58,7 +60,7 @@ The data socket is the base component that abilities are attached to. When enabl
 	  	event: function() {
 		    return this.getEventOfType(this.label, 'data-socket');
 	    },
-		  ...mapGetters(['getEventOfType', 'getDataSocket'])
+		  ...mapGetters(['getEventOfType', 'getDataSocket', 'prettyUnit'])
 	  },
 	  methods: {
 		  activate: function() {

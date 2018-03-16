@@ -10,8 +10,8 @@ The component displays the current values for multipliers used to calculate the 
 
 <template>
   <div id="game-factors" class="body">
-    <h5>Bandwidth: <output>{{ factors.bandwidth|kilobits }}/s</output></h5>
-    <h5>Processor: <output>{{ factors.processor|frequency }}</output></h5>
+    <h5>Bandwidth: <output>{{ factors.bandwidth|bandwidth }}/s</output></h5>
+    <h5>Processor: <output>{{ factors.processor|processor }}</output></h5>
     <h5 v-if="factors.journalCitations > 1">Journal citations: <output>{{ factors.journalCitations }}</output></h5>
     <h5 v-if="factors.returnOnInvestment > 1">Return on investment: <output>{{ factors.returnOnInvestment }}</output></h5>
     <h5 v-if="factors.approvalRating > 1">Approval rating: <output>{{ factors.approvalRating }}</output></h5>
