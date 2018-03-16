@@ -63,7 +63,7 @@ The ability slot is a space attached to a data sources. When an ability is assig
 	      var event = {
 		      type: 'ability',
 		      label: newLabel,
-		      //dataSocket: this.dataSocket,
+		      dataSocket: this.dataSocket,
 		      dataSocketSlot: this.label
 		    };
 		    

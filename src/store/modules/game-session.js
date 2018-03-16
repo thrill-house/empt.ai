@@ -41,10 +41,8 @@ const mutations = {
   },
   addEvent: (state, event, timestamp = _.now()) => {
 	  event.timestamp = timestamp;
-	  console.log(event);
-    state.events.push(event);
-    
-    console.log(state.events);
+	  // Check if this event can be afforded based on what its cost is and when the purchase is being attempted.
+	  state.events.push(event);
   },
   setEvents: (state, events) => {
     if(events !== undefined) {

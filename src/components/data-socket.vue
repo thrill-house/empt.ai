@@ -12,36 +12,33 @@ The data socket is the base component that abilities are attached to. When enabl
 </docs>
 
 <template>
-  <div class="data-socket">
-    <template v-if="event">
-	    <div class="details">
-		    <div class="name">
-			      {{ dataSocket.name }}
-			      <em v-if="dataSocket.type">({{ dataSocket.type }})</em>
-		    </div>
-		    <div class="multipliers">
-			    <template v-for="(value, multiplier) in dataSocket.multipliers">
-				    {{ multiplier }}: <strong>{{ value }}</strong>
-			    </template>
-		    </div>
-		    <a href="#" class="minigame">
-			    Mini game
-		    </a>
+  <div class="data-socket" :class="{ enabled: event }">
+    <div class="details">
+	    <div class="name">
+		      {{ dataSocket.name }}
+		      <em v-if="dataSocket.type">({{ dataSocket.type }})</em>
 	    </div>
-      <ability-slot
-        v-for="(socket, index) in dataSocket.slots"
-        :key="index"
-        :label="index"
-        :class="[socket.position, index]">
-      </ability-slot>
-    </template>
-    <template v-else>Socket not yet enabled.</template>
+	    <div class="multipliers">
+		    <template v-for="(value, multiplier) in dataSocket.multipliers">
+			    {{ multiplier }}: <strong>{{ value }}</strong>
+		    </template>
+	    </div>
+	    <button v-if="event" class="actions">Mini game</button>
+	    <button v-else class="actions" @click="activate">Activate</button>
+    </div>
+    <ability-slot
+			v-if="event"
+      v-for="(socket, index) in dataSocket.slots"
+      :key="index"
+      :label="index"
+      :class="[socket.position, index]">
+    </ability-slot>
   </div>
 </template>
 
 <script>
 	import _ from 'lodash'
-	import { mapState, mapGetters } from 'vuex'
+	import { mapState, mapGetters, mapMutations } from 'vuex'
 	import store from '../store'
 	import AbilitySlot from './ability-slot.vue'
 	
@@ -62,6 +59,17 @@ The data socket is the base component that abilities are attached to. When enabl
 		    return this.getEventOfType(this.label, 'data-socket');
 	    },
 		  ...mapGetters(['getEventOfType', 'getDataSocket'])
+	  },
+	  methods: {
+		  activate: function() {
+	      var event = {
+		      type: 'data-socket',
+		      label: this.label
+		    };
+		    
+	      this.addEvent(event);
+	    },
+	    ...mapMutations(['addEvent'])
 	  }
 	}
 </script>
@@ -89,30 +97,54 @@ The data socket is the base component that abilities are attached to. When enabl
 			height: 187px;
 			padding: 2px 0 0 36px;
 		  
-		  .name, .multipliers, .minigame {
+		  .name, .multipliers, .actions {
 			  width: 90px;
 			  height: 90px;
 			  padding: 20px 5px;
 			  color: $light;
 			  position: absolute;
 			  text-align: center;
-			  box-shadow: inset 0 0 20px rgba($orange, 0.6);
+			  box-shadow: inset 0 0 20px rgba($purple, 0.6);
 		  }
 		  
 		  .name {
-			  background: lighten($orange, 15%);
+			  background: darken($sky, 15%);
 			  transform: rotate(-45deg) skew(15deg, 15deg);
 		  }
 		  
 		  .multipliers {
 			  text-transform: capitalize;
-			  background: lighten($orange, 10%);
+			  background: darken($sky, 10%);
 			  transform: rotate(15deg) skew(15deg, 15deg) translate(-50%, 100%);
 		  }
 		  
-		  .minigame {
-			  background: lighten($orange, 5%);
+		  .actions {
+			  border: none;
+			  border-radius: 0;
+			  outline: none;
+			  cursor: pointer;
+			  background: darken($sky, 5%);
 			  transform: rotate(-15deg) skew(-15deg, -15deg) translate(50%, 100%);
+		  }
+	  }
+	  
+	  &.enabled {
+		  .details {
+			  .name, .multipliers, .actions {
+				  box-shadow: inset 0 0 20px rgba($orange, 0.6);
+			  }
+			  
+			  .name {
+				  background: lighten($orange, 15%);
+			  }
+			  
+			  .multipliers {
+				  background: lighten($orange, 10%);
+			  }
+			  
+			  .actions {
+				  background: lighten($orange, 5%);
+			  }
 		  }
 	  }
 	  
