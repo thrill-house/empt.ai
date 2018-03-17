@@ -7,13 +7,15 @@
 				<h2>Component library of user interface elements.</h2>
 		  </div>
 		</header>
-	  <section>
+	  <section :class="{ hidden: gameEventsToggle }">
+		  <button class="toggle" @click="toggle('gameEventsToggle')">Toggle</button>
 		  <header>
 			  <div v-html="docs.gameEvents" class="docs"></div>
 		  </header>
 		  <game-events></game-events>
 	  </section>
-	  <section>
+	  <section :class="{ hidden: gameTimeToggle }">
+		  <button class="toggle" @click="toggle('gameTimeToggle')">Toggle</button>
 		  <header>
 			  <div v-html="docs.gameTime" class="docs"></div>
 			  <div class="tweakers">
@@ -33,19 +35,22 @@
 		  </header>
 		  <game-time></game-time>
 	  </section>
-	  <section>
+	  <section :class="{ hidden: gameScoreToggle }">
+		  <button class="toggle" @click="toggle('gameScoreToggle')">Toggle</button>
 		  <header>
 			  <div v-html="docs.gameScore" class="docs"></div>
 		  </header>
 		  <game-score></game-score>
 	  </section>
-	  <section>
+	  <section :class="{ hidden: gameFactorsToggle }">
+		  <button class="toggle" @click="toggle('gameFactorsToggle')">Toggle</button>
 		  <header>
 			  <div v-html="docs.gameFactors" class="docs"></div>
 		  </header>
 		  <game-factors></game-factors>
 	  </section>
-	  <section>
+	  <section :class="{ hidden: enabledAbilityToggle }">
+		  <button class="toggle" @click="toggle('enabledAbilityToggle')">Toggle</button>
 		  <header>
 			  <div v-html="docs.enabledAbility" class="docs"></div>
 			  <div class="tweakers">
@@ -61,7 +66,8 @@
 		  </header>
 		  <enabled-ability :label="enabledAbilityTweaker"></enabled-ability>
 	  </section>
-	  <section>
+	  <section :class="{ hidden: abilitySlotToggle }">
+		  <button class="toggle" @click="toggle('abilitySlotToggle')">Toggle</button>
 		  <header>
 			  <div v-html="docs.abilitySlot" class="docs"></div>
 			  <div class="tweakers">
@@ -77,7 +83,8 @@
 		  </header>
 		  <ability-slot :label="abilitySlotTweaker"></ability-slot>
 	  </section>
-	  <section>
+	  <section :class="{ hidden: dataSocketToggle }">
+		  <button class="toggle" @click="toggle('dataSocketToggle')">Toggle</button>
 		  <header>
 			  <div v-html="docs.dataSocket" class="docs"></div>
 			  <div class="tweakers">
@@ -93,73 +100,85 @@
 		  </header>
 		  <data-socket :label="dataSocketTweaker"></data-socket>
 	  </section>
-	  <section>
+	  <section :class="{ hidden: availableAbilityToggle }">
+		  <button class="toggle" @click="toggle('availableAbilityToggle')">Toggle</button>
 		  <header>
 			  <div v-html="docs.availableAbility" class="docs"></div>
 		  </header>
 		  <available-ability></available-ability>
 	  </section>
-	  <section>
+	  <section :class="{ hidden: abilityLibraryToggle }">
+		  <button class="toggle" @click="toggle('abilityLibraryToggle')">Toggle</button>
 		  <header>
 			  <div v-html="docs.abilityLibrary" class="docs"></div>
 		  </header>
 		  <ability-library></ability-library>
 	  </section>
-	  <section>
+	  <section :class="{ hidden: purchaseableAbilityToggle }">
+		  <button class="toggle" @click="toggle('purchaseableAbilityToggle')">Toggle</button>
 		  <header>
 			  <div v-html="docs.purchaseableAbility" class="docs"></div>
 		  </header>
 		  <purchaseable-ability></purchaseable-ability>
 	  </section>
-	  <section>
+	  <section :class="{ hidden: abilityMarketToggle }">
+		  <button class="toggle" @click="toggle('abilityMarketToggle')">Toggle</button>
 		  <header>
 			  <div v-html="docs.abilityMarket" class="docs"></div>
 		  </header>
 		  <ability-market></ability-market>
 	  </section>
-	  <section>
+	  <section :class="{ hidden: primaryNavigationToggle }">
+		  <button class="toggle" @click="toggle('primaryNavigationToggle')">Toggle</button>
 		  <header>
 			  <div v-html="docs.primaryNavigation" class="docs"></div>
 		  </header>
 		  <primary-navigation></primary-navigation>
 	  </section>
-	  <section>
+	  <section :class="{ hidden: playingFieldToggle }">
+		  <button class="toggle" @click="toggle('playingFieldToggle')">Toggle</button>
 		  <header>
 			  <div v-html="docs.playingField" class="docs"></div>
 		  </header>
 		  <playing-field></playing-field>
 	  </section>
-	  <section>
+	  <section :class="{ hidden: emotionDiagramToggle }">
+		  <button class="toggle" @click="toggle('emotionDiagramToggle')">Toggle</button>
 		  <header>
 			  <div v-html="docs.emotionDiagram" class="docs"></div>
 		  </header>
 		  <emotion-diagram></emotion-diagram>
 	  </section>
-	  <section>
+	  <section :class="{ hidden: leaderBoardsToggle }">
+		  <button class="toggle" @click="toggle('leaderBoardsToggle')">Toggle</button>
 		  <header>
 			  <div v-html="docs.leaderBoards" class="docs"></div>
 		  </header>
 		  <leader-boards></leader-boards>
 	  </section>
-	  <section>
+	  <section :class="{ hidden: narrativeOutputToggle }">
+		  <button class="toggle" @click="toggle('narrativeOutputToggle')">Toggle</button>
 		  <header>
 			  <div v-html="docs.narrativeOutput" class="docs"></div>
 		  </header>
 		  <narrative-output></narrative-output>
 	  </section>
-	  <section>
+	  <section :class="{ hidden: userProfileToggle }">
+		  <button class="toggle" @click="toggle('userProfileToggle')">Toggle</button>
 		  <header>
 			  <div v-html="docs.userProfile" class="docs"></div>
 		  </header>
 		  <user-profile></user-profile>
 	  </section>
-	  <section>
+	  <section :class="{ hidden: miniGameToggle }">
+		  <button class="toggle" @click="toggle('miniGameToggle')">Toggle</button>
 		  <header>
 			  <div v-html="docs.miniGame" class="docs"></div>
 		  </header>
 		  <mini-game></mini-game>
 	  </section>
-	  <section>
+	  <section :class="{ hidden: sampleComponentToggle }">
+		  <button class="toggle" @click="toggle('sampleComponentToggle')">Toggle</button>
 		  <header>
 			  <div v-html="docs.sampleComponent" class="docs"></div>
 			  <div class="tweakers">
@@ -176,7 +195,9 @@
 <script>
 	import _ from 'lodash'
 	import moment from 'moment'
+	import Vue from 'vue'
 	import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
+	import VueLocalStorage from 'vue-localstorage'
 	import store from './store'
 	import SampleComponent from './components/sample-component.vue'
 	import GameEvents from './components/game-events.vue'
@@ -198,6 +219,10 @@
 	import UserProfile from './components/user-profile.vue'
 	import MiniGame from './components/mini-game.vue'
 	
+	Vue.use(VueLocalStorage, {
+		bind: true
+	});
+	
 	export default {
 	  name: 'app',
 	  created: function() {
@@ -215,7 +240,6 @@
 	  },
 	  store,
 	  components: {
-	    SampleComponent,
 	    GameEvents,
 	    GameTime,
 	    GameScore,
@@ -233,7 +257,67 @@
 			LeaderBoards,
 			NarrativeOutput,
 			UserProfile,
-			MiniGame
+			MiniGame,
+			SampleComponent
+	  },
+	  localStorage: {
+		  gameEventsToggle: {
+	      type: Boolean
+	    },
+		  gameTimeToggle: {
+	      type: Boolean
+	    },
+		  gameScoreToggle: {
+	      type: Boolean
+	    },
+		  gameFactorsToggle: {
+	      type: Boolean
+	    },
+		  dataSocketToggle: {
+	      type: Boolean
+	    },
+		  abilitySlotToggle: {
+	      type: Boolean
+	    },
+		  enabledAbilityToggle: {
+	      type: Boolean
+	    },
+		  availableAbilityToggle: {
+	      type: Boolean
+	    },
+		  abilityLibraryToggle: {
+	      type: Boolean
+	    },
+		  purchaseableAbilityToggle: {
+	      type: Boolean
+	    },
+		  abilityMarketToggle: {
+	      type: Boolean
+	    },
+		  primaryNavigationToggle: {
+	      type: Boolean
+	    },
+		  playingFieldToggle: {
+	      type: Boolean
+	    },
+		  emotionDiagramToggle: {
+	      type: Boolean
+	    },
+		  leaderBoardsToggle: {
+	      type: Boolean
+	    },
+		  narrativeOutputToggle: {
+	      type: Boolean
+	    },
+		  userProfileToggle: {
+	      type: Boolean
+	    },
+		  miniGameToggle: {
+	      type: Boolean
+	    },
+		  sampleComponentToggle: {
+	      type: Boolean
+	    }
 	  },
 	  computed: {
 		  docs: function() {
@@ -259,6 +343,9 @@
 	  methods: {
 		  updateEvents: function() {
 			  this.setEvents(this.initEvents);
+		  },
+		  toggle: function(section) {
+			  this[section] = !this[section];
 		  },
 		  ...mapMutations(['setStart', 'setEvents']),
 		  ...mapActions(['startSession', 'stopSession'])
@@ -287,7 +374,6 @@
 	#app {
 		display: grid;
 		padding: 2rem;
-		justify-content: start;
 		
 		> header {
 			display: grid;
@@ -306,9 +392,17 @@
 	  
 	  > section {
 		  display: grid;
+		  position: relative;
 			grid-gap: 1rem;
 			padding: 2rem 0;
 			border-bottom: 3px solid $purple;
+			
+			.toggle {
+				position: absolute;
+				background: none;
+				right: 0;
+				top: 2rem;
+			}
 			
 			> header {
 				margin-bottom: 1rem;
@@ -325,6 +419,18 @@
 				
 				* + * {
 					margin-top: 1rem;
+				}
+			}
+			
+			&.hidden {
+				order: 99;
+				
+				header {
+					margin: 0;
+				}
+				
+				header + *, .docs *:not(h3), .tweakers {
+					display: none;
 				}
 			}
 	  }

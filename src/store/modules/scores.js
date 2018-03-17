@@ -48,16 +48,14 @@ const getters = {
 		_.each(events, function(event) {
 			var eventObject = getters.getEventObject(event);
 			
-			_.each(eventObject.multipliers, function(multiplier, key) {
-				factors[key] *= multiplier;
-			});
-			
 			_.each(eventObject.adders, function(adder, key) {
 				factors[key] += adder;
 			});
 			
+			_.each(eventObject.multipliers, function(multiplier, key) {
+				factors[key] *= multiplier;
+			});
 		});
-		
 		
 		factors.persuasion = factors.processor + factors.journalCitations + factors.returnOnInvestment + factors.approvalRating;
 		

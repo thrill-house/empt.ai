@@ -19,7 +19,7 @@ The data socket is the base component that abilities are attached to. When enabl
 	    </div>
 	    <div class="multipliers">
 		    <output v-for="(value, multiplier) in dataSocket.multipliers">
-			    +{{ prettyUnit(value, multiplier) }}/s
+			    +{{ prettyUnit(value, multiplier) }}
 		    </output>
 	    </div>
 	    <button v-if="event" class="actions">Mini game</button>
