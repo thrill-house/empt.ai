@@ -65,7 +65,7 @@ const getters = {
 			});
 		});
 		
-		factors.persuasion = factors.processor + factors.journalCitations + factors.returnOnInvestment + factors.approvalRating;
+		factors.persuasion = (factors.processor + factors.journalCitations) * (factors.returnOnInvestment || 1) * (factors.approvalRating || 1);
 		
 	  return factors;
 	},
