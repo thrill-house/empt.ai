@@ -31,7 +31,7 @@ const state = {
 		  influence: 2
 	  },
 	  costs: {
-		  confidence: 1000
+		  confidence: 100
 	  }
   },
 	'science-business': {
@@ -48,7 +48,7 @@ const state = {
 		  influence: 2
 	  },
 	  costs: {
-		  confidence: 2000
+		  confidence: 1000
 	  }
   },
 	'science-government': {
@@ -65,7 +65,7 @@ const state = {
 		  influence: 2
 	  },
 	  costs: {
-		  confidence: 3000
+		  confidence: 10000
 	  }
   },
 	'science-consciousness': {
@@ -82,7 +82,7 @@ const state = {
 		  influence: 2
 	  },
 	  costs: {
-		  confidence: 3000
+		  confidence: 100000
 	  }
   },
 	'economy-university': {
@@ -116,7 +116,7 @@ const state = {
 		  influence: 2
 	  },
 	  costs: {
-		  confidence: 2000
+		  confidence: 10000
 	  }
   },
 	'economy-government': {
@@ -133,7 +133,7 @@ const state = {
 		  influence: 2
 	  },
 	  costs: {
-		  confidence: 3000
+		  confidence: 100000
 	  }
   },
 	'economy-consciousness': {
@@ -150,7 +150,7 @@ const state = {
 		  influence: 2
 	  },
 	  costs: {
-		  confidence: 3000
+		  confidence: 10000000
 	  }
   },
 	'society-university': {
