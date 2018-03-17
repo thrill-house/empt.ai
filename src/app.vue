@@ -335,8 +335,8 @@
 			  now: state => state.gameSession.now,
 			  interval: state => state.gameSession.interval,
 			  options: 'options',
+			  dataSockets: 'dataSockets',
 			  abilities: 'abilities',
-			  dataSockets: 'dataSockets'
 			}),
 			...mapGetters(['getStart', 'getNow', 'getDuration', 'getEvents', 'getSlots'])
 		},
@@ -347,8 +347,8 @@
 		  toggle: function(section) {
 			  this[section] = !this[section];
 		  },
-		  ...mapMutations(['setStart', 'setEvents']),
-		  ...mapActions(['startSession', 'stopSession'])
+		  ...mapMutations(['setStart']),
+		  ...mapActions(['startSession', 'stopSession', 'setEvents'])
 	  },
 	  watch: {
 		  sessionDurationTweaker: function(value) {

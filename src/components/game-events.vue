@@ -10,6 +10,7 @@ The component lists all events associated with the game that are stored in the g
 
 <template>
   <div id="game-events">
+    <pre>{{ eras }}</pre>
     <div v-if="events">
 	    <div class="event" v-for="(event) in events" v-if="event.timestamp < now">
 		    <pre>{{ event }}</pre>
@@ -37,7 +38,7 @@ The component lists all events associated with the game that are stored in the g
 		  events: function() {
 			  return this.getEvents();
 		  },
-		  ...mapState(['gameSession']),
+		  ...mapState(['gameSession', 'eras']),
 		  ...mapGetters(['getEvents'])
 		}
 	}

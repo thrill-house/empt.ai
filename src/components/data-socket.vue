@@ -40,7 +40,7 @@ The data socket is the base component that abilities are attached to. When enabl
 
 <script>
 	import _ from 'lodash'
-	import { mapState, mapGetters, mapMutations } from 'vuex'
+	import { mapState, mapGetters, mapActions } from 'vuex'
 	import store from '../store'
 	import AbilitySlot from './ability-slot.vue'
 	
@@ -71,7 +71,7 @@ The data socket is the base component that abilities are attached to. When enabl
 		    
 	      this.addEvent(event);
 	    },
-	    ...mapMutations(['addEvent'])
+	    ...mapActions(['addEvent'])
 	  }
 	}
 </script>

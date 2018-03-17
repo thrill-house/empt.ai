@@ -1,49 +1,57 @@
 import Vue from 'vue';
 
-const SCORES_INIT = { data: 1, confidence: 100 };
-const FACTORS_INIT = { bandwidth: 1, processor: 0, journalCitations: 0, returnOnInvestment: 0, approvalRating: 0, persuasion: 0 };
-const COSTS_INIT = { data: 0, confidence: 0 };
+const state = {
+  SCORES_INIT: { data: 1, confidence: 100 },
+	FACTORS_INIT: { bandwidth: 1, processor: 0, journalCitations: 0, returnOnInvestment: 0, approvalRating: 0, persuasion: 0 },
+	COSTS_INIT: { data: 0, confidence: 0 }
+}
 
 // getters
 const getters = {
-  getScores: (state, getters) => (before = getters.getNow(), events = getters.getEvents(before), previous = _.defaults({}, SCORES_INIT)) => {
+  getScores: (state, getters) => (before = getters.getNow(), events = getters.getEvents(before), previous = _.defaults({}, state.SCORES_INIT)) => {
     var firstEvent = _.head(events);
 	  var remainingEvents = _.tail(events);
 		var nextEvent = _.head(remainingEvents);
 		var nextTimestamp = (nextEvent != undefined? nextEvent.timestamp: before - 1);
 		var filteredEvents = _.filter(events, function(value) { return value.timestamp < nextTimestamp; });
 	  
-	  if(firstEvent.cachedScore === undefined) {
-		  var duration = getters.getDuration(firstEvent.timestamp, nextTimestamp);
-		  var factors = getters.getFactors(nextTimestamp);
-		  var costs = getters.getCosts(firstEvent);
-		  
-			var eventScore = {
-				data: (duration * factors.bandwidth) - costs.data,
-				confidence: (duration * factors.persuasion) - costs.confidence
-			};
-		} else {
-			var eventScore = firstEvent.cachedScore;
-		}
-		
-		var score = {
-		  data: eventScore.data + previous.data,
-		  confidence: eventScore.confidence + previous.confidence
-	  };
-	  
-	  if(remainingEvents.length) {
-			if(firstEvent.cachedScore === undefined) {
-				firstEvent.cachedScore = eventScore;
+	  if(firstEvent !== undefined) {
+		  if(firstEvent.finalScore === undefined) {
+			  var duration = getters.getDuration(firstEvent.timestamp, nextTimestamp);
+			  var factors = getters.getFactors(nextTimestamp);
+			  var costs = getters.getCosts(firstEvent);
+			  
+				var eventScore = {
+					data: (duration * factors.bandwidth) - costs.data,
+					confidence: (duration * factors.persuasion) - costs.confidence
+				};
+			} else {
+				var eventScore = firstEvent.finalScore;
 			}
-				
-		  return getters.getScores(before, remainingEvents, score);
+			
+			var score = {
+			  data: eventScore.data + previous.data,
+			  confidence: eventScore.confidence + previous.confidence
+		  };
+		  
+		  firstEvent.currentScore = eventScore;
+		  
+		  if(remainingEvents.length) {
+				if(firstEvent.finalScore === undefined) {
+					firstEvent.finalScore = eventScore;
+				}
+					
+			  return getters.getScores(before, remainingEvents, score);
+		  }
+	  } else {
+		  score = previous;
 	  }
 	  
 	  return score;
   },
   getFactors: (state, getters) => (before = getters.getNow()) => {
 	  var events =  getters.getEvents(before);
-		var factors = _.defaults({}, FACTORS_INIT);
+	  var factors = _.defaults({}, state.FACTORS_INIT);
 		
 		_.each(events, function(event) {
 			var eventObject = getters.getEventObject(event);
@@ -64,13 +72,22 @@ const getters = {
   getCosts: (state, getters) => (event) => {
 	  var eventObject = getters.getEventObject(event);
 		
-		return _.defaults(eventObject.costs, COSTS_INIT);
+		return _.defaults(eventObject.costs, state.COSTS_INIT);
 	},
   prettyUnit: (state, getters) => (value, filter) => {
   	return Vue.filter(filter)(value);
+  }
+}
+
+// mutations
+const mutations = {
+  activateInitFactor: (state, factor) => {
+	  state.FACTORS_INIT[factor] = 1;
   },
 }
 
 export default {
-	getters
+	state,
+	getters,
+	mutations
 }

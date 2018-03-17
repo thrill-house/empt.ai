@@ -2,7 +2,7 @@ const state =  {
 	start: _.now(),
   now: _.now(),
   interval: false,
-  events: {}
+  events: {},
 }
 
 // getters
@@ -42,20 +42,30 @@ const mutations = {
   setInterval: (state, interval = false) => {
     state.interval = interval;
   },
-  addEvent: (state, event, timestamp = _.now()) => {
-	  event.timestamp = timestamp;
-	  // Check if this event can be afforded based on what its cost is and when the purchase is being attempted.
-	  state.events.push(event);
-  },
-  setEvents: (state, events) => {
-    if(events !== undefined) {
-		  state.events = events;
+  addEvent: (state, event) => {
+	  if(event !== undefined) {
+		  state.events[event.timestamp] = event;
 	  }
   }
 }
 
 // actions
 const actions = {
+  addEvent: ({ commit, dispatch, getters }, event, timestamp = _.now()) => {
+	  var eventObject = getters.getEventObject(event);
+	  
+	  if(event.type === 'data-socket') {
+		  dispatch('activateEra', eventObject.era, { root: true });
+	  }
+	  
+	  event.timestamp = timestamp;
+	  commit('addEvent', event);
+  },
+  setEvents: ({ dispatch }, events) => {
+	  _.each(events, function(event) {
+		  dispatch('addEvent', event, event.timestamp);
+	  });
+  },
   startSession: (context) => {
 		context.commit('setInterval',
 			window.setInterval(function() {

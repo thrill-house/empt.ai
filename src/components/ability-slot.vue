@@ -25,7 +25,7 @@ The ability slot is a space attached to a data sources. When an ability is assig
 </template>
 
 <script>
-	import { mapState, mapGetters, mapMutations } from 'vuex'
+	import { mapState, mapGetters, mapActions } from 'vuex'
 	import store from '../store'
 	import EnabledAbility from './enabled-ability.vue'
 		
@@ -57,7 +57,7 @@ The ability slot is a space attached to a data sources. When an ability is assig
 		  ...mapGetters(['getEventOfType', 'getSlots', 'getSocketForSlot'])
 	  },
 	  methods: {
-		  ...mapMutations(['addEvent'])
+		  ...mapActions(['addEvent'])
 	  },
 	  watch: {
 		  selectedLabel: function(newLabel) {

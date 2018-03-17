@@ -2,7 +2,7 @@ const state = {
   'neutral-1': {
 	  name: 'Neutral (1)',
 	  type: 'neutral',
-	  era: 1,
+	  era: 'student',
 	  adders: {
 		  bandwidth: 1,
 		  processor: 1.5
@@ -15,7 +15,7 @@ const state = {
 	'neutral-2': {
 	  name: 'Neutral (2)',
 	  type: 'neutral',
-	  era: 1,
+	  era: 'student',
 		adders: {
 		  bandwidth: 2,
 		  processor: 1.5
@@ -28,7 +28,7 @@ const state = {
 	'neutral-3': {
 	  name: 'Neutral (3)',
 	  type: 'neutral',
-	  era: 1,
+	  era: 'student',
 		adders: {
 		  bandwidth: 2,
 		  processor: 1.5
