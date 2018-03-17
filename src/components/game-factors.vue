@@ -11,7 +11,7 @@ The component displays the current values for multipliers used to calculate the 
 <template>
   <div id="game-factors" class="body">
     <h5>Bandwidth: <output>{{ factors.bandwidth|bandwidth }}</output></h5>
-    <h5>Processor: <output>{{ factors.processor|processor }}</output></h5>
+    <h5>Influence: <output>{{ factors.influence|influence }}</output></h5>
     <h5 v-if="factors.journalCitations">Journal citations: <output>{{ factors.journalCitations|journalCitations }}</output></h5>
     <h5 v-if="factors.returnOnInvestment">Return on investment: <output>{{ factors.returnOnInvestment|returnOnInvestment }}</output></h5>
     <h5 v-if="factors.approvalRating">Approval rating: <output>{{ factors.approvalRating|approvalRating }}</output></h5>

@@ -11,7 +11,7 @@ const state = {
 	  },
 	  multipliers: {
 		  bandwidth: 1,
-		  processor: 1
+		  influence: 1
 	  },
 	  costs: {
 		  data: 1
@@ -28,7 +28,7 @@ const state = {
 	  },
 	  multipliers: {
 		  bandwidth: 2,
-		  processor: 2
+		  influence: 2
 	  },
 	  costs: {
 		  confidence: 1000
@@ -45,7 +45,7 @@ const state = {
 	  },
 	  multipliers: {
 		  bandwidth: 2,
-		  processor: 2
+		  influence: 2
 	  },
 	  costs: {
 		  confidence: 2000
@@ -62,7 +62,7 @@ const state = {
 	  },
 	  multipliers: {
 		  bandwidth: 2,
-		  processor: 2
+		  influence: 2
 	  },
 	  costs: {
 		  confidence: 3000
@@ -79,7 +79,7 @@ const state = {
 	  },
 	  multipliers: {
 		  bandwidth: 2,
-		  processor: 2
+		  influence: 2
 	  },
 	  costs: {
 		  confidence: 3000
@@ -96,7 +96,7 @@ const state = {
 	  },
 	  multipliers: {
 		  bandwidth: 2,
-		  processor: 2
+		  influence: 2
 	  },
 	  costs: {
 		  confidence: 1000
@@ -113,7 +113,7 @@ const state = {
 	  },
 	  multipliers: {
 		  bandwidth: 2,
-		  processor: 2
+		  influence: 2
 	  },
 	  costs: {
 		  confidence: 2000
@@ -130,7 +130,7 @@ const state = {
 	  },
 	  multipliers: {
 		  bandwidth: 2,
-		  processor: 2
+		  influence: 2
 	  },
 	  costs: {
 		  confidence: 3000
@@ -147,7 +147,7 @@ const state = {
 	  },
 	  multipliers: {
 		  bandwidth: 2,
-		  processor: 2
+		  influence: 2
 	  },
 	  costs: {
 		  confidence: 3000
@@ -164,7 +164,7 @@ const state = {
 	  },
 	  multipliers: {
 		  bandwidth: 2,
-		  processor: 2
+		  influence: 2
 	  },
 	  costs: {
 		  confidence: 1000
@@ -181,7 +181,7 @@ const state = {
 	  },
 	  multipliers: {
 		  bandwidth: 2,
-		  processor: 2
+		  influence: 2
 	  },
 	  costs: {
 		  confidence: 2000
@@ -198,7 +198,7 @@ const state = {
 	  },
 	  multipliers: {
 		  bandwidth: 2,
-		  processor: 2
+		  influence: 2
 	  },
 	  costs: {
 		  confidence: 3000
@@ -215,7 +215,7 @@ const state = {
 	  },
 	  multipliers: {
 		  bandwidth: 2,
-		  processor: 2
+		  influence: 2
 	  },
 	  costs: {
 		  confidence: 3000

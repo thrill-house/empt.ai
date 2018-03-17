@@ -5,7 +5,7 @@ const state = {
 	  era: 'student',
 	  adders: {
 		  bandwidth: 1,
-		  processor: 1.5
+		  influence: 1.5
 		},
 		costs: {
 		  data: 5,
@@ -18,7 +18,7 @@ const state = {
 	  era: 'student',
 		adders: {
 		  bandwidth: 2,
-		  processor: 1.5
+		  influence: 1.5
 		},
 		costs: {
 		  data: 5,
@@ -31,7 +31,7 @@ const state = {
 	  era: 'student',
 		adders: {
 		  bandwidth: 2,
-		  processor: 1.5
+		  influence: 1.5
 		},
 		costs: {
 		  data: 5,
@@ -44,8 +44,10 @@ const state = {
 	  era: 2,
 		adders: {
 			bandwidth: 4,
-			processor: 2,
-			journalCitations: 2
+			influence: 2
+		},
+		multipliers: {
+			journalCitations: 1.2
 		},
 		costs: {
 		  data: 10,
@@ -58,8 +60,10 @@ const state = {
 	  era: 2,
 		adders: {
 			bandwidth: 8,
-			processor: 3,
-			journalCitations: 3
+			influence: 3
+		},
+		multipliers: {
+			journalCitations: 1.2
 		},
 		costs: {
 		  data: 15,
@@ -72,7 +76,7 @@ const state = {
 	  era: 2,
 		adders: {
 			bandwidth: 4,
-			processor: 3
+			influence: 3
 		},
 		multipliers: {
 			returnOnInvestment: 1.2
@@ -88,7 +92,7 @@ const state = {
 	  era: 2,
 		adders: {
 			bandwidth: 8,
-			processor: 3
+			influence: 3
 		},
 		multipliers: {
 			returnOnInvestment: 1.2
@@ -104,7 +108,7 @@ const state = {
 	  era: 2,
 		adders: {
 			bandwidth: 4,
-			processor: 3
+			influence: 3
 		},
 		multipliers: {
 			approvalRating: 1.1
@@ -120,7 +124,7 @@ const state = {
 	  era: 2,
 		adders: {
 			bandwidth: 8,
-			processor: 3
+			influence: 3
 		},
 		multipliers: {
 			approvalRating: 1.1

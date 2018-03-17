@@ -1,8 +1,8 @@
 import Vue from 'vue';
 
 const state = {
-  SCORES_INIT: { data: 1, confidence: 100 },
-	FACTORS_INIT: { bandwidth: 1, processor: 0, journalCitations: 0, returnOnInvestment: 0, approvalRating: 0, persuasion: 0 },
+  SCORES_INIT: { data: 1, confidence: 1 },
+	FACTORS_INIT: { bandwidth: 1, influence: 0, journalCitations: 0, returnOnInvestment: 0, approvalRating: 0, persuasion: 0 },
 	COSTS_INIT: { data: 0, confidence: 0 }
 }
 
@@ -65,7 +65,7 @@ const getters = {
 			});
 		});
 		
-		factors.persuasion = (factors.processor + factors.journalCitations) * (factors.returnOnInvestment || 1) * (factors.approvalRating || 1);
+		factors.persuasion = factors.influence * (factors.journalCitations || 1) * (factors.returnOnInvestment || 1) * (factors.approvalRating || 1);
 		
 	  return factors;
 	},
