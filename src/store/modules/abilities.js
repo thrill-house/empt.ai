@@ -8,8 +8,8 @@ const state = {
 		  influence: 1.5
 		},
 		costs: {
-		  data: 5,
-		  confidence: 10
+		  confidence: 10,
+		  data: 5
 	  }
 	},
 	'neutral-2': {

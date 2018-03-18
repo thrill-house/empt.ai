@@ -53,13 +53,21 @@ const mutations = {
 const actions = {
   addEvent: ({ commit, dispatch, getters }, event, timestamp = _.now()) => {
 	  var eventObject = getters.getEventObject(event);
+	  var scores = getters.getScores(timestamp);
+	  var costs = getters.getCosts(event);
 	  
-	  if(event.type === 'data-socket') {
-		  dispatch('activateEra', eventObject.era, { root: true });
+	  var match = _.isMatchWith(costs, scores, function(cost, score) { return cost <= score; });
+	  
+	  if(match) {
+		  if(event.type === 'data-socket') {
+			  dispatch('activateEra', eventObject.era, { root: true });
+		  }
+		  
+		  event.timestamp = timestamp;
+		  commit('addEvent', event);
+	  } else {
+		  alert('You can’t afford that');
 	  }
-	  
-	  event.timestamp = timestamp;
-	  commit('addEvent', event);
   },
   setEvents: ({ dispatch }, events) => {
 	  _.each(events, function(event) {
