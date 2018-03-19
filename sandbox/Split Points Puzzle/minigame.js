@@ -789,7 +789,8 @@ function parseLevel(csv) {
   // Create new grid
   movementGrid.create();
 
-  let lines = csv.split('\n');
+  // Windows carriage returns
+  let lines = csv.replace(/\r/g, '').split('\n');
   //Ignore header
   for(var line = 1; line < lines.length; line++){
     console.log(lines[line]);
