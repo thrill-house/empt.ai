@@ -1,27 +1,39 @@
 // Size of the play area
 let globalGridWidth = 10;
 let globalGridHeight = 10;
-// Number of goals in the play area
-let globalMaxGoals = 6;
-// Max number of steps you are allowed to take in a direction
-let globalMaxSteps = 3;
-// Max depth determines how many moves we look ahead when scoring a cell
-let globalMaxRecursion = 5;
-// Number of moves to simulate before generating goals
-let globalMaxMoves = 20;
+// Level generation parameters
+let generateLevelParams = {
+  // Whether to use the default starting position (5,5)
+  useDefaultStartPos: true,
+  // Start position
+  startPos: {x:5,y:5},
+  // Default start position
+  defaultStartPos: {x:5,y:5},
+  // Number of goals in the play area
+  numGoals: 6,
+  // Max number of steps you are allowed to take in a direction
+  maxSteps: 3,
+  // Whether to show the solution after we generate the level
+  generateSolved: false,
+  // Number of moves to simulate before generating goals
+  maxIterations: 20,
+  // Max depth determines how many moves we look ahead when scoring a cell
+  maxRecursions: 5
+};
 // Different grids
 let movementGrid = {};
 let startScoreGrid = {};
 let cellScoreGrid = {};
 
 function init() {
+  document.getElementById('levelImport').addEventListener('change', readSingleFile, false);
   ui.createGrid();
 
   initMovementGrid();
   initStartScoreGrid();
   initCellScoreGrid();
 
-  generateLevel();
+  //generateLevel();
 }
 
 function initMovementGrid() {
@@ -182,15 +194,17 @@ function initCellScoreGrid() {
     }
   };
   // Score all occupied cells based on how many unique moves we can make using this starting position
-  // This will recursively score all subsequent cells that can be reached via a move, using the same method, up to a depth of globalMaxRecursion
+  // This will recursively score all subsequent cells that can be reached via a move, using the same method, up to a depth of generateLevelParams.maxRecursions
   cellScoreGrid.score = function() {
     //console.log("Scoring cells");
     // Start from a clean grid, all scores reset to 0
     this.clearCells();
     // Get the starting set of cells which are the occupied ones, i.e. the ones eligible to move from
     let occupiedCells = movementGrid.calculateOccupied();
+    console.log('Got ' + occupiedCells.length + ' occupied cells');
     // Starting depth is 0
     this.scoreCells(occupiedCells, 0);
+    console.log('Cells scored');
 
     // When we're finished scoring, we want to calculate the valid moves from each of the occupied positions
     for(let i = 0; i < occupiedCells.length; i++) {
@@ -203,7 +217,8 @@ function initCellScoreGrid() {
    */
   cellScoreGrid.scoreCells = function(cells, depth) {
     // Return if we reached the max recursion depth
-    if(depth > globalMaxRecursion) {
+    //console.log('Recursion depth ' + depth + '/' + generateLevelParams.maxRecursions);
+    if(depth > generateLevelParams.maxRecursions) {
       return;
     }
 
@@ -230,7 +245,10 @@ function initCellScoreGrid() {
     // Score neighboring cells first and enter the recursion
     // When we return from this function, we are able to add the neighboring scores to the score for this cell
     let neighboringCells = this.getNeighboringCells(x, y);
+    //console.log('Number of neighboring cells: ' + neighboringCells.length);
     this.scoreCells(neighboringCells, depth);
+
+    //console.log(depth + ' - Number of possible moves: ' + this.getCell(x, y).moves.length);
 
     // Number of steps from this position in each direction acts as the base score.
     for(let i = 0; i < this.getCell(x, y).moves.length; i++) {
@@ -253,7 +271,7 @@ function initCellScoreGrid() {
   cellScoreGrid.calculatePossibleMoves = function(x,y) {
     // Horizontal
     let possibleSteps = 0;
-    for(let j = 1; j <= globalMaxSteps; j++) {
+    for(let j = 1; j <= generateLevelParams.maxSteps; j++) {
       if(!movementGrid.isBlocked(x-j, y) && !movementGrid.isBlocked(x+j, y)) {
         possibleSteps = j;
       } else {
@@ -269,7 +287,7 @@ function initCellScoreGrid() {
 
     // Vertical
     possibleSteps = 0;
-    for(let j = 1; j <= globalMaxSteps; j++) {
+    for(let j = 1; j <= generateLevelParams.maxSteps; j++) {
       if(!movementGrid.isBlocked(x, y-j) && !movementGrid.isBlocked(x, y+j)) {
         possibleSteps = j;
       } else {
@@ -292,7 +310,7 @@ function initCellScoreGrid() {
 
     // Horizontal
     let possibleSteps = 0;
-    for(let j = 1; j <= globalMaxSteps; j++) {
+    for(let j = 1; j <= generateLevelParams.maxSteps; j++) {
       if(!movementGrid.isBlocked(x-j, y) && !movementGrid.isBlocked(x+j, y) && !this.getCell(x-j, y).visited && !this.getCell(x+j, y).visited) {
         neighboringCells.push({x: x-j, y: y, x_orig: x, y_orig: y});
         neighboringCells.push({x: x+j, y: y, x_orig: x, y_orig: y});
@@ -310,7 +328,7 @@ function initCellScoreGrid() {
 
     // Vertical
     possibleSteps = 0;
-    for(let j = 1; j <= globalMaxSteps; j++) {
+    for(let j = 1; j <= generateLevelParams.maxSteps; j++) {
       if(!movementGrid.isBlocked(x, y-j) && !movementGrid.isBlocked(x, y+j) && !this.getCell(x, y-j).visited && !this.getCell(x, y+j).visited) {
         neighboringCells.push({x: x, y: y-j, x_orig: x, y_orig: y});
         neighboringCells.push({x: x, y: y+j, x_orig: x, y_orig: y});
@@ -371,23 +389,33 @@ function initCellScoreGrid() {
   };
 }
 
-function generateLevel() {
-  // Grid holding all moves
-  movementGrid.create();
+function getRandomStartPos() {
   // Grid holding scores for the starting position
   startScoreGrid.create();
-  // Grid holding scores for all moves
-  cellScoreGrid.create();
-
   // Get a random starting position
   startScoreGrid.score();
   startScoreGrid.flatten();
-  let start = startScoreGrid.getRandomCell();
-  console.log('Start at: ' + start.x + ' ' + start.y);
-  movementGrid.getCell(start.x, start.y).isStart = true;
+  return startScoreGrid.getRandomCell();
+}
 
+function generateLevel() {
+  // Grid holding all moves
+  movementGrid.create();
+
+  if(generateLevelParams.useDefaultStartPos) {
+    generateLevelParams.startPos = generateLevelParams.defaultStartPos;
+  } else {
+    generateLevelParams.startPos = getRandomStartPos();
+  }
+
+  console.log('Start at: ' + generateLevelParams.startPos.x + ' ' + generateLevelParams.startPos.y);
+  movementGrid.getCell(generateLevelParams.startPos.x, generateLevelParams.startPos.y).isStart = true;
+
+  // Grid holding scores for all moves
+  cellScoreGrid.create();
   // Generate a number of moves based on cell scores
-  for(let i = 0; i < globalMaxMoves; i++) {
+  for(let i = 0; i < generateLevelParams.maxIterations; i++) {
+    console.log("Level Generation - Move " + i);
     // Scores the currently occupied cells in the movementGrid by checking how many possible, subsequent moves they offer. If there is a path that
     // only offers one possible move afterwards, it should be score lower than a path that offers 3 possible moves. A higher score will result in
     // a higher probability that this cell will be chosen as starting point for the next move. This reduces the chance of getting gridlocked early
@@ -427,16 +455,23 @@ function generateLevel() {
   // Based on our end state of moves, generate goals ontop of the occupied cells, so that we can ensure that the level is solvable
   generateGoals();
 
+  if(!generateLevelParams.generateSolved) {
+    moves.history = [];
+    movementGrid.resetOccupied();
+  }
+
   // Take a look at our creation
   ui.updateMovement();
 
   // Uncomment these lines to show the cells scores for a potential next step
   //cellScoreGrid.score();
   //ui.updateCellScore();
+
+  //addDownloadUrl();
 }
 
 /* Generates a set of goals ontop of currently occupied cells
- * This function takes the global parameter globalMaxGoals to determine the number of goals to be generated
+ * This function takes the level generation parameter generateLevelParams.numGoals to determine the number of goals to be generated
  */
 function generateGoals() {
   // We use the movement grid to score, more specifically, we want to have a bias towards cells that will take longer to get to, so we don't
@@ -445,7 +480,7 @@ function generateGoals() {
   let i = 0;
   // Can't use a for loop because we might generate the same goal twice, so we iterate until we have enough goals
   // This could potentially loop forever :)
-  while(i < globalMaxGoals) {
+  while(i < generateLevelParams.numGoals) {
     let rndGoal = movementGrid.getRandomCell();
     console.log("Goal " + i + ": (" + rndGoal.x + ", " + rndGoal.y + ")");
     if(!movementGrid.getCell(rndGoal.x, rndGoal.y).isStart && !movementGrid.getCell(rndGoal.x, rndGoal.y).isGoal) {
@@ -522,6 +557,7 @@ let moves = {
     if(!this.validate(direction, steps, x_origin, y_origin)) {
       return false;
     }
+    console.log("Executing move: (" + x_origin + ", " + y_origin + ", " + direction + ", " + steps + ")");
     // Increment the depth from the start position by one
     let curDepth = movementGrid.getCell(x_origin, y_origin).depth+1;
     // Set adjacent cells to occupied based on the move parameters
@@ -581,13 +617,20 @@ let moves = {
       this.revert(lastMove);
     }
   },
+  validateStart: function(x_origin, y_origin) {
+    // Check if the current position is valid. Valid positionas are either the start or an occupied cell, i.e. one with a non-zero depth
+  	if(movementGrid.getCell(x_origin, y_origin).isStart || movementGrid.getCell(x_origin, y_origin).depth !== 0) {
+  		return true;
+  	} else {
+      alert("Not a valid starting position for the next move: " + x_origin + ", " + y_origin);
+      return false;
+    }
+  },
   // Check if we can perform the move without bumbing into a wall or occupied cell
   validate: function(direction, steps, x_origin, y_origin) {
-    // Check if the current position is valid. Valid positionas are either the start or an occupied cell, i.e. one with a non-zero depth
-  	if(!movementGrid.getCell(x_origin, y_origin).isStart && movementGrid.getCell(x_origin, y_origin).depth === 0) {
-  		alert("Not a valid position: " + x_origin + ", " + y_origin);
-  		return false;
-  	}
+    if(!this.validateStart(x_origin, y_origin)) {
+      return false;
+    }
 
   	if(direction === "horizontal") {
   		// First check if not blocked by walls
@@ -651,8 +694,12 @@ let moves = {
 
 // Executes move based on selected parameters
 function onMoveClicked() {
-	moves.execute($('#directionSelect').val(), parseInt($('#stepsSelect').val()), parseInt($('#xInput').val()), parseInt($('#yInput').val()));
-  cellScoreGrid.score();
+  let direction = $('#directionCtrl input:radio:checked').val();
+  let steps = parseInt($('#stepsCtrl input:radio:checked').val());
+  let startX = parseInt($('#startXCtrl').val());
+  let startY = parseInt($('#startYCtrl').val());
+	moves.execute(direction, steps, startX, startY);
+  //cellScoreGrid.score();
   ui.updateMovement();
   //ui.updateStartScore();
   //ui.updateCellScore();
@@ -668,9 +715,96 @@ function onRevertClicked() {
 }
 
 // Clear all moves
-function onClearClicked() {
+function onRestartClicked() {
   moves.history = [];
   movementGrid.resetOccupied();
+  ui.updateMovement();
+}
+
+function onGenerateClicked() {
+  generateLevelParams.useDefaultStartPos = $('#startGen input:radio:checked').val() === 'default';
+  generateLevelParams.numGoals = parseInt($('#numGoalsGen').val());
+  generateLevelParams.maxSteps = parseInt($('#maxStepsGen input:radio:checked').val());
+  generateLevelParams.generateSolved = $('#generateSolvedGen').is(':checked');
+  generateLevelParams.maxIterations = parseInt($('#numItsGen').val());
+  generateLevelParams.maxRecursions = parseInt($('#numRecGen').val());
+
+  generateLevel();
+}
+
+function onThreeStepsCtrlToggled(element) {
+  let checked = $(element).is(':checked');
+  $('#threeStepsCtrlRadio').prop('disabled', !checked);
+
+  // Uncheck the three steps radio button if we disabled the use of three steps
+  if(!checked && parseInt($('#stepsCtrl input:radio:checked').val()) === 3) {
+    $('#stepsCtrl input:radio:checked').prop('checked', false);
+  }
+}
+
+function onExportClicked() {
+  console.log('Exporting level');
+
+  var csv = 'x,y,isStart,isGoal\n';
+  for(let x = 0; x < movementGrid.width; x++) {
+    for(let y = 0; y < movementGrid.height; y++) {
+      let row = x + ',' + y + ',' + movementGrid.grid[x][y].isStart + ',' + movementGrid.grid[x][y].isGoal;
+      csv += row;
+      csv += "\n";
+    }
+  }
+
+  var d = new Date();
+  downloadCSV(csv, 'Level' + parseInt(d.getTime() / 1000) + '.csv');
+}
+
+function downloadCSV(csv, filename) {
+    let csvFile = new Blob([csv], {type: "text/csv"});
+    let downloadLink = document.createElement("a");
+    downloadLink.download = filename;
+    downloadLink.href = window.URL.createObjectURL(csvFile);
+    downloadLink.style.display = "none";
+
+    // Add the link to DOM and remove it after we are done
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+    document.body.removeChild(downloadLink);
+}
+
+function readSingleFile(e) {
+  var file = e.target.files[0];
+  if (!file) {
+    return;
+  }
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var contents = e.target.result;
+    parseLevel(contents);
+  };
+  reader.readAsText(file);
+}
+
+function parseLevel(csv) {
+  console.log('Importing Level');
+  // Create new grid
+  movementGrid.create();
+
+  let lines = csv.split('\n');
+  //Ignore header
+  for(var line = 1; line < lines.length; line++){
+    console.log(lines[line]);
+    let tokens = lines[line].split(',');
+    if(tokens.length !== 4) {
+      continue;
+    }
+    let x = parseInt(tokens[0]);
+    let y = parseInt(tokens[1]);
+    let isStart = (tokens[2] == 'true');
+    let isGoal = (tokens[3] == 'true');
+    movementGrid.grid[x][y].isStart = isStart;
+    movementGrid.grid[x][y].isGoal = isGoal;
+  }
+
   ui.updateMovement();
 }
 
@@ -734,10 +868,12 @@ let ui = {
   		.click((function(x, y) {
   			return function() {
           // This function allows us to select a cell via mouse click
-  				$('#xInput').val(currCol);
-  				$('#yInput').val(currRow);
-  				$('.table-cell').removeClass('selected');
-  				$(this).addClass('selected');
+          if(moves.validateStart(currCol,currRow)) {
+            $('#startXCtrl').val(currCol);
+            $('#startYCtrl').val(currRow);
+    				$('.table-cell').removeClass('selected');
+    				$(this).addClass('selected');
+          }
   			}
   		})(currRow, currCol))
   		.text('0')

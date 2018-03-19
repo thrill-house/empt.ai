@@ -17,58 +17,95 @@
 
 	<div class="container-fluid">
 
-		<div class="row">
-			<div class="col-md-2">
-				<form>
-					<div class="form-group">
-						<label for="directionSelect">Select direction</label>
-						<select id="directionSelect" class="form-control">
-						  <option value="horizontal">horizontal</option>
-						  <option value="vertical">vertical</option>
-						</select>
-					</div>
-				</form>
-			</div>
+    <div class="row">
 
-			<div class="col-md-2">
-				<form>
-					<div class="form-group">
-						<label for="stepsSelect">How far?</label>
-						<select id="stepsSelect" class="form-control">
-							<option value="1">1</option>
-							<option value="2">2</option>
-							<option value="3">3</option>
-						</select>
-					</div>
-				</form>
-			</div>
+      <div class="col-md-2">
+        <h3>Movement Control</h3>
+        <div class="row">
+          <div class="col-md">
+            <h4>Direction</h4>
+            <div id="directionCtrl" class="radio btn-group">
+                <label class="btn btn-primary"><input type="radio" class="toggle" name="dirCtrlRadio" value="horizontal"> Horizontal</label>
+                <label class="btn btn-primary"><input type="radio" class="toggle" name="dirCtrlRadio" value="vertical"> Vertical</label>
+            </div>
+            <h4>Max Steps</h4>
+            <div id="stepsCtrl" class="radio btn-group">
+                <label class="btn btn-primary"><input type="radio" class="toggle" name="stepsCtrlRadio" value="1"> 1</label>
+                <label class="btn btn-primary"><input type="radio" class="toggle" name="stepsCtrlRadio" value="2"> 2</label>
+                <label class="btn btn-primary"><input type="radio" class="toggle" name="stepsCtrlRadio" value="3" id="threeStepsCtrlRadio" disabled> 3</label>
+            </div>
+            <div class="checkbox">
+              <label><input type="checkbox" onchange="onThreeStepsCtrlToggled(this);"> Enable 3 steps</label>
+            </div>
+            <h4>Selected Position</h4>
+            <form>
+              <div class="form-row">
+                <div class="form-group col-md-5">
+                  <input id="startXCtrl" type="number" class="form-control" readonly>
+                </div>
+                <div class="form-group col-md-5">
+                  <input id="startYCtrl" type="number" class="form-control" readonly>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
 
-			<div class="col-md-2">
-				<form>
-					<div class="form-group">
-						<label for="xInput">From which X?</label>
-						<input id="xInput" type="number" class="form-control">
-					</div>
-				</form>
-			</div>
+      <div class="col-md-3">
+        <h3>Level Generation</h3>
+        <div class="row">
+          <div class="col-md-6">
+            <h4>Start</h4>
+            <div id="startGen" class="radio btn-group">
+                <label class="btn btn-primary"><input type="radio" class="toggle" name="startGenRadio" value="default"> Default (5,5)</label>
+                <label class="btn btn-primary"><input type="radio" class="toggle" name="startGenRadio" value="random"> Random</label>
+            </div>
+            <h4>Number of Goals</h4>
+            <input id="numGoalsGen" type="number" class="form-control" value="6">
+            <h4>Max Steps</h4>
+            <div id="maxStepsGen" class="radio btn-group">
+                <label class="btn btn-primary"><input type="radio" class="toggle" name="stepGenRadio" value="2"> 2</label>
+                <label class="btn btn-primary"><input type="radio" class="toggle" name="stepGenRadio" value="3"> 3</label>
+            </div>
+            <div class="checkbox">
+              <label><input id="generateSolvedGen" type="checkbox"> Generate Solved</label>
+            </div>
+          </div>
 
-			<div class="col-md-2">
-				<form>
-					<div class="form-group">
-						<label for="yInput">From which Y?</label>
-						<input id="yInput" type="number" class="form-control">
-					</div>
-				</form>
-			</div>
-		</div>
+          <div class="col-md-6">
+            <h4>Iterations<h4>
+            <input id="numItsGen" type="number" class="form-control" value="20">
+            <h4>Recursions<h4>
+            <input id="numRecGen" type="number" class="form-control" value="5">
+          </div>
+        </div>
+      </div>
 
-		<div class="row">
-			<div class="col-md-2">
-				<button id="moveButton" type="button" class="btn btn-primary" onclick="onMoveClicked()">Move</button>
+      <div class="col-md-4">
+        <h3>Level Import/Export</h3>
+        <div class="row">
+          <div class="col-md">
+            <h4>Export Level</h4>
+            <button class="btn btn-primary" id="levelExport" onclick="onExportClicked();">Export</button>
+            <h4>Import Level</h4>
+            <input type="file" class="btn btn-primary form-control-file" id="levelImport">
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-md-2">
+        <button id="moveButton" type="button" class="btn btn-primary" onclick="onMoveClicked()">Move</button>
         <button id="revertButton" type="button" class="btn btn-primary" onclick="onRevertClicked()">Revert</button>
-        <button id="clearButton" type="button" class="btn btn-primary" onclick="onClearClicked()">Clear</button>
-			</div>
-		</div>
+        <button id="restartButton" type="button" class="btn btn-primary" onclick="onRestartClicked()">Restart</button>
+      </div>
+      <div class="col-md-3">
+        <button id="generateButton" type="button" class="btn btn-primary" onclick="onGenerateClicked()">Generate Level</button>
+      </div>
+    </div>
 
 		<div class="row">
 			<div id="main-area-left" class="col-md-6"/>
