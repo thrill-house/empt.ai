@@ -414,7 +414,8 @@ function generateLevel() {
   // Grid holding scores for all moves
   cellScoreGrid.create();
   // Generate a number of moves based on cell scores
-  for(let i = 0; i < generateLevelParams.maxIterations; i++) {
+  let i = 0;
+  for(; i < generateLevelParams.maxIterations; i++) {
     console.log("Level Generation - Move " + i);
     // Scores the currently occupied cells in the movementGrid by checking how many possible, subsequent moves they offer. If there is a path that
     // only offers one possible move afterwards, it should be score lower than a path that offers 3 possible moves. A higher score will result in
@@ -451,6 +452,8 @@ function generateLevel() {
     // Take our random parameters and execute the move
     moves.execute(rndMove.direction, rndSteps, rndPos.x, rndPos.y);
   }
+
+  alert("Level was generated using " + i + "/" + generateLevelParams.maxIterations + " steps");
 
   // Based on our end state of moves, generate goals ontop of the occupied cells, so that we can ensure that the level is solvable
   generateGoals();
@@ -755,7 +758,7 @@ function onExportClicked() {
   }
 
   var d = new Date();
-  downloadCSV(csv, 'Level' + parseInt(d.getTime() / 1000) + '.csv');
+  downloadCSV(csv, 'ExpandoLevel' + parseInt(d.getTime() / 1000) + '.csv');
 }
 
 function downloadCSV(csv, filename) {

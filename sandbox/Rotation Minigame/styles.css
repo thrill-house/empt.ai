@@ -1,0 +1,29 @@
+.bordered-cell{
+  margin:0.5%;
+  border-style: solid;
+}
+.table{
+  display:table;
+  width:100%;
+  height:100%;
+}
+.table-cell{
+  display:table-cell;
+  vertical-align:middle;
+  text-align: center;
+}
+.cell-occupied{
+	background-color: teal;
+}
+.cell-start{
+	background-color: black;
+}
+.cell-goal{
+	background-color: red;
+}
+.cell-valid{
+	background-color: lightgreen;
+}
+.selected{
+	background-color: yellow;
+}
