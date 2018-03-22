@@ -13,7 +13,6 @@ const getters = {
 	  var remainingEvents = _.tail(events);
 		var nextEvent = _.head(remainingEvents);
 		var nextTimestamp = (nextEvent != undefined? nextEvent.timestamp: before - 1);
-		var filteredEvents = _.filter(events, function(value) { return value.timestamp < nextTimestamp; });
 	  
 	  if(firstEvent !== undefined) {
 		  if(firstEvent.finalScore === undefined) {
@@ -86,8 +85,16 @@ const mutations = {
   },
 }
 
+// actions
+const actions = {
+  activateInitFactor: ({ state, commit }, factor = 'influence') => {
+	  commit('activateInitFactor', factor);
+  }
+}
+
 export default {
 	state,
 	getters,
-	mutations
+	mutations,
+	actions
 }

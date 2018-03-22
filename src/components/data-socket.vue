@@ -69,9 +69,11 @@ The data socket is the base component that abilities are attached to. When enabl
 		      label: this.label
 		    };
 		    
-	      this.addEvent(event);
+		    if(this.addEvent(event)) {
+				  this.activateEra(this.dataSocket.era);
+			  }
 	    },
-	    ...mapActions(['addEvent'])
+	    ...mapActions(['addEvent', 'activateEra'])
 	  }
 	}
 </script>

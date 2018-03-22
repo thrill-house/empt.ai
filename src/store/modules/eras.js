@@ -1,7 +1,8 @@
 const state = {
   student: {
 	  name: 'Student',
-	  active: false
+	  active: false,
+	  enables: 'influence'
 	},
 	university: {
 		name: 'University',
@@ -34,7 +35,7 @@ const mutations = {
 // actions
 const actions = {
   activateEra: ({ state, commit }, era = 'student') => {
-	  commit('activateInitFactor', state[era].enables, { root: true });
+	  dispatch('activateInitFactor', state[era].enables, { root: true });
 	  commit('activateEra', era);
   }
 }

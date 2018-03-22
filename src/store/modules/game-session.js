@@ -59,14 +59,11 @@ const actions = {
 	  var match = _.isMatchWith(costs, scores, function(cost, score) { return cost <= score; });
 	  
 	  if(match) {
-		  if(event.type === 'data-socket') {
-			  dispatch('activateEra', eventObject.era, { root: true });
-		  }
-		  
 		  event.timestamp = timestamp;
 		  commit('addEvent', event);
 	  } else {
 		  alert('You can’t afford that');
+		  return false;
 	  }
   },
   setEvents: ({ dispatch }, events) => {

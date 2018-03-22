@@ -57,7 +57,7 @@ The ability slot is a space attached to a data sources. When an ability is assig
 		  ...mapGetters(['getEventOfType', 'getSlots', 'getSocketForSlot'])
 	  },
 	  methods: {
-		  ...mapActions(['addEvent'])
+		  ...mapActions(['addEvent', 'activateInitFactor'])
 	  },
 	  watch: {
 		  selectedLabel: function(newLabel) {
@@ -68,7 +68,9 @@ The ability slot is a space attached to a data sources. When an ability is assig
 		      dataSocketSlot: this.label
 		    };
 		    
-	      this.addEvent(event);
+		    if(this.addEvent(event)) {
+				  this.activateInitFactor('influence');
+			  }
 	    }
 	  }
 	}
