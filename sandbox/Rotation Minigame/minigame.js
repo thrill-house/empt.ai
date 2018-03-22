@@ -46,8 +46,20 @@ function initCellScoreQueue() {
     var canReachGoal = this.canReachGoal(moves.validMoves);
     if(canReachGoal !== 0) {
       // If we can reach the goal in one turn, go for it
+      console.log("Can reach goal in " + canReachGoal + " steps");
       return canReachGoal;
     } else {
+      // If we moved a certain number of steps last move, ensure we don't immediately revert that move
+      if(moves.history.length > 0) {
+        var lastMove = moves.history[moves.history.length-1];
+        var vmIndex = moves.validMoves.indexOf(-lastMove.steps);
+        console.log("Removing last step " + (-lastMove.steps));
+        if(vmIndex !== -1) {
+          moves.validMoves.splice(vmIndex, 1);
+          console.log('Trimmed valid moves: ' + JSON.stringify(moves.validMoves));
+        }
+      }
+
       var validMovesForwards = moves.validMoves.filter(m => m > 0);
       var validMovesBackwards = moves.validMoves.filter(m => m < 0);
       // If we can only move in one direction, we draw from the original set of moves
@@ -57,7 +69,16 @@ function initCellScoreQueue() {
         return moves.validMoves[rnd];
       } else {
         // Different probabilities for different directions
-        var dir = getRandomNumber(1,100);
+        // If we moved backwards last, then move forwards next
+        var dir;
+        if(moves.history.length > 0 && moves.history[moves.history.length-1].steps < 0) {
+          console.log("Last move was backwards, moving forwards");
+          dir = 0;
+        } else {
+          dir = getRandomNumber(1,100);
+        }
+
+        //var dir = getRandomNumber(1,100);
         if(dir <= generateLevelParams.forwardsBias) {
           // 60% chance to go forwards
           console.log('Valid moves forwards: ' + JSON.stringify(validMovesForwards));
@@ -77,12 +98,12 @@ function initCellScoreQueue() {
       if(validMoves[i] > 0) {
         // Can't reach the goal with a backwards move
         if(this.getCell(this.currentIndex + 2*validMoves[i]).isGoal === true) {
-          return i;
+          return 0; //i
         }
       }
-      // Unable to reach goal
-      return 0;
     }
+    // Unable to reach goal
+    return 0;
   };
   cellScoreQueue.executeMoves = function() {
     cellScoreQueue.goalReached = false;

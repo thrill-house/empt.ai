@@ -9,7 +9,7 @@ You move by clicking one of the green cells. Revert and Restart should be self-e
 
 Level Generation:
 Max Steps: How many steps are used to generate the level
-Percentage of steps forwards: How likely we are to move forwards instead of backwards
+Percentage of steps forwards: How likely we are to move forwards instead of backwards. The rule is that we cannot make two consecutive steps backwards, so even a very small percentage will yield enough steps forward. 15 works pretty well.
 Level size: Size of the board
 Iterations: Max number of moves before we give up
 Continue after reaching goal: If checked, we will move the full number of iterations hoping to fill out the board. If unchecked, we stop after reaching the goal. In either case we fill holes in the board with random numbers.
