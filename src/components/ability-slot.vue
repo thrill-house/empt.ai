@@ -69,6 +69,7 @@ The ability slot is a space attached to a data sources. When an ability is assig
 		    };
 		    
 		    if(this.addEvent(event)) {
+				  //Doesn't return boolean, so should be put somewhere else.
 				  this.activateInitFactor('influence');
 			  }
 	    }
