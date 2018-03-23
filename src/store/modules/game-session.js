@@ -28,6 +28,10 @@ const getters = {
   getEventObject: (state, getters) => (event, id = 'label') => {
 		var functionName = 'get' + _.upperFirst(_.camelCase(event.type));
 		return getters[functionName](event[id]);
+	},
+  getEventCosts: (state, getters) => (event, id = 'label') => {
+		var functionName = 'get' + _.upperFirst(_.camelCase(event.type)) + 'Costs';
+		return getters[functionName](event[id]);
 	}
 }
 
@@ -54,7 +58,7 @@ const actions = {
   addEvent: ({ commit, dispatch, getters }, event, timestamp = _.now()) => {
 	  var eventObject = getters.getEventObject(event);
 	  var scores = getters.getScores(timestamp);
-	  var costs = getters.getCosts(event);
+	  var costs = getters.getEventCosts(event);
 	  
 	  var match = _.isMatchWith(costs, scores, function(cost, score) { return cost <= score; });
 	  

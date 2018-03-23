@@ -25,7 +25,7 @@ The data socket is the base component that abilities are attached to. When enabl
 	    <button v-if="event" class="actions">Mini game</button>
 	    <button v-else class="actions" @click="activate">
 	    	Activate
-	    	<output>C:{{ dataSocket.costs.confidence }}</output>
+	    	<output>C:{{ costs.confidence|confidence }}</output>
 			</button>
     </div>
     <ability-slot
@@ -57,10 +57,13 @@ The data socket is the base component that abilities are attached to. When enabl
 	    dataSocket: function() {
 		    return this.getDataSocket(this.label);
 	    },
+	    costs: function() {
+		    return this.getDataSocketCosts(this.label);
+	    },
 	  	event: function() {
 		    return this.getEventOfType(this.label, 'data-socket');
 	    },
-		  ...mapGetters(['getEventOfType', 'getDataSocket', 'prettyUnit'])
+		  ...mapGetters(['getEventOfType', 'getDataSocket', 'prettyUnit', 'getDataSocketCosts'])
 	  },
 	  methods: {
 		  activate: function() {

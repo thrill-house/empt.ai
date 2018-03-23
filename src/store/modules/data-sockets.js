@@ -32,7 +32,7 @@ const state = {
 		  influence: 2
 	  },
 	  costs: {
-		  confidence: 98
+		  confidence: 2000
 	  }
   },
 	'science-business': {
@@ -49,7 +49,7 @@ const state = {
 		  influence: 2
 	  },
 	  costs: {
-		  confidence: 1000
+		  confidence: 3000
 	  }
   },
 	'science-government': {
@@ -66,7 +66,7 @@ const state = {
 		  influence: 2
 	  },
 	  costs: {
-		  confidence: 10000
+		  confidence: 5000
 	  }
   },
 	'science-consciousness': {
@@ -83,7 +83,7 @@ const state = {
 		  influence: 2
 	  },
 	  costs: {
-		  confidence: 100000
+		  confidence: 8000
 	  }
   },
 	'economy-university': {
@@ -101,7 +101,7 @@ const state = {
 		  influence: 2
 	  },
 	  costs: {
-		  confidence: 10
+		  confidence: 2000
 	  }
   },
 	'economy-business': {
@@ -118,7 +118,7 @@ const state = {
 		  influence: 2
 	  },
 	  costs: {
-		  confidence: 10000
+		  confidence: 3000
 	  }
   },
 	'economy-government': {
@@ -135,7 +135,7 @@ const state = {
 		  influence: 2
 	  },
 	  costs: {
-		  confidence: 100000
+		  confidence: 5000
 	  }
   },
 	'economy-consciousness': {
@@ -152,7 +152,7 @@ const state = {
 		  influence: 2
 	  },
 	  costs: {
-		  confidence: 10000000
+		  confidence: 8000
 	  }
   },
 	'society-university': {
@@ -170,7 +170,7 @@ const state = {
 		  influence: 2
 	  },
 	  costs: {
-		  confidence: 1000
+		  confidence: 2000
 	  }
   },
 	'society-business': {
@@ -187,7 +187,7 @@ const state = {
 		  influence: 2
 	  },
 	  costs: {
-		  confidence: 2000
+		  confidence: 3000
 	  }
   },
 	'society-government': {
@@ -204,7 +204,7 @@ const state = {
 		  influence: 2
 	  },
 	  costs: {
-		  confidence: 3000
+		  confidence: 5000
 	  }
   },
 	'society-consciousness': {
@@ -221,7 +221,7 @@ const state = {
 		  influence: 2
 	  },
 	  costs: {
-		  confidence: 3000
+		  confidence: 8000
 	  }
   }
 }
@@ -231,15 +231,32 @@ const getters = {
   getDataSocket: (state, getters) => (id) => {
 		return state[id];
 	},
+	getActiveDataSockets: (state, getters) => () => {
+		return _.filter(getters.getEvents(), { type: 'data-socket' });
+	},
+	getDataSocketCosts: (state, getters, rootState) => (id) => {
+		var dataSocket = getters.getDataSocket(id);
+		var activeLength = getters.getActiveDataSockets().length;
+		var dataSocketCosts = {};
+		_.forIn(dataSocket.costs, (cost, key, object) => {
+			dataSocketCosts[key] = cost * Math.pow(rootState.scores.MULTIPLIER_RATE, activeLength);
+		});
+		
+		return _.defaults(dataSocketCosts, rootState.scores.COSTS_INIT);
+	},
 	getSlots: (state, getters) => () => {
-		return _.flattenDeep(_.map(state,
-	  function(o) { return _.keysIn(o.slots) }));
+		return _.flattenDeep(_.map(state, function(o) { return _.keysIn(o.slots) }));
 	},
 	getSocketForSlot: (state, getters) => (slot) => {
-		return _.find(state,
-	  function(o) { return _.includes(_.keys(o.slots),
-	  slot) });
+		return _.find(state, function(o) { return _.includes(_.keys(o.slots), slot) });
 	}
+}
+
+// mutations
+const mutations = {
+  activateDataSocket: (state, label) => {
+	  state[label].active = true;
+  },
 }
 
 // actions
