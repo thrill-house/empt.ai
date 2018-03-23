@@ -9,8 +9,7 @@ const state = {
 		costs: {
 		  confidence: 10,
 		  data: 5
-	  },
-	  owned: {}
+	  }
 	},
 	'neutral-2': {
 	  name: 'Neutral (2)',
@@ -22,8 +21,7 @@ const state = {
 		costs: {
 		  data: 5,
 		  confidence: 20
-	  },
-	  owned: {}
+	  }
 	},
 	'neutral-3': {
 	  name: 'Neutral (3)',
@@ -35,8 +33,7 @@ const state = {
 		costs: {
 		  data: 5,
 		  confidence: 20
-	  },
-	  owned: {}
+	  }
 	},
 	'science-1': {
 	  name: 'Science (1)',
@@ -49,8 +46,7 @@ const state = {
 		costs: {
 		  data: 10,
 		  confidence: 40
-	  },
-	  owned: {}
+	  }
 	},
 	'science-2': {
 	  name: 'Science (2)',
@@ -63,8 +59,7 @@ const state = {
 		costs: {
 		  data: 15,
 		  confidence: 80
-	  },
-	  owned: {}
+	  }
 	},
 	'economy-1': {
 	  name: 'Economy (1)',
@@ -77,8 +72,7 @@ const state = {
 		costs: {
 		  data: 10,
 		  confidence: 40
-	  },
-	  owned: {}
+	  }
 	},
 	'economy-2': {
 	  name: 'Economy (2)',
@@ -91,8 +85,7 @@ const state = {
 		costs: {
 		  data: 15,
 		  confidence: 80
-	  },
-	  owned: {}
+	  }
 	},
 	'society-1': {
 	  name: 'Society (1)',
@@ -105,8 +98,7 @@ const state = {
 		costs: {
 		  data: 10,
 		  confidence: 40
-	  },
-	  owned: {}
+	  }
 	},
 	'society-2': {
 	  name: 'Society (2)',
@@ -119,8 +111,7 @@ const state = {
 		costs: {
 		  data: 15,
 		  confidence: 80
-	  },
-	  owned: {}
+	  }
 	}
 }
 

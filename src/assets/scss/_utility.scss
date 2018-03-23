@@ -107,7 +107,7 @@ label {
 	}
 }
 
-input, select, button {
+input[type="text"], select, button {
 	-webkit-appearance: none;
 	display: inline-block;
 	vertical-align: middle;
@@ -117,4 +117,9 @@ input, select, button {
 	border-radius: 0.2rem;
 	border: 1px solid $dark;
 	margin: 0;
+}
+
+input[type="range"] {
+	display: inline-block;
+	max-width: 50%;
 }

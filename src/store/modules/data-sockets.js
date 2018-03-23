@@ -15,8 +15,7 @@ const state = {
 	  },
 	  costs: {
 		  data: 1
-	  },
-	  owned: {}
+	  }
   },
 	'science-university': {
 	  name: 'Science (Uni)',
@@ -33,8 +32,7 @@ const state = {
 	  },
 	  costs: {
 		  confidence: 100
-	  },
-	  owned: {}
+	  }
   },
 	'science-business': {
 	  name: 'Science (Biz)',
@@ -51,8 +49,7 @@ const state = {
 	  },
 	  costs: {
 		  confidence: 1000
-	  },
-	  owned: {}
+	  }
   },
 	'science-government': {
 	  name: 'Science (Gov)',
@@ -69,8 +66,7 @@ const state = {
 	  },
 	  costs: {
 		  confidence: 10000
-	  },
-	  owned: {}
+	  }
   },
 	'science-consciousness': {
 	  name: 'Science (Brain)',
@@ -87,8 +83,7 @@ const state = {
 	  },
 	  costs: {
 		  confidence: 100000
-	  },
-	  owned: {}
+	  }
   },
 	'economy-university': {
 	  name: 'Economy (Uni)',
@@ -105,8 +100,7 @@ const state = {
 	  },
 	  costs: {
 		  confidence: 1000
-	  },
-	  owned: {}
+	  }
   },
 	'economy-business': {
 	  name: 'Economy (Biz)',
@@ -123,8 +117,7 @@ const state = {
 	  },
 	  costs: {
 		  confidence: 10000
-	  },
-	  owned: {}
+	  }
   },
 	'economy-government': {
 	  name: 'Economy (Gov)',
@@ -141,8 +134,7 @@ const state = {
 	  },
 	  costs: {
 		  confidence: 100000
-	  },
-	  owned: {}
+	  }
   },
 	'economy-consciousness': {
 	  name: 'Economy (Brain)',
@@ -159,8 +151,7 @@ const state = {
 	  },
 	  costs: {
 		  confidence: 10000000
-	  },
-	  owned: {}
+	  }
   },
 	'society-university': {
 	  name: 'Society (Uni)',
@@ -177,8 +168,7 @@ const state = {
 	  },
 	  costs: {
 		  confidence: 1000
-	  },
-	  owned: {}
+	  }
   },
 	'society-business': {
 	  name: 'Society (Biz)',
@@ -195,8 +185,7 @@ const state = {
 	  },
 	  costs: {
 		  confidence: 2000
-	  },
-	  owned: {}
+	  }
   },
 	'society-government': {
 	  name: 'Society (Gov)',
@@ -213,8 +202,7 @@ const state = {
 	  },
 	  costs: {
 		  confidence: 3000
-	  },
-	  owned: {}
+	  }
   },
 	'society-consciousness': {
 	  name: 'Society (Brain)',
@@ -231,8 +219,7 @@ const state = {
 	  },
 	  costs: {
 		  confidence: 3000
-	  },
-	  owned: {}
+	  }
   }
 }
 
