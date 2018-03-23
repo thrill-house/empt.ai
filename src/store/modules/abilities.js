@@ -45,7 +45,7 @@ const state = {
 		},
 		costs: {
 		  data: 10,
-		  confidence: 40
+		  confidence: 1
 	  }
 	},
 	'science-2': {
@@ -71,7 +71,7 @@ const state = {
 		},
 		costs: {
 		  data: 10,
-		  confidence: 40
+		  confidence: 10
 	  }
 	},
 	'economy-2': {
@@ -117,13 +117,24 @@ const state = {
 
 // getters
 const getters = {
-  getAbility: (state,
-	  getters) => (label) => {
+  getAbility: (state, getters) => (label) => {
 		return state[label];
 	}
 }
 
+// actions
+const actions = {
+  addAbilityEvent: ({ dispatch, commit }, event) => {
+	  dispatch('addEvent', event).then(success => {
+		  if(success) {
+	      commit('activateInitFactor', 'influence', { root: true });
+      }
+    });
+  }
+}
+
 export default {
 	state,
-	getters
+	getters,
+	actions
 }

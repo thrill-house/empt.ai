@@ -61,8 +61,11 @@ const actions = {
 	  if(match) {
 		  event.timestamp = timestamp;
 		  commit('addEvent', event);
+		  
+		  return true;
 	  } else {
 		  alert('You can’t afford that');
+		  
 		  return false;
 	  }
   },

@@ -88,7 +88,9 @@ const mutations = {
 // actions
 const actions = {
   activateInitFactor: ({ state, commit }, factor = 'influence') => {
-	  commit('activateInitFactor', factor);
+	  if(factor !== undefined) {
+		  commit('activateInitFactor', factor);
+	  }
   }
 }
 

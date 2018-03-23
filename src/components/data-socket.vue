@@ -69,12 +69,9 @@ The data socket is the base component that abilities are attached to. When enabl
 		      label: this.label
 		    };
 		    
-		    if(this.addEvent(event)) {
-				  //Doesn't return boolean, so should be put somewhere else.
-				  this.activateEra(this.dataSocket.era);
-			  }
+		    this.addDataSocketEvent(event);
 	    },
-	    ...mapActions(['addEvent', 'activateEra'])
+	    ...mapActions(['addDataSocketEvent'])
 	  }
 	}
 </script>

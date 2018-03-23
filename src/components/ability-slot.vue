@@ -118,15 +118,12 @@ The ability slot is a space attached to a data sources. When an ability is assig
 			      dataSocketSlot: this.label
 			    };
 			    
-			    if(this.addEvent(event)) {
-					  //Doesn't return boolean, so should be put somewhere else.
-					  this.activateInitFactor('influence');
-				  }
+			    this.addAbilityEvent(event);
 			  } else {
 				  alert('Fill in all emotions');
 			  }
 		  },
-		  ...mapActions(['addEvent', 'activateInitFactor'])
+		  ...mapActions(['addAbilityEvent'])
 	  }
 	}
 </script>

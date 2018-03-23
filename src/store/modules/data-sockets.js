@@ -21,6 +21,7 @@ const state = {
 	  name: 'Science (Uni)',
 	  type: 'science',
 	  era: 'university',
+	  enables: 'journalCitations',
 	  parent: 'root',
 		slots: {
 	  	'science-1-1': { position: 'top-left' },
@@ -31,7 +32,7 @@ const state = {
 		  influence: 2
 	  },
 	  costs: {
-		  confidence: 100
+		  confidence: 98
 	  }
   },
 	'science-business': {
@@ -89,6 +90,7 @@ const state = {
 	  name: 'Economy (Uni)',
 	  type: 'economy',
 	  era: 'university',
+	  enables: 'returnOnInvestment',
 	  parent: 'root',
 		slots: {
 	  	'economy-1-1': { position: 'top-left' },
@@ -99,7 +101,7 @@ const state = {
 		  influence: 2
 	  },
 	  costs: {
-		  confidence: 1000
+		  confidence: 10
 	  }
   },
 	'economy-business': {
@@ -157,6 +159,7 @@ const state = {
 	  name: 'Society (Uni)',
 	  type: 'society',
 	  era: 'university',
+	  enables: 'approvalRating',
 	  parent: 'root',
 		slots: {
 	  	'society-1-1': { position: 'top-left' },
@@ -225,24 +228,35 @@ const state = {
 
 // getters
 const getters = {
-  getDataSocket: (state,
-	  getters) => (id) => {
+  getDataSocket: (state, getters) => (id) => {
 		return state[id];
 	},
-	getSlots: (state,
-	  getters) => () => {
+	getSlots: (state, getters) => () => {
 		return _.flattenDeep(_.map(state,
 	  function(o) { return _.keysIn(o.slots) }));
 	},
-	getSocketForSlot: (state,
-	  getters) => (slot) => {
+	getSocketForSlot: (state, getters) => (slot) => {
 		return _.find(state,
 	  function(o) { return _.includes(_.keys(o.slots),
 	  slot) });
 	}
 }
 
+// actions
+const actions = {
+  addDataSocketEvent: ({ dispatch, commit, getters }, event) => {
+	  dispatch('addEvent', event).then((success) => {
+		  if(success) {
+			  var dataSocket = getters.getEventObject(event);
+			  commit('activateInitFactor', dataSocket.enables, { root: true });
+			  commit('activateEra', dataSocket.era, { root: true });
+      }
+    });
+  }
+}
+
 export default {
 	state,
-	getters
+	getters,
+	actions
 }
