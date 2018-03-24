@@ -175,17 +175,17 @@ const state = {
 
 // getters
 const getters = {
-  getSocket: (state, getters) => (id) => {
-		return state[id];
+  getSocket: (state, getters) => (label) => {
+		return state[label];
 	},
 	getActiveSockets: (state, getters) => () => {
 		return _.filter(getters.getEvents(), { type: 'socket' });
 	},
-	getSocketCosts: (state, getters, rootState) => (id) => {
-		var socket = getters.getSocket(id);
+	getSocketCosts: (state, getters, rootState) => (event) => {
+		var socket = getters.getSocket(event.label);
 		var activeLength = getters.getActiveSockets().length;
 		var socketCosts = {};
-		_.forIn(socket.costs, (cost, key, object) => {
+		_.forIn(socket.costs, (cost, key) => {
 			socketCosts[key] = cost * Math.pow(rootState.scores.MULTIPLIER_RATE, activeLength);
 		});
 		

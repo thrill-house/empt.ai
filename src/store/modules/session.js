@@ -29,9 +29,9 @@ const getters = {
 		var functionName = 'get' + _.upperFirst(_.camelCase(event.type));
 		return getters[functionName](event[id]);
 	},
-  getEventCosts: (state, getters, rootState) => (event, id = 'label') => {
+  getEventCosts: (state, getters, rootState) => (event) => {
 		var functionName = 'get' + _.upperFirst(_.camelCase(event.type)) + 'Costs';
-		return (getters[functionName] !== undefined)? getters[functionName](event[id]): rootState.scores.COSTS_INIT;
+		return getters[functionName](event);
 	}
 }
 

@@ -61,7 +61,7 @@ The data socket is the base component that abilities are attached to. When enabl
 		    return this.getSlotsForSocket(this.label);
 	    },
 	    costs: function() {
-		    return this.getSocketCosts(this.label);
+		    return this.getSocketCosts({ label: this.label });
 	    },
 	  	event: function() {
 		    return this.getEventOfType(this.label, 'socket');

@@ -39,8 +39,20 @@ const state = {
 
 // getters
 const getters = {
-  getSlot: (state, getters) => (id) => {
-		return state[id];
+  getSlot: (state, getters) => (label) => {
+		return state[label];
+	},
+	getSlotEvents: (state, getters) => (label) => {
+		return _.filter(getters.getEvents(), { type: 'slot', label: label });
+	},
+	getSlotCosts: (state, getters, rootState) => (event) => {
+		var ability = getters.getAbility(event.ability);
+		var activeLength = getters.getAbilityEvents(event.ability).length;
+		var slotCosts = _.map(ability.costs, (cost) => {
+			return cost * Math.pow(rootState.scores.MULTIPLIER_RATE, activeLength);
+		});
+		
+		return _.defaults({ confidence: 0 }, slotCosts, rootState.scores.COSTS_INIT);
 	},
 	getSlotsForSocket: (state, getters) => (socket) => {
 		return _.pickBy(state, (slot) => { return slot.socket == socket; });

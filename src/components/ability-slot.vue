@@ -14,7 +14,13 @@ The ability slot is a space attached to a data sources. When an ability is assig
 <template>
   <enabled-ability v-if="event" :instance="abilityInstance"></enabled-ability>
   <div v-else class="ability-slot">
-	  <select v-if="!selectedLabel" v-model="selectedLabel">
+	  <select v-model="selectedAbility">
+			<option disabled value="">Choose</option>
+		  <option v-for="(ability, index) in abilities" :value="index">
+		  	{{ ability.name }}
+		  </option>
+		</select>
+	  <select v-if="selectedAbility && !selectedInstance" v-model="selectedInstance">
 			<option disabled value="">Choose</option>
 		  <option v-for="abilityEvent in abilityEvents" :value="abilityEvent.instance">
 		  	{{ abilityEvent.instance }}
@@ -39,7 +45,8 @@ The ability slot is a space attached to a data sources. When an ability is assig
 	  },
 	  data: function () {
 		  return {
-		    selectedLabel: ''
+		    selectedAbility: '',
+		    selectedInstance: ''
 		  }
 		},
 	  computed: {
@@ -53,17 +60,19 @@ The ability slot is a space attached to a data sources. When an ability is assig
 		    return this.event? this.event.instance: '';
 	    },
 		  abilityEvents: function() {
-		    return this.getAbilityEvents();
+		    return this.getAbilityEvents(this.selectedAbility);
 	    },
+		  ...mapState(['abilities']),
 		  ...mapGetters(['getEventOfType', 'getAbilityEvents', 'getSocketForSlot'])
 	  },
 	  methods: mapActions(['addSlotEvent']),
 	  watch: {
-		  selectedLabel: function() {
+		  selectedInstance: function() {
 			  var event = {
 		      type: 'slot',
 		      label: this.label,
-		      instance: this.selectedLabel
+		      ability: this.selectedAbility,
+		      instance: this.selectedInstance
 		    };
 		    
 		    this.addSlotEvent(event);

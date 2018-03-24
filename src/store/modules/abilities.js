@@ -120,17 +120,17 @@ const getters = {
   getAbility: (state, getters) => (label) => {
 		return state[label];
 	},
-	getAbilityEvents: (state, getters) => () => {
-		return _.filter(getters.getEvents(), { type: 'ability' });
+	getAbilityEvents: (state, getters) => (label) => {
+		return _.filter(getters.getEvents(), { type: 'ability', label: label });
 	},
-	getAbilityCosts: (state, getters, rootState) => (id) => {
-		var ability = getters.getAbility(id);
-		var activeLength = getters.getAbilityEvents().length;
+	getAbilityCosts: (state, getters, rootState) => (event) => {
+		var ability = getters.getAbility(event.label);
+		var activeLength = getters.getAbilityEvents(event.label).length;
 		var abilityCosts = _.map(ability.costs, (cost) => {
 			return cost * Math.pow(rootState.scores.MULTIPLIER_RATE, activeLength);
 		});
 		
-		return _.defaults(abilityCosts, rootState.scores.COSTS_INIT);
+		return _.defaults({ data: 0 }, abilityCosts, rootState.scores.COSTS_INIT);
 	}
 }
 
