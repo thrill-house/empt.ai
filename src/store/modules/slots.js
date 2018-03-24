@@ -53,7 +53,7 @@ const getters = {
 // actions
 const actions = {
   addSlotEvent: ({ dispatch }, event) => {
-	  dispatch('addEvent', event);;
+	  dispatch('addEvent', event);
   }
 }
 

@@ -12,25 +12,14 @@ The ability slot is a space attached to a data sources. When an ability is assig
 </docs>
 
 <template>
-  <enabled-ability v-if="event" :label="abilityLabel"></enabled-ability>
+  <enabled-ability v-if="event" :instance="abilityInstance"></enabled-ability>
   <div v-else class="ability-slot">
-	  <select  v-if="!selectedLabel" v-model="selectedLabel">
+	  <select v-if="!selectedLabel" v-model="selectedLabel">
 			<option disabled value="">Choose</option>
-		  <option v-for="(ability, index) in abilities" :value="index">
-		  	{{ ability.name }}
+		  <option v-for="abilityEvent in abilityEvents" :value="abilityEvent.instance">
+		  	{{ abilityEvent.instance }}
 		  </option>
 		</select>
-		<template v-else>
-			{{ sumEmotions }}
-			<p class="green">0 <input type="range" v-model.number="selectedHappiness" min="0" :max="maximumHappiness"> {{ maximumHappiness }}</p>
-		  <p class="green">0 <input type="range" v-model.number="selectedSadness" min="0" :max="maximumSadness"> {{ maximumSadness }}</p>
-		  <p class="red">0 <input type="range" v-model.number="selectedTenderness" min="0" :max="maximumTenderness"> {{ maximumTenderness }}</p>
-		  <p class="red">0 <input type="range" v-model.number="selectedAnger" min="0" :max="maximumAnger"> {{ maximumAnger }}</p>
-		  <p class="yellow">0 <input type="range" v-model.number="selectedExcitement" min="0" :max="maximumExcitement"> {{ maximumExcitement }}</p>
-		  <p class="yellow">0 <input type="range" v-model.number="selectedFear" min="0" :max="maximumFear"> {{ maximumFear }}</p>
-		  <button @click="submitEvent">Submit</button>
-		  <button @click="selectedLabel = ''">Cancel</button>
-		</template>
   </div>
 </template>
 
@@ -50,13 +39,7 @@ The ability slot is a space attached to a data sources. When an ability is assig
 	  },
 	  data: function () {
 		  return {
-		    selectedLabel: '',
-		    selectedHappiness: 0,
-		    selectedSadness: 0,
-		    selectedTenderness: 0,
-		    selectedAnger: 0,
-		    selectedExcitement: 0,
-		    selectedFear: 0
+		    selectedLabel: ''
 		  }
 		},
 	  computed: {
@@ -66,63 +49,25 @@ The ability slot is a space attached to a data sources. When an ability is assig
 		  event: function() {
 		    return this.getEventOfType(this.label, 'slot');
 	    },
-		  abilityLabel: function() {
-		    return this.event? this.event.label: '';
+		  abilityInstance: function() {
+		    return this.event? this.event.instance: '';
 	    },
-	    allEmotions: function() {
-		    return [this.selectedHappiness, this.selectedTenderness, this.selectedExcitement, this.selectedSadness, this.selectedAnger, this.selectedFear];
+		  abilityEvents: function() {
+		    return this.getAbilityEvents();
 	    },
-		  sumEmotions: function() {
-		    return _.sum(this.allEmotions);
-	    },
-	    maximumEmotion: function() {
-		    return _.max(this.allEmotions);
-	    },
-	    maximumHappiness: function() {
-		    return this.getMaximumEmotion(this.selectedHappiness, this.selectedSadness);
-	    },
-	    maximumSadness: function() {
-		    return this.getMaximumEmotion(this.selectedSadness, this.selectedHappiness);
-	    },
-	    maximumTenderness: function() {
-		    return this.getMaximumEmotion(this.selectedTenderness, this.selectedAnger);
-	    },
-	    maximumAnger: function() {
-		    return this.getMaximumEmotion(this.selectedAnger, this.selectedTenderness);
-	    },
-	    maximumExcitement: function() {
-		    return this.getMaximumEmotion(this.selectedExcitement, this.selectedFear);
-	    },
-	    maximumFear: function() {
-		    return this.getMaximumEmotion(this.selectedFear, this.selectedExcitement);
-	    },
-		  ...mapState(['abilities']),
-		  ...mapGetters(['getEventOfType', 'getSlots', 'getSocketForSlot'])
+		  ...mapGetters(['getEventOfType', 'getAbilityEvents', 'getSocketForSlot'])
 	  },
-	  methods: {
-		  getMaximumEmotion: function(emotion, complementary) {
-		  	return (complementary > 0)? 0: ((emotion == 2 || (this.sumEmotions - emotion <= 2 && this.maximumEmotion < 2))? 2: 1);
-	    },
-	    submitEvent: function() {
-			  if(this.sumEmotions === 4) {
-				  var event = {
-			      type: 'slot',
-			      label: this.label,
-			      ability: this.selectedLabel,
-			      happiness: this.selectedHappiness,
-			      sadness: this.selectedSadness,
-			      tenderness: this.selectedTenderness,
-			      anger: this.selectedAnger,
-			      excitement: this.selectedExcitement,
-			      fear: this.selectedFear
-			    };
-			    
-			    this.addSlotEvent(event);
-			  } else {
-				  alert('Fill in all emotions');
-			  }
-		  },
-		  ...mapActions(['addSlotEvent'])
+	  methods: mapActions(['addSlotEvent']),
+	  watch: {
+		  selectedLabel: function() {
+			  var event = {
+		      type: 'slot',
+		      label: this.label,
+		      instance: this.selectedLabel
+		    };
+		    
+		    this.addSlotEvent(event);
+		  }
 	  }
 	}
 </script>

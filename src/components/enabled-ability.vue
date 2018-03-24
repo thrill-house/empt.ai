@@ -22,7 +22,7 @@ The enabled ability is an ability that is currently enabled within a socket.
     </div>
   </div>
   <div v-else class="ability disabled">
-    No valid event for "{{ label }}".
+    No valid event for "{{ instance }}".
   </div>
 </template>
 
@@ -33,18 +33,18 @@ The enabled ability is an ability that is currently enabled within a socket.
 	export default {
 	  name: 'enabled-ability',
 	  props: {
-	    label: String
+	    instance: String,
 	  },
 	  store,
 	  computed: {
 		  ability: function() {
-		    return this.getAbility(this.label);
+		    return this.getAbility(this.event.label);
 	    },
 	    factors: function() {
 		    return _.merge({}, this.ability.adders, this.ability.multipliers);
 	    },
 	  	event: function() {
-		    return this.getEventOfType(this.label, 'ability');
+		    return this.getEventOfType(this.instance, 'ability', 'instance');
 	    },
 		  ...mapGetters(['getEventOfType', 'getAbility', 'prettyUnit'])
 	  }

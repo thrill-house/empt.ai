@@ -120,12 +120,12 @@ const getters = {
   getAbility: (state, getters) => (label) => {
 		return state[label];
 	},
-	getActiveAbilities: (state, getters) => () => {
+	getAbilityEvents: (state, getters) => () => {
 		return _.filter(getters.getEvents(), { type: 'ability' });
 	},
 	getAbilityCosts: (state, getters, rootState) => (id) => {
 		var ability = getters.getAbility(id);
-		var activeLength = getters.getActiveAbilities().length;
+		var activeLength = getters.getAbilityEvents().length;
 		var abilityCosts = _.map(ability.costs, (cost) => {
 			return cost * Math.pow(rootState.scores.MULTIPLIER_RATE, activeLength);
 		});
