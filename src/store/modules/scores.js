@@ -56,11 +56,11 @@ const getters = {
 		_.each(events, function(event) {
 			var eventObject = getters.getEventObject(event);
 			
-			_.each(eventObject.adders, function(adder, key) {
+			_.each(eventObject.adders, (adder, key) => {
 				factors[key] += adder;
 			});
 			
-			_.each(eventObject.multipliers, function(multiplier, key) {
+			_.each(eventObject.multipliers, (multiplier, key) => {
 				factors[key] *= multiplier;
 			});
 		});

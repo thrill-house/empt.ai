@@ -75,8 +75,8 @@
 					<label>Ability Slot</label>
 					<select v-model="abilitySlotTweaker">
 					  <option disabled value="">Choose</option>
-					  <option v-for="abilitySlot in getSlots()" :value="abilitySlot">
-					    {{ abilitySlot }}
+					  <option v-for="abilitySlot in slots" :value="abilitySlot">
+					    {{ abilitySlot.name }}
 					  </option>
 					</select>
 				</div>
@@ -92,7 +92,7 @@
 					<label>Data Socket</label>
 					<select v-model="dataSocketTweaker">
 					  <option disabled value="">Choose</option>
-						<option v-for="(dataSocket, index) in dataSockets" :value="index">
+						<option v-for="(dataSocket, index) in sockets" :value="index">
 					    {{ dataSocket.name }}
 					  </option>
 					</select>
@@ -327,7 +327,7 @@
 		  },
 		  initEvents: function() {
 			  return [
-					{ type: 'data-socket', label: 'root', timestamp: +moment(this.start).subtract(1, 'seconds') }
+					{ type: 'socket', label: 'root', timestamp: +moment(this.start).subtract(1, 'seconds') }
 				]
 		  },
 		  ...mapState({
@@ -335,10 +335,11 @@
 			  now: state => state.gameSession.now,
 			  interval: state => state.gameSession.interval,
 			  options: 'options',
-			  dataSockets: 'dataSockets',
+			  sockets: 'sockets',
+			  slots: 'slots',
 			  abilities: 'abilities',
 			}),
-			...mapGetters(['getStart', 'getNow', 'getDuration', 'getEvents', 'getSlots'])
+			...mapGetters(['getStart', 'getNow', 'getDuration', 'getEvents'])
 		},
 	  methods: {
 		  updateEvents: function() {

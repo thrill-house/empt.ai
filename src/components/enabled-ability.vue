@@ -12,7 +12,7 @@ The enabled ability is an ability that is currently enabled within a socket.
 </docs>
 
 <template>
-  <div class="ability enabled" v-if="event">
+  <div v-if="event" class="ability enabled">
     {{ ability.name }}
     <em v-if="ability.type">— {{ ability.type }}</em>
     <div class="adders">
@@ -21,7 +21,7 @@ The enabled ability is an ability that is currently enabled within a socket.
 	    </output>
     </div>
   </div>
-  <div class="ability disabled" v-else>
+  <div v-else class="ability disabled">
     No valid event for "{{ label }}".
   </div>
 </template>

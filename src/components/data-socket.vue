@@ -15,10 +15,10 @@ The data socket is the base component that abilities are attached to. When enabl
   <div class="data-socket" :class="{ enabled: event }">
     <div class="details">
 	    <div class="name">
-		      {{ dataSocket.name }} <output>{{ dataSocket.type }}</output>
+		      {{ socket.name }} <output>{{ socket.type }}</output>
 	    </div>
 	    <div class="multipliers">
-		    <output v-for="(value, multiplier) in dataSocket.multipliers">
+		    <output v-for="(value, multiplier) in socket.multipliers">
 			    +{{ prettyUnit(value, multiplier) }}
 		    </output>
 	    </div>
@@ -30,10 +30,10 @@ The data socket is the base component that abilities are attached to. When enabl
     </div>
     <ability-slot
 			v-if="event"
-      v-for="(socket, index) in dataSocket.slots"
+      v-for="(slot, index) in slots"
       :key="index"
       :label="index"
-      :class="[socket.position, index]">
+      :class="[slot.position, index]">
     </ability-slot>
   </div>
 </template>
@@ -54,27 +54,30 @@ The data socket is the base component that abilities are attached to. When enabl
 	    label: String
 	  },
 	  computed: {
-	    dataSocket: function() {
-		    return this.getDataSocket(this.label);
+	    socket: function() {
+		    return this.getSocket(this.label);
+	    },
+	    slots: function() {
+		    return this.getSlotsForSocket(this.label);
 	    },
 	    costs: function() {
-		    return this.getDataSocketCosts(this.label);
+		    return this.getSocketCosts(this.label);
 	    },
 	  	event: function() {
-		    return this.getEventOfType(this.label, 'data-socket');
+		    return this.getEventOfType(this.label, 'socket');
 	    },
-		  ...mapGetters(['getEventOfType', 'getDataSocket', 'prettyUnit', 'getDataSocketCosts'])
+		  ...mapGetters(['getEventOfType', 'getSocket', 'prettyUnit', 'getSocketCosts', 'getSlotsForSocket'])
 	  },
 	  methods: {
 		  activate: function() {
 	      var event = {
-		      type: 'data-socket',
+		      type: 'socket',
 		      label: this.label
 		    };
 		    
-		    this.addDataSocketEvent(event);
+		    this.addSocketEvent(event);
 	    },
-	    ...mapActions(['addDataSocketEvent'])
+	    ...mapActions(['addSocketEvent'])
 	  }
 	}
 </script>

@@ -13,7 +13,7 @@ The ability slot is a space attached to a data sources. When an ability is assig
 
 <template>
   <enabled-ability v-if="event" :label="abilityLabel"></enabled-ability>
-  <div v-else class="ability-socket">
+  <div v-else class="ability-slot">
 	  <select  v-if="!selectedLabel" v-model="selectedLabel">
 			<option disabled value="">Choose</option>
 		  <option v-for="(ability, index) in abilities" :value="index">
@@ -60,11 +60,11 @@ The ability slot is a space attached to a data sources. When an ability is assig
 		  }
 		},
 	  computed: {
-		  dataSocket: function() {
+		  socket: function() {
 			  return this.getSocketForSlot(this.label);
 		  },
 		  event: function() {
-		    return this.getEventOfType(this.label, 'ability', 'dataSocketSlot');
+		    return this.getEventOfType(this.label, 'slot');
 	    },
 		  abilityLabel: function() {
 		    return this.event? this.event.label: '';
@@ -106,24 +106,23 @@ The ability slot is a space attached to a data sources. When an ability is assig
 	    submitEvent: function() {
 			  if(this.sumEmotions === 4) {
 				  var event = {
-			      type: 'ability',
-			      label: this.selectedLabel,
+			      type: 'slot',
+			      label: this.label,
+			      ability: this.selectedLabel,
 			      happiness: this.selectedHappiness,
 			      sadness: this.selectedSadness,
 			      tenderness: this.selectedTenderness,
 			      anger: this.selectedAnger,
 			      excitement: this.selectedExcitement,
-			      fear: this.selectedFear,
-			      dataSocket: this.dataSocket.label,
-			      dataSocketSlot: this.label
+			      fear: this.selectedFear
 			    };
 			    
-			    this.addAbilityEvent(event);
+			    this.addSlotEvent(event);
 			  } else {
 				  alert('Fill in all emotions');
 			  }
 		  },
-		  ...mapActions(['addAbilityEvent'])
+		  ...mapActions(['addSlotEvent'])
 	  }
 	}
 </script>
@@ -131,7 +130,7 @@ The ability slot is a space attached to a data sources. When an ability is assig
 <style lang="scss">
 	@import '../assets/scss/variables';
 	
-	.ability-socket {
+	.ability-slot {
 	  position: relative;
 		text-align: center;
 	  width: 162px; 

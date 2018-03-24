@@ -29,9 +29,9 @@ const getters = {
 		var functionName = 'get' + _.upperFirst(_.camelCase(event.type));
 		return getters[functionName](event[id]);
 	},
-  getEventCosts: (state, getters) => (event, id = 'label') => {
+  getEventCosts: (state, getters, rootState) => (event, id = 'label') => {
 		var functionName = 'get' + _.upperFirst(_.camelCase(event.type)) + 'Costs';
-		return getters[functionName](event[id]);
+		return (getters[functionName] !== undefined)? getters[functionName](event[id]): rootState.scores.COSTS_INIT;
 	}
 }
 
@@ -78,10 +78,9 @@ const actions = {
 		  dispatch('addEvent', event, event.timestamp);
 	  });
   },
-  startSession: (context) => {
-		context.commit('setInterval',
-			window.setInterval(function() {
-			  context.commit('setNow');
+  startSession: ({ commit }) => {
+		commit('setInterval', window.setInterval(function() {
+			  commit('setNow');
 			}, 1000)
 		);
   },

@@ -131,7 +131,7 @@ const getters = {
 		});
 		
 		return _.defaults(abilityCosts, rootState.scores.COSTS_INIT);
-	},
+	}
 }
 
 // actions
