@@ -312,7 +312,7 @@
 	export default {
 	  name: 'app',
 	  created: function() {
-			this.updateEvents();
+			this.setEvents(this.initEvents);
 			this.startSession();
 	  },
 	  data: function() {
@@ -429,9 +429,6 @@
 			...mapGetters(['getStart', 'getNow', 'getDuration', 'getEvents'])
 		},
 	  methods: {
-		  updateEvents: function() {
-			  this.setEvents(this.initEvents);
-		  },
 		  toggle: function(section) {
 			  this[section] = !this[section];
 		  },
@@ -442,15 +439,15 @@
 		  sessionDurationTweaker: function(value) {
 			  var oldStart = this.getStart();
 			  var newStart = this.getNow() - value;
-			  var events = _.map(this.getEvents(), function(e) {
-				  var difference = e.timestamp - oldStart;
-				  e.timestamp = newStart + difference;
-				  e.cachedScore = undefined;
-				  return e;
+			  var events = _.map(this.getEvents(), function(event) {
+				  var difference = event.timestamp - oldStart;
+				  event.timestamp = newStart + difference;
+				  event.finalScore = undefined;
+				  return event;
 			  });
 			  
-			  this.setEvents(events);
 			  this.setStart(newStart);
+			  this.setEvents(events);
 		  }
 	  }
 	}

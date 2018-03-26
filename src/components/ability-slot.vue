@@ -70,6 +70,7 @@ The ability slot is a space attached to a data sources. When an ability is assig
 		  selectedInstance: function() {
 			  var event = {
 		      type: 'slot',
+		      target: 'ability',
 		      label: this.label,
 		      ability: this.selectedAbility,
 		      instance: this.selectedInstance

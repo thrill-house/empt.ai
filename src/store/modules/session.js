@@ -26,7 +26,15 @@ const getters = {
 		return _.head(getters.getEventsOfType(label, type, id));
 	},
   getEventObject: (state, getters) => (event, id = 'label') => {
-		var functionName = 'get' + _.upperFirst(_.camelCase(event.type));
+	  var target = event.type;
+	  
+	  if(event.target !== undefined) {
+			var target = event.target;
+			id = event.target;
+		}
+		
+		var functionName = 'get' + _.upperFirst(_.camelCase(target));
+		
 		return getters[functionName](event[id]);
 	},
   getEventCosts: (state, getters, rootState) => (event) => {
@@ -50,32 +58,35 @@ const mutations = {
 	  if(event !== undefined) {
 		  state.events[event.timestamp] = event;
 	  }
+  },
+  resetEvents: (state, events) => {
+	  state.events = {};
   }
 }
 
 // actions
 const actions = {
-  addEvent: ({ commit, dispatch, getters }, event, timestamp = _.now()) => {
-	  var eventObject = getters.getEventObject(event);
-	  var scores = getters.getScores(timestamp);
-	  var costs = getters.getEventCosts(event);
+  addEvent: ({ commit, dispatch, getters }, event) => {
+		if(event.timestamp === undefined) {
+		  event['timestamp'] = _.now();
+	  }
 	  
+	  var eventObject = getters.getEventObject(event);
+	  var scores = getters.getScores(event.timestamp);
+	  var costs = getters.getEventCosts(event);
 	  var match = _.isMatchWith(costs, scores, function(cost, score) { return cost <= score; });
 	  
 	  if(match) {
-		  event.timestamp = timestamp;
 		  commit('addEvent', event);
-		  
-		  return true;
 	  } else {
 		  alert('You can’t afford that');
-		  
-		  return false;
 	  }
   },
-  setEvents: ({ dispatch }, events) => {
+  setEvents: ({ dispatch, commit }, events) => {
+	  commit('resetEvents');
+	  
 	  _.each(events, function(event) {
-		  dispatch('addEvent', event, event.timestamp);
+		  dispatch('addEvent', event);
 	  });
   },
   startSession: ({ commit }) => {
@@ -84,9 +95,9 @@ const actions = {
 			}, 1000)
 		);
   },
-  stopSession: (context) => {
-	  window.clearInterval(context.state.interval);
-	  context.commit('setInterval');
+  stopSession: ({ state, commit }) => {
+	  window.clearInterval(state.interval);
+	  commit('setInterval');
   }
 }
 
