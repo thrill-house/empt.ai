@@ -23,7 +23,7 @@ const getters = {
 		return _.filter(getters.getEvents(), { [id]: label, type: type });
 	},
   getEventOfType: (state, getters) => (label, type, id = 'label') => {
-		return _.head(getters.getEventsOfType(label, type, id));
+		return _.last(getters.getEventsOfType(label, type, id));
 	},
   getEventObject: (state, getters) => (event, id = 'label') => {
 	  var target = event.type;

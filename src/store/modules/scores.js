@@ -10,9 +10,9 @@ const state = {
 // getters
 const getters = {
   getScores: (state, getters) => (before = getters.getNow(), events = getters.getEvents(before), previous = _.defaults({}, state.SCORES_INIT)) => {
-    var firstEvent = _.head(events);
+    var firstEvent = _.first(events);
 	  var remainingEvents = _.tail(events);
-		var nextEvent = _.head(remainingEvents);
+		var nextEvent = _.first(remainingEvents);
 		var nextTimestamp = (nextEvent != undefined? nextEvent.timestamp: before - 1);
 	  
 	  if(firstEvent !== undefined) {
@@ -50,19 +50,32 @@ const getters = {
 	  return score;
   },
   getFactors: (state, getters) => (before = getters.getNow()) => {
-	  var events =  getters.getEvents(before);
+	  var events = getters.getEvents(before);
 	  var factors = _.defaults({}, state.FACTORS_INIT);
+	  
+	  var factoriser = (event, positive = true) => {
+		  if(event !== undefined) {
+			  var eventObject = getters.getEventObject(event);
+				
+				_.each(eventObject.adders, (adder, key) => {
+					factors[key] = positive? factors[key] + adder: factors[key] - adder;
+				});
+				
+				_.each(eventObject.multipliers, (multiplier, key) => {
+					factors[key] = positive? factors[key] * multiplier: factors[key] / multiplier;
+				});
+			}
+	  };
 		
 		_.each(events, function(event) {
-			var eventObject = getters.getEventObject(event);
-			
-			_.each(eventObject.adders, (adder, key) => {
-				factors[key] += adder;
+			_.each(event.negates, function(negate) {
+				var negatedEvent = _.last(_.filter(getters.getEvents(before - 1), negate));
+				if(negatedEvent && !_.isMatch(event, negatedEvent)) {
+					factoriser(negatedEvent, false);
+				}
 			});
 			
-			_.each(eventObject.multipliers, (multiplier, key) => {
-				factors[key] *= multiplier;
-			});
+			factoriser(event);
 		});
 		
 		factors.persuasion = factors.influence * (factors.journalCitations || 1) * (factors.returnOnInvestment || 1) * (factors.approvalRating || 1);
