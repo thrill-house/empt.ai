@@ -21,6 +21,9 @@
 
       <div class="col-md-2">
         <h3>Movement Control</h3>
+        <div class="checkbox">
+          <label><input id="showPossibleMovesCtrl" type="checkbox" onchange="onShowPossibleMovesChanged()"> Show possible moves</label>
+        </div>
       </div>
 
       <div class="col-md-3">
@@ -34,15 +37,27 @@
                 <label class="btn btn-primary"><input type="radio" class="toggle" name="stepGenRadio" value="4"> 4</label>
             </div>
             <h4>Percentage of Steps Forwards</h4>
-            <input id="forwardsBiasGen" type="number" class="form-control" value="15">
-          </div>
-          <div class="col-md-6">
+            <input id="forwardsBiasGen" type="number" class="form-control" value="0">
+            <h4>Iterations</h4>
+            <input id="numItsGen" type="number" class="form-control" value="25">
             <h4>Level size</h4>
             <input id="lvlSizeGen" type="number" class="form-control" value="21">
-            <h4>Iterations</h4>
-            <input id="numItsGen" type="number" class="form-control" value="100">
+          </div>
+          <div class="col-md-6">
             <div class="checkbox">
               <label><input id="continueAfterReachingGoalGen" type="checkbox"> Continue after reaching Goal?</label>
+            </div>
+            <div class="checkbox">
+              <label><input id="noImmediateMoveReversalGen" type="checkbox" checked> Don't allow consecutive moves that cancel each other out</label>
+            </div>
+            <div class="checkbox">
+              <label><input id="preventConsecutiveBackwardMovesGen" type="checkbox"> Prevent consecutive backward moves</label>
+            </div>
+            <div class="checkbox">
+              <label><input id="preventConsecutiveSameMovesGen" type="checkbox"> Prevent consecutive same moves</label>
+            </div>
+            <div class="checkbox">
+              <label><input id="noLoopsGen" type="checkbox" checked> No loops in solution</label>
             </div>
           </div>
         </div>

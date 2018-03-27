@@ -4,24 +4,37 @@ let generateLevelParams = {
   lvlSize: 21,
   // Max number of steps you are allowed to take in a direction
   maxSteps: 3,
+  // If we prevent consecutive backwards moves
+  preventConsecutiveBackwardMoves: false,
+  // If we prevent consecutive same moves
+  preventConsecutiveSameMoves: false,
+  // Generate the shortest possible solution
+  noLoops: true,
   // Percentage of steps made forwards
   forwardsBias: 60,
   // Max iterations after which we abort
   maxIterations: 100,
   // Whether to continue moving after the goal has been reached once
-  continueAfterReachingGoal: false
+  continueAfterReachingGoal: false,
+  // Whether to allow consecutive moves that cancel each other out
+  noImmediateMoveReversal: false,
+  // Step weights, how probable it is to draw a step
+  stepWeights: [1, 1, 1, 1]
 };
+var showPossibleMoves = true;
 // Different grids
 let movementQueue = {};
 let cellScoreQueue = {};
 
 function init() {
   document.getElementById('levelImport').addEventListener('change', readSingleFile, false);
+  showPossibleMoves = $('#showPossibleMovesCtrl').is(':checked');
+  
   initMovementQueue();
   initCellScoreQueue();
 
   ui.createQueue();
-  generateLevel();
+  onGenerateClicked();
 }
 
 function initMovementQueue() {
@@ -40,9 +53,49 @@ function initMovementQueue() {
 function initCellScoreQueue() {
   cellScoreQueue = getNewQueue(generateLevelParams.lvlSize);
   cellScoreQueue.goalReached = false;
+  cellScoreQueue.pickWeighedRandomMove = function(validMoves) {
+    var summedWeights = [];
+    for(var i = 0; i < validMoves.length; i++) {
+      var oldWeight = summedWeights[i-1] ? summedWeights[i-1] : 0;
+      var weighedStep = generateLevelParams.stepWeights[Math.abs(validMoves[i])-1];
+      summedWeights.push(oldWeight + weighedStep);
+    }
+
+    var totalWeights = summedWeights[summedWeights.length-1];
+    var rnd = getRandomNumber(1, totalWeights);
+
+    for(var i = 0; i < summedWeights.length; i++) {
+      if(summedWeights[i] >= rnd) {
+        return validMoves[i];
+      }
+    }
+    return 0;
+  };
+  cellScoreQueue.setInvalidSteps = function(validMoves) {
+    // Convert to positive steps only and filter duplicates
+    validMoves = validMoves.map(m => Math.abs(m)).filter(function(item, pos, self) {
+        return self.indexOf(item) == pos;
+    });
+    for(let i = 0; i < validMoves.length; i++) {
+      let toReachIndex = this.currentIndex + validMoves[i];
+      if(toReachIndex <= generateLevelParams.lvlSize) {
+        if(this.getCell(toReachIndex).invalidStepsToReach.indexOf(validMoves[i]) === -1) {
+          this.getCell(toReachIndex).invalidStepsToReach.push(validMoves[i]);
+        }
+        if(this.getCell(toReachIndex).invalidStepsToReach.indexOf(-validMoves[i]) === -1) {
+          this.getCell(toReachIndex).invalidStepsToReach.push(-validMoves[i]);
+        }
+        console.log("Invalid steps for index " + toReachIndex + ": " + JSON.stringify(this.getCell(toReachIndex).invalidStepsToReach));
+      }
+    }
+  };
   cellScoreQueue.getNextMove = function() {
-    moves.calculateValidMoves();
+    moves.calculateValidMoves(generateLevelParams.noLoops);
     console.log('Valid moves: ' + JSON.stringify(moves.validMoves));
+    console.log('Aggregated moves: ' + JSON.stringify(moves.aggregatedMoves));
+    if(moves.validMoves.length === 0) {
+      return 0;
+    }
     var canReachGoal = this.canReachGoal(moves.validMoves);
     if(canReachGoal !== 0) {
       // If we can reach the goal in one turn, go for it
@@ -50,13 +103,27 @@ function initCellScoreQueue() {
       return canReachGoal;
     } else {
       // If we moved a certain number of steps last move, ensure we don't immediately revert that move
-      if(moves.history.length > 0) {
-        var lastMove = moves.history[moves.history.length-1];
-        var vmIndex = moves.validMoves.indexOf(-lastMove.steps);
-        console.log("Removing last step " + (-lastMove.steps));
-        if(vmIndex !== -1) {
-          moves.validMoves.splice(vmIndex, 1);
-          console.log('Trimmed valid moves: ' + JSON.stringify(moves.validMoves));
+      if(generateLevelParams.noImmediateMoveReversal) {
+        if(moves.history.length > 0) {
+          var lastMove = moves.history[moves.history.length-1];
+          var vmIndex = moves.validMoves.indexOf(-lastMove.steps);
+          if(vmIndex !== -1) {
+            console.log("Removing last step " + (-lastMove.steps));
+            moves.validMoves.splice(vmIndex, 1);
+            console.log('Trimmed valid moves: ' + JSON.stringify(moves.validMoves));
+          }
+        }
+      }
+
+      if(generateLevelParams.preventConsecutiveSameMoves) {
+        if(moves.history.length > 0) {
+          var lastMove = moves.history[moves.history.length-1];
+          var vmIndex = moves.validMoves.indexOf(lastMove.steps);
+          if(vmIndex !== -1) {
+            console.log("Removing last step " + lastMove.steps);
+            moves.validMoves.splice(vmIndex, 1);
+            console.log('Trimmed valid moves: ' + JSON.stringify(moves.validMoves));
+          }
         }
       }
 
@@ -65,13 +132,17 @@ function initCellScoreQueue() {
       // If we can only move in one direction, we draw from the original set of moves
       if(validMovesForwards.length === 0 || validMovesBackwards.length === 0) {
         // Draw sample from the set of valid moves
-        var rnd = getRandomNumber(0, moves.validMoves.length-1);
-        return moves.validMoves[rnd];
+        var rndMove = this.pickWeighedRandomMove(moves.validMoves);
+        moves.validMoves.splice(moves.validMoves.indexOf(rndMove),1);
+        this.setInvalidSteps(moves.validMoves);
+        return rndMove;
+        //var rnd = getRandomNumber(0, moves.validMoves.length-1);
+        //return moves.validMoves[rnd];
       } else {
         // Different probabilities for different directions
         // If we moved backwards last, then move forwards next
         var dir;
-        if(moves.history.length > 0 && moves.history[moves.history.length-1].steps < 0) {
+        if(generateLevelParams.preventConsecutiveBackwardMoves && moves.history.length > 0 && moves.history[moves.history.length-1].steps < 0) {
           console.log("Last move was backwards, moving forwards");
           dir = 0;
         } else {
@@ -82,13 +153,22 @@ function initCellScoreQueue() {
         if(dir <= generateLevelParams.forwardsBias) {
           // 60% chance to go forwards
           console.log('Valid moves forwards: ' + JSON.stringify(validMovesForwards));
-          var rnd = getRandomNumber(0, validMovesForwards.length-1);
-          return validMovesForwards[rnd];
+
+          var rndMove = this.pickWeighedRandomMove(validMovesForwards);
+          validMovesForwards.splice(validMovesForwards.indexOf(rndMove),1);
+          this.setInvalidSteps(validMovesForwards);
+          return rndMove;
+          //var rnd = getRandomNumber(0, validMovesForwards.length-1);
+          //return validMovesForwards[rnd];
         } else {
           // 40% chance to go backwards
           console.log('Valid moves backwards: ' + JSON.stringify(validMovesBackwards));
-          var rnd = getRandomNumber(0, validMovesBackwards.length-1);
-          return validMovesBackwards[rnd];
+          var rndMove = this.pickWeighedRandomMove(validMovesBackwards);
+          validMovesForwards.splice(validMovesForwards.indexOf(rndMove),1);
+          this.setInvalidSteps(validMovesBackwards);
+          return rndMove;
+          //var rnd = getRandomNumber(0, validMovesBackwards.length-1);
+          //return validMovesBackwards[rnd];
         }
       }
     }
@@ -106,9 +186,19 @@ function initCellScoreQueue() {
     return 0;
   };
   cellScoreQueue.executeMoves = function() {
-    cellScoreQueue.goalReached = false;
+    moves.history = [];
+    moves.queue = this;
+    this.create();
+    this.goalReached = false;
+    var solution = [];
     for(var i = 0; i < generateLevelParams.maxIterations; i++) {
       var nextMove = this.getNextMove();
+      console.log("Next move " + nextMove);
+      if(nextMove === 0) {
+        console.log("No more valid moves");
+        return false;
+      }
+      solution.push(nextMove);
       if(this.getCell(this.currentIndex + nextMove).distanceToReach === '') {
         // Set the distance if it has not been set yet
         this.getCell(this.currentIndex + nextMove).distanceToReach = Math.abs(nextMove);
@@ -124,17 +214,55 @@ function initCellScoreQueue() {
           break;
         }
       }
+
+      ui.updateCellScoreQueue();
     }
-    this.fillHoles();
-    if(!cellScoreQueue.goalReached) {
-      alert("Could not reach goal after " + generateLevelParams.maxIterations + " iterations");
+    if(this.goalReached) {
+      this.fillHoles();
+      console.log(JSON.stringify(solution));
+    } else {
+      console.log("Could not reach goal after " + generateLevelParams.maxIterations + " iterations");
     }
+
+    return this.goalReached;
   };
   cellScoreQueue.fillHoles = function() {
     var holesFilled = 0;
-    for(var i = 1; i < generateLevelParams.lvlSize + 1; i++) {
+
+    var allSteps = [];
+    for(var i = 1; i <= generateLevelParams.maxSteps; i++) {
+      allSteps.push(i);
+    }
+
+    // Fill last few cells with steps that will ensure you cannot easily reach the goal
+    for(var i = 1; i <= generateLevelParams.maxSteps; i++) {
+      //console.log("Checking " + i + " before goal");
+      allStepsCopy = allSteps.slice();
+      if(this.getCell(generateLevelParams.lvlSize-i).distanceToReach === '') {
+        var index = allStepsCopy.indexOf(i);
+        allStepsCopy.splice(index,1);
+        //console.log("Steps for " + i + ": " + JSON.stringify(allStepsCopy));
+        var rnd = getRandomNumber(0, allStepsCopy.length-1);
+        this.getCell(generateLevelParams.lvlSize-i).distanceToReach = allStepsCopy[rnd];
+      }
+    }
+
+    // Fill up with valid steps
+    for(var i = 1; i < generateLevelParams.lvlSize + 1 - generateLevelParams.maxSteps; i++) {
       if(this.getCell(i).distanceToReach === '' && !this.getCell(i).isStart && !this.getCell(i).isGoal) {
-        this.getCell(i).distanceToReach = getRandomNumber(1,3);
+        var validSteps = [];
+        for(var j = 0; j < generateLevelParams.maxSteps; j++) {
+          validSteps.push(j+1);
+        }
+        for(var j = 0; j < this.getCell(i).invalidStepsToReach.length; j++) {
+          var index = validSteps.indexOf(this.getCell(i).invalidStepsToReach[j]);
+          if(index !== -1) {
+            validSteps.splice(index,1);
+          }
+        }
+        //this.getCell(i).distanceToReach = getRandomNumber(1,3);
+        var rnd = getRandomNumber(0, validSteps.length-1);
+        this.getCell(i).distanceToReach = validSteps[rnd];
         holesFilled++;
       }
     }
@@ -179,7 +307,8 @@ function getNewQueue(queueLength) {
         distanceToReach: '',
         isStart: false,
         isGoal: false,
-        isOccupied: false
+        isOccupied: false,
+        invalidStepsToReach: []
       }
     },
     // 1-based getter for cell data
@@ -197,9 +326,9 @@ function generateLevel() {
   ui.createQueue();
 
   initCellScoreQueue();
-  cellScoreQueue.create();
-  moves.queue = cellScoreQueue;
-  cellScoreQueue.executeMoves();
+  while(!cellScoreQueue.executeMoves()) {
+    console.log("Trying again.");
+  };
 
   initMovementQueue();
   movementQueue.create();
@@ -255,11 +384,24 @@ let moves = {
     return true;
   },
   // Check if we can perform the move without bumbing into a wall or occupied cell
-  validate: function(steps) {
+  validate: function(steps, noLoops) {
     // Check if the cell can be reached from the current position, also takes into account blank targets, they can be reached via any means
     let toReachIndex = this.queue.currentIndex + steps;
-    if(toReachIndex <= 0 || toReachIndex > generateLevelParams.lvlSize || (this.queue.getCell(toReachIndex).distanceToReach !== Math.abs(steps) && this.queue.getCell(toReachIndex).distanceToReach !== '')) {
+    if(toReachIndex <= 0 ||
+       toReachIndex > generateLevelParams.lvlSize ||
+       (this.queue.getCell(toReachIndex).distanceToReach !== Math.abs(steps) && this.queue.getCell(toReachIndex).distanceToReach !== '') ||
+       this.queue.getCell(toReachIndex).invalidStepsToReach.indexOf(steps) !== -1) {
       return false;
+    }
+    // Shortest solutions do not have loops
+    if(noLoops) {
+      for(let i = 0; i < moves.aggregatedMoves.length; i++) {
+        if(moves.aggregatedMoves[i] + steps === 0) {
+          // Found a loop
+          //console.log("Found a loop");
+          return false;
+        }
+      }
     }
     // Check if the destination is within bounds
     let destinationIndex = this.queue.currentIndex + 2*steps;
@@ -282,18 +424,33 @@ let moves = {
       steps: steps
     }
   },
-  calculateValidMoves: function() {
+  calculateValidMoves: function(noLoops) {
+    if(noLoops) {
+      this.calculateAggregatedMoves();
+    }
     this.validMoves = [];
     for(let i = 1; i <= generateLevelParams.maxSteps; i++) {
-      if(this.validate(i)) {
+      if(this.validate(i, noLoops)) {
         this.validMoves.push(i);
       }
-      if(this.validate(-i)) {
+      if(this.validate(-i, noLoops)) {
         this.validMoves.push(-i);
       }
     }
   },
-  validMoves: []
+  calculateAggregatedMoves: function() {
+    this.aggregatedMoves = [];
+    for(let i = 0; i < this.history.length; i++) {
+      let sum = 0;
+      for(let j = i; j < this.history.length; j++) {
+        let lastMove = this.history[j];
+        sum = sum + lastMove.steps;
+      }
+      this.aggregatedMoves.push(sum);
+    }
+  },
+  validMoves: [],
+  aggregatedMoves: []
 };
 
 
@@ -327,9 +484,18 @@ function onGenerateClicked() {
   generateLevelParams.forwardsBias = parseInt($('#forwardsBiasGen').val());
   generateLevelParams.lvlSize = parseInt($('#lvlSizeGen').val());
   generateLevelParams.maxIterations = parseInt($('#numItsGen').val());
+  generateLevelParams.preventConsecutiveBackwardMoves = $('#preventConsecutiveBackwardMovesGen').is(':checked');
+  generateLevelParams.preventConsecutiveSameMoves = $('#preventConsecutiveSameMovesGen').is(':checked');
+  generateLevelParams.noLoops = $('#noLoopsGen').is(':checked');
   generateLevelParams.continueAfterReachingGoal = $('#continueAfterReachingGoalGen').is(':checked');
+  generateLevelParams.noImmediateMoveReversal = $('#noImmediateMoveReversalGen').is(':checked');
 
   generateLevel();
+}
+
+function onShowPossibleMovesChanged() {
+  showPossibleMoves = $('#showPossibleMovesCtrl').is(':checked');
+  ui.updateMovementQueue();
 }
 
 
@@ -444,7 +610,7 @@ let ui = {
   		.click((function(i) {
   			return function() {
           // This function allows us to select a cell via mouse click
-          if($('#cell'+i).hasClass('cell-valid')) {
+          if($('#cell'+i).hasClass('cell-valid-base')) {
             onMoveClicked(i);
           } else {
             alert("Cell " + i + " is not reachable!");
@@ -478,11 +644,15 @@ let ui = {
   			}
 			}
 
-      moves.calculateValidMoves();
       $('.cell-valid').removeClass('cell-valid');
+      $('.cell-valid-base').removeClass('cell-valid-base');
+      moves.calculateValidMoves(false);
       for(let j = 0; j < moves.validMoves.length; j++) {
         let newIndex = movementQueue.currentIndex + moves.validMoves[j];
-        $('#cell'+newIndex).addClass('cell-valid');
+        if(showPossibleMoves) {
+          $('#cell'+newIndex).addClass('cell-valid');
+        }
+        $('#cell'+newIndex).addClass('cell-valid-base');
       }
   	}
   },
