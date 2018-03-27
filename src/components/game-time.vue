@@ -27,8 +27,8 @@ The component displays how much time has elapsed between the first event and the
 			  return this.now - this.start;
 		  },
 		  ...mapState({
-			  start: state => state.gameSession.start,
-			  now: state => state.gameSession.now
+			  start: state => state.session.start,
+			  now: state => state.session.now
 			})
 		},
 		methods: mapMutations(['setStart', 'setNow'])

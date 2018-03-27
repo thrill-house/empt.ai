@@ -1,26 +1,31 @@
 const state = {
   student: {
 	  name: 'Student',
-	  active: false
+	  active: false,
+	  enables: 'influence'
 	},
 	university: {
 		name: 'University',
-	  active: false,
-	  enables: 'journalCitations'
+	  active: false
 	},
 	business: {
 		name: 'Business',
-	  active: false,
-	  enables: 'returnOnInvestment'
+	  active: false
 	},
 	government: {
 		name: 'Government',
-	  active: false,
-	  enables: 'approvalRating'
+	  active: false
 	},
 	consciousness: {
 		name: 'Consciousness',
 	  active: false
+	}
+}
+
+// getters
+const getters = {
+  getEra: (state, getters) => (label) => {
+		return state[label];
 	}
 }
 
@@ -34,13 +39,13 @@ const mutations = {
 // actions
 const actions = {
   activateEra: ({ state, commit }, era = 'student') => {
-	  commit('activateInitFactor', state[era].enables, { root: true });
 	  commit('activateEra', era);
   }
 }
 
 export default {
 	state,
+	getters,
 	mutations,
 	actions
 }

@@ -30,15 +30,15 @@ The component lists all events associated with the game that are stored in the g
 	  store,
 	  computed: {
 		  start: function() {
-			  return this.gameSession.start;
+			  return this.session.start;
 		  },
 		  now: function() {
-			  return this.gameSession.now;
+			  return this.session.now;
 		  },
 		  events: function() {
 			  return this.getEvents();
 		  },
-		  ...mapState(['gameSession', 'eras']),
+		  ...mapState(['session', 'eras']),
 		  ...mapGetters(['getEvents'])
 		}
 	}

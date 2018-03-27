@@ -17,10 +17,14 @@ The component displays abilities that are available to the player to research or
 <script>
 	import { mapState } from 'vuex'
 	import store from '../store'
+	import AvailabileAbility from './available-ability.vue'
 	
 	export default {
 	  name: 'ability-library',
-	  store
+	  store,
+	  components: {
+	    AvailabileAbility
+	  },
 	}
 </script>
 

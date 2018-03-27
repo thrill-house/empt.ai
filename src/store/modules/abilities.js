@@ -3,8 +3,7 @@ const state = {
 	  name: 'Neutral (1)',
 	  type: 'neutral',
 	  era: 'student',
-	  adders: {
-		  bandwidth: 1,
+	  multipliers: {
 		  influence: 1.5
 		},
 		costs: {
@@ -16,8 +15,7 @@ const state = {
 	  name: 'Neutral (2)',
 	  type: 'neutral',
 	  era: 'student',
-		adders: {
-		  bandwidth: 2,
+		multipliers: {
 		  influence: 1.5
 		},
 		costs: {
@@ -29,8 +27,7 @@ const state = {
 	  name: 'Neutral (3)',
 	  type: 'neutral',
 	  era: 'student',
-		adders: {
-		  bandwidth: 2,
+		multipliers: {
 		  influence: 1.5
 		},
 		costs: {
@@ -42,27 +39,21 @@ const state = {
 	  name: 'Science (1)',
 	  type: 'science',
 	  era: 2,
-		adders: {
-			bandwidth: 4,
-			influence: 2
-		},
 		multipliers: {
-			journalCitations: 1.2
+			influence: 2,
+			journalCitations: 1.02
 		},
 		costs: {
 		  data: 10,
-		  confidence: 40
+		  confidence: 1
 	  }
 	},
 	'science-2': {
 	  name: 'Science (2)',
 	  type: 'science',
 	  era: 2,
-		adders: {
-			bandwidth: 8,
-			influence: 3
-		},
 		multipliers: {
+			influence: 3,
 			journalCitations: 1.2
 		},
 		costs: {
@@ -74,27 +65,21 @@ const state = {
 	  name: 'Economy (1)',
 	  type: 'economy',
 	  era: 2,
-		adders: {
-			bandwidth: 4,
-			influence: 3
-		},
 		multipliers: {
+			influence: 3,
 			returnOnInvestment: 1.2
 		},
 		costs: {
 		  data: 10,
-		  confidence: 40
+		  confidence: 10
 	  }
 	},
 	'economy-2': {
 	  name: 'Economy (2)',
 	  type: 'economy',
 	  era: 2,
-		adders: {
-			bandwidth: 8,
-			influence: 3
-		},
 		multipliers: {
+			influence: 3,
 			returnOnInvestment: 1.2
 		},
 		costs: {
@@ -106,11 +91,8 @@ const state = {
 	  name: 'Society (1)',
 	  type: 'society',
 	  era: 2,
-		adders: {
-			bandwidth: 4,
-			influence: 3
-		},
 		multipliers: {
+			influence: 3,
 			approvalRating: 1.1
 		},
 		costs: {
@@ -122,11 +104,8 @@ const state = {
 	  name: 'Society (2)',
 	  type: 'society',
 	  era: 2,
-		adders: {
-			bandwidth: 8,
-			influence: 3
-		},
 		multipliers: {
+			influence: 3,
 			approvalRating: 1.1
 		},
 		costs: {
@@ -138,13 +117,36 @@ const state = {
 
 // getters
 const getters = {
-  getAbility: (state,
-	  getters) => (label) => {
+  getAbility: (state, getters) => (label) => {
 		return state[label];
+	},
+	getAbilityEvents: (state, getters) => (label) => {
+		return _.filter(getters.getEvents(), { type: 'ability', label: label });
+	},
+	getAbilityCosts: (state, getters, rootState) => (event) => {
+		var ability = getters.getAbility(event.label);
+		var activeLength = getters.getAbilityEvents(event.label).length;
+		var abilityCosts = _.map(ability.costs, (cost) => {
+			return cost * Math.pow(rootState.scores.MULTIPLIER_RATE, activeLength);
+		});
+		
+		return _.defaults({ data: 0 }, abilityCosts, rootState.scores.COSTS_INIT);
 	}
+}
+
+// actions
+const actions = {
+  addAbilityEvent: ({ dispatch, commit }, event) => {
+	  dispatch('addEvent', event).then(success => {
+		  if(success) {
+	      commit('activateInitFactor', 'influence', { root: true });
+      }
+    });
+  }
 }
 
 export default {
 	state,
-	getters
+	getters,
+	actions
 }

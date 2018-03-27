@@ -1,6 +1,7 @@
 import Vue from 'vue';
 
 const state = {
+	MULTIPLIER_RATE: 1.12,
   SCORES_INIT: { data: 1, confidence: 100 },
 	FACTORS_INIT: { bandwidth: 1, influence: 0, journalCitations: 0, returnOnInvestment: 0, approvalRating: 0, persuasion: 0 },
 	COSTS_INIT: { data: 0, confidence: 0 }
@@ -13,13 +14,12 @@ const getters = {
 	  var remainingEvents = _.tail(events);
 		var nextEvent = _.head(remainingEvents);
 		var nextTimestamp = (nextEvent != undefined? nextEvent.timestamp: before - 1);
-		var filteredEvents = _.filter(events, function(value) { return value.timestamp < nextTimestamp; });
 	  
 	  if(firstEvent !== undefined) {
 		  if(firstEvent.finalScore === undefined) {
 			  var duration = getters.getDuration(firstEvent.timestamp, nextTimestamp);
 			  var factors = getters.getFactors(nextTimestamp);
-			  var costs = getters.getCosts(firstEvent);
+			  var costs = getters.getEventCosts(firstEvent);
 			  
 				var eventScore = {
 					data: (duration * factors.bandwidth) - costs.data,
@@ -56,11 +56,11 @@ const getters = {
 		_.each(events, function(event) {
 			var eventObject = getters.getEventObject(event);
 			
-			_.each(eventObject.adders, function(adder, key) {
+			_.each(eventObject.adders, (adder, key) => {
 				factors[key] += adder;
 			});
 			
-			_.each(eventObject.multipliers, function(multiplier, key) {
+			_.each(eventObject.multipliers, (multiplier, key) => {
 				factors[key] *= multiplier;
 			});
 		});
@@ -68,11 +68,6 @@ const getters = {
 		factors.persuasion = factors.influence * (factors.journalCitations || 1) * (factors.returnOnInvestment || 1) * (factors.approvalRating || 1);
 		
 	  return factors;
-	},
-  getCosts: (state, getters) => (event) => {
-	  var eventObject = getters.getEventObject(event);
-		
-		return _.defaults(eventObject.costs, state.COSTS_INIT);
 	},
   prettyUnit: (state, getters) => (value, filter) => {
   	return Vue.filter(filter)(value);
@@ -86,8 +81,18 @@ const mutations = {
   },
 }
 
+// actions
+const actions = {
+  activateInitFactor: ({ state, commit }, factor = 'influence') => {
+	  if(factor !== undefined) {
+		  commit('activateInitFactor', factor);
+	  }
+  }
+}
+
 export default {
 	state,
 	getters,
-	mutations
+	mutations,
+	actions
 }

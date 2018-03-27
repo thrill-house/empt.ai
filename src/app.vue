@@ -7,13 +7,21 @@
 				<h2>Component library of user interface elements.</h2>
 		  </div>
 		</header>
-	  <section :class="{ hidden: gameEventsToggle }">
+		
+		<!--
+		---- Game events
+		--->
+		<section :class="{ hidden: gameEventsToggle }">
 		  <button class="toggle" @click="toggle('gameEventsToggle')">Toggle</button>
 		  <header>
 			  <div v-html="docs.gameEvents" class="docs"></div>
 		  </header>
 		  <game-events></game-events>
 	  </section>
+	  
+		<!--
+		---- Game time
+		--->
 	  <section :class="{ hidden: gameTimeToggle }">
 		  <button class="toggle" @click="toggle('gameTimeToggle')">Toggle</button>
 		  <header>
@@ -35,6 +43,10 @@
 		  </header>
 		  <game-time></game-time>
 	  </section>
+	  
+		<!--
+		---- Game score
+		--->
 	  <section :class="{ hidden: gameScoreToggle }">
 		  <button class="toggle" @click="toggle('gameScoreToggle')">Toggle</button>
 		  <header>
@@ -42,6 +54,10 @@
 		  </header>
 		  <game-score></game-score>
 	  </section>
+	  
+		<!--
+		---- Game factors
+		--->
 	  <section :class="{ hidden: gameFactorsToggle }">
 		  <button class="toggle" @click="toggle('gameFactorsToggle')">Toggle</button>
 		  <header>
@@ -49,6 +65,10 @@
 		  </header>
 		  <game-factors></game-factors>
 	  </section>
+	  
+		<!--
+		---- Enabled ability
+		--->
 	  <section :class="{ hidden: enabledAbilityToggle }">
 		  <button class="toggle" @click="toggle('enabledAbilityToggle')">Toggle</button>
 		  <header>
@@ -66,6 +86,10 @@
 		  </header>
 		  <enabled-ability :label="enabledAbilityTweaker"></enabled-ability>
 	  </section>
+	  
+		<!--
+		---- Ability slot
+		--->
 	  <section :class="{ hidden: abilitySlotToggle }">
 		  <button class="toggle" @click="toggle('abilitySlotToggle')">Toggle</button>
 		  <header>
@@ -75,14 +99,18 @@
 					<label>Ability Slot</label>
 					<select v-model="abilitySlotTweaker">
 					  <option disabled value="">Choose</option>
-					  <option v-for="abilitySlot in getSlots()" :value="abilitySlot">
-					    {{ abilitySlot }}
+					  <option v-for="abilitySlot in slots" :value="abilitySlot">
+					    {{ abilitySlot.name }}
 					  </option>
 					</select>
 				</div>
 		  </header>
 		  <ability-slot :label="abilitySlotTweaker"></ability-slot>
 	  </section>
+	  
+		<!--
+		---- Data socket
+		--->
 	  <section :class="{ hidden: dataSocketToggle }">
 		  <button class="toggle" @click="toggle('dataSocketToggle')">Toggle</button>
 		  <header>
@@ -92,7 +120,7 @@
 					<label>Data Socket</label>
 					<select v-model="dataSocketTweaker">
 					  <option disabled value="">Choose</option>
-						<option v-for="(dataSocket, index) in dataSockets" :value="index">
+						<option v-for="(dataSocket, index) in sockets" :value="index">
 					    {{ dataSocket.name }}
 					  </option>
 					</select>
@@ -100,13 +128,31 @@
 		  </header>
 		  <data-socket :label="dataSocketTweaker"></data-socket>
 	  </section>
+	  
+		<!--
+		---- Available ability
+		--->
 	  <section :class="{ hidden: availableAbilityToggle }">
 		  <button class="toggle" @click="toggle('availableAbilityToggle')">Toggle</button>
 		  <header>
 			  <div v-html="docs.availableAbility" class="docs"></div>
+			  <div class="tweakers">
+					<h5>Tweakers</h5>
+					<label>Available Ability</label>
+					<select v-model="availableAbilityTweaker">
+					  <option disabled value="">Choose</option>
+					  <option v-for="(ability, index) in abilities" :value="index">
+					    {{ ability.name }}
+					  </option>
+					</select>
+				</div>
 		  </header>
-		  <available-ability></available-ability>
+		  <available-ability :label="availableAbilityTweaker"></available-ability>
 	  </section>
+	  
+		<!--
+		---- Ability library
+		--->
 	  <section :class="{ hidden: abilityLibraryToggle }">
 		  <button class="toggle" @click="toggle('abilityLibraryToggle')">Toggle</button>
 		  <header>
@@ -114,6 +160,10 @@
 		  </header>
 		  <ability-library></ability-library>
 	  </section>
+	  
+		<!--
+		---- Purchaseable ability
+		--->
 	  <section :class="{ hidden: purchaseableAbilityToggle }">
 		  <button class="toggle" @click="toggle('purchaseableAbilityToggle')">Toggle</button>
 		  <header>
@@ -121,6 +171,10 @@
 		  </header>
 		  <purchaseable-ability></purchaseable-ability>
 	  </section>
+	  
+		<!--
+		---- Ability market
+		--->
 	  <section :class="{ hidden: abilityMarketToggle }">
 		  <button class="toggle" @click="toggle('abilityMarketToggle')">Toggle</button>
 		  <header>
@@ -128,6 +182,10 @@
 		  </header>
 		  <ability-market></ability-market>
 	  </section>
+	  
+		<!--
+		---- Primary navigation
+		--->
 	  <section :class="{ hidden: primaryNavigationToggle }">
 		  <button class="toggle" @click="toggle('primaryNavigationToggle')">Toggle</button>
 		  <header>
@@ -135,6 +193,10 @@
 		  </header>
 		  <primary-navigation></primary-navigation>
 	  </section>
+	  
+		<!--
+		---- Playing field
+		--->
 	  <section :class="{ hidden: playingFieldToggle }">
 		  <button class="toggle" @click="toggle('playingFieldToggle')">Toggle</button>
 		  <header>
@@ -142,6 +204,10 @@
 		  </header>
 		  <playing-field></playing-field>
 	  </section>
+	  
+		<!--
+		---- Emotion diagram
+		--->
 	  <section :class="{ hidden: emotionDiagramToggle }">
 		  <button class="toggle" @click="toggle('emotionDiagramToggle')">Toggle</button>
 		  <header>
@@ -149,6 +215,10 @@
 		  </header>
 		  <emotion-diagram></emotion-diagram>
 	  </section>
+	  
+		<!--
+		---- Leader boards
+		--->
 	  <section :class="{ hidden: leaderBoardsToggle }">
 		  <button class="toggle" @click="toggle('leaderBoardsToggle')">Toggle</button>
 		  <header>
@@ -156,6 +226,10 @@
 		  </header>
 		  <leader-boards></leader-boards>
 	  </section>
+	  
+		<!--
+		---- Narrative output
+		--->
 	  <section :class="{ hidden: narrativeOutputToggle }">
 		  <button class="toggle" @click="toggle('narrativeOutputToggle')">Toggle</button>
 		  <header>
@@ -163,6 +237,10 @@
 		  </header>
 		  <narrative-output></narrative-output>
 	  </section>
+	  
+		<!--
+		---- User profile
+		--->
 	  <section :class="{ hidden: userProfileToggle }">
 		  <button class="toggle" @click="toggle('userProfileToggle')">Toggle</button>
 		  <header>
@@ -170,6 +248,10 @@
 		  </header>
 		  <user-profile></user-profile>
 	  </section>
+	  
+		<!--
+		---- Mini-game
+		--->
 	  <section :class="{ hidden: miniGameToggle }">
 		  <button class="toggle" @click="toggle('miniGameToggle')">Toggle</button>
 		  <header>
@@ -177,6 +259,10 @@
 		  </header>
 		  <mini-game></mini-game>
 	  </section>
+	  
+		<!--
+		---- Sample component
+		--->
 	  <section :class="{ hidden: sampleComponentToggle }">
 		  <button class="toggle" @click="toggle('sampleComponentToggle')">Toggle</button>
 		  <header>
@@ -226,7 +312,7 @@
 	export default {
 	  name: 'app',
 	  created: function() {
-			this.updateEvents();
+			this.setEvents(this.initEvents);
 			this.startSession();
 	  },
 	  data: function() {
@@ -234,6 +320,7 @@
 			  messageTweaker: 'This and that',
 			  sessionDurationTweaker: 0,
 			  enabledAbilityTweaker: 'neutral-1',
+			  availableAbilityTweaker: 'neutral-1',
 			  abilitySlotTweaker: 'root-1',
 			  dataSocketTweaker: 'root'
 		  }
@@ -327,23 +414,21 @@
 		  },
 		  initEvents: function() {
 			  return [
-					{ type: 'data-socket', label: 'root', timestamp: +moment(this.start).subtract(1, 'seconds') }
+					{ type: 'socket', label: 'root', timestamp: +moment(this.start).subtract(1, 'seconds') }
 				]
 		  },
 		  ...mapState({
-			  start: state => state.gameSession.start,
-			  now: state => state.gameSession.now,
-			  interval: state => state.gameSession.interval,
+			  start: state => state.session.start,
+			  now: state => state.session.now,
+			  interval: state => state.session.interval,
 			  options: 'options',
-			  dataSockets: 'dataSockets',
+			  sockets: 'sockets',
+			  slots: 'slots',
 			  abilities: 'abilities',
 			}),
-			...mapGetters(['getStart', 'getNow', 'getDuration', 'getEvents', 'getSlots'])
+			...mapGetters(['getStart', 'getNow', 'getDuration', 'getEvents'])
 		},
 	  methods: {
-		  updateEvents: function() {
-			  this.setEvents(this.initEvents);
-		  },
 		  toggle: function(section) {
 			  this[section] = !this[section];
 		  },
@@ -354,15 +439,15 @@
 		  sessionDurationTweaker: function(value) {
 			  var oldStart = this.getStart();
 			  var newStart = this.getNow() - value;
-			  var events = _.map(this.getEvents(), function(e) {
-				  var difference = e.timestamp - oldStart;
-				  e.timestamp = newStart + difference;
-				  e.cachedScore = undefined;
-				  return e;
+			  var events = _.map(this.getEvents(), function(event) {
+				  var difference = event.timestamp - oldStart;
+				  event.timestamp = newStart + difference;
+				  event.finalScore = undefined;
+				  return event;
 			  });
 			  
-			  this.setEvents(events);
 			  this.setStart(newStart);
+			  this.setEvents(events);
 		  }
 	  }
 	}
