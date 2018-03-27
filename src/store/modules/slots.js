@@ -48,8 +48,13 @@ const getters = {
 	getSlotCosts: (state, getters, rootState) => (event) => {
 		var ability = getters.getAbility(event.ability);
 		var activeLength = getters.getAbilityEvents(event.ability).length;
-		var slotCosts = _.map(ability.costs, (cost) => {
-			return cost * Math.pow(rootState.scores.MULTIPLIER_RATE, activeLength);
+		var slotCosts = {};
+		_.forIn(ability.costs, (cost, key) => {
+			slotCosts[key] = cost;
+			
+			if(activeLength > 1) {
+				slotCosts[key] *= Math.pow(rootState.scores.MULTIPLIER_RATE, activeLength);
+			}
 		});
 		
 		return _.defaults({ confidence: 0 }, slotCosts, rootState.scores.COSTS_INIT);
@@ -64,8 +69,10 @@ const getters = {
 
 // actions
 const actions = {
-  addSlotEvent: ({ dispatch }, event) => {
-	  dispatch('addEvent', event);
+  addSlotEvent: ({ dispatch, commit }, event) => {
+	  return dispatch('addEvent', event).then(() => {
+		  commit('activateInitFactor', 'influence', { root: true });
+    });
   }
 }
 

@@ -29,8 +29,12 @@ const getters = {
 	  var target = event.type;
 	  
 	  if(event.target !== undefined) {
-			var target = event.target;
-			id = event.target;
+		  if(event.target) {
+				var target = event.target;
+				id = event.target;
+			} else {
+				return {};
+			}
 		}
 		
 		var functionName = 'get' + _.upperFirst(_.camelCase(target));
@@ -57,7 +61,10 @@ const mutations = {
   addEvent: (state, event) => {
 	  if(event !== undefined) {
 		  state.events[event.timestamp] = event;
+			return true;
 	  }
+	  
+	  return false;
   },
   resetEvents: (state, events) => {
 	  state.events = {};
@@ -67,20 +74,24 @@ const mutations = {
 // actions
 const actions = {
   addEvent: ({ commit, dispatch, getters }, event) => {
-		if(event.timestamp === undefined) {
-		  event['timestamp'] = _.now();
-	  }
-	  
-	  var eventObject = getters.getEventObject(event);
-	  var scores = getters.getScores(event.timestamp);
-	  var costs = getters.getEventCosts(event);
-	  var match = _.isMatchWith(costs, scores, function(cost, score) { return cost <= score; });
-	  
-	  if(match) {
-		  commit('addEvent', event);
-	  } else {
-		  alert('You can’t afford that');
-	  }
+		return new Promise((resolve, reject) => {
+      if(event.timestamp === undefined) {
+			  event['timestamp'] = _.now();
+		  }
+		  
+		  var eventObject = getters.getEventObject(event);
+		  var scores = getters.getScores(event.timestamp);
+		  var costs = getters.getEventCosts(event);
+		  var match = _.isMatchWith(costs, scores, function(cost, score) { return cost <= score; });
+		  
+		  if(match) {
+			  commit('addEvent', event);
+			  resolve();
+		  } else {
+			  alert('You can’t afford that');
+			  reject();
+		  }
+    });
   },
   setEvents: ({ dispatch, commit }, events) => {
 	  commit('resetEvents');

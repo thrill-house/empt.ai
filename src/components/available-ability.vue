@@ -101,6 +101,7 @@ The component displays an ability that is defined within the global data store. 
 			      type: 'ability',
 			      label: this.label,
 			      instance: this.label + '-' + _.now(),
+			      target: false,
 			      happiness: this.selectedHappiness,
 			      sadness: this.selectedSadness,
 			      tenderness: this.selectedTenderness,

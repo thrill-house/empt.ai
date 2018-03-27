@@ -18,8 +18,8 @@ const getters = {
 	  if(firstEvent !== undefined) {
 		  if(firstEvent.finalScore === undefined) {
 			  var duration = getters.getDuration(firstEvent.timestamp, nextTimestamp);
-			  var factors = getters.getFactors(nextTimestamp);
-			  var costs = getters.getEventCosts(firstEvent);
+			  var factors = firstEvent.factors = (firstEvent.factors === undefined? getters.getFactors(nextTimestamp): firstEvent.factors);
+			  var costs = firstEvent.costs = (firstEvent.costs === undefined? getters.getEventCosts(firstEvent): firstEvent.costs);
 			  
 				var eventScore = {
 					data: (duration * factors.bandwidth) - costs.data,

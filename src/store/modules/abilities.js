@@ -126,8 +126,13 @@ const getters = {
 	getAbilityCosts: (state, getters, rootState) => (event) => {
 		var ability = getters.getAbility(event.label);
 		var activeLength = getters.getAbilityEvents(event.label).length;
-		var abilityCosts = _.map(ability.costs, (cost) => {
-			return cost * Math.pow(rootState.scores.MULTIPLIER_RATE, activeLength);
+		var abilityCosts = {};
+		_.forIn(ability.costs, (cost, key) => {
+			abilityCosts[key] = cost;
+			
+			if(activeLength > 1) {
+				abilityCosts[key] *= Math.pow(rootState.scores.MULTIPLIER_RATE, activeLength);
+			}
 		});
 		
 		return _.defaults({ data: 0 }, abilityCosts, rootState.scores.COSTS_INIT);
@@ -136,12 +141,8 @@ const getters = {
 
 // actions
 const actions = {
-  addAbilityEvent: ({ dispatch, commit }, event) => {
-	  dispatch('addEvent', event).then(success => {
-		  if(success) {
-	      commit('activateInitFactor', 'influence', { root: true });
-      }
-    });
+  addAbilityEvent: ({ dispatch }, event) => {
+	  dispatch('addEvent', event);
   }
 }
 

@@ -186,7 +186,11 @@ const getters = {
 		var activeLength = getters.getActiveSockets().length;
 		var socketCosts = {};
 		_.forIn(socket.costs, (cost, key) => {
-			socketCosts[key] = cost * Math.pow(rootState.scores.MULTIPLIER_RATE, activeLength);
+			socketCosts[key] = cost;
+			
+			if(activeLength > 1) {
+				socketCosts[key] *= Math.pow(rootState.scores.MULTIPLIER_RATE, activeLength);
+			}
 		});
 		
 		return _.defaults(socketCosts, rootState.scores.COSTS_INIT);
@@ -203,12 +207,10 @@ const mutations = {
 // actions
 const actions = {
   addSocketEvent: ({ dispatch, commit, getters }, event) => {
-	  dispatch('addEvent', event).then((success) => {
-		  if(success) {
-			  var socket = getters.getEventObject(event);
-			  commit('activateInitFactor', socket.enables, { root: true });
-			  commit('activateEra', socket.era, { root: true });
-      }
+	  return dispatch('addEvent', event).then((success) => {
+		  var socket = getters.getEventObject(event);
+		  commit('activateInitFactor', socket.enables, { root: true });
+		  commit('activateEra', socket.era, { root: true });
     });
   }
 }
