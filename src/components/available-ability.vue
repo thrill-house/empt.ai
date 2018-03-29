@@ -13,27 +13,34 @@ The component displays an ability that is defined within the global data store. 
 	  <h4>{{ ability.name }}</h4>
 	  <div class="define-emotions">
 			<div class="emotions">
-				<div class="axis-happiness">
+				<emotion-diagram
+				  :happiness="selectedHappiness"
+				  :sadness="selectedSadness"
+				  :excitement="selectedExcitement"
+				  :fear="selectedFear"
+				  :tenderness="selectedTenderness"
+				  :anger="selectedAnger"></emotion-diagram>
+				<div class="axis axis-happiness">
 					<input type="range" v-model.number="selectedHappiness" min="0" :max="maximumHappiness" :class="'max-' + maximumHappiness">
 					<label>Happiness</label>
 				</div>
-			  <div class="axis-sadness">
+			  <div class="axis axis-sadness">
 				  <input type="range" v-model.number="selectedSadness" min="0" :max="maximumSadness" :class="'max-' + maximumSadness">
 				  <label>Sadness</label>
 			  </div>
-			  <div class="axis-tenderness">
+			  <div class="axis axis-tenderness">
 				  <input type="range" v-model.number="selectedTenderness" min="0" :max="maximumTenderness" :class="'max-' + maximumTenderness">
 				  <label>Tenderness</label>
 			  </div>
-			  <div class="axis-anger">
+			  <div class="axis axis-anger">
 				  <input type="range" v-model.number="selectedAnger" min="0" :max="maximumAnger" :class="'max-' + maximumAnger">
 				  <label>Anger</label>
 			  </div>
-			  <div class="axis-excitement">
+			  <div class="axis axis-excitement">
 				  <input type="range" v-model.number="selectedExcitement" min="0" :max="maximumExcitement" :class="'max-' + maximumExcitement">
 				  <label>Excitement</label>
 			  </div>
-			  <div class="axis-fear">
+			  <div class="axis axis-fear">
 				  <input type="range" v-model.number="selectedFear" min="0" :max="maximumFear" :class="'max-' + maximumFear">
 				  <label>Fear</label>
 			  </div>
@@ -57,10 +64,14 @@ The component displays an ability that is defined within the global data store. 
 <script>
 	import { mapState, mapGetters, mapActions } from 'vuex'
 	import store from '../store'
+	import EmotionDiagram from './emotion-diagram.vue'
 	
 	export default {
 	  name: 'available-ability',
 	  store,
+	  components: {
+	    EmotionDiagram
+	  },
 	  props: {
 	    label: String
 	  },
@@ -156,7 +167,15 @@ The component displays an ability that is defined within the global data store. 
 				height: (187 / 162) * 300px;
 				margin: 15px 0;
 				
-				> div {
+				.emotion-diagram {
+					position: absolute;
+					left: 0;
+					top: 0;
+					width: 100%;
+					height: 100%;
+				}
+				
+				.axis {
 					position: absolute;
 					left: 50%;
 					top: 50%;

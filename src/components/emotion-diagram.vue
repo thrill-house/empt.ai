@@ -73,14 +73,6 @@ Displays the player's emotional status as a result of their currently enabled ab
 			  var valueX = minX + distanceX;
 			  var valueY = minY + distanceY;
 			  
-			  if(ratio == 1) {
-				  console.log('anger');
-				  console.log(maxX);
-				  console.log(valueX);
-				  console.log(maxY);
-				  console.log(valueY);
-			  }
-			  
 			  return valueX + '% ' + valueY + '%';
 		  }
 	  }
