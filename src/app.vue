@@ -212,8 +212,35 @@
 		  <button class="toggle" @click="toggle('emotionDiagramToggle')">Toggle</button>
 		  <header>
 			  <div v-html="docs.emotionDiagram" class="docs"></div>
+			  <div class="tweakers">
+					<h5>Tweakers</h5>
+					<label>Happiness</label>
+					<input type="range" v-model.number="emotionDiagramHappinessTweaker" min="1" max="100">
+					<br>
+					<label>Sadness</label>
+					<input type="range" v-model.number="emotionDiagramSadnessTweaker" min="1" max="100">
+					<br>
+					<label>Excitement</label>
+					<input type="range" v-model.number="emotionDiagramExcitementTweaker" min="1" max="100">
+					<br>
+					<label>Fear</label>
+					<input type="range" v-model.number="emotionDiagramFearTweaker" min="1" max="100">
+					<br>
+					<label>Tenderness</label>
+					<input type="range" v-model.number="emotionDiagramTendernessTweaker" min="1" max="100">
+					<br>
+					<label>Anger</label>
+					<input type="range" v-model.number="emotionDiagramAngerTweaker" min="1" max="100">
+					<br>
+				</div>
 		  </header>
-		  <emotion-diagram></emotion-diagram>
+		  <emotion-diagram
+		  :happiness="emotionDiagramHappinessTweaker"
+		  :sadness="emotionDiagramSadnessTweaker"
+		  :excitement="emotionDiagramExcitementTweaker"
+		  :fear="emotionDiagramFearTweaker"
+		  :tenderness="emotionDiagramTendernessTweaker"
+		  :anger="emotionDiagramAngerTweaker"></emotion-diagram>
 	  </section>
 	  
 		<!--
@@ -322,7 +349,13 @@
 			  enabledAbilityTweaker: 'neutral-1',
 			  availableAbilityTweaker: 'neutral-1',
 			  abilitySlotTweaker: 'root-1',
-			  dataSocketTweaker: 'root'
+			  dataSocketTweaker: 'root',
+			  emotionDiagramHappinessTweaker: 1,
+			  emotionDiagramSadnessTweaker: 1,
+			  emotionDiagramExcitementTweaker: 1,
+			  emotionDiagramFearTweaker: 1,
+			  emotionDiagramTendernessTweaker: 1,
+			  emotionDiagramAngerTweaker: 1
 		  }
 	  },
 	  store,

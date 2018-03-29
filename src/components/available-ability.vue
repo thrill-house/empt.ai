@@ -10,16 +10,36 @@ The component displays an ability that is defined within the global data store. 
 
 <template>
   <div class="available-ability">
-	  {{ ability.name }}
-	  <div class="add">
-			{{ sumEmotions }}
-			<p class="green">0 <input type="range" v-model.number="selectedHappiness" min="0" :max="maximumHappiness"> {{ maximumHappiness }}</p>
-		  <p class="green">0 <input type="range" v-model.number="selectedSadness" min="0" :max="maximumSadness"> {{ maximumSadness }}</p>
-		  <p class="red">0 <input type="range" v-model.number="selectedTenderness" min="0" :max="maximumTenderness"> {{ maximumTenderness }}</p>
-		  <p class="red">0 <input type="range" v-model.number="selectedAnger" min="0" :max="maximumAnger"> {{ maximumAnger }}</p>
-		  <p class="yellow">0 <input type="range" v-model.number="selectedExcitement" min="0" :max="maximumExcitement"> {{ maximumExcitement }}</p>
-		  <p class="yellow">0 <input type="range" v-model.number="selectedFear" min="0" :max="maximumFear"> {{ maximumFear }}</p>
-		  <button @click="submitEvent">Submit</button>
+	  <h4>{{ ability.name }}</h4>
+	  <div class="define-emotions">
+			<div class="emotions">
+				<div class="axis-happiness">
+					<input type="range" v-model.number="selectedHappiness" min="0" :max="maximumHappiness" :class="'max-' + maximumHappiness">
+					<label>Happiness</label>
+				</div>
+			  <div class="axis-sadness">
+				  <input type="range" v-model.number="selectedSadness" min="0" :max="maximumSadness" :class="'max-' + maximumSadness">
+				  <label>Sadness</label>
+			  </div>
+			  <div class="axis-tenderness">
+				  <input type="range" v-model.number="selectedTenderness" min="0" :max="maximumTenderness" :class="'max-' + maximumTenderness">
+				  <label>Tenderness</label>
+			  </div>
+			  <div class="axis-anger">
+				  <input type="range" v-model.number="selectedAnger" min="0" :max="maximumAnger" :class="'max-' + maximumAnger">
+				  <label>Anger</label>
+			  </div>
+			  <div class="axis-excitement">
+				  <input type="range" v-model.number="selectedExcitement" min="0" :max="maximumExcitement" :class="'max-' + maximumExcitement">
+				  <label>Excitement</label>
+			  </div>
+			  <div class="axis-fear">
+				  <input type="range" v-model.number="selectedFear" min="0" :max="maximumFear" :class="'max-' + maximumFear">
+				  <label>Fear</label>
+			  </div>
+			</div>
+			<h6>Selected {{ sumEmotions }}/{{ requiredEmotions }}</h6>
+		  <button @click="submitEvent" v-show="sumEmotions == requiredEmotions">Submit</button>
 	  </div>
 	  <div v-if="events" class="list">
 		  <div v-for="event in events">
@@ -51,7 +71,8 @@ The component displays an ability that is defined within the global data store. 
 		    selectedTenderness: 0,
 		    selectedAnger: 0,
 		    selectedExcitement: 0,
-		    selectedFear: 0
+		    selectedFear: 0,
+		    requiredEmotions: 4
 		  }
 		},
 	  computed: {
@@ -93,10 +114,10 @@ The component displays an ability that is defined within the global data store. 
 	  },
 	  methods: {
 		  getMaximumEmotion: function(emotion, complementary) {
-		  	return (complementary > 0)? 0: ((emotion == 2 || (this.sumEmotions - emotion <= 2 && this.maximumEmotion < 2))? 2: 1);
+		  	return (complementary > 0)? 0: ((emotion == this.requiredEmotions / 2 || (this.sumEmotions - emotion <= this.requiredEmotions / 2 && this.maximumEmotion < this.requiredEmotions / 2))? this.requiredEmotions / 2: 1);
 	    },
 	    submitEvent: function() {
-			  if(this.sumEmotions === 4) {
+			  if(this.sumEmotions === this.requiredEmotions) {
 				  var event = {
 			      type: 'ability',
 			      label: this.label,
@@ -124,6 +145,72 @@ The component displays an ability that is defined within the global data store. 
 	@import '../assets/scss/variables';
 	
 	.available-ability {
+		width: 300px;
 		
+		.define-emotions {
+			text-align: center;
+		
+			.emotions {
+				position: relative;
+				width: 300px;
+				height: (187 / 162) * 300px;
+				margin: 15px 0;
+				
+				> div {
+					position: absolute;
+					left: 50%;
+					top: 50%;
+					width: 150px;
+					margin-top: -9px;
+					transform-origin: center left;
+						
+					&.axis-happiness {
+						transform: rotate(-90deg);
+					}
+					
+					&.axis-tenderness {
+						transform: rotate(-150deg);
+					}
+					
+					&.axis-excitement {
+						transform: rotate(-30deg);
+					}
+					
+					&.axis-sadness {
+						transform: rotate(90deg);
+					}
+					
+					&.axis-fear {
+						transform: rotate(150deg);
+					}
+					
+					&.axis-anger {
+						transform: rotate(30deg);
+					}
+					
+					input {
+						display: block;
+						width: 100%;
+						height: 100%;
+						
+						&.max-1 {
+							width: 55%;
+						}
+						
+						&.max-0 {
+							width: 10%;
+						}
+					}
+					
+					label {
+						position: absolute;
+						right: -1rem;
+						bottom: 1rem;
+						font-size: 0.5rem;
+						transform-origin: bottom right;
+					}
+				}
+			}
+		}
 	}
 </style>

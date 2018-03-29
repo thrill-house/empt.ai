@@ -91,7 +91,7 @@ const getters = {
 const mutations = {
   activateInitFactor: (state, factor) => {
 	  state.FACTORS_INIT[factor] = 1;
-  },
+  }
 }
 
 // actions
