@@ -127,13 +127,16 @@ const getters = {
 		var ability = getters.getAbility(event.label);
 		var activeLength = getters.getAbilityEvents(event.label).length;
 		var abilityCosts = {};
-		_.forIn(ability.costs, (cost, key) => {
-			abilityCosts[key] = cost;
-			
-			if(activeLength > 1) {
-				abilityCosts[key] *= Math.pow(rootState.scores.MULTIPLIER_RATE, activeLength);
-			}
-		});
+		
+		if(ability) {
+			_.forIn(ability.costs, (cost, key) => {
+				abilityCosts[key] = cost;
+				
+				if(activeLength > 1) {
+					abilityCosts[key] *= Math.pow(rootState.scores.MULTIPLIER_RATE, activeLength);
+				}
+			});
+		}
 		
 		return _.defaults({ data: 0 }, abilityCosts, rootState.scores.COSTS_INIT);
 	}

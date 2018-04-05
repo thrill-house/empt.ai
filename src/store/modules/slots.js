@@ -49,13 +49,16 @@ const getters = {
 		var ability = getters.getAbility(event.ability);
 		var activeLength = getters.getAbilityEvents(event.ability).length;
 		var slotCosts = {};
-		_.forIn(ability.costs, (cost, key) => {
-			slotCosts[key] = cost;
-			
-			if(activeLength > 1) {
-				slotCosts[key] *= Math.pow(rootState.scores.MULTIPLIER_RATE, activeLength);
-			}
-		});
+		
+		if(ability) {
+			_.forIn(ability.costs, (cost, key) => {
+				slotCosts[key] = cost;
+				
+				if(activeLength > 1) {
+					slotCosts[key] *= Math.pow(rootState.scores.MULTIPLIER_RATE, activeLength);
+				}
+			});
+		}
 		
 		return _.defaults({ confidence: 0 }, slotCosts, rootState.scores.COSTS_INIT);
 	},

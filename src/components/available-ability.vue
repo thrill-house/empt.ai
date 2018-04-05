@@ -50,13 +50,14 @@ The component displays an ability that is defined within the global data store. 
 		  <button @click="submitEvent" v-show="sumEmotions == requiredEmotions">Submit</button>
 	  </div>
 	  <div v-if="events" class="list">
-		  <div v-for="event in events">
-			  <h6>Happiness: {{ event.happiness }}</h6>
-			  <h6>Sadness: {{ event.sadness }}</h6>
-			  <h6>Tenderness: {{ event.tenderness }}</h6>
-			  <h6>Anger: {{ event.anger }}</h6>
-			  <h6>Excitement: {{ event.excitement }}</h6>
-			  <h6>Fear: {{ event.fear }}</h6>
+		  <div v-for="event in events" class="event">
+			  <emotion-diagram
+				  :happiness="event.happiness"
+				  :sadness="event.sadness"
+				  :excitement="event.excitement"
+				  :fear="event.fear"
+				  :tenderness="event.tenderness"
+				  :anger="event.anger"></emotion-diagram>
 		  </div>
 	  </div>
 	</div>
@@ -235,10 +236,9 @@ The component displays an ability that is defined within the global data store. 
 							background: transparent;
 						  height: 1rem;
 						  width: 1rem;
-						  //border-radius: 50%;
+						  background: black;
+						  border-radius: 50%;
 						  cursor: pointer;
-						  //margin-top: -14px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
-						  //box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
 						}
 						
 						&::-webkit-slider-thumb {
@@ -269,6 +269,20 @@ The component displays an ability that is defined within the global data store. 
 						font-size: 0.5rem;
 						transform-origin: bottom right;
 					}
+				}
+			}
+		}
+		
+		.list {
+			width: 100%;
+			
+			.event {
+				display: inline-block;
+				margin: 5px;
+				
+				.emotion-diagram {
+					width: 50px;
+					height: (187 / 162) * 50px;
 				}
 			}
 		}

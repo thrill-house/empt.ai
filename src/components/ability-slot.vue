@@ -12,8 +12,9 @@ The ability slot is a space attached to a data sources. When an ability is assig
 </docs>
 
 <template>
-  <enabled-ability v-if="event && abilityInstance" :instance="abilityInstance"></enabled-ability>
-  <div v-else class="ability-slot">
+  
+  <div class="ability-slot">
+	  <enabled-ability v-if="event && abilityInstance" :instance="abilityInstance"></enabled-ability>
 	  <select v-model="selectedAbility">
 			<option disabled value="">Choose</option>
 		  <option v-for="(ability, index) in abilities" :value="index">
@@ -21,7 +22,7 @@ The ability slot is a space attached to a data sources. When an ability is assig
 		  </option>
 		</select>
 	  <select v-if="selectedAbility" v-model="selectedInstance">
-			<option disabled value="">Choose</option>
+			<option value="">Choose</option>
 		  <option v-for="abilityEvent in abilityEvents" :value="abilityEvent.instance">
 		  	{{ abilityEvent.instance }}
 		  </option>
@@ -72,22 +73,40 @@ The ability slot is a space attached to a data sources. When an ability is assig
 	  },
 	  methods: mapActions(['addSlotEvent']),
 	  watch: {
-		  selectedInstance: function() {
+		  selectedInstance: function(newInstance, oldInstance) {
+			  var label = this.label;
+			  
 			  var event = {
 		      type: 'slot',
 		      target: 'ability',
 		      label: this.label,
 		      ability: this.selectedAbility,
 		      instance: this.selectedInstance,
+		      additive: true,
 		      negates: [{
 			    	type: 'slot',
-			    	instance: this.selectedInstance
-		      },
-		      {
-			    	type: 'slot',
-			    	label: this.label
+			    	label: this.label,
+			    	additive: true
 		      }]
 		    };
+		    
+		    if(newInstance !== '') {
+			  	event.negates.push({
+				    type: 'slot',
+			    	instance: this.selectedInstance,
+			    	additive: true
+			    });
+		    } else {
+			    event.ability = this.selectedAbility = '';
+			    event.additive = false;
+			    event.negated = true;
+			    event.negates = [{
+				    type: 'slot',
+			    	label: this.label,
+			    	instance: oldInstance,
+			    	additive: true
+			    }];
+		    }
 		    
 		    this.addSlotEvent(event);
 		  }
@@ -107,6 +126,13 @@ The ability slot is a space attached to a data sources. When an ability is assig
 	  -webkit-clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
 		background: radial-gradient($light, $sky);
 	  color: $dark;
+	  
+	  .ability.enabled {
+		  position: absolute;
+		  top: 0;
+		  left: 0;
+		  z-index: -1;
+	  }
 	}
 	.green {
 		background: green;

@@ -185,13 +185,16 @@ const getters = {
 		var socket = getters.getSocket(event.label);
 		var activeLength = getters.getActiveSockets().length;
 		var socketCosts = {};
-		_.forIn(socket.costs, (cost, key) => {
-			socketCosts[key] = cost;
-			
-			if(activeLength > 1) {
-				socketCosts[key] *= Math.pow(rootState.scores.MULTIPLIER_RATE, activeLength);
-			}
-		});
+		
+		if(socket) {
+			_.forIn(socket.costs, (cost, key) => {
+				socketCosts[key] = cost;
+				
+				if(activeLength > 1) {
+					socketCosts[key] *= Math.pow(rootState.scores.MULTIPLIER_RATE, activeLength);
+				}
+			});
+		}
 		
 		return _.defaults(socketCosts, rootState.scores.COSTS_INIT);
 	}

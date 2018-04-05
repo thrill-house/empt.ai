@@ -57,19 +57,21 @@ const getters = {
 		  if(event !== undefined) {
 			  var eventObject = getters.getEventObject(event);
 				
-				_.each(eventObject.adders, (adder, key) => {
-					factors[key] = positive? factors[key] + adder: factors[key] - adder;
-				});
-				
-				_.each(eventObject.multipliers, (multiplier, key) => {
-					factors[key] = positive? factors[key] * multiplier: factors[key] / multiplier;
-				});
+				if(eventObject) {
+					_.each(eventObject.adders, (adder, key) => {
+						factors[key] = positive? factors[key] + adder: factors[key] - adder;
+					});
+					
+					_.each(eventObject.multipliers, (multiplier, key) => {
+						factors[key] = positive? factors[key] * multiplier: factors[key] / multiplier;
+					});
+				}
 			}
 	  };
 		
 		_.each(events, function(event) {
 			_.each(event.negates, function(negate) {
-				var negatedEvent = _.last(_.filter(getters.getEvents(before - 1), negate));
+				var negatedEvent = _.last(_.filter(getters.getEvents(event.timestamp), negate));
 				if(negatedEvent && !_.isMatch(event, negatedEvent)) {
 					factoriser(negatedEvent, false);
 				}
