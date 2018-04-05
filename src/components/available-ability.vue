@@ -19,7 +19,8 @@ The component displays an ability that is defined within the global data store. 
 				  :excitement="selectedExcitement"
 				  :fear="selectedFear"
 				  :tenderness="selectedTenderness"
-				  :anger="selectedAnger"></emotion-diagram>
+				  :anger="selectedAnger"
+				  :scale="2"></emotion-diagram>
 				<div class="axis axis-happiness">
 					<input type="range" v-model.number="selectedHappiness" min="0" :max="maximumHappiness" :class="'max-' + maximumHappiness">
 					<label>Happiness</label>
@@ -179,7 +180,7 @@ The component displays an ability that is defined within the global data store. 
 					position: absolute;
 					left: 50%;
 					top: 50%;
-					width: 150px;
+					width: 172px;
 					margin-top: -9px;
 					transform-origin: center left;
 						
@@ -211,6 +212,46 @@ The component displays an ability that is defined within the global data store. 
 						display: block;
 						width: 100%;
 						height: 100%;
+						-webkit-appearance: none;
+						background: transparent;
+						
+						&:focus {
+							outline: none;
+						}
+						
+						&::-webkit-slider-thumb {
+							-webkit-appearance: none;
+						}
+						
+						&::-ms-track {
+						  width: 100%;
+						  cursor: pointer;
+						  background: transparent; 
+						  border-color: transparent;
+						  color: transparent;
+						}
+						
+						@mixin thumb {
+							background: transparent;
+						  height: 1rem;
+						  width: 1rem;
+						  //border-radius: 50%;
+						  cursor: pointer;
+						  //margin-top: -14px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+						  //box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+						}
+						
+						&::-webkit-slider-thumb {
+						  @include thumb;
+						}
+						
+						&::-moz-range-thumb {
+						  @include thumb;
+						}
+						
+						&::-ms-thumb {
+						  @include thumb;
+						}
 						
 						&.max-1 {
 							width: 55%;

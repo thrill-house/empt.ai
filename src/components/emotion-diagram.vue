@@ -3,7 +3,7 @@
 Displays the player's emotional status as a result of their currently enabled abilities on the playing field. 
 
 ##### Instantiation
-`<emotion-diagram :happiness.number="1" :sadness.number="2" :excitement.number="3" :fear.number="4" :tenderness.number="5" :anger.number="6"></emotion-diagram>`
+`<emotion-diagram :happiness.number="1" :sadness.number="2" :excitement.number="3" :fear.number="4" :tenderness.number="5" :anger.number="6" :scale.number="10"></emotion-diagram>`
 
 ---
 </docs>
@@ -27,11 +27,12 @@ Displays the player's emotional status as a result of their currently enabled ab
 	    excitement: Number,
 	    fear: Number,
 	    tenderness: Number,
-	    anger: Number
+	    anger: Number,
+	    scale: Number
 	  },
 	  computed: {
 		  max: function() {
-			  return _.max([this.happiness, this.sadness, this.excitement, this.fear, this.tenderness, this.anger]);
+			  return _.max([this.happiness, this.sadness, this.excitement, this.fear, this.tenderness, this.anger, this.scale]);
 		  },
 		  happinessRatio: function() {
 			  return this.calculateRatio(50, 0, this.happiness);
@@ -63,8 +64,8 @@ Displays the player's emotional status as a result of their currently enabled ab
 	  },
 	  methods: {
 		  calculateRatio: function(maxX, maxY, emotion) {
-			  var minX = 50;
-			  var minY = 50;
+			  var minX = 50 + ((maxX - 50) * 0.1);
+			  var minY = 50 + ((maxY - 50) * 0.1);;
 			  var ratio = emotion / this.max;
 			  var differenceX = maxX - minX;
 			  var differenceY = maxY - minY;
