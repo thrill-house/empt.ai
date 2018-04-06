@@ -76,15 +76,15 @@ const actions = {
   addEvent: ({ commit, dispatch, getters }, event) => {
 		return new Promise((resolve, reject) => {
       if(event.timestamp === undefined) {
-			  event['timestamp'] = _.now();
+			  event.timestamp = _.now();
 		  }
 		  
 		  var eventObject = getters.getEventObject(event);
 		  var scores = getters.getScores(event.timestamp);
 		  var costs = getters.getEventCosts(event);
-		  var match = _.isMatchWith(costs, scores, function(cost, score) { return cost <= score; });
 		  
-		  if(match) {
+		  if(_.isMatchWith(costs, scores, function(cost, score) { return cost <= score; })) {
+			  event.costs = costs;
 			  commit('addEvent', event);
 			  resolve();
 		  } else {

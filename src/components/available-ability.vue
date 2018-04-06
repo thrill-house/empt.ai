@@ -214,7 +214,8 @@ The component displays an ability that is defined within the global data store. 
 						width: 100%;
 						height: 100%;
 						-webkit-appearance: none;
-						background: transparent;
+						background: rgba(black, 0.1);
+					  border-radius: 9px;
 						
 						&:focus {
 							outline: none;
@@ -236,7 +237,7 @@ The component displays an ability that is defined within the global data store. 
 							background: transparent;
 						  height: 1rem;
 						  width: 1rem;
-						  background: black;
+						  background: rgba(black, 0.2);
 						  border-radius: 50%;
 						  cursor: pointer;
 						}

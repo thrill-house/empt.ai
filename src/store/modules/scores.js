@@ -2,7 +2,7 @@ import Vue from 'vue';
 
 const state = {
 	MULTIPLIER_RATE: 1.12,
-  SCORES_INIT: { data: 1, confidence: 100 },
+  SCORES_INIT: { data: 1, confidence: 2100 },
 	FACTORS_INIT: { bandwidth: 1, influence: 0, journalCitations: 0, returnOnInvestment: 0, approvalRating: 0, persuasion: 0 },
 	COSTS_INIT: { data: 0, confidence: 0 }
 }
@@ -13,17 +13,16 @@ const getters = {
     var firstEvent = _.first(events);
 	  var remainingEvents = _.tail(events);
 		var nextEvent = _.first(remainingEvents);
-		var nextTimestamp = (nextEvent != undefined? nextEvent.timestamp: before - 1);
+		var nextTimestamp = (nextEvent != undefined)? nextEvent.timestamp: before - 1;
 	  
 	  if(firstEvent !== undefined) {
-		  if(firstEvent.finalScore === undefined) {
+		  if(firstEvent.finalScore === undefined) {			  
 			  var duration = getters.getDuration(firstEvent.timestamp, nextTimestamp);
 			  var factors = firstEvent.factors = (firstEvent.factors === undefined? getters.getFactors(nextTimestamp): firstEvent.factors);
-			  var costs = firstEvent.costs = (firstEvent.costs === undefined? getters.getEventCosts(firstEvent): firstEvent.costs);
 			  
 				var eventScore = {
-					data: (duration * factors.bandwidth) - costs.data,
-					confidence: (duration * factors.persuasion) - costs.confidence
+					data: (duration * factors.bandwidth) - firstEvent.costs.data,
+					confidence: (duration * factors.persuasion) - firstEvent.costs.confidence
 				};
 			} else {
 				var eventScore = firstEvent.finalScore;
@@ -49,35 +48,36 @@ const getters = {
 	  
 	  return score;
   },
+	calculateFactors: (state, getters) => (event, factors = _.defaults({}, state.FACTORS_INIT), positive = true) => {
+	  if(event !== undefined) {
+		  var eventObject = getters.getEventObject(event);
+			
+			if(eventObject) {
+				_.each(eventObject.adders, (adder, key) => {
+					factors[key] = positive? factors[key] + adder: factors[key] - adder;
+				});
+				
+				_.each(eventObject.multipliers, (multiplier, key) => {
+					factors[key] = positive? factors[key] * multiplier: factors[key] / multiplier;
+				});
+			}
+		};
+		
+		return factors;
+  },
   getFactors: (state, getters) => (before = getters.getNow()) => {
 	  var events = getters.getEvents(before);
 	  var factors = _.defaults({}, state.FACTORS_INIT);
-	  
-	  var factoriser = (event, positive = true) => {
-		  if(event !== undefined) {
-			  var eventObject = getters.getEventObject(event);
-				
-				if(eventObject) {
-					_.each(eventObject.adders, (adder, key) => {
-						factors[key] = positive? factors[key] + adder: factors[key] - adder;
-					});
-					
-					_.each(eventObject.multipliers, (multiplier, key) => {
-						factors[key] = positive? factors[key] * multiplier: factors[key] / multiplier;
-					});
-				}
-			}
-	  };
 		
 		_.each(events, function(event) {
-			_.each(event.negates, function(negate) {
-				var negatedEvent = _.last(_.filter(getters.getEvents(event.timestamp), negate));
-				if(negatedEvent && !_.isMatch(event, negatedEvent)) {
-					factoriser(negatedEvent, false);
+			_.each(event.negated, function(negated) {
+				var negatedEvent = _.last(_.filter(getters.getEvents(event.timestamp), negated));
+				if(negatedEvent && negatedEvent.positive && !_.isMatch(event, negatedEvent)) {
+					factors = getters.calculateFactors(negatedEvent, factors, false);
 				}
 			});
 			
-			factoriser(event);
+			factors = getters.calculateFactors(event, factors, event.positive);
 		});
 		
 		factors.persuasion = factors.influence * (factors.journalCitations || 1) * (factors.returnOnInvestment || 1) * (factors.approvalRating || 1);

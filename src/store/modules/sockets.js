@@ -190,8 +190,8 @@ const getters = {
 			_.forIn(socket.costs, (cost, key) => {
 				socketCosts[key] = cost;
 				
-				if(activeLength > 1) {
-					socketCosts[key] *= Math.pow(rootState.scores.MULTIPLIER_RATE, activeLength);
+				if(activeLength > 0) {
+					socketCosts[key] *= Math.pow(rootState.scores.MULTIPLIER_RATE, activeLength - 1);
 				}
 			});
 		}
