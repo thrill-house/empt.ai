@@ -237,7 +237,7 @@ The component displays an ability that is defined within the global data store. 
 							background: transparent;
 						  height: 1rem;
 						  width: 1rem;
-						  background: rgba(black, 0.2);
+						  background: transparent; //rgba(black, 0.2);
 						  border-radius: 50%;
 						  cursor: pointer;
 						}

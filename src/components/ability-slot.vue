@@ -26,7 +26,7 @@ The ability slot is a space attached to a data sources. When an ability is assig
 		  	{{ abilityEvent.instance }}
 		  </option>
 		</select>
-		<button v-if="selectedInstance" @click="addEvent('', selectedInstance); selectedInstance = '';">Unslot</button>
+		<button v-if="abilityInstance" @click="addEvent('', selectedInstance); selectedInstance = '';">Unslot</button>
   </div>
 </template>
 
@@ -58,12 +58,6 @@ The ability slot is a space attached to a data sources. When an ability is assig
 			  var event = this.getEventOfType(this.label, 'slot');
 		    return event && event.positive? event: false;
 	    },
-	    /*selectedAbility: function() {
-		    
-	    },
-	    selectedInstance: function() {
-		    
-	    },*/
 		  abilityInstance: function() {
 		    if(this.event) {
 			    var instance = this.getEventOfType(this.event.instance, 'slot', 'instance');

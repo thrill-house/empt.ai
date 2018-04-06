@@ -74,7 +74,7 @@ const getters = {
 const actions = {
   addSlotEvent: ({ dispatch, commit }, event) => {
 	  return dispatch('addEvent', event).then(() => {
-		  commit('activateInitFactor', 'influence', { root: true });
+		  //commit('activateInitFactor', 'influence', { root: true });
     });
   }
 }

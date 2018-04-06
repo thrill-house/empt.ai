@@ -3,8 +3,8 @@ const state = {
 	  name: 'Neutral (1)',
 	  type: 'neutral',
 	  era: 'student',
-	  multipliers: {
-		  influence: 1.5
+	  adders: {
+		  influence: 1
 		},
 		costs: {
 		  confidence: 10,
@@ -15,8 +15,8 @@ const state = {
 	  name: 'Neutral (2)',
 	  type: 'neutral',
 	  era: 'student',
-		multipliers: {
-		  influence: 1.5
+		adders: {
+		  influence: 1
 		},
 		costs: {
 		  data: 5,
@@ -27,8 +27,8 @@ const state = {
 	  name: 'Neutral (3)',
 	  type: 'neutral',
 	  era: 'student',
-		multipliers: {
-		  influence: 1.5
+		adders: {
+		  influence: 1
 		},
 		costs: {
 		  data: 5,

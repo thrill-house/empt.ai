@@ -212,7 +212,7 @@ const actions = {
   addSocketEvent: ({ dispatch, commit, getters }, event) => {
 	  return dispatch('addEvent', event).then((success) => {
 		  var socket = getters.getEventObject(event);
-		  commit('activateInitFactor', socket.enables, { root: true });
+		  //commit('activateInitFactor', socket.enables, { root: true });
 		  commit('activateEra', socket.era, { root: true });
     });
   }

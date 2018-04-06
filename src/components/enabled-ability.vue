@@ -13,6 +13,13 @@ The enabled ability is an ability that is currently enabled within a socket.
 
 <template>
   <div v-if="event" class="ability enabled">
+    <emotion-diagram
+		  :happiness="event.happiness"
+		  :sadness="event.sadness"
+		  :excitement="event.excitement"
+		  :fear="event.fear"
+		  :tenderness="event.tenderness"
+		  :anger="event.anger"></emotion-diagram>
     {{ ability.name }}
     <em v-if="ability.type">— {{ ability.type }}</em>
     <div class="adders">
@@ -27,8 +34,9 @@ The enabled ability is an ability that is currently enabled within a socket.
 </template>
 
 <script>
-	import { mapState, mapGetters } from 'vuex'
-	import store from '../store'
+	import { mapState, mapGetters } from 'vuex';
+	import store from '../store';
+	import EmotionDiagram from './emotion-diagram.vue';
 	
 	export default {
 	  name: 'enabled-ability',
@@ -36,6 +44,9 @@ The enabled ability is an ability that is currently enabled within a socket.
 	    instance: String,
 	  },
 	  store,
+	  components: {
+	    EmotionDiagram
+	  },
 	  computed: {
 		  ability: function() {
 		    return this.getAbility(this.event.label);
@@ -63,13 +74,22 @@ The enabled ability is an ability that is currently enabled within a socket.
 	  -webkit-clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
 	  
 	  &.enabled {
-		  background: radial-gradient($peach, $orange);
+		  background: none; // radial-gradient($peach, $orange);
 		  color: $light;
 		}
 		
 		&.disabled {
 		  background: radial-gradient($sky, $light);
 		  color: $dark;
+		}
+		
+		.emotion-diagram {
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			z-index: -1;
 		}
 	}
 </style>
