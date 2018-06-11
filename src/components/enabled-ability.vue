@@ -27,7 +27,7 @@ The enabled ability is an ability that is currently enabled within a socket.
 		    +{{ prettyUnit(value, adder) }}
 	    </output>
 	    <output v-for="(value, multiplier) in multipliers">
-		    ×{{ prettyUnit(value, multiplier) }}
+		    +{{ prettyUnit(value, multiplier) }}
 	    </output>
     </div>
     <button @click="clearSlotEvent()">Unslot</button>

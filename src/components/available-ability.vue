@@ -11,6 +11,8 @@ The component displays an ability that is defined within the global data store. 
 <template>
   <div class="available-ability">
 	  <h4>{{ ability.name }}</h4>
+	  <h6>Type: {{ ability.type }}, Era: {{ ability.era }}</h6>
+	  <h6>Cost: {{ ability.costs.confidence|confidence }}, Install: {{ ability.costs.data|data }}</h6>
 	  <div class="define-emotions">
 			<div class="emotions">
 				<emotion-diagram

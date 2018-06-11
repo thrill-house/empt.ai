@@ -6,7 +6,7 @@ const state = {
 	  parent: false,
 	  multipliers: {
 		  bandwidth: 1,
-		  influence: 1
+		  //influence: 1
 	  },
 	  costs: {
 		  data: 1

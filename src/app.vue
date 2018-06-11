@@ -15,6 +15,15 @@
 		  <button class="toggle" @click="toggle('gameEventsToggle')">Toggle</button>
 		  <header>
 			  <div v-html="docs.gameEvents" class="docs"></div>
+			  <div class="tweakers">
+					<h5>Tweakers</h5>
+					<label>Random socket</label>
+					<button @click="randomSocket">Activate</button>
+					<label>Random ability</label>
+					<button @click="randomAbility">Research</button>
+					<label>Random slot</label>
+					<button @click="randomSlot">Install</button>
+				</div>
 		  </header>
 		  <game-events></game-events>
 	  </section>
@@ -459,14 +468,76 @@
 			  slots: 'slots',
 			  abilities: 'abilities'
 			}),
-			...mapGetters(['getStart', 'getNow', 'getDuration', 'getEvents', 'getAllEventsOfType'])
+			...mapGetters(['getStart', 'getNow', 'getDuration', 'getEvents', 'getAllEventsOfType', 'getActiveSockets', 'getEventObject', 'getEventAffordability'])
 		},
 	  methods: {
 		  toggle: function(section) {
 			  this[section] = !this[section];
 		  },
+		  randomSocket: function() {
+			  var $this = this,
+			  active = _.map(this.getActiveSockets(), 'label'),
+			  labels = _.shuffle(_.difference(_.keys(this.sockets), active)),
+			  found = false;
+			  
+			  _.each(labels, function(socketLabel) {
+					var socketEvent = {
+			      type: 'socket',
+			      label: socketLabel
+			    };
+					
+					if($this.getEventAffordability(socketEvent)) {
+						$this.addEvent(socketEvent);
+						console.log(socketEvent);
+						found = true;
+						return false;
+					}
+			  });
+			  
+			  if(!found) {
+			    console.log('No sockets currently affordable');
+			  }
+		  },
+		  randomAbility: function() {
+			  var $this = this,
+			  labels = _.shuffle(_.keys(this.abilities)),
+			  axis = false;
+			  
+			  var each = _.each(labels, function(abilityLabel) {
+					var abilityEvent = {
+			      type: 'ability',
+			      label: abilityLabel,
+			      instance: abilityLabel + '-' + _.now(),
+			      target: false
+			    };
+					
+					if($this.getEventAffordability(abilityEvent)) {
+						axis = _.shuffle([1, 1, 2]);
+						
+						abilityEvent.happiness = _.random() * axis[0];
+				    abilityEvent.sadness = 1 * axis[0] - abilityEvent.happiness;
+				    
+				    abilityEvent.tenderness = _.random() * axis[1];
+				    abilityEvent.anger = 1 * axis[1] - abilityEvent.tenderness;
+				    
+				    abilityEvent.excitement = _.random() * axis[2];
+				    abilityEvent.fear = 1 * axis[2] - abilityEvent.excitement;
+				    
+						$this.addEvent(abilityEvent);
+						console.log(abilityEvent);
+						return false;
+					}
+			  });
+			  
+			  if(!axis) {
+			    console.log('No abilities currently affordable');
+			  }
+		  },
+		  randomSlot: function() {
+			  // TODO
+		  },
 		  ...mapMutations(['setStart']),
-		  ...mapActions(['startSession', 'stopSession', 'setEvents'])
+		  ...mapActions(['startSession', 'stopSession', 'setEvents', 'addEvent'])
 	  },
 	  watch: {
 		  sessionDurationTweaker: function(value) {

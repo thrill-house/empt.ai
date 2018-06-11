@@ -47,6 +47,17 @@ const getters = {
   getEventCosts: (state, getters, rootState) => (event) => {
 		var functionName = 'get' + _.upperFirst(_.camelCase(event.type)) + 'Costs';
 		return getters[functionName](event);
+	},
+  getEventAffordability: (state, getters, rootState) => (event) => {
+		var eventObject = getters.getEventObject(event);
+	  var scores = getters.getScores(event.timestamp);
+	  var costs = getters.getEventCosts(event);
+	  
+	  if(_.isMatchWith(costs, scores, function(cost, score) { return cost <= score; })) {
+		  return costs;
+	  } else {
+		  return false;
+	  }
 	}
 }
 
@@ -81,12 +92,10 @@ const actions = {
 		  event.timestamp = _.now();
 	  }
 	  
-	  var eventObject = getters.getEventObject(event);
-	  var scores = getters.getScores(event.timestamp);
-	  var costs = getters.getEventCosts(event);
+	  var affordable = getters.getEventAffordability(event);
 	  
-	  if(_.isMatchWith(costs, scores, function(cost, score) { return cost <= score; })) {
-		  event.costs = costs;
+	  if(affordable) {
+		  event.costs = affordable;
 		  commit('addEvent', event);
 	  } else {
 		  alert('You can’t afford that');

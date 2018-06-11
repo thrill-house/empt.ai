@@ -58,7 +58,8 @@ const getters = {
 				});
 				
 				_.each(eventObject.multipliers, (multiplier, key) => {
-					factors[key] = positive? factors[key] * multiplier: factors[key] / multiplier;
+					var factor = factors[key] || 1;
+					factors[key] = positive? factor * multiplier: (factor / multiplier > 1)? factor / multiplier: 0;
 				});
 			}
 		};

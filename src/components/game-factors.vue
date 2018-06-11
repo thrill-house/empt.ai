@@ -10,11 +10,11 @@ The component displays the current values for multipliers used to calculate the 
 
 <template>
   <div id="game-factors" class="body">
-    <h5>Bandwidth: <output>{{ factors.bandwidth|bandwidth }}</output></h5>
-    <h5>Influence: <output>{{ factors.influence|influence }}</output></h5>
-    <h5 v-if="factors.journalCitations > 1">Journal citations: <output>{{ factors.journalCitations|journalCitations }}</output></h5>
-    <h5 v-if="factors.returnOnInvestment > 1">Return on investment: <output>{{ factors.returnOnInvestment|returnOnInvestment }}</output></h5>
-    <h5 v-if="factors.approvalRating > 1">Approval rating: <output>{{ factors.approvalRating|approvalRating }}</output></h5>
+    <h5 v-if="factors.bandwidth > 0">Bandwidth: <output>+{{ factors.bandwidth|bandwidth }}</output></h5>
+    <h5 v-if="factors.influence > 0">Influence: <output>+{{ factors.influence|influence }}</output></h5>
+    <h5 v-if="factors.journalCitations > 0">Journal citations: <output>+{{ factors.journalCitations|journalCitations }}</output></h5>
+    <h5 v-if="factors.returnOnInvestment > 0">Return on investment: <output>+{{ factors.returnOnInvestment|returnOnInvestment }}</output></h5>
+    <h5 v-if="factors.approvalRating > 0">Approval rating: <output>+{{ factors.approvalRating|approvalRating }}</output></h5>
   </div>
 </template>
 

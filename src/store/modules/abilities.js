@@ -3,8 +3,8 @@ const state = {
 	  name: 'Neutral (1)',
 	  type: 'neutral',
 	  era: 'student',
-	  adders: {
-		  influence: 1
+	  multipliers: {
+		  influence: 1.5
 		},
 		costs: {
 		  confidence: 10,
@@ -15,8 +15,8 @@ const state = {
 	  name: 'Neutral (2)',
 	  type: 'neutral',
 	  era: 'student',
-		adders: {
-		  influence: 1
+		multipliers: {
+		  influence: 1.5
 		},
 		costs: {
 		  data: 5,
@@ -27,8 +27,8 @@ const state = {
 	  name: 'Neutral (3)',
 	  type: 'neutral',
 	  era: 'student',
-		adders: {
-		  influence: 1
+		multipliers: {
+		  influence: 1.5
 		},
 		costs: {
 		  data: 5,
@@ -38,20 +38,20 @@ const state = {
 	'science-1': {
 	  name: 'Science (1)',
 	  type: 'science',
-	  era: 2,
+	  era: 'university',
 		multipliers: {
 			influence: 2,
 			journalCitations: 1.02
 		},
 		costs: {
 		  data: 10,
-		  confidence: 1
+		  confidence: 30
 	  }
 	},
 	'science-2': {
 	  name: 'Science (2)',
 	  type: 'science',
-	  era: 2,
+	  era: 'university',
 		multipliers: {
 			influence: 3,
 			journalCitations: 1.2
@@ -64,20 +64,20 @@ const state = {
 	'economy-1': {
 	  name: 'Economy (1)',
 	  type: 'economy',
-	  era: 2,
+	  era: 'university',
 		multipliers: {
 			influence: 3,
 			returnOnInvestment: 1.2
 		},
 		costs: {
 		  data: 10,
-		  confidence: 10
+		  confidence: 40
 	  }
 	},
 	'economy-2': {
 	  name: 'Economy (2)',
 	  type: 'economy',
-	  era: 2,
+	  era: 'university',
 		multipliers: {
 			influence: 3,
 			returnOnInvestment: 1.2
@@ -90,20 +90,20 @@ const state = {
 	'society-1': {
 	  name: 'Society (1)',
 	  type: 'society',
-	  era: 2,
+	  era: 'university',
 		multipliers: {
 			influence: 3,
 			approvalRating: 1.1
 		},
 		costs: {
 		  data: 10,
-		  confidence: 40
+		  confidence: 50
 	  }
 	},
 	'society-2': {
 	  name: 'Society (2)',
 	  type: 'society',
-	  era: 2,
+	  era: 'university',
 		multipliers: {
 			influence: 3,
 			approvalRating: 1.1
