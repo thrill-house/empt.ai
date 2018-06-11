@@ -80,7 +80,7 @@ const getters = {
 			factors = getters.calculateFactors(event, factors, event.positive);
 		});
 		
-		factors.persuasion = factors.influence * ((factors.journalCitations || 1) + (factors.returnOnInvestment || 1) + (factors.approvalRating || 1));
+		factors.persuasion = factors.influence * (((factors.journalCitations || 0) + (factors.returnOnInvestment || 0) + (factors.approvalRating || 0)) || 1);
 		
 	  return factors;
 	},

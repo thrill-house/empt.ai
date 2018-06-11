@@ -74,7 +74,8 @@ The enabled ability is an ability that is currently enabled within a socket.
 			  this.addSlotEvent({
 				  label: this.slotEvent.label,
 				  ability: this.slotEvent.ability,
-				  newInstance: ''
+				  newInstance: '',
+				  oldInstance: this.slotEvent.instance
 				});
 		  },
 		  ...mapActions(['addSlotEvent'])
