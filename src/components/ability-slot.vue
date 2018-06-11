@@ -14,19 +14,20 @@ The ability slot is a space attached to a data sources. When an ability is assig
 <template>
   <div class="ability-slot">
 	  <enabled-ability v-if="event && abilityInstance" :instance="abilityInstance"></enabled-ability>
-	  <select v-model="selectedAbility">
-			<option disabled value="">Choose</option>
-		  <option v-for="(ability, index) in abilities" :value="index">
-		  	{{ ability.name }}
-		  </option>
-		</select>
-	  <select v-if="selectedAbility" v-model="selectedInstance">
-			<option value="">Choose</option>
-		  <option v-for="abilityEvent in abilityEvents" :value="abilityEvent.instance">
-		  	{{ abilityEvent.instance }}
-		  </option>
-		</select>
-		<button v-if="abilityInstance" @click="addEvent('', selectedInstance); selectedInstance = '';">Unslot</button>
+	  <template v-else>
+		  <select v-model="selectedAbility">
+				<option disabled value="">Choose</option>
+			  <option v-for="(ability, index) in abilities" :value="index">
+			  	{{ ability.name }}
+			  </option>
+			</select>
+		  <select v-if="selectedAbility" v-model="selectedInstance">
+				<option disabled value="">Choose</option>
+			  <option v-for="abilityEvent in abilityEvents" :value="abilityEvent.instance">
+			  	{{ abilityEvent.instance }}
+			  </option>
+			</select>
+	  </template>
   </div>
 </template>
 
@@ -74,44 +75,19 @@ The ability slot is a space attached to a data sources. When an ability is assig
 		  ...mapState(['abilities']),
 		  ...mapGetters(['getEventOfType', 'getAbilityEvents', 'getSocketForSlot'])
 	  },
-	  methods: {
-		  addEvent: function(newValue = '', oldValue = '') {
-			  var event = {
-		      type: 'slot',
-		      target: 'ability',
-		      label: this.label,
-		      ability: this.selectedAbility,
-		      instance: (newValue !== '')? newValue: oldValue,
-		      positive: (newValue !== '')? true: false
-		    };
-		    
-		    if(newValue !== '') {
-			    event.negated = [{
-			      type: 'slot',
-			      instance: newValue
-			    }];
-			    
-			    if(oldValue !== '') {
-				    event.negated.push({
-				      type: 'slot',
-				      label: this.label
-				    });
-			    }
-		    }
-		    
-		    this.addSlotEvent(event);
-		  },
-		  ...mapActions(['addSlotEvent']),
-	  },
+	  methods: mapActions(['addSlotEvent']),
 	  watch: {
-		  abilityInstance: function(newInstance, oldInstance) {
-			  if(newInstance === '') {
-				  this.selectedInstance = '';
-			  }
-	    },
 		  selectedInstance: function(newInstance, oldInstance) {
 			  if(newInstance !== '') {
-				  this.addEvent(newInstance, oldInstance);
+				  this.addSlotEvent({
+					  label: this.label,
+					  ability: this.selectedAbility,
+					  newInstance: newInstance,
+					  oldInstance: oldInstance
+					});
+					
+					this.selectedAbility = '';
+					this.selectedInstance = '';
 			  }
 	    }
 	  }

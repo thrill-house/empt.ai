@@ -80,7 +80,7 @@ const getters = {
 			factors = getters.calculateFactors(event, factors, event.positive);
 		});
 		
-		factors.persuasion = factors.influence * (factors.journalCitations || 1) * (factors.returnOnInvestment || 1) * (factors.approvalRating || 1);
+		factors.persuasion = factors.influence * ((factors.journalCitations || 1) + (factors.returnOnInvestment || 1) + (factors.approvalRating || 1));
 		
 	  return factors;
 	},
@@ -89,25 +89,7 @@ const getters = {
   }
 }
 
-// mutations
-const mutations = {
-  activateInitFactor: (state, factor) => {
-	  state.FACTORS_INIT[factor] = 1;
-  }
-}
-
-// actions
-const actions = {
-  activateInitFactor: ({ state, commit }, factor = 'influence') => {
-	  if(factor !== undefined) {
-		  commit('activateInitFactor', factor);
-	  }
-  }
-}
-
 export default {
 	state,
-	getters,
-	mutations,
-	actions
+	getters
 }

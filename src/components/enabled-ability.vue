@@ -12,7 +12,7 @@ The enabled ability is an ability that is currently enabled within a socket.
 </docs>
 
 <template>
-  <div v-if="event" class="ability enabled">
+  <div v-if="event && slotEvent" class="ability enabled">
     <emotion-diagram
 		  :happiness="event.happiness"
 		  :sadness="event.sadness"
@@ -23,10 +23,14 @@ The enabled ability is an ability that is currently enabled within a socket.
     {{ ability.name }}
     <em v-if="ability.type">— {{ ability.type }}</em>
     <div class="adders">
-	    <output v-for="(value, factor) in factors">
-		    +{{ prettyUnit(value, factor) }}
+	    <output v-for="(value, adder) in adders">
+		    +{{ prettyUnit(value, adder) }}
+	    </output>
+	    <output v-for="(value, multiplier) in multipliers">
+		    ×{{ prettyUnit(value, multiplier) }}
 	    </output>
     </div>
+    <button @click="clearSlotEvent()">Unslot</button>
   </div>
   <div v-else class="ability disabled">
     No valid event for "{{ instance }}".
@@ -34,7 +38,7 @@ The enabled ability is an ability that is currently enabled within a socket.
 </template>
 
 <script>
-	import { mapState, mapGetters } from 'vuex';
+	import { mapState, mapGetters, mapActions } from 'vuex';
 	import store from '../store';
 	import EmotionDiagram from './emotion-diagram.vue';
 	
@@ -51,13 +55,29 @@ The enabled ability is an ability that is currently enabled within a socket.
 		  ability: function() {
 		    return this.getAbility(this.event.label);
 	    },
-	    factors: function() {
-		    return _.merge({}, this.ability.adders, this.ability.multipliers);
+	    adders: function() {
+		    return this.ability.adders;
+	    },
+	    multipliers: function() {
+		    return this.ability.multipliers;
 	    },
 	  	event: function() {
 		    return this.getEventOfType(this.instance, 'ability', 'instance');
 	    },
+	  	slotEvent: function() {
+		    return this.getEventOfType(this.instance, 'slot', 'instance');
+	    },
 		  ...mapGetters(['getEventOfType', 'getAbility', 'prettyUnit'])
+	  },
+	  methods: {
+		  clearSlotEvent: function() {
+			  this.addSlotEvent({
+				  label: this.slotEvent.label,
+				  ability: this.slotEvent.ability,
+				  newInstance: ''
+				});
+		  },
+		  ...mapActions(['addSlotEvent'])
 	  }
 	}
 </script>
@@ -68,7 +88,7 @@ The enabled ability is an ability that is currently enabled within a socket.
 	.ability {
 	  position: relative;
 		text-align: center;
-	  width: 162px; 
+	  width: 162px;
 	  height: 187px;
 	  padding: 60px 10px;
 	  -webkit-clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);

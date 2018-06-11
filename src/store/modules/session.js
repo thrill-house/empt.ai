@@ -19,8 +19,11 @@ const getters = {
   getEvents: (state) => (before = state.now) => {
   	return _.sortBy(_.filter(state.events, function(value) { return value.timestamp < before; }), 'timestamp');
   },
+  getAllEventsOfType: (state, getters) => (type) => {
+		return _.filter(getters.getEvents(), { type: type });
+	},
   getEventsOfType: (state, getters) => (label, type, id = 'label') => {
-		return _.filter(getters.getEvents(), { [id]: label, type: type });
+		return _.filter(getters.getAllEventsOfType(type), { [id]: label });
 	},
   getEventOfType: (state, getters) => (label, type, id = 'label') => {
 		return _.last(getters.getEventsOfType(label, type, id));
@@ -74,24 +77,20 @@ const mutations = {
 // actions
 const actions = {
   addEvent: ({ commit, dispatch, getters }, event) => {
-		return new Promise((resolve, reject) => {
-      if(event.timestamp === undefined) {
-			  event.timestamp = _.now();
-		  }
-		  
-		  var eventObject = getters.getEventObject(event);
-		  var scores = getters.getScores(event.timestamp);
-		  var costs = getters.getEventCosts(event);
-		  
-		  if(_.isMatchWith(costs, scores, function(cost, score) { return cost <= score; })) {
-			  event.costs = costs;
-			  commit('addEvent', event);
-			  resolve();
-		  } else {
-			  alert('You can’t afford that');
-			  reject();
-		  }
-    });
+		if(event.timestamp === undefined) {
+		  event.timestamp = _.now();
+	  }
+	  
+	  var eventObject = getters.getEventObject(event);
+	  var scores = getters.getScores(event.timestamp);
+	  var costs = getters.getEventCosts(event);
+	  
+	  if(_.isMatchWith(costs, scores, function(cost, score) { return cost <= score; })) {
+		  event.costs = costs;
+		  commit('addEvent', event);
+	  } else {
+		  alert('You can’t afford that');
+	  }
   },
   setEvents: ({ dispatch, commit }, events) => {
 	  commit('resetEvents');

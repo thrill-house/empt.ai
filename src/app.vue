@@ -78,13 +78,13 @@
 					<label>Enabled Ability</label>
 					<select v-model="enabledAbilityTweaker">
 					  <option disabled value="">Choose</option>
-					  <option v-for="(ability, index) in abilities" :value="index">
-					    {{ ability.name }}
+					  <option v-for="(abilityEvent) in getAllEventsOfType('ability')" :value="abilityEvent.instance">
+					    {{ abilityEvent.instance }}
 					  </option>
 					</select>
 				</div>
 		  </header>
-		  <enabled-ability :label="enabledAbilityTweaker"></enabled-ability>
+		  <enabled-ability :instance="enabledAbilityTweaker"></enabled-ability>
 	  </section>
 	  
 		<!--
@@ -457,9 +457,9 @@
 			  options: 'options',
 			  sockets: 'sockets',
 			  slots: 'slots',
-			  abilities: 'abilities',
+			  abilities: 'abilities'
 			}),
-			...mapGetters(['getStart', 'getNow', 'getDuration', 'getEvents'])
+			...mapGetters(['getStart', 'getNow', 'getDuration', 'getEvents', 'getAllEventsOfType'])
 		},
 	  methods: {
 		  toggle: function(section) {

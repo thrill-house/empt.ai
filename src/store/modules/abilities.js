@@ -121,7 +121,7 @@ const getters = {
 		return state[label];
 	},
 	getAbilityEvents: (state, getters) => (label) => {
-		return _.filter(getters.getEvents(), { type: 'ability', label: label });
+		return getters.getEventsOfType(label, 'ability');
 	},
 	getAbilityCosts: (state, getters, rootState) => (event) => {
 		var ability = getters.getAbility(event.label);

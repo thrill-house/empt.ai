@@ -72,10 +72,31 @@ const getters = {
 
 // actions
 const actions = {
-  addSlotEvent: ({ dispatch, commit }, event) => {
-	  return dispatch('addEvent', event).then(() => {
-		  //commit('activateInitFactor', 'influence', { root: true });
-    });
+  addSlotEvent: ({ dispatch }, eventValues) => {
+	  var event = {
+      type: 'slot',
+      target: 'ability',
+      label: eventValues.label,
+      ability: eventValues.ability,
+      instance: (eventValues.newInstance !== '')? eventValues.newInstance: eventValues.oldInstance,
+      positive: (eventValues.newInstance !== '')? true: false
+    };
+    
+    if(eventValues.newInstance !== '') {
+	    event.negated = [{
+	      type: 'slot',
+	      instance: eventValues.newInstance
+	    }];
+	    
+	    if(eventValues.oldInstance !== '') {
+		    event.negated.push({
+		      type: 'slot',
+		      label: eventValues.label
+		    });
+	    }
+    }
+	  
+	  dispatch('addEvent', event);
   }
 }
 
