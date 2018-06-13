@@ -1,7 +1,9 @@
 <template>
-	<main id="app">
-	  <header>
-		  <img src="./assets/img/logo.png" class="logo">
+	<main id="app" class="p-8">
+	  <header class="flex items-center">
+		  <div class="w-32">
+			  <img src="./assets/img/logo.png">
+		  </div>
 		  <div class="docs">
 			  <h1>Dash Game — Vue components</h1>
 				<h2>Component library of user interface elements.</h2>
@@ -11,16 +13,16 @@
 		<!--
 		---- Game events
 		--->
-		<section :class="{ hidden: gameEventsToggle }">
+		<section :class="{ off: gameEventsToggle }">
 		  <button class="toggle" @click="toggle('gameEventsToggle')">Toggle</button>
 		  <header>
 			  <div v-html="docs.gameEvents" class="docs"></div>
 			  <div class="tweakers">
 					<h5>Tweakers</h5>
 					<label>Random socket</label>
-					<button @click="randomSocket">Activate</button>
+					<button @click="randomSocket">Activate</button><hr>
 					<label>Random ability</label>
-					<button @click="randomAbility">Research</button>
+					<button @click="randomAbility">Research</button><hr>
 					<label>Random slot</label>
 					<button @click="randomSlot">Install</button>
 				</div>
@@ -31,7 +33,7 @@
 		<!--
 		---- Game time
 		--->
-	  <section :class="{ hidden: gameTimeToggle }">
+	  <section :class="{ off: gameTimeToggle }">
 		  <button class="toggle" @click="toggle('gameTimeToggle')">Toggle</button>
 		  <header>
 			  <div v-html="docs.gameTime" class="docs"></div>
@@ -44,7 +46,7 @@
 					    {{ option.label }}
 					  </option>
 					</select>
-					<br>
+					<hr>
 					<label>Interval</label>
 					<button v-if="interval" @click="stopSession">Stop</button>
 					<button v-else @click="startSession">Start</button>
@@ -56,7 +58,7 @@
 		<!--
 		---- Game score
 		--->
-	  <section :class="{ hidden: gameScoreToggle }">
+	  <section :class="{ off: gameScoreToggle }">
 		  <button class="toggle" @click="toggle('gameScoreToggle')">Toggle</button>
 		  <header>
 			  <div v-html="docs.gameScore" class="docs"></div>
@@ -67,7 +69,7 @@
 		<!--
 		---- Game factors
 		--->
-	  <section :class="{ hidden: gameFactorsToggle }">
+	  <section :class="{ off: gameFactorsToggle }">
 		  <button class="toggle" @click="toggle('gameFactorsToggle')">Toggle</button>
 		  <header>
 			  <div v-html="docs.gameFactors" class="docs"></div>
@@ -78,7 +80,7 @@
 		<!--
 		---- Enabled ability
 		--->
-	  <section :class="{ hidden: enabledAbilityToggle }">
+	  <section :class="{ off: enabledAbilityToggle }">
 		  <button class="toggle" @click="toggle('enabledAbilityToggle')">Toggle</button>
 		  <header>
 			  <div v-html="docs.enabledAbility" class="docs"></div>
@@ -99,7 +101,7 @@
 		<!--
 		---- Ability slot
 		--->
-	  <section :class="{ hidden: abilitySlotToggle }">
+	  <section :class="{ off: abilitySlotToggle }">
 		  <button class="toggle" @click="toggle('abilitySlotToggle')">Toggle</button>
 		  <header>
 			  <div v-html="docs.abilitySlot" class="docs"></div>
@@ -120,7 +122,7 @@
 		<!--
 		---- Data socket
 		--->
-	  <section :class="{ hidden: dataSocketToggle }">
+	  <section :class="{ off: dataSocketToggle }">
 		  <button class="toggle" @click="toggle('dataSocketToggle')">Toggle</button>
 		  <header>
 			  <div v-html="docs.dataSocket" class="docs"></div>
@@ -141,7 +143,7 @@
 		<!--
 		---- Available ability
 		--->
-	  <section :class="{ hidden: availableAbilityToggle }">
+	  <section :class="{ off: availableAbilityToggle }">
 		  <button class="toggle" @click="toggle('availableAbilityToggle')">Toggle</button>
 		  <header>
 			  <div v-html="docs.availableAbility" class="docs"></div>
@@ -162,7 +164,7 @@
 		<!--
 		---- Ability library
 		--->
-	  <section :class="{ hidden: abilityLibraryToggle }">
+	  <section :class="{ off: abilityLibraryToggle }">
 		  <button class="toggle" @click="toggle('abilityLibraryToggle')">Toggle</button>
 		  <header>
 			  <div v-html="docs.abilityLibrary" class="docs"></div>
@@ -173,7 +175,7 @@
 		<!--
 		---- Purchaseable ability
 		--->
-	  <section :class="{ hidden: purchaseableAbilityToggle }">
+	  <section :class="{ off: purchaseableAbilityToggle }">
 		  <button class="toggle" @click="toggle('purchaseableAbilityToggle')">Toggle</button>
 		  <header>
 			  <div v-html="docs.purchaseableAbility" class="docs"></div>
@@ -184,7 +186,7 @@
 		<!--
 		---- Ability market
 		--->
-	  <section :class="{ hidden: abilityMarketToggle }">
+	  <section :class="{ off: abilityMarketToggle }">
 		  <button class="toggle" @click="toggle('abilityMarketToggle')">Toggle</button>
 		  <header>
 			  <div v-html="docs.abilityMarket" class="docs"></div>
@@ -195,7 +197,7 @@
 		<!--
 		---- Primary navigation
 		--->
-	  <section :class="{ hidden: primaryNavigationToggle }">
+	  <section :class="{ off: primaryNavigationToggle }">
 		  <button class="toggle" @click="toggle('primaryNavigationToggle')">Toggle</button>
 		  <header>
 			  <div v-html="docs.primaryNavigation" class="docs"></div>
@@ -206,7 +208,7 @@
 		<!--
 		---- Playing field
 		--->
-	  <section :class="{ hidden: playingFieldToggle }">
+	  <section :class="{ off: playingFieldToggle }">
 		  <button class="toggle" @click="toggle('playingFieldToggle')">Toggle</button>
 		  <header>
 			  <div v-html="docs.playingField" class="docs"></div>
@@ -217,7 +219,7 @@
 		<!--
 		---- Emotion diagram
 		--->
-	  <section :class="{ hidden: emotionDiagramToggle }">
+	  <section :class="{ off: emotionDiagramToggle }">
 		  <button class="toggle" @click="toggle('emotionDiagramToggle')">Toggle</button>
 		  <header>
 			  <div v-html="docs.emotionDiagram" class="docs"></div>
@@ -225,22 +227,22 @@
 					<h5>Tweakers</h5>
 					<label>Happiness</label>
 					<input type="range" v-model.number="emotionDiagramHappinessTweaker" min="1" max="100">
-					<br>
+					<hr>
 					<label>Sadness</label>
 					<input type="range" v-model.number="emotionDiagramSadnessTweaker" min="1" max="100">
-					<br>
+					<hr>
 					<label>Excitement</label>
 					<input type="range" v-model.number="emotionDiagramExcitementTweaker" min="1" max="100">
-					<br>
+					<hr>
 					<label>Fear</label>
 					<input type="range" v-model.number="emotionDiagramFearTweaker" min="1" max="100">
-					<br>
+					<hr>
 					<label>Tenderness</label>
 					<input type="range" v-model.number="emotionDiagramTendernessTweaker" min="1" max="100">
-					<br>
+					<hr>
 					<label>Anger</label>
 					<input type="range" v-model.number="emotionDiagramAngerTweaker" min="1" max="100">
-					<br>
+					<hr>
 				</div>
 		  </header>
 		  <emotion-diagram
@@ -255,7 +257,7 @@
 		<!--
 		---- Leader boards
 		--->
-	  <section :class="{ hidden: leaderBoardsToggle }">
+	  <section :class="{ off: leaderBoardsToggle }">
 		  <button class="toggle" @click="toggle('leaderBoardsToggle')">Toggle</button>
 		  <header>
 			  <div v-html="docs.leaderBoards" class="docs"></div>
@@ -266,7 +268,7 @@
 		<!--
 		---- Narrative output
 		--->
-	  <section :class="{ hidden: narrativeOutputToggle }">
+	  <section :class="{ off: narrativeOutputToggle }">
 		  <button class="toggle" @click="toggle('narrativeOutputToggle')">Toggle</button>
 		  <header>
 			  <div v-html="docs.narrativeOutput" class="docs"></div>
@@ -277,7 +279,7 @@
 		<!--
 		---- User profile
 		--->
-	  <section :class="{ hidden: userProfileToggle }">
+	  <section :class="{ off: userProfileToggle }">
 		  <button class="toggle" @click="toggle('userProfileToggle')">Toggle</button>
 		  <header>
 			  <div v-html="docs.userProfile" class="docs"></div>
@@ -288,7 +290,7 @@
 		<!--
 		---- Mini-game
 		--->
-	  <section :class="{ hidden: miniGameToggle }">
+	  <section :class="{ off: miniGameToggle }">
 		  <button class="toggle" @click="toggle('miniGameToggle')">Toggle</button>
 		  <header>
 			  <div v-html="docs.miniGame" class="docs"></div>
@@ -299,7 +301,7 @@
 		<!--
 		---- Sample component
 		--->
-	  <section :class="{ hidden: sampleComponentToggle }">
+	  <section :class="{ off: sampleComponentToggle }">
 		  <button class="toggle" @click="toggle('sampleComponentToggle')">Toggle</button>
 		  <header>
 			  <div v-html="docs.sampleComponent" class="docs"></div>
@@ -468,51 +470,51 @@
 			  slots: 'slots',
 			  abilities: 'abilities'
 			}),
-			...mapGetters(['getStart', 'getNow', 'getDuration', 'getEvents', 'getAllEventsOfType', 'getActiveSockets', 'getEventObject', 'getEventAffordability'])
+			...mapGetters(['getStart', 'getNow', 'getDuration', 'getEvents', 'getAllEventsOfType', 'getActiveSockets', 'getSlotsForSocket', 'getSlotEvents', 'getEventObject', 'getEventAffordability'])
 		},
 	  methods: {
 		  toggle: function(section) {
 			  this[section] = !this[section];
 		  },
 		  randomSocket: function() {
-			  var $this = this,
-			  active = _.map(this.getActiveSockets(), 'label'),
+			  var active = _.map(this.getActiveSockets(), 'label'),
 			  labels = _.shuffle(_.difference(_.keys(this.sockets), active)),
-			  found = false;
+			  socketEvent = false;
 			  
-			  _.each(labels, function(socketLabel) {
-					var socketEvent = {
+			  _.each(labels, (socketLabel) => {
+					socketEvent = {
 			      type: 'socket',
 			      label: socketLabel
 			    };
 					
-					if($this.getEventAffordability(socketEvent)) {
-						$this.addEvent(socketEvent);
-						console.log(socketEvent);
-						found = true;
+					if(this.getEventAffordability(socketEvent)) {
+						console.log('Activated socket', socketEvent);
+						this.addEvent(socketEvent);
+						
 						return false;
+					} else {
+						socketEvent = false;
 					}
 			  });
 			  
-			  if(!found) {
+			  if(!socketEvent) {
 			    console.log('No sockets currently affordable');
 			  }
 		  },
 		  randomAbility: function() {
-			  var $this = this,
-			  labels = _.shuffle(_.keys(this.abilities)),
-			  axis = false;
+			  var labels = _.shuffle(_.keys(this.abilities)),
+			  abilityEvent = false;
 			  
-			  var each = _.each(labels, function(abilityLabel) {
-					var abilityEvent = {
+			  _.each(labels, (abilityLabel) => {
+					abilityEvent = {
 			      type: 'ability',
 			      label: abilityLabel,
 			      instance: abilityLabel + '-' + _.now(),
 			      target: false
 			    };
 					
-					if($this.getEventAffordability(abilityEvent)) {
-						axis = _.shuffle([1, 1, 2]);
+					if(this.getEventAffordability(abilityEvent)) {
+						var axis = _.shuffle([1, 1, 2]);
 						
 						abilityEvent.happiness = _.random() * axis[0];
 				    abilityEvent.sadness = 1 * axis[0] - abilityEvent.happiness;
@@ -523,18 +525,56 @@
 				    abilityEvent.excitement = _.random() * axis[2];
 				    abilityEvent.fear = 1 * axis[2] - abilityEvent.excitement;
 				    
-						$this.addEvent(abilityEvent);
-						console.log(abilityEvent);
+				    this.addEvent(abilityEvent);
+						console.log('Researched ability', abilityEvent);
+						
 						return false;
+					} else {
+						abilityEvent = false;
 					}
 			  });
 			  
-			  if(!axis) {
+			  if(!abilityEvent) {
 			    console.log('No abilities currently affordable');
 			  }
 		  },
 		  randomSlot: function() {
-			  // TODO
+			  var socketLabel = _.sample(_.map(this.getActiveSockets(), 'label')),
+			  slotLabel = _.sample(_.keys(this.getSlotsForSocket(socketLabel))),
+			  abilityEvent = _.sample(this.getAllEventsOfType('ability')),
+			  prevSlotEvent = _.last(this.getSlotEvents(slotLabel));
+			  
+			  console.log(socketLabel);
+			  console.log(slotLabel);
+			  console.log(abilityEvent);
+			  console.log(prevSlotEvent);
+			  
+			  if(abilityEvent) {
+				  var slotEvent = {
+			      type: 'slot',
+			      target: 'ability',
+			      label: slotLabel,
+			      ability: abilityEvent.label,
+			      instance: abilityEvent.instance,
+			      positive: (!prevSlotEvent || prevSlotEvent.instance !== abilityEvent.instance)? true: false
+			    };
+			    
+			    abilityEvent.negated = [{
+			      type: 'slot',
+			      instance: abilityEvent.instance
+			    },
+			    {
+			      type: 'slot',
+			      label: slotLabel
+			    }];
+			  }
+			  
+			  if(slotEvent && this.getEventAffordability(slotEvent)) {			    
+					console.log('Installed ability', slotEvent);
+			    this.addEvent(slotEvent);
+				} else {
+			    console.log('No abilities currently affordable');
+			  }
 		  },
 		  ...mapMutations(['setStart']),
 		  ...mapActions(['startSession', 'stopSession', 'setEvents', 'addEvent'])
@@ -561,6 +601,102 @@
 	@import './assets/scss/default';
 	
 	#app {
+		@apply .flex .flex-wrap;
+		
+		.docs, .tweakers {
+			@apply .p-4 .border-b .border-solid .border-purple .leading-normal;
+		}
+		
+		button, input, select {
+			@apply .font-bold .text-xs .py-2 .px-4 .rounded .bg-orange .text-light;
+		}
+		
+		input, select {
+			@apply .inline-block .appearance-none .bg-peach .text-dark;
+		}
+		
+		label {
+			@apply .inline-block .text-xs .py-2 .px-4 .rounded .bg-grey;
+		}
+		
+		code {
+			@apply .bg-grey .py-2 .px-4 .rounded;
+		}
+		
+		> section {
+			@apply .flex .flex-wrap .items-start .w-full .border-b-4 .border-solid .border-sky;
+			
+			> button {
+				@apply .mt-4;
+				order: 2;
+			}
+			
+			> header {
+				@apply .flex-grow .w-5/6;
+				
+				h3, h5 {
+					@apply .font-bold;
+				}
+				
+				h3 {
+					@apply .text-xl;
+				}
+				
+				h5 {
+					@apply .text-lg;
+				}
+				
+				& + * {
+					@apply .w-full .flex-no-shrink .p-4;
+					order: 3;
+				}
+					
+				
+				
+				.docs {
+					* + * {
+						@apply .mt-4;
+					}
+				}
+				
+				.tweakers {
+					@apply .flex .flex-wrap;
+					//flex: 20;
+					
+					h5 {
+						@apply .w-full .mb-2;
+					}
+					
+					label {
+						@apply .w-32 .mr-2;
+					}
+					
+					hr {
+						@apply .block .w-full .my-1;
+					}
+				}
+			}
+			
+			&.off {
+				@apply .items-start;
+				order: 99;
+				
+				> header {
+					@apply .m-0;
+					
+					& + *, .docs *:not(h3), .tweakers {
+						@apply .hidden;
+					}
+					
+					.docs {
+						@apply .border-none;
+					}
+				}
+			}
+		}
+	}
+	
+	/*#app {
 		display: grid;
 		padding: 2rem;
 		
@@ -623,5 +759,5 @@
 				}
 			}
 	  }
-	}
+	}*/
 </style>

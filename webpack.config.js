@@ -1,5 +1,6 @@
 var path = require('path')
 var webpack = require('webpack')
+var tailwindcss = require('tailwindcss')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var OnlyIfChangedPlugin = require('only-if-changed-webpack-plugin')
 var docsLoader = require.resolve('./custom-loaders/docs-loader.js')
@@ -38,7 +39,13 @@ module.exports = {
         test: /\.css$/,
         use: [
           'vue-style-loader',
-          'css-loader'
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+            }
+          },
+          'postcss-loader'
         ],
       },
       {
