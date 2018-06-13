@@ -14,19 +14,20 @@ The ability slot is a space attached to a data sources. When an ability is assig
 <template>
   <div class="ability-slot">
 	  <enabled-ability v-if="event && abilityInstance" :instance="abilityInstance"></enabled-ability>
-	  <template v-else>
-		  <select v-model="selectedAbility">
-				<option disabled value="">Choose</option>
-			  <option v-for="(ability, index) in abilities" :value="index">
-			  	{{ ability.name }}
-			  </option>
-			</select>
-		  <select v-if="selectedAbility" v-model="selectedInstance">
-				<option disabled value="">Choose</option>
-			  <option v-for="abilityEvent in abilityEvents" :value="abilityEvent.instance">
-			  	{{ abilityEvent.instance }}
-			  </option>
-			</select>
+	  <template v-else v-for="(ability, index) in abilities">
+	  	<div v-if="getAbilityEvents(index).length" class="list">
+			  <h5>{{ ability.name }}</h5>
+			  <button v-for="abilityEvent in getAbilityEvents(index)" @click="selectedAbility = index; selectedInstance = abilityEvent.instance">
+				  <emotion-diagram
+					  :happiness="abilityEvent.happiness"
+					  :sadness="abilityEvent.sadness"
+					  :excitement="abilityEvent.excitement"
+					  :fear="abilityEvent.fear"
+					  :tenderness="abilityEvent.tenderness"
+					  :anger="abilityEvent.anger"
+					  class="w-8"></emotion-diagram>
+			  </button>
+		  </div>
 	  </template>
   </div>
 </template>
@@ -35,12 +36,14 @@ The ability slot is a space attached to a data sources. When an ability is assig
 	import { mapState, mapGetters, mapActions } from 'vuex'
 	import store from '../store'
 	import EnabledAbility from './enabled-ability.vue'
+	import EmotionDiagram from './emotion-diagram.vue'
 		
 	export default {
 	  name: 'ability-slot',
 	  store,
 	  components: {
-	    EnabledAbility
+	    EnabledAbility,
+	    EmotionDiagram
 	  },
 	  props: {
 	    label: String
@@ -95,8 +98,9 @@ The ability slot is a space attached to a data sources. When an ability is assig
 </script>
 
 <style lang="scss">
-	@import '../assets/scss/variables';
+	@import '../assets/scss/default';
 	
+	/*
 	.ability-slot {
 	  position: relative;
 		text-align: center;
@@ -123,4 +127,5 @@ The ability slot is a space attached to a data sources. When an ability is assig
 	.yellow {
 		background: yellow;
 	}
+	*/
 </style>

@@ -86,14 +86,21 @@ Displays the player's emotional status as a result of their currently enabled ab
 	.emotion-diagram {
 		position: relative;
 		display: block;
-		width: 150px;
-		height: (187 / 162) * 150px;
     background: grey;
 		-webkit-clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
 		clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+		
+		&:before {
+			content: "";			
+			display: block;
+			padding-top: 27 / 25 * 100%;
+		}
     
     .emotion-profile {
+			position: absolute;
 			display: block;
+			top: 0;
+			left: 0;
 			width: 100%;
 			height: 100%;
 			background:radial-gradient(green, yellow);

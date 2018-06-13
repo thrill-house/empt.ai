@@ -23,15 +23,3 @@ This is a sample component, file and folder structure should be preserved to mat
 	  props: ['message']
 	}
 </script>
-
-<style lang="scss">
-	@import '../assets/scss/variables';
-	
-	#sample-component {
-		min-height: 1rem;
-		padding: 1rem;
-		width: 10rem;
-	  background: $peach;
-	  text-align: center;
-	}
-</style>

@@ -13,19 +13,18 @@ The data socket is the base component that abilities are attached to. When enabl
 
 <template>
   <div class="data-socket" :class="{ enabled: event }">
-    <div class="details">
+    <div>
 	    <div class="name">
-		      {{ socket.name }} <output>{{ socket.type }}</output>
+		    <h4>{{ socket.name }} — <output class="output bg-grey text-purple">{{ socket.type }}</output></h4>
 	    </div>
-	    <div class="multipliers">
-		    <output v-for="(value, multiplier) in socket.multipliers">
+	    <div class="mt-2">
+		    <output class="output" v-for="(value, multiplier) in socket.multipliers">
 			    +{{ prettyUnit(value, multiplier) }}
 		    </output>
 	    </div>
-	    <button v-if="event" class="actions">Mini game</button>
-	    <button v-else class="actions" @click="activate">
-	    	Activate
-	    	<output>C:{{ costs.confidence|confidence }}</output>
+	    <button v-if="event" class="button orange mt-2">Mini game</button>
+	    <button v-else class="button orange mt-2" @click="activate">
+	    	Activate <em>{{ costs.confidence|confidence }}</em>
 			</button>
     </div>
     <ability-slot
@@ -33,7 +32,8 @@ The data socket is the base component that abilities are attached to. When enabl
       v-for="(slot, index) in slots"
       :key="index"
       :label="index"
-      :class="[slot.position, index]">
+      :class="[slot.position, index]"
+      class="ml-4 pl-4 border-l border-solid border-sky">
     </ability-slot>
   </div>
 </template>
@@ -83,9 +83,13 @@ The data socket is the base component that abilities are attached to. When enabl
 </script>
 
 <style lang="scss">
-	@import '../assets/scss/variables';
+	@import '../assets/scss/default';
 	
 	.data-socket {
+		@apply .flex;
+	}
+	
+	/*.data-socket {
 		display: grid;
 		grid-template-rows: repeat(6, 70px);
 		grid-template-columns: repeat(6, 81px);
@@ -179,5 +183,5 @@ The data socket is the base component that abilities are attached to. When enabl
 	  .bottom-right {
 		  grid-area: g;
 	  }
-	}
+	}*/
 </style>

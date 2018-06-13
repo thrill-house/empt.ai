@@ -10,7 +10,7 @@ The component displays how much time has elapsed between the first event and the
 
 <template>
   <div id="game-time">
-	  <h5>Elapsed: <output>{{ elapsed|duration }}</output></h5>
+	  <label class="label">Elapsed</label><output class="output">{{ elapsed|duration }}</output>
   </div>
 </template>
 
@@ -36,8 +36,4 @@ The component displays how much time has elapsed between the first event and the
 </script>
 
 <style lang="scss">
-	@import '../assets/scss/variables';
-	
-	#game-time {
-	}
 </style>

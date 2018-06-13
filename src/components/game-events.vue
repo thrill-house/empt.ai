@@ -10,12 +10,14 @@ The component lists all events associated with the game that are stored in the g
 
 <template>
   <div id="game-events">
-    <pre>{{ eras }}</pre>
-    <div v-if="events">
-	    <div class="event" v-for="(event) in events" v-if="event.timestamp < now">
-		    <pre>{{ event }}</pre>
+	  <button class="button orange" @click="off = !off">Toggle</button>
+    <div class="debug mt-4" :class="{ hidden: off }">
+	    <div v-if="events">
+		    <div class="event py-2 border-t border-solid border-grey" v-for="(event) in events" v-if="event.timestamp < now">
+			    <pre>{{ event }}</pre>
+		    </div>
+		    <div v-else>Not a valid event</div>
 	    </div>
-	    <div v-else>Not a valid event</div>
     </div>
   </div>
 </template>
@@ -28,6 +30,11 @@ The component lists all events associated with the game that are stored in the g
 	export default {
 	  name: 'game-events',
 	  store,
+	  data: function() {
+		  return {
+			  off: true
+			}
+	  },
 	  computed: {
 		  start: function() {
 			  return this.session.start;
@@ -45,22 +52,4 @@ The component lists all events associated with the game that are stored in the g
 </script>
 
 <style lang="scss">
-	@import '../assets/scss/variables';
-	
-	#game-events {
-		max-height: 6rem;
-		overflow: auto;
-		
-		&:hover {
-			max-height: none;
-		}
-		
-		.event {
-			padding: 1rem 0;
-			
-			& + .event {
-				border-top: 1px solid $sky;
-			}
-		}
-	}
 </style>

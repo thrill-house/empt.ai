@@ -10,11 +10,25 @@ The component displays the current values for multipliers used to calculate the 
 
 <template>
   <div id="game-factors" class="body">
-    <h5 v-if="factors.bandwidth > 0">Bandwidth: <output>+{{ factors.bandwidth|bandwidth }}</output></h5>
-    <h5 v-if="factors.influence > 0">Influence: <output>+{{ factors.influence|influence }}</output></h5>
-    <h5 v-if="factors.journalCitations > 0">Journal citations: <output>+{{ factors.journalCitations|journalCitations }}</output></h5>
-    <h5 v-if="factors.returnOnInvestment > 0">Return on investment: <output>+{{ factors.returnOnInvestment|returnOnInvestment }}</output></h5>
-    <h5 v-if="factors.approvalRating > 0">Approval rating: <output>+{{ factors.approvalRating|approvalRating }}</output></h5>
+    <template v-if="factors.bandwidth > 0">
+	    <label class="label">Bandwidth</label><output class="output">+{{ factors.bandwidth|bandwidth }}</output>
+    </template>
+    <template v-if="factors.influence > 0">
+	    <hr>
+	    <label class="label">Influence</label><output class="output">+{{ factors.influence|influence }}</output>
+    </template>
+    <template v-if="factors.journalCitations > 0">
+	    <hr>
+	    <label class="label">Science boost</label><output class="output">+{{ factors.journalCitations|journalCitations }}</output>
+	  </template>
+	  <template v-if="factors.returnOnInvestment > 0">
+	    <hr>
+	    <label class="label">Economy boost</label><output class="output">+{{ factors.returnOnInvestment|returnOnInvestment }}</output>
+	  </template>
+	  <template v-if="factors.approvalRating > 0">
+	    <hr>
+	    <label class="label">Society boost</label><output class="output">+{{ factors.approvalRating|approvalRating }}</output>
+    </template>
   </div>
 </template>
 

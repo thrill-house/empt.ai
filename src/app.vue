@@ -4,7 +4,7 @@
 		  <div class="w-32">
 			  <img src="./assets/img/logo.png">
 		  </div>
-		  <div class="docs">
+		  <div class="docs p-4">
 			  <h1>Dash Game — Vue components</h1>
 				<h2>Component library of user interface elements.</h2>
 		  </div>
@@ -14,8 +14,8 @@
 		---- Game events
 		--->
 		<section :class="{ off: gameEventsToggle }">
-		  <button class="toggle" @click="toggle('gameEventsToggle')">Toggle</button>
 		  <header>
+			  <button class="toggle" @click="toggle('gameEventsToggle')">Toggle</button>
 			  <div v-html="docs.gameEvents" class="docs"></div>
 			  <div class="tweakers">
 					<h5>Tweakers</h5>
@@ -34,9 +34,9 @@
 		---- Game time
 		--->
 	  <section :class="{ off: gameTimeToggle }">
-		  <button class="toggle" @click="toggle('gameTimeToggle')">Toggle</button>
 		  <header>
-			  <div v-html="docs.gameTime" class="docs"></div>
+			  <button class="toggle" @click="toggle('gameTimeToggle')">Toggle</button>
+				<div v-html="docs.gameTime" class="docs"></div>
 			  <div class="tweakers">
 					<h5>Tweakers</h5>
 					<label>Start</label>
@@ -59,9 +59,9 @@
 		---- Game score
 		--->
 	  <section :class="{ off: gameScoreToggle }">
-		  <button class="toggle" @click="toggle('gameScoreToggle')">Toggle</button>
 		  <header>
-			  <div v-html="docs.gameScore" class="docs"></div>
+			  <button class="toggle" @click="toggle('gameScoreToggle')">Toggle</button>
+				<div v-html="docs.gameScore" class="docs"></div>
 		  </header>
 		  <game-score></game-score>
 	  </section>
@@ -70,9 +70,9 @@
 		---- Game factors
 		--->
 	  <section :class="{ off: gameFactorsToggle }">
-		  <button class="toggle" @click="toggle('gameFactorsToggle')">Toggle</button>
 		  <header>
-			  <div v-html="docs.gameFactors" class="docs"></div>
+			  <button class="toggle" @click="toggle('gameFactorsToggle')">Toggle</button>
+				<div v-html="docs.gameFactors" class="docs"></div>
 		  </header>
 		  <game-factors></game-factors>
 	  </section>
@@ -81,9 +81,9 @@
 		---- Enabled ability
 		--->
 	  <section :class="{ off: enabledAbilityToggle }">
-		  <button class="toggle" @click="toggle('enabledAbilityToggle')">Toggle</button>
 		  <header>
-			  <div v-html="docs.enabledAbility" class="docs"></div>
+			  <button class="toggle" @click="toggle('enabledAbilityToggle')">Toggle</button>
+				<div v-html="docs.enabledAbility" class="docs"></div>
 			  <div class="tweakers">
 					<h5>Tweakers</h5>
 					<label>Enabled Ability</label>
@@ -102,9 +102,9 @@
 		---- Ability slot
 		--->
 	  <section :class="{ off: abilitySlotToggle }">
-		  <button class="toggle" @click="toggle('abilitySlotToggle')">Toggle</button>
 		  <header>
-			  <div v-html="docs.abilitySlot" class="docs"></div>
+			  <button class="toggle" @click="toggle('abilitySlotToggle')">Toggle</button>
+				<div v-html="docs.abilitySlot" class="docs"></div>
 			  <div class="tweakers">
 					<h5>Tweakers</h5>
 					<label>Ability Slot</label>
@@ -123,9 +123,9 @@
 		---- Data socket
 		--->
 	  <section :class="{ off: dataSocketToggle }">
-		  <button class="toggle" @click="toggle('dataSocketToggle')">Toggle</button>
 		  <header>
-			  <div v-html="docs.dataSocket" class="docs"></div>
+			  <button class="toggle" @click="toggle('dataSocketToggle')">Toggle</button>
+				<div v-html="docs.dataSocket" class="docs"></div>
 			  <div class="tweakers">
 					<h5>Tweakers</h5>
 					<label>Data Socket</label>
@@ -144,9 +144,9 @@
 		---- Available ability
 		--->
 	  <section :class="{ off: availableAbilityToggle }">
-		  <button class="toggle" @click="toggle('availableAbilityToggle')">Toggle</button>
 		  <header>
-			  <div v-html="docs.availableAbility" class="docs"></div>
+			  <button class="toggle" @click="toggle('availableAbilityToggle')">Toggle</button>
+				<div v-html="docs.availableAbility" class="docs"></div>
 			  <div class="tweakers">
 					<h5>Tweakers</h5>
 					<label>Available Ability</label>
@@ -165,9 +165,9 @@
 		---- Ability library
 		--->
 	  <section :class="{ off: abilityLibraryToggle }">
-		  <button class="toggle" @click="toggle('abilityLibraryToggle')">Toggle</button>
 		  <header>
-			  <div v-html="docs.abilityLibrary" class="docs"></div>
+			  <button class="toggle" @click="toggle('abilityLibraryToggle')">Toggle</button>
+				<div v-html="docs.abilityLibrary" class="docs"></div>
 		  </header>
 		  <ability-library></ability-library>
 	  </section>
@@ -176,9 +176,9 @@
 		---- Purchaseable ability
 		--->
 	  <section :class="{ off: purchaseableAbilityToggle }">
-		  <button class="toggle" @click="toggle('purchaseableAbilityToggle')">Toggle</button>
 		  <header>
-			  <div v-html="docs.purchaseableAbility" class="docs"></div>
+			  <button class="toggle" @click="toggle('purchaseableAbilityToggle')">Toggle</button>
+				<div v-html="docs.purchaseableAbility" class="docs"></div>
 		  </header>
 		  <purchaseable-ability></purchaseable-ability>
 	  </section>
@@ -187,9 +187,9 @@
 		---- Ability market
 		--->
 	  <section :class="{ off: abilityMarketToggle }">
-		  <button class="toggle" @click="toggle('abilityMarketToggle')">Toggle</button>
 		  <header>
-			  <div v-html="docs.abilityMarket" class="docs"></div>
+			  <button class="toggle" @click="toggle('abilityMarketToggle')">Toggle</button>
+				<div v-html="docs.abilityMarket" class="docs"></div>
 		  </header>
 		  <ability-market></ability-market>
 	  </section>
@@ -198,9 +198,9 @@
 		---- Primary navigation
 		--->
 	  <section :class="{ off: primaryNavigationToggle }">
-		  <button class="toggle" @click="toggle('primaryNavigationToggle')">Toggle</button>
 		  <header>
-			  <div v-html="docs.primaryNavigation" class="docs"></div>
+			  <button class="toggle" @click="toggle('primaryNavigationToggle')">Toggle</button>
+				<div v-html="docs.primaryNavigation" class="docs"></div>
 		  </header>
 		  <primary-navigation></primary-navigation>
 	  </section>
@@ -209,9 +209,9 @@
 		---- Playing field
 		--->
 	  <section :class="{ off: playingFieldToggle }">
-		  <button class="toggle" @click="toggle('playingFieldToggle')">Toggle</button>
 		  <header>
-			  <div v-html="docs.playingField" class="docs"></div>
+			  <button class="toggle" @click="toggle('playingFieldToggle')">Toggle</button>
+				<div v-html="docs.playingField" class="docs"></div>
 		  </header>
 		  <playing-field></playing-field>
 	  </section>
@@ -220,9 +220,9 @@
 		---- Emotion diagram
 		--->
 	  <section :class="{ off: emotionDiagramToggle }">
-		  <button class="toggle" @click="toggle('emotionDiagramToggle')">Toggle</button>
 		  <header>
-			  <div v-html="docs.emotionDiagram" class="docs"></div>
+			  <button class="toggle" @click="toggle('emotionDiagramToggle')">Toggle</button>
+				<div v-html="docs.emotionDiagram" class="docs"></div>
 			  <div class="tweakers">
 					<h5>Tweakers</h5>
 					<label>Happiness</label>
@@ -258,9 +258,9 @@
 		---- Leader boards
 		--->
 	  <section :class="{ off: leaderBoardsToggle }">
-		  <button class="toggle" @click="toggle('leaderBoardsToggle')">Toggle</button>
 		  <header>
-			  <div v-html="docs.leaderBoards" class="docs"></div>
+				<button class="toggle" @click="toggle('leaderBoardsToggle')">Toggle</button>
+				<div v-html="docs.leaderBoards" class="docs"></div>
 		  </header>
 		  <leader-boards></leader-boards>
 	  </section>
@@ -269,9 +269,9 @@
 		---- Narrative output
 		--->
 	  <section :class="{ off: narrativeOutputToggle }">
-		  <button class="toggle" @click="toggle('narrativeOutputToggle')">Toggle</button>
 		  <header>
-			  <div v-html="docs.narrativeOutput" class="docs"></div>
+			  <button class="toggle" @click="toggle('narrativeOutputToggle')">Toggle</button>
+				<div v-html="docs.narrativeOutput" class="docs"></div>
 		  </header>
 		  <narrative-output></narrative-output>
 	  </section>
@@ -280,9 +280,9 @@
 		---- User profile
 		--->
 	  <section :class="{ off: userProfileToggle }">
-		  <button class="toggle" @click="toggle('userProfileToggle')">Toggle</button>
 		  <header>
-			  <div v-html="docs.userProfile" class="docs"></div>
+			  <button class="toggle" @click="toggle('userProfileToggle')">Toggle</button>
+				<div v-html="docs.userProfile" class="docs"></div>
 		  </header>
 		  <user-profile></user-profile>
 	  </section>
@@ -291,9 +291,9 @@
 		---- Mini-game
 		--->
 	  <section :class="{ off: miniGameToggle }">
-		  <button class="toggle" @click="toggle('miniGameToggle')">Toggle</button>
 		  <header>
-			  <div v-html="docs.miniGame" class="docs"></div>
+			  <button class="toggle" @click="toggle('miniGameToggle')">Toggle</button>
+				<div v-html="docs.miniGame" class="docs"></div>
 		  </header>
 		  <mini-game></mini-game>
 	  </section>
@@ -302,9 +302,9 @@
 		---- Sample component
 		--->
 	  <section :class="{ off: sampleComponentToggle }">
-		  <button class="toggle" @click="toggle('sampleComponentToggle')">Toggle</button>
 		  <header>
-			  <div v-html="docs.sampleComponent" class="docs"></div>
+			  <button class="toggle" @click="toggle('sampleComponentToggle')">Toggle</button>
+				<div v-html="docs.sampleComponent" class="docs"></div>
 			  <div class="tweakers">
 					<h5>Tweakers</h5>
 					<label>Message</label>
@@ -543,23 +543,22 @@
 			  slotLabel = _.sample(_.keys(this.getSlotsForSocket(socketLabel))),
 			  abilityEvent = _.sample(this.getAllEventsOfType('ability')),
 			  prevSlotEvent = _.last(this.getSlotEvents(slotLabel));
+			  // Could be returning an already non-active event. Need to check if it's active?
 			  
-			  console.log(socketLabel);
-			  console.log(slotLabel);
 			  console.log(abilityEvent);
 			  console.log(prevSlotEvent);
 			  
-			  if(abilityEvent) {
+			  if(abilityEvent && (!prevSlotEvent || prevSlotEvent.instance !== abilityEvent.instance)) {
 				  var slotEvent = {
 			      type: 'slot',
 			      target: 'ability',
 			      label: slotLabel,
 			      ability: abilityEvent.label,
 			      instance: abilityEvent.instance,
-			      positive: (!prevSlotEvent || prevSlotEvent.instance !== abilityEvent.instance)? true: false
+			      positive: true
 			    };
 			    
-			    abilityEvent.negated = [{
+			    slotEvent.negated = [{
 			      type: 'slot',
 			      instance: abilityEvent.instance
 			    },
@@ -573,7 +572,7 @@
 					console.log('Installed ability', slotEvent);
 			    this.addEvent(slotEvent);
 				} else {
-			    console.log('No abilities currently affordable');
+			    console.log('No slots currently affordable');
 			  }
 		  },
 		  ...mapMutations(['setStart']),
@@ -603,36 +602,15 @@
 	#app {
 		@apply .flex .flex-wrap;
 		
-		.docs, .tweakers {
-			@apply .p-4 .border-b .border-solid .border-purple .leading-normal;
-		}
-		
-		button, input, select {
-			@apply .font-bold .text-xs .py-2 .px-4 .rounded .bg-orange .text-light;
-		}
-		
-		input, select {
-			@apply .inline-block .appearance-none .bg-peach .text-dark;
-		}
-		
-		label {
-			@apply .inline-block .text-xs .py-2 .px-4 .rounded .bg-grey;
-		}
-		
-		code {
-			@apply .bg-grey .py-2 .px-4 .rounded;
-		}
-		
 		> section {
 			@apply .flex .flex-wrap .items-start .w-full .border-b-4 .border-solid .border-sky;
 			
-			> button {
-				@apply .mt-4;
-				order: 2;
-			}
-			
 			> header {
-				@apply .flex-grow .w-5/6;
+				@apply .w-full .relative;
+				
+				.toggle {
+					@apply .absolute .pin-t .pin-r .mt-4;
+				}
 				
 				h3, h5 {
 					@apply .font-bold;
@@ -646,12 +624,34 @@
 					@apply .text-lg;
 				}
 				
+				button, input, select {
+					@apply .font-bold .text-xs .py-2 .px-4 .rounded .bg-orange .text-light;
+					
+					&:hover {
+						@apply .opacity-75;
+					}
+				}
+				
+				input, select {
+					@apply .inline-block .appearance-none .bg-peach .text-dark;
+				}
+				
+				label {
+					@apply .inline-block .text-xs .py-2 .px-4 .rounded .bg-grey;
+				}
+				
+				code {
+					@apply .bg-grey .py-2 .px-4 .rounded;
+				}
+				
 				& + * {
 					@apply .w-full .flex-no-shrink .p-4;
 					order: 3;
 				}
-					
 				
+				.docs, .tweakers {
+					@apply .p-4 .border-b .border-solid .border-purple .leading-normal;
+				}
 				
 				.docs {
 					* + * {
@@ -661,7 +661,6 @@
 				
 				.tweakers {
 					@apply .flex .flex-wrap;
-					//flex: 20;
 					
 					h5 {
 						@apply .w-full .mb-2;
@@ -695,69 +694,4 @@
 			}
 		}
 	}
-	
-	/*#app {
-		display: grid;
-		padding: 2rem;
-		
-		> header {
-			display: grid;
-			grid-template-columns: 120px 1fr;
-			grid-gap: 2rem;
-			padding-bottom: 2rem;
-			font-family: 'Menlo', 'Courier', monospace;
-			align-items: center;
-			border-bottom: 3px solid $purple;
-			
-		  .logo {
-				max-width: 100%;
-				height: auto;
-		  }
-	  }
-	  
-	  > section {
-		  display: grid;
-		  position: relative;
-			grid-gap: 1rem;
-			padding: 2rem 0;
-			border-bottom: 3px solid $purple;
-			
-			.toggle {
-				position: absolute;
-				background: none;
-				right: 0;
-				top: 2rem;
-			}
-			
-			> header {
-				margin-bottom: 1rem;
-				
-				hr {
-					border: none;
-					border-bottom: 1px solid $sky;
-				}
-				
-				.tweakers {
-					border-bottom: 1px solid $sky;
-					padding-bottom: 1rem;
-				}
-				
-				* + * {
-					margin-top: 1rem;
-				}
-			}
-			
-			&.hidden {
-				order: 99;
-				
-				header {
-					margin: 0;
-				}
-				
-				header + *, .docs *:not(h3), .tweakers {
-					display: none;
-				}
-			}
-	  }
-	}*/
 </style>
