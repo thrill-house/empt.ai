@@ -15,7 +15,7 @@ The data socket is the base component that abilities are attached to. When enabl
   <div class="data-socket" :class="{ enabled: event }">
     <div>
 	    <div class="name">
-		    <h4>{{ socket.name }} — <output class="output bg-grey text-purple">{{ socket.type }}</output></h4>
+		    <h4>{{ socket.name }} <output class="output bg-grey text-purple">{{ socket.type }}</output></h4>
 	    </div>
 	    <div class="mt-2">
 		    <output class="output" v-for="(value, multiplier) in socket.multipliers">

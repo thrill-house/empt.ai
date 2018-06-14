@@ -13,24 +13,26 @@ The enabled ability is an ability that is currently enabled within a socket.
 
 <template>
   <div v-if="event && slotEvent" class="ability enabled">
+    <h4>{{ ability.name }} <output v-if="ability.type" :class="[treeMatch? 'text-purple': 'text-orange']" class="output bg-grey">{{ ability.type }}</output></h4>
     <emotion-diagram
 		  :happiness="event.happiness"
 		  :sadness="event.sadness"
 		  :excitement="event.excitement"
 		  :fear="event.fear"
 		  :tenderness="event.tenderness"
-		  :anger="event.anger"></emotion-diagram>
-    {{ ability.name }}
-    <em v-if="ability.type">— {{ ability.type }}</em>
-    <div class="adders">
-	    <output v-for="(value, adder) in adders">
+		  :anger="event.anger"
+		  class="w-16 mt-2"></emotion-diagram>
+    <div class="mt-2">
+	    <output class="output" v-for="(value, adder) in adders">
 		    +{{ prettyUnit(value, adder) }}
 	    </output>
-	    <output v-for="(value, multiplier) in multipliers">
+	    <output class="output" v-for="(value, multiplier) in multipliers">
 		    +{{ prettyUnit(value, multiplier) }}
 	    </output>
     </div>
-    <button @click="clearSlotEvent()">Unslot</button>
+    <div class="mt-2">
+	    <button class="button orange" @click="clearSlotEvent()">Unslot</button>
+    </div>
   </div>
   <div v-else class="ability disabled">
     No valid event for "{{ instance }}".
@@ -67,7 +69,13 @@ The enabled ability is an ability that is currently enabled within a socket.
 	  	slotEvent: function() {
 		    return this.getEventOfType(this.instance, 'slot', 'instance');
 	    },
-		  ...mapGetters(['getEventOfType', 'getAbility', 'prettyUnit'])
+	  	socket: function() {
+		    return this.getSocketForSlot(this.slotEvent.label);
+	    },
+	    treeMatch: function() {
+		    return this.ability.type === this.socket.type;
+	    },
+		  ...mapGetters(['getEventOfType', 'getAbility', 'getSocketForSlot', 'prettyUnit'])
 	  },
 	  methods: {
 		  clearSlotEvent: function() {
@@ -84,32 +92,4 @@ The enabled ability is an ability that is currently enabled within a socket.
 
 <style lang="scss">
 	@import '../assets/scss/variables';
-	
-	.ability {
-	  position: relative;
-		text-align: center;
-	  width: 162px;
-	  height: 187px;
-	  padding: 60px 10px;
-	  -webkit-clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
-	  
-	  &.enabled {
-		  background: none; // radial-gradient($peach, $orange);
-		  color: $light;
-		}
-		
-		&.disabled {
-		  background: radial-gradient($sky, $light);
-		  color: $dark;
-		}
-		
-		.emotion-diagram {
-			position: absolute;
-			left: 0;
-			top: 0;
-			width: 100%;
-			height: 100%;
-			z-index: -1;
-		}
-	}
 </style>
