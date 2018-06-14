@@ -19,6 +19,27 @@ const getters = {
   getEvents: (state) => (before = state.now) => {
   	return _.sortBy(_.filter(state.events, function(value) { return value.timestamp < before; }), 'timestamp');
   },
+	getValidEvents: (state, getters) => (before = state.now) => {
+		var events = getters.getEvents(before);
+		var negatedEvents = [];
+		
+		_.each(events, function(event) {
+			_.each(event.negated, function(negated) {
+				var negatedEvent = _.last(_.filter(getters.getEvents(event.timestamp), negated));
+				if(negatedEvent && negatedEvent.positive && !_.isMatch(event, negatedEvent)) {
+					negatedEvents.push(negatedEvent);
+				}
+			});
+			
+			if(event.positive !== undefined && !event.positive) {
+				var negatedEvent = _.last(_.filter(getters.getEvents(event.timestamp), {type: event.type, instance: event.instance, positive: true}));
+				negatedEvents.push(event);
+				negatedEvents.push(negatedEvent);
+			}
+		});
+		
+		return _.difference(events, negatedEvents);
+	},
   getAllEventsOfType: (state, getters) => (type) => {
 		return _.filter(getters.getEvents(), { type: type });
 	},
@@ -43,6 +64,15 @@ const getters = {
 		var functionName = 'get' + _.upperFirst(_.camelCase(target));
 		
 		return getters[functionName](event[id]);
+	},
+  getEventObjects: (state, getters) => (events, id = 'label') => {
+	  var objects = [];
+	  
+	  _.each(events, function(event) {
+		  objects.push(getters.getEventObject(event, id));
+	  });
+	  
+	  return objects;
 	},
   getEventCosts: (state, getters, rootState) => (event) => {
 		var functionName = 'get' + _.upperFirst(_.camelCase(event.type)) + 'Costs';

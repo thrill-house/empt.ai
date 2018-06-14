@@ -17,17 +17,12 @@ The component displays the current values for multipliers used to calculate the 
 	    <hr>
 	    <label class="label">Influence</label><output class="output">+{{ factors.influence|influence }}</output>
     </template>
-    <template v-if="factors.journalCitations > 0">
+    <template v-if="factors.science > 0 || factors.economy > 0 || factors.society > 0">
 	    <hr>
-	    <label class="label">Science boost</label><output class="output">+{{ factors.journalCitations|journalCitations }}</output>
-	  </template>
-	  <template v-if="factors.returnOnInvestment > 0">
-	    <hr>
-	    <label class="label">Economy boost</label><output class="output">+{{ factors.returnOnInvestment|returnOnInvestment }}</output>
-	  </template>
-	  <template v-if="factors.approvalRating > 0">
-	    <hr>
-	    <label class="label">Society boost</label><output class="output">+{{ factors.approvalRating|approvalRating }}</output>
+	    <label class="label">Tree boosts</label>
+	    <output class="output" v-if="factors.science > 0">+{{ factors.science|science }}</output>
+	    <output class="output" v-if="factors.economy > 0">+{{ factors.economy|economy }}</output>
+	    <output class="output" v-if="factors.society > 0">+{{ factors.society|society }}</output>
     </template>
   </div>
 </template>

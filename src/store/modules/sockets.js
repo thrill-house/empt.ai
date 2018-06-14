@@ -5,8 +5,7 @@ const state = {
 	  era: 'student',
 	  parent: false,
 	  multipliers: {
-		  bandwidth: 1,
-		  //influence: 1
+		  bandwidth: 1
 	  },
 	  costs: {
 		  data: 1
@@ -16,7 +15,7 @@ const state = {
 	  name: 'Science (Uni)',
 	  type: 'science',
 	  era: 'university',
-	  enables: 'journalCitations',
+	  enables: 'science',
 	  parent: 'root',
 	  multipliers: {
 		  bandwidth: 2,
@@ -30,7 +29,7 @@ const state = {
 	  name: 'Economy (Uni)',
 	  type: 'economy',
 	  era: 'university',
-	  enables: 'returnOnInvestment',
+	  enables: 'economy',
 	  parent: 'root',
 	  multipliers: {
 		  bandwidth: 2,
@@ -44,7 +43,7 @@ const state = {
 	  name: 'Society (Uni)',
 	  type: 'society',
 	  era: 'university',
-	  enables: 'approvalRating',
+	  enables: 'society',
 	  parent: 'root',
 	  multipliers: {
 		  bandwidth: 2,

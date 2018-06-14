@@ -17,7 +17,7 @@ The ability slot is a space attached to a data sources. When an ability is assig
 	  <template v-else v-for="(ability, index) in abilities">
 	  	<div v-if="getAbilityEvents(index).length" class="list">
 			  <h5>{{ ability.name }}</h5>
-			  <button v-for="abilityEvent in getAbilityEvents(index)" @click="addEvent(abilityEvent.label, abilityEvent.instance)">
+			  <button class="m-1" v-for="abilityEvent in getAbilityEvents(index)" @click="addEvent(abilityEvent.label, abilityEvent.instance)">
 				  <emotion-diagram
 					  :happiness="abilityEvent.happiness"
 					  :sadness="abilityEvent.sadness"

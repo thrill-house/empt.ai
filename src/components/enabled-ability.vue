@@ -12,8 +12,8 @@ The enabled ability is an ability that is currently enabled within a socket.
 </docs>
 
 <template>
-  <div v-if="event && slotEvent" class="ability enabled">
-    <h4>{{ ability.name }} <output v-if="ability.type" :class="[treeMatch? 'text-purple': 'text-orange']" class="output bg-grey">{{ ability.type }}</output></h4>
+  <div v-if="event && slotEvent">
+    <h5>{{ ability.name }} <output v-if="ability.type" :class="[!treeMatch? 'bg-sky': '']" class="output">{{ ability.type }}</output></h5>
     <emotion-diagram
 		  :happiness="event.happiness"
 		  :sadness="event.sadness"
@@ -27,7 +27,16 @@ The enabled ability is an ability that is currently enabled within a socket.
 		    +{{ prettyUnit(value, adder) }}
 	    </output>
 	    <output class="output" v-for="(value, multiplier) in multipliers">
-		    +{{ prettyUnit(value, multiplier) }}
+		    ×{{ prettyUnit(value, multiplier) }}
+	    </output>
+	    <output :class="[bonus != socket.type? 'bg-sky': '']" class="output" v-for="(value, bonus) in bonuses">
+		    +{{ prettyUnit(value, bonus) }}
+	    </output>
+	    <output :class="[!getValidAbilitySlotEvents(booster).length? 'bg-sky': '']" class="output" v-for="(value, booster) in boosters">
+		  	+{{ value|percentage }} with {{ getAbility(booster).name }}
+	    </output>
+	    <output :class="[!getValidAbilitySlotEvents(boosted).length? 'bg-sky': '']" class="output" v-for="(value, boosted) in boostedBy">
+		  	{{ getAbility(boosted).name }} gains +{{ value|percentage }}
 	    </output>
     </div>
     <div class="mt-2">
@@ -54,14 +63,33 @@ The enabled ability is an ability that is currently enabled within a socket.
 	    EmotionDiagram
 	  },
 	  computed: {
-		  ability: function() {
-		    return this.getAbility(this.event.label);
+		  abilityLabel: function() {
+		    return this.event.label;
+	    },
+	    ability: function() {
+		    return this.getAbility(this.abilityLabel);
 	    },
 	    adders: function() {
 		    return this.ability.adders;
 	    },
 	    multipliers: function() {
 		    return this.ability.multipliers;
+	    },
+	    bonuses: function() {
+		    return this.ability.bonuses;
+	    },
+	    boosters: function() {
+		    return this.ability.boosters;
+	    },
+	    boostedBy: function() {
+		    //var abilitySlotEvents = this.getValidAbilitySlotEvents(this.abilityLabel);
+		    var boostedBy = _.pickBy(this.abilities, (value) => {
+			    return _.includes(_.keys(value.boosters), this.abilityLabel);
+			  });
+			  
+		    return _.mapValues(boostedBy, (value) => {
+			    return value.boosters[this.abilityLabel];
+			  });
 	    },
 	  	event: function() {
 		    return this.getEventOfType(this.instance, 'ability', 'instance');
@@ -75,7 +103,8 @@ The enabled ability is an ability that is currently enabled within a socket.
 	    treeMatch: function() {
 		    return this.ability.type === this.socket.type;
 	    },
-		  ...mapGetters(['getEventOfType', 'getAbility', 'getSocketForSlot', 'prettyUnit'])
+	    ...mapState(['abilities']),
+		  ...mapGetters(['getEventOfType', 'getEventObjects', 'getAbility', 'getValidAbilitySlotEvents', 'getSocketForSlot', 'prettyUnit'])
 	  },
 	  methods: {
 		  clearSlotEvent: function() {

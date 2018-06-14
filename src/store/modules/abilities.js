@@ -50,7 +50,10 @@ const state = {
 			influence: 2
 		},
 		multipliers: {
-			journalCitations: 1.02
+			influence: 2
+		},
+		bonuses: {
+			science: 1.02
 		},
 		costs: {
 		  data: 10,
@@ -64,8 +67,8 @@ const state = {
 		adders: {
 			influence: 3
 		},
-		multipliers: {
-			journalCitations: 1.2
+		bonuses: {
+			science: 1.2
 		},
 		costs: {
 		  data: 15,
@@ -80,7 +83,10 @@ const state = {
 			influence: 3
 		},
 		multipliers: {
-			returnOnInvestment: 1.2
+			influence: 2
+		},
+		bonuses: {
+			economy: 1.2
 		},
 		costs: {
 		  data: 10,
@@ -94,8 +100,8 @@ const state = {
 		adders: {
 			influence: 3
 		},
-		multipliers: {
-			returnOnInvestment: 1.2
+		bonuses: {
+			economy: 1.2
 		},
 		costs: {
 		  data: 15,
@@ -110,7 +116,10 @@ const state = {
 			influence: 3
 		},
 		multipliers: {
-			approvalRating: 1.1
+			influence: 2
+		},
+		bonuses: {
+			society: 1.1
 		},
 		costs: {
 		  data: 10,
@@ -124,8 +133,8 @@ const state = {
 		adders: {
 			influence: 3
 		},
-		multipliers: {
-			approvalRating: 1.1
+		bonuses: {
+			society: 1.1
 		},
 		costs: {
 		  data: 15,
@@ -141,6 +150,9 @@ const getters = {
 	},
 	getAbilityEvents: (state, getters) => (label) => {
 		return getters.getEventsOfType(label, 'ability');
+	},
+	getValidAbilitySlotEvents: (state, getters, rootState) => (label) => {
+		return _.filter(getters.getValidEvents(), {type: 'slot', target: 'ability', ability: label});
 	},
 	getAbilityCosts: (state, getters, rootState) => (event) => {
 		var ability = getters.getAbility(event.label);

@@ -3,7 +3,7 @@ import Vue from 'vue';
 const state = {
 	MULTIPLIER_RATE: 1.12,
   SCORES_INIT: { data: 1000, confidence: 100 },
-	FACTORS_INIT: { bandwidth: 1, influence: 0, journalCitations: 0, returnOnInvestment: 0, approvalRating: 0, boosts: 0, persuasion: 0 },
+	FACTORS_INIT: { bandwidth: 1, influence: 0, science: 0, economy: 0, society: 0, boosts: 0, persuasion: 0 },
 	COSTS_INIT: { data: 0, confidence: 0 }
 }
 
@@ -88,7 +88,7 @@ const getters = {
 			factors = getters.calculateFactors(event, factors, event.positive);
 		});
 		
-		factors.persuasion = factors.influence * (factors.journalCitations || 1) * (factors.returnOnInvestment || 1) * (factors.approvalRating || 1) * (factors.boosts || 1);
+		factors.persuasion = factors.influence * (factors.science || 1) * (factors.economy || 1) * (factors.society || 1) * (factors.boosts || 1);
 		
 	  return factors;
 	},
