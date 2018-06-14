@@ -525,8 +525,8 @@
 				    abilityEvent.excitement = _.random() * axis[2];
 				    abilityEvent.fear = 1 * axis[2] - abilityEvent.excitement;
 				    
-				    this.addEvent(abilityEvent);
 						console.log('Researched ability', abilityEvent);
+				    this.addEvent(abilityEvent);
 						
 						return false;
 					} else {
@@ -542,41 +542,21 @@
 			  var socketLabel = _.sample(_.map(this.getActiveSockets(), 'label')),
 			  slotLabel = _.sample(_.keys(this.getSlotsForSocket(socketLabel))),
 			  abilityEvent = _.sample(this.getAllEventsOfType('ability')),
-			  prevSlotEvent = _.last(this.getSlotEvents(slotLabel));
-			  // Could be returning an already non-active event. Need to check if it's active?
+			  slotEvent = {
+				  label: slotLabel,
+				  ability: abilityEvent.label,
+				  instance: abilityEvent.instance
+				};
 			  
-			  console.log(abilityEvent);
-			  console.log(prevSlotEvent);
-			  
-			  if(abilityEvent && (!prevSlotEvent || prevSlotEvent.instance !== abilityEvent.instance)) {
-				  var slotEvent = {
-			      type: 'slot',
-			      target: 'ability',
-			      label: slotLabel,
-			      ability: abilityEvent.label,
-			      instance: abilityEvent.instance,
-			      positive: true
-			    };
-			    
-			    slotEvent.negated = [{
-			      type: 'slot',
-			      instance: abilityEvent.instance
-			    },
-			    {
-			      type: 'slot',
-			      label: slotLabel
-			    }];
-			  }
-			  
-			  if(slotEvent && this.getEventAffordability(slotEvent)) {			    
+			  if(slotEvent && this.getEventAffordability(_.merge(slotEvent, {type: 'slot'}))) {
 					console.log('Installed ability', slotEvent);
-			    this.addEvent(slotEvent);
+					this.addSlotEvent(slotEvent)
 				} else {
 			    console.log('No slots currently affordable');
 			  }
 		  },
 		  ...mapMutations(['setStart']),
-		  ...mapActions(['startSession', 'stopSession', 'setEvents', 'addEvent'])
+		  ...mapActions(['startSession', 'stopSession', 'setEvents', 'addEvent', 'addSlotEvent'])
 	  },
 	  watch: {
 		  sessionDurationTweaker: function(value) {

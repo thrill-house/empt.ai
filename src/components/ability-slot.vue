@@ -17,7 +17,7 @@ The ability slot is a space attached to a data sources. When an ability is assig
 	  <template v-else v-for="(ability, index) in abilities">
 	  	<div v-if="getAbilityEvents(index).length" class="list">
 			  <h5>{{ ability.name }}</h5>
-			  <button v-for="abilityEvent in getAbilityEvents(index)" @click="selectedAbility = index; selectedInstance = abilityEvent.instance">
+			  <button v-for="abilityEvent in getAbilityEvents(index)" @click="addEvent(abilityEvent.label, abilityEvent.instance)">
 				  <emotion-diagram
 					  :happiness="abilityEvent.happiness"
 					  :sadness="abilityEvent.sadness"
@@ -48,12 +48,6 @@ The ability slot is a space attached to a data sources. When an ability is assig
 	  props: {
 	    label: String
 	  },
-	  data: function () {
-		  return {
-		    selectedAbility: '',
-		    selectedInstance: ''
-		  }
-		},
 	  computed: {
 		  socket: function() {
 			  return this.getSocketForSlot(this.label);
@@ -78,21 +72,15 @@ The ability slot is a space attached to a data sources. When an ability is assig
 		  ...mapState(['abilities']),
 		  ...mapGetters(['getEventOfType', 'getAbilityEvents', 'getSocketForSlot'])
 	  },
-	  methods: mapActions(['addSlotEvent']),
-	  watch: {
-		  selectedInstance: function(newInstance, oldInstance) {
-			  if(newInstance !== '') {
-				  this.addSlotEvent({
-					  label: this.label,
-					  ability: this.selectedAbility,
-					  newInstance: newInstance,
-					  oldInstance: oldInstance
-					});
-					
-					this.selectedAbility = '';
-					this.selectedInstance = '';
-			  }
-	    }
+	  methods: {
+		  addEvent: function(ability, instance) {
+			  this.addSlotEvent({
+				  label: this.label,
+				  ability: ability,
+				  instance: instance
+				});
+		  },
+		  ...mapActions(['addSlotEvent'])
 	  }
 	}
 </script>

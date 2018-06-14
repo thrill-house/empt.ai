@@ -72,28 +72,51 @@ const getters = {
 
 // actions
 const actions = {
-  addSlotEvent: ({ dispatch }, eventValues) => {
-	  var event = {
+  addSlotEvent: ({ getters, dispatch }, eventValues) => {
+	  // Set instance to provided instance
+	  var instance = eventValues.instance,
+	  positive = true,
+	  slotEvents = getters.getSlotEvents(eventValues.label),
+	  // Get the last event for this instance, if it exists.
+	  instanceEvent = _.last(_.filter(slotEvents, {instance: instance})),
+	  // Get the last event for this slot, regardless of positive or negative.
+	  slotEvent = _.last(slotEvents);
+	  
+	  // If instance is blank
+	  if(!instance) {
+	  	// If there is a previous instance, and it was positive, then set the instance to this instead.
+	  	if(slotEvent && slotEvent.positive) {
+		  	instance = slotEvent.instance;
+		  	positive = false;
+	  	// Exit, we don't want to add in a blank event, and there's no need to cancel something that doesn't exist.
+	  	} else {
+		  	return false;
+	  	}
+	  // If something has been slotted here before
+	  // + That slotting was positive
+	  // + The instance we're trying to slot is already in the slot
+	  // + There is a previous instance event (there should be at this point, but checking for sanity)
+	  // + The instance event was also positive
+	  // + The instance event is not the same as the slot event
+	  // + The slot event came after the instance event
+    } else if(slotEvent && slotEvent.positive && instance === slotEvent.instance && instanceEvent && instanceEvent.positive && !_.isMatch(slotEvent, instanceEvent) && slotEvent.timestamp > instanceEvent.timestamp) {
+	    positive = false;
+    }
+    
+    var event = {
       type: 'slot',
       target: 'ability',
       label: eventValues.label,
       ability: eventValues.ability,
-      instance: (eventValues.newInstance !== '')? eventValues.newInstance: eventValues.oldInstance,
-      positive: (eventValues.newInstance !== '')? true: false
+      instance: instance,
+      positive: positive
     };
     
-    if(eventValues.newInstance !== '') {
+    if(event.positive) {
 	    event.negated = [{
 	      type: 'slot',
-	      instance: eventValues.newInstance
+	      instance: instance
 	    }];
-	    
-	    if(eventValues.oldInstance !== '') {
-		    event.negated.push({
-		      type: 'slot',
-		      label: eventValues.label
-		    });
-	    }
     }
 	  
 	  dispatch('addEvent', event);

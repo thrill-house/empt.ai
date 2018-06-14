@@ -2,8 +2,8 @@ import Vue from 'vue';
 
 const state = {
 	MULTIPLIER_RATE: 1.12,
-  SCORES_INIT: { data: 1, confidence: 100 },
-	FACTORS_INIT: { bandwidth: 1, influence: 0, journalCitations: 0, returnOnInvestment: 0, approvalRating: 0, persuasion: 0 },
+  SCORES_INIT: { data: 1000, confidence: 100 },
+	FACTORS_INIT: { bandwidth: 1, influence: 0, journalCitations: 0, returnOnInvestment: 0, approvalRating: 0, boosts: 0, persuasion: 0 },
 	COSTS_INIT: { data: 0, confidence: 0 }
 }
 
@@ -61,6 +61,13 @@ const getters = {
 					var factor = factors[key] || 1;
 					factors[key] = positive? factor * multiplier: (factor / multiplier > 1)? factor / multiplier: 0;
 				});
+				
+				/*
+				_.each(eventObject.boosters, (booster, key) => {
+					var factor = factors[key] || 1;
+					factors[key] = positive? factor * multiplier: (factor / multiplier > 1)? factor / multiplier: 0;
+				});
+				*/
 			}
 		};
 		
@@ -81,7 +88,7 @@ const getters = {
 			factors = getters.calculateFactors(event, factors, event.positive);
 		});
 		
-		factors.persuasion = factors.influence * (((factors.journalCitations || 0) + (factors.returnOnInvestment || 0) + (factors.approvalRating || 0)) || 1);
+		factors.persuasion = factors.influence * (factors.journalCitations || 1) * (factors.returnOnInvestment || 1) * (factors.approvalRating || 1) * (factors.boosts || 1);
 		
 	  return factors;
 	},
