@@ -9,7 +9,7 @@ const state = {
 
 // getters
 const getters = {
-  getScores: (state, getters) => (before = getters.getNow(), events = getters.getValidEvents(before), previous = _.defaults({}, state.SCORES_INIT)) => {
+  getScores: (state, getters) => (before = getters.getNow(), events = getters.getEvents(before), previous = _.defaults({}, state.SCORES_INIT)) => {
     var firstEvent = _.first(events);
 	  var remainingEvents = _.tail(events);
 		var nextEvent = _.first(remainingEvents);

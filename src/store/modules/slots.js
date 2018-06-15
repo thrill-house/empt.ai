@@ -133,8 +133,6 @@ const actions = {
     if(event.positive) {
 	    event.negated = [{
 	      type: 'slot',
-	      target: 'ability',
-	      ability: eventValues.ability,
 	      instance: instance
 	    }];
     }
