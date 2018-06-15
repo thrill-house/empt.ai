@@ -151,9 +151,6 @@ const getters = {
 	getAbilityEvents: (state, getters) => (label) => {
 		return getters.getEventsOfType(label, 'ability');
 	},
-	getValidAbilitySlotEvents: (state, getters, rootState) => (label) => {
-		return _.filter(getters.getValidEvents(), {type: 'slot', target: 'ability', ability: label});
-	},
 	getAbilityCosts: (state, getters, rootState) => (event) => {
 		var ability = getters.getAbility(event.label);
 		var activeLength = getters.getAbilityEvents(event.label).length;

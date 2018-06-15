@@ -13,33 +13,44 @@ The enabled ability is an ability that is currently enabled within a socket.
 
 <template>
   <div v-if="event && slotEvent">
-    <h5>{{ ability.name }} <output v-if="ability.type" :class="[!treeMatch? 'bg-sky': '']" class="output">{{ ability.type }}</output></h5>
-    <emotion-diagram
-		  :happiness="event.happiness"
-		  :sadness="event.sadness"
-		  :excitement="event.excitement"
-		  :fear="event.fear"
-		  :tenderness="event.tenderness"
-		  :anger="event.anger"
-		  class="w-16 mt-2"></emotion-diagram>
-    <div class="mt-2">
-	    <output class="output" v-for="(value, adder) in adders">
-		    +{{ prettyUnit(value, adder) }}
-	    </output>
-	    <output class="output" v-for="(value, multiplier) in multipliers">
-		    ×{{ prettyUnit(value, multiplier) }}
-	    </output>
-	    <output :class="[bonus != socket.type? 'bg-sky': '']" class="output" v-for="(value, bonus) in bonuses">
+    <header class="flex items-center mb-2">
+	    <h5 class="mr-2">{{ ability.name }}</h5>
+		  <output v-if="ability.type" :class="[!treeMatch? 'bg-sky': '']" class="output">{{ ability.type }}</output>
+		  <output :class="[bonus != socket.type? 'bg-sky': '']" class="output" v-for="(value, bonus) in bonuses">
 		    +{{ prettyUnit(value, bonus) }}
 	    </output>
-	    <output :class="[!getValidAbilitySlotEvents(booster).length? 'bg-sky': '']" class="output" v-for="(value, booster) in boosters">
-		  	+{{ value|percentage }} with {{ getAbility(booster).name }}
-	    </output>
-	    <output :class="[!getValidAbilitySlotEvents(boosted).length? 'bg-sky': '']" class="output" v-for="(value, boosted) in boostedBy">
-		  	{{ getAbility(boosted).name }} gains +{{ value|percentage }}
-	    </output>
+    </header>
+    <div class="flex items-center align-center">
+	    <div v-if="boosters" class="mr-2 outputs">
+		    <output :class="[!getValidSlotEvents(booster).length? 'bg-sky': '']" class="output" v-for="(value, booster) in boosters">
+			  	+{{ value|percentage }} with {{ getAbility(booster).name }}
+		    </output>
+	    </div>
+	    <div>
+		    <emotion-diagram
+				  :happiness="event.happiness"
+				  :sadness="event.sadness"
+				  :excitement="event.excitement"
+				  :fear="event.fear"
+				  :tenderness="event.tenderness"
+				  :anger="event.anger"
+				  class="w-16 mt-2"></emotion-diagram>
+				<div class="mt-2 outputs">
+			    <output class="output" v-for="(value, adder) in adders">
+				    +{{ prettyUnit(value, adder) }}
+			    </output>
+			    <output class="output" v-for="(value, multiplier) in multipliers">
+				    ×{{ prettyUnit(value, multiplier) }}
+			    </output>
+		    </div>
+	    </div>
+	    <div v-if="boostedBy" class="ml-2 outputs">
+		    <output :class="[!getValidSlotEvents(boosted).length? 'bg-sky': '']" class="output" v-for="(value, boosted) in boostedBy">
+			  	{{ getAbility(boosted).name }} gains +{{ value|percentage }}
+		    </output>
+	    </div>
     </div>
-    <div class="mt-2">
+    <div class="mt-2 text-center">
 	    <button class="button orange" @click="clearSlotEvent()">Unslot</button>
     </div>
   </div>
@@ -104,7 +115,7 @@ The enabled ability is an ability that is currently enabled within a socket.
 		    return this.ability.type === this.socket.type;
 	    },
 	    ...mapState(['abilities']),
-		  ...mapGetters(['getEventOfType', 'getEventObjects', 'getAbility', 'getValidAbilitySlotEvents', 'getSocketForSlot', 'prettyUnit'])
+		  ...mapGetters(['getEventOfType', 'getEventObjects', 'getAbility', 'getValidSlotEvents', 'getSocketForSlot', 'prettyUnit'])
 	  },
 	  methods: {
 		  clearSlotEvent: function() {

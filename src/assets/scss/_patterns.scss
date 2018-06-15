@@ -14,10 +14,24 @@
 	@apply .bg-purple .text-light .text-xs;
 }
 
+.outputs {
+	.output {
+		@apply .block .ml-0;
+		
+		& + .output {
+			@apply .block .mt-2;
+		}
+	}
+}
+
 .button, .input {
 	@apply .font-bold .text-xs .py-2 .px-4 .rounded .appearance-none;
 	
 	&.orange {
 		@apply .bg-orange .text-light;
+	}
+	
+	&:hover {
+		@apply .opacity-75;
 	}
 }
