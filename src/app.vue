@@ -246,12 +246,13 @@
 				</div>
 		  </header>
 		  <emotion-diagram
-		  :happiness="emotionDiagramHappinessTweaker"
-		  :sadness="emotionDiagramSadnessTweaker"
-		  :excitement="emotionDiagramExcitementTweaker"
-		  :fear="emotionDiagramFearTweaker"
-		  :tenderness="emotionDiagramTendernessTweaker"
-		  :anger="emotionDiagramAngerTweaker"></emotion-diagram>
+			  :happiness="emotionDiagramHappinessTweaker"
+			  :sadness="emotionDiagramSadnessTweaker"
+			  :excitement="emotionDiagramExcitementTweaker"
+			  :fear="emotionDiagramFearTweaker"
+			  :tenderness="emotionDiagramTendernessTweaker"
+			  :anger="emotionDiagramAngerTweaker"
+			  class="w-64"></emotion-diagram>
 	  </section>
 	  
 		<!--
@@ -583,10 +584,10 @@
 		@apply .flex .flex-wrap;
 		
 		> section {
-			@apply .flex .flex-wrap .items-start .w-full .border-b-4 .border-solid .border-sky;
+			@apply .flex .flex-wrap .items-start .w-full .border-b-4 .border-solid .border-sky .pb-4;
 			
 			> header {
-				@apply .w-full .relative;
+				@apply .w-full .relative .mb-4;
 				
 				.toggle {
 					@apply .absolute .pin-t .pin-r .mt-4;
@@ -625,7 +626,7 @@
 				}
 				
 				& + * {
-					@apply .w-full .flex-no-shrink .p-4;
+					@apply .flex-no-shrink;
 					order: 3;
 				}
 				

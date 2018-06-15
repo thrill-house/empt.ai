@@ -87,6 +87,7 @@ Displays the player's emotional status as a result of their currently enabled ab
 		@apply .relative .block .bg-grey;
 		-webkit-clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
 		clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+		-webkit-transform: translate3d(0, 0, 0);
 		
 		&:before {
 			@apply .block;
@@ -96,6 +97,7 @@ Displays the player's emotional status as a result of their currently enabled ab
     
     .emotion-profile {
 	    @apply .absolute .block .pin .w-full .h-full .bg-emotions;
+	    -webkit-transform: translate3d(0, 0, 0);
 	    animation: hue-rotate 8s linear infinite;
     }
 	}

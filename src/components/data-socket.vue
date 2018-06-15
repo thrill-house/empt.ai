@@ -17,6 +17,7 @@ The data socket is the base component that abilities are attached to. When enabl
 	    <header class="flex items-center mb-2">
 		    <h4 class="mr-2">{{ socket.name }}</h4>
 		    <output class="output">{{ socket.type }}</output>
+		    <output class="output bg-orange text-peach">{{ socket.era }}</output>
 	    </header>
 	    <div class="mb-2">
 		    <output class="output" v-for="(value, multiplier) in socket.multipliers">

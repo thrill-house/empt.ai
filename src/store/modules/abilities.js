@@ -49,9 +49,6 @@ const state = {
 		adders: {
 			influence: 2
 		},
-		multipliers: {
-			influence: 2
-		},
 		bonuses: {
 			science: 1.02
 		},
@@ -70,6 +67,9 @@ const state = {
 		bonuses: {
 			science: 1.2
 		},
+		boosters: {
+			'science-1': 1.1
+		},
 		costs: {
 		  data: 15,
 		  confidence: 80
@@ -81,9 +81,6 @@ const state = {
 	  era: 'university',
 	  adders: {
 			influence: 3
-		},
-		multipliers: {
-			influence: 2
 		},
 		bonuses: {
 			economy: 1.2
@@ -103,6 +100,9 @@ const state = {
 		bonuses: {
 			economy: 1.2
 		},
+		boosters: {
+			'economy-1': 1.1
+		},
 		costs: {
 		  data: 15,
 		  confidence: 80
@@ -114,9 +114,6 @@ const state = {
 	  era: 'university',
 		adders: {
 			influence: 3
-		},
-		multipliers: {
-			influence: 2
 		},
 		bonuses: {
 			society: 1.1
@@ -135,6 +132,9 @@ const state = {
 		},
 		bonuses: {
 			society: 1.1
+		},
+		boosters: {
+			'society-1': 1.1
 		},
 		costs: {
 		  data: 15,
