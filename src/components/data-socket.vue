@@ -25,8 +25,12 @@ The data socket is the base component that abilities are attached to. When enabl
 		    </output>
 	    </div>
 	    <button v-if="event" class="button orange">Mini game</button>
-	    <button v-else class="button orange" @click="activate">
-	    	Activate <em>{{ costs.confidence|confidence }}</em>
+	    <button v-else @click="activate" :class="{'cursor-wait': (!affordable)}" class="button bg-peach text-light relative w-full" :disabled="!affordable">
+				<span :style="{width: affordability + '%'}" class="absolute block pin h-full bg-orange rounded z-0"></span>
+				<span class="relative z-10">
+					<template v-if="costs.confidence > scores.confidence">Costs {{ costs.confidence|confidence }}</template>
+					<template v-else>Activate</template>
+				</span>
 			</button>
     </article>
     <ability-slot
@@ -62,22 +66,32 @@ The data socket is the base component that abilities are attached to. When enabl
 	    slots: function() {
 		    return this.getSlotsForSocket(this.label);
 	    },
+	    affordability: function() {
+		    return _.clamp((this.scores.confidence / this.costs.confidence * 100), 0, 100);
+	    },
+	    affordable: function() {
+		    return this.affordability === 100;
+	    },
 	    costs: function() {
-		    return this.getSocketCosts({ label: this.label });
+		    return this.getSocketCosts(this.newEvent);
+	    },
+	    scores: function() {
+		    return this.getScores();
 	    },
 	  	event: function() {
 		    return this.getEventOfType(this.label, 'socket');
 	    },
-		  ...mapGetters(['getEventOfType', 'getSocket', 'prettyUnit', 'getSocketCosts', 'getSlotsForSocket'])
-	  },
-	  methods: {
-		  activate: function() {
-	      var event = {
+	    newEvent: function() {
+		    return {
 		      type: 'socket',
 		      label: this.label
 		    };
-		    
-		    this.addSocketEvent(event);
+	    },
+		  ...mapGetters(['getScores', 'getEventOfType', 'getSocket', 'prettyUnit', 'getSocketCosts', 'getSlotsForSocket'])
+	  },
+	  methods: {
+		  activate: function() {
+	      this.addSocketEvent(this.newEvent);
 	    },
 	    ...mapActions(['addSocketEvent'])
 	  }
