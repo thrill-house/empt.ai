@@ -15,14 +15,14 @@ The enabled ability is an ability that is currently enabled within a socket.
   <div v-if="event && slotEvent">
     <header class="flex items-center mb-2">
 	    <h5 class="mr-2">{{ ability.name }}</h5>
-		  <output v-if="ability.type" :class="[!treeMatch? 'bg-sky': '']" class="output">{{ ability.type }}</output>
-		  <output :class="[bonus != socket.type? 'bg-sky': '']" class="output" v-for="(value, bonus) in bonuses">
+		  <output v-if="ability.type" :class="[{'bg-sky': !treeMatch}]" class="output">{{ ability.type }}</output>
+		  <output :class="[{'bg-sky': (bonus != socket.type)}]" class="output" v-for="(value, bonus) in bonuses">
 		    +{{ prettyUnit(value, bonus) }}
 	    </output>
     </header>
     <div class="flex items-center align-center">
 	    <div v-if="boosters" class="mr-2 outputs">
-		    <output :class="[!getValidSlotEvents(booster).length? 'bg-sky': '']" class="output" v-for="(value, booster) in boosters">
+		    <output :class="[{'bg-sky': !getValidSlotEvents(booster)}]" class="output" v-for="(value, booster) in boosters">
 			  	+{{ value|percentage }} with {{ getAbility(booster).name }}
 		    </output>
 	    </div>
@@ -45,7 +45,7 @@ The enabled ability is an ability that is currently enabled within a socket.
 		    </div>
 	    </div>
 	    <div v-if="boostedBy" class="ml-2 outputs">
-		    <output :class="[!getValidSlotEvents(boosted).length? 'bg-sky': '']" class="output" v-for="(value, boosted) in boostedBy">
+		    <output :class="[{'bg-sky': !getValidSlotEvents(boosted)}]" class="output" v-for="(value, boosted) in boostedBy">
 			  	{{ getAbility(boosted).name }} gains +{{ value|percentage }}
 		    </output>
 	    </div>

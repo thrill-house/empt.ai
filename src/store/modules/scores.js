@@ -54,19 +54,32 @@ const getters = {
 			
 			if(eventObject) {
 				_.each(eventObject.adders, (adder, key) => {
-					factors[key] = positive? factors[key] + adder: factors[key] - adder;
+					factors[key] = factors[key] + adder;
 				});
 				
 				_.each(eventObject.multipliers, (multiplier, key) => {
 					var factor = factors[key] || 1;
-					factors[key] = positive? factor * multiplier: (factor / multiplier > 1)? factor / multiplier: 0;
+					factors[key] = factor * multiplier;
 				});
 				
-				if(event.target) {
-					var functionName = 'getValid' + _.upperFirst(_.camelCase(event.type)) + 'Events';
+				if(eventObject.bonuses) {
+					var getObject = 'get' + _.upperFirst(_.camelCase(event.type));
+					var bonusObject = getters[getObject](event.label);
+					
+					_.each(eventObject.bonuses, (bonus, key) => {
+						if(bonusObject && key === bonusObject.type) {
+							var factor = factors[key] || 1;
+							factors[key] = factor * bonus;
+						}
+					});
+				}
+				
+				if(eventObject.boosters) {
+					var getValidEvents = 'getValid' + _.upperFirst(_.camelCase(event.type)) + 'Events';
 					
 					_.each(eventObject.boosters, (booster, key) => {
-						var boosterEvent = _.last(getters[functionName](key));
+						var boosterEvent = _.last(getters[getValidEvents](key));
+						
 						if(boosterEvent) {
 							var boost = factors.boosts || 1;
 							factors.boosts = boost * booster;
@@ -92,8 +105,6 @@ const getters = {
 		_.each(events, function(event) {
 			factors = getters.calculateFactors(event, factors);
 		});
-		
-		console.log(factors);
 		
 		factors.persuasion = factors.influence * (factors.science || 1) * (factors.economy || 1) * (factors.society || 1) * (factors.boosts || 1);
 		

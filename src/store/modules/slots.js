@@ -1,38 +1,47 @@
 const state = {
   'root-1': {
 	  socket: 'root',
+	  type: 'neutral',
 	  position: 'top-right'
 	},
 	'root-2': {
 	  socket: 'root',
+	  type: 'neutral',
 	  position: 'bottom-right'
 	},
 	'root-3': {
 	  socket: 'root',
+	  type: 'neutral',
 	  position: 'left'
 	},
 	'science-university-1': {
 		socket: 'science-university',
+	  type: 'science',
 	  position: 'top-left'
 	},
 	'science-university-2': {
 		socket: 'science-university',
+	  type: 'science',
 	  position: 'right'
 	},
 	'economy-university-1': {
 	  socket: 'economy-university',
+	  type: 'economy',
 	  position: 'right'
 	},
 	'economy-university-2': {
 	  socket: 'economy-university',
+	  type: 'economy',
 	  position: 'bottom-left'
 	},
 	'society-university-1': {
 	  socket: 'society-university',
+	  type: 'society',
 	  position: 'top-left'
 	},
 	'society-university-2': {
 	  socket: 'society-university',
+	  type: 'society',
 	  position: 'bottom-left'
 	}
 }
@@ -124,6 +133,8 @@ const actions = {
     if(event.positive) {
 	    event.negated = [{
 	      type: 'slot',
+	      target: 'ability',
+	      ability: eventValues.ability,
 	      instance: instance
 	    }];
     }
