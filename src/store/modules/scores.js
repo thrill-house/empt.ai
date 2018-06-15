@@ -9,7 +9,7 @@ const state = {
 
 // getters
 const getters = {
-  getScores: (state, getters) => (before = getters.getNow(), events = getters.getEvents(before), previous = _.defaults({}, state.SCORES_INIT)) => {
+  getScores: (state, getters) => (before = getters.getNow(), events = getters.getValidEvents(before), previous = _.defaults({}, state.SCORES_INIT)) => {
     var firstEvent = _.first(events);
 	  var remainingEvents = _.tail(events);
 		var nextEvent = _.first(remainingEvents);
@@ -62,6 +62,18 @@ const getters = {
 					factors[key] = positive? factor * multiplier: (factor / multiplier > 1)? factor / multiplier: 0;
 				});
 				
+				if(event.target) {
+					var functionName = 'getValid' + _.upperFirst(_.camelCase(event.type)) + 'Events';
+					
+					_.each(eventObject.boosters, (booster, key) => {
+						var boosterEvent = _.last(getters[functionName](key));
+						if(boosterEvent) {
+							var boost = factors.boosts || 1;
+							factors.boosts = boost * booster;
+						}
+					});
+				}
+				
 				/*
 				_.each(eventObject.boosters, (booster, key) => {
 					var factor = factors[key] || 1;
@@ -74,19 +86,14 @@ const getters = {
 		return factors;
   },
   getFactors: (state, getters) => (before = getters.getNow()) => {
-	  var events = getters.getEvents(before);
+	  var events = getters.getValidEvents(before);
 	  var factors = _.defaults({}, state.FACTORS_INIT);
 		
 		_.each(events, function(event) {
-			_.each(event.negated, function(negated) {
-				var negatedEvent = _.last(_.filter(getters.getEvents(event.timestamp), negated));
-				if(negatedEvent && negatedEvent.positive && !_.isMatch(event, negatedEvent)) {
-					factors = getters.calculateFactors(negatedEvent, factors, false);
-				}
-			});
-			
-			factors = getters.calculateFactors(event, factors, event.positive);
+			factors = getters.calculateFactors(event, factors);
 		});
+		
+		console.log(factors);
 		
 		factors.persuasion = factors.influence * (factors.science || 1) * (factors.economy || 1) * (factors.society || 1) * (factors.boosts || 1);
 		

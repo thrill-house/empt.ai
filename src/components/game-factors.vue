@@ -17,6 +17,10 @@ The component displays the current values for multipliers used to calculate the 
 	    <hr>
 	    <label class="label">Influence</label><output class="output">+{{ factors.influence|influence }}</output>
     </template>
+    <template v-if="factors.boosts > 0">
+	    <hr>
+	    <label class="label">Dependency boosts</label><output class="output">+{{ factors.boosts|percentage }}</output>
+    </template>
     <template v-if="factors.science > 0 || factors.economy > 0 || factors.society > 0">
 	    <hr>
 	    <label class="label">Tree boosts</label>

@@ -52,7 +52,8 @@ let colors = {
 	'purple': '#403ce0',
 	'sky': '#dad9fb',
 	'orange': '#ff7d5c',
-	'peach': '#fad9d0'
+	'peach': '#fad9d0',
+	'emotions': 'green'
 }
 
 module.exports = {
