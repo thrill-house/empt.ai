@@ -15,16 +15,16 @@ The enabled ability is an ability that is currently enabled within a socket.
   <div v-if="event && slotEvent">
     <header class="flex items-center mb-2">
 	    <h5 class="mr-2">{{ ability.name }}</h5>
-		  <output v-if="ability.type" :class="[{'bg-sky': !treeMatch}]" class="output">{{ ability.type }}</output>
 		  <output class="output bg-orange text-peach">{{ ability.era }}</output>
-		  <output :class="[{'bg-sky': (bonus != socket.type)}]" class="output" v-for="(value, bonus) in bonuses">
-		    +{{ prettyUnit(value, bonus) }}
+		  <output v-if="ability.type" :class="[{'bg-sky': !treeMatch}]" class="output">{{ ability.type }}</output>
+		  <output :class="[{'bg-sky': (tree != socket.type)}]" class="output" v-for="(value, tree) in trees">
+		    +{{ prettyUnit(value, tree) }}
 	    </output>
     </header>
     <div class="flex items-center align-center">
-	    <div v-if="boosters" class="mr-2 outputs">
-		    <output :class="[{'bg-sky': !getValidSlotEvents(booster).length}]" class="output" v-for="(value, booster) in boosters">
-			  	+{{ value|percentage }} with {{ getAbility(booster).name }}
+	    <div v-if="dependencies" class="mr-2 outputs">
+		    <output :class="[{'bg-sky': !hasValidSlotEvents(dependency)}]" class="output" v-for="(value, dependency) in dependencies">
+			  	+{{ value|percentage }} with {{ getAbility(dependency).name }}
 		    </output>
 	    </div>
 	    <div>
@@ -37,17 +37,17 @@ The enabled ability is an ability that is currently enabled within a socket.
 				  :anger="event.anger"
 				  class="w-16 mt-2"></emotion-diagram>
 				<div class="mt-2 outputs">
-			    <output class="output" v-for="(value, adder) in adders">
-				    +{{ prettyUnit(value, adder) }}
+			    <output class="output" v-for="(value, factor) in factors" v-if="value.base > 0">
+				    Before bonus: +{{ prettyUnit(value.base, factor) }}
 			    </output>
-			    <output class="output" v-for="(value, multiplier) in multipliers">
-				    ×{{ prettyUnit(value, multiplier) }}
+			    <output class="output" v-for="(value, factor) in calculatedFactors" v-if="value > 0">
+				    With bonus: +{{ prettyUnit(value, factor) }}
 			    </output>
 		    </div>
 	    </div>
-	    <div v-if="boostedBy" class="ml-2 outputs">
-		    <output :class="[{'bg-sky': !getValidSlotEvents(boosted).length}]" class="output" v-for="(value, boosted) in boostedBy">
-			  	{{ getAbility(boosted).name }} gains +{{ value|percentage }}
+	    <div v-if="dependants" class="ml-2 outputs">
+		    <output :class="[{'bg-sky': !hasValidSlotEvents(dependant)}]" class="output" v-for="(value, dependant) in dependants">
+			  	{{ getAbility(dependant).name }} gains +{{ value|percentage }}
 		    </output>
 	    </div>
     </div>
@@ -81,25 +81,28 @@ The enabled ability is an ability that is currently enabled within a socket.
 	    ability: function() {
 		    return this.getAbility(this.abilityLabel);
 	    },
-	    adders: function() {
-		    return this.ability.adders;
+	    factors: function() {
+		    return this.ability.factors;
 	    },
-	    multipliers: function() {
-		    return this.ability.multipliers;
+	    calculatedFactors: function() {
+		    return this.calculateFactors(this.slotEvent);
 	    },
-	    bonuses: function() {
-		    return this.ability.bonuses;
+	    influence: function() {
+		    return this.factors.influence;
 	    },
-	    boosters: function() {
-		    return this.ability.boosters;
+	    trees: function() {
+		    return this.influence.trees;
 	    },
-	    boostedBy: function() {
-		    var boostedBy = _.pickBy(this.abilities, (value) => {
-			    return _.includes(_.keys(value.boosters), this.abilityLabel);
+	    dependencies: function() {
+		    return this.influence.dependencies;
+	    },
+	    dependants: function() {
+		    var dependantAbilities = _.pickBy(this.abilities, (ability) => {
+			    return _.includes(_.keys(ability.factors.influence.dependencies), this.abilityLabel);
 			  });
 			  
-		    return _.mapValues(boostedBy, (value) => {
-			    return value.boosters[this.abilityLabel];
+		    return _.mapValues(dependantAbilities, (dependantAbility) => {
+			    return dependantAbility.factors.influence.dependencies[this.abilityLabel];
 			  });
 	    },
 	  	event: function() {
@@ -115,7 +118,7 @@ The enabled ability is an ability that is currently enabled within a socket.
 		    return this.ability.type === this.socket.type;
 	    },
 	    ...mapState(['abilities']),
-		  ...mapGetters(['getEventOfType', 'getEventObjects', 'getAbility', 'getValidSlotEvents', 'getSocketForSlot', 'prettyUnit'])
+		  ...mapGetters(['calculateFactors', 'getEventOfType', 'getEventObjects', 'getAbility', 'hasValidSlotEvents', 'getSocketForSlot', 'prettyUnit'])
 	  },
 	  methods: {
 		  clearSlotEvent: function() {

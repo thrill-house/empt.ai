@@ -4,9 +4,11 @@ const state = {
 	  type: 'neutral',
 	  era: 'student',
 	  parent: false,
-	  multipliers: {
-		  bandwidth: 1
-	  },
+	  factors: {
+		  bandwidth: {
+			  base: 1
+			}
+		},
 	  costs: {
 		  data: 1
 	  }
@@ -17,10 +19,11 @@ const state = {
 	  era: 'university',
 	  enables: 'science',
 	  parent: 'root',
-	  multipliers: {
-		  bandwidth: 2,
-		  influence: 2
-	  },
+	  factors: {
+		  bandwidth: {
+			  base: 5
+			}
+		},
 	  costs: {
 		  confidence: 2000
 	  }
@@ -31,10 +34,11 @@ const state = {
 	  era: 'university',
 	  enables: 'economy',
 	  parent: 'root',
-	  multipliers: {
-		  bandwidth: 2,
-		  influence: 2
-	  },
+	  factors: {
+		  bandwidth: {
+			  base: 5
+			}
+		},
 	  costs: {
 		  confidence: 2000
 	  }
@@ -45,10 +49,11 @@ const state = {
 	  era: 'university',
 	  enables: 'society',
 	  parent: 'root',
-	  multipliers: {
-		  bandwidth: 2,
-		  influence: 2
-	  },
+	  factors: {
+		  bandwidth: {
+			  base: 5
+			}
+		},
 	  costs: {
 		  confidence: 2000
 	  }
@@ -58,10 +63,14 @@ const state = {
 	  type: 'science',
 	  era: 'business',
 	  parent: 'science-university',
-	  multipliers: {
-		  bandwidth: 2,
-		  influence: 2
-	  },
+	  factors: {
+		  bandwidth: {
+			  base: 15
+			},
+			influence: {
+				base: 5
+			}
+		},
 	  costs: {
 		  confidence: 3000
 	  }
@@ -71,10 +80,14 @@ const state = {
 	  type: 'economy',
 	  era: 'business',
 	  parent: 'economy-university',
-	  multipliers: {
-		  bandwidth: 2,
-		  influence: 2
-	  },
+	  factors: {
+		  bandwidth: {
+			  base: 15
+			},
+			influence: {
+				base: 5
+			}
+		},
 	  costs: {
 		  confidence: 3000
 	  }
@@ -84,10 +97,14 @@ const state = {
 	  type: 'society',
 	  era: 'business',
 	  parent: 'society-university',
-	  multipliers: {
-		  bandwidth: 2,
-		  influence: 2
-	  },
+	  factors: {
+		  bandwidth: {
+			  base: 15
+			},
+			influence: {
+				base: 5
+			}
+		},
 	  costs: {
 		  confidence: 3000
 	  }
@@ -97,10 +114,14 @@ const state = {
 	  type: 'science',
 	  era: 'government',
 	  parent: 'science-business',
-	  multipliers: {
-		  bandwidth: 2,
-		  influence: 2
-	  },
+	  factors: {
+		  bandwidth: {
+			  base: 45
+			},
+			influence: {
+				base: 15
+			}
+		},
 	  costs: {
 		  confidence: 5000
 	  }
@@ -110,10 +131,14 @@ const state = {
 	  type: 'economy',
 	  era: 'government',
 	  parent: 'economy-business',
-	  multipliers: {
-		  bandwidth: 2,
-		  influence: 2
-	  },
+	  factors: {
+		  bandwidth: {
+			  base: 45
+			},
+			influence: {
+				base: 15
+			}
+		},
 	  costs: {
 		  confidence: 5000
 	  }
@@ -123,10 +148,14 @@ const state = {
 	  type: 'society',
 	  era: 'government',
 	  parent: 'society-business',
-	  multipliers: {
-		  bandwidth: 2,
-		  influence: 2
-	  },
+	  factors: {
+		  bandwidth: {
+			  base: 45
+			},
+			influence: {
+				base: 15
+			}
+		},
 	  costs: {
 		  confidence: 5000
 	  }
@@ -136,10 +165,14 @@ const state = {
 	  type: 'science',
 	  era: 'consciousness',
 	  parent: 'science-government',
-	  multipliers: {
-		  bandwidth: 2,
-		  influence: 2
-	  },
+	  factors: {
+		  bandwidth: {
+			  base: 135
+			},
+			influence: {
+				base: 45
+			}
+		},
 	  costs: {
 		  confidence: 8000
 	  }
@@ -149,10 +182,14 @@ const state = {
 	  type: 'economy',
 	  era: 'consciousness',
 	  parent: 'economy-government',
-	  multipliers: {
-		  bandwidth: 2,
-		  influence: 2
-	  },
+	  factors: {
+		  bandwidth: {
+			  base: 135
+			},
+			influence: {
+				base: 45
+			}
+		},
 	  costs: {
 		  confidence: 8000
 	  }
@@ -162,10 +199,14 @@ const state = {
 	  type: 'society',
 	  era: 'consciousness',
 	  parent: 'society-government',
-	  multipliers: {
-		  bandwidth: 2,
-		  influence: 2
-	  },
+	  factors: {
+		  bandwidth: {
+			  base: 135
+			},
+			influence: {
+				base: 45
+			}
+		},
 	  costs: {
 		  confidence: 8000
 	  }

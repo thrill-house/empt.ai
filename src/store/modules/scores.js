@@ -2,9 +2,10 @@ import Vue from 'vue';
 
 const state = {
 	MULTIPLIER_RATE: 1.12,
-  SCORES_INIT: { data: 1000, confidence: 100 },
-	FACTORS_INIT: { bandwidth: 1, influence: 0, science: 0, economy: 0, society: 0, boosts: 0, persuasion: 0 },
-	COSTS_INIT: { data: 0, confidence: 0 }
+  SCORES_INIT: { data: 1, confidence: 100 },
+	FACTORS_INIT: { bandwidth: 0, influence: 0 },
+	COSTS_INIT: { data: 0, confidence: 0 },
+	EMOTIONS_INIT: { happiness: 0, sadness: 0, excitement: 0, fear: 0, tenderness: 0, anger: 0 }
 }
 
 // getters
@@ -22,7 +23,7 @@ const getters = {
 			  
 				var eventScore = {
 					data: (duration * factors.bandwidth) - firstEvent.costs.data,
-					confidence: (duration * factors.persuasion) - firstEvent.costs.confidence
+					confidence: (duration * factors.influence) - firstEvent.costs.confidence
 				};
 			} else {
 				var eventScore = firstEvent.finalScore;
@@ -48,51 +49,36 @@ const getters = {
 	  
 	  return score;
   },
-	calculateFactors: (state, getters) => (event, factors = _.defaults({}, state.FACTORS_INIT), positive = true) => {
+	calculateFactors: (state, getters) => (event, factors = _.defaults({}, state.FACTORS_INIT)) => {
 	  if(event !== undefined) {
 		  var eventObject = getters.getEventObject(event);
-			
-			if(eventObject) {
-				_.each(eventObject.adders, (adder, key) => {
-					factors[key] = factors[key] + adder;
-				});
-				
-				_.each(eventObject.multipliers, (multiplier, key) => {
-					var factor = factors[key] || 1;
-					factors[key] = factor * multiplier;
-				});
-				
-				if(eventObject.bonuses) {
-					var getObject = 'get' + _.upperFirst(_.camelCase(event.type));
-					var bonusObject = getters[getObject](event.label);
+			if(eventObject && eventObject.factors) {
+				_.each(eventObject.factors, (factor, key) => {
+					var base = factor.base || 0;
 					
-					_.each(eventObject.bonuses, (bonus, key) => {
-						if(bonusObject && key === bonusObject.type) {
-							var factor = factors[key] || 1;
-							factors[key] = factor * bonus;
-						}
-					});
-				}
-				
-				if(eventObject.boosters) {
-					var getValidEvents = 'getValid' + _.upperFirst(_.camelCase(event.type)) + 'Events';
+					if(factor.trees) {
+						_.each(factor.trees, (tree, key) => {
+							var treeObject = getters['get' + _.upperFirst(_.camelCase(event.type))](event.label);
+							
+							if(treeObject && key === treeObject.type) {
+								base *= tree;
+								return false;
+							}
+						});
+					}
 					
-					_.each(eventObject.boosters, (booster, key) => {
-						var boosterEvent = _.last(getters[getValidEvents](key));
-						
-						if(boosterEvent) {
-							var boost = factors.boosts || 1;
-							factors.boosts = boost * booster;
-						}
-					});
-				}
-				
-				/*
-				_.each(eventObject.boosters, (booster, key) => {
-					var factor = factors[key] || 1;
-					factors[key] = positive? factor * multiplier: (factor / multiplier > 1)? factor / multiplier: 0;
+					if(factor.dependencies) {
+						_.each(factor.dependencies, (dependency, key) => {
+							var boosterEvent = _.last(getters['getValid' + _.upperFirst(_.camelCase(event.type)) + 'Events'](key));
+							
+							if(boosterEvent) {
+								base *= dependency;
+							}
+						});
+					}
+					
+					factors[key] += base;
 				});
-				*/
 			}
 		};
 		
@@ -106,9 +92,21 @@ const getters = {
 			factors = getters.calculateFactors(event, factors);
 		});
 		
-		factors.persuasion = factors.influence * (factors.science || 1) * (factors.economy || 1) * (factors.society || 1) * (factors.boosts || 1);
-		
 	  return factors;
+	},
+	getEmotions: (state, getters) => (before = getters.getNow()) => {
+	  var slotEvents = getters.getAllEventsOfType('slot', getters.getValidEvents(before));
+	  var emotions = _.defaults({}, state.EMOTIONS_INIT);
+		
+		_.each(slotEvents, function(slotEvent) {
+			var abilityEvent = getters.getEventOfType(slotEvent.instance, 'ability', 'instance');
+			
+			_.each(emotions, function(emotion, key) {
+				emotions[key] += abilityEvent[key];
+			});
+		});
+		
+	  return emotions;
 	},
   prettyUnit: (state, getters) => (value, filter) => {
   	return Vue.filter(filter)(value);

@@ -19,10 +19,10 @@ The data socket is the base component that abilities are attached to. When enabl
 		    <output class="output">{{ socket.type }}</output>
 		    <output class="output bg-orange text-peach">{{ socket.era }}</output>
 	    </header>
-	    <div class="mb-2">
-		    <output class="output" v-for="(value, multiplier) in socket.multipliers">
-			    +{{ prettyUnit(value, multiplier) }}
-		    </output>
+	    <div class="mb-2 body">
+		    <template v-for="(value, factor) in factors" v-if="value.base">
+			    <output :class="[{'bg-sky': !event}]" class="output">+{{ prettyUnit(value.base, factor) }}</output>
+		    </template>
 	    </div>
 	    <button v-if="event" class="button orange">Mini game</button>
 	    <button v-else @click="activate" :class="{'cursor-wait': (!affordable)}" class="button bg-peach text-light relative w-full" :disabled="!affordable">
@@ -71,6 +71,10 @@ The data socket is the base component that abilities are attached to. When enabl
 	    },
 	    affordable: function() {
 		    return this.affordability === 100;
+	    },
+	    factors: function() {
+		    console.log(this.socket.factors);
+		    return this.socket.factors;
 	    },
 	    costs: function() {
 		    return this.getSocketCosts(this.newEvent);

@@ -3,8 +3,10 @@ const state = {
 	  name: 'Neutral (1)',
 	  type: 'neutral',
 	  era: 'student',
-	  adders: {
-		  influence: 1
+	  factors: {
+		  influence: {
+			  base: 1
+			}
 		},
 		costs: {
 		  confidence: 10,
@@ -15,11 +17,13 @@ const state = {
 	  name: 'Neutral (2)',
 	  type: 'neutral',
 	  era: 'student',
-		adders: {
-		  influence: 1
-		},
-		boosters: {
-			'neutral-1': 1.1
+		factors: {
+		  influence: {
+			  base: 1,
+			  dependencies: {
+					'neutral-1': 1.1
+				}
+			}
 		},
 		costs: {
 		  data: 5,
@@ -30,12 +34,14 @@ const state = {
 	  name: 'Neutral (3)',
 	  type: 'neutral',
 	  era: 'student',
-		adders: {
-		  influence: 1
-		},
-		boosters: {
-			'neutral-1': 1.1,
-			'neutral-2': 1.1
+		factors: {
+		  influence: {
+			  base: 1,
+			  dependencies: {
+					'neutral-1': 1.1,
+					'neutral-2': 1.1
+				}
+			}
 		},
 		costs: {
 		  data: 5,
@@ -46,11 +52,13 @@ const state = {
 	  name: 'Science (1)',
 	  type: 'science',
 	  era: 'university',
-		adders: {
-			influence: 2
-		},
-		bonuses: {
-			science: 1.02
+		factors: {
+		  influence: {
+			  base: 2,
+			  trees: {
+					science: 1.1
+				}
+			}
 		},
 		costs: {
 		  data: 10,
@@ -61,14 +69,16 @@ const state = {
 	  name: 'Science (2)',
 	  type: 'science',
 	  era: 'university',
-		adders: {
-			influence: 3
-		},
-		bonuses: {
-			science: 1.2
-		},
-		boosters: {
-			'science-1': 1.1
+		factors: {
+		  influence: {
+			  base: 3,
+			  trees: {
+					science: 1.2
+				},
+			  dependencies: {
+					'science-1': 1.1
+				}
+			}
 		},
 		costs: {
 		  data: 15,
@@ -79,11 +89,13 @@ const state = {
 	  name: 'Economy (1)',
 	  type: 'economy',
 	  era: 'university',
-	  adders: {
-			influence: 3
-		},
-		bonuses: {
-			economy: 1.2
+	  factors: {
+		  influence: {
+			  base: 2,
+			  trees: {
+					economy: 1.2
+				},
+			}
 		},
 		costs: {
 		  data: 10,
@@ -94,14 +106,16 @@ const state = {
 	  name: 'Economy (2)',
 	  type: 'economy',
 	  era: 'university',
-		adders: {
-			influence: 3
-		},
-		bonuses: {
-			economy: 1.2
-		},
-		boosters: {
-			'economy-1': 1.1
+		factors: {
+		  influence: {
+			  base: 3,
+			  trees: {
+					economy: 1.2
+				},
+			  dependencies: {
+					'economy-1': 1.1
+				}
+			}
 		},
 		costs: {
 		  data: 15,
@@ -112,11 +126,13 @@ const state = {
 	  name: 'Society (1)',
 	  type: 'society',
 	  era: 'university',
-		adders: {
-			influence: 3
-		},
-		bonuses: {
-			society: 1.1
+		factors: {
+		  influence: {
+			  base: 2,
+			  trees: {
+					society: 1.2
+				}
+			}
 		},
 		costs: {
 		  data: 10,
@@ -127,14 +143,16 @@ const state = {
 	  name: 'Society (2)',
 	  type: 'society',
 	  era: 'university',
-		adders: {
-			influence: 3
-		},
-		bonuses: {
-			society: 1.1
-		},
-		boosters: {
-			'society-1': 1.1
+		factors: {
+		  influence: {
+			  base: 3,
+			  trees: {
+					society: 1.2
+				},
+			  dependencies: {
+					'society-1': 1.1
+				}
+			}
 		},
 		costs: {
 		  data: 15,

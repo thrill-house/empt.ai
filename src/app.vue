@@ -194,26 +194,15 @@
 		  <ability-market></ability-market>
 	  </section>
 	  
-		<!--
-		---- Primary navigation
+	  <!--
+		---- Emotional profile
 		--->
-	  <section :class="{ off: primaryNavigationToggle }">
+	  <section :class="{ off: emotionalProfileToggle }">
 		  <header>
-			  <button class="toggle" @click="toggle('primaryNavigationToggle')">Toggle</button>
-				<div v-html="docs.primaryNavigation" class="docs"></div>
+			  <button class="toggle" @click="toggle('emotionalProfileToggle')">Toggle</button>
+				<div v-html="docs.emotionalProfile" class="docs"></div>
 		  </header>
-		  <primary-navigation></primary-navigation>
-	  </section>
-	  
-		<!--
-		---- Playing field
-		--->
-	  <section :class="{ off: playingFieldToggle }">
-		  <header>
-			  <button class="toggle" @click="toggle('playingFieldToggle')">Toggle</button>
-				<div v-html="docs.playingField" class="docs"></div>
-		  </header>
-		  <playing-field></playing-field>
+		  <emotional-profile class="w-64"></emotional-profile>
 	  </section>
 	  
 		<!--
@@ -253,6 +242,17 @@
 			  :tenderness="emotionDiagramTendernessTweaker"
 			  :anger="emotionDiagramAngerTweaker"
 			  class="w-64"></emotion-diagram>
+	  </section>
+	  
+	  <!--
+		---- Playing field
+		--->
+	  <section :class="{ off: playingFieldToggle }">
+		  <header>
+			  <button class="toggle" @click="toggle('playingFieldToggle')">Toggle</button>
+				<div v-html="docs.playingField" class="docs"></div>
+		  </header>
+		  <playing-field></playing-field>
 	  </section>
 	  
 		<!--
@@ -299,6 +299,17 @@
 		  <mini-game></mini-game>
 	  </section>
 	  
+	  <!--
+		---- Primary navigation
+		--->
+	  <section :class="{ off: primaryNavigationToggle }">
+		  <header>
+			  <button class="toggle" @click="toggle('primaryNavigationToggle')">Toggle</button>
+				<div v-html="docs.primaryNavigation" class="docs"></div>
+		  </header>
+		  <primary-navigation></primary-navigation>
+	  </section>
+	  
 		<!--
 		---- Sample component
 		--->
@@ -338,6 +349,7 @@
 	import AbilityMarket from './components/ability-market.vue'
 	import PrimaryNavigation from './components/primary-navigation.vue'
 	import PlayingField from './components/playing-field.vue'
+	import EmotionalProfile from './components/emotional-profile.vue'
 	import EmotionDiagram from './components/emotion-diagram.vue'
 	import LeaderBoards from './components/leader-boards.vue'
 	import NarrativeOutput from './components/narrative-output.vue'
@@ -385,6 +397,7 @@
 			AbilityMarket,
 			PrimaryNavigation,
 			PlayingField,
+			EmotionalProfile,
 			EmotionDiagram,
 			LeaderBoards,
 			NarrativeOutput,
@@ -393,63 +406,26 @@
 			SampleComponent
 	  },
 	  localStorage: {
-		  gameEventsToggle: {
-	      type: Boolean
-	    },
-		  gameTimeToggle: {
-	      type: Boolean
-	    },
-		  gameScoreToggle: {
-	      type: Boolean
-	    },
-		  gameFactorsToggle: {
-	      type: Boolean
-	    },
-		  dataSocketToggle: {
-	      type: Boolean
-	    },
-		  abilitySlotToggle: {
-	      type: Boolean
-	    },
-		  enabledAbilityToggle: {
-	      type: Boolean
-	    },
-		  availableAbilityToggle: {
-	      type: Boolean
-	    },
-		  abilityLibraryToggle: {
-	      type: Boolean
-	    },
-		  purchaseableAbilityToggle: {
-	      type: Boolean
-	    },
-		  abilityMarketToggle: {
-	      type: Boolean
-	    },
-		  primaryNavigationToggle: {
-	      type: Boolean
-	    },
-		  playingFieldToggle: {
-	      type: Boolean
-	    },
-		  emotionDiagramToggle: {
-	      type: Boolean
-	    },
-		  leaderBoardsToggle: {
-	      type: Boolean
-	    },
-		  narrativeOutputToggle: {
-	      type: Boolean
-	    },
-		  userProfileToggle: {
-	      type: Boolean
-	    },
-		  miniGameToggle: {
-	      type: Boolean
-	    },
-		  sampleComponentToggle: {
-	      type: Boolean
-	    }
+		  gameEventsToggle: { type: Boolean },
+		  gameTimeToggle: { type: Boolean },
+		  gameScoreToggle: { type: Boolean },
+		  gameFactorsToggle: { type: Boolean },
+		  dataSocketToggle: { type: Boolean },
+		  abilitySlotToggle: { type: Boolean },
+		  enabledAbilityToggle: { type: Boolean },
+		  availableAbilityToggle: { type: Boolean },
+		  abilityLibraryToggle: { type: Boolean },
+		  purchaseableAbilityToggle: { type: Boolean },
+		  abilityMarketToggle: { type: Boolean },
+		  primaryNavigationToggle: { type: Boolean },
+		  playingFieldToggle: { type: Boolean },
+		  emotionalProfileToggle: { type: Boolean },
+		  emotionDiagramToggle: { type: Boolean },
+		  leaderBoardsToggle: { type: Boolean },
+		  narrativeOutputToggle: { type: Boolean },
+		  userProfileToggle: { type: Boolean },
+		  miniGameToggle: { type: Boolean },
+		  sampleComponentToggle: { type: Boolean }
 	  },
 	  computed: {
 		  docs: function() {

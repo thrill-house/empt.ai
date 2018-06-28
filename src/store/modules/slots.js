@@ -1,4 +1,5 @@
 const state = {
+  // Student
   'root-1': {
 	  socket: 'root',
 	  type: 'neutral',
@@ -14,6 +15,8 @@ const state = {
 	  type: 'neutral',
 	  position: 'left'
 	},
+	
+	// University
 	'science-university-1': {
 		socket: 'science-university',
 	  type: 'science',
@@ -24,6 +27,7 @@ const state = {
 	  type: 'science',
 	  position: 'right'
 	},
+	
 	'economy-university-1': {
 	  socket: 'economy-university',
 	  type: 'economy',
@@ -34,6 +38,7 @@ const state = {
 	  type: 'economy',
 	  position: 'bottom-left'
 	},
+	
 	'society-university-1': {
 	  socket: 'society-university',
 	  type: 'society',
@@ -41,6 +46,198 @@ const state = {
 	},
 	'society-university-2': {
 	  socket: 'society-university',
+	  type: 'society',
+	  position: 'bottom-left'
+	},
+	
+	// Business
+	'science-business-1': {
+		socket: 'science-business',
+	  type: 'science',
+	  position: 'top-left'
+	},
+	'science-business-2': {
+		socket: 'science-business',
+	  type: 'science',
+	  position: 'right'
+	},
+	'science-business-3': {
+		socket: 'science-business',
+	  type: 'science',
+	  position: 'right'
+	},
+	
+	'economy-business-1': {
+	  socket: 'economy-business',
+	  type: 'economy',
+	  position: 'right'
+	},
+	'economy-business-2': {
+	  socket: 'economy-business',
+	  type: 'economy',
+	  position: 'bottom-left'
+	},
+	'economy-business-3': {
+	  socket: 'economy-business',
+	  type: 'economy',
+	  position: 'bottom-left'
+	},
+	
+	'society-business-1': {
+	  socket: 'society-business',
+	  type: 'society',
+	  position: 'top-left'
+	},
+	'society-business-2': {
+	  socket: 'society-business',
+	  type: 'society',
+	  position: 'bottom-left'
+	},
+	'society-business-3': {
+	  socket: 'society-business',
+	  type: 'society',
+	  position: 'bottom-left'
+	},
+	
+	// Government
+	'science-government-1': {
+		socket: 'science-government',
+	  type: 'science',
+	  position: 'top-left'
+	},
+	'science-government-2': {
+		socket: 'science-government',
+	  type: 'science',
+	  position: 'right'
+	},
+	'science-government-3': {
+		socket: 'science-government',
+	  type: 'science',
+	  position: 'right'
+	},
+	'science-government-4': {
+		socket: 'science-government',
+	  type: 'science',
+	  position: 'right'
+	},
+	
+	'economy-government-1': {
+	  socket: 'economy-government',
+	  type: 'economy',
+	  position: 'right'
+	},
+	'economy-government-2': {
+	  socket: 'economy-government',
+	  type: 'economy',
+	  position: 'bottom-left'
+	},
+	'economy-government-3': {
+	  socket: 'economy-government',
+	  type: 'economy',
+	  position: 'bottom-left'
+	},
+	'economy-government-4': {
+	  socket: 'economy-government',
+	  type: 'economy',
+	  position: 'bottom-left'
+	},
+	
+	'society-government-1': {
+	  socket: 'society-government',
+	  type: 'society',
+	  position: 'top-left'
+	},
+	'society-government-2': {
+	  socket: 'society-government',
+	  type: 'society',
+	  position: 'bottom-left'
+	},
+	'society-government-3': {
+	  socket: 'society-government',
+	  type: 'society',
+	  position: 'bottom-left'
+	},
+	'society-government-4': {
+	  socket: 'society-government',
+	  type: 'society',
+	  position: 'bottom-left'
+	},
+	
+	// Consciousness
+	'science-consciousness-1': {
+		socket: 'science-consciousness',
+	  type: 'science',
+	  position: 'top-left'
+	},
+	'science-consciousness-2': {
+		socket: 'science-consciousness',
+	  type: 'science',
+	  position: 'right'
+	},
+	'science-consciousness-3': {
+		socket: 'science-consciousness',
+	  type: 'science',
+	  position: 'right'
+	},
+	'science-consciousness-4': {
+		socket: 'science-consciousness',
+	  type: 'science',
+	  position: 'right'
+	},
+	'science-consciousness-5': {
+		socket: 'science-consciousness',
+	  type: 'science',
+	  position: 'right'
+	},
+	
+	'economy-consciousness-1': {
+	  socket: 'economy-consciousness',
+	  type: 'economy',
+	  position: 'right'
+	},
+	'economy-consciousness-2': {
+	  socket: 'economy-consciousness',
+	  type: 'economy',
+	  position: 'bottom-left'
+	},
+	'economy-consciousness-3': {
+	  socket: 'economy-consciousness',
+	  type: 'economy',
+	  position: 'bottom-left'
+	},
+	'economy-consciousness-4': {
+	  socket: 'economy-consciousness',
+	  type: 'economy',
+	  position: 'bottom-left'
+	},
+	'economy-consciousness-5': {
+	  socket: 'economy-consciousness',
+	  type: 'economy',
+	  position: 'bottom-left'
+	},
+	
+	'society-consciousness-1': {
+	  socket: 'society-consciousness',
+	  type: 'society',
+	  position: 'top-left'
+	},
+	'society-consciousness-2': {
+	  socket: 'society-consciousness',
+	  type: 'society',
+	  position: 'bottom-left'
+	},
+	'society-consciousness-3': {
+	  socket: 'society-consciousness',
+	  type: 'society',
+	  position: 'bottom-left'
+	},
+	'society-consciousness-4': {
+	  socket: 'society-consciousness',
+	  type: 'society',
+	  position: 'bottom-left'
+	},
+	'society-consciousness-5': {
+	  socket: 'society-consciousness',
 	  type: 'society',
 	  position: 'bottom-left'
 	}
@@ -62,6 +259,9 @@ const getters = {
 		}
 		
 		return _.filter(getters.getValidEvents(), filter);
+	},
+	hasValidSlotEvents: (state, getters) => (abilityLabel = '') => {
+		return (getters.getValidSlotEvents(abilityLabel).length)? true: false;
 	},
 	getSlotCosts: (state, getters, rootState) => (event) => {
 		var ability = getters.getAbility(event.ability);

@@ -40,8 +40,8 @@ const getters = {
 		
 		return _.difference(events, negatedEvents);
 	},
-  getAllEventsOfType: (state, getters) => (type) => {
-		return _.filter(getters.getEvents(), { type: type });
+  getAllEventsOfType: (state, getters) => (type, events = getters.getEvents()) => {
+		return _.filter(events, { type: type });
 	},
   getEventsOfType: (state, getters) => (label, type, id = 'label') => {
 		return _.filter(getters.getAllEventsOfType(type), { [id]: label });
@@ -125,6 +125,7 @@ const actions = {
 	  var affordable = getters.getEventAffordability(event);
 	  
 	  if(affordable) {
+		  event.id = _.uniqueId();
 		  event.costs = affordable;
 		  commit('addEvent', event);
 	  } else {
