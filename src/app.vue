@@ -5,7 +5,7 @@
 			  <img src="./assets/img/logo.png">
 		  </div>
 		  <div class="docs p-4">
-			  <h1>Dash Game — Vue components</h1>
+			  <h1>BR<strong>AI</strong>NS — Vue components</h1>
 				<h2>Component library of user interface elements.</h2>
 		  </div>
 		</header>

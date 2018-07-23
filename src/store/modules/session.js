@@ -3,6 +3,9 @@ const state =  {
   now: _.now(),
   interval: false,
   events: {},
+  interactions: {
+	  selectedAbility: false
+  },
 }
 
 // getters
@@ -88,7 +91,10 @@ const getters = {
 	  } else {
 		  return false;
 	  }
-	}
+	},
+  getInteraction: (state) => (label) => {
+  	return state.interactions[label];
+  },
 }
 
 // mutations
@@ -112,6 +118,17 @@ const mutations = {
   },
   resetEvents: (state, events) => {
 	  state.events = {};
+  },
+  setInteraction: (state, interaction) => {
+    if(interaction !== undefined && interaction.interaction !== undefined) {
+	    state.interactions[interaction.interaction] = interaction;
+	    return true;
+    }
+	  
+	  return false;
+  },
+  resetInteraction: (state, interactionLabel) => {
+    state.interactions[interactionLabel] = false;
   }
 }
 
@@ -148,6 +165,12 @@ const actions = {
   stopSession: ({ state, commit }) => {
 	  window.clearInterval(state.interval);
 	  commit('setInterval');
+  },
+  setInteraction: ({ commit }, interaction) => {
+    commit('setInteraction', interaction);
+  },
+  resetInteraction: ({ commit }, interactionLabel) => {
+    commit('resetInteraction', interactionLabel);
   }
 }
 

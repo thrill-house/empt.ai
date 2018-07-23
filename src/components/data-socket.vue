@@ -73,7 +73,6 @@ The data socket is the base component that abilities are attached to. When enabl
 		    return this.affordability === 100;
 	    },
 	    factors: function() {
-		    console.log(this.socket.factors);
 		    return this.socket.factors;
 	    },
 	    costs: function() {

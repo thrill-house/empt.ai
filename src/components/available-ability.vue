@@ -9,7 +9,7 @@ The component displays an ability that is defined within the global data store. 
 </docs>
 
 <template>
-  <div class="available-ability">
+  <div v-if="ability" class="available-ability">
 	  <header class="flex items-center mb-2">
 	    <h4 class="mr-2">{{ ability.name }}</h4>
 	    <output class="output">{{ ability.type }}</output>

@@ -37,11 +37,11 @@ The enabled ability is an ability that is currently enabled within a socket.
 				  :anger="event.anger"
 				  class="w-16 mt-2"></emotion-diagram>
 				<div class="mt-2 outputs">
-			    <output class="output" v-for="(value, factor) in factors" v-if="value.base > 0">
+			    <!--output class="output" v-for="(value, factor) in factors" v-if="value.base > 0">
 				    Before bonus: +{{ prettyUnit(value.base, factor) }}
-			    </output>
+			    </output-->
 			    <output class="output" v-for="(value, factor) in calculatedFactors" v-if="value > 0">
-				    With bonus: +{{ prettyUnit(value, factor) }}
+				    <!--With bonus: -->+{{ prettyUnit(value, factor) }}
 			    </output>
 		    </div>
 	    </div>
@@ -50,9 +50,6 @@ The enabled ability is an ability that is currently enabled within a socket.
 			  	{{ getAbility(dependant).name }} gains +{{ value|percentage }}
 		    </output>
 	    </div>
-    </div>
-    <div class="mt-2 text-center">
-	    <button class="button orange" @click="clearSlotEvent()">Unslot</button>
     </div>
   </div>
   <div v-else class="ability disabled">

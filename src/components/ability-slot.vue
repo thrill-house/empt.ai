@@ -14,21 +14,10 @@ The ability slot is a space attached to a data sources. When an ability is assig
 <template>
   <div class="ability-slot">
 	  <enabled-ability v-if="event && abilityInstance" :instance="abilityInstance"></enabled-ability>
-	  <template v-else v-for="(ability, index) in abilities">
-	  	<div v-if="getAbilityEvents(index).length" class="list">
-			  <h5>{{ ability.name }}</h5>
-			  <button class="m-1" v-for="abilityEvent in getAbilityEvents(index)" @click="addEvent(abilityEvent.label, abilityEvent.instance)">
-				  <emotion-diagram
-					  :happiness="abilityEvent.happiness"
-					  :sadness="abilityEvent.sadness"
-					  :excitement="abilityEvent.excitement"
-					  :fear="abilityEvent.fear"
-					  :tenderness="abilityEvent.tenderness"
-					  :anger="abilityEvent.anger"
-					  class="w-8"></emotion-diagram>
-			  </button>
-		  </div>
-	  </template>
+	  <h3 v-else>Empty</h3>
+	  <button class="mt-2 button orange" v-if="selectedLabel && selectedInstance && selectedInstance != abilityInstance" @click="addEvent(selectedLabel, selectedInstance)">
+	  	Install <strong>{{ selectedLabel }}</strong>
+	  </button>
   </div>
 </template>
 
@@ -66,21 +55,30 @@ The ability slot is a space attached to a data sources. When an ability is assig
 		    
 		    return '';
 	    },
-		  abilityEvents: function() {
-		    return this.getAbilityEvents(this.selectedAbility);
+	    selectedAbility: function() {
+		    return this.getInteraction('selectedAbility');
 	    },
-		  ...mapState(['abilities']),
-		  ...mapGetters(['getEventOfType', 'getAbilityEvents', 'getSocketForSlot'])
+	    selectedLabel: function() {
+		    return this.selectedAbility? this.selectedAbility.label: '';
+	    },
+	    selectedInstance: function() {
+		    return this.selectedAbility? this.selectedAbility.instance: '';
+	    },
+		  ...mapGetters(['getEventOfType', 'getSocketForSlot', 'getInteraction'])
 	  },
 	  methods: {
 		  addEvent: function(ability, instance) {
-			  this.addSlotEvent({
-				  label: this.label,
-				  ability: ability,
-				  instance: instance
-				});
+			  if(
+				  this.addSlotEvent({
+					  label: this.label,
+					  ability: ability,
+					  instance: instance
+					})
+				) {
+					this.resetInteraction('selectedAbility');
+				}
 		  },
-		  ...mapActions(['addSlotEvent'])
+	  	...mapActions(['addSlotEvent', 'resetInteraction'])
 	  }
 	}
 </script>
