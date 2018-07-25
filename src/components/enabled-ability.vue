@@ -17,7 +17,7 @@ The enabled ability is an ability that is currently enabled within a socket.
 	    <h5 class="mr-2">{{ ability.name }}</h5>
 		  <output class="output bg-orange text-peach">{{ ability.era }}</output>
 		  <output v-if="ability.type" :class="[{'bg-sky': !treeMatch}]" class="output">{{ ability.type }}</output>
-		  <output :class="[{'bg-sky': (tree != socket.type)}]" class="output" v-for="(value, tree) in trees">
+		  <output :class="[{'bg-sky': (tree != socket.type)}]" class="output" v-for="(value, tree) in trees" v-if="tree == socket.type && value > 1">
 		    +{{ prettyUnit(value, tree) }}
 	    </output>
     </header>
@@ -27,7 +27,7 @@ The enabled ability is an ability that is currently enabled within a socket.
 			  	+{{ value|percentage }} with {{ getAbility(dependency).name }}
 		    </output>
 	    </div>
-	    <div>
+	    <div class="values">
 		    <emotion-diagram
 				  :happiness="event.happiness"
 				  :sadness="event.sadness"
@@ -94,13 +94,7 @@ The enabled ability is an ability that is currently enabled within a socket.
 		    return this.influence.dependencies;
 	    },
 	    dependants: function() {
-		    var dependantAbilities = _.pickBy(this.abilities, (ability) => {
-			    return _.includes(_.keys(ability.factors.influence.dependencies), this.abilityLabel);
-			  });
-			  
-		    return _.mapValues(dependantAbilities, (dependantAbility) => {
-			    return dependantAbility.factors.influence.dependencies[this.abilityLabel];
-			  });
+		    return this.getAbilityDependants(this.abilityLabel);
 	    },
 	  	event: function() {
 		    return this.getEventOfType(this.instance, 'ability', 'instance');
@@ -115,7 +109,7 @@ The enabled ability is an ability that is currently enabled within a socket.
 		    return this.ability.type === this.socket.type;
 	    },
 	    ...mapState(['abilities']),
-		  ...mapGetters(['calculateFactors', 'getEventOfType', 'getEventObjects', 'getAbility', 'hasValidSlotEvents', 'getSocketForSlot', 'prettyUnit'])
+		  ...mapGetters(['calculateFactors', 'getEventOfType', 'getEventObjects', 'getAbility', 'getAbilityDependants', 'hasValidSlotEvents', 'getSocketForSlot', 'prettyUnit'])
 	  },
 	  methods: {
 		  clearSlotEvent: function() {

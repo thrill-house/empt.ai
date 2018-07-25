@@ -363,7 +363,7 @@
 	export default {
 	  name: 'app',
 	  created: function() {
-			this.setEvents(this.initEvents);
+			this.addSocketEvent(this.initEvent);
 			this.startSession();
 	  },
 	  data: function() {
@@ -433,10 +433,8 @@
 					result[_.camelCase(component.name)] = component.__docs;
 				});
 		  },
-		  initEvents: function() {
-			  return [
-					{ type: 'socket', label: 'root', timestamp: +moment(this.start).subtract(1, 'seconds') }
-				]
+		  initEvent: function() {
+			  return { type: 'socket', label: 'root', timestamp: +moment(this.start).subtract(1, 'seconds') };
 		  },
 		  ...mapState({
 			  start: state => state.session.start,
@@ -465,8 +463,7 @@
 			    };
 					
 					if(this.getEventAffordability(socketEvent)) {
-						console.log('Activated socket', socketEvent);
-						this.addEvent(socketEvent);
+						this.addSocketEvent(socketEvent);
 						
 						return false;
 					} else {
@@ -501,9 +498,7 @@
 				    
 				    abilityEvent.excitement = _.random() * axis[2];
 				    abilityEvent.fear = 1 * axis[2] - abilityEvent.excitement;
-				    
-						console.log('Researched ability', abilityEvent);
-				    this.addEvent(abilityEvent);
+				    this.addAbilityEvent(abilityEvent);
 						
 						return false;
 					} else {
@@ -526,14 +521,13 @@
 				};
 			  
 			  if(slotEvent && this.getEventAffordability(_.merge(slotEvent, {type: 'slot'}))) {
-					console.log('Installed ability', slotEvent);
 					this.addSlotEvent(slotEvent)
 				} else {
 			    console.log('No slots currently affordable');
 			  }
 		  },
 		  ...mapMutations(['setStart']),
-		  ...mapActions(['startSession', 'stopSession', 'setEvents', 'addEvent', 'addSlotEvent'])
+		  ...mapActions(['startSession', 'stopSession', 'setEvents', 'addEvent', 'addSocketEvent', 'addSlotEvent', 'addAbilityEvent'])
 	  },
 	  watch: {
 		  sessionDurationTweaker: function(value) {

@@ -9,18 +9,20 @@ The component displays all **data sockets**, **socket slots** and **enabled abil
 </docs>
 
 <template>
-  <div class="playing-field">
-	  <data-socket
-	    v-for="(socket, index) in sockets"
-	    :key="index"
-	    :label="index"
-	    class="my-2 py-2 border-t border-b border-solid border-grey">
-	  </data-socket>
+  <div class="playing-field relative">
+	  <div class="w-full">
+		  <data-socket
+		    v-for="(socket, index) in sockets"
+		    :key="index"
+		    :label="index"
+		    class="my-2 py-2 border-t border-b border-solid border-grey w-full">
+		  </data-socket>
+	  </div>
   </div>
 </template>
 
 <script>
-	import { mapState } from 'vuex'
+	import { mapState, mapGetters } from 'vuex'
 	import store from '../store'
 	import DataSocket from './data-socket.vue';
 	

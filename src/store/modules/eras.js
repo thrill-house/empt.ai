@@ -26,6 +26,10 @@ const state = {
 const getters = {
   getEra: (state, getters) => (label) => {
 		return state[label];
+	},
+	isEraActive: (state, getters) => (label) => {
+		var era =  getters.getEra(label);
+		return era['active'] !== undefined && era.active;
 	}
 }
 
