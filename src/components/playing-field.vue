@@ -9,15 +9,13 @@ The component displays all **data sockets**, **socket slots** and **enabled abil
 </docs>
 
 <template>
-  <div class="playing-field relative">
-	  <div class="w-full">
-		  <data-socket
-		    v-for="(socket, index) in sockets"
-		    :key="index"
-		    :label="index"
-		    class="my-2 py-2 border-t border-b border-solid border-grey w-full">
-		  </data-socket>
-	  </div>
+  <div id="playing-field" class="flex flex-wrap w-full">
+	  <data-socket
+	    v-for="(socket, index) in sockets"
+	    :key="index"
+	    :label="index"
+	    class="m-4 p-4 w-auto bg-grey">
+	  </data-socket>
   </div>
 </template>
 

@@ -9,8 +9,8 @@ The component displays abilities that are available to the player to research or
 </docs>
 
 <template>
-  <div id="ability-library">
-	  <available-ability :label="index" :key="index" v-for="(ability, index) in abilities" class="mb-4 pb-4 border-b-4 border-solid border-orange"></available-ability>
+  <div id="ability-library" class="flex flex-wrap w-full">
+	  <available-ability :label="index" :key="index" v-for="(ability, index) in abilities" class="w-auto m-4 p-4 bg-grey"></available-ability>
   </div>
 </template>
 

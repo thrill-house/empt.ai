@@ -32,7 +32,8 @@ The component displays an ability that is defined within the global data store. 
     <button v-else-if="!selectedAbility || selectedLabel !== label" :class="{'cursor-wait': (!affordable)}" class="button bg-peach text-light relative w-full" :disabled="!affordable" @click="showDialog = true">
 			<span :style="{width: affordability + '%'}" class="absolute block pin h-full bg-orange rounded z-0"></span>
 			<span class="relative z-10">
-				Install<br>({{ costs.data|data }})
+				Install ({{ costs.data|data }})<br>
+				{{ events.length }} available
 			</span>
 		</button>
 		<button v-else class="button bg-purple text-light italic" @click="deselectAbility()">

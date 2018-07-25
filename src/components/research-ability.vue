@@ -167,6 +167,12 @@ The component displays an ability that is defined within the global data store. 
 			      instance: this.label + '-' + _.now()
 			    });
 			    
+			    this.selectedHappiness = 0;
+		      this.selectedSadness = 0;
+		      this.selectedTenderness = 0;
+		      this.selectedAnger = 0;
+		      this.selectedExcitement = 0;
+		      this.selectedFear = 0;
 			    this.showDialog = false;
 			    
 			    this.addAbilityEvent(event);

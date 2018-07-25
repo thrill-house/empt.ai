@@ -39,7 +39,7 @@ The data socket is the base component that abilities are attached to. When enabl
 	    :key="index"
 	    :label="index"
 	    :class="[slot.position, index]"
-	    class="ml-4 pl-4 border-l border-solid border-sky">
+	    class="mx-2 p-2 bg-light">
 	  </ability-slot>
   </div>
 </template>

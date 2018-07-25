@@ -1,12 +1,13 @@
 <template>
-	<main id="app" class="p-8">
+	<main id="app" class="p-8" :class="{'hide-docs': docsToggle}">
 	  <header class="flex items-center">
 		  <div class="w-32">
 			  <img src="./assets/img/logo.png">
 		  </div>
-		  <div class="docs p-4">
+		  <div class="docs keep p-4">
 			  <h1>BR<strong>AI</strong>NS — Vue components</h1>
 				<h2>Component library of user interface elements.</h2>
+				<button class="font-bold text-xs mt-4 py-2 px-4 rounded bg-orange text-light" @click="toggleDocs()">{{ docsToggle? 'Show': 'Hide' }} documentation</button>
 		  </div>
 		</header>
 		
@@ -406,6 +407,7 @@
 			SampleComponent
 	  },
 	  localStorage: {
+		  docsToggle: { type: Boolean },
 		  gameEventsToggle: { type: Boolean },
 		  gameTimeToggle: { type: Boolean },
 		  gameScoreToggle: { type: Boolean },
@@ -450,6 +452,9 @@
 	  methods: {
 		  toggle: function(section) {
 			  this[section] = !this[section];
+		  },
+		  toggleDocs: function() {
+			  this.docsToggle = !this.docsToggle;
 		  },
 		  randomSocket: function() {
 			  var active = _.map(this.getActiveSockets(), 'label'),
@@ -641,6 +646,14 @@
 					.docs {
 						@apply .border-none;
 					}
+				}
+			}
+		}
+		
+		&.hide-docs {
+			.docs:not(.keep) {
+				* + * {
+					@apply .hidden;
 				}
 			}
 		}
