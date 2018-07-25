@@ -1,9 +1,9 @@
 <docs>
-### Available ability
-The component displays an ability that is defined within the global data store. If the player is not determined to be past the ability threshold, it will not be shown in any form to the player. If they are, depending on the whether a corresponding **research** or **purchase** event exists for the ability, it either displays options to enable it within the playing field, or to research it using in-game resources.
+### Research ability
+The component displays options for researching an ability, when available. A button is displayed that triggers a modal to select emotion values and confirm the ability research.
 
 ##### Instantiation
-`<available-ability label="ability-label"></available-ability>`
+`<research-ability label="ability-label"></research-ability>`
 
 ---
 </docs>

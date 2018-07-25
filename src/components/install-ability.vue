@@ -1,9 +1,9 @@
 <docs>
-### Available ability
-The component displays an ability that is defined within the global data store. If the player is not determined to be past the ability threshold, it will not be shown in any form to the player. If they are, depending on the whether a corresponding **research** or **purchase** event exists for the ability, it either displays options to enable it within the playing field, or to research it using in-game resources.
+### Install ability
+The component displays options for selecting an ability to install in a slot. A button is displayed that triggers a modal to select which emotional profile of those available (instances of this ability researched) and "tags" the selected instance temporarily to move it to an available slot in the playing field.
 
 ##### Instantiation
-`<available-ability label="ability-label"></available-ability>`
+`<install-ability label="ability-label"></install-ability>`
 
 ---
 </docs>
