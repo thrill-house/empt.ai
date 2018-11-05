@@ -15,18 +15,18 @@ Displays story elements that occur throughout the course of the narrative as a r
 </template>
 
 <script>
-	import { mapState } from 'vuex'
-	import store from '../store'
-	
-	export default {
-	  name: 'narrative-output',
-	  store
-	}
+import { mapState } from "vuex";
+import store from "../store";
+
+export default {
+  name: "narrative-output",
+  store
+};
 </script>
 
 <style lang="scss">
-	@import '../assets/scss/variables';
-	
-	#narrative-output {
-	}
+@import "../assets/scss/variables";
+
+#narrative-output {
+}
 </style>

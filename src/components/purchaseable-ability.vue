@@ -15,18 +15,18 @@ Displays an ability that is listed on the marketplace and is available for purch
 </template>
 
 <script>
-	import { mapState } from 'vuex'
-	import store from '../store'
-	
-	export default {
-	  name: 'purchaseable-ability',
-	  store
-	}
+import { mapState } from "vuex";
+import store from "../store";
+
+export default {
+  name: "purchaseable-ability",
+  store
+};
 </script>
 
 <style lang="scss">
-	@import '../assets/scss/variables';
-	
-	#purchaseable-ability {
-	}
+@import "../assets/scss/variables";
+
+#purchaseable-ability {
+}
 </style>

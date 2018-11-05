@@ -15,18 +15,18 @@ Displays a mini-game to the user that can be completed to receive a score bonus 
 </template>
 
 <script>
-	import { mapState } from 'vuex'
-	import store from '../store'
-	
-	export default {
-	  name: 'mini-game',
-	  store
-	}
+import { mapState } from "vuex";
+import store from "../store";
+
+export default {
+  name: "mini-game",
+  store
+};
 </script>
 
 <style lang="scss">
-	@import '../assets/scss/variables';
-	
-	#mini-game {
-	}
+@import "../assets/scss/variables";
+
+#mini-game {
+}
 </style>

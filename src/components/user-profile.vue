@@ -15,18 +15,18 @@ Displays information pertaining to the player's profile.
 </template>
 
 <script>
-	import { mapState } from 'vuex'
-	import store from '../store'
-	
-	export default {
-	  name: 'user-profile',
-	  store
-	}
+import { mapState } from "vuex";
+import store from "../store";
+
+export default {
+  name: "user-profile",
+  store
+};
 </script>
 
 <style lang="scss">
-	@import '../assets/scss/variables';
-	
-	#user-profile {
-	}
+@import "../assets/scss/variables";
+
+#user-profile {
+}
 </style>

@@ -18,8 +18,8 @@ This is a sample component, file and folder structure should be preserved to mat
 </template>
 
 <script>
-	export default {
-	  name: 'sample-component',
-	  props: ['message']
-	}
+export default {
+  name: "sample-component",
+  props: ["message"]
+};
 </script>

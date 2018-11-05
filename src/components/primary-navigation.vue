@@ -15,18 +15,18 @@ Provides a method to navigate between the different primary screens of the game 
 </template>
 
 <script>
-	import { mapState } from 'vuex'
-	import store from '../store'
-	
-	export default {
-	  name: 'primary-navigation',
-	  store
-	}
+import { mapState } from "vuex";
+import store from "../store";
+
+export default {
+  name: "primary-navigation",
+  store
+};
 </script>
 
 <style lang="scss">
-	@import '../assets/scss/variables';
-	
-	#primary-navigation {
-	}
+@import "../assets/scss/variables";
+
+#primary-navigation {
+}
 </style>

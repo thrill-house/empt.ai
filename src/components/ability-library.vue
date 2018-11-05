@@ -15,45 +15,45 @@ The component displays abilities that are available to the player to research or
 </template>
 
 <script>
-	import { mapState, mapGetters, mapActions } from 'vuex'
-	import store from '../store'
-	import AvailableAbility from './available-ability.vue'
-	
-	export default {
-	  name: 'ability-library',
-	  store,
-	  components: {
-	    AvailableAbility
-	  },
-	  computed: {
-	    selectedAbility: function() {
-		    return this.getInteraction('selectedAbility');
-	    },
-	    selectedLabel: function() {
-		    return this.selectedAbility? this.selectedAbility.label: '';
-	    },
-	    selectedInstance: function() {
-		    return this.selectedAbility? this.selectedAbility.instance: '';
-	    },
-		  ...mapState(['abilities']),
-		  ...mapGetters(['getInteraction'])
-	  },
-	  methods: {
-		  selectAbility: function(label, instance) {
-			  this.setInteraction({
-				  interaction: 'selectedAbility',
-				  label: label,
-					instance: instance
-				});
-		  },
-		  ...mapActions(['setInteraction']),
-	  }
-	}
+import { mapState, mapGetters, mapActions } from "vuex";
+import store from "../store";
+import AvailableAbility from "./available-ability.vue";
+
+export default {
+  name: "ability-library",
+  store,
+  components: {
+    AvailableAbility
+  },
+  computed: {
+    selectedAbility: function() {
+      return this.getInteraction("selectedAbility");
+    },
+    selectedLabel: function() {
+      return this.selectedAbility ? this.selectedAbility.label : "";
+    },
+    selectedInstance: function() {
+      return this.selectedAbility ? this.selectedAbility.instance : "";
+    },
+    ...mapState(["abilities"]),
+    ...mapGetters(["getInteraction"])
+  },
+  methods: {
+    selectAbility: function(label, instance) {
+      this.setInteraction({
+        interaction: "selectedAbility",
+        label: label,
+        instance: instance
+      });
+    },
+    ...mapActions(["setInteraction"])
+  }
+};
 </script>
 
 <style lang="scss">
-	@import '../assets/scss/variables';
-	
-	#ability-library {
-	}
+@import "../assets/scss/variables";
+
+#ability-library {
+}
 </style>

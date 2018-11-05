@@ -55,56 +55,60 @@ The component displays an ability that is defined within the global data store. 
 </template>
 
 <script>
-	import { mapState, mapGetters, mapActions } from 'vuex'
-	import store from '../store'
-	import ResearchAbility from './research-ability.vue'
-	import InstallAbility from './install-ability.vue'
-	
-	export default {
-	  name: 'available-ability',
-	  store,
-	  components: {
-	    ResearchAbility,
-	    InstallAbility
-	  },
-	  props: {
-	    label: String
-	  },
-	  computed: {
-		  ability: function() {
-		    return this.getAbility(this.label);
-	    },
-	    factors: function() {
-		    return this.ability.factors;
-	    },
-	    influence: function() {
-		    return this.factors.influence;
-	    },
-	    trees: function() {
-		    return this.influence.trees;
-	    },
-	    dependencies: function() {
-		    return this.influence.dependencies;
-	    },
-	    dependants: function() {
-		    return this.getAbilityDependants(this.label);
-	    },
-	    era: function() {
-		  	return this.ability.era;
-	    },
-	    eraActive: function() {
-		  	return this.isEraActive(this.era);
-	    },
-		  ...mapState(['abilities']),
-		  ...mapGetters(['getAbility', 'isEraActive', 'getAbilityDependants', 'prettyUnit'])
-	  }
-	}
+import { mapState, mapGetters, mapActions } from "vuex";
+import store from "../store";
+import ResearchAbility from "./research-ability.vue";
+import InstallAbility from "./install-ability.vue";
+
+export default {
+  name: "available-ability",
+  store,
+  components: {
+    ResearchAbility,
+    InstallAbility
+  },
+  props: {
+    label: String
+  },
+  computed: {
+    ability: function() {
+      return this.getAbility(this.label);
+    },
+    factors: function() {
+      return this.ability.factors;
+    },
+    influence: function() {
+      return this.factors.influence;
+    },
+    trees: function() {
+      return this.influence.trees;
+    },
+    dependencies: function() {
+      return this.influence.dependencies;
+    },
+    dependants: function() {
+      return this.getAbilityDependants(this.label);
+    },
+    era: function() {
+      return this.ability.era;
+    },
+    eraActive: function() {
+      return this.isEraActive(this.era);
+    },
+    ...mapState(["abilities"]),
+    ...mapGetters([
+      "getAbility",
+      "isEraActive",
+      "getAbilityDependants",
+      "prettyUnit"
+    ])
+  }
+};
 </script>
 
 <style lang="scss">
-	@import '../assets/scss/default';
-	
-	.available-ability {
-		
-	}
+@import "../assets/scss/default";
+
+.available-ability {
+}
 </style>

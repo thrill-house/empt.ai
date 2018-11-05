@@ -15,18 +15,18 @@ Displays a players progress in relation to other players of the game, based on a
 </template>
 
 <script>
-	import { mapState } from 'vuex'
-	import store from '../store'
-	
-	export default {
-	  name: 'leader-boards',
-	  store
-	}
+import { mapState } from "vuex";
+import store from "../store";
+
+export default {
+  name: "leader-boards",
+  store
+};
 </script>
 
 <style lang="scss">
-	@import '../assets/scss/variables';
-	
-	#leader-boards {
-	}
+@import "../assets/scss/variables";
+
+#leader-boards {
+}
 </style>

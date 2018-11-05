@@ -58,72 +58,81 @@ The enabled ability is an ability that is currently enabled within a socket.
 </template>
 
 <script>
-	import { mapState, mapGetters, mapActions } from 'vuex';
-	import store from '../store';
-	import EmotionDiagram from './emotion-diagram.vue';
-	
-	export default {
-	  name: 'enabled-ability',
-	  props: {
-	    instance: String,
-	  },
-	  store,
-	  components: {
-	    EmotionDiagram
-	  },
-	  computed: {
-		  abilityLabel: function() {
-		    return this.event.label;
-	    },
-	    ability: function() {
-		    return this.getAbility(this.abilityLabel);
-	    },
-	    factors: function() {
-		    return this.ability.factors;
-	    },
-	    calculatedFactors: function() {
-		    return this.calculateFactors(this.slotEvent);
-	    },
-	    influence: function() {
-		    return this.factors.influence;
-	    },
-	    trees: function() {
-		    return this.influence.trees;
-	    },
-	    dependencies: function() {
-		    return this.influence.dependencies;
-	    },
-	    dependants: function() {
-		    return this.getAbilityDependants(this.abilityLabel);
-	    },
-	  	event: function() {
-		    return this.getEventOfType(this.instance, 'ability', 'instance');
-	    },
-	  	slotEvent: function() {
-		    return this.getEventOfType(this.instance, 'slot', 'instance');
-	    },
-	  	socket: function() {
-		    return this.getSocketForSlot(this.slotEvent.label);
-	    },
-	    treeMatch: function() {
-		    return this.ability.type === this.socket.type;
-	    },
-	    ...mapState(['abilities']),
-		  ...mapGetters(['calculateFactors', 'getEventOfType', 'getEventObjects', 'getAbility', 'getAbilityDependants', 'hasValidSlotEvents', 'getSocketForSlot', 'prettyUnit'])
-	  },
-	  methods: {
-		  clearSlotEvent: function() {
-			  this.addSlotEvent({
-				  label: this.slotEvent.label,
-				  ability: this.slotEvent.ability,
-				  instance: ''
-				});
-		  },
-		  ...mapActions(['addSlotEvent'])
-	  }
-	}
+import { mapState, mapGetters, mapActions } from "vuex";
+import store from "../store";
+import EmotionDiagram from "./emotion-diagram.vue";
+
+export default {
+  name: "enabled-ability",
+  props: {
+    instance: String
+  },
+  store,
+  components: {
+    EmotionDiagram
+  },
+  computed: {
+    abilityLabel: function() {
+      return this.event.label;
+    },
+    ability: function() {
+      return this.getAbility(this.abilityLabel);
+    },
+    factors: function() {
+      return this.ability.factors;
+    },
+    calculatedFactors: function() {
+      return this.calculateFactors(this.slotEvent);
+    },
+    influence: function() {
+      return this.factors.influence;
+    },
+    trees: function() {
+      return this.influence.trees;
+    },
+    dependencies: function() {
+      return this.influence.dependencies;
+    },
+    dependants: function() {
+      return this.getAbilityDependants(this.abilityLabel);
+    },
+    event: function() {
+      return this.getEventOfType(this.instance, "ability", "instance");
+    },
+    slotEvent: function() {
+      return this.getEventOfType(this.instance, "slot", "instance");
+    },
+    socket: function() {
+      return this.getSocketForSlot(this.slotEvent.label);
+    },
+    treeMatch: function() {
+      return this.ability.type === this.socket.type;
+    },
+    ...mapState(["abilities"]),
+    ...mapGetters([
+      "calculateFactors",
+      "getEventOfType",
+      "getEventObjects",
+      "getAbility",
+      "getAbilityDependants",
+      "hasValidSlotEvents",
+      "getSocketForSlot",
+      "prettyUnit"
+    ])
+  },
+  methods: {
+    clearSlotEvent: function() {
+      this.addSlotEvent({
+        label: this.slotEvent.label,
+        ability: this.slotEvent.ability,
+        instance: ""
+      });
+    },
+    ...mapActions(["addSlotEvent"])
+  }
+};
 </script>
 
 <style lang="scss">
-	@import '../assets/scss/variables';
+@import "../assets/scss/variables";
 </style>

@@ -20,23 +20,23 @@ The component displays all **data sockets**, **socket slots** and **enabled abil
 </template>
 
 <script>
-	import { mapState, mapGetters } from 'vuex'
-	import store from '../store'
-	import DataSocket from './data-socket.vue';
-	
-	export default {
-	  name: 'playing-field',
-	  components: {
-	    DataSocket
-	  },
-	  props: {
-	    label: String
-	  },
-	  store,
-	  computed: mapState(['sockets'])
-	}
+import { mapState, mapGetters } from "vuex";
+import store from "../store";
+import DataSocket from "./data-socket.vue";
+
+export default {
+  name: "playing-field",
+  components: {
+    DataSocket
+  },
+  props: {
+    label: String
+  },
+  store,
+  computed: mapState(["sockets"])
+};
 </script>
 
 <style lang="scss">
-	@import '../assets/scss/default';
+@import "../assets/scss/default";
 </style>

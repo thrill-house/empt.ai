@@ -15,105 +15,127 @@ Displays the player's emotional status as a result of their currently enabled ab
 </template>
 
 <script>
-	import { mapState } from 'vuex'
-	import store from '../store'
-	
-	export default {
-	  name: 'emotion-diagram',
-	  store,
-	  props: {
-	    happiness: Number,
-	    sadness: Number,
-	    excitement: Number,
-	    fear: Number,
-	    tenderness: Number,
-	    anger: Number,
-	    scale: Number
-	  },
-	  computed: {
-		  max: function() {
-			  return _.max([this.happiness, this.sadness, this.excitement, this.fear, this.tenderness, this.anger, this.scale]);
-		  },
-		  happinessRatio: function() {
-			  return this.calculateRatio(50, 0, this.happiness);
-		  },
-		  excitementRatio: function() {
-			  return this.calculateRatio(100, 25, this.excitement);
-		  },
-		  angerRatio: function() {
-			  return this.calculateRatio(100, 75, this.anger);
-		  },
-		  sadnessRatio: function() {
-			  return this.calculateRatio(50, 100, this.sadness);
-		  },
-		  fearRatio: function() {
-			  return this.calculateRatio(0, 75, this.fear);
-		  },
-		  tendernessRatio: function() {
-			  return this.calculateRatio(0, 25, this.tenderness);
-		  },
-		  clipPath: function() {
-			  return 'polygon(' + this.happinessRatio + ', ' + this.excitementRatio + ', ' + this.angerRatio + ', ' + this.sadnessRatio + ', ' + this.fearRatio + ', ' + this.tendernessRatio + ')';
-		  },
-		  clipPathStyle: function() {
-			  return {
-				  'clip-path': this.clipPath,
-				  '-webkit-clip-path': this.clipPath
-			  };
-		  }
-	  },
-	  methods: {
-		  calculateRatio: function(maxX, maxY, emotion) {
-			  var minX = 50 + ((maxX - 50) * 0.1);
-			  var minY = 50 + ((maxY - 50) * 0.1);
-			  var ratio = emotion / this.max;
-			  var differenceX = maxX - minX;
-			  var differenceY = maxY - minY;
-			  var distanceX = differenceX * ratio;
-			  var distanceY = differenceY * ratio;
-			  var valueX = minX + distanceX;
-			  var valueY = minY + distanceY;
-			  
-			  return valueX + '% ' + valueY + '%';
-		  }
-	  }
-	}
+import { mapState } from "vuex";
+import store from "../store";
+
+export default {
+  name: "emotion-diagram",
+  store,
+  props: {
+    happiness: Number,
+    sadness: Number,
+    excitement: Number,
+    fear: Number,
+    tenderness: Number,
+    anger: Number,
+    scale: Number
+  },
+  computed: {
+    max: function() {
+      return _.max([
+        this.happiness,
+        this.sadness,
+        this.excitement,
+        this.fear,
+        this.tenderness,
+        this.anger,
+        this.scale
+      ]);
+    },
+    happinessRatio: function() {
+      return this.calculateRatio(50, 0, this.happiness);
+    },
+    excitementRatio: function() {
+      return this.calculateRatio(100, 25, this.excitement);
+    },
+    angerRatio: function() {
+      return this.calculateRatio(100, 75, this.anger);
+    },
+    sadnessRatio: function() {
+      return this.calculateRatio(50, 100, this.sadness);
+    },
+    fearRatio: function() {
+      return this.calculateRatio(0, 75, this.fear);
+    },
+    tendernessRatio: function() {
+      return this.calculateRatio(0, 25, this.tenderness);
+    },
+    clipPath: function() {
+      return (
+        "polygon(" +
+        this.happinessRatio +
+        ", " +
+        this.excitementRatio +
+        ", " +
+        this.angerRatio +
+        ", " +
+        this.sadnessRatio +
+        ", " +
+        this.fearRatio +
+        ", " +
+        this.tendernessRatio +
+        ")"
+      );
+    },
+    clipPathStyle: function() {
+      return {
+        "clip-path": this.clipPath,
+        "-webkit-clip-path": this.clipPath
+      };
+    }
+  },
+  methods: {
+    calculateRatio: function(maxX, maxY, emotion) {
+      var minX = 50 + (maxX - 50) * 0.1;
+      var minY = 50 + (maxY - 50) * 0.1;
+      var ratio = emotion / this.max;
+      var differenceX = maxX - minX;
+      var differenceY = maxY - minY;
+      var distanceX = differenceX * ratio;
+      var distanceY = differenceY * ratio;
+      var valueX = minX + distanceX;
+      var valueY = minY + distanceY;
+
+      return valueX + "% " + valueY + "%";
+    }
+  }
+};
 </script>
 
 <style lang="scss">
-	@import '../assets/scss/default';
-	
-	.emotion-diagram {
-		@apply .relative .block .bg-grey;
-		-webkit-clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
-		clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
-		-webkit-transform: translate3d(0, 0, 0);
-		
-		&:before {
-			@apply .block;
-			content: "";
-			padding-top: 27 / 25 * 100%;
-		}
-    
-    .emotion-profile {
-	    @apply .absolute .block .pin .w-full .h-full .bg-emotions;
-	    -webkit-transform: translate3d(0, 0, 0);
-	    animation: hue-rotate 8s linear infinite;
-    }
-	}
-	
-	@keyframes hue-rotate {
-	  from {
-	    -webkit-filter: hue-rotate(0);
-	    -moz-filter: hue-rotate(0);
-	    -ms-filter: hue-rotate(0);
-	    filter: hue-rotate(0);
-	  }
-	  to {
-	    -webkit-filter: hue-rotate(360deg);
-	    -moz-filter: hue-rotate(360deg);
-	    -ms-filter: hue-rotate(360deg);
-	    filter: hue-rotate(360deg);
-	  }
-	}
+@import "../assets/scss/default";
+
+.emotion-diagram {
+  @apply .relative .block .bg-grey;
+  -webkit-clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+  clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+  -webkit-transform: translate3d(0, 0, 0);
+
+  &:before {
+    @apply .block;
+    content: "";
+    padding-top: 27 / 25 * 100%;
+  }
+
+  .emotion-profile {
+    @apply .absolute .block .pin .w-full .h-full .bg-emotions;
+    -webkit-transform: translate3d(0, 0, 0);
+    animation: hue-rotate 8s linear infinite;
+  }
+}
+
+@keyframes hue-rotate {
+  from {
+    -webkit-filter: hue-rotate(0);
+    -moz-filter: hue-rotate(0);
+    -ms-filter: hue-rotate(0);
+    filter: hue-rotate(0);
+  }
+  to {
+    -webkit-filter: hue-rotate(360deg);
+    -moz-filter: hue-rotate(360deg);
+    -ms-filter: hue-rotate(360deg);
+    filter: hue-rotate(360deg);
+  }
+}
 </style>

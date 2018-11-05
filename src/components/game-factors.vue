@@ -32,25 +32,25 @@ The component displays the current values for multipliers used to calculate the 
 </template>
 
 <script>
-	import { mapGetters } from 'vuex'
-	import _ from 'lodash'
-	import store from '../store'
-	
-	export default {
-	  name: 'game-factors',
-	  store,
-	  computed: {
-		  factors: function() {
-			  return this.getFactors();
-		  },
-		  ...mapGetters(['getFactors'])
-	  }
-	}
+import { mapGetters } from "vuex";
+import _ from "lodash";
+import store from "../store";
+
+export default {
+  name: "game-factors",
+  store,
+  computed: {
+    factors: function() {
+      return this.getFactors();
+    },
+    ...mapGetters(["getFactors"])
+  }
+};
 </script>
 
 <style lang="scss">
-	@import '../assets/scss/variables';
-	
-	#game-factors {
-	}
+@import "../assets/scss/variables";
+
+#game-factors {
+}
 </style>

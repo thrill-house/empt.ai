@@ -43,102 +43,108 @@ The component displays options for selecting an ability to install in a slot. A 
 </template>
 
 <script>
-	import { mapState, mapGetters, mapActions } from 'vuex'
-	import store from '../store'
-	import EmotionDiagram from './emotion-diagram.vue'
-	
-	export default {
-	  name: 'available-ability',
-	  store,
-	  components: {
-	    EmotionDiagram
-	  },
-	  props: {
-	    label: String
-	  },
-	  data: function () {
-		  return {
-		    showDialog: false
-		  }
-		},
-	  computed: {
-		  events: function() {
-		    return this.getAbilityEvents(this.label);
-	    },
-	    ability: function() {
-		    return this.getAbility(this.label);
-	    },
-	    era: function() {
-		  	return this.ability.era;
-	    },
-	    eraActive: function() {
-		  	return this.isEraActive(this.era);
-	    },
-	    affordability: function() {
-		    return _.clamp((this.scores.data / this.costs.data * 100), 0, 100);
-	    },
-	    affordable: function() {
-		    return this.affordability === 100;
-	    },
-	    costs: function() {
-		    return this.getSlotCosts(this.newEvent);
-	    },
-	    scores: function() {
-		    return this.getScores();
-	    },
-	    newEvent : function() {
-		    return {
-			    type: 'slot',
-			    target: 'ability',
-		      ability: this.label
-		    }
-	    },
-	    selectedAbility: function() {
-		    return this.getInteraction('selectedAbility');
-	    },
-	    selectedLabel: function() {
-		    return this.selectedAbility? this.selectedAbility.label: '';
-	    },
-	    selectedInstance: function() {
-		    return this.selectedAbility? this.selectedAbility.instance: '';
-	    },
-		  ...mapState(['abilities']),
-		  ...mapGetters(['getAbilityEvents', 'getAbility', 'getSlotCosts', 'getScores', 'getInteraction'])
-	  },
-	  methods: {
-		  selectAbility: function(label, instance) {
-			  this.showDialog = false;
-			  this.setInteraction({
-				  interaction: 'selectedAbility',
-				  label: label,
-					instance: instance
-				});
-		  },
-		  deselectAbility: function() {
-			  this.showDialog = false;
-			  this.resetInteraction('selectedAbility');
-		  },
-		  ...mapActions(['setInteraction', 'resetInteraction']),
-	  }
-	}
+import { mapState, mapGetters, mapActions } from "vuex";
+import store from "../store";
+import EmotionDiagram from "./emotion-diagram.vue";
+
+export default {
+  name: "available-ability",
+  store,
+  components: {
+    EmotionDiagram
+  },
+  props: {
+    label: String
+  },
+  data: function() {
+    return {
+      showDialog: false
+    };
+  },
+  computed: {
+    events: function() {
+      return this.getAbilityEvents(this.label);
+    },
+    ability: function() {
+      return this.getAbility(this.label);
+    },
+    era: function() {
+      return this.ability.era;
+    },
+    eraActive: function() {
+      return this.isEraActive(this.era);
+    },
+    affordability: function() {
+      return _.clamp((this.scores.data / this.costs.data) * 100, 0, 100);
+    },
+    affordable: function() {
+      return this.affordability === 100;
+    },
+    costs: function() {
+      return this.getSlotCosts(this.newEvent);
+    },
+    scores: function() {
+      return this.getScores();
+    },
+    newEvent: function() {
+      return {
+        type: "slot",
+        target: "ability",
+        ability: this.label
+      };
+    },
+    selectedAbility: function() {
+      return this.getInteraction("selectedAbility");
+    },
+    selectedLabel: function() {
+      return this.selectedAbility ? this.selectedAbility.label : "";
+    },
+    selectedInstance: function() {
+      return this.selectedAbility ? this.selectedAbility.instance : "";
+    },
+    ...mapState(["abilities"]),
+    ...mapGetters([
+      "getAbilityEvents",
+      "getAbility",
+      "getSlotCosts",
+      "getScores",
+      "getInteraction"
+    ])
+  },
+  methods: {
+    selectAbility: function(label, instance) {
+      this.showDialog = false;
+      this.setInteraction({
+        interaction: "selectedAbility",
+        label: label,
+        instance: instance
+      });
+    },
+    deselectAbility: function() {
+      this.showDialog = false;
+      this.resetInteraction("selectedAbility");
+    },
+    ...mapActions(["setInteraction", "resetInteraction"])
+  }
+};
 </script>
 
 <style lang="scss">
-	@import '../assets/scss/default';
-	
-	.available-ability {
-		.emotions {
-			@apply .relative .block;
-			
-			&:before {
-				@apply .block;
-				content: "";
-				padding-top: 27 / 25 * 100%;
-			}
-			
-			.emotion-diagram {
-				@apply .absolute .pin .w-full .h-full;
-			}
-		}
-	}
+@import "../assets/scss/default";
+
+.available-ability {
+  .emotions {
+    @apply .relative .block;
+
+    &:before {
+      @apply .block;
+      content: "";
+      padding-top: 27 / 25 * 100%;
+    }
+
+    .emotion-diagram {
+      @apply .absolute .pin .w-full .h-full;
+    }
+  }
+}
 </style>

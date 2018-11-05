@@ -47,10 +47,10 @@
 */
 
 const state = {
-  'chat-buddy': { name: 'chat buddy', type: 'neutral', era: 'student', factors: { influence: { base: 1.15, trees: { science: 1.05, economy: 1.05, society: 1.05 } }, bandwidth: { base: 1.01 } }, costs: { data: 15, confidence: 20 } },
-	'video-game-level-solver': { name: 'video game level solver', type: 'neutral', era: 'student', factors: { influence: { base: 1 }, bandwidth: { base: 1.02 } }, costs: { data: 150, confidence: 105 } },
-	'homework-ghostwriter': { name: 'homework ghostwriter', type: 'neutral', era: 'student', factors: { influence: { base: 1.3, trees: { science: 1.1, economy: 1.1, society: 1.1 } }, bandwidth: { base: 1 } }, costs: { data: 60, confidence: 45 } },
-	'tweet-bot': { name: 'tweet bot', type: 'neutral', era: 'student', factors: { influence: { base: 1.4, 
+  'chat-buddy': { name: 'Chat buddy', type: 'neutral', era: 'student', factors: { influence: { base: 1.15, trees: { science: 1.05, economy: 1.05, society: 1.05 } }, bandwidth: { base: 1.01 } }, costs: { data: 15, confidence: 20 } },
+	'video-game-level-solver': { name: 'Video game level solver', type: 'neutral', era: 'student', factors: { influence: { base: 1 }, bandwidth: { base: 1.02 } }, costs: { data: 150, confidence: 105 } },
+	'homework-ghostwriter': { name: 'Homework ghostwriter', type: 'neutral', era: 'student', factors: { influence: { base: 1.3, trees: { science: 1.1, economy: 1.1, society: 1.1 } }, bandwidth: { base: 1 } }, costs: { data: 60, confidence: 45 } },
+	'tweet-bot': { name: 'Tweetbot', type: 'neutral', era: 'student', factors: { influence: { base: 1.4, 
 		dependencies: {
 			'chat-buddy': 1.1
 		},
@@ -60,7 +60,7 @@ const state = {
 			'video-game-level-solver': 1.3
 		},
 	 }, bandwidth: { base: 1.05 } }, costs: { data: 500, confidence: 450 } },
-	'online-survey-filler': { name: 'online survey filler', type: 'neutral', era: 'student', factors: { influence: { base: 1.6,
+	'online-survey-filler': { name: 'Online survey filler', type: 'neutral', era: 'student', factors: { influence: { base: 1.6,
 		dependencies: {
 			'homework-ghostwriter': 1.2
 		},
