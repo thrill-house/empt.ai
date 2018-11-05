@@ -42,6 +42,10 @@ View the full documentation at https://tailwindcss.com.
 |
 */
 
+let _ = require("lodash");
+
+let hexRatio = Math.sqrt(3 / 2);
+
 let colors = {
   transparent: "transparent",
   dark: "#222",
@@ -51,6 +55,12 @@ let colors = {
   sky: "#dad9fb",
   orange: "#ff7d5c",
   peach: "#fad9d0",
+  science: "#74ebcf",
+  society: "#f4838e",
+  economy: "#f6eda3",
+  confidence: "#76a5ff",
+  data: "#94e4f8",
+  neutral: "#b9bbc0",
   emotions: "green"
 };
 
@@ -115,7 +125,7 @@ module.exports = {
   */
 
   fonts: {
-    primary: ["Helvetica", "Arial", "sans-serif"],
+    primary: ["Titillium Web", "Helvetica", "Arial", "sans-serif"],
     mono: [
       "Menlo",
       "Monaco",
@@ -415,6 +425,19 @@ module.exports = {
     "32": "8rem",
     "48": "12rem",
     "64": "16rem",
+    "hex*1": 0.25 * hexRatio + "rem",
+    "hex*2": 0.5 * hexRatio + "rem",
+    "hex*3": 0.75 * hexRatio + "rem",
+    "hex*4": 1 * hexRatio + "rem",
+    "hex*6": 1.5 * hexRatio + "rem",
+    "hex*8": 2 * hexRatio + "rem",
+    "hex*10": 2.5 * hexRatio + "rem",
+    "hex*12": 3 * hexRatio + "rem",
+    "hex*16": 4 * hexRatio + "rem",
+    "hex*24": 6 * hexRatio + "rem",
+    "hex*32": 8 * hexRatio + "rem",
+    "hex*48": 12 * hexRatio + "rem",
+    "hex*64": 16 * hexRatio + "rem",
     full: "100%",
     screen: "100vh"
   },
@@ -623,6 +646,7 @@ module.exports = {
 
   zIndex: {
     auto: "auto",
+    "-1": -1,
     "0": 0,
     "10": 10,
     "20": 20,
@@ -666,9 +690,12 @@ module.exports = {
   |
   */
 
-  svgFill: {
-    current: "currentColor"
-  },
+  svgFill: _.defaults(
+    {
+      current: "currentColor"
+    },
+    colors
+  ),
 
   /*
   |-----------------------------------------------------------------------------
@@ -684,9 +711,12 @@ module.exports = {
   |
   */
 
-  svgStroke: {
-    current: "currentColor"
-  },
+  svgStroke: _.defaults(
+    {
+      current: "currentColor"
+    },
+    colors
+  ),
 
   /*
   |-----------------------------------------------------------------------------
@@ -790,5 +820,9 @@ module.exports = {
     prefix: "",
     important: false,
     separator: ":"
+  },
+
+  experiments: {
+    shadowLookup: true
   }
 };

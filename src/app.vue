@@ -203,7 +203,7 @@
       <button class="toggle" @click="toggle('emotionalProfileToggle')">Toggle</button>
       <div v-html="docs.emotionalProfile" class="docs"></div>
     </header>
-    <emotional-profile class="w-64"></emotional-profile>
+    <emotional-profile class="w-64 h-hex*64"></emotional-profile>
   </section>
   
   <!--
@@ -330,12 +330,12 @@
 </template>
 
 <script>
+import Vue from "vue";
+import VueLocalStorage from "vue-localstorage";
+import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
+import store from "./store";
 import _ from "lodash";
 import moment from "moment";
-import Vue from "vue";
-import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
-import VueLocalStorage from "vue-localstorage";
-import store from "./store";
 import SampleComponent from "./components/sample-component.vue";
 import GameEvents from "./components/game-events.vue";
 import GameTime from "./components/game-time.vue";
@@ -364,320 +364,320 @@ Vue.use(VueLocalStorage, {
 export default {
   name: "app",
   created: function() {
-  this.addSocketEvent(this.initEvent);
-  this.startSession();
+    this.addSocketEvent(this.initEvent);
+    this.startSession();
   },
   data: function() {
-  return {
-    messageTweaker: "This and that",
-    sessionDurationTweaker: 0,
-    enabledAbilityTweaker: "neutral-1",
-    availableAbilityTweaker: "neutral-1",
-    abilitySlotTweaker: "root-1",
-    dataSocketTweaker: "root",
-    emotionDiagramHappinessTweaker: 1,
-    emotionDiagramSadnessTweaker: 1,
-    emotionDiagramExcitementTweaker: 1,
-    emotionDiagramFearTweaker: 1,
-    emotionDiagramTendernessTweaker: 1,
-    emotionDiagramAngerTweaker: 1
-  };
+    return {
+      messageTweaker: "This and that",
+      sessionDurationTweaker: 0,
+      enabledAbilityTweaker: "neutral-1",
+      availableAbilityTweaker: "neutral-1",
+      abilitySlotTweaker: "root-1",
+      dataSocketTweaker: "root",
+      emotionDiagramHappinessTweaker: 1,
+      emotionDiagramSadnessTweaker: 1,
+      emotionDiagramExcitementTweaker: 1,
+      emotionDiagramFearTweaker: 1,
+      emotionDiagramTendernessTweaker: 1,
+      emotionDiagramAngerTweaker: 1
+    };
   },
   store,
   components: {
-  GameEvents,
-  GameTime,
-  GameScore,
-  GameFactors,
-  DataSocket,
-  AbilitySlot,
-  EnabledAbility,
-  AvailableAbility,
-  AbilityLibrary,
-  PurchaseableAbility,
-  AbilityMarket,
-  PrimaryNavigation,
-  PlayingField,
-  EmotionalProfile,
-  EmotionDiagram,
-  LeaderBoards,
-  NarrativeOutput,
-  UserProfile,
-  MiniGame,
-  SampleComponent
+    GameEvents,
+    GameTime,
+    GameScore,
+    GameFactors,
+    DataSocket,
+    AbilitySlot,
+    EnabledAbility,
+    AvailableAbility,
+    AbilityLibrary,
+    PurchaseableAbility,
+    AbilityMarket,
+    PrimaryNavigation,
+    PlayingField,
+    EmotionalProfile,
+    EmotionDiagram,
+    LeaderBoards,
+    NarrativeOutput,
+    UserProfile,
+    MiniGame,
+    SampleComponent
   },
   localStorage: {
-  docsToggle: { type: Boolean },
-  gameEventsToggle: { type: Boolean },
-  gameTimeToggle: { type: Boolean },
-  gameScoreToggle: { type: Boolean },
-  gameFactorsToggle: { type: Boolean },
-  dataSocketToggle: { type: Boolean },
-  abilitySlotToggle: { type: Boolean },
-  enabledAbilityToggle: { type: Boolean },
-  availableAbilityToggle: { type: Boolean },
-  abilityLibraryToggle: { type: Boolean },
-  purchaseableAbilityToggle: { type: Boolean },
-  abilityMarketToggle: { type: Boolean },
-  primaryNavigationToggle: { type: Boolean },
-  playingFieldToggle: { type: Boolean },
-  emotionalProfileToggle: { type: Boolean },
-  emotionDiagramToggle: { type: Boolean },
-  leaderBoardsToggle: { type: Boolean },
-  narrativeOutputToggle: { type: Boolean },
-  userProfileToggle: { type: Boolean },
-  miniGameToggle: { type: Boolean },
-  sampleComponentToggle: { type: Boolean }
+    docsToggle: { type: Boolean },
+    gameEventsToggle: { type: Boolean },
+    gameTimeToggle: { type: Boolean },
+    gameScoreToggle: { type: Boolean },
+    gameFactorsToggle: { type: Boolean },
+    dataSocketToggle: { type: Boolean },
+    abilitySlotToggle: { type: Boolean },
+    enabledAbilityToggle: { type: Boolean },
+    availableAbilityToggle: { type: Boolean },
+    abilityLibraryToggle: { type: Boolean },
+    purchaseableAbilityToggle: { type: Boolean },
+    abilityMarketToggle: { type: Boolean },
+    primaryNavigationToggle: { type: Boolean },
+    playingFieldToggle: { type: Boolean },
+    emotionalProfileToggle: { type: Boolean },
+    emotionDiagramToggle: { type: Boolean },
+    leaderBoardsToggle: { type: Boolean },
+    narrativeOutputToggle: { type: Boolean },
+    userProfileToggle: { type: Boolean },
+    miniGameToggle: { type: Boolean },
+    sampleComponentToggle: { type: Boolean }
   },
   computed: {
-  docs: function() {
-    return _.transform(this.$options.components, function(result, component) {
-    result[_.camelCase(component.name)] = component.__docs;
-    });
-  },
-  initEvent: function() {
-    return {
-    type: "socket",
-    label: "root",
-    timestamp: +moment(this.start).subtract(1, "seconds")
-    };
-  },
-  ...mapState({
-    start: state => state.session.start,
-    now: state => state.session.now,
-    interval: state => state.session.interval,
-    options: "options",
-    sockets: "sockets",
-    slots: "slots",
-    abilities: "abilities"
-  }),
-  ...mapGetters([
-    "getStart",
-    "getNow",
-    "getDuration",
-    "getEvents",
-    "getAllEventsOfType",
-    "getActiveSockets",
-    "getSlotsForSocket",
-    "getSlotEvents",
-    "getEventObject",
-    "getEventAffordability"
-  ])
+    docs: function() {
+      return _.transform(this.$options.components, function(result, component) {
+      result[_.camelCase(component.name)] = component.__docs;
+      });
+    },
+    initEvent: function() {
+      return {
+      type: "socket",
+      label: "root",
+      timestamp: +moment(this.start).subtract(1, "seconds")
+      };
+    },
+    ...mapState({
+      start: state => state.session.start,
+      now: state => state.session.now,
+      interval: state => state.session.interval,
+      options: "options",
+      sockets: "sockets",
+      slots: "slots",
+      abilities: "abilities"
+    }),
+    ...mapGetters([
+      "getStart",
+      "getNow",
+      "getDuration",
+      "getEvents",
+      "getAllEventsOfType",
+      "getActiveSockets",
+      "getSlotsForSocket",
+      "getSlotEvents",
+      "getEventObject",
+      "getEventAffordability"
+    ])
   },
   methods: {
-  toggle: function(section) {
-    this[section] = !this[section];
-  },
-  toggleDocs: function() {
-    this.docsToggle = !this.docsToggle;
-  },
-  randomSocket: function() {
-    var active = _.map(this.getActiveSockets(), "label"),
-    labels = _.shuffle(_.difference(_.keys(this.sockets), active)),
-    socketEvent = false;
-
-    _.each(labels, socketLabel => {
-    socketEvent = {
-      type: "socket",
-      label: socketLabel
-    };
-
-    if (this.getEventAffordability(socketEvent)) {
-      this.addSocketEvent(socketEvent);
-
-      return false;
-    } else {
+    toggle: function(section) {
+      this[section] = !this[section];
+    },
+    toggleDocs: function() {
+      this.docsToggle = !this.docsToggle;
+    },
+    randomSocket: function() {
+      var active = _.map(this.getActiveSockets(), "label"),
+      labels = _.shuffle(_.difference(_.keys(this.sockets), active)),
       socketEvent = false;
-    }
-    });
-
-    if (!socketEvent) {
-    console.log("No sockets currently affordable");
-    }
-  },
-  randomAbility: function() {
-    var labels = _.shuffle(_.keys(this.abilities)),
-    abilityEvent = false;
-
-    _.each(labels, abilityLabel => {
-    abilityEvent = {
-      type: "ability",
-      label: abilityLabel,
-      instance: abilityLabel + "-" + _.now(),
-      target: false
-    };
-
-    if (this.getEventAffordability(abilityEvent)) {
-      var axis = _.shuffle([1, 1, 2]);
-
-      abilityEvent.happiness = _.random() * axis[0];
-      abilityEvent.sadness = 1 * axis[0] - abilityEvent.happiness;
-
-      abilityEvent.tenderness = _.random() * axis[1];
-      abilityEvent.anger = 1 * axis[1] - abilityEvent.tenderness;
-
-      abilityEvent.excitement = _.random() * axis[2];
-      abilityEvent.fear = 1 * axis[2] - abilityEvent.excitement;
-      this.addAbilityEvent(abilityEvent);
-
-      return false;
-    } else {
+  
+      _.each(labels, socketLabel => {
+      socketEvent = {
+        type: "socket",
+        label: socketLabel
+      };
+  
+      if (this.getEventAffordability(socketEvent)) {
+        this.addSocketEvent(socketEvent);
+  
+        return false;
+      } else {
+        socketEvent = false;
+      }
+      });
+  
+      if (!socketEvent) {
+      console.log("No sockets currently affordable");
+      }
+    },
+    randomAbility: function() {
+      var labels = _.shuffle(_.keys(this.abilities)),
       abilityEvent = false;
-    }
-    });
-
-    if (!abilityEvent) {
-    console.log("No abilities currently affordable");
-    }
-  },
-  randomSlot: function() {
-    var socketLabel = _.sample(_.map(this.getActiveSockets(), "label")),
-    slotLabel = _.sample(_.keys(this.getSlotsForSocket(socketLabel))),
-    abilityEvent = _.sample(this.getAllEventsOfType("ability")),
-    slotEvent = {
-      label: slotLabel,
-      ability: abilityEvent.label,
-      instance: abilityEvent.instance
-    };
-
-    if (
-    slotEvent &&
-    this.getEventAffordability(_.merge(slotEvent, { type: "slot" }))
-    ) {
-    this.addSlotEvent(slotEvent);
-    } else {
-    console.log("No slots currently affordable");
-    }
-  },
-  ...mapMutations(["setStart"]),
-  ...mapActions([
-    "startSession",
-    "stopSession",
-    "setEvents",
-    "addEvent",
-    "addSocketEvent",
-    "addSlotEvent",
-    "addAbilityEvent"
-  ])
+  
+      _.each(labels, abilityLabel => {
+      abilityEvent = {
+        type: "ability",
+        label: abilityLabel,
+        instance: abilityLabel + "-" + _.now(),
+        target: false
+      };
+  
+      if (this.getEventAffordability(abilityEvent)) {
+        var axis = _.shuffle([1, 1, 2]);
+  
+        abilityEvent.happiness = _.random() * axis[0];
+        abilityEvent.sadness = 1 * axis[0] - abilityEvent.happiness;
+  
+        abilityEvent.tenderness = _.random() * axis[1];
+        abilityEvent.anger = 1 * axis[1] - abilityEvent.tenderness;
+  
+        abilityEvent.excitement = _.random() * axis[2];
+        abilityEvent.fear = 1 * axis[2] - abilityEvent.excitement;
+        this.addAbilityEvent(abilityEvent);
+  
+        return false;
+      } else {
+        abilityEvent = false;
+      }
+      });
+  
+      if (!abilityEvent) {
+      console.log("No abilities currently affordable");
+      }
+    },
+    randomSlot: function() {
+      var socketLabel = _.sample(_.map(this.getActiveSockets(), "label")),
+      slotLabel = _.sample(_.keys(this.getSlotsForSocket(socketLabel))),
+      abilityEvent = _.sample(this.getAllEventsOfType("ability")),
+      slotEvent = {
+        label: slotLabel,
+        ability: abilityEvent.label,
+        instance: abilityEvent.instance
+      };
+  
+      if (
+      slotEvent &&
+      this.getEventAffordability(_.merge(slotEvent, { type: "slot" }))
+      ) {
+      this.addSlotEvent(slotEvent);
+      } else {
+      console.log("No slots currently affordable");
+      }
+    },
+    ...mapMutations(["setStart"]),
+    ...mapActions([
+      "startSession",
+      "stopSession",
+      "setEvents",
+      "addEvent",
+      "addSocketEvent",
+      "addSlotEvent",
+      "addAbilityEvent"
+    ])
   },
   watch: {
-  sessionDurationTweaker: function(value) {
-    var oldStart = this.getStart();
-    var newStart = this.getNow() - value;
-    var events = _.map(this.getEvents(), function(event) {
-    var difference = event.timestamp - oldStart;
-    event.timestamp = newStart + difference;
-    event.finalScore = undefined;
-    return event;
-    });
-
-    this.setStart(newStart);
-    this.setEvents(events);
-  }
+    sessionDurationTweaker: function(value) {
+      var oldStart = this.getStart();
+      var newStart = this.getNow() - value;
+      var events = _.map(this.getEvents(), function(event) {
+      var difference = event.timestamp - oldStart;
+      event.timestamp = newStart + difference;
+      event.finalScore = undefined;
+      return event;
+      });
+  
+      this.setStart(newStart);
+      this.setEvents(events);
+    }
   }
 };
 </script>
 
 <style lang="scss">
 @import "./assets/scss/default";
-
+  
 #app {
-  @apply .flex .flex-wrap;
+  @apply flex flex-wrap;
 
   > section {
-    @apply .flex .flex-wrap .items-start .w-full .border-b-4 .border-solid .border-sky .pb-4;
+    @apply flex flex-wrap items-start w-full border-b-4 border-solid border-sky pb-4;
   
     > header {
-      @apply .w-full .relative .mb-4;
+      @apply w-full relative mb-4;
   
       .toggle {
-        @apply .absolute .pin-t .pin-r .mt-4;
+        @apply absolute pin-t pin-r mt-4;
       }
   
       h3,
       h5 {
-        @apply .font-bold;
+        @apply font-bold;
       }
   
       h3 {
-        @apply .text-xl;
+        @apply text-xl;
       }
   
       h5 {
-        @apply .text-lg;
+        @apply text-lg;
       }
   
       button,
       input,
       select {
-        @apply .font-bold .text-xs .py-2 .px-4 .rounded .bg-orange .text-light;
+        @apply font-bold text-xs py-2 px-4 rounded bg-orange text-light;
   
         &:hover {
-          @apply .opacity-75;
+          @apply opacity-75;
         }
       }
   
       input,
       select {
-        @apply .inline-block .appearance-none .bg-peach .text-dark;
+        @apply inline-block appearance-none bg-peach text-dark;
       }
   
       label {
-        @apply .inline-block .text-xs .py-2 .px-4 .rounded .bg-grey;
+        @apply inline-block text-xs py-2 px-4 rounded bg-grey;
       }
   
       code {
-        @apply .bg-grey .py-2 .px-4 .rounded;
+        @apply bg-grey py-2 px-4 rounded;
       }
   
       & + * {
-        @apply .flex-no-shrink;
+        @apply flex-no-shrink;
         order: 3;
       }
   
       .docs,
       .tweakers {
-        @apply .p-4 .border-b .border-solid .border-purple .leading-normal;
+        @apply p-4 border-b border-solid border-purple leading-normal;
       }
   
       .docs {
         * + * {
-          @apply .mt-4;
+          @apply mt-4;
         }
       }
   
       .tweakers {
-        @apply .flex .flex-wrap;
+        @apply flex flex-wrap;
     
         h5 {
-          @apply .w-full .mb-2;
+          @apply w-full mb-2;
         }
     
         label {
-          @apply .w-32 .mr-2;
+          @apply w-32 mr-2;
         }
     
         hr {
-          @apply .block .w-full .my-1;
+          @apply block w-full my-1;
         }
       }
     }
   
     &.off {
-      @apply .items-start;
+      @apply items-start;
       order: 99;
   
       > header {
-        @apply .m-0;
+        @apply m-0;
     
         & + *,
         .docs *:not(h3),
         .tweakers {
-          @apply .hidden;
+          @apply hidden;
         }
     
         .docs {
-          @apply .border-none;
+          @apply border-none;
         }
       }
     }
@@ -686,7 +686,7 @@ export default {
   &.hide-docs {
     .docs:not(.keep) {
       * + * {
-        @apply .hidden;
+        @apply hidden;
       }
     }
   }

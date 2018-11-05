@@ -8,6 +8,7 @@ Vue.filter("duration", str =>
     .subtract(str / 1000, "seconds")
     .fromNow(true)
 );
+
 Vue.filter(
   "percentage",
   str =>
@@ -25,12 +26,14 @@ Vue.filter("data", str =>
     .multiply(1000)
     .format("0.[00] b")
 );
+
 Vue.filter("bandwidth", str => Vue.filter("data")(str) + "/s");
 
 Vue.filter(
   "confidence",
   str => numeral(str).format("0.[000] a") + " followers"
 );
+
 Vue.filter("persuasion", str => numeral(str).format("0.[000] a") + " likes/s");
 Vue.filter("influence", str => Vue.filter("persuasion")(str));
 Vue.filter("science", str => Vue.filter("percentage")(str) + " science");

@@ -35,3 +35,15 @@
 		@apply .opacity-75;
 	}
 }
+
+.hexagon {
+  @apply relative;
+  margin: -15.25% 0;
+  clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+  
+  &:before {
+    @apply absolute z--1;
+    content: "";
+    clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+  }
+}

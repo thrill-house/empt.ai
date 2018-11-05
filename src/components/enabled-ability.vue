@@ -35,7 +35,7 @@ The enabled ability is an ability that is currently enabled within a socket.
 				  :fear="event.fear"
 				  :tenderness="event.tenderness"
 				  :anger="event.anger"
-				  class="w-16 mt-2"></emotion-diagram>
+				  class="w-16 h-hex*16"></emotion-diagram>
 				<div class="mt-2 outputs">
 			    <!--output class="output" v-for="(value, factor) in factors" v-if="value.base > 0">
 				    Before bonus: +{{ prettyUnit(value.base, factor) }}
@@ -134,5 +134,4 @@ export default {
 </script>
 
 <style lang="scss">
-@import "../assets/scss/variables";
 </style>

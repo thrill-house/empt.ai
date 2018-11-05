@@ -16,8 +16,8 @@ The component displays how much time has elapsed between the first event and the
 
 <script>
 import { mapState, mapGetters, mapMutations } from "vuex";
-import _ from "lodash";
 import store from "../store";
+import _ from "lodash";
 
 export default {
   name: "game-time",

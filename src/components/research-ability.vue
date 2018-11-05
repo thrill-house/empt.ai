@@ -221,9 +221,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "../assets/scss/default";
-
-.available-ability {
+.research-ability {
   .emotions {
     @apply .relative .block;
 

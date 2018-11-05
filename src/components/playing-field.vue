@@ -13,8 +13,7 @@ The component displays all **data sockets**, **socket slots** and **enabled abil
 	  <data-socket
 	    v-for="(socket, index) in sockets"
 	    :key="index"
-	    :label="index"
-	    class="m-4 p-4 w-auto bg-grey">
+	    :label="index">
 	  </data-socket>
   </div>
 </template>
@@ -38,5 +37,4 @@ export default {
 </script>
 
 <style lang="scss">
-@import "../assets/scss/default";
 </style>

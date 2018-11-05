@@ -17,9 +17,9 @@ The component provides a representation of the player's current game score, mean
 </template>
 
 <script>
-import _ from "lodash";
 import { mapState, mapGetters } from "vuex";
 import store from "../store";
+import _ from "lodash";
 
 export default {
   name: "game-score",
@@ -37,8 +37,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import "../assets/scss/variables";
-
 #game-score {
 }
 </style>

@@ -24,8 +24,8 @@ The component lists all events associated with the game that are stored in the g
 
 <script>
 import { mapState, mapGetters } from "vuex";
-import _ from "lodash";
 import store from "../store";
+import _ from "lodash";
 
 export default {
   name: "game-events",

@@ -9,15 +9,16 @@ Aggregates the player's current emotional profile based on currently slotted abi
 </docs>
 
 <template>
-  <div class="emotional-profile">
+  <div class="emotional-profile relative block">
 	  <emotion-diagram
-			  :happiness="happiness"
-			  :sadness="sadness"
-			  :excitement="excitement"
-			  :fear="fear"
-			  :tenderness="tenderness"
-			  :anger="anger"
-			  :scale="scale"></emotion-diagram>
+	  :happiness="happiness"
+	  :sadness="sadness"
+	  :excitement="excitement"
+	  :fear="fear"
+	  :tenderness="tenderness"
+	  :anger="anger"
+	  :scale="scale"
+	  class="w-full h-full"></emotion-diagram>
   </div>
 </template>
 
@@ -70,5 +71,4 @@ export default {
 </script>
 
 <style lang="scss">
-@import "../assets/scss/default";
 </style>

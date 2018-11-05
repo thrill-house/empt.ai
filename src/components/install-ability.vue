@@ -21,7 +21,7 @@ The component displays options for selecting an ability to install in a slot. A 
 						  :fear="event.fear"
 						  :tenderness="event.tenderness"
 						  :anger="event.anger"
-						  class="w-16"></emotion-diagram>
+						  class="w-16 h-hex*16"></emotion-diagram>
 				  </button>
 			  </div>
 			  <button class="button bg-purple text-light" @click="showDialog = false">
@@ -130,21 +130,4 @@ export default {
 </script>
 
 <style lang="scss">
-@import "../assets/scss/default";
-
-.available-ability {
-  .emotions {
-    @apply .relative .block;
-
-    &:before {
-      @apply .block;
-      content: "";
-      padding-top: 27 / 25 * 100%;
-    }
-
-    .emotion-diagram {
-      @apply .absolute .pin .w-full .h-full;
-    }
-  }
-}
 </style>

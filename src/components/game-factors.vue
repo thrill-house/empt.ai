@@ -33,8 +33,8 @@ The component displays the current values for multipliers used to calculate the 
 
 <script>
 import { mapGetters } from "vuex";
-import _ from "lodash";
 import store from "../store";
+import _ from "lodash";
 
 export default {
   name: "game-factors",
@@ -49,8 +49,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import "../assets/scss/variables";
-
 #game-factors {
 }
 </style>

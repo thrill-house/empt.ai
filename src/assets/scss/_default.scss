@@ -2,7 +2,9 @@
 
 @tailwind preflight;
 @tailwind components;
-
 @import 'patterns';
-
 @tailwind utilities;
+
+body {
+  @apply font-primary;
+}

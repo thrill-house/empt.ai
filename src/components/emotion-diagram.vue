@@ -9,8 +9,8 @@ Displays the player's emotional status as a result of their currently enabled ab
 </docs>
 
 <template>
-  <div class="emotion-diagram">
-	  <div class="emotion-profile" :style="clipPathStyle"></div>
+  <div class="emotion-diagram relative block bg-grey">
+	  <div class="emotion-values absolute block pin w-full h-full bg-emotions" :style="clipPathStyle"></div>
   </div>
 </template>
 
@@ -103,23 +103,12 @@ export default {
 </script>
 
 <style lang="scss">
-@import "../assets/scss/default";
-
 .emotion-diagram {
-  @apply .relative .block .bg-grey;
-  -webkit-clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
   clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
-  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
 
-  &:before {
-    @apply .block;
-    content: "";
-    padding-top: 27 / 25 * 100%;
-  }
-
-  .emotion-profile {
-    @apply .absolute .block .pin .w-full .h-full .bg-emotions;
-    -webkit-transform: translate3d(0, 0, 0);
+  .emotion-values {
+    transform: translate3d(0, 0, 0);
     animation: hue-rotate 8s linear infinite;
   }
 }

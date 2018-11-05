@@ -12,42 +12,43 @@ The data socket is the base component that abilities are attached to. When enabl
 </docs>
 
 <template>
-  <div class="data-socket flex items-start">
-    <div class="data-socket-inner">
-	    <header class="flex items-center mb-2">
+  <div class="data-socket-field">
+    <div :class="'bg-' + socket.type" class="data-socket hexagon w-48 h-hex*48 text-center">
+	    <header class="my-2">
+		    <svg class="w-8 h-8 my-2"><use :xlink:href="'#' + socket.type"></use></svg>
 		    <h4 class="mr-2">{{ socket.name }}</h4>
-		    <output class="output">{{ socket.type }}</output>
-		    <output class="output bg-orange text-peach">{{ socket.era }}</output>
+		    <output>{{ socket.era }}</output>
 	    </header>
 	    <div class="mb-2 body">
 		    <template v-for="(value, factor) in factors" v-if="value.base">
-			    <output :class="[{'bg-sky': !event}]" class="output">+{{ prettyUnit(value.base, factor) }}</output>
+			    <output>+{{ prettyUnit(value.base, factor) }}</output>
 		    </template>
 	    </div>
-	    <button v-if="event" class="button orange">Mini game</button>
-	    <button v-else @click="activate" :class="{'cursor-wait': (!affordable)}" class="button bg-peach text-light relative w-full" :disabled="!affordable">
-			<span :style="{width: affordability + '%'}" class="absolute block pin h-full bg-orange rounded z-0"></span>
-			<span class="relative z-10">
-				<template v-if="costs.confidence > scores.confidence">Costs {{ costs.confidence|confidence }}</template>
-				<template v-else>Activate</template>
-			</span>
-		</button>
+	    <button v-if="event" class="bg-light p-2 rounded">Mini game</button>
+	    <button v-else @click="activate" :class="{'cursor-wait': (!affordable)}" class="bg-light relative p-2 rounded" :disabled="!affordable">
+  			<span :style="{width: affordability + '%'}" class="absolute block pin h-full bg-dark rounded z-0"></span>
+  			<span class="relative z-10">
+  				<template v-if="costs.confidence > scores.confidence">Costs {{ costs.confidence|confidence }}</template>
+  				<template v-else>Activate</template>
+  			</span>
+  		</button>
     </div>
     <ability-slot
-        v-if="event"
+      v-if="event"
 	    v-for="(slot, index) in slots"
 	    :key="index"
 	    :label="index"
 	    :class="[slot.position, index]"
-	    class="mx-2 p-2 bg-light">
+	    class="bg-grey w-48 h-hex*48">
     </ability-slot>
   </div>
 </template>
 
 <script>
-import _ from "lodash";
 import { mapState, mapGetters, mapActions } from "vuex";
+import _ from "lodash";
 import store from "../store";
+import svg from "../assets/img/svg";
 import AbilitySlot from "./ability-slot.vue";
 
 export default {
@@ -113,101 +114,28 @@ export default {
 </script>
 
 <style lang="scss">
-@import "../assets/scss/default";
+.data-socket-field {
+  display: grid;
+  grid-template-rows: repeat(6, 1fr);
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-areas:
+    ". a a b b ."
+    ". a a b b ."
+    "c c d d e e"
+    "c c d d e e"
+    ". f f g g ."
+    ". f f g g .";
 
-/*.data-socket {
-	display: grid;
-	grid-template-rows: repeat(6, 70px);
-	grid-template-columns: repeat(6, 81px);
-	grid-row-gap: -35px;
-	grid-template-areas:
-	". a a b b ."
-	". a a b b ."
-	"c c d d e e"
-	"c c d d e e"
-	". f f g g ."
-	". f f g g .";
-	margin-bottom: 47px;
-	
-  .details {
-	  grid-area: d;
-	  width: 162px;
-		height: 187px;
-		padding: 2px 0 0 36px;
-	  
-	  .name, .multipliers, .actions {
-		  width: 90px;
-		  height: 90px;
-		  padding: 20px 5px;
-		  color: $light;
-		  position: absolute;
-		  text-align: center;
-		  box-shadow: inset 0 0 20px rgba($purple, 0.6);
-	  }
-	  
-	  .name {
-		  background: darken($sky, 15%);
-		  transform: rotate(-45deg) skew(15deg, 15deg);
-	  }
-	  
-	  .multipliers {
-		  text-transform: capitalize;
-		  background: darken($sky, 10%);
-		  transform: rotate(15deg) skew(15deg, 15deg) translate(-50%, 100%);
-	  }
-	  
-	  .actions {
-		  border: none;
-		  border-radius: 0;
-		  outline: none;
-		  cursor: pointer;
-		  background: darken($sky, 5%);
-		  transform: rotate(-15deg) skew(-15deg, -15deg) translate(50%, 100%);
-	  }
+  .data-socket {
+    grid-area: d;
+
+    &:before {
+      @apply bg-grey opacity-75;
+      top: 2px;
+      left: 2px;
+      bottom: 2px;
+      right: 2px;
+    }
   }
-  
-  &.enabled {
-	  .details {
-		  .name, .multipliers, .actions {
-			  box-shadow: inset 0 0 20px rgba($orange, 0.6);
-		  }
-		  
-		  .name {
-			  background: lighten($orange, 15%);
-		  }
-		  
-		  .multipliers {
-			  background: lighten($orange, 10%);
-		  }
-		  
-		  .actions {
-			  background: lighten($orange, 5%);
-		  }
-	  }
-  }
-  
-  .top-left {
-	  grid-area: a;
-  }
-  
-  .top-right {
-	  grid-area: b;
-  }
-  
-  .left {
-	  grid-area: c;
-  }
-  
-  .right {
-	  grid-area: e;
-  }
-  
-  .bottom-left {
-	  grid-area: f;
-  }
-  
-  .bottom-right {
-	  grid-area: g;
-  }
-}*/
+}
 </style>
