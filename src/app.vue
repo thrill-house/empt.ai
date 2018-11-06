@@ -1,13 +1,13 @@
 <template>
-  <main id="app" class="p-8" :class="{'hide-docs': docsToggle}">
-  <header class="flex items-center">
+  <main id="app" class="p-8 tile" :class="{'hide-docs': docsToggle}">
+  <header class="w-full flex items-center bg-light p-4 rounded-lg">
     <div class="w-32">
-      <img src="./assets/img/logo.png">
+      <img src="/assets/img/logo.png">
     </div>
     <div class="docs keep p-4">
       <h1>BR<strong>AI</strong>NS — Vue components</h1>
       <h2>Component library of user interface elements.</h2>
-      <button class="font-bold text-xs mt-4 py-2 px-4 rounded bg-orange text-light" @click="toggleDocs()">{{ docsToggle? 'Show': 'Hide' }} documentation</button>
+      <button class="font-bold text-xs mt-4 mr-4 py-2 px-4 rounded bg-orange text-light" @click="toggleDocs()">{{ docsToggle? 'Show': 'Hide' }} documentation</button>
     </div>
   </header>
   
@@ -579,19 +579,19 @@ export default {
 </script>
 
 <style lang="scss">
-@import "./assets/scss/default";
+@import "./scss/default";
   
 #app {
   @apply flex flex-wrap;
 
   > section {
-    @apply flex flex-wrap items-start w-full border-b-4 border-solid border-sky pb-4;
+    @apply flex flex-wrap items-start w-full pb-4;
   
     > header {
-      @apply w-full relative mb-4;
+      @apply w-full relative bg-light p-4 my-4 rounded-lg;
   
       .toggle {
-        @apply absolute pin-t pin-r mt-4;
+        @apply absolute pin-t pin-r mt-4 mr-4;
       }
   
       h3,
@@ -637,7 +637,11 @@ export default {
   
       .docs,
       .tweakers {
-        @apply p-4 border-b border-solid border-purple leading-normal;
+        @apply p-4 leading-normal;
+      }
+      
+      .tweakers {
+        @apply border-t border-solid border-purple;
       }
   
       .docs {

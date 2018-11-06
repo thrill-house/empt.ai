@@ -4,8 +4,6 @@ The component displays options for selecting an ability to install in a slot. A 
 
 ##### Instantiation
 `<install-ability label="ability-label"></install-ability>`
-
----
 </docs>
 
 <template>

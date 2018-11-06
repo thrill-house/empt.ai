@@ -1,0 +1,58 @@
+.label, .output {
+	@apply .inline-block .p-2 .rounded;
+	
+	& + .output {
+		@apply .ml-2;
+	}
+}
+
+.label {
+	@apply .bg-grey .text-xs;
+}
+
+.output {
+	@apply .bg-purple .text-light .text-xs;
+}
+
+.outputs {
+	.output {
+		@apply .block .ml-0;
+		
+		& + .output {
+			@apply .block .mt-2;
+		}
+	}
+}
+
+.button, .input {
+	@apply .font-bold .text-xs .py-2 .px-4 .rounded .appearance-none;
+	
+	&.orange {
+		@apply .bg-orange .text-light;
+	}
+	
+	&:hover, &:disabled {
+		@apply .opacity-75;
+	}
+}
+
+.tile, %tile {
+  background-image: url('/assets/img/tile.svg'), radial-gradient(50% 100%, #353D77 2%, #122356 42%, #000617 100%);
+  background-position: left top, center top;
+  background-repeat: repeat, no-repeat;
+  background-size: auto, cover;
+  background-attachment: fixed, fixed;
+}
+
+.hexagon {
+  @apply relative;
+  margin: -13.333% 1.666%;
+  clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+  
+  &:before {
+    @extend %tile;
+    @apply absolute z--1;
+    content: "";
+    clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+  }
+}

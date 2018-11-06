@@ -4,8 +4,6 @@ Displays a mini-game to the user that can be completed to receive a score bonus 
 
 ##### Instantiation
 `<mini-game></mini-game>`
-
----
 </docs>
 
 <template>

@@ -4,8 +4,6 @@ The component displays the current values for multipliers used to calculate the 
 
 ##### Instantiation
 `<game-factors></game-factors>`
-
----
 </docs>
 
 <template>

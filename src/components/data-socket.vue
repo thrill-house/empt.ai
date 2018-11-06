@@ -7,12 +7,10 @@ The data socket is the base component that abilities are attached to. When enabl
 
 ##### Instantiation
 `<data-socket label="data-socket-label"></data-socket>`
-
----
 </docs>
 
 <template>
-  <div class="data-socket-field">
+  <div class="data-socket-field py-8">
     <div :class="'bg-' + socket.type" class="data-socket hexagon w-48 h-hex*48 text-center">
 	    <header class="my-2">
 		    <svg class="w-8 h-8 my-2"><use :xlink:href="'#' + socket.type"></use></svg>
@@ -48,7 +46,7 @@ The data socket is the base component that abilities are attached to. When enabl
 import { mapState, mapGetters, mapActions } from "vuex";
 import _ from "lodash";
 import store from "../store";
-import svg from "../assets/img/svg";
+import svg from "../svg";
 import AbilitySlot from "./ability-slot.vue";
 
 export default {
@@ -130,7 +128,7 @@ export default {
     grid-area: d;
 
     &:before {
-      @apply bg-grey opacity-75;
+      @apply opacity-90;
       top: 2px;
       left: 2px;
       bottom: 2px;

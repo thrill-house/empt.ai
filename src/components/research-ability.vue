@@ -4,8 +4,6 @@ The component displays options for researching an ability, when available. A but
 
 ##### Instantiation
 `<research-ability label="ability-label"></research-ability>`
-
----
 </docs>
 
 <template>

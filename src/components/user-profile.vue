@@ -4,8 +4,6 @@ Displays information pertaining to the player's profile.
 
 ##### Instantiation
 `<user-profile></user-profile>`
-
----
 </docs>
 
 <template>

@@ -4,8 +4,6 @@ Displays an ability that is listed on the marketplace and is available for purch
 
 ##### Instantiation
 `<purchaseable-ability></purchaseable-ability>`
-
----
 </docs>
 
 <template>

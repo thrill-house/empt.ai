@@ -4,8 +4,6 @@ Displays story elements that occur throughout the course of the narrative as a r
 
 ##### Instantiation
 `<narrative-output></narrative-output>`
-
----
 </docs>
 
 <template>

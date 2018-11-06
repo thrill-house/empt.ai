@@ -4,8 +4,6 @@ The component displays abilities that are available to the player to research or
 
 ##### Instantiation
 `<ability-library></ability-library>`
-
----
 </docs>
 
 <template>

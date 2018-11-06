@@ -7,8 +7,6 @@ The ability slot is a space attached to a data sources. When an ability is assig
 
 ##### Instantiation
 `<ability-slot label="data-socket-slot-label"></ability-slot>`
-
----
 </docs>
 
 <template>

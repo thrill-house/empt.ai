@@ -4,8 +4,6 @@ Lists all abilities that are available on the marketplace for the player to purc
 
 ##### Instantiation
 `<ability-market></ability-market>`
-
----
 </docs>
 
 <template>

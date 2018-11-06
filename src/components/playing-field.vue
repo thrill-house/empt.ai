@@ -4,8 +4,6 @@ The component displays all **data sockets**, **socket slots** and **enabled abil
 
 ##### Instantiation
 `<playing-field></playing-field>`
-
----
 </docs>
 
 <template>

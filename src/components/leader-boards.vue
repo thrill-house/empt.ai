@@ -4,8 +4,6 @@ Displays a players progress in relation to other players of the game, based on a
 
 ##### Instantiation
 `<leader-boards></leader-boards>`
-
----
 </docs>
 
 <template>

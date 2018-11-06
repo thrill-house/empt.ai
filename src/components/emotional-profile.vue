@@ -4,8 +4,6 @@ Aggregates the player's current emotional profile based on currently slotted abi
 
 ##### Instantiation
 `<emotional-profile></emotional-profile>`
-
----
 </docs>
 
 <template>

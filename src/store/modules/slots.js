@@ -224,12 +224,12 @@ const state = {
 	'society-consciousness-2': {
 	  socket: 'society-consciousness',
 	  type: 'society',
-	  position: 'bottom-left'
+	  position: 'top-right'
 	},
 	'society-consciousness-3': {
 	  socket: 'society-consciousness',
 	  type: 'society',
-	  position: 'bottom-left'
+	  position: 'left'
 	},
 	'society-consciousness-4': {
 	  socket: 'society-consciousness',
@@ -239,7 +239,7 @@ const state = {
 	'society-consciousness-5': {
 	  socket: 'society-consciousness',
 	  type: 'society',
-	  position: 'bottom-left'
+	  position: 'bottom-right'
 	}
 }
 

@@ -4,8 +4,6 @@ The component provides a representation of the player's current game score, mean
 
 ##### Instantiation
 `<game-score></game-score>`
-
----
 </docs>
 
 <template>

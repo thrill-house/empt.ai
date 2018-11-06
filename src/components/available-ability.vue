@@ -4,8 +4,6 @@ The component displays an ability that is defined within the global data store. 
 
 ##### Instantiation
 `<available-ability label="ability-label"></available-ability>`
-
----
 </docs>
 
 <template>

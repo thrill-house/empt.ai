@@ -4,8 +4,6 @@ Displays the player's emotional status as a result of their currently enabled ab
 
 ##### Instantiation
 `<emotion-diagram :happiness.number="1" :sadness.number="2" :excitement.number="3" :fear.number="4" :tenderness.number="5" :anger.number="6" :scale.number="10"></emotion-diagram>`
-
----
 </docs>
 
 <template>

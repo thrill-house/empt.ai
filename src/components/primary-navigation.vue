@@ -4,8 +4,6 @@ Provides a method to navigate between the different primary screens of the game 
 
 ##### Instantiation
 `<primary-navigation></primary-navigation>`
-
----
 </docs>
 
 <template>
