@@ -1,3 +1,5 @@
+@import '$variables';
+
 .label, .output {
 	@apply .inline-block .p-2 .rounded;
 	
@@ -37,7 +39,7 @@
 }
 
 .tile, %tile {
-  background-image: url('/assets/img/tile.svg'), radial-gradient(50% 100%, #353D77 2%, #122356 42%, #000617 100%);
+  background-image: map-get($backgrounds, tile), map-get($backgrounds, gradient);
   background-position: left top, center top;
   background-repeat: repeat, no-repeat;
   background-size: auto, cover;

@@ -112,6 +112,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import '../scss/$variables';
+
 .data-socket-field {
   display: grid;
   grid-template-rows: repeat(6, 1fr);
@@ -126,13 +128,28 @@ export default {
 
   .data-socket {
     grid-area: d;
+    padding: 0.75rem;
+    background-image: map-get($backgrounds, dots-h), map-get($backgrounds, dots-v);
+    background-position: center center;
+    background-size: 2px 2px;
 
     &:before {
-      @apply opacity-90;
-      top: 2px;
-      left: 2px;
-      bottom: 2px;
-      right: 2px;
+      background-position: left top, left top, center top;
+      background-repeat: repeat, repeat, no-repeat;
+      background-size: auto, auto, cover;
+      background-attachment: fixed, fixed, fixed;
+      top: 0.5rem;
+      left: 0.5rem;
+      bottom: 0.5rem;
+      right: 0.5rem;
+    }
+    
+    @each $c, $color in $colors {
+      &.bg-#{$c} {
+        &:before {
+          background-image: linear-gradient(rgba($color, 0.1666) 0%, rgba($color, 0.1666) 100%), map-get($backgrounds, tile), map-get($backgrounds, gradient);
+        }
+      }
     }
   }
 }

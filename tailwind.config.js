@@ -42,7 +42,10 @@ View the full documentation at https://tailwindcss.com.
 |
 */
 
-let _ = require("lodash");
+const _ = require("lodash");
+const fs = require('fs');
+const path = require('path');
+const outPath = path.join(__dirname, 'src/scss/_$variables.scss');
 
 let hexRatio = Math.sqrt(3 / 2);
 
@@ -55,6 +58,8 @@ let colors = {
   sky: "#dad9fb",
   orange: "#ff7d5c",
   peach: "#fad9d0",
+  blue: "#353D77",
+  'blue-dark': "#122356",
   science: "#74ebcf",
   society: "#f4838e",
   economy: "#f6eda3",
@@ -63,6 +68,35 @@ let colors = {
   neutral: "#b9bbc0",
   emotions: "green"
 };
+
+let backgrounds = {
+  tile: "url('/assets/img/tile.svg')",
+  'dots-h': "linear-gradient(90deg, " + colors['dark'] + " 1px, transparent 1%)",
+  'dots-v': "linear-gradient(" + colors['dark'] + " 1px, transparent 1%)",
+  gradient: "radial-gradient(50% 100%, " + colors['blue'] + " 2%, " + colors['blue-dark'] + " 42%, " + colors['dark'] + " 100%)",
+};
+
+let lines = ["$colors: ("];
+let colorLines = [];
+let backgroundLines = [];
+_.each(colors, function(color, key) {
+  colorLines.push(`  ${key}: ${color}`);
+});
+lines.push(_.join(colorLines, ',\n'));
+lines.push(");");
+
+lines.push("$backgrounds: (");
+_.each(backgrounds, function(background, key) {
+  backgroundLines.push(`  ${key}: ${background}`);
+});
+lines.push(_.join(backgroundLines, ',\n'));
+lines.push(");");
+
+fs.writeFile(outPath, _.join(lines, '\n'), err => {
+  if (err) return console.error(err);
+});
+
+console.log('go - ');
 
 module.exports = {
   /*
