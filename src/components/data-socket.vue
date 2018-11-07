@@ -12,24 +12,31 @@ The data socket is the base component that abilities are attached to. When enabl
 <template>
   <div class="data-socket-field py-8">
     <div :class="'bg-' + socket.type" class="data-socket hexagon w-48 h-hex*48 text-center">
-	    <header class="my-2">
-		    <svg class="w-6 h-6 my-2"><use :xlink:href="'#' + socket.type" :class="'fill-current text-' + socket.type"></use></svg>
-		    <h4 class="mr-2">{{ socket.name }}</h4>
-		    <output>{{ socket.era }}</output>
+	    <header class="flex flex-col items-center py-2 text-center">
+		    <svg class="icon w-8 h-8 my-2"><use :xlink:href="'#' + socket.type" :class="'fill-current text-' + socket.type"></use></svg>
+		    <h4 class="title p-2 w-2/3 text-light text-sm uppercase">{{ socket.name }}</h4>
+		    <!--output>{{ socket.era }}</output-->
 	    </header>
-	    <div class="mb-2 body">
+	    <div v-if="event" class="py-2 body">
 		    <template v-for="(value, factor) in factors" v-if="value.base">
-			    <output>+{{ prettyUnit(value.base, factor) }}</output>
+			    <output class="inline-flex items-center mx-2 text-xs font-bold text-light">
+			      <svg class="icon w-4 h-4 mr-1"><use :xlink:href="'#' + factor" :class="'fill-current text-' + factor"></use></svg>
+			      {{ prettyUnit(value.base, factor) }}
+          </output>
 		    </template>
+		    <div class="w-full mt-2">
+  		    <button class="bg-blue-light text-xs text-light uppercase font-bold p-2 button">Challenge</button>
+		    </div>
 	    </div>
-	    <button v-if="event" class="bg-light p-2 rounded">Mini game</button>
-	    <button v-else @click="activate" :class="{'cursor-wait': (!affordable)}" class="bg-light relative p-2 rounded" :disabled="!affordable">
-  			<span :style="{width: affordability + '%'}" class="absolute block pin h-full bg-dark rounded z-0"></span>
-  			<span class="relative z-10">
-  				<template v-if="costs.confidence > scores.confidence">Costs {{ costs.confidence|confidence }}</template>
-  				<template v-else>Activate</template>
-  			</span>
-  		</button>
+	    <div v-else class="actions py-2">
+  	    <button @click="activate" :class="{'cursor-wait bg-grey': (!affordable)}" class="relative bg-blue-light- text-xs text-light uppercase font-bold p-2 opacity-50 button" :disabled="!affordable">
+    			<span :style="{width: affordability + '%'}" class="absolute block pin h-full bg-blue-light z-0"></span>
+    			<span class="relative z-10">
+    				<template v-if="costs.confidence > scores.confidence">Costs {{ costs.confidence|confidence }}</template>
+    				<template v-else>Connect</template>
+    			</span>
+    		</button>
+	    </div>
     </div>
     <ability-slot
       v-if="event"
@@ -129,10 +136,13 @@ export default {
   .data-socket {
     grid-area: d;
     padding: 0.75rem;
-    background-image: map-get($backgrounds, dots-h), map-get($backgrounds, dots-v);
-    background-position: center center;
-    background-size: 2px 2px;
-
+    
+    header {
+      .title {
+        background: rgba(map-get($colors, light), 0.1666);
+      }
+    }
+    
     &:before {
       background-position: left top, left top, center top;
       background-repeat: repeat, repeat, no-repeat;
@@ -142,6 +152,16 @@ export default {
       left: 0.5rem;
       bottom: 0.5rem;
       right: 0.5rem;
+      z-index: -1;
+    }
+    
+    &:after {
+      @apply absolute pin;
+      content: "";
+      z-index: -2;
+      background-image: map-get($backgrounds, dots-h), map-get($backgrounds, dots-v);
+      background-position: center center;
+      background-size: 2px 2px;
     }
     
     @each $c, $color in $colors {

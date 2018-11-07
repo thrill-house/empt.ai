@@ -58,13 +58,14 @@ let colors = {
   sky: "#dad9fb",
   orange: "#ff7d5c",
   peach: "#fad9d0",
+  'blue-light': "#69B5FF",
   blue: "#353D77",
   'blue-dark': "#122356",
   science: "#74ebcf",
   society: "#f4838e",
   economy: "#f6eda3",
-  confidence: "#76a5ff",
-  data: "#94e4f8",
+  influence: "#76a5ff",
+  bandwidth: "#94e4f8",
   neutral: "#b9bbc0",
   emotions: "green"
 };
@@ -832,7 +833,15 @@ module.exports = {
     require("tailwindcss/plugins/container")({
       // center: true,
       // padding: '1rem',
-    })
+    }),
+    function({ addUtilities, config }) {
+  	  const clipUtilities = {
+  	    '.clip-corners': { 'clip-path': 'polygon(0.333rem 0%, calc(100% - 0.33rem) 0%, 100% 0.333rem, 100% calc(100% - 0.33rem), calc(100% - 0.33rem) 100%, 0.333rem 100%, 0% calc(100% - 0.33rem), 0% 0.333rem)' },
+  	    '.clip-hexagon': { 'clip-path': 'polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%)' }
+  	  }
+  	
+  	  addUtilities([clipUtilities], { variants: ['responsive'] });
+  	},
   ],
 
   /*
