@@ -691,12 +691,9 @@ module.exports = {
   |
   */
 
-  svgFill: _.defaults(
-    {
-      current: "currentColor"
-    },
-    colors
-  ),
+  svgFill: {
+    current: "currentColor !important"
+  },
 
   /*
   |-----------------------------------------------------------------------------
@@ -712,12 +709,9 @@ module.exports = {
   |
   */
 
-  svgStroke: _.defaults(
-    {
-      current: "currentColor"
-    },
-    colors
-  ),
+  svgStroke: {
+    current: "currentColor !important"
+  },
 
   /*
   |-----------------------------------------------------------------------------

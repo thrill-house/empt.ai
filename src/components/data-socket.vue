@@ -13,7 +13,7 @@ The data socket is the base component that abilities are attached to. When enabl
   <div class="data-socket-field py-8">
     <div :class="'bg-' + socket.type" class="data-socket hexagon w-48 h-hex*48 text-center">
 	    <header class="my-2">
-		    <svg class="w-8 h-8 my-2"><use :xlink:href="'#' + socket.type"></use></svg>
+		    <svg class="w-6 h-6 my-2"><use :xlink:href="'#' + socket.type" :class="'fill-current text-' + socket.type"></use></svg>
 		    <h4 class="mr-2">{{ socket.name }}</h4>
 		    <output>{{ socket.era }}</output>
 	    </header>
