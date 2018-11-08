@@ -11,7 +11,7 @@ The data socket is the base component that abilities are attached to. When enabl
 
 <template>
   <div class="data-socket-field py-8">
-    <div :class="'bg-' + socket.type" class="data-socket hexagon w-48 h-hex*48 text-center">
+    <div :class="'bg-' + socket.type" class="data-socket hexagon w-48 h-hex*48 p-3 text-center">
 	    <header class="flex flex-col items-center py-2 text-center">
 		    <svg class="icon w-8 h-8 my-2"><use :xlink:href="'#' + socket.type" :class="'fill-current text-' + socket.type"></use></svg>
 		    <h4 class="title p-2 w-2/3 text-light text-sm uppercase">{{ socket.name }}</h4>
@@ -43,8 +43,7 @@ The data socket is the base component that abilities are attached to. When enabl
 	    v-for="(slot, index) in slots"
 	    :key="index"
 	    :label="index"
-	    :class="[slot.position, index]"
-	    class="bg-grey w-48 h-hex*48">
+	    :class="[slot.position, index]">
     </ability-slot>
   </div>
 </template>
@@ -119,7 +118,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../scss/$variables';
+@import "../scss/$variables";
 
 .data-socket-field {
   display: grid;
@@ -135,14 +134,13 @@ export default {
 
   .data-socket {
     grid-area: d;
-    padding: 0.75rem;
-    
+
     header {
       .title {
         background: rgba(map-get($colors, light), 0.1666);
       }
     }
-    
+
     &:before {
       background-position: left top, left top, center top;
       background-repeat: repeat, repeat, no-repeat;
@@ -154,23 +152,52 @@ export default {
       right: 0.5rem;
       z-index: -1;
     }
-    
+
     &:after {
       @apply absolute pin;
       content: "";
       z-index: -2;
-      background-image: map-get($backgrounds, dots-h), map-get($backgrounds, dots-v);
+      background-image: map-get($backgrounds, dots-h),
+        map-get($backgrounds, dots-v);
       background-position: center center;
       background-size: 2px 2px;
     }
-    
+
     @each $c, $color in $colors {
       &.bg-#{$c} {
         &:before {
-          background-image: linear-gradient(rgba($color, 0.1666) 0%, rgba($color, 0.1666) 100%), map-get($backgrounds, tile), map-get($backgrounds, gradient);
+          background-image: linear-gradient(
+              rgba($color, 0.1666) 0%,
+              rgba($color, 0.1666) 100%
+            ),
+            map-get($backgrounds, tile), map-get($backgrounds, gradient);
         }
       }
     }
+  }
+
+  .top-left {
+    grid-area: a;
+  }
+
+  .top-right {
+    grid-area: b;
+  }
+
+  .left {
+    grid-area: c;
+  }
+
+  .right {
+    grid-area: e;
+  }
+
+  .bottom-left {
+    grid-area: f;
+  }
+
+  .bottom-right {
+    grid-area: g;
   }
 }
 </style>

@@ -1,4 +1,12 @@
-@import '$variables';
+@import "$variables";
+
+@each $c, $color in $colors {
+  @each $o, $opacity in $opacities {
+    &.bg-#{$c}-#{$o} {
+      background-color: rgba($color, $opacity);
+    }
+  }
+}
 
 /*.label, .output {
 	@apply .inline-block .p-2 .rounded;
@@ -38,11 +46,13 @@
 	}
 }*/
 
-.button, .input {
+.button,
+.input {
   @apply clip-corners;
 }
 
-.tile, %tile {
+.tile,
+%tile {
   background-image: map-get($backgrounds, tile), map-get($backgrounds, gradient);
   background-position: left top, center top;
   background-repeat: repeat, no-repeat;
@@ -53,7 +63,7 @@
 .hexagon {
   @apply relative clip-hexagon;
   margin: -13.333% 1.666%;
-  
+
   &:before {
     @apply absolute z--1 clip-hexagon;
     content: "";

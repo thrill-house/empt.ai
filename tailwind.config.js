@@ -51,8 +51,8 @@ let hexRatio = Math.sqrt(3 / 2);
 
 let colors = {
   transparent: "transparent",
-  dark: "#222",
-  light: "#fbfbfb",
+  dark: "#000",
+  light: "#fff",
   grey: "#ddd",
   purple: "#403ce0",
   sky: "#dad9fb",
@@ -63,7 +63,7 @@ let colors = {
   'blue-dark': "#122356",
   science: "#74ebcf",
   society: "#f4838e",
-  economy: "#f6eda3",
+  economy: "#FBEB69",
   influence: "#76a5ff",
   bandwidth: "#94e4f8",
   neutral: "#b9bbc0",
@@ -77,27 +77,43 @@ let backgrounds = {
   gradient: "radial-gradient(50% 100%, " + colors['blue'] + " 2%, " + colors['blue-dark'] + " 42%, " + colors['dark'] + " 100%)",
 };
 
-let lines = ["$colors: ("];
+let opacities = {
+  "0": "0",
+  "25": ".25",
+  "50": ".5",
+  "75": ".75",
+  "90": ".9",
+  "100": "1"
+};
+
+let lines = ['$colors: ('];
+
 let colorLines = [];
-let backgroundLines = [];
 _.each(colors, function(color, key) {
   colorLines.push(`  ${key}: ${color}`);
 });
 lines.push(_.join(colorLines, ',\n'));
-lines.push(");");
+lines.push(');\n');
 
-lines.push("$backgrounds: (");
+let backgroundLines = [];
+lines.push('$backgrounds: (');
 _.each(backgrounds, function(background, key) {
   backgroundLines.push(`  ${key}: ${background}`);
 });
 lines.push(_.join(backgroundLines, ',\n'));
-lines.push(");");
+lines.push(');\n');
+
+let opacityLines = [];
+lines.push('$opacities: (');
+_.each(opacities, function(opacity, key) {
+  opacityLines.push(`  ${key}: ${opacity}`);
+});
+lines.push(_.join(opacityLines, ',\n'));
+lines.push(');\n');
 
 fs.writeFile(outPath, _.join(lines, '\n'), err => {
   if (err) return console.error(err);
 });
-
-console.log('go - ');
 
 module.exports = {
   /*
@@ -703,14 +719,7 @@ module.exports = {
   |
   */
 
-  opacity: {
-    "0": "0",
-    "25": ".25",
-    "50": ".5",
-    "75": ".75",
-    "90": ".9",
-    "100": "1"
-  },
+  opacity: opacities,
 
   /*
   |-----------------------------------------------------------------------------

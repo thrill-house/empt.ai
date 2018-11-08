@@ -10,10 +10,10 @@ The ability slot is a space attached to a data sources. When an ability is assig
 </docs>
 
 <template>
-  <div class="ability-slot hexagon">
-	  <enabled-ability v-if="event && abilityInstance" :instance="abilityInstance"></enabled-ability>
-	  <h3 v-else>Empty</h3>
-	  <button class="mt-2 button orange" v-if="selectedLabel && selectedInstance && selectedInstance != abilityInstance" @click="addEvent(selectedLabel, selectedInstance)">
+  <enabled-ability v-if="event && abilityInstance" :instance="abilityInstance"></enabled-ability>
+  <div v-else class="ability-slot hexagon w-48 h-hex*48 bg-grey text-center">
+	  <h3>Empty</h3>
+	  <button class="mt-2" v-if="selectedLabel && selectedInstance && selectedInstance != abilityInstance" @click="addEvent(selectedLabel, selectedInstance)">
 	  	Install <strong>{{ selectedLabel }}</strong>
 	  </button>
   </div>
@@ -86,29 +86,4 @@ export default {
 </script>
 
 <style lang="scss">
-.ability-slot {
-  &.top-left {
-    grid-area: a;
-  }
-
-  &.top-right {
-    grid-area: b;
-  }
-
-  &.left {
-    grid-area: c;
-  }
-
-  &.right {
-    grid-area: e;
-  }
-
-  &.bottom-left {
-    grid-area: f;
-  }
-
-  &.bottom-right {
-    grid-area: g;
-  }
-}
 </style>
