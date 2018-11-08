@@ -77,10 +77,10 @@ module.exports = {
     historyApiFallback: true,
     //noInfo: true,
     overlay: true,
-    clientLogLevel: 'info',
+    clientLogLevel: "info",
     watchOptions: {
-      ignored: '**/_$*.scss'
-    },
+      ignored: "**/_$*.scss"
+    }
   },
   performance: {
     hints: false

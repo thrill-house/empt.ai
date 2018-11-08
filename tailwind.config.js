@@ -43,9 +43,9 @@ View the full documentation at https://tailwindcss.com.
 */
 
 const _ = require("lodash");
-const fs = require('fs');
-const path = require('path');
-const outPath = path.join(__dirname, 'src/scss/_$variables.scss');
+const fs = require("fs");
+const path = require("path");
+const outPath = path.join(__dirname, "src/scss/_$variables.scss");
 
 let hexRatio = Math.sqrt(3 / 2);
 
@@ -58,9 +58,9 @@ let colors = {
   sky: "#dad9fb",
   orange: "#ff7d5c",
   peach: "#fad9d0",
-  'blue-light': "#69B5FF",
+  "blue-light": "#69B5FF",
   blue: "#353D77",
-  'blue-dark': "#122356",
+  "blue-dark": "#122356",
   science: "#74ebcf",
   society: "#f4838e",
   economy: "#FBEB69",
@@ -72,9 +72,17 @@ let colors = {
 
 let backgrounds = {
   tile: "url('/assets/img/tile.svg')",
-  'dots-h': "linear-gradient(90deg, " + colors['dark'] + " 1px, transparent 1%)",
-  'dots-v': "linear-gradient(" + colors['dark'] + " 1px, transparent 1%)",
-  gradient: "radial-gradient(50% 100%, " + colors['blue'] + " 2%, " + colors['blue-dark'] + " 42%, " + colors['dark'] + " 100%)",
+  "dots-h":
+    "linear-gradient(90deg, " + colors["dark"] + " 1px, transparent 1%)",
+  "dots-v": "linear-gradient(" + colors["dark"] + " 1px, transparent 1%)",
+  gradient:
+    "radial-gradient(50% 100%, " +
+    colors["blue"] +
+    " 2%, " +
+    colors["blue-dark"] +
+    " 42%, " +
+    colors["dark"] +
+    " 100%)"
 };
 
 let opacities = {
@@ -86,41 +94,41 @@ let opacities = {
   "100": "1"
 };
 
-let lines = ['$colors: ('];
+let lines = ["$colors: ("];
 
 let colorLines = [];
 _.each(colors, function(color, key) {
   colorLines.push(`  ${key}: ${color}`);
 });
-lines.push(_.join(colorLines, ',\n'));
-lines.push(');\n');
+lines.push(_.join(colorLines, ",\n"));
+lines.push(");\n");
 
 let backgroundLines = [];
-lines.push('$backgrounds: (');
+lines.push("$backgrounds: (");
 _.each(backgrounds, function(background, key) {
   backgroundLines.push(`  ${key}: ${background}`);
 });
-lines.push(_.join(backgroundLines, ',\n'));
-lines.push(');\n');
+lines.push(_.join(backgroundLines, ",\n"));
+lines.push(");\n");
 
 let opacityLines = [];
-lines.push('$opacities: (');
+lines.push("$opacities: (");
 _.each(opacities, function(opacity, key) {
   opacityLines.push(`  ${key}: ${opacity}`);
 });
-lines.push(_.join(opacityLines, ',\n'));
-lines.push(');\n');
+lines.push(_.join(opacityLines, ",\n"));
+lines.push(");\n");
 
-var outputs = _.join(lines, '\n');
+var outputs = _.join(lines, "\n");
 var current = fs.readFileSync(outPath).toString();
 
-if(outputs !== current) {
-  console.log('Changes detected');
-  fs.writeFile(outPath, _.join(lines, '\n'), err => {
+if (outputs !== current) {
+  console.log("Changes detected");
+  fs.writeFile(outPath, _.join(lines, "\n"), err => {
     if (err) return console.error(err);
   });
 } else {
-  console.log('Nothing changed');
+  console.log("Nothing changed");
 }
 
 module.exports = {
@@ -852,13 +860,19 @@ module.exports = {
       // padding: '1rem',
     }),
     function({ addUtilities, config }) {
-  	  const clipUtilities = {
-  	    '.clip-corners': { 'clip-path': 'polygon(0.333rem 0%, calc(100% - 0.33rem) 0%, 100% 0.333rem, 100% calc(100% - 0.33rem), calc(100% - 0.33rem) 100%, 0.333rem 100%, 0% calc(100% - 0.33rem), 0% 0.333rem)' },
-  	    '.clip-hexagon': { 'clip-path': 'polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%)' }
-  	  }
-  	
-  	  addUtilities([clipUtilities], { variants: ['responsive'] });
-  	},
+      const clipUtilities = {
+        ".clip-corners": {
+          "clip-path":
+            "polygon(0.333rem 0%, calc(100% - 0.33rem) 0%, 100% 0.333rem, 100% calc(100% - 0.33rem), calc(100% - 0.33rem) 100%, 0.333rem 100%, 0% calc(100% - 0.33rem), 0% 0.333rem)"
+        },
+        ".clip-hexagon": {
+          "clip-path":
+            "polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%)"
+        }
+      };
+
+      addUtilities([clipUtilities], { variants: ["responsive"] });
+    }
   ],
 
   /*
