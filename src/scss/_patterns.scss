@@ -8,44 +8,6 @@
   }
 }
 
-/*.label, .output {
-	@apply .inline-block .p-2 .rounded;
-	
-	& + .output {
-		@apply .ml-2;
-	}
-}
-
-.label {
-	@apply .bg-grey .text-xs;
-}
-
-.output {
-	@apply .bg-purple .text-light .text-xs;
-}
-
-.outputs {
-	.output {
-		@apply .block .ml-0;
-		
-		& + .output {
-			@apply .block .mt-2;
-		}
-	}
-}
-
-.button, .input {
-	@apply .font-bold .text-xs .py-2 .px-4 .rounded .appearance-none;
-	
-	&.orange {
-		@apply .bg-orange .text-light;
-	}
-	
-	&:hover, &:disabled {
-		@apply .opacity-75;
-	}
-}*/
-
 .button,
 .input {
   @apply clip-corners;

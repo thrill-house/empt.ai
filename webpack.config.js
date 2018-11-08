@@ -1,6 +1,5 @@
 var path = require("path");
 var webpack = require("webpack");
-var tailwindcss = require("tailwindcss");
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var OnlyIfChangedPlugin = require("only-if-changed-webpack-plugin");
 var docsLoader = require.resolve("./custom-loaders/docs-loader.js");

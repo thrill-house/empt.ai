@@ -111,9 +111,17 @@ _.each(opacities, function(opacity, key) {
 lines.push(_.join(opacityLines, ',\n'));
 lines.push(');\n');
 
-fs.writeFile(outPath, _.join(lines, '\n'), err => {
-  if (err) return console.error(err);
-});
+var outputs = _.join(lines, '\n');
+var current = fs.readFileSync(outPath).toString();
+
+if(outputs !== current) {
+  console.log('Changes detected');
+  fs.writeFile(outPath, _.join(lines, '\n'), err => {
+    if (err) return console.error(err);
+  });
+} else {
+  console.log('Nothing changed');
+}
 
 module.exports = {
   /*
