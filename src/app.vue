@@ -1,6 +1,6 @@
 <template>
   <main id="app" class="p-8 tile" :class="{'hide-docs': docsToggle}">
-  <header class="w-full flex items-center bg-light p-4 rounded-lg">
+  <header class="w-full flex items-center text-light">
     <div class="w-32">
       <img src="/assets/img/logo.png">
     </div>
@@ -688,9 +688,11 @@ export default {
   }
 
   &.hide-docs {
-    .docs:not(.keep) {
-      * + * {
-        @apply hidden;
+    header {
+      .docs:not(.keep) {
+        * + * {
+          @apply hidden;
+        }
       }
     }
   }
