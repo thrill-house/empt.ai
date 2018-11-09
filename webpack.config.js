@@ -75,7 +75,6 @@ module.exports = {
   },
   devServer: {
     historyApiFallback: true,
-    //noInfo: true,
     overlay: true,
     clientLogLevel: "info",
     watchOptions: {

@@ -43,9 +43,6 @@ View the full documentation at https://tailwindcss.com.
 */
 
 const _ = require("lodash");
-const fs = require("fs");
-const path = require("path");
-const outPath = path.join(__dirname, "src/scss/_$variables.scss");
 
 let hexRatio = Math.sqrt(3 / 2);
 
@@ -85,52 +82,6 @@ let backgrounds = {
     " 100%)"
 };
 
-let opacities = {
-  "0": "0",
-  "25": ".25",
-  "50": ".5",
-  "75": ".75",
-  "90": ".9",
-  "100": "1"
-};
-
-let lines = ["$colors: ("];
-
-let colorLines = [];
-_.each(colors, function(color, key) {
-  colorLines.push(`  ${key}: ${color}`);
-});
-lines.push(_.join(colorLines, ",\n"));
-lines.push(");\n");
-
-let backgroundLines = [];
-lines.push("$backgrounds: (");
-_.each(backgrounds, function(background, key) {
-  backgroundLines.push(`  ${key}: ${background}`);
-});
-lines.push(_.join(backgroundLines, ",\n"));
-lines.push(");\n");
-
-let opacityLines = [];
-lines.push("$opacities: (");
-_.each(opacities, function(opacity, key) {
-  opacityLines.push(`  ${key}: ${opacity}`);
-});
-lines.push(_.join(opacityLines, ",\n"));
-lines.push(");\n");
-
-var outputs = _.join(lines, "\n");
-var current = fs.readFileSync(outPath).toString();
-
-if (outputs !== current) {
-  console.log("Changes detected");
-  fs.writeFile(outPath, _.join(lines, "\n"), err => {
-    if (err) return console.error(err);
-  });
-} else {
-  console.log("Nothing changed");
-}
-
 module.exports = {
   /*
   |-----------------------------------------------------------------------------
@@ -146,6 +97,7 @@ module.exports = {
   */
 
   colors: colors,
+  backgrounds: backgrounds,
 
   /*
   |-----------------------------------------------------------------------------
@@ -735,7 +687,14 @@ module.exports = {
   |
   */
 
-  opacity: opacities,
+  opacity: {
+    "0": "0",
+    "25": ".25",
+    "50": ".5",
+    "75": ".75",
+    "90": ".9",
+    "100": "1"
+  },
 
   /*
   |-----------------------------------------------------------------------------

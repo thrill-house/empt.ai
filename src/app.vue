@@ -432,14 +432,14 @@ export default {
   computed: {
     docs: function() {
       return _.transform(this.$options.components, function(result, component) {
-      result[_.camelCase(component.name)] = component.__docs;
+        result[_.camelCase(component.name)] = component.__docs;
       });
     },
     initEvent: function() {
       return {
-      type: "socket",
-      label: "root",
-      timestamp: +moment(this.start).subtract(1, "seconds")
+        type: "socket",
+        label: "root",
+        timestamp: +moment(this.start).subtract(1, "seconds")
       };
     },
     ...mapState({
@@ -473,80 +473,80 @@ export default {
     },
     randomSocket: function() {
       var active = _.map(this.getActiveSockets(), "label"),
-      labels = _.shuffle(_.difference(_.keys(this.sockets), active)),
-      socketEvent = false;
-  
-      _.each(labels, socketLabel => {
-      socketEvent = {
-        type: "socket",
-        label: socketLabel
-      };
-  
-      if (this.getEventAffordability(socketEvent)) {
-        this.addSocketEvent(socketEvent);
-  
-        return false;
-      } else {
+        labels = _.shuffle(_.difference(_.keys(this.sockets), active)),
         socketEvent = false;
-      }
+
+      _.each(labels, socketLabel => {
+        socketEvent = {
+          type: "socket",
+          label: socketLabel
+        };
+
+        if (this.getEventAffordability(socketEvent)) {
+          this.addSocketEvent(socketEvent);
+
+          return false;
+        } else {
+          socketEvent = false;
+        }
       });
-  
+
       if (!socketEvent) {
-      console.log("No sockets currently affordable");
+        console.log("No sockets currently affordable");
       }
     },
     randomAbility: function() {
       var labels = _.shuffle(_.keys(this.abilities)),
-      abilityEvent = false;
-  
-      _.each(labels, abilityLabel => {
-      abilityEvent = {
-        type: "ability",
-        label: abilityLabel,
-        instance: abilityLabel + "-" + _.now(),
-        target: false
-      };
-  
-      if (this.getEventAffordability(abilityEvent)) {
-        var axis = _.shuffle([1, 1, 2]);
-  
-        abilityEvent.happiness = _.random() * axis[0];
-        abilityEvent.sadness = 1 * axis[0] - abilityEvent.happiness;
-  
-        abilityEvent.tenderness = _.random() * axis[1];
-        abilityEvent.anger = 1 * axis[1] - abilityEvent.tenderness;
-  
-        abilityEvent.excitement = _.random() * axis[2];
-        abilityEvent.fear = 1 * axis[2] - abilityEvent.excitement;
-        this.addAbilityEvent(abilityEvent);
-  
-        return false;
-      } else {
         abilityEvent = false;
-      }
+
+      _.each(labels, abilityLabel => {
+        abilityEvent = {
+          type: "ability",
+          label: abilityLabel,
+          instance: abilityLabel + "-" + _.now(),
+          target: false
+        };
+
+        if (this.getEventAffordability(abilityEvent)) {
+          var axis = _.shuffle([1, 1, 2]);
+
+          abilityEvent.happiness = _.random() * axis[0];
+          abilityEvent.sadness = 1 * axis[0] - abilityEvent.happiness;
+
+          abilityEvent.tenderness = _.random() * axis[1];
+          abilityEvent.anger = 1 * axis[1] - abilityEvent.tenderness;
+
+          abilityEvent.excitement = _.random() * axis[2];
+          abilityEvent.fear = 1 * axis[2] - abilityEvent.excitement;
+          this.addAbilityEvent(abilityEvent);
+
+          return false;
+        } else {
+          abilityEvent = false;
+        }
       });
-  
+
       if (!abilityEvent) {
-      console.log("No abilities currently affordable");
+        console.log("No abilities currently affordable");
       }
     },
     randomSlot: function() {
       var socketLabel = _.sample(_.map(this.getActiveSockets(), "label")),
-      slotLabel = _.sample(_.keys(this.getSlotsForSocket(socketLabel))),
-      abilityEvent = _.sample(this.getAllEventsOfType("ability")),
-      slotEvent = {
-        label: slotLabel,
-        ability: abilityEvent.label,
-        instance: abilityEvent.instance
-      };
-  
+        slotLabel = _.sample(_.keys(this.getSlotsForSocket(socketLabel))),
+        abilityEvent = _.sample(this.getAllEventsOfType("ability")),
+        slotEvent = {
+          label: slotLabel,
+          ability: abilityEvent.label,
+          instance: abilityEvent.instance
+        };
+
       if (
-      slotEvent &&
-      this.getEventAffordability(_.merge(slotEvent, { type: "slot" }))
+        slotEvent &&
+        this.getEventAffordability(_.merge(slotEvent, { type: "slot" }))
       ) {
-      this.addSlotEvent(slotEvent);
+        this.addSlotEvent(slotEvent);
       } else {
-      console.log("No slots currently affordable");
+        console.log("No slots currently affordable");
       }
     },
     ...mapMutations(["setStart"]),
@@ -565,12 +565,12 @@ export default {
       var oldStart = this.getStart();
       var newStart = this.getNow() - value;
       var events = _.map(this.getEvents(), function(event) {
-      var difference = event.timestamp - oldStart;
-      event.timestamp = newStart + difference;
-      event.finalScore = undefined;
-      return event;
+        var difference = event.timestamp - oldStart;
+        event.timestamp = newStart + difference;
+        event.finalScore = undefined;
+        return event;
       });
-  
+
       this.setStart(newStart);
       this.setEvents(events);
     }
@@ -580,106 +580,106 @@ export default {
 
 <style lang="scss">
 @import "./scss/default";
-  
+
 #app {
   @apply flex flex-wrap;
 
   > section {
     @apply flex flex-wrap items-start w-full pb-4;
-  
+
     > header {
       @apply w-full relative bg-light p-4 my-4 rounded-lg;
-  
+
       .toggle {
         @apply absolute pin-t pin-r mt-4 mr-4;
       }
-  
+
       h3,
       h5 {
         @apply font-bold;
       }
-  
+
       h3 {
         @apply text-xl;
       }
-  
+
       h5 {
         @apply text-lg;
       }
-  
+
       button,
       input,
       select {
         @apply font-bold text-xs py-2 px-4 rounded bg-orange text-light;
-  
+
         &:hover {
           @apply opacity-75;
         }
       }
-  
+
       input,
       select {
         @apply inline-block appearance-none bg-peach text-dark;
       }
-  
+
       label {
         @apply inline-block text-xs py-2 px-4 rounded bg-grey;
       }
-  
+
       code {
         @apply bg-grey py-2 px-4 rounded;
       }
-  
+
       & + * {
         @apply flex-no-shrink;
         order: 3;
       }
-  
+
       .docs,
       .tweakers {
         @apply p-4 leading-normal;
       }
-      
+
       .tweakers {
         @apply border-t border-solid border-purple;
       }
-  
+
       .docs {
         * + * {
           @apply mt-4;
         }
       }
-  
+
       .tweakers {
         @apply flex flex-wrap;
-    
+
         h5 {
           @apply w-full mb-2;
         }
-    
+
         label {
           @apply w-32 mr-2;
         }
-    
+
         hr {
           @apply block w-full my-1;
         }
       }
     }
-  
+
     &.off {
       @apply items-start;
       order: 99;
-  
+
       > header {
         @apply m-0;
-    
+
         & + *,
         .docs *:not(h3),
         .tweakers {
           @apply hidden;
         }
-    
+
         .docs {
           @apply border-none;
         }

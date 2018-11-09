@@ -1,9 +1,9 @@
 @import "$variables";
 
 @each $c, $color in $colors {
-  @each $o, $opacity in $opacities {
+  @each $o, $opaque in $opacity {
     &.bg-#{$c}-#{$o} {
-      background-color: rgba($color, $opacity);
+      background-color: rgba($color, $opaque);
     }
   }
 }

@@ -10,7 +10,7 @@
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open --hot",
     "docs": "cross-env NODE_ENV=docs webpack --progress --hide-modules",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
-    "pretty": "prettier src/**/*.* *.js --write",
+    "pretty": "prettier '*.*' 'src/**/*.*' '!**/.*' '!*.html' --write",
     "stage-dist": "git add dist/*"
   },
   "pre-commit": [
