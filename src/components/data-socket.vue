@@ -71,7 +71,7 @@ export default {
   data: function() {
     return {
       showChallenge: false
-    }
+    };
   },
   computed: {
     socket: function() {

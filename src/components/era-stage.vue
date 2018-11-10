@@ -31,10 +31,7 @@ export default {
     total: function() {
       return this.getStages();
     },
-    ...mapGetters([
-      "getStage",
-      "getStages"
-    ])
+    ...mapGetters(["getStage", "getStages"])
   }
 };
 </script>
