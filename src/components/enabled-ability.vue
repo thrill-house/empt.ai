@@ -6,55 +6,35 @@ The enabled ability is an ability that is currently enabled within a socket.
 - `label` — A label referring to an ability in the global store. Determining whether the ability is displayed is whether a corresponding valid event exists. 
 
 ##### Instantiation
-`<enabled-ability label="data-socket-slot-label"></enabled-ability>`
+`<enabled-ability label="ability-label"></enabled-ability>`
 </docs>
 
 <template>
-  <div v-if="event && slotEvent" :class="[('bg-' + ability.type), { 'tree-match': treeMatch }]" class="enabled-ability hexagon w-48 h-hex*48 p-3 text-center">
-    <header class="flex flex-col items-center py-2 text-center">
-	    <div :class="['bg-' + (treeMatch? ability.type: 'grey') + '-25']" class="w-8 h-8 rounded-full inline-flex items-center justify-center my-2">
-  	    <svg class="icon w-4 h-4"><use :xlink:href="'#' + ability.type" :class="['text-' + ability.type]" class="fill-current"></use></svg>
+  <div v-if="event && slotEvent" :class="[('bg-' + ability.type), { 'tree-match': treeMatch }]" class="enabled-ability hexagon w-48 h-hex*48 px-2 py-6 flex flex-col justify-between items-center">
+	    <div :class="['bg-' + (treeMatch? ability.type: 'grey') + '-25']" class="w-8 h-8 rounded-full inline-flex items-center justify-center mb-2">
+  	    <icon :label="ability.type" :class="'text-' + ability.type" class="w-4 h-4"></icon>
 	    </div>
-	    <div :class="['bg-' + ability.type + '-25']" class="w-24 h-24 rounded-full inline-flex items-center justify-center">
-  	    <svg class="icon w-16 h-16"><use :xlink:href="'#neutral'" class="fill-current text-light"></use></svg>
+	    <div class="flex justify-between items-center w-full">
+  	    <div :class="['bg-' + ability.type + '-25']" class="w-24 h-24 rounded-full inline-flex flex-no-shrink items-center justify-center order-2">
+    	    <icon :label="abilityLabel" class="w-16 h-16 text-light"></icon>
+  	    </div>
+  	    <div class="w-8 flex-no-shrink outputs order-1 ml-px">
+			  	<symbiotic-ability
+			  	v-for="(value, dependency, index) in dependencies"
+    	    :key="dependency"
+			  	:label="dependency" 
+			  	:class="['border-' + (hasValidSlotEvents(dependency)? 'blue-light': 'light'), { 'mt-1': (index > 0) }]"
+			  	class="border-2"></symbiotic-ability>
+  	    </div>
+  	    <div class="w-8 flex-no-shrink outputs order-3 mr-px">
+		      <symbiotic-ability
+			  	 v-for="(value, dependant, index) in dependants"
+    	    :key="dependant"
+			  	:label="dependant" 
+			  	:class="['bg-' + (hasValidSlotEvents(dependant)? 'blue-light': 'grey-50'), { 'mt-1': (index > 0) }]"></symbiotic-ability>
+	      </div>
 	    </div>
-		  <h5 class="mr-2">{{ ability.name }}</h5>
-		  <output class="output bg-orange text-peach">{{ ability.era }}</output>
-		  <output v-if="ability.type" :class="[{'bg-sky': !treeMatch}]" class="output">{{ ability.type }}</output>
-		  <output :class="[{'bg-sky': (tree != socket.type)}]" class="output" v-for="(value, tree) in trees" v-if="tree == socket.type && value > 1">
-		    +{{ prettyUnit(value, tree) }}
-	    </output>
-    </header>
-    <div class="flex items-center align-center">
-	    <div v-if="dependencies" class="mr-2 outputs">
-		    <output :class="[{'bg-sky': !hasValidSlotEvents(dependency)}]" class="output" v-for="(value, dependency) in dependencies">
-			  	+{{ value|percentage }} with {{ getAbility(dependency).name }}
-		    </output>
-	    </div>
-	    <div class="values">
-		    <emotion-diagram
-				  :happiness="event.happiness"
-				  :sadness="event.sadness"
-				  :excitement="event.excitement"
-				  :fear="event.fear"
-				  :tenderness="event.tenderness"
-				  :anger="event.anger"
-				  class="w-16 h-hex*16"></emotion-diagram>
-				<div class="mt-2 outputs">
-			    <!--output class="output" v-for="(value, factor) in factors" v-if="value.base > 0">
-				    Before bonus: +{{ prettyUnit(value.base, factor) }}
-			    </output-->
-			    <output class="output" v-for="(value, factor) in calculatedFactors" v-if="value > 0">
-				    <!--With bonus: -->+{{ prettyUnit(value, factor) }}
-			    </output>
-		    </div>
-	    </div>
-	    <div v-if="dependants" class="ml-2 outputs">
-		    <output :class="[{'bg-sky': !hasValidSlotEvents(dependant)}]" class="output" v-for="(value, dependant) in dependants">
-			  	{{ getAbility(dependant).name }} gains +{{ value|percentage }}
-		    </output>
-	    </div>
-    </div>
+      <era-stage :label="ability.era" class="mt-2"></era-stage>
   </div>
   <div v-else class="ability disabled">
     No valid event for "{{ instance }}".
@@ -64,6 +44,10 @@ The enabled ability is an ability that is currently enabled within a socket.
 <script>
 import { mapState, mapGetters, mapActions } from "vuex";
 import store from "../store";
+import Icon from "./icon.vue";
+import EraStage from "./era-stage.vue";
+import FactorValue from "./factor-value.vue";
+import SymbioticAbility from "./symbiotic-ability.vue";
 import EmotionDiagram from "./emotion-diagram.vue";
 
 export default {
@@ -73,6 +57,10 @@ export default {
   },
   store,
   components: {
+    Icon,
+    EraStage,
+    FactorValue,
+    SymbioticAbility,
     EmotionDiagram
   },
   computed: {
@@ -115,8 +103,10 @@ export default {
     ...mapState(["abilities"]),
     ...mapGetters([
       "calculateFactors",
+      "getEra",
       "getEventOfType",
       "getEventObjects",
+      "getStage",
       "getAbility",
       "getAbilityDependants",
       "hasValidSlotEvents",

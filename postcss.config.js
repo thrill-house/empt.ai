@@ -31,10 +31,7 @@ module.exports = {
       });
 
       if (content !== current) {
-        console.log("Changes detected");
         fs.writeFile(outputPath, content);
-      } else {
-        console.log("Nothing changed");
       }
     },
     tailwindcss(tailwindConfig),

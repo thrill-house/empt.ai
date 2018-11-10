@@ -54,6 +54,11 @@ const state = {
     factors: {
       influence: {
         base: 1.15,
+        dependencies: {
+          "weather-prediction": 1.1,
+          "video-game-level-solver": 1.3,
+          "homework-ghostwriter": 1.2
+        },
         trees: { science: 1.05, economy: 1.05, society: 1.05 }
       },
       bandwidth: { base: 1.01 }
@@ -88,7 +93,9 @@ const state = {
       influence: {
         base: 1.4,
         dependencies: {
-          "chat-buddy": 1.1
+          "chat-buddy": 1.1,
+          "video-game-level-solver": 1.3,
+          "homework-ghostwriter": 1.2
         },
         trees: { science: 1.12, economy: 1.13, society: 1.15 }
       },

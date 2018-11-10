@@ -24,7 +24,7 @@
 
 .hexagon {
   @apply relative clip-hexagon;
-  margin: -13.333% 1.666%;
+  margin: -13.333% 0.25rem;
 
   &:before {
     @apply absolute z--1 clip-hexagon;

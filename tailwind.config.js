@@ -818,6 +818,91 @@ module.exports = {
       // center: true,
       // padding: '1rem',
     }),
+
+    require("tailwindcss-transitions")({
+      properties: {
+        none: "none",
+        all: "all",
+        opacity: "opacity",
+        transform: "transform",
+        z: "z-index",
+        modal: ["opacity", "z-index"]
+      },
+      durations: {
+        none: "0ms",
+        fast: "300ms",
+        default: "600ms",
+        slow: "1200ms"
+      },
+      timingFunctions: {
+        default: "linear",
+        ease: "ease",
+        "ease-in-out": "ease-in-out"
+      },
+      delays: {
+        none: "0ms",
+        short: "300ms",
+        medium: "600ms",
+        long: "1200ms"
+      },
+      willChange: {
+        opacity: "opacity",
+        transform: "transform"
+      },
+      variants: ["responsive"]
+    }),
+
+    require("tailwindcss-transforms")({
+      translate: {
+        "0": "0",
+        full: "100%",
+        screen: "100vh"
+      },
+      negativeTranslate: {
+        "0": "0",
+        full: "100%",
+        screen: "100vh"
+      },
+      scale: {
+        "0": "0",
+        "90": "0.9",
+        "100": "1",
+        "110": "1.1"
+      },
+      rotate: {
+        "0": "0deg",
+        "90": "90deg",
+        "180": "180deg"
+      },
+      negativeRotate: {
+        "90": "90deg",
+        "180": "180deg"
+      },
+      skew: false,
+      negativeSkew: false,
+      origins: false,
+      variants: ["responsive", "hover"]
+    }),
+    require("tailwindcss-layout")({
+      order: {
+        reset: "inherit",
+        first: -1,
+        "1": 1,
+        "2": 2,
+        "3": 3,
+        "4": 4,
+        "5": 5,
+        "6": 6,
+        last: 999
+      },
+      aspectRatio: {
+        full: 1,
+        "4/3": 4 / 3,
+        "16/9": 16 / 9
+      },
+      variants: ["responsive"]
+    }),
+
     function({ addUtilities, config }) {
       const clipUtilities = {
         ".clip-corners": {

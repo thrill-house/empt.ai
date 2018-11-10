@@ -2,7 +2,7 @@ import Vue from "vue";
 
 const state = {
   MULTIPLIER_RATE: 1.12,
-  SCORES_INIT: { data: 10000, confidence: 100000 },
+  SCORES_INIT: { data: 1000000, confidence: 1000000 },
   FACTORS_INIT: { bandwidth: 0, influence: 0 },
   COSTS_INIT: { data: 0, confidence: 0 },
   EMOTIONS_INIT: {

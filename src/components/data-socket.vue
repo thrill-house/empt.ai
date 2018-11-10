@@ -11,25 +11,22 @@ The data socket is the base component that abilities are attached to. When enabl
 
 <template>
   <div class="data-socket-field py-8">
-    <div :class="'bg-' + socket.type" class="data-socket hexagon w-48 h-hex*48 p-3 text-center">
-	    <header class="flex flex-col items-center py-2 text-center">
-		    <svg class="icon w-8 h-8 my-2"><use :xlink:href="'#' + socket.type" :class="'fill-current text-' + socket.type"></use></svg>
-		    <h4 class="title p-2 w-2/3 text-light text-sm uppercase">{{ socket.name }}</h4>
-		    <!--output>{{ socket.era }}</output-->
+    <div :class="'bg-' + socket.type" class="data-socket hexagon w-48 h-hex*48 px-2 py-6 text-center flex flex-col justify-between items-center" @mouseover="showChallenge = true" @mouseout="showChallenge = false">
+	    <header class="flex items-center justify-center text-center bg-grey-25 p-2 w-2/3 h-12 order-2">
+		    <h4 class="title text-light text-sm uppercase">{{ socket.name }}</h4>
 	    </header>
-	    <div v-if="event" class="py-2 body">
-		    <template v-for="(value, factor) in factors" v-if="value.base">
-			    <output class="inline-flex items-center mx-2 text-xs font-bold text-light">
-			      <svg class="icon w-4 h-4 mr-1"><use :xlink:href="'#' + factor" :class="'fill-current text-' + factor"></use></svg>
-			      {{ prettyUnit(value.base, factor) }}
-          </output>
-		    </template>
-		    <div class="w-full mt-2">
-  		    <button class="bg-blue-light text-xs text-light uppercase font-bold p-2 button">Challenge</button>
-		    </div>
-	    </div>
-	    <div v-else class="actions py-2">
-  	    <button @click="activate" :class="{'cursor-wait bg-grey': (!affordable)}" class="relative bg-blue-light- text-xs text-light uppercase font-bold p-2 opacity-50 button" :disabled="!affordable">
+	    <div class="flex w-full h-12 flex-wrap justify-center items-center pl-3 order-2">
+  	    <template v-if="event">
+    		  <factor-value
+  		    v-show="!showChallenge"
+  		    v-for="(value, factor) in factors"
+    	    :key="factor"
+  		    :label="factor"
+  		    :value="value.base"
+  		    class="w-1/2"></factor-value>
+  		    <button v-show="showChallenge" class="bg-blue-light text-xs text-light uppercase font-bold p-2 mr-3 button">Challenge</button>
+  	    </template>
+  	    <button v-else @click.once="activate" :class="{ 'cursor-wait bg-grey-50': (!affordable) }" class="relative text-xs text-light uppercase font-bold p-2 mr-3 button" :disabled="!affordable">
     			<span :style="{width: affordability + '%'}" class="absolute block pin h-full bg-blue-light z-0"></span>
     			<span class="relative z-10">
     				<template v-if="costs.confidence > scores.confidence">Costs {{ costs.confidence|confidence }}</template>
@@ -37,6 +34,8 @@ The data socket is the base component that abilities are attached to. When enabl
     			</span>
     		</button>
 	    </div>
+	    <icon :label="socket.type" :class="'text-' + socket.type" class="w-8 h-8 text-light mb-2 order-1"></icon>
+	    <era-stage :label="socket.era" class="mt-1 order-4 w-8"></era-stage>
     </div>
     <ability-slot
       v-if="event"
@@ -52,17 +51,27 @@ The data socket is the base component that abilities are attached to. When enabl
 import { mapState, mapGetters, mapActions } from "vuex";
 import _ from "lodash";
 import store from "../store";
-import svg from "../svg";
+import Icon from "./icon.vue";
+import EraStage from "./era-stage.vue";
+import FactorValue from "./factor-value.vue";
 import AbilitySlot from "./ability-slot.vue";
 
 export default {
   name: "data-socket",
   store,
   components: {
+    Icon,
+    EraStage,
+    FactorValue,
     AbilitySlot
   },
   props: {
     label: String
+  },
+  data: function() {
+    return {
+      showChallenge: false
+    }
   },
   computed: {
     socket: function() {
@@ -103,7 +112,6 @@ export default {
       "getScores",
       "getEventOfType",
       "getSocket",
-      "prettyUnit",
       "getSocketCosts",
       "getSlotsForSocket"
     ])
@@ -134,12 +142,6 @@ export default {
 
   .data-socket {
     grid-area: d;
-
-    header {
-      .title {
-        background: rgba(map-get($colors, light), 0.1666);
-      }
-    }
 
     &:before {
       background-position: left top, left top, center top;
