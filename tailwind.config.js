@@ -55,20 +55,20 @@ let colors = {
   sky: "#dad9fb",
   orange: "#ff7d5c",
   peach: "#fad9d0",
-  "blue-light": "#69B5FF",
-  blue: "#353D77",
+  "blue-light": "#69b5ff",
+  blue: "#353d77",
   "blue-dark": "#122356",
   science: "#74ebcf",
   society: "#f4838e",
-  economy: "#FBEB69",
+  economy: "#fbeb69",
   influence: "#76a5ff",
   bandwidth: "#94e4f8",
-  neutral: "#A6D3FF",
+  neutral: "#a6d3ff",
   emotions: "green"
 };
 
 let backgrounds = {
-  tile: "url('/assets/img/tile.svg')",
+  tile: "url(/assets/img/tile.svg)",
   "dots-h":
     "linear-gradient(90deg, " + colors["dark"] + " 1px, transparent 1%)",
   "dots-v": "linear-gradient(" + colors["dark"] + " 1px, transparent 1%)",
