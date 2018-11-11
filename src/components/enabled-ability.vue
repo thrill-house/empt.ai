@@ -10,11 +10,8 @@ The enabled ability is an ability that is currently enabled within a socket.
 </docs>
 
 <template>
-  <div v-if="event && slotEvent" :class="[('bg-' + ability.type), { 'tree-match': treeMatch }]" class="enabled-ability hexagon w-48 h-hex*48 px-2 py-6 flex flex-col justify-between items-center">
-	    <div :class="['bg-' + (treeMatch? ability.type: 'grey') + '-25']" class="w-8 h-8 rounded-full inline-flex items-center justify-center mb-2">
-  	    <icon :label="ability.type" :class="'text-' + ability.type" class="w-4 h-4"></icon>
-	    </div>
-	    <div class="flex justify-between items-center w-full">
+  <div v-if="event && slotEvent" :class="[('bg-' + ability.type), { 'tree-match': treeMatch }]" class="enabled-ability mimic-tile hexagon w-48 h-hex*48 px-2 py-6 flex flex-col justify-between items-center">
+	    <div class="flex justify-between items-center w-full order-2">
   	    <div :class="['bg-' + ability.type + '-25']" class="w-24 h-24 rounded-full inline-flex flex-no-shrink items-center justify-center order-2">
     	    <icon :label="abilityLabel" class="w-16 h-16 text-light"></icon>
   	    </div>
@@ -34,7 +31,10 @@ The enabled ability is an ability that is currently enabled within a socket.
 			  	:class="['bg-' + (hasValidSlotEvents(dependant)? 'blue-light': 'grey-50'), { 'mt-1': (index > 0) }]"></symbiotic-ability>
 	      </div>
 	    </div>
-      <era-stage :label="ability.era" class="mt-2"></era-stage>
+	    <div :class="['bg-' + (treeMatch? ability.type: 'grey') + '-25']" class="w-8 h-8 rounded-full inline-flex items-center justify-center mb-2 order-1">
+  	    <icon :label="ability.type" :class="'text-' + ability.type" class="w-4 h-4"></icon>
+	    </div>
+      <era-stage :label="ability.era" class="mt-2 order-3"></era-stage>
   </div>
   <div v-else class="ability disabled">
     No valid event for "{{ instance }}".
@@ -130,36 +130,17 @@ export default {
 <style lang="scss">
 @import "../scss/$variables";
 
-.enabled-ability {
+.enabled-ability {  
   &:before {
-    background-position: left top, left top, center top;
-    background-repeat: repeat, repeat, no-repeat;
-    background-size: auto, auto, cover;
-    background-attachment: fixed, fixed, fixed;
     top: 0.1666rem;
     left: 0.1666rem;
     bottom: 0.1666rem;
     right: 0.1666rem;
-    z-index: -1;
   }
 
   &:not(.tree-match) {
     &:after {
-      @apply absolute pin bg-light;
-      content: "";
-      z-index: -2;
-    }
-  }
-
-  @each $c, $color in $colors {
-    &.bg-#{$c} {
-      &:before {
-        background-image: linear-gradient(
-            rgba($color, 0.2) 0%,
-            rgba($color, 0.2) 100%
-          ),
-          map-get($backgrounds, tile), map-get($backgrounds, gradient);
-      }
+      @apply bg-light;
     }
   }
 }

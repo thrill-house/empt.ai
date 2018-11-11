@@ -63,7 +63,7 @@ let colors = {
   economy: "#FBEB69",
   influence: "#76a5ff",
   bandwidth: "#94e4f8",
-  neutral: "#b9bbc0",
+  neutral: "#A6D3FF",
   emotions: "green"
 };
 
@@ -570,7 +570,10 @@ module.exports = {
     "3": "0.75rem",
     "4": "1rem",
     "6": "1.5rem",
-    "8": "2rem"
+    "8": "2rem",
+    "10": "2.5rem",
+    "12": "3rem",
+    "16": "4rem",
   },
 
   /*
@@ -597,7 +600,10 @@ module.exports = {
     "3": "0.75rem",
     "4": "1rem",
     "6": "1.5rem",
-    "8": "2rem"
+    "8": "2rem",
+    "10": "2.5rem",
+    "12": "3rem",
+    "16": "4rem",
   },
 
   /*
@@ -623,7 +629,10 @@ module.exports = {
     "3": "0.75rem",
     "4": "1rem",
     "6": "1.5rem",
-    "8": "2rem"
+    "8": "2rem",
+    "10": "2.5rem",
+    "12": "3rem",
+    "16": "4rem",
   },
 
   /*

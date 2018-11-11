@@ -2,7 +2,7 @@
 
 @each $c, $color in $colors {
   @each $o, $opaque in $opacity {
-    &.bg-#{$c}-#{$o} {
+    .bg-#{$c}-#{$o}, %bg-#{$c}-#{$o} {
       background-color: rgba($color, $opaque);
     }
   }
@@ -29,5 +29,33 @@
   &:before {
     @apply absolute z--1 clip-hexagon;
     content: "";
+  }
+  
+  &.mimic-tile {
+    &:before {
+      background-position: left top, left top, center top;
+      background-repeat: repeat, repeat, no-repeat;
+      background-size: auto, auto, cover;
+      background-attachment: fixed, fixed, fixed;
+      z-index: -1;
+    }
+
+    &:after {
+      @apply absolute pin;
+      content: "";
+      z-index: -2;
+    }
+
+    @each $c, $color in $colors {
+      &.bg-#{$c} {
+        &:before {
+          background-image: linear-gradient(
+              rgba($color, 0.25) 0%,
+              rgba($color, 0.25) 100%
+            ),
+            map-get($backgrounds, tile), map-get($backgrounds, gradient);
+        }
+      }
+    }
   }
 }

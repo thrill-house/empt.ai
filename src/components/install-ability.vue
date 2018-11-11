@@ -115,6 +115,7 @@ export default {
       this.setInteraction({
         interaction: "selectedAbility",
         label: label,
+        ability: this.getAbility(label),
         instance: instance
       });
     },
