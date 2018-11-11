@@ -14,8 +14,8 @@
     "stage-dist": "git add dist/*"
   },
   "pre-commit": [
-    "build",
     "pretty",
+    "build",
     "stage-dist"
   ],
   "dependencies": {},

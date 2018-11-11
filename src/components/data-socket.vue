@@ -151,7 +151,8 @@ export default {
     }
 
     &:after {
-      background-image: map-get($backgrounds, dots-h), map-get($backgrounds, dots-v);
+      background-image: map-get($backgrounds, dots-h),
+        map-get($backgrounds, dots-v);
       background-position: center center;
       background-size: 2px 2px;
     }

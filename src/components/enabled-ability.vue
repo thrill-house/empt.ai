@@ -130,7 +130,7 @@ export default {
 <style lang="scss">
 @import "../scss/$variables";
 
-.enabled-ability {  
+.enabled-ability {
   &:before {
     top: 0.1666rem;
     left: 0.1666rem;

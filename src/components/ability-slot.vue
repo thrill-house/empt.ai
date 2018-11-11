@@ -100,9 +100,9 @@ export default {
 </script>
 
 <style lang="scss">
-  @import "../scss/$variables";
+@import "../scss/$variables";
 
-.ability-slot {  
+.ability-slot {
   &:before {
     @apply pin;
   }
@@ -110,7 +110,7 @@ export default {
   &:after {
     @apply hidden;
   }
-  
+
   &.install-prompt {
     &:before {
       top: 0.1666rem;

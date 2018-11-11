@@ -2,7 +2,8 @@
 
 @each $c, $color in $colors {
   @each $o, $opaque in $opacity {
-    .bg-#{$c}-#{$o}, %bg-#{$c}-#{$o} {
+    .bg-#{$c}-#{$o},
+    %bg-#{$c}-#{$o} {
       background-color: rgba($color, $opaque);
     }
   }
@@ -30,7 +31,7 @@
     @apply absolute z--1 clip-hexagon;
     content: "";
   }
-  
+
   &.mimic-tile {
     &:before {
       background-position: left top, left top, center top;
