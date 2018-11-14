@@ -705,11 +705,11 @@ module.exports = {
 
   opacity: {
     "0": "0",
-    "10": ".1",
-    "25": ".25",
-    "50": ".5",
-    "75": ".75",
-    "90": ".9",
+    "10": "0.1",
+    "25": "0.25",
+    "50": "0.5",
+    "75": "0.75",
+    "90": "0.9",
     "100": "1"
   },
 
@@ -935,19 +935,20 @@ module.exports = {
             "polygon(calc(100% - 1.5rem) 0, 100% 1.5rem, 100% 100%, 40% 100%, 0 0)"
         }
       };
-      
-      
+
       const tileUtilities = {
         ".tile": {
           "background-image": backgrounds.tile + ", " + backgrounds.gradient,
           "background-position": "left top, center top",
           "background-repeat": "repeat, no-repeat",
           "background-size": "auto, cover",
-          "background-attachment": "fixed, fixed",
+          "background-attachment": "fixed, fixed"
         }
       };
 
-      addUtilities([clipUtilities, tileUtilities], { variants: ["responsive"] });
+      addUtilities([clipUtilities, tileUtilities], {
+        variants: ["responsive"]
+      });
     }
   ],
 

@@ -22,7 +22,7 @@
     @apply absolute z--1 clip-hexagon;
     content: "";
   }
-  
+
   &.mimic-tile {
     &:after {
       left: -50%;
@@ -36,9 +36,9 @@
 
 .mimic-tile {
   > * {
-    @apply relative z-10;  
+    @apply relative z-10;
   }
-  
+
   &:before {
     @apply absolute pin;
     content: "";

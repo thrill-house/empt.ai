@@ -126,39 +126,41 @@ export default {
 </script>
 
 <style lang="scss">
-  .available-ability {
-    background: none;
-    
-    &:before, &:after {
-      @apply clip-parallelogram;
-    }
-    
-    &:before {
-      @apply absolute;
-      top: 1px;
-      left: 3px;
-      bottom: 1px;
-      right: 1px;
-      z-index: 1;
-    }
-    
-    &:after {
-      @apply bg-light;
-      z-index: 0;
-    }
-    
-    .circle-a, .circle-b {
-      @apply absolute block border border-light rounded-full pin-l pin-t;
-    }
-      
-    .circle-a {
-      @apply  h-16 w-16 -ml-5 -mt-3;
-      z-index: 0;
-    }
-    
-    .circle-b {
-      @apply tile h-28 w-28 ml-1 mt-4;
-      z-index: 0;
-    }
+.available-ability {
+  background: none;
+
+  &:before,
+  &:after {
+    @apply clip-parallelogram;
   }
+
+  &:before {
+    @apply absolute;
+    top: 1px;
+    left: 3px;
+    bottom: 1px;
+    right: 1px;
+    z-index: 1;
+  }
+
+  &:after {
+    @apply bg-light;
+    z-index: 0;
+  }
+
+  .circle-a,
+  .circle-b {
+    @apply absolute block border border-light rounded-full pin-l pin-t;
+  }
+
+  .circle-a {
+    @apply h-16 w-16 -ml-5 -mt-3;
+    z-index: 0;
+  }
+
+  .circle-b {
+    @apply tile h-28 w-28 ml-1 mt-4;
+    z-index: 0;
+  }
+}
 </style>
