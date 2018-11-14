@@ -11,7 +11,7 @@ An ability that has some sort of relationship (depends on or is depended on) wit
 
 <template>
   <div class="w-8 h-8 rounded-full inline-flex items-center justify-center">
-    <icon :label="label" :class="'text-' + label" class="w-4 h-4 text-light"></icon>
+    <icon :label="label" :class="['text-' + label]" class="w-4 h-4 text-light"></icon>
   </div>
 </template>
 

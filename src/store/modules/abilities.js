@@ -111,6 +111,7 @@ const state = {
       influence: {
         base: 1,
         dependencies: {
+          "chat-buddy": 1.1,
           "video-game-level-solver": 1.3
         }
       },
@@ -126,6 +127,7 @@ const state = {
       influence: {
         base: 1.6,
         dependencies: {
+          "chat-buddy": 1.1,
           "homework-ghostwriter": 1.2
         },
         trees: { science: 1.2, economy: 1.2, society: 1.2 }

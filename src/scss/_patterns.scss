@@ -14,15 +14,6 @@
   @apply clip-corners;
 }
 
-.tile,
-%tile {
-  background-image: map-get($backgrounds, tile), map-get($backgrounds, gradient);
-  background-position: left top, center top;
-  background-repeat: repeat, no-repeat;
-  background-size: auto, cover;
-  background-attachment: fixed, fixed;
-}
-
 .hexagon {
   @apply relative clip-hexagon;
   margin: -13.333% 0.25rem;
@@ -31,31 +22,48 @@
     @apply absolute z--1 clip-hexagon;
     content: "";
   }
-
+  
   &.mimic-tile {
-    &:before {
-      background-position: left top, left top, center top;
-      background-repeat: repeat, repeat, no-repeat;
-      background-size: auto, auto, cover;
-      background-attachment: fixed, fixed, fixed;
-      z-index: -1;
-    }
-
     &:after {
-      @apply absolute pin;
-      content: "";
-      z-index: -2;
+      left: -50%;
+      top: -50%;
+      width: 200%;
+      height: 200%;
+      transform: rotate(45deg);
     }
+  }
+}
 
-    @each $c, $color in $colors {
-      &.bg-#{$c} {
-        &:before {
-          background-image: linear-gradient(
-              rgba($color, 0.25) 0%,
-              rgba($color, 0.25) 100%
-            ),
-            map-get($backgrounds, tile), map-get($backgrounds, gradient);
-        }
+.mimic-tile {
+  > * {
+    @apply relative z-10;  
+  }
+  
+  &:before {
+    @apply absolute pin;
+    content: "";
+    background-position: left top, left top, center top;
+    background-repeat: repeat, repeat, no-repeat;
+    background-size: auto, auto, cover;
+    background-attachment: fixed, fixed, fixed;
+    z-index: 2;
+  }
+
+  &:after {
+    @apply absolute pin;
+    content: "";
+    z-index: 1;
+  }
+
+  @each $c, $color in $colors {
+    &.bg-#{$c} {
+      background-color: none;
+      &:before {
+        background-image: linear-gradient(
+            rgba($color, 0.25) 0%,
+            rgba($color, 0.25) 100%
+          ),
+          map-get($backgrounds, tile), map-get($backgrounds, gradient);
       }
     }
   }

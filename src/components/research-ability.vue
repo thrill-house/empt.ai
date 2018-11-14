@@ -58,10 +58,10 @@ The component displays options for researching an ability, when available. A but
 				</div>
 			</div>
     </div>
-    <button v-else :class="{'cursor-wait': (!affordable)}" class="button bg-peach text-light relative w-full" :disabled="!affordable" @click="showDialog = true">
-			<span :style="{width: affordability + '%'}" class="absolute block pin h-full bg-orange rounded z-0"></span>
+    <button v-else :class="{'cursor-wait': (!affordable)}" class="button -bg-grey-50 text-light text-left text-xs font-bold px-1 relative w-full" :disabled="!affordable" @click="showDialog = true">
+			<span :style="{width: affordability + '%'}" class="absolute block pin h-full -bg-blue-light rounded z-0"></span>
 			<span class="relative z-10">
-				Research<br>({{ costs.confidence|confidence }})
+				Research<br>{{ costs.confidence|confidence }}
 			</span>
 		</button>
 	</div>

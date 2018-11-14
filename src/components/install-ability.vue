@@ -27,11 +27,10 @@ The component displays options for selecting an ability to install in a slot. A 
 				</button>
 		  </div>
 	  </div>
-    <button v-else-if="!selectedAbility || selectedLabel !== label" :class="{'cursor-wait': (!affordable)}" class="button bg-peach text-light relative w-full" :disabled="!affordable" @click="showDialog = true">
-			<span :style="{width: affordability + '%'}" class="absolute block pin h-full bg-orange rounded z-0"></span>
+    <button v-else-if="!selectedAbility || selectedLabel !== label" :class="{'cursor-wait': (!affordable)}" class="button -bg-grey-50 text-light text-left text-xs font-bold px-1 relative w-full" :disabled="!affordable" @click="showDialog = true">
+			<span :style="{width: affordability + '%'}" class="absolute block pin h-full -bg-blue-light rounded z-0"></span>
 			<span class="relative z-10">
-				Install ({{ costs.data|data }})<br>
-				{{ events.length }} available
+				Install ({{ events.length }})<br>{{ costs.data|data }}
 			</span>
 		</button>
 		<button v-else class="button bg-purple text-light italic" @click="deselectAbility()">

@@ -20,12 +20,13 @@ $colors: (
 );
 $backgrounds: (
   tile: url(/assets/img/tile.svg),
-  dots-h: linear-gradient(90deg, #000 1px, transparent 1%),
+  dots-h: linear-gradient(to right, #000 1px, transparent 1%),
   dots-v: linear-gradient(#000 1px, transparent 1%),
   gradient: radial-gradient(50% 100%, #353d77 2%, #122356 42%, #000 100%)
 );
 $opacity: (
   0: 0,
+  10: .1,
   25: .25,
   50: .5,
   75: .75,

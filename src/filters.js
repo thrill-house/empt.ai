@@ -31,11 +31,11 @@ Vue.filter("bandwidth", str => Vue.filter("data")(str));
 
 Vue.filter(
   "confidence",
-  str => numeral(str).format("0.[000] a") + " followers"
+  str => numeral(str).format("0.[00] a") + " 👍"
 );
 
-Vue.filter("persuasion", str => numeral(str).format("0.[000] a") + "👍");
+Vue.filter("persuasion", str => numeral(str).format("0.[00] a") + " 👍");
 Vue.filter("influence", str => Vue.filter("persuasion")(str));
-Vue.filter("science", str => Vue.filter("percentage")(str) + " science");
-Vue.filter("economy", str => Vue.filter("percentage")(str) + " economy");
-Vue.filter("society", str => Vue.filter("percentage")(str) + " society");
+Vue.filter("science", str => Vue.filter("percentage")(str));
+Vue.filter("economy", str => Vue.filter("percentage")(str));
+Vue.filter("society", str => Vue.filter("percentage")(str));

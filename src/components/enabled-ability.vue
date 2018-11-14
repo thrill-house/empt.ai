@@ -34,7 +34,7 @@ The enabled ability is an ability that is currently enabled within a socket.
 	    <div :class="['bg-' + (treeMatch? ability.type: 'grey') + '-25']" class="w-8 h-8 rounded-full inline-flex items-center justify-center mb-2 order-1">
   	    <icon :label="ability.type" :class="'text-' + ability.type" class="w-4 h-4"></icon>
 	    </div>
-      <era-stage :label="ability.era" class="mt-2 order-3"></era-stage>
+      <era-stage :label="ability.era" class="mt-2 w-2 order-3"></era-stage>
   </div>
   <div v-else class="ability disabled">
     No valid event for "{{ instance }}".

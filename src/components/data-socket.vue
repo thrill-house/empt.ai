@@ -35,7 +35,7 @@ The data socket is the base component that abilities are attached to. When enabl
     		</button>
 	    </div>
 	    <icon :label="socket.type" :class="'text-' + socket.type" class="w-8 h-8 text-light mb-2 order-1"></icon>
-	    <era-stage :label="socket.era" class="mt-1 order-4 w-8"></era-stage>
+	    <era-stage :label="socket.era" class="mt-1 order-4 w-2"></era-stage>
     </div>
     <ability-slot
       v-if="event"

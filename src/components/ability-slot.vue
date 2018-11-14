@@ -10,16 +10,16 @@ The ability slot is a space attached to a data sources. When an ability is assig
 </docs>
 
 <template>
-  <div class="ability-slot-field" @mouseover="installPrompt = true" @mouseout="installPrompt = false">
-    <enabled-ability v-if="event && abilityInstance && (!selectedLabel || !installPrompt)" :instance="abilityInstance"></enabled-ability>
-    <div v-else class="ability-slot mimic-tile hexagon w-48 h-hex*48 px-2 py-6 flex flex-col justify-between content-center items-center bg-light text-light text-center" :class="[{'install-prompt': installPrompt}, {'tree-match': selectedLabel && selectedAbility.ability.type == socket.type}, 'bg-' + (selectedLabel && installPrompt? selectedAbility.ability.type: 'light')]">
-      <div v-if="selectedLabel" class="w-24 h-24 rounded-full inline-flex align-center items-center justify-center order-2" :class="['bg-' + (selectedLabel && installPrompt? selectedAbility.ability.type: 'light') + '-25']">
-        <icon v-if="selectedLabel" v-show="installPrompt" :label="selectedLabel" class="w-16 h-16 text-light"></icon>
+  <div class="ability-slot-field" @mouseover="hover = true" @mouseout="hover = false">
+    <enabled-ability v-if="event && abilityInstance && (!selectedLabel || !hover)" :instance="abilityInstance"></enabled-ability>
+    <div v-else class="ability-slot mimic-tile hexagon w-48 h-hex*48 px-2 py-6 flex flex-col justify-between content-center items-center bg-light text-light text-center" :class="[{'install-prompt': hover}, {'tree-match': selectedLabel && selectedAbility.ability.type == socket.type}, 'bg-' + (selectedLabel && hover? selectedAbility.ability.type: 'light')]">
+      <div v-if="selectedLabel" class="w-24 h-24 rounded-full inline-flex align-center items-center justify-center order-2" :class="['bg-' + (selectedLabel && hover? selectedAbility.ability.type: 'light') + '-25']">
+        <icon v-if="selectedLabel" v-show="hover" :label="selectedLabel" class="w-16 h-16 text-light"></icon>
       </div>
-      <div v-if="selectedLabel" :class="['bg-' + (selectedLabel && installPrompt? selectedAbility.ability.type: 'light') + '-25']" class="w-8 h-8 rounded-full inline-flex items-center justify-center mb-2 order-1">
-  	    <icon v-show="installPrompt" :label="selectedAbility.ability.type" :class="'text-' + selectedAbility.ability.type" class="w-4 h-4"></icon>
+      <div v-if="selectedLabel" :class="['bg-' + (selectedLabel && hover? selectedAbility.ability.type: 'light') + '-25']" class="w-8 h-8 rounded-full inline-flex items-center justify-center mb-2 order-1">
+  	    <icon v-show="hover" :label="selectedAbility.ability.type" :class="'text-' + selectedAbility.ability.type" class="w-4 h-4"></icon>
       </div>
-  	  <button class="relative text-xs text-light uppercase font-bold p-2 button bg-blue-light mt-2 order-3" v-if="selectedLabel && selectedInstance" :class="{ 'opacity-0': !installPrompt }" @click="addEvent(selectedLabel, selectedInstance)">
+  	  <button class="relative text-xs text-light uppercase font-bold p-2 button bg-blue-light mt-2 order-3" v-if="selectedLabel && selectedInstance" :class="{ 'opacity-0': !hover }" @click="addEvent(selectedLabel, selectedInstance)">
   	  	Install
   	  </button>
     </div>
@@ -46,7 +46,7 @@ export default {
   },
   data: function() {
     return {
-      installPrompt: false
+      hover: false
     };
   },
   computed: {
