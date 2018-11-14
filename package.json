@@ -11,14 +11,12 @@
     "docs": "cross-env NODE_ENV=docs webpack --progress --hide-modules",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
     "pretty": "prettier '*.*' 'src/**/*.*' '!**/.*' '!*.html' --write",
-    "stage-src": "git add src/*",
-    "stage-dist": "git add dist/*"
+    "stage": "git add ."
   },
   "pre-commit": [
     "pretty",
     "build",
-    "stage-src",
-    "stage-dist"
+    "stage"
   ],
   "dependencies": {},
   "browserslist": [
