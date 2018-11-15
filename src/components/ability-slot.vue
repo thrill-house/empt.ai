@@ -11,15 +11,15 @@ The ability slot is a space attached to a data sources. When an ability is assig
 
 <template>
   <div class="ability-slot-field" @mouseover="hover = true" @mouseout="hover = false">
-    <enabled-ability v-if="event && abilityInstance && (!selectedLabel || !hover)" :instance="abilityInstance"></enabled-ability>
-    <div v-else class="ability-slot mimic-tile hexagon w-48 h-hex*48 px-2 py-6 flex flex-col justify-between content-center items-center bg-light text-light text-center" :class="[{'install-prompt': hover}, {'tree-match': selectedLabel && selectedAbility.ability.type == socket.type}, 'bg-' + (selectedLabel && hover? selectedAbility.ability.type: 'light')]">
-      <div v-if="selectedLabel" class="w-24 h-24 rounded-full inline-flex align-center items-center justify-center order-2" :class="['bg-' + (selectedLabel && hover? selectedAbility.ability.type: 'light') + '-25']">
-        <icon v-if="selectedLabel" v-show="hover" :label="selectedLabel" class="w-16 h-16 text-light"></icon>
+    <enabled-ability v-if="event && abilityInstance && (!slottingLabel || !hover)" :instance="abilityInstance"></enabled-ability>
+    <div v-else class="ability-slot mimic-tile hexagon w-48 h-hex*48 px-2 py-6 flex flex-col justify-between content-center items-center bg-light text-light text-center" :class="[{'slotting-prompt': hover}, {'tree-match': slottingLabel && slotting.ability.type == socket.type}, 'bg-' + (slottingLabel && hover? slotting.ability.type: 'light')]">
+      <div v-if="slottingLabel" class="w-24 h-24 rounded-full inline-flex align-center items-center justify-center order-2" :class="['bg-' + (slottingLabel && hover? slotting.ability.type: 'light') + '-25']">
+        <icon v-if="slottingLabel" v-show="hover" :label="slottingLabel" class="w-16 h-16 text-light"></icon>
       </div>
-      <div v-if="selectedLabel" :class="['bg-' + (selectedLabel && hover? selectedAbility.ability.type: 'light') + '-25']" class="w-8 h-8 rounded-full inline-flex items-center justify-center mb-2 order-1">
-  	    <icon v-show="hover" :label="selectedAbility.ability.type" :class="'text-' + selectedAbility.ability.type" class="w-4 h-4"></icon>
+      <div v-if="slottingLabel" :class="['bg-' + (slottingLabel && hover? slotting.ability.type: 'light') + '-25']" class="w-8 h-8 rounded-full inline-flex items-center justify-center mb-2 order-1">
+  	    <icon v-show="hover" :label="slotting.ability.type" :class="'text-' + slotting.ability.type" class="w-4 h-4"></icon>
       </div>
-  	  <button class="relative text-xs text-light uppercase font-bold p-2 button bg-blue-light mt-2 order-3" v-if="selectedLabel && selectedInstance" :class="{ 'opacity-0': !hover }" @click="addEvent(selectedLabel, selectedInstance)">
+  	  <button class="relative text-xs text-light uppercase font-bold p-2 button bg-blue-light mt-2 order-3" v-if="slottingLabel && slottingInstance" :class="{ 'opacity-0': !hover }" @click="addEvent(slottingLabel, slottingInstance)">
   	  	Install
   	  </button>
     </div>
@@ -71,14 +71,14 @@ export default {
 
       return "";
     },
-    selectedAbility: function() {
-      return this.getInteraction("selectedAbility");
+    slotting: function() {
+      return this.getInteraction("slottingAbility");
     },
-    selectedLabel: function() {
-      return this.selectedAbility ? this.selectedAbility.label : "";
+    slottingLabel: function() {
+      return this.slotting ? this.slotting.label : "";
     },
-    selectedInstance: function() {
-      return this.selectedAbility ? this.selectedAbility.instance : "";
+    slottingInstance: function() {
+      return this.slotting ? this.slotting.instance : "";
     },
     ...mapGetters(["getEventOfType", "getSocketForSlot", "getInteraction"])
   },
@@ -91,7 +91,7 @@ export default {
           instance: instance
         })
       ) {
-        this.resetInteraction("selectedAbility");
+        this.resetInteraction("slottingAbility");
       }
     },
     ...mapActions(["addSlotEvent", "resetInteraction"])
@@ -111,7 +111,7 @@ export default {
     @apply hidden;
   }
 
-  &.install-prompt {
+  &.slotting-prompt {
     &:before {
       top: 0.1666rem;
       left: 0.1666rem;

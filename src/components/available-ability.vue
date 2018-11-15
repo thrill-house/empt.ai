@@ -7,7 +7,7 @@ The component displays an ability that is defined within the global data store. 
 </docs>
 
 <template>
-  <div v-if="ability && eraActive" class="available-ability relative w-80 h-32 mimic-tile bg-light m-4" @mouseover="hover = true" @mouseout="hover = false">
+  <div v-if="ability && eraActive" class="available-ability relative w-80 h-32 mimic-tile bg-light m-4" :class="{'z-50': interaction}" @mouseover="hover = true" @mouseout="hover = false">
 	  <header class="flex py-1 pl-10 h-6 relative w-full z-10">
 	    <h4 class="uppercase mr-2">{{ ability.name }}</h4>
     </header>
@@ -25,26 +25,26 @@ The component displays an ability that is defined within the global data store. 
 	    :value="value"
 	    class="w-1/2 h-4 mb-1"></factor-value>
     </div>
-    <div v-show="hover" class="flex relative z-10 pl-16 pr-4 ml-16 h-16">
-	    <div class="flex flex-wrap justify-between w-1/2 pr-3">
+    <div v-show="hover" class="flex relative z-10 py-1 pl-16 pr-2 ml-16 h-16">
+	    <div class="flex flex-wrap justify-between w-1/2 pr-1">
   	    <symbiotic-ability
   	  	v-for="(value, dependency, index) in dependencies"
   	    :key="dependency"
   	  	:label="dependency"
-  	  	:class="{'mx-auto': index == 2}"
+  	  	:class="{ 'mx-auto -mt-2': (index == 2) }"
   	  	class="border-2 border-blue-light"></symbiotic-ability>
 	    </div>
-	    <div class="flex flex-wrap justify-between content-start w-1/2 pl-3">
+	    <div class="flex flex-wrap justify-between content-start w-1/2 pl-1">
   	    <symbiotic-ability
   	  	 v-for="(value, dependant, index) in dependants"
   	    :key="dependant"
   	  	:label="dependant"
-  	  	:class="{'mx-auto': index == 2}"
+  	  	:class="{'mx-auto -mt-2': index == 2}"
   	  	class="bg-blue-light"></symbiotic-ability>
 	    </div>
 	  </div>
-    <div class="flex items-center justify-end z-10 pl-16 pr-1 py-1 ml-16 h-10">
-			<install-ability :label="label" class="w-1/2 mr-1 border-r border-light"></install-ability>
+    <div class="flex items-start justify-end z-40 pl-16 pr-2 pb-2 ml-16 h-10">
+			<install-ability :label="label" class="w-1/2 mr-1"></install-ability>
 			<research-ability :label="label" class="w-1/2 ml-1"></research-ability>
     </div>
     <div class="w-24 h-24 mimic-tile bg-light overflow-hidden border border-light rounded-full inline-flex flex-no-shrink items-center justify-center absolute pin-l pin-t ml-3 mt-6 z-20 order-2">
@@ -114,11 +114,29 @@ export default {
     eraActive: function() {
       return this.isEraActive(this.era);
     },
+    install: function() {
+      return this.getInteraction("installAbility");
+    },
+    installLabel: function() {
+      return this.install ? this.install.label : "";
+    },
+    research: function() {
+      return this.getInteraction("researchAbility");
+    },
+    researchLabel: function() {
+      return this.research ? this.research.label : "";
+    },
+    interaction: function() {
+      return (
+        this.researchLabel === this.label || this.installLabel === this.label
+      );
+    },
     ...mapState(["abilities"]),
     ...mapGetters([
       "getAbility",
       "isEraActive",
       "getAbilityDependants",
+      "getInteraction",
       "prettyUnit"
     ])
   }
@@ -150,7 +168,7 @@ export default {
 
   .circle-a,
   .circle-b {
-    @apply absolute block border border-light rounded-full pin-l pin-t;
+    @apply absolute block border border-grey rounded-full pin-l pin-t;
   }
 
   .circle-a {

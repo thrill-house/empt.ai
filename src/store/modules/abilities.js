@@ -59,7 +59,7 @@ const state = {
           "video-game-level-solver": 1.3,
           "homework-ghostwriter": 1.2
         },
-        trees: { science: 1.05, economy: 1.05, society: 1.05 }
+        trees: { neutral: 1.2, science: 1.05, economy: 1.05, society: 1.05 }
       },
       bandwidth: { base: 1.01 }
     },

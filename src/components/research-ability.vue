@@ -7,8 +7,8 @@ The component displays options for researching an ability, when available. A but
 </docs>
 
 <template>
-  <div v-if="ability" class="research-ability">
-	  <div v-if="showDialog" class="fixed pin bg-dark flex items-center justify-center z-50">
+  <div v-if="ability" class="research-ability" :class="{ 'relative z-50': dialog }">
+	  <div v-if="dialog" class="fixed pin bg-dark flex items-center justify-center">
 			<div class="w-64">
 				<div class="emotions mb-8 w-64">
 					<emotion-diagram
@@ -45,23 +45,24 @@ The component displays options for researching an ability, when available. A but
 				  </div>
 				</div>
 				<div class="flex justify-between">
-					<button :class="{'cursor-wait': (!enoughEmotions || !affordable)}" class="button bg-peach text-light relative" :disabled="!enoughEmotions || !affordable" @click="researchAbility">
+					<button :class="{'cursor-wait': (!enoughEmotions || !affordable)}" class="button bg-blue-light p-2 font-bold text-light relative" :disabled="!enoughEmotions || !affordable" @click="engageResearch(label)">
 						<span :style="{width: affordability + '%'}" class="absolute block pin h-full bg-orange rounded z-0"></span>
-						<span class="relative z-10">
+						<span class="relative block z-10">
 							<template v-if="sumEmotions != requiredEmotions">{{ sumEmotions }} / {{ requiredEmotions }} emotions</template>
 							<template v-else>Confirm research</template>
 						</span>
 					</button>
-					<button class="button bg-purple text-light" @click="showDialog = false">
+					<button class="button bg-blue p-2 font-bold text-light" @click="endResearching()">
 						Cancel
 					</button>
 				</div>
 			</div>
     </div>
-    <button v-else :class="{'cursor-wait': (!affordable)}" class="button -bg-grey-50 text-light text-left text-xs font-bold px-1 relative w-full" :disabled="!affordable" @click="showDialog = true">
-			<span :style="{width: affordability + '%'}" class="absolute block pin h-full -bg-blue-light rounded z-0"></span>
+    <button v-else :class="{'cursor-wait': (!affordable)}" class="button bg-blue-light-25 text-light text-left text-xs px-3 py-px relative w-full" :disabled="!affordable" @click="startResearching()">
+			<span :style="{width: affordability + '%'}" class="absolute block pin h-full bg-blue-light-50 rounded z-0"></span>
 			<span class="relative z-10">
-				Research<br>{{ costs.confidence|confidence }}
+				Research<br>
+				<span class="font-bold filter-grayscale">{{ costs.confidence|confidence }}</span>
 			</span>
 		</button>
 	</div>
@@ -83,7 +84,7 @@ export default {
   },
   data: function() {
     return {
-      showDialog: false,
+      dialog: false,
       selectedHappiness: 0,
       selectedSadness: 0,
       selectedTenderness: 0,
@@ -185,16 +186,19 @@ export default {
     ])
   },
   methods: {
-    getMaximumEmotion: function(emotion, complementary) {
-      return complementary > 0
-        ? 0
-        : emotion == this.requiredEmotions / 2 ||
-          (this.sumEmotions - emotion <= this.requiredEmotions / 2 &&
-            this.maximumEmotion < this.requiredEmotions / 2)
-          ? this.requiredEmotions / 2
-          : 1;
+    startResearching: function() {
+      this.dialog = true;
+      this.setInteraction({
+        interaction: "researchingAbility",
+        label: this.label,
+        ability: this.getAbility(this.label)
+      });
     },
-    researchAbility: function() {
+    endResearching: function() {
+      this.dialog = false;
+      this.resetInteraction("researchingAbility");
+    },
+    engageResearch: function(label) {
       if (this.sumEmotions === this.requiredEmotions) {
         var event = _.defaults(this.newEvent, {
           instance: this.label + "-" + _.now()
@@ -206,14 +210,31 @@ export default {
         this.selectedAnger = 0;
         this.selectedExcitement = 0;
         this.selectedFear = 0;
-        this.showDialog = false;
+        this.dialog = false;
 
         this.addAbilityEvent(event);
+
+        this.endResearching();
+        this.setInteraction({
+          interaction: "slottingAbility",
+          label: label,
+          ability: this.getAbility(label),
+          instance: event.instance
+        });
       } else {
         alert("Fill in all emotions");
       }
     },
-    ...mapActions(["addAbilityEvent"])
+    getMaximumEmotion: function(emotion, complementary) {
+      return complementary > 0
+        ? 0
+        : emotion == this.requiredEmotions / 2 ||
+          (this.sumEmotions - emotion <= this.requiredEmotions / 2 &&
+            this.maximumEmotion < this.requiredEmotions / 2)
+          ? this.requiredEmotions / 2
+          : 1;
+    },
+    ...mapActions(["addAbilityEvent", "setInteraction", "resetInteraction"])
   }
 };
 </script>
@@ -306,7 +327,7 @@ export default {
       }
 
       label {
-        @apply .absolute .pin-b .pin-r .mb-2 .-mr-4 .text-xs .bg-sky;
+        @apply .absolute .pin-b .pin-r .mb-2 .-mr-4 .text-xs;
         transform-origin: bottom right;
         transform: scale(0.75);
       }

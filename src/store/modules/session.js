@@ -351,7 +351,9 @@ const state = {
   interval: false,
   events: debugEvents,
   interactions: {
-    selectedAbility: false
+    researchingAbility: false,
+    installingAbility: false,
+    slottingAbility: false
   }
 };
 

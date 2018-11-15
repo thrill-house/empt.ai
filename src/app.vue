@@ -610,7 +610,7 @@ export default {
       button,
       input,
       select {
-        @apply font-bold text-xs py-2 px-4 rounded bg-orange text-light;
+        @apply font-bold text-xs py-2 px-4 rounded bg-blue-light text-light;
 
         &:hover {
           @apply opacity-75;
@@ -619,7 +619,7 @@ export default {
 
       input,
       select {
-        @apply inline-block appearance-none bg-peach text-dark;
+        @apply inline-block appearance-none bg-blue text-light;
       }
 
       label {
@@ -641,7 +641,7 @@ export default {
       }
 
       .tweakers {
-        @apply border-t border-solid border-purple;
+        @apply border-t border-solid border-blue-dark;
       }
 
       .docs {

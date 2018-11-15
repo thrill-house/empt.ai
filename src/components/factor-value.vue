@@ -41,8 +41,7 @@ export default {
 <style lang="scss">
 .factor-value {
   .value {
-    -webkit-filter: grayscale(100%);
-    filter: grayscale(100%);
+    @apply filter-grayscale;
   }
 }
 </style>

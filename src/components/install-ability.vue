@@ -7,11 +7,11 @@ The component displays options for selecting an ability to install in a slot. A 
 </docs>
 
 <template>
-  <div v-if="ability && events.length" class="available-ability">
-	  <div v-if="showDialog" class="fixed pin bg-dark flex items-center justify-center z-50">
+  <div v-if="ability && events.length" class="available-ability" :class="{ 'relative z-50': dialog }">
+	  <div v-if="dialog" class="fixed pin bg-dark flex items-center justify-center">
 		  <div class="w-64">
 			  <div class="mb-8 w-full flex flex-wrap">
-				  <button v-for="event in events" class="m-1" :class="[{'bg-orange': event.instance == selectedInstance}]" @click="selectAbility(event.label, event.instance)">
+				  <button v-for="event in events" class="m-1" @click="startSlotting(event.instance)">
 					  <emotion-diagram
 						  :happiness="event.happiness"
 						  :sadness="event.sadness"
@@ -22,18 +22,19 @@ The component displays options for selecting an ability to install in a slot. A 
 						  class="w-16 h-hex*16"></emotion-diagram>
 				  </button>
 			  </div>
-			  <button class="button bg-purple text-light" @click="showDialog = false">
+			  <button class="button bg-blue p-2 font-bold text-light" @click="endInstalling()">
 					Cancel
 				</button>
 		  </div>
 	  </div>
-    <button v-else-if="!selectedAbility || selectedLabel !== label" :class="{'cursor-wait': (!affordable)}" class="button -bg-grey-50 text-light text-left text-xs font-bold px-1 relative w-full" :disabled="!affordable" @click="showDialog = true">
-			<span :style="{width: affordability + '%'}" class="absolute block pin h-full -bg-blue-light rounded z-0"></span>
-			<span class="relative z-10">
-				Install ({{ events.length }})<br>{{ costs.data|data }}
+    <button v-else-if="!slotting || slottingLabel !== label" :class="{ 'cursor-wait': (!affordable) }" class="button bg-blue-light-25 text-light text-left text-xs px-3 py-px relative w-full" :disabled="!affordable" @click="startInstalling()">
+			<span :style="{width: affordability + '%'}" class="absolute block pin h-full bg-blue-light-50 rounded z-0"></span>
+			<span class="relative block z-10">
+				Install <span class="inline-block rounded-full px-1 h-3 bg-light text-blue-light text-center align-bottom text-2xs font-bold" :class="{ 'bg-grey': !remaining }">{{ remaining }}/{{ total }}</span><br>
+				<span class="font-bold filter-grayscale">{{ costs.data|data }}</span>
 			</span>
 		</button>
-		<button v-else class="button bg-purple text-light italic" @click="deselectAbility()">
+		<button v-else class="button bg-blue-75 text-xs px-3 py-px text-light text-left relative w-full" @click="endSlotting()">
 			Cancel<br>install
 		</button>
 	</div>
@@ -55,12 +56,21 @@ export default {
   },
   data: function() {
     return {
-      showDialog: false
+      dialog: false
     };
   },
   computed: {
     events: function() {
       return this.getAbilityEvents(this.label);
+    },
+    installed: function() {
+      return this.getValidSlotEvents(this.label);
+    },
+    remaining: function() {
+      return this.total - this.installed.length;
+    },
+    total: function() {
+      return this.events.length;
     },
     ability: function() {
       return this.getAbility(this.label);
@@ -90,37 +100,53 @@ export default {
         ability: this.label
       };
     },
-    selectedAbility: function() {
-      return this.getInteraction("selectedAbility");
+    slotting: function() {
+      return this.getInteraction("slottingAbility");
     },
-    selectedLabel: function() {
-      return this.selectedAbility ? this.selectedAbility.label : "";
+    slottingLabel: function() {
+      return this.slotting ? this.slotting.label : "";
     },
-    selectedInstance: function() {
-      return this.selectedAbility ? this.selectedAbility.instance : "";
+    installing: function() {
+      return this.getInteraction("installingAbility");
+    },
+    installingLabel: function() {
+      return this.installing ? this.installing.label : "";
     },
     ...mapState(["abilities"]),
     ...mapGetters([
       "getAbilityEvents",
       "getAbility",
       "getSlotCosts",
+      "getValidSlotEvents",
       "getScores",
       "getInteraction"
     ])
   },
   methods: {
-    selectAbility: function(label, instance) {
-      this.showDialog = false;
+    startInstalling: function() {
+      this.dialog = true;
       this.setInteraction({
-        interaction: "selectedAbility",
-        label: label,
-        ability: this.getAbility(label),
+        interaction: "installingAbility",
+        label: this.label,
+        ability: this.getAbility(this.label)
+      });
+    },
+    endInstalling: function() {
+      this.dialog = false;
+      this.resetInteraction("installingAbility");
+    },
+    startSlotting: function(instance) {
+      this.endInstalling();
+      this.setInteraction({
+        interaction: "slottingAbility",
+        label: this.label,
+        ability: this.getAbility(this.label),
         instance: instance
       });
     },
-    deselectAbility: function() {
-      this.showDialog = false;
-      this.resetInteraction("selectedAbility");
+    endSlotting: function() {
+      this.endInstalling();
+      this.resetInteraction("slottingAbility");
     },
     ...mapActions(["setInteraction", "resetInteraction"])
   }

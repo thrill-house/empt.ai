@@ -51,10 +51,6 @@ let colors = {
   dark: "#000",
   light: "#fff",
   grey: "#ddd",
-  purple: "#403ce0",
-  sky: "#dad9fb",
-  orange: "#ff7d5c",
-  peach: "#fad9d0",
   "blue-light": "#69b5ff",
   blue: "#353d77",
   "blue-dark": "#122356",
@@ -175,6 +171,8 @@ module.exports = {
   */
 
   textSizes: {
+    "3xs": ".5625rem", // 9px
+    "2xs": ".625rem", // 10px
     xs: ".75rem", // 12px
     sm: ".875rem", // 14px
     base: "1rem", // 16px
@@ -899,6 +897,13 @@ module.exports = {
       negativeSkew: false,
       origins: false,
       variants: ["responsive", "hover"]
+    }),
+    require("tailwindcss-filters")({
+      variants: ["responsive"],
+      filters: {
+        grayscale: "grayscale(100%)"
+      },
+      backdropFilters: {}
     }),
     require("tailwindcss-layout")({
       order: {
