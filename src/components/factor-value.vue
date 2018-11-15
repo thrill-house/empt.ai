@@ -13,7 +13,7 @@ A representation of a factor with a corresponding icon and value.
 <template>
   <output v-if="value" class="factor-value inline-flex items-center text-xs font-bold text-light">
     <icon :label="label" :class="'text-' + label" class="w-4 h-4 mr-1"></icon>
-    <span class="value">+{{ prettyUnit(value, label) }}</span>
+    <span class="filter-grayscale">+{{ prettyUnit(value, label) }}</span>
   </output>
 </template>
 
@@ -37,11 +37,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-.factor-value {
-  .value {
-    @apply filter-grayscale;
-  }
-}
-</style>
