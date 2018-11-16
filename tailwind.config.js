@@ -65,8 +65,10 @@ let colors = {
 
 let backgrounds = {
   tile: "url(/assets/img/tile.svg)",
-  "dots-h": `linear-gradient(to right, ${colors["dark"]} 1px, transparent 1%)`,
-  "dots-v": `linear-gradient(${colors["dark"]} 1px, transparent 1%)`,
+  "dotted-horizontal": `linear-gradient(to right, ${
+    colors["dark"]
+  } 1px, transparent 1%)`,
+  "dotted-vertical": `linear-gradient(${colors["dark"]} 1px, transparent 1%)`,
   gradient: `radial-gradient(50% 100%, ${colors["blue"]} 2%, ${
     colors["blue-dark"]
   } 42%, ${colors["dark"]} 100%)`
