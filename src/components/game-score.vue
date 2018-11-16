@@ -7,10 +7,10 @@ The component provides a representation of the player's current game score, mean
 </docs>
 
 <template>
-  <div id="game-score" class="body">
-    <label class="label">Data</label><output class="output">{{ scores.data|data }}</output><output class="output">+{{ factors.bandwidth|bandwidth }}</output>
+  <div id="game-score" class="body text-light">
+    <label class="label">Data</label>: <output class="output">{{ scores.data|data }}</output> — <output class="output">+{{ factors.bandwidth|bandwidth }}</output>
     <hr>
-    <label class="label">Confidence</label><output class="output">{{ scores.confidence|confidence }}</output><output class="output">+{{ factors.influence|influence }}</output>
+    <label class="label">Confidence</label>: <output class="output">{{ scores.confidence|confidence }}</output> — <output class="output">+{{ factors.influence|influence }}</output>
   </div>
 </template>
 
