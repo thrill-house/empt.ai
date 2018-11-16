@@ -10,7 +10,7 @@ The enabled ability is an ability that is currently enabled within a socket.
 </docs>
 
 <template>
-  <div v-if="event && slotEvent" :class="[('bg-' + ability.type), { 'tree-match': treeMatch }]" class="enabled-ability mimic-tile hexagon w-48 h-hex*48 px-2 py-6 flex flex-col justify-between items-center">
+  <div v-if="event && slotEvent" :class="[('bg-' + ability.type), { 'tree-match': treeMatch }]" class="enabled-ability bg-tile-overlay hexagon w-48 h-hex*48 px-2 py-6 flex flex-col justify-between items-center">
 	    <div class="flex justify-between items-center w-full order-2">
   	    <div :class="['bg-' + ability.type + '-25']" class="w-24 h-24 rounded-full inline-flex flex-no-shrink items-center justify-center order-2">
     	    <icon :label="abilityLabel" class="w-16 h-16 text-light"></icon>

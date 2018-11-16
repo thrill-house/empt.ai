@@ -12,7 +12,7 @@ The ability slot is a space attached to a data sources. When an ability is assig
 <template>
   <div class="ability-slot-field" @mouseover="hover = true" @mouseout="hover = false">
     <enabled-ability v-if="event && abilityInstance && (!slottingLabel || !hover)" :instance="abilityInstance"></enabled-ability>
-    <div v-else class="ability-slot mimic-tile hexagon w-48 h-hex*48 px-2 py-6 flex flex-col justify-between content-center items-center bg-light text-light text-center" :class="[{'slotting-prompt': hover}, {'tree-match': slottingLabel && slotting.ability.type == socket.type}, 'bg-' + (slottingLabel && hover? slotting.ability.type: 'light')]">
+    <div v-else class="ability-slot bg-tile-overlay hexagon w-48 h-hex*48 px-2 py-6 flex flex-col justify-between content-center items-center bg-light text-light text-center" :class="[{'slotting-prompt': hover}, {'tree-match': slottingLabel && slotting.ability.type == socket.type}, 'bg-' + (slottingLabel && hover? slotting.ability.type: 'light')]">
       <div v-if="slottingLabel" class="w-24 h-24 rounded-full inline-flex align-center items-center justify-center order-2" :class="['bg-' + (slottingLabel && hover? slotting.ability.type: 'light') + '-25']">
         <icon v-if="slottingLabel" v-show="hover" :label="slottingLabel" class="w-16 h-16 text-light"></icon>
       </div>

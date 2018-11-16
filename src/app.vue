@@ -1,5 +1,5 @@
 <template>
-  <main id="app" class="p-8 tile" :class="{'hide-docs': docsToggle}">
+  <main id="app" class="p-8 bg-tile" :class="{'hide-docs': docsToggle}">
   <header class="w-full flex items-center text-light">
     <div class="w-32">
       <img src="/assets/img/logo.png">

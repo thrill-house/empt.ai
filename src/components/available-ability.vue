@@ -7,7 +7,7 @@ The component displays an ability that is defined within the global data store. 
 </docs>
 
 <template>
-  <div v-if="ability && eraActive" class="available-ability relative w-80 h-32 mimic-tile bg-light m-4" :class="{'z-50': interaction}" @mouseover="hover = true" @mouseout="hover = false">
+  <div v-if="ability && eraActive" class="available-ability relative w-80 h-32 bg-tile-overlay bg-light m-4" :class="{'z-50': interaction}" @mouseover="hover = true" @mouseout="hover = false">
 	  <header class="flex py-1 pl-10 h-6 relative w-full z-10">
 	    <h4 class="uppercase mr-2">{{ ability.name }}</h4>
     </header>
@@ -47,10 +47,10 @@ The component displays an ability that is defined within the global data store. 
 			<install-ability :label="label" class="w-1/2 mr-1"></install-ability>
 			<research-ability :label="label" class="w-1/2 ml-1"></research-ability>
     </div>
-    <div class="w-24 h-24 mimic-tile bg-light overflow-hidden border border-light rounded-full inline-flex flex-no-shrink items-center justify-center absolute pin-l pin-t ml-3 mt-6 z-20 order-2">
+    <div class="w-24 h-24 bg-tile-overlay bg-light overflow-hidden border border-light rounded-full inline-flex flex-no-shrink items-center justify-center absolute pin-l pin-t ml-3 mt-6 z-20 order-2">
 	    <icon :label="label" class="w-16 h-16 text-light"></icon>
     </div>
-    <div class="w-12 h-12 mimic-tile bg-light overflow-hidden border border-light rounded-full inline-flex items-center justify-center mb-2 order-1 absolute pin-t pin-l -mt-1 -ml-3">
+    <div class="w-12 h-12 bg-tile-overlay bg-light overflow-hidden border border-light rounded-full inline-flex items-center justify-center mb-2 order-1 absolute pin-t pin-l -mt-1 -ml-3">
 	    <icon :label="ability.type" :class="'text-' + ability.type" class="w-6 h-6"></icon>
     </div>
     <span class="circle-a"></span>
@@ -177,7 +177,7 @@ export default {
   }
 
   .circle-b {
-    @apply tile h-28 w-28 ml-1 mt-4;
+    @apply bg-tile h-28 w-28 ml-1 mt-4;
     z-index: 0;
   }
 }

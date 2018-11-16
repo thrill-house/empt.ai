@@ -65,17 +65,11 @@ let colors = {
 
 let backgrounds = {
   tile: "url(/assets/img/tile.svg)",
-  "dots-h":
-    "linear-gradient(to right, " + colors["dark"] + " 1px, transparent 1%)",
-  "dots-v": "linear-gradient(" + colors["dark"] + " 1px, transparent 1%)",
-  gradient:
-    "radial-gradient(50% 100%, " +
-    colors["blue"] +
-    " 2%, " +
-    colors["blue-dark"] +
-    " 42%, " +
-    colors["dark"] +
-    " 100%)"
+  "dots-h": `linear-gradient(to right, ${colors["dark"]} 1px, transparent 1%)`,
+  "dots-v": `linear-gradient(${colors["dark"]} 1px, transparent 1%)`,
+  gradient: `radial-gradient(50% 100%, ${colors["blue"]} 2%, ${
+    colors["blue-dark"]
+  } 42%, ${colors["dark"]} 100%)`
 };
 
 module.exports = {
@@ -829,11 +823,6 @@ module.exports = {
   */
 
   plugins: [
-    require("tailwindcss/plugins/container")({
-      // center: true,
-      // padding: '1rem',
-    }),
-
     require("tailwindcss-transitions")({
       properties: {
         none: "none",
@@ -925,11 +914,11 @@ module.exports = {
       variants: ["responsive"]
     }),
 
-    function({ addUtilities, config }) {
-      const clipUtilities = {
+    function({ addComponents, addUtilities, config }) {
+      let clipUtilities = {
         ".clip-corners": {
           "clip-path":
-            "polygon(0.333rem 0%, calc(100% - 0.33rem) 0%, 100% 0.333rem, 100% calc(100% - 0.33rem), calc(100% - 0.33rem) 100%, 0.333rem 100%, 0% calc(100% - 0.33rem), 0% 0.333rem)"
+            "polygon(0.32rem 0%, calc(100% - 0.32rem) 0%, 100% 0.32rem, 100% calc(100% - 0.32rem), calc(100% - 0.32rem) 100%, 0.32rem 100%, 0% calc(100% - 0.32rem), 0% 0.32rem)"
         },
         ".clip-hexagon": {
           "clip-path":
@@ -941,9 +930,9 @@ module.exports = {
         }
       };
 
-      const tileUtilities = {
-        ".tile": {
-          "background-image": backgrounds.tile + ", " + backgrounds.gradient,
+      let backgroundUtilities = {
+        ".bg-tile": {
+          "background-image": `${backgrounds.tile}, ${backgrounds.gradient}`,
           "background-position": "left top, center top",
           "background-repeat": "repeat, no-repeat",
           "background-size": "auto, cover",
@@ -951,7 +940,7 @@ module.exports = {
         }
       };
 
-      addUtilities([clipUtilities, tileUtilities], {
+      addUtilities([clipUtilities, backgroundUtilities], {
         variants: ["responsive"]
       });
     }

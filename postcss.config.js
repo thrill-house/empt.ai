@@ -20,7 +20,6 @@ module.exports = {
             valueLines.push(`  ${key}: ${value}`);
           });
           lines.push(_.join(valueLines, ",\n"));
-
           lines.push(");\n");
 
           return _.join(lines, "\n");

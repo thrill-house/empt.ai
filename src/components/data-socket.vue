@@ -11,7 +11,7 @@ The data socket is the base component that abilities are attached to. When enabl
 
 <template>
   <div class="data-socket-field py-8">
-    <div :class="'bg-' + socket.type" class="data-socket hexagon mimic-tile w-48 h-hex*48 px-2 py-6 text-center flex flex-col justify-between items-center" @mouseover="showChallenge = true" @mouseout="showChallenge = false">
+    <div :class="'bg-' + socket.type" class="data-socket hexagon bg-tile-overlay w-48 h-hex*48 px-2 py-6 text-center flex flex-col justify-between items-center" @mouseover="showChallenge = true" @mouseout="showChallenge = false">
 	    <header class="flex items-center justify-center text-center bg-grey-25 p-2 w-2/3 h-12 order-2">
 		    <h4 class="title text-light text-sm uppercase">{{ socket.name }}</h4>
 	    </header>
