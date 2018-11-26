@@ -51,16 +51,16 @@ let colors = {
   dark: "#000",
   light: "#fff",
   grey: "#ddd",
-  "blue-light": "#69b5ff",
+  sky: "#68ABE7",
   blue: "#353d77",
-  "blue-dark": "#122356",
+  navy: "#20364B",
+  midnight: "#122356",
   science: "#74ebcf",
   society: "#f4838e",
   economy: "#fbeb69",
   influence: "#76a5ff",
   bandwidth: "#94e4f8",
-  neutral: "#a6d3ff",
-  emotions: "green"
+  neutral: "#a6d3ff"
 };
 
 let backgrounds = {
@@ -70,7 +70,7 @@ let backgrounds = {
   } 1px, transparent 1%)`,
   "dotted-vertical": `linear-gradient(${colors["dark"]} 1px, transparent 1%)`,
   gradient: `radial-gradient(50% 100%, ${colors["blue"]} 2%, ${
-    colors["blue-dark"]
+    colors["midnight"]
   } 42%, ${colors["dark"]} 100%)`
 };
 
@@ -394,6 +394,9 @@ module.exports = {
     "48": "12rem",
     "64": "16rem",
     "80": "20rem",
+    "96": "24rem",
+    "128": "32rem",
+    "160": "40rem",
     "1/2": "50%",
     "1/3": "33.33333%",
     "2/3": "66.66667%",
@@ -442,6 +445,20 @@ module.exports = {
     "48": "12rem",
     "64": "16rem",
     "80": "20rem",
+    "96": "24rem",
+    "128": "32rem",
+    "160": "40rem",
+    "1/2": "50%",
+    "1/3": "33.33333%",
+    "2/3": "66.66667%",
+    "1/4": "25%",
+    "3/4": "75%",
+    "1/5": "20%",
+    "2/5": "40%",
+    "3/5": "60%",
+    "4/5": "80%",
+    "1/6": "16.66667%",
+    "5/6": "83.33333%",
     "hex*1": 0.25 * hexRatio + "rem",
     "hex*2": 0.5 * hexRatio + "rem",
     "hex*3": 0.75 * hexRatio + "rem",

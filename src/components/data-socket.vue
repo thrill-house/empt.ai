@@ -24,10 +24,10 @@ The data socket is the base component that abilities are attached to. When enabl
   		    :label="factor"
   		    :value="value.base"
   		    class="w-1/2"></factor-value>
-  		    <button v-show="showChallenge" class="bg-blue-light text-xs text-light uppercase font-bold p-2 mr-3 button">Challenge</button>
+  		    <button v-show="showChallenge" class="bg-sky text-xs text-light uppercase font-bold p-2 mr-3 button">Challenge</button>
   	    </template>
   	    <button v-else @click.once="activate" :class="{ 'cursor-wait bg-grey-50': (!affordable) }" class="relative text-xs text-light uppercase font-bold p-2 mr-3 button" :disabled="!affordable">
-    			<span :style="{width: affordability + '%'}" class="absolute block pin h-full bg-blue-light z-0"></span>
+    			<span :style="{width: affordability + '%'}" class="absolute block pin h-full bg-sky z-0"></span>
     			<span class="relative z-10">
     				<template v-if="costs.confidence > scores.confidence">Costs {{ costs.confidence|confidence }}</template>
     				<template v-else>Connect</template>

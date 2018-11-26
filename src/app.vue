@@ -203,7 +203,7 @@
       <button class="toggle" @click="toggle('emotionalProfileToggle')">Toggle</button>
       <div v-html="docs.emotionalProfile" class="docs"></div>
     </header>
-    <emotional-profile class="w-64 h-hex*64"></emotional-profile>
+    <emotional-profile class="w-128 h-128"></emotional-profile>
   </section>
   
   <!--
@@ -242,7 +242,7 @@
     :fear="emotionDiagramFearTweaker"
     :tenderness="emotionDiagramTendernessTweaker"
     :anger="emotionDiagramAngerTweaker"
-    class="w-64"></emotion-diagram>
+    class="w-128 h-128"></emotion-diagram>
   </section>
   
   <!--
@@ -610,7 +610,7 @@ export default {
       button,
       input,
       select {
-        @apply font-bold text-xs py-2 px-4 rounded bg-blue-light text-light;
+        @apply font-bold text-xs py-2 px-4 rounded bg-sky text-light;
 
         &:hover {
           @apply opacity-75;
@@ -641,7 +641,7 @@ export default {
       }
 
       .tweakers {
-        @apply border-t border-solid border-blue-dark;
+        @apply border-t border-solid border-midnight;
       }
 
       .docs {

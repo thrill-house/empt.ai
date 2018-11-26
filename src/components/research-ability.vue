@@ -10,7 +10,7 @@ The component displays options for researching an ability, when available. A but
   <div v-if="ability" class="research-ability" :class="{ 'relative z-50': dialog }">
 	  <div v-if="dialog" class="fixed pin bg-dark flex items-center justify-center">
 			<div class="w-64">
-				<div class="emotions mb-8 w-64">
+				<div class="emotions mb-8 w-64 h-64">
 					<emotion-diagram
 					  :happiness="selectedHappiness"
 					  :sadness="selectedSadness"
@@ -19,33 +19,35 @@ The component displays options for researching an ability, when available. A but
 					  :tenderness="selectedTenderness"
 					  :anger="selectedAnger"
 					  :scale="2"></emotion-diagram>
-					<div class="axis axis-happiness">
-						<input type="range" v-model.number="selectedHappiness" min="0" :max="maximumHappiness" :class="'max-' + maximumHappiness">
-						<label class="label">Happiness</label>
-					</div>
-				  <div class="axis axis-sadness">
-					  <input type="range" v-model.number="selectedSadness" min="0" :max="maximumSadness" :class="'max-' + maximumSadness">
-					  <label class="label">Sadness</label>
-				  </div>
-				  <div class="axis axis-tenderness">
-					  <input type="range" v-model.number="selectedTenderness" min="0" :max="maximumTenderness" :class="'max-' + maximumTenderness">
-					  <label class="label">Tenderness</label>
-				  </div>
-				  <div class="axis axis-anger">
-					  <input type="range" v-model.number="selectedAnger" min="0" :max="maximumAnger" :class="'max-' + maximumAnger">
-					  <label class="label">Anger</label>
-				  </div>
-				  <div class="axis axis-excitement">
-					  <input type="range" v-model.number="selectedExcitement" min="0" :max="maximumExcitement" :class="'max-' + maximumExcitement">
-					  <label class="label">Excitement</label>
-				  </div>
-				  <div class="axis axis-fear">
-					  <input type="range" v-model.number="selectedFear" min="0" :max="maximumFear" :class="'max-' + maximumFear">
-					  <label class="label">Fear</label>
-				  </div>
+          <div class="z-30">
+  					<div class="axis axis-happiness">
+  						<input type="range" v-model.number="selectedHappiness" min="0" :max="maximumHappiness" :class="'max-' + maximumHappiness">
+  						<label class="label">Happiness</label>
+  					</div>
+  				  <div class="axis axis-sadness">
+  					  <input type="range" v-model.number="selectedSadness" min="0" :max="maximumSadness" :class="'max-' + maximumSadness">
+  					  <label class="label">Sadness</label>
+  				  </div>
+  				  <div class="axis axis-tenderness">
+  					  <input type="range" v-model.number="selectedTenderness" min="0" :max="maximumTenderness" :class="'max-' + maximumTenderness">
+  					  <label class="label">Tenderness</label>
+  				  </div>
+  				  <div class="axis axis-anger">
+  					  <input type="range" v-model.number="selectedAnger" min="0" :max="maximumAnger" :class="'max-' + maximumAnger">
+  					  <label class="label">Anger</label>
+  				  </div>
+  				  <div class="axis axis-excitement">
+  					  <input type="range" v-model.number="selectedExcitement" min="0" :max="maximumExcitement" :class="'max-' + maximumExcitement">
+  					  <label class="label">Excitement</label>
+  				  </div>
+  				  <div class="axis axis-fear">
+  					  <input type="range" v-model.number="selectedFear" min="0" :max="maximumFear" :class="'max-' + maximumFear">
+  					  <label class="label">Fear</label>
+  				  </div>
+          </div>
 				</div>
 				<div class="flex justify-between">
-					<button :class="{'cursor-wait': (!enoughEmotions || !affordable)}" class="button bg-blue-light p-2 font-bold text-light relative" :disabled="!enoughEmotions || !affordable" @click="engageResearch(label)">
+					<button :class="{'cursor-wait': (!enoughEmotions || !affordable)}" class="button bg-sky p-2 font-bold text-light relative" :disabled="!enoughEmotions || !affordable" @click="engageResearch(label)">
 						<span :style="{width: affordability + '%'}" class="absolute block pin h-full bg-orange rounded z-0"></span>
 						<span class="relative block z-10">
 							<template v-if="sumEmotions != requiredEmotions">{{ sumEmotions }} / {{ requiredEmotions }} emotions</template>
@@ -58,8 +60,8 @@ The component displays options for researching an ability, when available. A but
 				</div>
 			</div>
     </div>
-    <button v-else :class="{'cursor-wait': (!affordable)}" class="button bg-blue-light-25 text-light text-left text-xs px-3 py-px relative w-full" :disabled="!affordable" @click="startResearching()">
-			<span :style="{width: affordability + '%'}" class="absolute block pin h-full bg-blue-light-50 rounded z-0"></span>
+    <button v-else :class="{'cursor-wait': (!affordable)}" class="button bg-sky-25 text-light text-left text-xs px-3 py-px relative w-full" :disabled="!affordable" @click="startResearching()">
+			<span :style="{width: affordability + '%'}" class="absolute block pin h-full bg-sky-50 rounded z-0"></span>
 			<span class="relative z-10">
 				Research<br>
 				<span class="font-bold filter-grayscale">{{ costs.confidence|confidence }}</span>
@@ -85,11 +87,11 @@ export default {
   data: function() {
     return {
       dialog: false,
-      selectedHappiness: 0,
+      selectedHappiness: 2,
       selectedSadness: 0,
       selectedTenderness: 0,
-      selectedAnger: 0,
-      selectedExcitement: 0,
+      selectedAnger: 1,
+      selectedExcitement: 1,
       selectedFear: 0,
       requiredEmotions: 4
     };
@@ -100,12 +102,12 @@ export default {
     },
     allEmotions: function() {
       return [
+        this.selectedExcitement,
         this.selectedHappiness,
         this.selectedTenderness,
-        this.selectedExcitement,
+        this.selectedFear,
         this.selectedSadness,
-        this.selectedAnger,
-        this.selectedFear
+        this.selectedAnger
       ];
     },
     sumEmotions: function() {
@@ -244,12 +246,6 @@ export default {
   .emotions {
     @apply .relative .block;
 
-    &:before {
-      @apply .block;
-      content: "";
-      padding-top: 27 / 25 * 100%;
-    }
-
     .emotion-diagram {
       @apply .absolute .pin .w-full .h-full;
     }
@@ -258,31 +254,30 @@ export default {
       @apply .absolute .-mt-1;
       left: 50%;
       top: 50%;
-      width: 50% * 27 / 25;
       transform-origin: center left;
 
+      &.axis-excitement {
+        transform: rotate(90deg - 30deg);
+      }
+
       &.axis-happiness {
-        transform: rotate(270deg);
+        transform: rotate(90deg - 90deg);
       }
 
       &.axis-tenderness {
-        transform: rotate(180deg + (30deg * 25 / 27));
-      }
-
-      &.axis-excitement {
-        transform: rotate(-30deg * 25 / 27);
-      }
-
-      &.axis-sadness {
-        transform: rotate(90deg);
+        transform: rotate(90deg - 150deg);
       }
 
       &.axis-fear {
-        transform: rotate(180deg + (-30deg * 25 / 27));
+        transform: rotate(90deg - 210deg);
+      }
+
+      &.axis-sadness {
+        transform: rotate(90deg - 270deg);
       }
 
       &.axis-anger {
-        transform: rotate(30deg * 25 / 27);
+        transform: rotate(90deg - 330deg);
       }
 
       input {

@@ -19,7 +19,7 @@ The ability slot is a space attached to a data sources. When an ability is assig
       <div v-if="slottingLabel" :class="['bg-' + (slottingLabel && hover? slotting.ability.type: 'light') + '-25']" class="w-8 h-8 rounded-full inline-flex items-center justify-center mb-2 order-1">
   	    <icon v-show="hover" :label="slotting.ability.type" :class="'text-' + slotting.ability.type" class="w-4 h-4"></icon>
       </div>
-  	  <button class="relative text-xs text-light uppercase font-bold p-2 button bg-blue-light mt-2 order-3" v-if="slottingLabel && slottingInstance" :class="{ 'opacity-0': !hover }" @click="addEvent(slottingLabel, slottingInstance)">
+  	  <button class="relative text-xs text-light uppercase font-bold p-2 button bg-sky mt-2 order-3" v-if="slottingLabel && slottingInstance" :class="{ 'opacity-0': !hover }" @click="addEvent(slottingLabel, slottingInstance)">
   	  	Install
   	  </button>
     </div>

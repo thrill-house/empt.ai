@@ -1,13 +1,4 @@
-@import "$variables";
-
-@each $c, $color in $colors {
-  @each $o, $opaque in $opacity {
-    .bg-#{$c}-#{$o},
-    %bg-#{$c}-#{$o} {
-      background-color: rgba($color, $opaque);
-    }
-  }
-}
+@import "placeholders";
 
 .button,
 .input {

@@ -20,7 +20,7 @@ The enabled ability is an ability that is currently enabled within a socket.
 			  	v-for="(value, dependency, index) in dependencies"
     	    :key="dependency"
 			  	:label="dependency" 
-			  	:class="['border-' + (hasValidSlotEvents(dependency)? 'blue-light': 'light'), { 'mt-1': (index > 0) }]"
+			  	:class="['border-' + (hasValidSlotEvents(dependency)? 'sky': 'light'), { 'mt-1': (index > 0) }]"
 			  	class="border-2"></symbiotic-ability>
   	    </div>
   	    <div class="w-8 flex-no-shrink outputs order-3 mr-px">
@@ -28,7 +28,7 @@ The enabled ability is an ability that is currently enabled within a socket.
 			  	 v-for="(value, dependant, index) in dependants"
     	    :key="dependant"
 			  	:label="dependant" 
-			  	:class="['bg-' + (hasValidSlotEvents(dependant)? 'blue-light': 'grey-50'), { 'mt-1': (index > 0) }]"></symbiotic-ability>
+			  	:class="['bg-' + (hasValidSlotEvents(dependant)? 'sky': 'grey-50'), { 'mt-1': (index > 0) }]"></symbiotic-ability>
 	      </div>
 	    </div>
 	    <div :class="['bg-' + (treeMatch? ability.type: 'grey') + '-25']" class="w-8 h-8 rounded-full inline-flex items-center justify-center mb-2 order-1">

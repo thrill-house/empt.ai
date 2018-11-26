@@ -8,8 +8,8 @@ The component displays options for selecting an ability to install in a slot. A 
 
 <template>
   <div v-if="ability && events.length" class="available-ability" :class="{ 'relative z-50': dialog }">
-	  <div v-if="dialog" class="fixed pin bg-dark flex items-center justify-center">
-		  <div class="w-64">
+	  <div v-if="dialog" class="fixed pin bg-navy-75 flex items-center justify-center">
+		  <div class="w-160 h-128 bg-navy border border-grey">
 			  <div class="mb-8 w-full flex flex-wrap">
 				  <button v-for="event in events" class="m-1" @click="startSlotting(event.instance)">
 					  <emotion-diagram
@@ -19,7 +19,7 @@ The component displays options for selecting an ability to install in a slot. A 
 						  :fear="event.fear"
 						  :tenderness="event.tenderness"
 						  :anger="event.anger"
-						  class="w-16 h-hex*16"></emotion-diagram>
+						  class="w-24 h-24"></emotion-diagram>
 				  </button>
 			  </div>
 			  <button class="button bg-blue p-2 font-bold text-light" @click="endInstalling()">
@@ -27,10 +27,10 @@ The component displays options for selecting an ability to install in a slot. A 
 				</button>
 		  </div>
 	  </div>
-    <button v-else-if="!slotting || slottingLabel !== label" :class="{ 'cursor-wait': (!affordable) }" class="button bg-blue-light-25 text-light text-left text-xs px-3 py-px relative w-full" :disabled="!affordable" @click="startInstalling()">
-			<span :style="{width: affordability + '%'}" class="absolute block pin h-full bg-blue-light-50 rounded z-0"></span>
+    <button v-else-if="!slotting || slottingLabel !== label" :class="{ 'cursor-wait': (!affordable) }" class="button bg-sky-25 text-light text-left text-xs px-3 py-px relative w-full" :disabled="!affordable" @click="startInstalling()">
+			<span :style="{width: affordability + '%'}" class="absolute block pin h-full bg-sky-50 rounded z-0"></span>
 			<span class="relative block z-10">
-				Install <span class="inline-block rounded-full px-1 h-3 bg-light text-blue-light text-center align-bottom text-2xs font-bold" :class="{ 'bg-grey': !remaining }">{{ remaining }}/{{ total }}</span><br>
+				Install <span class="inline-block rounded-full px-1 h-3 bg-light text-sky text-center align-bottom text-2xs font-bold" :class="{ 'bg-grey': !remaining }">{{ remaining }}/{{ total }}</span><br>
 				<span class="font-bold filter-grayscale">{{ costs.data|data }}</span>
 			</span>
 		</button>

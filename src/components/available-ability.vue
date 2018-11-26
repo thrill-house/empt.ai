@@ -32,7 +32,7 @@ The component displays an ability that is defined within the global data store. 
   	    :key="dependency"
   	  	:label="dependency"
   	  	:class="{ 'mx-auto -mt-2': (index == 2) }"
-  	  	class="border-2 border-blue-light"></symbiotic-ability>
+  	  	class="border-2 border-sky"></symbiotic-ability>
 	    </div>
 	    <div class="flex flex-wrap justify-between content-start w-1/2 pl-1">
   	    <symbiotic-ability
@@ -40,7 +40,7 @@ The component displays an ability that is defined within the global data store. 
   	    :key="dependant"
   	  	:label="dependant"
   	  	:class="{'mx-auto -mt-2': index == 2}"
-  	  	class="bg-blue-light"></symbiotic-ability>
+  	  	class="bg-sky"></symbiotic-ability>
 	    </div>
 	  </div>
     <div class="flex items-start justify-end z-40 pl-16 pr-2 pb-2 ml-16 h-10">
@@ -115,13 +115,13 @@ export default {
       return this.isEraActive(this.era);
     },
     install: function() {
-      return this.getInteraction("installAbility");
+      return this.getInteraction("installingAbility");
     },
     installLabel: function() {
       return this.install ? this.install.label : "";
     },
     research: function() {
-      return this.getInteraction("researchAbility");
+      return this.getInteraction("researchingAbility");
     },
     researchLabel: function() {
       return this.research ? this.research.label : "";
