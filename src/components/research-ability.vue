@@ -18,6 +18,7 @@ The component displays options for researching an ability, when available. A but
 					  :fear="selectedFear"
 					  :tenderness="selectedTenderness"
 					  :anger="selectedAnger"
+					  :hideLabels="false"
 					  :scale="2"></emotion-diagram>
           <div class="z-30">
   					<div class="axis axis-happiness">

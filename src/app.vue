@@ -203,7 +203,7 @@
       <button class="toggle" @click="toggle('emotionalProfileToggle')">Toggle</button>
       <div v-html="docs.emotionalProfile" class="docs"></div>
     </header>
-    <emotional-profile class="w-128 h-128"></emotional-profile>
+    <emotional-profile class="w-64 h-64"></emotional-profile>
   </section>
   
   <!--
@@ -235,14 +235,25 @@
         <hr>
       </div>
     </header>
-    <emotion-diagram
-    :happiness="emotionDiagramHappinessTweaker"
-    :sadness="emotionDiagramSadnessTweaker"
-    :excitement="emotionDiagramExcitementTweaker"
-    :fear="emotionDiagramFearTweaker"
-    :tenderness="emotionDiagramTendernessTweaker"
-    :anger="emotionDiagramAngerTweaker"
-    class="w-128 h-128"></emotion-diagram>
+    <emotion-diagram class="w-128 h-128"
+    :hideLabels="false"
+    :values="[{
+      happiness: 12,
+      sadness: 24,
+      excitement: 36,
+      fear: 48,
+      tenderness: 60,
+      anger: 72,
+      color: 'sky'
+    }, {
+      happiness: emotionDiagramHappinessTweaker,
+      sadness: emotionDiagramSadnessTweaker,
+      excitement: emotionDiagramExcitementTweaker,
+      fear: emotionDiagramFearTweaker,
+      tenderness: emotionDiagramTendernessTweaker,
+      anger: emotionDiagramAngerTweaker,
+      color: 'light'
+    }]"></emotion-diagram>
   </section>
   
   <!--

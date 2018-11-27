@@ -8,15 +8,9 @@ Aggregates the player's current emotional profile based on currently slotted abi
 
 <template>
   <div class="emotional-profile relative block">
-	  <emotion-diagram
-	  :happiness="happiness"
-	  :sadness="sadness"
-	  :excitement="excitement"
-	  :fear="fear"
-	  :tenderness="tenderness"
-	  :anger="anger"
-	  :scale="scale"
-	  class="w-full h-full"></emotion-diagram>
+	  <emotion-diagram class="w-full h-full"
+  	  :hideLabels="hideLabels"
+  	  :values="emotions"></emotion-diagram>
   </div>
 </template>
 
@@ -31,37 +25,19 @@ export default {
   components: {
     EmotionDiagram
   },
+  props: {
+    hideLabels: {
+      type: Boolean,
+      default: true
+    },
+    color: {
+      type: String,
+      default: "light"
+    }
+  },
   computed: {
-    scale: function() {
-      return _.max([
-        this.happiness,
-        this.sadness,
-        this.excitement,
-        this.fear,
-        this.tenderness,
-        this.anger
-      ]);
-    },
     emotions: function() {
-      return this.getEmotions();
-    },
-    happiness: function() {
-      return this.emotions.happiness;
-    },
-    excitement: function() {
-      return this.emotions.excitement;
-    },
-    anger: function() {
-      return this.emotions.anger;
-    },
-    sadness: function() {
-      return this.emotions.sadness;
-    },
-    fear: function() {
-      return this.emotions.fear;
-    },
-    tenderness: function() {
-      return this.emotions.tenderness;
+      return _.merge({ color: this.color }, this.getEmotions());
     },
     ...mapGetters(["getEmotions"])
   }

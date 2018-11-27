@@ -1,92 +1,150 @@
 <docs>
 ### Emotion diagram
-Displays the player's emotional status as a result of their currently enabled abilities on the playing field. 
+Displays the a diagram of emotions, given a single or set of value sets 
 
 ##### Instantiation
-`<emotion-diagram :happiness.number="1" :sadness.number="2" :excitement.number="3" :fear.number="4" :tenderness.number="5" :anger.number="6" :scale.number="10"></emotion-diagram>`
+```
+<emotion-diagram
+  :scale.number="10"
+  :hideLabels.boolean="true"
+  :values.object="{
+    happiness: 1,
+    sadness: 2,
+    excitement: 3,
+    fear: 4,
+    tenderness: 5,
+    anger: 6
+  }" OR :values.array="[{
+    happiness: 1,
+    sadness: 2,
+    excitement: 3,
+    fear: 4,
+    tenderness: 5,
+    anger: 6
+  },{
+    happiness: 6,
+    sadness: 5,
+    excitement: 4,
+    fear: 3,
+    tenderness: 2,
+    anger: 1
+  }]"></emotion-diagram>
+```
 </docs>
 
 <template>
-  <div class="emotion-diagram relative block bg-sky-25 rounded-full">
-	  <div class="emotion-values absolute block pin w-full h-full" style="clipPathStyle">
+  <div class="emotion-diagram relative block bg-sky-25 rounded-full" :class="{ 'mx-16': !hideLabels }">
+	  <div class="absolute block pin w-full h-full">
   	  <svg class="w-full h-full" viewBox="0 0 100 100">
-        <polygon :points="coordinatesPoints" class="text-light" fill="currentColor" fill-opacity="0.25" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke"></polygon>
-        <polyline v-for="(value, pair) in pairs"
-        :points="value.from.x + ',' + value.from.y + ' ' + value.to.x + ',' + value.to.y" fill="none" stroke="white" stroke-width="1" vector-effect="non-scaling-stroke" ></polyline>
+        <polyline v-for="(value, axis) in axes"
+          :points="joinCoordinates(createCoordinates([value.from, value.to]))"
+          class="text-light" fill="none"
+          stroke="currentColor"
+          stroke-width="1"
+          stroke-opacity="0.25"
+          vector-effect="non-scaling-stroke" ></polyline>
       </svg>
+      <span v-for="(value, axisPosition) in axisPositions"
+      class="absolute block h-4 -mt-2 px-2 text-light text-xs uppercase font-bold"
+        :class="[ axisPosition, { '-translate-x-full': value.x < 50 }]"
+        :style="{ left: value.x + '%', top: value.y + '%' }">{{ showLabels? axisPosition: (!hideLabels? '?': '') }}</span>
     </div>
-	  <span v-for="(value, position) in positions"
-    :key="position"
-    :class="position"
-    class="absolute block w-2 h-2 -ml-1 -mt-1 rounded-full bg-light text-grey"
-    :style="{ left: value.x + '%', top: value.y + '%', transform: 'scale(' + value.ratio + ')' }"></span>
+    <emotion-values v-for="(value, index) in valuesList"
+      :key="index"
+      :emotions="value"
+      :color="value.color || color"
+      :scale="maxScale"></emotion-values>
   </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 import store from "../store";
 import _ from "lodash";
 import math from "mathjs";
+import EmotionValues from "./emotion-values.vue";
 
 export default {
   name: "emotion-diagram",
   store,
+  components: {
+    EmotionValues
+  },
   props: {
-    happiness: Number,
-    sadness: Number,
-    excitement: Number,
-    fear: Number,
-    tenderness: Number,
-    anger: Number,
-    scale: Number
+    values: {
+      type: [Object, Array],
+      validator: function(value) {
+        var valuesArray = !_.isArray(value) ? [value] : value,
+          required = [
+            "happiness",
+            "sadness",
+            "excitement",
+            "fear",
+            "tenderness",
+            "anger"
+          ],
+          valid = true;
+
+        _.each(valuesArray, function(values) {
+          if (!_.every(required, _.partial(_.has, values))) {
+            return (valid = false);
+          }
+        });
+
+        return valid;
+      }
+    },
+    scale: Number,
+    color: {
+      type: String,
+      default: "light"
+    },
+    hideLabels: {
+      type: Boolean,
+      default: true
+    }
   },
   computed: {
+    valuesList: function() {
+      return !_.isArray(this.values) ? [this.values] : this.values;
+    },
+    allMax: function() {
+      return _.map(this.valuesList, function(values) {
+        return _.max(_.filter(_.values(values), _.isFinite));
+      });
+    },
     max: function() {
-      return _.max([
-        this.happiness,
-        this.sadness,
-        this.excitement,
-        this.fear,
-        this.tenderness,
-        this.anger
-      ]);
+      return _.max(this.allMax);
     },
     maxScale: function() {
       return this.scale || this.max;
     },
-    positions: function() {
+    axisPositions: function() {
       return {
-        excitement: this.calculateRatio(this.excitement, 30),
-        happiness: this.calculateRatio(this.happiness, 90),
-        tenderness: this.calculateRatio(this.tenderness, 150),
-        fear: this.calculateRatio(this.fear, 210),
-        sadness: this.calculateRatio(this.sadness, 270),
-        anger: this.calculateRatio(this.anger, 330)
+        excitement: this.calculateRatio(this.maxScale, 30),
+        happiness: this.calculateRatio(this.maxScale, 90),
+        tenderness: this.calculateRatio(this.maxScale, 150),
+        fear: this.calculateRatio(this.maxScale, 210),
+        sadness: this.calculateRatio(this.maxScale, 270),
+        anger: this.calculateRatio(this.maxScale, 330)
       };
     },
-    pairs: function() {
-      return this.createPairs(this.positions);
+    axes: function() {
+      var happinessSadness = this.createPairs(
+          _.pick(this.axisPositions, ["happiness", "sadness"])
+        ),
+        excitementFear = this.createPairs(
+          _.pick(this.axisPositions, ["excitement", "fear"])
+        ),
+        tendernessAnger = this.createPairs(
+          _.pick(this.axisPositions, ["tenderness", "anger"])
+        );
+      return _.merge({}, happinessSadness, excitementFear, tendernessAnger);
     },
-    coordinates: function() {
-      return _.map(this.positions, function(value, position) {
-        return [value.x, value.y];
-      });
+    showLabels: function() {
+      return this.getLabelsEnabled() && !this.hideLabels;
     },
-    coordinatesPoints: function() {
-      return this.joinCoordinates(this.coordinates, "", ",", " ");
-    },
-    clipPath: function() {
-      return (
-        "polygon(" + this.joinCoordinates(this.coordinates, "%", " ", ",") + ")"
-      );
-    },
-    clipPathStyle: function() {
-      return {
-        "clip-path": this.clipPath,
-        "-webkit-clip-path": this.clipPath
-      };
-    }
+    ...mapGetters(["getLabelsEnabled"])
   },
   methods: {
     calculateRatio: function(emotion, degree) {
@@ -96,12 +154,16 @@ export default {
         maxRatio = this.max / this.maxScale,
         emotionRatio = emotion / this.max,
         halfScale = this.maxScale / 2,
-        maxX = 50 * circleSin,
-        maxY = 50 * circleCos,
-        posX = 50 + maxX * maxRatio * emotionRatio,
-        posY = 50 + maxY * maxRatio * emotionRatio;
+        axisX = 50 * circleSin,
+        axisY = 50 * circleCos,
+        x = axisX * maxRatio * emotionRatio + 50,
+        y = axisY * maxRatio * emotionRatio + 50;
 
-      return { x: posX, y: posY, ratio: emotionRatio };
+      return {
+        x: x,
+        y: y,
+        ratio: emotionRatio
+      };
     },
     createPairs: function(positions) {
       var paired = _.transform(
@@ -121,14 +183,19 @@ export default {
 
       return paired;
     },
+    createCoordinates: function(positions, x = "x", y = "y") {
+      return _.map(positions, function(value, position) {
+        return [value[x], value[y]];
+      });
+    },
     joinCoordinates: function(
       coordinates,
       postFix = "",
-      pointsJoin,
-      coordinatesJoin
+      pointsJoin = ",",
+      coordinatesJoin = " "
     ) {
       return _.join(
-        _.map(this.coordinates, function(value, coordinate) {
+        _.map(coordinates, function(value, coordinate) {
           return _.join(
             _.map(value, function(val) {
               return val + postFix;

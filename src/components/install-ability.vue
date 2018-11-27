@@ -10,6 +10,9 @@ The component displays options for selecting an ability to install in a slot. A 
   <div v-if="ability && events.length" class="available-ability" :class="{ 'relative z-50': dialog }">
 	  <div v-if="dialog" class="fixed pin bg-navy-75 flex items-center justify-center">
 		  <div class="w-160 h-128 bg-navy border border-grey">
+			  <emotional-profile class="w-64 h-64"
+			  :hideLabels="false">
+			  </emotional-profile>
 			  <div class="mb-8 w-full flex flex-wrap">
 				  <button v-for="event in events" class="m-1" @click="startSlotting(event.instance)">
 					  <emotion-diagram
@@ -43,12 +46,14 @@ The component displays options for selecting an ability to install in a slot. A 
 <script>
 import { mapState, mapGetters, mapActions } from "vuex";
 import store from "../store";
+import EmotionalProfile from "./emotional-profile.vue";
 import EmotionDiagram from "./emotion-diagram.vue";
 
 export default {
   name: "available-ability",
   store,
   components: {
+    EmotionalProfile,
     EmotionDiagram
   },
   props: {

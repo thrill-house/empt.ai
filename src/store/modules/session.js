@@ -350,6 +350,7 @@ const state = {
   now: _.now(),
   interval: false,
   events: debugEvents,
+  labelsEnabled: false,
   interactions: {
     researchingAbility: false,
     installingAbility: false,
@@ -467,6 +468,9 @@ const getters = {
   },
   getInteraction: state => label => {
     return state.interactions[label];
+  },
+  getLabelsEnabled: state => () => {
+    return state.labelsEnabled;
   }
 };
 

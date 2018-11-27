@@ -10,6 +10,17 @@ import abilities from "./modules/abilities";
 
 Vue.use(Vuex);
 
+Vue.mixin({
+  props: {
+    uid: {
+      type: String,
+      default: function() {
+        return "uid-" + this._uid;
+      }
+    }
+  }
+});
+
 export default new Vuex.Store({
   modules: {
     session,
