@@ -171,12 +171,14 @@ export default {
         type: "ability",
         label: this.label,
         target: false,
-        happiness: this.selectedHappiness,
-        sadness: this.selectedSadness,
-        tenderness: this.selectedTenderness,
-        anger: this.selectedAnger,
-        excitement: this.selectedExcitement,
-        fear: this.selectedFear
+        emotions: {
+          happiness: this.selectedHappiness,
+          sadness: this.selectedSadness,
+          tenderness: this.selectedTenderness,
+          anger: this.selectedAnger,
+          excitement: this.selectedExcitement,
+          fear: this.selectedFear
+        }
       };
     },
     ...mapState(["abilities"]),

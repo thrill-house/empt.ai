@@ -133,7 +133,7 @@ const getters = {
       );
 
       _.each(emotions, function(emotion, key) {
-        emotions[key] += abilityEvent[key];
+        emotions[key] += abilityEvent["emotions"][key];
       });
     });
 

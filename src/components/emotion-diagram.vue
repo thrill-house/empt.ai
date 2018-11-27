@@ -28,7 +28,7 @@ Displays the a diagram of emotions, given a single or set of value sets
     fear: 3,
     tenderness: 2,
     anger: 1
-  }]"></emotion-diagram>
+  }]">Optional label</emotion-diagram>
 ```
 </docs>
 
@@ -54,6 +54,7 @@ Displays the a diagram of emotions, given a single or set of value sets
       :emotions="value"
       :color="value.color || color"
       :scale="maxScale"></emotion-values>
+    <slot></slot>
   </div>
 </template>
 

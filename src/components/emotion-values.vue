@@ -80,12 +80,10 @@ export default {
       return _.max(_.filter(_.values(this.emotions), _.isFinite));
     },
     maxScale: function() {
-      console.log(this.scale || this.max);
       return this.scale || this.max;
     },
     positions: function() {
       var emotions = this.emotions;
-      console.log(emotions);
       return {
         excitement: this.calculateRatio(emotions.excitement, 30),
         happiness: this.calculateRatio(emotions.happiness, 90),
