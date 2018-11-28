@@ -55,6 +55,7 @@
     "tailwindcss-transforms": "^1.0.2",
     "tailwindcss-transitions": "^1.0.4",
     "vue": "^2.5.17",
+    "vue-i18n": "^8.3.2",
     "vue-loader": "^13.7.3",
     "vue-localstorage": "^0.6.2",
     "vue-template-compiler": "^2.5.17",

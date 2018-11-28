@@ -11,31 +11,33 @@ The component displays options for selecting an ability to install in a slot. A 
 	  <div v-if="dialog" class="fixed pin bg-navy-75 flex items-center justify-center z-20">
 		  <article class="relative w-160 h-128 bg-navy border border-grey">
   		  <header class="px-6 pt-6">
-    		  <h4 class="uppercase">{{ ability.name }}</h4>
+    		  
   		  </header>
   		  <div class="flex justify-center">
   			  <div class="w-32 py-3 pl-6">
+            <h4 class="uppercase mb-3">{{ ability.name }}</h4>
             <div class="w-24 h-24 bg-sky-25 overflow-hidden rounded-full inline-flex flex-no-shrink items-center justify-center">
               <icon :label="label" class="w-16 h-16 text-light"></icon>
             </div>
   			  </div>
-  			  <div class="w-96 py-3 flex justify-center">
+  			  <div class="w-96 py-3 flex- justify-center-">
+    			  <h4 class="uppercase text-center mb-3">{{ $t('Preview') }}</h4>
     			  <emotion-diagram class="w-64 h-64"
       			  :values="values"
       			  :hideLabels="false"></emotion-diagram>
   			  </div>
   			  <div class="w-32 py-3 pr-6 text-right">
     			  <button v-if="selectedEvent" class="button bg-sky px-4 py-2 mb-4 font-bold text-light" @click="startSlotting(selectedEvent.instance)">
-    					Install
+    					{{ $t('Install') }}
     				</button>
     			  <button class="button bg-blue px-4 py-2 font-bold text-light" @click="endInstalling();">
-    					Cancel
+    					{{ $t('Cancel') }}
     				</button>
   			  </div>
   		  </div>
   		  <div class="py-3 w-full flex flex-wrap justify-center">
   			  <button v-for="event in events"
-  			    class="m-1 outline-none"
+  			    class="m-1 outline-none border-0"
   			    :class="{ 'opacity-75': isInstanceInstalled(event) }"
   			    @click="selectInstance(event)"
   			    @mouseover="highlightInstance(event)"
@@ -59,12 +61,12 @@ The component displays options for selecting an ability to install in a slot. A 
     <button v-if="!slotting || slottingLabel !== label" :class="{ 'cursor-wait': (!affordable) }" class="button bg-sky-25 text-light text-left text-xs px-3 py-px relative w-full z-10" :disabled="!affordable" @click="startInstalling()">
 			<span :style="{width: affordability + '%'}" class="absolute block pin h-full bg-sky-50 rounded z-0"></span>
 			<span class="relative block z-10">
-				Install <span class="inline-block rounded-full px-1 h-3 bg-light text-sky text-center align-bottom text-2xs font-bold" :class="{ 'bg-grey': !remaining }">{{ remaining }}/{{ total }}</span><br>
+				{{ $t('Install') }} <span class="inline-block rounded-full px-1 h-3 bg-light text-sky text-center align-bottom text-2xs font-bold" :class="{ 'bg-grey': !remaining }">{{ remaining }}/{{ total }}</span><br>
 				<span class="font-bold filter-grayscale">{{ costs.data|data }}</span>
 			</span>
 		</button>
 		<button v-else class="button bg-blue-75 text-xs px-3 py-px text-light text-left relative w-full" @click="endSlotting()">
-			Cancel<br>install
+			{{ $t('Cancel {item}', { item: $t('installation')} ) }}
 		</button>
 	</div>
 </template>
@@ -141,9 +143,7 @@ export default {
       combineEmotions =
         this.isInstanceInstalled(this.highlightedEvent) ||
         this.isInstanceInstalled(this.selectedEvent)
-          ? _.mapValues(combineEmotions, function(n) {
-              return 0;
-            })
+          ? _.mapValues(combineEmotions, () => 0)
           : combineEmotions;
 
       return combineEmotions
@@ -207,15 +207,23 @@ export default {
       } else {
         this.deselectInstance();
       }
+
+      return false;
     },
     deselectInstance: function() {
       this.selectedEvent = false;
+
+      return false;
     },
     highlightInstance: function(event) {
       this.highlightedEvent = event;
+
+      return false;
     },
     lowlightInstance: function() {
       this.highlightedEvent = false;
+
+      return false;
     },
     startInstalling: function() {
       this.dialog = true;
@@ -224,12 +232,16 @@ export default {
         label: this.label,
         ability: this.getAbility(this.label)
       });
+
+      return false;
     },
     endInstalling: function() {
       this.dialog = false;
       this.highlightedEvent = false;
       this.selectedEvent = false;
       this.resetInteraction("installingAbility");
+
+      return false;
     },
     startSlotting: function(instance) {
       this.endInstalling();
@@ -239,10 +251,14 @@ export default {
         ability: this.getAbility(this.label),
         instance: instance
       });
+
+      return false;
     },
     endSlotting: function() {
       this.endInstalling();
       this.resetInteraction("slottingAbility");
+
+      return false;
     },
     ...mapActions(["setInteraction", "resetInteraction"])
   }
