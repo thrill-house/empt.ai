@@ -138,9 +138,15 @@ export default {
       var combineEmotions =
         this.highlightedEvent.emotions || this.selectedEvent.emotions;
 
-      return !this.isInstanceInstalled(this.highlightedEvent) &&
-        !this.isInstanceInstalled(this.selectedEvent) &&
-        combineEmotions
+      combineEmotions =
+        this.isInstanceInstalled(this.highlightedEvent) ||
+        this.isInstanceInstalled(this.selectedEvent)
+          ? _.mapValues(combineEmotions, function(n) {
+              return 0;
+            })
+          : combineEmotions;
+
+      return combineEmotions
         ? _.transform(
             this.emotions,
             function(result, value, key) {
