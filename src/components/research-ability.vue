@@ -8,63 +8,75 @@ The component displays options for researching an ability, when available. A but
 
 <template>
   <div v-if="ability" class="research-ability" :class="{ 'relative z-50': dialog }">
-	  <div v-if="dialog" class="fixed pin bg-dark flex items-center justify-center">
-			<div class="w-64">
-				<div class="emotions mb-8 w-64 h-64">
-					<emotion-diagram
-					  :happiness="selectedHappiness"
-					  :sadness="selectedSadness"
-					  :excitement="selectedExcitement"
-					  :fear="selectedFear"
-					  :tenderness="selectedTenderness"
-					  :anger="selectedAnger"
-					  :hideLabels="false"
-					  :scale="2"></emotion-diagram>
-          <div class="z-30">
-  					<div class="axis axis-happiness">
-  						<input type="range" v-model.number="selectedHappiness" min="0" :max="maximumHappiness" :class="'max-' + maximumHappiness">
-  						<label class="label">Happiness</label>
-  					</div>
-  				  <div class="axis axis-sadness">
-  					  <input type="range" v-model.number="selectedSadness" min="0" :max="maximumSadness" :class="'max-' + maximumSadness">
-  					  <label class="label">Sadness</label>
-  				  </div>
-  				  <div class="axis axis-tenderness">
-  					  <input type="range" v-model.number="selectedTenderness" min="0" :max="maximumTenderness" :class="'max-' + maximumTenderness">
-  					  <label class="label">Tenderness</label>
-  				  </div>
-  				  <div class="axis axis-anger">
-  					  <input type="range" v-model.number="selectedAnger" min="0" :max="maximumAnger" :class="'max-' + maximumAnger">
-  					  <label class="label">Anger</label>
-  				  </div>
-  				  <div class="axis axis-excitement">
-  					  <input type="range" v-model.number="selectedExcitement" min="0" :max="maximumExcitement" :class="'max-' + maximumExcitement">
-  					  <label class="label">Excitement</label>
-  				  </div>
-  				  <div class="axis axis-fear">
-  					  <input type="range" v-model.number="selectedFear" min="0" :max="maximumFear" :class="'max-' + maximumFear">
-  					  <label class="label">Fear</label>
-  				  </div>
-          </div>
-				</div>
+	  <div v-if="dialog" class="fixed pin bg-navy-75 flex items-center justify-center z-20">
+			<article class="relative w-192 h-128 py-3 bg-navy border border-grey">
+				<header class="install-ability__header flex justify-between px-6 py-3">
+    		  <button class="button text-lg text-light uppercase font-bold bg-light-25 px-4 py-2" @click="endResearching(); $parent.$emit('install')">{{ $t('Install') }}</button>
+    		  <div class="button text-lg text-navy uppercase font-bold px-4 py-2 bg-light">{{ $t('Research') }}</div>
+  		  </header>
 				<div class="flex justify-between">
-					<button :class="{'cursor-wait': (!enoughEmotions || !affordable)}" class="button bg-sky p-2 font-bold text-light relative" :disabled="!enoughEmotions || !affordable" @click="engageResearch(label)">
-						<span :style="{width: affordability + '%'}" class="absolute block pin h-full bg-orange rounded z-0"></span>
-						<span class="relative block z-10">
-							<template v-if="sumEmotions != requiredEmotions">{{ sumEmotions }} / {{ requiredEmotions }} emotions</template>
-							<template v-else>Confirm research</template>
-						</span>
-					</button>
-					<button class="button bg-blue p-2 font-bold text-light" @click="endResearching()">
-						Cancel
-					</button>
+					<div class="w-1/4 py-3 pl-6">
+            <h4 class="uppercase mb-3">{{ ability.name }}</h4>
+            <div class="w-24 h-24 bg-sky-25 overflow-hidden rounded-full inline-flex flex-no-shrink items-center justify-center">
+              <icon :label="label" class="w-16 h-16 text-light"></icon>
+            </div>
+  			  </div>
+					<div class="w-1/2 py-3">
+  					<emotion-diagram
+  					  :values="{
+    					  happiness: selectedHappiness || 0.1,
+    					  sadness: selectedSadness || 0.1,
+    					  excitement: selectedExcitement || 0.1,
+    					  fear: selectedFear || 0.1,
+    					  tenderness: selectedTenderness || 0.1,
+    					  anger: selectedAnger || 0.1
+  					  }"
+  					  :hideLabels="false"
+  					  :scale="2"
+  					  class="w-64 h-64">
+  					  <template slot="happiness">
+                <input type="number" v-model.number="selectedHappiness" min="0" :max="maximumHappiness" :class="'max-' + maximumHappiness">
+              </template>
+              <template slot="sadness">
+                <input type="number" v-model.number="selectedSadness" min="0" :max="maximumSadness" :class="'max-' + maximumSadness">
+              </template>
+              <template slot="tenderness">
+                <input type="number" v-model.number="selectedTenderness" min="0" :max="maximumTenderness" :class="'max-' + maximumTenderness">
+              </template>
+              <template slot="anger">
+                <input type="number" v-model.number="selectedAnger" min="0" :max="maximumAnger" :class="'max-' + maximumAnger">
+              </template>
+              <template slot="excitement">
+                <input type="number" v-model.number="selectedExcitement" min="0" :max="maximumExcitement" :class="'max-' + maximumExcitement">
+              </template>
+              <template slot="fear">
+                <input type="number" v-model.number="selectedFear" min="0" :max="maximumFear" :class="'max-' + maximumFear">
+              </template>
+            </emotion-diagram>
+					</div>
+          <div class="w-1/4 flex flex-col items-end justify-between py-3 pr-6">
+    			  <div class="flex flex-col">
+          		<button :disabled="sumEmotions !== requiredEmotions" :class="{ 'opacity-10': sumEmotions !== requiredEmotions }" class="button uppercase bg-sky px-4 py-2 mb-4 font-bold text-light" @click="engageResearch(label)">
+    						{{ $t('Confirm') }}
+    					</button>
+    					<button class="button uppercase bg-blue px-4 py-2 font-bold text-light" @click="endResearching()">
+    						{{ $t('Cancel') }}
+    					</button>
+    			  </div>
+    				<div class="bg-sky-25 px-4 py-2 clip-2-corners w-full">
+      				<h4 class="uppercase text-sm mb-2">{{ $t('Research cost') }}</h4>
+      				<div>
+        				<factor-value v-for="(value, cost) in costs" :key="cost" :label="cost" :value="value" class="h-4 mb-1"></factor-value>
+      				</div>
+    				</div>
+  			  </div>
 				</div>
-			</div>
+			</article>
     </div>
     <button v-else :class="{'cursor-wait': (!affordable)}" class="button bg-sky-25 text-light text-left text-xs px-3 py-px relative w-full" :disabled="!affordable" @click="startResearching()">
 			<span :style="{width: affordability + '%'}" class="absolute block pin h-full bg-sky-50 rounded z-0"></span>
 			<span class="relative z-10">
-				Research<br>
+				{{ $t('Research') }}<br>
 				<span class="font-bold filter-grayscale">{{ costs.confidence|confidence }}</span>
 			</span>
 		</button>
@@ -74,12 +86,16 @@ The component displays options for researching an ability, when available. A but
 <script>
 import { mapState, mapGetters, mapActions } from "vuex";
 import store from "../store";
+import Icon from "./icon.vue";
+import FactorValue from "./factor-value.vue";
 import EmotionDiagram from "./emotion-diagram.vue";
 
 export default {
   name: "available-ability",
   store,
   components: {
+    Icon,
+    FactorValue,
     EmotionDiagram
   },
   props: {

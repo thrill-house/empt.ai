@@ -7,7 +7,7 @@
     <div class="docs keep p-4">
       <h1>Project EMPATIC — Vue components</h1>
       <h2>Component library of user interface elements.</h2>
-      <button class="font-bold text-xs mt-4 mr-4 py-2 px-4 rounded bg-orange text-light" @click="toggleDocs()">{{ docsToggle? 'Show': 'Hide' }} documentation</button>
+      <button class="font-bold text-xs mt-4 mr-4 py-2 px-4 rounded bg-sky text-light" @click="toggleDocs()">{{ docsToggle? 'Show': 'Hide' }} documentation</button>
     </div>
   </header>
   

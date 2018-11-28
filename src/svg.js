@@ -1,9 +1,11 @@
-require("../assets/img/neutral.svg");
-require("../assets/img/economy.svg");
-require("../assets/img/science.svg");
-require("../assets/img/society.svg");
-require("../assets/img/influence.svg");
-require("../assets/img/bandwidth.svg");
+import neutral from "../assets/img/neutral.svg";
+import economy from "../assets/img/economy.svg";
+import science from "../assets/img/science.svg";
+import society from "../assets/img/society.svg";
+import influence from "../assets/img/influence.svg";
+import confidence from "../assets/img/confidence.svg";
+import bandwidth from "../assets/img/bandwidth.svg";
+import data from "../assets/img/data.svg";
 
 require("../assets/img/chat-buddy.svg");
 require("../assets/img/crypto-mining.svg");

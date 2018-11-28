@@ -7,50 +7,59 @@ The component displays options for selecting an ability to install in a slot. A 
 </docs>
 
 <template>
-  <div v-if="ability && events.length" class="available-ability" :class="{ 'relative z-50': dialog }">
+  <div v-if="ability && events.length" class="install-ability" :class="{ 'relative z-50': dialog }">
 	  <div v-if="dialog" class="fixed pin bg-navy-75 flex items-center justify-center z-20">
-		  <article class="relative w-160 h-128 bg-navy border border-grey">
-  		  <header class="px-6 pt-6">
-    		  
+		  <article class="relative w-192 h-128 py-3 bg-navy border border-grey">
+  		  <header class="install-ability__header flex justify-between px-6 py-3">
+    		  <div class="button text-lg text-navy uppercase font-bold bg-light px-4 py-2">{{ $t('Install') }}</div>
+    		  <button class="button text-lg text-light uppercase font-bold px-4 py-2 bg-light-25"
+    		  @click="endInstalling(); $parent.$emit('research')">{{ $t('Research') }}</button>
   		  </header>
-  		  <div class="flex justify-center">
-  			  <div class="w-32 py-3 pl-6">
+  		  <div class="flex justify-between">
+  			  <div class="w-1/4 py-3 pl-6">
             <h4 class="uppercase mb-3">{{ ability.name }}</h4>
             <div class="w-24 h-24 bg-sky-25 overflow-hidden rounded-full inline-flex flex-no-shrink items-center justify-center">
               <icon :label="label" class="w-16 h-16 text-light"></icon>
             </div>
   			  </div>
-  			  <div class="w-96 py-3 flex- justify-center-">
-    			  <h4 class="uppercase text-center mb-3">{{ $t('Preview') }}</h4>
+  			  <div class="w-1/2 py-3">
     			  <emotion-diagram class="w-64 h-64"
       			  :values="values"
       			  :hideLabels="false"></emotion-diagram>
   			  </div>
-  			  <div class="w-32 py-3 pr-6 text-right">
-    			  <button v-if="selectedEvent" class="button bg-sky px-4 py-2 mb-4 font-bold text-light" @click="startSlotting(selectedEvent.instance)">
-    					{{ $t('Install') }}
-    				</button>
-    			  <button class="button bg-blue px-4 py-2 font-bold text-light" @click="endInstalling();">
-    					{{ $t('Cancel') }}
-    				</button>
+  			  <div class="w-1/4 flex flex-col items-end justify-between py-3 pr-6">
+    			  <div class="flex flex-col">
+      			  <button :disabled="!selectedEvent" :class="{ 'opacity-10': !selectedEvent }" class="button uppercase bg-sky px-4 py-2 mb-4 font-bold text-light" @click="startSlotting(selectedEvent.instance)">
+      					{{ $t('Install') }}
+      				</button>
+      			  <button class="button uppercase bg-blue px-4 py-2 font-bold text-light" @click="endInstalling()">
+      					{{ $t('Cancel') }}
+      				</button>
+    			  </div>
+    				<div class="bg-sky-25 px-4 py-2 clip-2-corners w-full">
+      				<h4 class="uppercase text-sm mb-2">{{ $t('Install cost') }}</h4>
+      				<div>
+        				<factor-value v-for="(value, cost) in costs" :key="cost" :label="cost" :value="value" class="h-4 mb-1"></factor-value>
+      				</div>
+    				</div>
   			  </div>
   		  </div>
   		  <div class="py-3 w-full flex flex-wrap justify-center">
   			  <button v-for="event in events"
-  			    class="m-1 outline-none border-0"
-  			    :class="{ 'opacity-75': isInstanceInstalled(event) }"
-  			    @click="selectInstance(event)"
-  			    @mouseover="highlightInstance(event)"
-  			    @mouseout="lowlightInstance()">
+  			    class="m-1 outline-none"
+  			    :class="{ 'opacity-75': isInstalled(event) }"
+  			    @click="select(event)"
+  			    @mouseover="highlight(event)"
+  			    @mouseout="lowlight()">
   				    <emotion-diagram class="w-24 h-24"
       				  :values="event.emotions"
-      				  :color="isInstanceInstalled(event) && !isInstanceSelected(event)? 'sky': 'light'"
-      				  :class="{ 'border border-light': isInstanceSelected(event) }">
+      				  :color="isInstalledDeselected(event)? 'sky': 'light'"
+      				  :class="{ 'border border-light': isSelected(event) }">
       				  <div class="w-full h-full flex items-center justify-center rounded-full z-30 relative"
-        				  :class="[(isInstanceSelected(event)? 'bg-light-25': isInstanceInstalled(event)? 'bg-sky-25': '')]">
+        				  :class="[(isSelected(event)? 'bg-light-25': isInstalled(event)? 'bg-sky-25': '')]">
       				    <span class="uppercase text-xs font-bold text-light p-1"
-        				    :class="[(isInstanceSelected(event)? 'text-navy': isInstanceInstalled(event)? 'text-light': '')]">
-        				      {{ isInstanceInstalled(event) && !isInstanceSelected(event)? 'Installed': (isInstanceSelected(event)? 'Selected': '') }}
+        				    :class="[(isSelected(event)? 'text-navy': isInstalled(event)? 'text-light': '')]">
+        				      {{ isInstalledDeselected(event)? $t('Installed'): (isSelected(event)? $t('Selected'): '') }}
         				  </span>
       				  </div>
       				</emotion-diagram>
@@ -58,11 +67,18 @@ The component displays options for selecting an ability to install in a slot. A 
   		  </div>
 		  </article>
 	  </div>
-    <button v-if="!slotting || slottingLabel !== label" :class="{ 'cursor-wait': (!affordable) }" class="button bg-sky-25 text-light text-left text-xs px-3 py-px relative w-full z-10" :disabled="!affordable" @click="startInstalling()">
-			<span :style="{width: affordability + '%'}" class="absolute block pin h-full bg-sky-50 rounded z-0"></span>
+    <button v-if="!slotting || slottingLabel !== label"
+      :class="{ 'cursor-wait': (!affordable) }"
+      class="button bg-sky-25 text-light text-left text-xs px-3 py-px relative w-full z-10"
+      :disabled="!affordable"
+      @click="startInstalling()">
+			<span class="absolute block pin h-full bg-sky-50 rounded z-0"
+			  :style="{width: affordability + '%'}" ></span>
 			<span class="relative block z-10">
-				{{ $t('Install') }} <span class="inline-block rounded-full px-1 h-3 bg-light text-sky text-center align-bottom text-2xs font-bold" :class="{ 'bg-grey': !remaining }">{{ remaining }}/{{ total }}</span><br>
-				<span class="font-bold filter-grayscale">{{ costs.data|data }}</span>
+				{{ $t('Install') }}
+				<span class="inline-block rounded-full px-1 h-3 bg-light text-sky text-center align-bottom text-2xs font-bold"
+				:class="{ 'bg-grey': !remaining }">{{ remaining }}/{{ total }}</span>
+				<br><span class="font-bold filter-grayscale">{{ costs.data|data }}</span>
 			</span>
 		</button>
 		<button v-else class="button bg-blue-75 text-xs px-3 py-px text-light text-left relative w-full" @click="endSlotting()">
@@ -75,6 +91,7 @@ The component displays options for selecting an ability to install in a slot. A 
 import { mapState, mapGetters, mapActions } from "vuex";
 import store from "../store";
 import Icon from "./icon.vue";
+import FactorValue from "./factor-value.vue";
 import EmotionalProfile from "./emotional-profile.vue";
 import EmotionDiagram from "./emotion-diagram.vue";
 
@@ -83,6 +100,7 @@ export default {
   store,
   components: {
     Icon,
+    FactorValue,
     EmotionalProfile,
     EmotionDiagram
   },
@@ -141,8 +159,8 @@ export default {
         this.highlightedEvent.emotions || this.selectedEvent.emotions;
 
       combineEmotions =
-        this.isInstanceInstalled(this.highlightedEvent) ||
-        this.isInstanceInstalled(this.selectedEvent)
+        this.isInstalled(this.highlightedEvent) ||
+        this.isInstalled(this.selectedEvent)
           ? _.mapValues(combineEmotions, () => 0)
           : combineEmotions;
 
@@ -193,37 +211,32 @@ export default {
     ])
   },
   methods: {
-    isInstanceSelected: function(event) {
+    isSelected: function(event) {
       return event ? this.selectedEvent.instance === event.instance : false;
     },
-    isInstanceInstalled: function(event) {
+    isInstalled: function(event) {
       return event
         ? _.includes(this.installedInstances, event.instance)
         : false;
     },
-    selectInstance: function(event) {
+    isInstalledDeselected: function(event) {
+      return this.isInstalled(event) && !this.isSelected(event);
+    },
+    select: function(event) {
       if (this.selectedEvent !== event) {
         this.selectedEvent = event;
       } else {
-        this.deselectInstance();
+        this.deselect();
       }
-
-      return false;
     },
-    deselectInstance: function() {
+    deselect: function() {
       this.selectedEvent = false;
-
-      return false;
     },
-    highlightInstance: function(event) {
+    highlight: function(event) {
       this.highlightedEvent = event;
-
-      return false;
     },
-    lowlightInstance: function() {
+    lowlight: function() {
       this.highlightedEvent = false;
-
-      return false;
     },
     startInstalling: function() {
       this.dialog = true;
@@ -232,16 +245,12 @@ export default {
         label: this.label,
         ability: this.getAbility(this.label)
       });
-
-      return false;
     },
     endInstalling: function() {
       this.dialog = false;
-      this.highlightedEvent = false;
-      this.selectedEvent = false;
+      this.deselect();
+      this.lowlight();
       this.resetInteraction("installingAbility");
-
-      return false;
     },
     startSlotting: function(instance) {
       this.endInstalling();
@@ -251,14 +260,10 @@ export default {
         ability: this.getAbility(this.label),
         instance: instance
       });
-
-      return false;
     },
     endSlotting: function() {
       this.endInstalling();
       this.resetInteraction("slottingAbility");
-
-      return false;
     },
     ...mapActions(["setInteraction", "resetInteraction"])
   }
@@ -266,4 +271,13 @@ export default {
 </script>
 
 <style lang="scss">
+.install-ability__header {
+  @apply items-center;
+
+  &:before,
+  &:after {
+    @apply w-1/4 h-px bg-light;
+    content: "";
+  }
+}
 </style>

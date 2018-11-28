@@ -32,14 +32,12 @@ Vue.filter("bandwidth", str => Vue.filter("data")(str) + "/s");
 Vue.filter("confidence", str => numeral(str).format("0.[00]a") + "❤");
 
 Vue.filter(
-  "persuasion",
+  "influence",
   str =>
     numeral(str)
       .multiply(1000)
       .format("0.[00]a") + "★/s"
 );
-
-Vue.filter("influence", str => Vue.filter("persuasion")(str));
 
 Vue.filter("science", str => Vue.filter("percentage")(str));
 

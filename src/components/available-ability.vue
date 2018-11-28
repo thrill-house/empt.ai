@@ -44,8 +44,8 @@ The component displays an ability that is defined within the global data store. 
 	    </div>
 	  </div>
     <div class="flex items-start justify-end z-40 pl-16 pr-2 pb-2 ml-16 h-10">
-			<install-ability :label="label" class="w-1/2 mr-1"></install-ability>
-			<research-ability :label="label" class="w-1/2 ml-1"></research-ability>
+			<install-ability ref="install" :label="label" class="w-1/2 mr-1"></install-ability>
+			<research-ability ref="research" :label="label" class="w-1/2 ml-1"></research-ability>
     </div>
     <div class="w-24 h-24 bg-tile-overlay bg-light overflow-hidden border border-light rounded-full inline-flex flex-no-shrink items-center justify-center absolute pin-l pin-t ml-3 mt-6 z-20 order-2">
 	    <icon :label="label" class="w-16 h-16 text-light"></icon>
@@ -88,6 +88,10 @@ export default {
     return {
       hover: false
     };
+  },
+  created: function() {
+    this.$on("research", this.researchDialog);
+    this.$on("install", this.installDialog);
   },
   computed: {
     ability: function() {
@@ -139,6 +143,14 @@ export default {
       "getInteraction",
       "prettyUnit"
     ])
+  },
+  methods: {
+    researchDialog: function() {
+      this.$refs.research.startResearching();
+    },
+    installDialog: function() {
+      this.$refs.install.startInstalling();
+    }
   }
 };
 </script>

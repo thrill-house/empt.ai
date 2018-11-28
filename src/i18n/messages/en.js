@@ -3,5 +3,6 @@ export default {
   Install: "Install",
   Cancel: "Cancel",
   "Cancel {item}": "Cancel {item}",
-  installation: "installation"
+  installation: "installation",
+  "{num} emotions": "{num} emotions"
 };

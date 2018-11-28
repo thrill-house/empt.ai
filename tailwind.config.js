@@ -59,7 +59,9 @@ let colors = {
   society: "#f4838e",
   economy: "#fbeb69",
   influence: "#76a5ff",
+  confidence: "#76a5ff",
   bandwidth: "#94e4f8",
+  data: "#94e4f8",
   neutral: "#a6d3ff"
 };
 
@@ -397,6 +399,7 @@ module.exports = {
     "96": "24rem",
     "128": "32rem",
     "160": "40rem",
+    "192": "48rem",
     "1/2": "50%",
     "1/3": "33.33333%",
     "2/3": "66.66667%",
@@ -448,6 +451,7 @@ module.exports = {
     "96": "24rem",
     "128": "32rem",
     "160": "40rem",
+    "192": "48rem",
     "1/2": "50%",
     "1/3": "33.33333%",
     "2/3": "66.66667%",
@@ -937,7 +941,11 @@ module.exports = {
       let clipUtilities = {
         ".clip-corners": {
           "clip-path":
-            "polygon(0.32rem 0%, calc(100% - 0.32rem) 0%, 100% 0.32rem, 100% calc(100% - 0.32rem), calc(100% - 0.32rem) 100%, 0.32rem 100%, 0% calc(100% - 0.32rem), 0% 0.32rem)"
+            "polygon(0.333rem 0%, calc(100% - 0.333rem) 0%, 100% 0.333rem, 100% calc(100% - 0.333rem), calc(100% - 0.333rem) 100%, 0.333rem 100%, 0% calc(100% - 0.333rem), 0% 0.333rem)"
+        },
+        ".clip-2-corners": {
+          "clip-path":
+            "polygon(0.666rem 0%, 100% 0%, 100% calc(100% - 0.666rem), calc(100% - 0.666rem) 100%, 0% 100%, 0% 0.666rem)"
         },
         ".clip-hexagon": {
           "clip-path":
