@@ -44,12 +44,14 @@ Displays the a diagram of emotions, given a single or set of value sets
           stroke-opacity="0.25"
           vector-effect="non-scaling-stroke" ></polyline>
       </svg>
-      <span v-for="(value, axisPosition) in axisPositions"
-      class="absolute block h-4 -mt-2 px-2 text-light text-xs uppercase font-bold"
+    </div>
+    <div class="absolute block pin w-full h-full z-50">
+      <div v-for="(value, axisPosition) in axisPositions"
+      class="absolute block h-4 flex -mt-2 px-2 text-light text-xs uppercase font-bold"
         :class="[ axisPosition, { '-translate-x-full': value.x < 50 }]"
         :style="{ left: value.x + '%', top: value.y + '%' }">
-        {{ label(axisPosition) }}<slot :name="axisPosition"></slot>
-        </span>
+        <span>{{ label(axisPosition) }}</span><slot :name="axisPosition"></slot>
+      </div>
     </div>
     <emotion-values v-for="(value, index) in valuesList"
       :key="index"

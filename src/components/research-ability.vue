@@ -23,35 +23,20 @@ The component displays options for researching an ability, when available. A but
   			  </div>
 					<div class="w-1/2 py-3">
   					<emotion-diagram
-  					  :values="{
-    					  happiness: selectedHappiness || 0.1,
-    					  sadness: selectedSadness || 0.1,
-    					  excitement: selectedExcitement || 0.1,
-    					  fear: selectedFear || 0.1,
-    					  tenderness: selectedTenderness || 0.1,
-    					  anger: selectedAnger || 0.1
-  					  }"
+  					  :values="tweakEmotions(emotions)"
   					  :hideLabels="false"
   					  :scale="2"
   					  class="w-64 h-64">
-  					  <template slot="happiness">
-                <input type="number" v-model.number="selectedHappiness" min="0" :max="maximumHappiness" :class="'max-' + maximumHappiness">
-              </template>
-              <template slot="sadness">
-                <input type="number" v-model.number="selectedSadness" min="0" :max="maximumSadness" :class="'max-' + maximumSadness">
-              </template>
-              <template slot="tenderness">
-                <input type="number" v-model.number="selectedTenderness" min="0" :max="maximumTenderness" :class="'max-' + maximumTenderness">
-              </template>
-              <template slot="anger">
-                <input type="number" v-model.number="selectedAnger" min="0" :max="maximumAnger" :class="'max-' + maximumAnger">
-              </template>
-              <template slot="excitement">
-                <input type="number" v-model.number="selectedExcitement" min="0" :max="maximumExcitement" :class="'max-' + maximumExcitement">
-              </template>
-              <template slot="fear">
-                <input type="number" v-model.number="selectedFear" min="0" :max="maximumFear" :class="'max-' + maximumFear">
-              </template>
+  					  <span v-for="(value, emotion) in emotions"
+  					  :key="emotion"
+  					  :slot="emotion"
+  					  :class="[ emotionSide(emotion) > 0? 'order-first mr-1': 'ml-1' ]"
+  					  class="inline-flex">
+                <button class="bg-light text-navy p-px text-2xs text-center h-3 w-3 block font-bold uppercase rounded-l-full border-r border-navy"
+                  @click="adjust(emotion, emotionSide(emotion) * -1)">❮</button>
+                <button class="bg-light text-navy p-px text-2xs text-center h-3 w-3 block font-bold uppercase rounded-r-full"
+                  @click="adjust(emotion, emotionSide(emotion))">❯</button>
+              </span>
             </emotion-diagram>
 					</div>
           <div class="w-1/4 flex flex-col items-end justify-between py-3 pr-6">
@@ -104,12 +89,30 @@ export default {
   data: function() {
     return {
       dialog: false,
-      selectedHappiness: 2,
-      selectedSadness: 0,
-      selectedTenderness: 0,
-      selectedAnger: 1,
-      selectedExcitement: 1,
-      selectedFear: 0,
+      emotions: {
+        excitement: 0,
+        happiness: 0,
+        tenderness: 0,
+        fear: 0,
+        sadness: 0,
+        anger: 0
+      },
+      complements: {
+        excitement: "fear",
+        happiness: "sadness",
+        tenderness: "anger",
+        fear: "excitement",
+        sadness: "happiness",
+        anger: "tenderness"
+      },
+      sides: {
+        excitement: 1,
+        happiness: 1,
+        tenderness: 1,
+        fear: -1,
+        sadness: -1,
+        anger: -1
+      },
       requiredEmotions: 4
     };
   },
@@ -117,54 +120,17 @@ export default {
     ability: function() {
       return this.getAbility(this.label);
     },
-    allEmotions: function() {
-      return [
-        this.selectedExcitement,
-        this.selectedHappiness,
-        this.selectedTenderness,
-        this.selectedFear,
-        this.selectedSadness,
-        this.selectedAnger
-      ];
-    },
     sumEmotions: function() {
-      return _.sum(this.allEmotions);
+      return _.sum(_.values(this.emotions));
     },
     enoughEmotions: function() {
       return this.sumEmotions === this.requiredEmotions;
     },
-    maximumEmotion: function() {
-      return _.max(this.allEmotions);
+    maxEmotion: function() {
+      return _.max(_.values(this.emotions));
     },
-    maximumHappiness: function() {
-      return this.getMaximumEmotion(
-        this.selectedHappiness,
-        this.selectedSadness
-      );
-    },
-    maximumSadness: function() {
-      return this.getMaximumEmotion(
-        this.selectedSadness,
-        this.selectedHappiness
-      );
-    },
-    maximumTenderness: function() {
-      return this.getMaximumEmotion(
-        this.selectedTenderness,
-        this.selectedAnger
-      );
-    },
-    maximumAnger: function() {
-      return this.getMaximumEmotion(
-        this.selectedAnger,
-        this.selectedTenderness
-      );
-    },
-    maximumExcitement: function() {
-      return this.getMaximumEmotion(this.selectedExcitement, this.selectedFear);
-    },
-    maximumFear: function() {
-      return this.getMaximumEmotion(this.selectedFear, this.selectedExcitement);
+    maximums: function() {
+      return this.getMaxEmotions(this.emotions);
     },
     affordability: function() {
       return _.clamp(
@@ -187,14 +153,7 @@ export default {
         type: "ability",
         label: this.label,
         target: false,
-        emotions: {
-          happiness: this.selectedHappiness,
-          sadness: this.selectedSadness,
-          tenderness: this.selectedTenderness,
-          anger: this.selectedAnger,
-          excitement: this.selectedExcitement,
-          fear: this.selectedFear
-        }
+        emotions: this.emotions
       };
     },
     ...mapState(["abilities"]),
@@ -207,6 +166,23 @@ export default {
     ])
   },
   methods: {
+    adjust: function(emotion, amount) {
+      var complement = this.getComplement(emotion);
+
+      if (
+        !this.isEmotionValue(complement) &&
+        this.isEmotionAdjustable(emotion, amount)
+      ) {
+        this.emotions[emotion] += amount;
+      } else if (this.isEmotionAdjustable(complement, amount * -1)) {
+        this.adjust(complement, amount * -1);
+      }
+    },
+    tweakEmotions: function(emotions) {
+      return _.mapValues(emotions, function(emotion) {
+        return emotion === 0 ? 0.1 : emotion;
+      });
+    },
     startResearching: function() {
       this.dialog = true;
       this.setInteraction({
@@ -225,13 +201,8 @@ export default {
           instance: this.label + "-" + _.now()
         });
 
-        this.selectedHappiness = 0;
-        this.selectedSadness = 0;
-        this.selectedTenderness = 0;
-        this.selectedAnger = 0;
-        this.selectedExcitement = 0;
-        this.selectedFear = 0;
         this.dialog = false;
+        this.emotions = _.mapValues(this.emotions, () => 0);
 
         this.addAbilityEvent(event);
 
@@ -246,14 +217,58 @@ export default {
         alert("Fill in all emotions");
       }
     },
-    getMaximumEmotion: function(emotion, complementary) {
-      return complementary > 0
+    getComplement: function(emotion) {
+      return this.complements[emotion];
+    },
+    getMaxEmotion: function(emotion) {
+      var value = this.emotions[emotion],
+        complement = this.emotions[this.complements[emotion]];
+
+      return complement > 0
         ? 0
-        : emotion == this.requiredEmotions / 2 ||
-          (this.sumEmotions - emotion <= this.requiredEmotions / 2 &&
-            this.maximumEmotion < this.requiredEmotions / 2)
+        : value == this.requiredEmotions / 2 ||
+          (this.sumEmotions - value <= this.requiredEmotions / 2 &&
+            this.maxEmotion < this.requiredEmotions / 2)
           ? this.requiredEmotions / 2
           : 1;
+    },
+    getMaxEmotions: function(emotions) {
+      var self = this;
+
+      return _.mapValues(emotions, function(value, emotion) {
+        return self.getMaxEmotion(emotion);
+      });
+    },
+    emotionSide: function(emotion) {
+      console.log(this.sides[emotion]);
+      return this.sides[emotion];
+    },
+    isEmotionMax: function(emotion) {
+      return this.emotions[emotion] === this.maximums[emotion];
+    },
+    isEmotionMin: function(emotion) {
+      return this.emotions[emotion] === 0;
+    },
+    isEmotionInRange: function(emotion) {
+      return (
+        this.emotions[emotion] >= 0 &&
+        this.emotions[emotion] <= this.maximums[emotion]
+      );
+    },
+    isEmotionIncrementable: function(emotion) {
+      return this.isEmotionInRange(emotion) && !this.isEmotionMax(emotion);
+    },
+    isEmotionDecrementable: function(emotion) {
+      return this.isEmotionInRange(emotion) && !this.isEmotionMin(emotion);
+    },
+    isEmotionAdjustable: function(emotion, amount) {
+      return (
+        (amount > 0 && this.isEmotionIncrementable(emotion)) ||
+        (amount < 0 && this.isEmotionDecrementable(emotion))
+      );
+    },
+    isEmotionValue: function(emotion) {
+      return this.isEmotionDecrementable(emotion);
     },
     ...mapActions(["addAbilityEvent", "setInteraction", "resetInteraction"])
   }

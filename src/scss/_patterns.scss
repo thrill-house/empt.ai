@@ -1,8 +1,14 @@
 @import "placeholders";
 
+button {
+  &:focus {
+    @apply outline-none;
+  }
+}
+
 .button,
 .input {
-  @apply clip-corners;
+  @apply clip-corners outline-none;
 }
 
 .hexagon {
