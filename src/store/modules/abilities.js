@@ -1359,6 +1359,7 @@ const getters = {
 const mutations = {
   initAbilities(state, abilities) {
     _.merge(state, abilities);
+    state.init = _.now();
   }
 };
 
