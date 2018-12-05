@@ -377,6 +377,7 @@ export default {
   created: function() {
     this.addSocketEvent(this.initEvent);
     this.startSession();
+    this.initAbilities();
   },
   data: function() {
     return {
@@ -562,6 +563,7 @@ export default {
     },
     ...mapMutations(["setStart"]),
     ...mapActions([
+      "initAbilities",
       "startSession",
       "stopSession",
       "setEvents",

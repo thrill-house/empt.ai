@@ -1,52 +1,10 @@
-// Google sheets formula
-/*
-=CONCATENATE("'", LOWER(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(C93, " ", "-"), "&", "-"), "/", "-")), "': {",
-	" name: '", C93, "',",
-	" type: '", Y93, "',",
-	" era: '", Z93, "',",
-	" factors: {",
-		" influence: {",
-			" base: ", (E93 + 1),
-			IF(OR(I93 > 0, J93 > 0, H93 > 0),
-				CONCATENATE(", trees: {",
-					IF(I93 > 0, CONCATENATE(" science: ", (I93 + 1), ","), ""),
-					IF(J93 > 0, CONCATENATE(" economy: ", (J93 + 1), ","), ""),
-					IF(H93 > 0, CONCATENATE(" society: ", (H93 + 1)), ""),
-				" }"),
-				""
-			),
-		" },",
-		" bandwidth: {",
-			" base: ", (G93 + 1),
-		" }",
-	" },",
-	" costs: {",
-		" data: ", F93, ",",
-		" confidence: ", D93,
-	" }",
-" },"
-)
-*/
+import _ from "lodash";
+import api from "../../api";
+
+//const state = {};
 
 /*
-	'tweet-bot': { name: 'tweet bot', type: 'neutral', era: 'student', factors: { influence: { base: 1.4, 
-		dependencies: {
-			'chat-buddy': 1.1
-		},
-	trees: { science: 1.12, economy: 1.13, society: 1.15 } }, bandwidth: { base: 1 } }, costs: { data: 410, confidence: 320 } },
-	'pen-paper-dungeonmaster': { name: 'Pen&Paper Dungeonmaster', type: 'neutral', era: 'student', factors: { influence: { base: 1,
-		dependencies: {
-			'video-game-level-solver': 1.3
-		},
-	 }, bandwidth: { base: 1.05 } }, costs: { data: 500, confidence: 450 } },
-	'online-survey-filler': { name: 'online survey filler', type: 'neutral', era: 'student', factors: { influence: { base: 1.6,
-		dependencies: {
-			'homework-ghostwriter': 1.2
-		},
-	trees: { science: 1.2, economy: 1.2, society: 1.2 } }, bandwidth: { base: 1.1 } }, costs: { data: 670, confidence: 600 } },
-*/
-
-const state = {
+let state = {
   "chat-buddy": {
     name: "Chat buddy",
     type: "neutral",
@@ -1344,15 +1302,20 @@ const state = {
     costs: { data: 280000, confidence: 320000 }
   }
 };
+*/
+
+const state = {};
 
 // getters
 const getters = {
   getAbility: (state, getters) => label => {
-    return state[label];
+    return state[label] || false;
   },
   getAbilityDependants: (state, getters) => label => {
-    var abilities = _.pickBy(state, function(o) {
-      return o.factors.influence && o.factors.influence.dependencies;
+    var abilities = _.pickBy(state, ability => {
+      return (
+        ability.factors.influence && ability.factors.influence.dependencies
+      );
     });
 
     var dependantAbilities = _.pickBy(abilities, ability => {
@@ -1393,8 +1356,20 @@ const getters = {
 };
 
 // actions
+const mutations = {
+  initAbilities(state, abilities) {
+    _.merge(state, abilities);
+  }
+};
+
+// actions
 const actions = {
-  addAbilityEvent: ({ dispatch }, event) => {
+  initAbilities({ commit }) {
+    api.get("abilities.json").then(function(response) {
+      commit("initAbilities", _.keyBy(response.data.data, "label"));
+    });
+  },
+  addAbilityEvent: dispatch => event => {
     dispatch("addEvent", event);
   }
 };
@@ -1402,5 +1377,36 @@ const actions = {
 export default {
   state,
   getters,
+  mutations,
   actions
 };
+
+// Google sheets formula
+/*
+=CONCATENATE("'", LOWER(SUBSTITUTE(SUBSTITUTE(SUBSTITUTE(C93, " ", "-"), "&", "-"), "/", "-")), "': {",
+  " name: '", C93, "',",
+  " type: '", Y93, "',",
+  " era: '", Z93, "',",
+  " factors: {",
+    " influence: {",
+      " base: ", (E93 + 1),
+      IF(OR(I93 > 0, J93 > 0, H93 > 0),
+        CONCATENATE(", trees: {",
+          IF(I93 > 0, CONCATENATE(" science: ", (I93 + 1), ","), ""),
+          IF(J93 > 0, CONCATENATE(" economy: ", (J93 + 1), ","), ""),
+          IF(H93 > 0, CONCATENATE(" society: ", (H93 + 1)), ""),
+        " }"),
+        ""
+      ),
+    " },",
+    " bandwidth: {",
+      " base: ", (G93 + 1),
+    " }",
+  " },",
+  " costs: {",
+    " data: ", F93, ",",
+    " confidence: ", D93,
+  " }",
+" },"
+)
+*/
