@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import VueLocalStorage from "vue-localstorage";
 import session from "./modules/session";
 import scores from "./modules/scores";
 import options from "./modules/options";
@@ -19,6 +20,10 @@ Vue.mixin({
       }
     }
   }
+});
+
+Vue.use(VueLocalStorage, {
+  bind: true
 });
 
 export default new Vuex.Store({

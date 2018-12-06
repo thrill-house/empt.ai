@@ -135,7 +135,9 @@ export default {
         this.researchLabel === this.label || this.installLabel === this.label
       );
     },
-    ...mapState(["abilities"]),
+    ...mapState({
+      abilities: state => state.abilities.list
+    }),
     ...mapGetters([
       "getAbility",
       "isEraActive",

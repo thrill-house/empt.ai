@@ -57,7 +57,7 @@ import _ from "lodash";
 import math from "mathjs";
 
 export default {
-  name: "emotion-diagram",
+  name: "emotion-values",
   store,
   props: {
     emotions: {
@@ -67,6 +67,14 @@ export default {
           ["happiness", "sadness", "excitement", "fear", "tenderness", "anger"],
           _.partial(_.has, value)
         );
+      },
+      default: {
+        happiness: 1,
+        sadness: 1,
+        excitement: 1,
+        fear: 1,
+        tenderness: 1,
+        anger: 1
       }
     },
     color: {
@@ -108,9 +116,8 @@ export default {
       var degreeUnit = math.unit(degree, "deg"),
         circleSin = math.sin(degreeUnit),
         circleCos = math.cos(degreeUnit),
-        maxRatio = this.max / this.maxScale,
-        emotionRatio = emotion / this.max,
-        halfScale = this.maxScale / 2,
+        maxRatio = this.maxScale > 0 ? this.max / this.maxScale : 0,
+        emotionRatio = emotion > 0 ? emotion / this.max : 0,
         axisX = 50 * circleSin,
         axisY = 50 * circleCos,
         x = axisX * maxRatio * emotionRatio + 50,

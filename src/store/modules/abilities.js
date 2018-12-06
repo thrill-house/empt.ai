@@ -1304,15 +1304,17 @@ let state = {
 };
 */
 
-const state = {};
+const state = {
+  list: {}
+};
 
 // getters
 const getters = {
   getAbility: (state, getters) => label => {
-    return state[label] || false;
+    return state.list[label] || false;
   },
   getAbilityDependants: (state, getters) => label => {
-    var abilities = _.pickBy(state, ability => {
+    var abilities = _.pickBy(state.list, ability => {
       return (
         ability.factors.influence && ability.factors.influence.dependencies
       );
@@ -1358,8 +1360,7 @@ const getters = {
 // actions
 const mutations = {
   initAbilities(state, abilities) {
-    _.merge(state, abilities);
-    state.init = _.now();
+    state.list = abilities;
   }
 };
 

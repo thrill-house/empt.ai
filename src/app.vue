@@ -342,7 +342,6 @@
 
 <script>
 import Vue from "vue";
-import VueLocalStorage from "vue-localstorage";
 import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
 import store from "./store";
 import _ from "lodash";
@@ -367,10 +366,6 @@ import LeaderBoards from "./components/leader-boards.vue";
 import NarrativeOutput from "./components/narrative-output.vue";
 import UserProfile from "./components/user-profile.vue";
 import MiniGame from "./components/mini-game.vue";
-
-Vue.use(VueLocalStorage, {
-  bind: true
-});
 
 export default {
   name: "app",

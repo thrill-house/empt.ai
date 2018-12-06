@@ -100,7 +100,9 @@ export default {
     treeMatch: function() {
       return this.ability.type === this.socket.type;
     },
-    ...mapState(["abilities"]),
+    ...mapState({
+      abilities: state => state.abilities.list
+    }),
     ...mapGetters([
       "calculateFactors",
       "getEra",

@@ -8,7 +8,10 @@ The component displays abilities that are available to the player to research or
 
 <template>
   <div id="ability-library" class="flex flex-wrap w-full">
-	  <available-ability :label="index" :key="index" v-for="(ability, index) in abilities" class="w-64 text-light"></available-ability>
+	  <available-ability v-for="(ability, index) in abilities"
+    :label="index"
+    :key="index"
+    class="w-64 text-light"></available-ability>
   </div>
 </template>
 
@@ -33,7 +36,9 @@ export default {
     selectedInstance: function() {
       return this.selectedAbility ? this.selectedAbility.instance : "";
     },
-    ...mapState(["abilities"]),
+    ...mapState({
+      abilities: state => state.abilities.list
+    }),
     ...mapGetters(["getInteraction"])
   },
   methods: {
