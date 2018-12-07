@@ -47,10 +47,11 @@ Displays the a diagram of emotions, given a single or set of value sets
     </div>
     <div class="absolute block pin w-full h-full z-50">
       <div v-for="(value, axisPosition) in axisPositions"
-      class="absolute block h-4 flex -mt-2 px-2 text-light text-xs uppercase font-bold"
+        class="absolute block h-4 flex -mt-2 px-2 text-light text-xs uppercase font-bold"
         :class="[ axisPosition, { '-translate-x-full': value.x < 50 }]"
         :style="{ left: value.x + '%', top: value.y + '%' }">
-        <span>{{ label(axisPosition) }}</span><slot :name="axisPosition"></slot>
+        <span>{{ label(axisPosition) }}</span>
+        <slot :name="axisPosition"></slot>
       </div>
     </div>
     <emotion-values v-for="(value, index) in valuesList"
@@ -119,10 +120,10 @@ export default {
       });
     },
     max: function() {
-      return _.max(this.allMax);
+      return _.max(this.allMax) || 1;
     },
     maxScale: function() {
-      return this.scale || this.max;
+      return this.scale || this.max || 1;
     },
     axisPositions: function() {
       return {
@@ -156,9 +157,8 @@ export default {
       var degreeUnit = math.unit(degree, "deg"),
         circleSin = math.sin(degreeUnit),
         circleCos = math.cos(degreeUnit),
-        maxRatio = this.max / this.maxScale,
-        emotionRatio = emotion / this.max,
-        halfScale = this.maxScale / 2,
+        maxRatio = this.maxScale > 0 ? this.max / this.maxScale : 0,
+        emotionRatio = emotion > 0 ? emotion / this.max : 0,
         axisX = 50 * circleSin,
         axisY = 50 * circleCos,
         x = axisX * maxRatio * emotionRatio + 50,

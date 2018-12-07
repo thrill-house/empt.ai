@@ -1,11 +1,9 @@
 <docs>
-### Game score
-The component provides a representation of the player's current game score, meaning the number of **data** and **confidence** resources it has currently accumulated.
-
-##### Instantiation
-`<game-score></game-score>`
+  ### Game score
+  The component provides a representation of the player's current game score, meaning the number of **data** and **confidence** resources it has currently accumulated.
+  ##### Instantiation
+  `<game-score></game-score>`
 </docs>
-
 <template>
   <div id="game-score" class="body text-light">
     <label class="label">Data</label>: <output class="output">{{ scores.data|data }}</output> — <output class="output">+{{ factors.bandwidth|bandwidth }}</output>
@@ -13,7 +11,6 @@ The component provides a representation of the player's current game score, mean
     <label class="label">Confidence</label>: <output class="output">{{ scores.confidence|confidence }}</output> — <output class="output">+{{ factors.influence|influence }}</output>
   </div>
 </template>
-
 <script>
 import { mapState, mapGetters } from "vuex";
 import store from "../store";
@@ -33,7 +30,6 @@ export default {
   }
 };
 </script>
-
 <style lang="scss">
 #game-score {
 }

@@ -374,9 +374,9 @@ const state = {
   events: {},
   labelsEnabled: false,
   interactions: {
-    researchingAbility: false,
-    installingAbility: false,
-    slottingAbility: false
+    research: false,
+    install: false,
+    slot: false
   }
 };
 
