@@ -1,28 +1,36 @@
 <docs>
-  ### Install ability
-  The component displays options for selecting an ability to install in a slot. A button is displayed that triggers a modal to select which emotional profile of those available (instances of this ability researched) and "tags" the selected instance temporarily to move it to an available slot in the playing field.
-  ##### Instantiation
-  `<install-ability label="ability-label"></install-ability>`
+### Dialog install
+Displays a modal dialog for selecting an ability to install.
+
+##### Instantiation
+`<dialog-install label="ability-label" emotions="{}"></dialog-install>`
 </docs>
+
 <template>
   <ability-dialog
-    :task="task"
     :label="ability.label"
     :emotions="emotions"
-    :showModal="showDialog"
+    :show="show"
   >
-    <template
+    <span
       slot="installToggle"
-      class="text-navy bg-light"
-    ></template>
-    <template
-      slot="submit"
-      :disabled="!submit"
-      :class="{ 'opacity-10': !submit }"
-      @click="$parent.$emit('confirm')"
-    >
-      {{ $t('Confirm installation') }}
-    </template>
+      class="button text-lg uppercase font-bold px-4 py-2 text-navy bg-light"
+    >{{ $t('Installing') }}</span>
+
+    <button
+      class="button uppercase bg-sky px-4 py-2 mb-4 font-bold text-light"
+      slot="confirm"
+      :disabled="!submittable"
+      :class="{ 'opacity-10': !submittable }"
+      @click="confirm()"
+    >{{ $t('Install') }}</button>
+
+    <button
+      class="button uppercase bg-blue px-4 py-2 font-bold text-light"
+      slot="cancel"
+      @click="cancel()"
+    >{{ $t('Cancel') }}</button>
+
     <template slot="buttons">
       <button
         v-for="event in events"
@@ -52,27 +60,47 @@
         </emotion-diagram>
       </button>
     </template>
+
+    <!--button
+      class="button uppercase bg-sky px-4 py-2 mb-4 font-bold text-light"
+      :disabled="sumEmotions !== requiredEmotions"
+      :class="{ 'opacity-10': sumEmotions !== requiredEmotions }"
+      @click="engageResearch(label)"
+    >{{ $t('Confirm') }}</button-->
+
   </ability-dialog>
 </template>
+
 <script>
 import { mapState, mapGetters, mapActions } from "vuex";
 import store from "../store";
 import AbilityDialog from "./ability-dialog";
+import EmotionDiagram from "./emotion-diagram";
 
 export default {
-  name: "install-ability",
+  name: "dialog-install",
   store,
   components: {
-    AbilityDialog
-  },
-  props: {
-    label: String
+    AbilityDialog,
+    EmotionDiagram
   },
   data: () => ({
-    task: "install",
-    showDialog: false
+    selectedEvent: false,
+    highlightedEvent: false
   }),
   computed: {
+    interaction: function() {
+      return this.getInteraction("install");
+    },
+    label: function() {
+      return this.interaction.label;
+    },
+    show: function() {
+      return this.interaction !== false && this.label !== false;
+    },
+    ability: function() {
+      return this.getAbility(this.label);
+    },
     events: function() {
       return this.getAbilityEvents(this.label);
     },
@@ -81,9 +109,6 @@ export default {
     },
     installedInstances: function() {
       return _.map(this.installed, "instance");
-    },
-    ability: function() {
-      return this.getAbility(this.label);
     },
     era: function() {
       return this.ability.era;
@@ -103,10 +128,14 @@ export default {
     scores: function() {
       return this.getScores();
     },
-    emotions: function() {
+    submittable: function() {
+      console.log(this.selectedEvent);
+      return this.affordable && this.selectedEvent !== false;
+    },
+    emotionalProfile: function() {
       return this.getEmotions();
     },
-    previewEmotions: function() {
+    emotions: function() {
       var combineEmotions =
         this.highlightedEvent.emotions || this.selectedEvent.emotions;
 
@@ -116,21 +145,12 @@ export default {
           ? _.mapValues(combineEmotions, () => 0)
           : combineEmotions;
 
-      return combineEmotions
-        ? _.transform(
-            this.emotions,
-            function(result, value, key) {
-              result[key] = value + combineEmotions[key];
-            },
-            {}
-          )
-        : false;
-    },
-    emotionValues: function() {
-      var emotions = _.merge({ color: "light" }, this.emotions);
-      return this.previewEmotions
-        ? [emotions, _.merge({ color: "sky" }, this.previewEmotions)]
-        : emotions;
+      return _.mergeWith(
+        { color: "sky" },
+        this.emotionalProfile,
+        combineEmotions,
+        _.add
+      );
     },
     newEvent: function() {
       return {
@@ -190,32 +210,19 @@ export default {
     lowlight: function() {
       this.highlightedEvent = false;
     },
-    startInstalling: function() {
-      this.showDialog = true;
-      this.setInteraction({
-        interaction: "installingAbility",
-        label: this.label,
-        ability: this.getAbility(this.label)
-      });
-    },
-    endInstalling: function() {
-      this.showDialog = false;
+    cancel: function() {
       this.deselect();
       this.lowlight();
-      this.resetInteraction("installingAbility");
+      this.resetInteraction("install");
     },
-    startSlotting: function(instance) {
-      this.endInstalling();
+    confirm: function() {
       this.setInteraction({
-        interaction: "slottingAbility",
+        interaction: "slot",
         label: this.label,
         ability: this.getAbility(this.label),
-        instance: instance
+        instance: this.selectedEvent.instance
       });
-    },
-    endSlotting: function() {
-      this.endInstalling();
-      this.resetInteraction("slottingAbility");
+      this.cancel();
     },
     tweakEmotions: function(emotions) {
       return _.mapValues(emotions, function(emotion) {

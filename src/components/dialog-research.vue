@@ -3,27 +3,33 @@
 Displays a modal dialog for researching an ability.
 
 ##### Instantiation
-`<dialog-research label="ability-label" emotions="{}" costs="{}"></dialog-research>`
+`<dialog-research label="ability-label" emotions="{}"></dialog-research>`
 </docs>
 
 <template>
   <ability-dialog
     :label="label"
-    :emotions="emotions"
     :costs="costs"
     :show="show"
   >
     <span
       slot="researchToggle"
       class="button text-lg uppercase font-bold px-4 py-2 text-navy bg-light"
-    >{{ $t('Research') }}</span>
+    >{{ $t('Researching') }}</span>
+
     <button
       class="button uppercase bg-sky px-4 py-2 mb-4 font-bold text-light"
-      slot="submit"
+      slot="confirm"
       :disabled="!submittable"
       :class="{ 'opacity-10': !submittable }"
-      @click="$parent.$emit('confirm')"
+      @click="confirm()"
     >{{ $t('Research') }}</button>
+
+    <button
+      class="button uppercase bg-blue px-4 py-2 font-bold text-light"
+      slot="cancel"
+      @click="cancel()"
+    >{{ $t('Cancel') }}</button>
 
     <!--button
       class="button uppercase bg-sky px-4 py-2 mb-4 font-bold text-light"
@@ -35,9 +41,8 @@ Displays a modal dialog for researching an ability.
     <template slot="emotions">
       <emotion-diagram
         class="w-64 h-64"
-        :values="emotions"
+        :values="emotionValues"
         :hideLabels="false"
-        :scale="2"
       >
         <span
           v-for="(value, emotion) in emotions"
@@ -109,11 +114,14 @@ export default {
     requiredEmotions: 4
   }),
   computed: {
+    interaction: function() {
+      return this.getInteraction("research");
+    },
     label: function() {
-      return this.getInteraction("research").label;
+      return this.interaction.label;
     },
     show: function() {
-      return this.label !== false;
+      return this.interaction !== false && this.label !== false;
     },
     ability: function() {
       return this.getAbility(this.label);
@@ -129,6 +137,23 @@ export default {
     },
     maximums: function() {
       return this.getMaxEmotions(this.emotions);
+    },
+    emotionalProfile: function() {
+      return this.getEmotions();
+    },
+    emotionalPreview: function() {
+      return _.mergeWith(
+        { color: "sky" },
+        this.emotionalProfile,
+        this.emotions,
+        _.add
+      );
+    },
+    emotionValues: function() {
+      return [
+        this.emotionalPreview,
+        _.merge({ color: "light" }, this.emotionalProfile)
+      ];
     },
     affordability: function() {
       return _.clamp(
@@ -146,7 +171,7 @@ export default {
     scores: function() {
       return this.getScores();
     },
-    submittable: () => {
+    submittable: function() {
       return this.affordable && this.enoughEmotions;
     },
     newEvent: function() {
@@ -163,19 +188,12 @@ export default {
       "getAbility",
       "getAbilityCosts",
       "getScores",
-      "isEraActive",
-      "getInteraction"
+      "getEmotions",
+      "getInteraction",
+      "isEraActive"
     ])
   },
   methods: {
-    open: label => {
-      this.label = label;
-      this.show = true;
-    },
-    close: () => {
-      this.label = "";
-      this.show = false;
-    },
     adjust: function(emotion, amount) {
       var complement = this.getComplement(emotion);
 
@@ -188,19 +206,7 @@ export default {
         this.adjust(complement, amount * -1);
       }
     },
-    startResearching: function() {
-      this.dialog = true;
-      this.setInteraction({
-        interaction: "researchingAbility",
-        label: this.label,
-        ability: this.getAbility(this.label)
-      });
-    },
-    endResearching: function() {
-      this.dialog = false;
-      this.resetInteraction("researchingAbility");
-    },
-    engageResearch: function(label) {
+    confirm: function(label) {
       if (this.sumEmotions === this.requiredEmotions) {
         var event = _.defaults(this.newEvent, {
           instance: this.label + "-" + _.now()
@@ -211,16 +217,22 @@ export default {
 
         this.addAbilityEvent(event);
 
-        this.endResearching();
+        this.cancel();
         this.setInteraction({
-          interaction: "slottingAbility",
+          interaction: "slot",
           label: label,
-          ability: this.getAbility(label),
           instance: event.instance
         });
       } else {
         alert("Fill in all emotions");
       }
+    },
+    resetEmotions: function() {
+      this.emotions = _.mapValues(this.emotions, () => 0);
+    },
+    cancel: function() {
+      this.resetEmotions();
+      this.resetInteraction("research");
     },
     getComplement: function(emotion) {
       return this.complements[emotion];
@@ -280,91 +292,4 @@ export default {
 </script>
 
 <style lang="scss">
-.research-ability {
-  .emotions {
-    @apply .relative .block;
-
-    .emotion-diagram {
-      @apply .absolute .pin .w-full .h-full;
-    }
-
-    .axis {
-      @apply .absolute .-mt-1;
-      left: 50%;
-      top: 50%;
-      transform-origin: center left;
-
-      &.axis-excitement {
-        transform: rotate(90deg - 30deg);
-      }
-
-      &.axis-happiness {
-        transform: rotate(90deg - 90deg);
-      }
-
-      &.axis-tenderness {
-        transform: rotate(90deg - 150deg);
-      }
-
-      &.axis-fear {
-        transform: rotate(90deg - 210deg);
-      }
-
-      &.axis-sadness {
-        transform: rotate(90deg - 270deg);
-      }
-
-      &.axis-anger {
-        transform: rotate(90deg - 330deg);
-      }
-
-      input {
-        @apply .block .w-full .h-2 .rounded-full .bg-dark .opacity-25;
-        -webkit-appearance: none;
-
-        &:focus {
-          outline: none;
-        }
-
-        &::-webkit-slider-thumb {
-          -webkit-appearance: none;
-        }
-
-        &::-ms-track {
-          @apply .w-full .cursor-pointer .bg-transparent .text-transparent .border-transparent;
-        }
-
-        @mixin thumb {
-          @apply .bg-transparent .h-4 .w-4 .rounded-full .cursor-pointer;
-        }
-
-        &::-webkit-slider-thumb {
-          @include thumb;
-        }
-
-        &::-moz-range-thumb {
-          @include thumb;
-        }
-
-        &::-ms-thumb {
-          @include thumb;
-        }
-
-        &.max-1 {
-          @apply .w-1/2;
-        }
-
-        &.max-0 {
-          @apply .w-4;
-        }
-      }
-
-      label {
-        @apply .absolute .pin-b .pin-r .mb-2 .-mr-4 .text-xs;
-        transform-origin: bottom right;
-        transform: scale(0.75);
-      }
-    }
-  }
-}
 </style>

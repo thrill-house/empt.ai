@@ -10,9 +10,9 @@ The enabled ability is an ability that is currently enabled within a socket.
 </docs>
 
 <template>
-  <div v-if="event && slotEvent" :class="[('bg-' + ability.type), { 'tree-match': treeMatch }]" class="enabled-ability bg-tile-overlay hexagon w-48 h-hex*48 px-2 py-6 flex flex-col justify-between items-center">
+  <div v-if="event && slotEvent" :class="[('bg-' + ability.tree), { 'tree-match': treeMatch }]" class="enabled-ability bg-tile-overlay hexagon w-48 h-hex*48 px-2 py-6 flex flex-col justify-between items-center">
 	    <div class="flex justify-between items-center w-full order-2">
-  	    <div :class="['bg-' + ability.type + '-25']" class="w-24 h-24 rounded-full inline-flex flex-no-shrink items-center justify-center order-2">
+  	    <div :class="['bg-' + ability.tree + '-25']" class="w-24 h-24 rounded-full inline-flex flex-no-shrink items-center justify-center order-2">
     	    <icon :label="abilityLabel" class="w-16 h-16 text-light"></icon>
   	    </div>
   	    <div class="w-8 flex-no-shrink outputs order-1 ml-px">
@@ -74,16 +74,16 @@ export default {
       return this.ability.factors;
     },
     calculatedFactors: function() {
-      return this.calculateFactors(this.slotEvent);
+      return this.getFactors(this.slotEvent);
     },
     influence: function() {
-      return this.factors.influence;
+      return this.factors.influence || {};
     },
     trees: function() {
-      return this.influence.trees;
+      return this.influence.trees || {};
     },
     dependencies: function() {
-      return this.influence.dependencies;
+      return this.influence.dependencies || {};
     },
     dependants: function() {
       return this.getAbilityDependants(this.abilityLabel);
@@ -98,13 +98,13 @@ export default {
       return this.getSocketForSlot(this.slotEvent.label);
     },
     treeMatch: function() {
-      return this.ability.type === this.socket.type;
+      return this.ability.tree === this.socket.tree;
     },
     ...mapState({
       abilities: state => state.abilities.list
     }),
     ...mapGetters([
-      "calculateFactors",
+      "getFactors",
       "getEra",
       "getEventOfType",
       "getEventObjects",

@@ -4,13 +4,14 @@
   ##### Instantiation
   `<install-ability label="ability-label"></install-ability>`
 </docs>
+
 <template>
   <button
      v-if="ability && events.length"
     class="install-ability button bg-sky-25 text-light text-left text-xs px-3 py-px relative w-full z-10"
     :class="{ 'cursor-wait': (!affordable) }"
     :disabled="!affordable"
-    @click="parent.$emit('install')"
+    @click="install()"
   >
     <!--span
       class="absolute block pin h-full bg-sky-50 rounded z-0"
@@ -25,11 +26,6 @@
       <br>
       <span class="font-bold filter-grayscale">{{ costs.data|data }}</span>
     </span>
-    <dialog-install
-      :task="task"
-      :label="label"
-      :showDialog="showDialog"
-    ></dialog-install>
   </button>
   <!--button
   v-else
@@ -53,8 +49,7 @@ export default {
     DialogInstall
   },
   data: () => ({
-    task: "install",
-    showDialog: false
+    task: "install"
   }),
   computed: {
     ability: function() {
@@ -81,6 +76,9 @@ export default {
     costs: function() {
       return this.getSlotCosts(this.newEvent);
     },
+    scores: function() {
+      return this.getScores();
+    },
     newEvent: function() {
       return {
         type: "slot",
@@ -92,18 +90,21 @@ export default {
       "getAbilityEvents",
       "getValidSlotEvents",
       "getAbility",
-      "getSlotCosts"
+      "getSlotCosts",
+      "getScores"
     ])
   },
   methods: {
-    openDialog: function() {
-      this.showDialog = true;
+    install: function() {
+      this.setInteraction({
+        interaction: "install",
+        label: this.label
+      });
     },
-    closeDialog: function() {
-      this.showDialog = false;
-    }
+    ...mapActions(["setInteraction", "resetInteraction"])
   }
 };
 </script>
+
 <style lang="scss">
 </style>

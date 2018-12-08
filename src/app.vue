@@ -327,22 +327,26 @@
     </section>
     
     <!--
-    ---- Sample component
+    ---- Dialog research
     --->
-    <section :class="{ off: sampleComponentToggle }">
+    <section :class="{ off: dialogResearchToggle }">
       <header>
-        <button class="toggle" @click="toggle('sampleComponentToggle')">Toggle</button>
-        <div v-html="docs.sampleComponent" class="docs"></div>
-        <div class="tweakers">
-          <h5>Tweakers</h5>
-          <label>Message</label>
-          <input v-model="messageTweaker" />
-        </div>
+        <button class="toggle" @click="toggle('dialogResearchToggle')">Toggle</button>
+        <div v-html="docs.dialogResearch" class="docs"></div>
       </header>
-      <sample-component :message="messageTweaker"></sample-component>
+      <dialog-research></dialog-research>
     </section>
-    <dialog-research></dialog-research>
-    <!--dialog-install :label="install.label"></dialog-install-->
+
+    <!--
+    ---- Dialog install
+    --->
+    <section :class="{ off: dialogInstallToggle }">
+      <header>
+        <button class="toggle" @click="toggle('dialogInstallToggle')">Toggle</button>
+        <div v-html="docs.dialogInstall" class="docs"></div>
+      </header>
+      <dialog-install></dialog-install>
+    </section>
   </main>
 </template>
 
@@ -353,7 +357,6 @@ import store from "./store";
 import _ from "lodash";
 import moment from "moment";
 
-import SampleComponent from "./components/sample-component.vue";
 import GameEvents from "./components/game-events.vue";
 import GameTime from "./components/game-time.vue";
 import GameScore from "./components/game-score.vue";
@@ -373,7 +376,6 @@ import LeaderBoards from "./components/leader-boards.vue";
 import NarrativeOutput from "./components/narrative-output.vue";
 import UserProfile from "./components/user-profile.vue";
 import MiniGame from "./components/mini-game.vue";
-
 import DialogResearch from "./components/dialog-research.vue";
 import DialogInstall from "./components/dialog-install.vue";
 
@@ -381,8 +383,8 @@ export default {
   name: "app",
   created: function() {
     this.addSocketEvent(this.initEvent);
-    this.startSession();
     this.initAbilities();
+    this.startSession();
   },
   data: () => ({
     messageTweaker: "This and that",
@@ -419,8 +421,6 @@ export default {
     NarrativeOutput,
     UserProfile,
     MiniGame,
-    SampleComponent,
-
     DialogResearch,
     DialogInstall
   },
@@ -445,7 +445,8 @@ export default {
     narrativeOutputToggle: { type: Boolean },
     userProfileToggle: { type: Boolean },
     miniGameToggle: { type: Boolean },
-    sampleComponentToggle: { type: Boolean }
+    dialogResearchToggle: { type: Boolean },
+    dialogInstallToggle: { type: Boolean }
   },
   computed: {
     docs: function() {
@@ -511,42 +512,37 @@ export default {
 
       if (!socketEvent) {
         console.log("No sockets currently affordable");
+        return false;
       }
+
+      return true;
     },
     randomAbility: function() {
-      var labels = _.shuffle(_.keys(this.abilities)),
-        abilityEvent = false;
-
-      _.each(labels, abilityLabel => {
+      var label = _.sample(_.keys(this.abilities.list)),
         abilityEvent = {
           type: "ability",
-          label: abilityLabel,
-          instance: abilityLabel + "-" + _.now(),
+          label: label,
+          instance: label + "-" + _.now(),
           target: false
         };
 
-        if (this.getEventAffordability(abilityEvent)) {
-          var axis = _.shuffle([1, 1, 2]);
+      if (label && this.getEventAffordability(abilityEvent)) {
+        abilityEvent.happiness = 2;
+        abilityEvent.sadness = 0;
 
-          abilityEvent.happiness = _.random() * axis[0];
-          abilityEvent.sadness = 1 * axis[0] - abilityEvent.happiness;
+        abilityEvent.tenderness = 1;
+        abilityEvent.anger = 0;
 
-          abilityEvent.tenderness = _.random() * axis[1];
-          abilityEvent.anger = 1 * axis[1] - abilityEvent.tenderness;
+        abilityEvent.excitement = 1;
+        abilityEvent.fear = 0;
 
-          abilityEvent.excitement = _.random() * axis[2];
-          abilityEvent.fear = 1 * axis[2] - abilityEvent.excitement;
-          this.addAbilityEvent(abilityEvent);
-
-          return false;
-        } else {
-          abilityEvent = false;
-        }
-      });
-
-      if (!abilityEvent) {
+        this.addAbilityEvent(abilityEvent);
+      } else {
         console.log("No abilities currently affordable");
+        return false;
       }
+
+      return true;
     },
     randomSlot: function() {
       var socketLabel = _.sample(_.map(this.getActiveSockets(), "label")),
@@ -565,7 +561,10 @@ export default {
         this.addSlotEvent(slotEvent);
       } else {
         console.log("No slots currently affordable");
+        return false;
       }
+
+      return true;
     },
     ...mapMutations(["setStart"]),
     ...mapActions([

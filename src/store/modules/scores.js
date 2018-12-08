@@ -2,16 +2,16 @@ import Vue from "vue";
 
 const state = {
   MULTIPLIER_RATE: 1.12,
-  SCORES_INIT: { data: 1000000, confidence: 1000000 },
+  SCORES_INIT: { data: 500, confidence: 500 },
   FACTORS_INIT: { bandwidth: 0, influence: 0 },
   COSTS_INIT: { data: 0, confidence: 0 },
   EMOTIONS_INIT: {
-    happiness: 0,
-    sadness: 0,
-    excitement: 0,
-    fear: 0,
-    tenderness: 0,
-    anger: 0
+    happiness: 7,
+    sadness: 4,
+    excitement: 3,
+    fear: 6,
+    tenderness: 4,
+    anger: 5
   }
 };
 
@@ -64,7 +64,7 @@ const getters = {
 
     return score;
   },
-  calculateFactors: (state, getters) => (
+  getFactors: (state, getters) => (
     event,
     factors = _.defaults({}, state.FACTORS_INIT)
   ) => {
@@ -113,7 +113,7 @@ const getters = {
     var factors = _.defaults({}, state.FACTORS_INIT);
 
     _.each(events, function(event) {
-      factors = getters.calculateFactors(event, factors);
+      factors = getters.getFactors(event, factors);
     });
 
     return factors;

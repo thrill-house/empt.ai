@@ -21,7 +21,7 @@
       </header>
       <div class="flex justify-between">
         <div class="w-1/4 py-3 pl-6">
-          <h4 class="uppercase mb-3">{{ ability.name }}</h4>
+          <h4 class="uppercase mb-3 text-light">{{ ability.name }}</h4>
           <div class="w-24 h-24 bg-sky-25 overflow-hidden rounded-full inline-flex flex-no-shrink items-center justify-center">
             <icon
               class="w-16 h-16 text-light"
@@ -40,14 +40,11 @@
         </div>
         <div class="w-1/4 flex flex-col items-end justify-between py-3 pr-6">
           <div class="flex flex-col">
-            <slot name="submit"></slot>
-            <button
-              class="button uppercase bg-blue px-4 py-2 font-bold text-light"
-              @click="$parent.$emit('cancel')"
-            >{{ $t('Cancel') }}</button>
+            <slot name="confirm"></slot>
+            <slot name="cancel"></slot>
           </div>
           <div class="bg-sky-25 px-4 py-2 clip-2-corners w-full">
-            <h4 class="uppercase text-sm mb-2">{{ $t('Cost') }}</h4>
+            <h4 class="uppercase text-sm mb-2 text-light">{{ $t('Cost') }}</h4>
             <div>
               <factor-value
                 v-for="(value, cost) in costs"
@@ -100,9 +97,6 @@ export default {
     ability: function() {
       return this.getAbility(this.label);
     },
-    events: function() {
-      return this.getAbilityEvents(this.label);
-    },
     installed: function() {
       return this.getValidSlotEvents(this.label);
     },
@@ -122,14 +116,13 @@ export default {
       return this.isEraActive(this.era);
     },
     emotionalProfile: function() {
-      return _.merge({ color: "sky" }, this.getEmotions());
+      return _.merge({ color: "light" }, this.getEmotions());
     },
     emotionValues: function() {
-      return [this.emotionalProfile, this.emotions];
+      return [this.emotions, this.emotionalProfile];
     },
     ...mapGetters([
       "getAbility",
-      "getAbilityEvents",
       "getValidSlotEvents",
       "getInteraction",
       "getEmotions"

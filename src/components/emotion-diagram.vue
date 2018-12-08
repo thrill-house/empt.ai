@@ -15,20 +15,13 @@ Displays the a diagram of emotions, given a single or set of value sets
     tenderness: 5,
     anger: 6
   }" OR :values.array="[{
-    happiness: 1,
-    sadness: 2,
-    excitement: 3,
-    fear: 4,
-    tenderness: 5,
-    anger: 6
-  },{
     happiness: 6,
     sadness: 5,
     excitement: 4,
     fear: 3,
     tenderness: 2,
     anger: 1
-  }]">Optional label</emotion-diagram>
+  },...]">Optional label</emotion-diagram>
 ```
 </docs>
 

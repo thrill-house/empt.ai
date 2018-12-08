@@ -1314,20 +1314,25 @@ const getters = {
     return state.list[label] || false;
   },
   getAbilityDependants: (state, getters) => label => {
-    var abilities = _.pickBy(state.list, ability => {
-      return (
-        ability.factors.influence && ability.factors.influence.dependencies
-      );
-    });
-
-    var dependantAbilities = _.pickBy(abilities, ability => {
-      return _.includes(_.keys(ability.factors.influence.dependencies), label);
-    });
-
-    if (_.size(dependantAbilities)) {
-      return _.mapValues(dependantAbilities, dependantAbility => {
-        return dependantAbility.factors.influence.dependencies[label];
+    if (state.list) {
+      var abilities = _.pickBy(state.list, ability => {
+        return (
+          ability.factors.influence && ability.factors.influence.dependencies
+        );
       });
+
+      var dependantAbilities = _.pickBy(abilities, ability => {
+        return _.includes(
+          _.keys(ability.factors.influence.dependencies),
+          label
+        );
+      });
+
+      if (_.size(dependantAbilities)) {
+        return _.mapValues(dependantAbilities, dependantAbility => {
+          return dependantAbility.factors.influence.dependencies[label];
+        });
+      }
     }
 
     return false;
@@ -1371,7 +1376,7 @@ const actions = {
       commit("initAbilities", _.keyBy(response.data.data, "label"));
     });
   },
-  addAbilityEvent: dispatch => event => {
+  addAbilityEvent({ dispatch }, event) {
     dispatch("addEvent", event);
   }
 };

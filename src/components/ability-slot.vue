@@ -72,7 +72,7 @@ export default {
       return "";
     },
     slotting: function() {
-      return this.getInteraction("slottingAbility");
+      return this.getInteraction("slot");
     },
     slottingLabel: function() {
       return this.slotting ? this.slotting.label : "";
@@ -91,7 +91,7 @@ export default {
           instance: instance
         })
       ) {
-        this.resetInteraction("slottingAbility");
+        this.resetInteraction("slot");
       }
     },
     ...mapActions(["addSlotEvent", "resetInteraction"])
