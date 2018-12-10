@@ -43,7 +43,6 @@ export default {
     emotionDiagramHappinessTweaker: 1,
     emotionDiagramSadnessTweaker: 1,
     emotionDiagramTendernessTweaker: 1,
-    messageTweaker: 'This and that',
     sessionDurationTweaker: 0,
     socketActivatedTweaker: 'root',
     socketSlotTweaker: 'root-1',
