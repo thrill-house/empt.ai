@@ -2,26 +2,20 @@
 ### Emotion diagram
 Displays the a diagram of emotions, given a single or set of value sets 
 
+##### Properties
+- `labels` — Boolean, if labels should be displayed for emotions. Default true.
+- `color` — Color of the emotion values. Default light.
+- `scale` — Scale of the values provided. Default calculated based on values provided.
+- `values` — An object or array of objects of emotion values.
+
 ##### Instantiation
-```
+```html
 <emotion-diagram
-  :scale.number="10"
-  :hideLabels.boolean="true"
-  :values.object="{
-    happiness: 1,
-    sadness: 2,
-    excitement: 3,
-    fear: 4,
-    tenderness: 5,
-    anger: 6
-  }" OR :values.array="[{
-    happiness: 6,
-    sadness: 5,
-    excitement: 4,
-    fear: 3,
-    tenderness: 2,
-    anger: 1
-  },...]">Optional label</emotion-diagram>
+  labels.boolean="true"
+  color.string="light"
+  scale.number="10"
+  values.object="{object}" OR values.array=[{object},...]"
+>Optional label</emotion-diagram>
 ```
 </docs>
 
@@ -30,7 +24,7 @@ import { mapState, mapGetters } from "vuex";
 import store from "../store";
 import _ from "lodash";
 import math from "mathjs";
-import EmotionValues from "./emotion-values.vue";
+import EmotionValues from "./emotion-values";
 
 export default {
   name: "emotion-diagram",
@@ -67,7 +61,7 @@ export default {
       type: String,
       default: "light"
     },
-    hideLabels: {
+    labels: {
       type: Boolean,
       default: true
     }
@@ -110,7 +104,7 @@ export default {
       return _.merge({}, happinessSadness, excitementFear, tendernessAnger);
     },
     showLabels: function() {
-      return this.getLabelsEnabled() && !this.hideLabels;
+      return this.getLabelsEnabled() && !this.labels;
     },
     ...mapGetters(["getLabelsEnabled"])
   },
@@ -174,7 +168,7 @@ export default {
       );
     },
     label: function(label) {
-      return !this.hideLabels ? (this.showLabels ? label : "??????") : "";
+      return !this.labels ? (this.showLabels ? label : "??????") : "";
     }
   }
 };
@@ -183,7 +177,7 @@ export default {
 <template>
   <div
     class="emotion-diagram relative block bg-sky-25 rounded-full"
-    :class="{ 'mx-16': !hideLabels }"
+    :class="{ 'mx-16': !labels }"
   >
     <div class="absolute block pin w-full h-full">
       <svg

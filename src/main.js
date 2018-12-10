@@ -1,5 +1,5 @@
 import Vue from "vue";
-import App from "./app.vue";
+import App from "./app";
 import filters from "./filters";
 import i18n from "./i18n";
 

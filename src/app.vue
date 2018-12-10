@@ -1,355 +1,3 @@
-<template>
-  <main
-    id="app"
-    class="p-8 bg-tile"
-    :class="{'hide-docs': docsToggle}"
-  >
-    <header class="w-full flex items-center text-light">
-      <div class="w-32">
-        <img src="/assets/img/logo.png">
-      </div>
-      <div class="docs keep p-4">
-        <h1>Project EMPATIS — Vue components</h1>
-        <h2>Component library of user interface elements.</h2>
-        <button class="font-bold text-xs mt-4 mr-4 py-2 px-4 rounded bg-sky text-light" @click="toggleDocs()">{{ docsToggle? 'Show': 'Hide' }} documentation</button>
-      </div>
-    </header>
-    
-    <!--
-    ---- Game events
-    --->
-    <section :class="{ off: gameEventsToggle }">
-      <header>
-        <button class="toggle" @click="toggle('gameEventsToggle')">Toggle</button>
-        <div v-html="docs.gameEvents" class="docs"></div>
-        <div class="tweakers">
-          <h5>Tweakers</h5>
-          <label>Random socket</label>
-          <button @click="randomSocket">Activate</button><hr>
-          <label>Random ability</label>
-          <button @click="randomAbility">Research</button><hr>
-          <label>Random slot</label>
-          <button @click="randomSlot">Install</button>
-        </div>
-      </header>
-      <game-events></game-events>
-    </section>
-    
-    <!--
-    ---- Game time
-    --->
-    <section :class="{ off: gameTimeToggle }">
-      <header>
-        <button class="toggle" @click="toggle('gameTimeToggle')">Toggle</button>
-        <div v-html="docs.gameTime" class="docs"></div>
-        <div class="tweakers">
-          <h5>Tweakers</h5>
-          <label>Start</label>
-          <select v-model="sessionDurationTweaker">
-            <option disabled value="">Choose</option>
-            <option v-for="option in options" :value="option.value">
-              {{ option.label }}
-            </option>
-          </select>
-          <hr>
-          <label>Interval</label>
-          <button v-if="interval" @click="stopSession">Stop</button>
-          <button v-else @click="startSession">Start</button>
-        </div>
-      </header>
-      <game-time></game-time>
-    </section>
-    
-    <!--
-    ---- Game score
-    --->
-    <section :class="{ off: gameScoreToggle }">
-      <header>
-        <button class="toggle" @click="toggle('gameScoreToggle')">Toggle</button>
-        <div v-html="docs.gameScore" class="docs"></div>
-      </header>
-      <game-score></game-score>
-    </section>
-    
-    <!--
-    ---- Game factors
-    --->
-    <section :class="{ off: gameFactorsToggle }">
-      <header>
-        <button class="toggle" @click="toggle('gameFactorsToggle')">Toggle</button>
-        <div v-html="docs.gameFactors" class="docs"></div>
-      </header>
-      <game-factors></game-factors>
-    </section>
-    
-    <!--
-    ---- Enabled ability
-    --->
-    <section :class="{ off: enabledAbilityToggle }">
-      <header>
-        <button class="toggle" @click="toggle('enabledAbilityToggle')">Toggle</button>
-        <div v-html="docs.enabledAbility" class="docs"></div>
-        <div class="tweakers">
-          <h5>Tweakers</h5>
-          <label>Enabled Ability</label>
-          <select v-model="enabledAbilityTweaker">
-            <option disabled value="">Choose</option>
-            <option v-for="(abilityEvent) in getAllEventsOfType('ability')" :value="abilityEvent.instance">
-              {{ abilityEvent.instance }}
-            </option>
-          </select>
-        </div>
-      </header>
-      <enabled-ability :instance="enabledAbilityTweaker"></enabled-ability>
-    </section>
-    
-    <!--
-    ---- Ability slot
-    --->
-    <section :class="{ off: abilitySlotToggle }">
-      <header>
-        <button class="toggle" @click="toggle('abilitySlotToggle')">Toggle</button>
-        <div v-html="docs.abilitySlot" class="docs"></div>
-        <div class="tweakers">
-          <h5>Tweakers</h5>
-          <label>Ability Slot</label>
-          <select v-model="abilitySlotTweaker">
-            <option disabled value="">Choose</option>
-            <option v-for="abilitySlot in slots" :value="abilitySlot">
-              {{ abilitySlot.name }}
-            </option>
-          </select>
-        </div>
-      </header>
-      <ability-slot :label="abilitySlotTweaker"></ability-slot>
-    </section>
-    
-    <!--
-    ---- Data socket
-    --->
-    <section :class="{ off: dataSocketToggle }">
-      <header>
-        <button class="toggle" @click="toggle('dataSocketToggle')">Toggle</button>
-        <div v-html="docs.dataSocket" class="docs"></div>
-        <div class="tweakers">
-          <h5>Tweakers</h5>
-          <label>Data Socket</label>
-          <select v-model="dataSocketTweaker">
-            <option disabled value="">Choose</option>
-            <option v-for="(dataSocket, index) in sockets" :value="index">
-              {{ dataSocket.name }}
-            </option>
-          </select>
-        </div>
-      </header>
-      <data-socket :label="dataSocketTweaker"></data-socket>
-    </section>
-    
-    <!--
-    ---- Available ability
-    --->
-    <section :class="{ off: availableAbilityToggle }">
-      <header>
-        <button class="toggle" @click="toggle('availableAbilityToggle')">Toggle</button>
-        <div v-html="docs.availableAbility" class="docs"></div>
-        <div class="tweakers">
-          <h5>Tweakers</h5>
-          <label>Available Ability</label>
-          <select v-model="availableAbilityTweaker">
-            <option disabled value="">Choose</option>
-            <option v-for="(ability, index) in abilities" :value="index">
-              {{ ability.name }}
-            </option>
-          </select>
-        </div>
-      </header>
-      <available-ability :label="availableAbilityTweaker"></available-ability>
-    </section>
-    
-    <!--
-    ---- Ability library
-    --->
-    <section :class="{ off: abilityLibraryToggle }">
-      <header>
-        <button class="toggle" @click="toggle('abilityLibraryToggle')">Toggle</button>
-        <div v-html="docs.abilityLibrary" class="docs"></div>
-      </header>
-      <ability-library></ability-library>
-    </section>
-    
-    <!--
-    ---- Purchaseable ability
-    --->
-    <section :class="{ off: purchaseableAbilityToggle }">
-      <header>
-        <button class="toggle" @click="toggle('purchaseableAbilityToggle')">Toggle</button>
-        <div v-html="docs.purchaseableAbility" class="docs"></div>
-      </header>
-      <purchaseable-ability></purchaseable-ability>
-    </section>
-    
-    <!--
-    ---- Ability market
-    --->
-    <section :class="{ off: abilityMarketToggle }">
-      <header>
-        <button class="toggle" @click="toggle('abilityMarketToggle')">Toggle</button>
-        <div v-html="docs.abilityMarket" class="docs"></div>
-      </header>
-      <ability-market></ability-market>
-    </section>
-    
-    <!--
-    ---- Emotional profile
-    --->
-    <section :class="{ off: emotionalProfileToggle }">
-      <header>
-        <button class="toggle" @click="toggle('emotionalProfileToggle')">Toggle</button>
-        <div v-html="docs.emotionalProfile" class="docs"></div>
-      </header>
-      <emotional-profile class="w-64 h-64"></emotional-profile>
-    </section>
-    
-    <!--
-    ---- Emotion diagram
-    --->
-    <section :class="{ off: emotionDiagramToggle }">
-      <header>
-        <button class="toggle" @click="toggle('emotionDiagramToggle')">Toggle</button>
-        <div v-html="docs.emotionDiagram" class="docs"></div>
-        <div class="tweakers">
-          <h5>Tweakers</h5>
-          <label>Happiness</label>
-          <input type="range" v-model.number="emotionDiagramHappinessTweaker" min="1" max="100">
-          <hr>
-          <label>Sadness</label>
-          <input type="range" v-model.number="emotionDiagramSadnessTweaker" min="1" max="100">
-          <hr>
-          <label>Excitement</label>
-          <input type="range" v-model.number="emotionDiagramExcitementTweaker" min="1" max="100">
-          <hr>
-          <label>Fear</label>
-          <input type="range" v-model.number="emotionDiagramFearTweaker" min="1" max="100">
-          <hr>
-          <label>Tenderness</label>
-          <input type="range" v-model.number="emotionDiagramTendernessTweaker" min="1" max="100">
-          <hr>
-          <label>Anger</label>
-          <input type="range" v-model.number="emotionDiagramAngerTweaker" min="1" max="100">
-          <hr>
-        </div>
-      </header>
-      <emotion-diagram class="w-128 h-128"
-      :hideLabels="false"
-      :values="[{
-        happiness: 12,
-        sadness: 24,
-        excitement: 36,
-        fear: 48,
-        tenderness: 60,
-        anger: 72,
-        color: 'sky'
-      }, {
-        happiness: emotionDiagramHappinessTweaker,
-        sadness: emotionDiagramSadnessTweaker,
-        excitement: emotionDiagramExcitementTweaker,
-        fear: emotionDiagramFearTweaker,
-        tenderness: emotionDiagramTendernessTweaker,
-        anger: emotionDiagramAngerTweaker,
-        color: 'light'
-      }]"></emotion-diagram>
-    </section>
-    
-    <!--
-    ---- Playing field
-    --->
-    <section :class="{ off: playingFieldToggle }">
-      <header>
-        <button class="toggle" @click="toggle('playingFieldToggle')">Toggle</button>
-        <div v-html="docs.playingField" class="docs"></div>
-      </header>
-      <playing-field></playing-field>
-    </section>
-    
-    <!--
-    ---- Leader boards
-    --->
-    <section :class="{ off: leaderBoardsToggle }">
-      <header>
-        <button class="toggle" @click="toggle('leaderBoardsToggle')">Toggle</button>
-        <div v-html="docs.leaderBoards" class="docs"></div>
-      </header>
-      <leader-boards></leader-boards>
-    </section>
-    
-    <!--
-    ---- Narrative output
-    --->
-    <section :class="{ off: narrativeOutputToggle }">
-      <header>
-        <button class="toggle" @click="toggle('narrativeOutputToggle')">Toggle</button>
-        <div v-html="docs.narrativeOutput" class="docs"></div>
-      </header>
-      <narrative-output></narrative-output>
-    </section>
-    
-    <!--
-    ---- User profile
-    --->
-    <section :class="{ off: userProfileToggle }">
-      <header>
-        <button class="toggle" @click="toggle('userProfileToggle')">Toggle</button>
-        <div v-html="docs.userProfile" class="docs"></div>
-      </header>
-      <user-profile></user-profile>
-    </section>
-    
-    <!--
-    ---- Mini-game
-    --->
-    <section :class="{ off: miniGameToggle }">
-      <header>
-        <button class="toggle" @click="toggle('miniGameToggle')">Toggle</button>
-        <div v-html="docs.miniGame" class="docs"></div>
-      </header>
-      <mini-game></mini-game>
-    </section>
-    
-    <!--
-    ---- Primary navigation
-    --->
-    <section :class="{ off: primaryNavigationToggle }">
-      <header>
-        <button class="toggle" @click="toggle('primaryNavigationToggle')">Toggle</button>
-        <div v-html="docs.primaryNavigation" class="docs"></div>
-      </header>
-      <primary-navigation></primary-navigation>
-    </section>
-    
-    <!--
-    ---- Dialog research
-    --->
-    <section :class="{ off: dialogResearchToggle }">
-      <header>
-        <button class="toggle" @click="toggle('dialogResearchToggle')">Toggle</button>
-        <div v-html="docs.dialogResearch" class="docs"></div>
-      </header>
-      <dialog-research></dialog-research>
-    </section>
-
-    <!--
-    ---- Dialog install
-    --->
-    <section :class="{ off: dialogInstallToggle }">
-      <header>
-        <button class="toggle" @click="toggle('dialogInstallToggle')">Toggle</button>
-        <div v-html="docs.dialogInstall" class="docs"></div>
-      </header>
-      <dialog-install></dialog-install>
-    </section>
-  </main>
-</template>
-
 <script>
 import Vue from "vue";
 import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
@@ -357,27 +5,27 @@ import store from "./store";
 import _ from "lodash";
 import moment from "moment";
 
-import GameEvents from "./components/game-events.vue";
-import GameTime from "./components/game-time.vue";
-import GameScore from "./components/game-score.vue";
-import GameFactors from "./components/game-factors.vue";
-import DataSocket from "./components/data-socket.vue";
-import AbilitySlot from "./components/ability-slot.vue";
-import EnabledAbility from "./components/enabled-ability.vue";
-import AvailableAbility from "./components/available-ability.vue";
-import AbilityLibrary from "./components/ability-library.vue";
-import PurchaseableAbility from "./components/purchaseable-ability.vue";
-import AbilityMarket from "./components/ability-market.vue";
-import PrimaryNavigation from "./components/primary-navigation.vue";
-import PlayingField from "./components/playing-field.vue";
-import EmotionalProfile from "./components/emotional-profile.vue";
-import EmotionDiagram from "./components/emotion-diagram.vue";
-import LeaderBoards from "./components/leader-boards.vue";
-import NarrativeOutput from "./components/narrative-output.vue";
-import UserProfile from "./components/user-profile.vue";
-import MiniGame from "./components/mini-game.vue";
-import DialogResearch from "./components/dialog-research.vue";
-import DialogInstall from "./components/dialog-install.vue";
+import TheEvents from "./components/the-events";
+import TheTime from "./components/the-time";
+import TheScore from "./components/the-score";
+import TheFactors from "./components/the-factors";
+import SocketActivated from "./components/socket-activated";
+import SocketSlot from "./components/socket-slot";
+import AbilityEnabled from "./components/ability-enabled";
+import AbilityAvailable from "./components/ability-available";
+import TheAbilities from "./components/the-abilities";
+import AbilityPurchaseable from "./components/ability-purchaseable";
+import TheMarketplace from "./components/the-marketplace";
+import TheMenu from "./components/the-menu";
+import TheSockets from "./components/the-sockets";
+import EmotionProfile from "./components/emotion-profile";
+import EmotionDiagram from "./components/emotion-diagram";
+import TheLeaders from "./components/the-leaders";
+import TheStory from "./components/the-story";
+import ThePlayer from "./components/the-player";
+import SocketChallenge from "./components/socket-challenge";
+import AbilityResearch from "./components/ability-research";
+import AbilityInstall from "./components/ability-install";
 
 export default {
   name: "app",
@@ -389,10 +37,10 @@ export default {
   data: () => ({
     messageTweaker: "This and that",
     sessionDurationTweaker: 0,
-    enabledAbilityTweaker: "neutral-1",
-    availableAbilityTweaker: "neutral-1",
-    abilitySlotTweaker: "root-1",
-    dataSocketTweaker: "root",
+    abilityEnabledTweaker: "neutral-1",
+    abilityAvailableTweaker: "neutral-1",
+    socketSlotTweaker: "root-1",
+    socketActivatedTweaker: "root",
     emotionDiagramHappinessTweaker: 1,
     emotionDiagramSadnessTweaker: 1,
     emotionDiagramExcitementTweaker: 1,
@@ -402,51 +50,51 @@ export default {
   }),
   store,
   components: {
-    GameEvents,
-    GameTime,
-    GameScore,
-    GameFactors,
-    DataSocket,
-    AbilitySlot,
-    EnabledAbility,
-    AvailableAbility,
-    AbilityLibrary,
-    PurchaseableAbility,
-    AbilityMarket,
-    PrimaryNavigation,
-    PlayingField,
-    EmotionalProfile,
+    TheEvents,
+    TheTime,
+    TheScore,
+    TheFactors,
+    SocketActivated,
+    SocketSlot,
+    AbilityEnabled,
+    AbilityAvailable,
+    TheAbilities,
+    AbilityPurchaseable,
+    TheMarketplace,
+    TheMenu,
+    TheSockets,
+    EmotionProfile,
     EmotionDiagram,
-    LeaderBoards,
-    NarrativeOutput,
-    UserProfile,
-    MiniGame,
-    DialogResearch,
-    DialogInstall
+    TheLeaders,
+    TheStory,
+    ThePlayer,
+    SocketChallenge,
+    AbilityResearch,
+    AbilityInstall
   },
   localStorage: {
     docsToggle: { type: Boolean },
-    gameEventsToggle: { type: Boolean },
-    gameTimeToggle: { type: Boolean },
-    gameScoreToggle: { type: Boolean },
-    gameFactorsToggle: { type: Boolean },
-    dataSocketToggle: { type: Boolean },
-    abilitySlotToggle: { type: Boolean },
-    enabledAbilityToggle: { type: Boolean },
-    availableAbilityToggle: { type: Boolean },
-    abilityLibraryToggle: { type: Boolean },
-    purchaseableAbilityToggle: { type: Boolean },
-    abilityMarketToggle: { type: Boolean },
-    primaryNavigationToggle: { type: Boolean },
-    playingFieldToggle: { type: Boolean },
-    emotionalProfileToggle: { type: Boolean },
+    theEventsToggle: { type: Boolean },
+    theTimeToggle: { type: Boolean },
+    theScoreToggle: { type: Boolean },
+    theFactorsToggle: { type: Boolean },
+    socketActivatedToggle: { type: Boolean },
+    socketSlotToggle: { type: Boolean },
+    abilityEnabledToggle: { type: Boolean },
+    abilityAvailableToggle: { type: Boolean },
+    theAbilitiesToggle: { type: Boolean },
+    abilityPurchaseableToggle: { type: Boolean },
+    theMarketplaceToggle: { type: Boolean },
+    theMenuToggle: { type: Boolean },
+    theSocketsToggle: { type: Boolean },
+    emotionProfileToggle: { type: Boolean },
     emotionDiagramToggle: { type: Boolean },
-    leaderBoardsToggle: { type: Boolean },
-    narrativeOutputToggle: { type: Boolean },
-    userProfileToggle: { type: Boolean },
-    miniGameToggle: { type: Boolean },
-    dialogResearchToggle: { type: Boolean },
-    dialogInstallToggle: { type: Boolean }
+    theLeadersToggle: { type: Boolean },
+    theStoryToggle: { type: Boolean },
+    thePlayerToggle: { type: Boolean },
+    socketChallengeToggle: { type: Boolean },
+    abilityResearchToggle: { type: Boolean },
+    abilityInstallToggle: { type: Boolean }
   },
   computed: {
     docs: function() {
@@ -596,6 +244,358 @@ export default {
 };
 </script>
 
+<template>
+  <main
+    id="app"
+    class="p-8 bg-tile"
+    :class="{'hide-docs': docsToggle}"
+  >
+    <header class="w-full flex items-center text-light">
+      <div class="w-32">
+        <img src="/assets/img/logo.png">
+      </div>
+      <div class="docs keep p-4">
+        <h1>Project EMPATIS — Vue components</h1>
+        <h2>Component library of user interface elements.</h2>
+        <button class="font-bold text-xs mt-4 mr-4 py-2 px-4 rounded bg-sky text-light" @click="toggleDocs()">{{ docsToggle? 'Show': 'Hide' }} documentation</button>
+      </div>
+    </header>
+    
+    <!--
+    ---- Game events
+    --->
+    <section :class="{ off: theEventsToggle }">
+      <header>
+        <button class="toggle" @click="toggle('theEventsToggle')">Toggle</button>
+        <div v-html="docs.theEvents" class="docs"></div>
+        <div class="tweakers">
+          <h5>Tweakers</h5>
+          <label>Random socket</label>
+          <button @click="randomSocket">Activate</button><hr>
+          <label>Random ability</label>
+          <button @click="randomAbility">Research</button><hr>
+          <label>Random slot</label>
+          <button @click="randomSlot">Install</button>
+        </div>
+      </header>
+      <the-events></the-events>
+    </section>
+    
+    <!--
+    ---- Game time
+    --->
+    <section :class="{ off: theTimeToggle }">
+      <header>
+        <button class="toggle" @click="toggle('theTimeToggle')">Toggle</button>
+        <div v-html="docs.theTime" class="docs"></div>
+        <div class="tweakers">
+          <h5>Tweakers</h5>
+          <label>Start</label>
+          <select v-model="sessionDurationTweaker">
+            <option disabled value="">Choose</option>
+            <option v-for="option in options" :value="option.value">
+              {{ option.label }}
+            </option>
+          </select>
+          <hr>
+          <label>Interval</label>
+          <button v-if="interval" @click="stopSession">Stop</button>
+          <button v-else @click="startSession">Start</button>
+        </div>
+      </header>
+      <the-time></the-time>
+    </section>
+    
+    <!--
+    ---- Game score
+    --->
+    <section :class="{ off: theScoreToggle }">
+      <header>
+        <button class="toggle" @click="toggle('theScoreToggle')">Toggle</button>
+        <div v-html="docs.theScore" class="docs"></div>
+      </header>
+      <the-score></the-score>
+    </section>
+    
+    <!--
+    ---- Game factors
+    --->
+    <section :class="{ off: theFactorsToggle }">
+      <header>
+        <button class="toggle" @click="toggle('theFactorsToggle')">Toggle</button>
+        <div v-html="docs.theFactors" class="docs"></div>
+      </header>
+      <the-factors></the-factors>
+    </section>
+    
+    <!--
+    ---- Enabled ability
+    --->
+    <section :class="{ off: abilityEnabledToggle }">
+      <header>
+        <button class="toggle" @click="toggle('abilityEnabledToggle')">Toggle</button>
+        <div v-html="docs.abilityEnabled" class="docs"></div>
+        <div class="tweakers">
+          <h5>Tweakers</h5>
+          <label>Enabled Ability</label>
+          <select v-model="abilityEnabledTweaker">
+            <option disabled value="">Choose</option>
+            <option v-for="(abilityEvent) in getAllEventsOfType('ability')" :value="abilityEvent.instance">
+              {{ abilityEvent.instance }}
+            </option>
+          </select>
+        </div>
+      </header>
+      <ability-enabled :instance="abilityEnabledTweaker"></ability-enabled>
+    </section>
+    
+    <!--
+    ---- Ability slot
+    --->
+    <section :class="{ off: socketSlotToggle }">
+      <header>
+        <button class="toggle" @click="toggle('socketSlotToggle')">Toggle</button>
+        <div v-html="docs.socketSlot" class="docs"></div>
+        <div class="tweakers">
+          <h5>Tweakers</h5>
+          <label>Ability Slot</label>
+          <select v-model="socketSlotTweaker">
+            <option disabled value="">Choose</option>
+            <option v-for="socketSlot in slots" :value="socketSlot">
+              {{ socketSlot.name }}
+            </option>
+          </select>
+        </div>
+      </header>
+      <socket-slot :label="socketSlotTweaker"></socket-slot>
+    </section>
+    
+    <!--
+    ---- Data socket
+    --->
+    <section :class="{ off: socketActivatedToggle }">
+      <header>
+        <button class="toggle" @click="toggle('socketActivatedToggle')">Toggle</button>
+        <div v-html="docs.socketActivated" class="docs"></div>
+        <div class="tweakers">
+          <h5>Tweakers</h5>
+          <label>Data Socket</label>
+          <select v-model="socketActivatedTweaker">
+            <option disabled value="">Choose</option>
+            <option v-for="(socketActivated, index) in sockets" :value="index">
+              {{ socketActivated.name }}
+            </option>
+          </select>
+        </div>
+      </header>
+      <socket-activated :label="socketActivatedTweaker"></socket-activated>
+    </section>
+    
+    <!--
+    ---- Available ability
+    --->
+    <section :class="{ off: abilityAvailableToggle }">
+      <header>
+        <button class="toggle" @click="toggle('abilityAvailableToggle')">Toggle</button>
+        <div v-html="docs.abilityAvailable" class="docs"></div>
+        <div class="tweakers">
+          <h5>Tweakers</h5>
+          <label>Available Ability</label>
+          <select v-model="abilityAvailableTweaker">
+            <option disabled value="">Choose</option>
+            <option v-for="(ability, index) in abilities" :value="index">
+              {{ ability.name }}
+            </option>
+          </select>
+        </div>
+      </header>
+      <ability-available :label="abilityAvailableTweaker"></ability-available>
+    </section>
+    
+    <!--
+    ---- Ability library
+    --->
+    <section :class="{ off: theAbilitiesToggle }">
+      <header>
+        <button class="toggle" @click="toggle('theAbilitiesToggle')">Toggle</button>
+        <div v-html="docs.theAbilities" class="docs"></div>
+      </header>
+      <the-abilities></the-abilities>
+    </section>
+    
+    <!--
+    ---- Purchaseable ability
+    --->
+    <section :class="{ off: abilityPurchaseableToggle }">
+      <header>
+        <button class="toggle" @click="toggle('abilityPurchaseableToggle')">Toggle</button>
+        <div v-html="docs.abilityPurchaseable" class="docs"></div>
+      </header>
+      <ability-purchaseable></ability-purchaseable>
+    </section>
+    
+    <!--
+    ---- Ability market
+    --->
+    <section :class="{ off: theMarketplaceToggle }">
+      <header>
+        <button class="toggle" @click="toggle('theMarketplaceToggle')">Toggle</button>
+        <div v-html="docs.theMarketplace" class="docs"></div>
+      </header>
+      <the-marketplace></the-marketplace>
+    </section>
+    
+    <!--
+    ---- Emotional profile
+    --->
+    <section :class="{ off: emotionProfileToggle }">
+      <header>
+        <button class="toggle" @click="toggle('emotionProfileToggle')">Toggle</button>
+        <div v-html="docs.emotionProfile" class="docs"></div>
+      </header>
+      <emotion-profile class="w-64 h-64"></emotion-profile>
+    </section>
+    
+    <!--
+    ---- Emotion diagram
+    --->
+    <section :class="{ off: emotionDiagramToggle }">
+      <header>
+        <button class="toggle" @click="toggle('emotionDiagramToggle')">Toggle</button>
+        <div v-html="docs.emotionDiagram" class="docs"></div>
+        <div class="tweakers">
+          <h5>Tweakers</h5>
+          <label>Happiness</label>
+          <input type="range" v-model.number="emotionDiagramHappinessTweaker" min="1" max="100">
+          <hr>
+          <label>Sadness</label>
+          <input type="range" v-model.number="emotionDiagramSadnessTweaker" min="1" max="100">
+          <hr>
+          <label>Excitement</label>
+          <input type="range" v-model.number="emotionDiagramExcitementTweaker" min="1" max="100">
+          <hr>
+          <label>Fear</label>
+          <input type="range" v-model.number="emotionDiagramFearTweaker" min="1" max="100">
+          <hr>
+          <label>Tenderness</label>
+          <input type="range" v-model.number="emotionDiagramTendernessTweaker" min="1" max="100">
+          <hr>
+          <label>Anger</label>
+          <input type="range" v-model.number="emotionDiagramAngerTweaker" min="1" max="100">
+          <hr>
+        </div>
+      </header>
+      <emotion-diagram class="w-128 h-128"
+      :labels="false"
+      :values="[{
+        happiness: 12,
+        sadness: 24,
+        excitement: 36,
+        fear: 48,
+        tenderness: 60,
+        anger: 72,
+        color: 'sky'
+      }, {
+        happiness: emotionDiagramHappinessTweaker,
+        sadness: emotionDiagramSadnessTweaker,
+        excitement: emotionDiagramExcitementTweaker,
+        fear: emotionDiagramFearTweaker,
+        tenderness: emotionDiagramTendernessTweaker,
+        anger: emotionDiagramAngerTweaker,
+        color: 'light'
+      }]"></emotion-diagram>
+    </section>
+    
+    <!--
+    ---- Playing field
+    --->
+    <section :class="{ off: theSocketsToggle }">
+      <header>
+        <button class="toggle" @click="toggle('theSocketsToggle')">Toggle</button>
+        <div v-html="docs.theSockets" class="docs"></div>
+      </header>
+      <the-sockets></the-sockets>
+    </section>
+    
+    <!--
+    ---- Leader boards
+    --->
+    <section :class="{ off: theLeadersToggle }">
+      <header>
+        <button class="toggle" @click="toggle('theLeadersToggle')">Toggle</button>
+        <div v-html="docs.theLeaders" class="docs"></div>
+      </header>
+      <the-leaders></the-leaders>
+    </section>
+    
+    <!--
+    ---- Narrative output
+    --->
+    <section :class="{ off: theStoryToggle }">
+      <header>
+        <button class="toggle" @click="toggle('theStoryToggle')">Toggle</button>
+        <div v-html="docs.theStory" class="docs"></div>
+      </header>
+      <the-story></the-story>
+    </section>
+    
+    <!--
+    ---- User profile
+    --->
+    <section :class="{ off: thePlayerToggle }">
+      <header>
+        <button class="toggle" @click="toggle('thePlayerToggle')">Toggle</button>
+        <div v-html="docs.thePlayer" class="docs"></div>
+      </header>
+      <the-player></the-player>
+    </section>
+    
+    <!--
+    ---- Mini-game
+    --->
+    <section :class="{ off: socketChallengeToggle }">
+      <header>
+        <button class="toggle" @click="toggle('socketChallengeToggle')">Toggle</button>
+        <div v-html="docs.socketChallenge" class="docs"></div>
+      </header>
+      <socket-challenge></socket-challenge>
+    </section>
+    
+    <!--
+    ---- Primary navigation
+    --->
+    <section :class="{ off: theMenuToggle }">
+      <header>
+        <button class="toggle" @click="toggle('theMenuToggle')">Toggle</button>
+        <div v-html="docs.theMenu" class="docs"></div>
+      </header>
+      <the-menu></the-menu>
+    </section>
+    
+    <!--
+    ---- Dialog research
+    --->
+    <section :class="{ off: abilityResearchToggle }">
+      <header>
+        <button class="toggle" @click="toggle('abilityResearchToggle')">Toggle</button>
+        <div v-html="docs.abilityResearch" class="docs"></div>
+      </header>
+      <ability-research></ability-research>
+    </section>
+
+    <!--
+    ---- Dialog install
+    --->
+    <section :class="{ off: abilityInstallToggle }">
+      <header>
+        <button class="toggle" @click="toggle('abilityInstallToggle')">Toggle</button>
+        <div v-html="docs.abilityInstall" class="docs"></div>
+      </header>
+      <ability-install></ability-install>
+    </section>
+  </main>
+</template>
+
 <style lang="scss">
 @import "./scss/default";
 
@@ -646,6 +646,16 @@ export default {
 
       code {
         @apply bg-grey py-2 px-4 rounded;
+      }
+
+      pre {
+        code {
+          @apply block;
+        }
+      }
+
+      blockquote {
+        @apply inline-block bg-navy text-light p-4 italic rounded;
       }
 
       & + * {

@@ -37,7 +37,7 @@
     "file-loader": "^1.1.11",
     "gulp-postcss": "^7.0.1",
     "lodash": "^4.17.11",
-    "markdown": "^0.5.0",
+    "markdown-it": "^8.4.2",
     "mathjs": "^4.4.2",
     "moment": "^2.22.2",
     "moment-duration-format": "^2.2.2",

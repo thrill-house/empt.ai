@@ -1,31 +1,43 @@
 <docs>
-  ### Ability dialog
-  A shared component for researching and installing abilities
-  ##### Instantiation
-  `<ability-dialog task="install|research" ability="{ ability-object }"></ability-dialog>`
+### Ability dialog
+A shared component for researching and installing abilities
+
+##### Properties
+- `label` — A label referring to an ability in the global store.
+- `costs` — Object of costs for the dialog action.
+- `emotions` — Optional object of emotion values, will be combined with emotion profile for comparison.
+- `show` — Show or hide the dialog.
+
+##### Instantiation
+`<ability-dialog
+  label.string="ability-label"
+  costs.object="{object}"
+  emotions.object="{object}"
+  show.boolean="true"
+></ability-dialog>`
 </docs>
 
 <script>
 import { mapState, mapGetters, mapActions } from "vuex";
 import store from "../store";
-import Icon from "./icon.vue";
-import TheModal from "./the-modal.vue";
-import FactorValue from "./factor-value.vue";
-import EmotionDiagram from "./emotion-diagram.vue";
+import BaseIcon from "./base-icon";
+import TheModal from "./the-modal";
+import BaseFactor from "./base-factor";
+import EmotionDiagram from "./emotion-diagram";
 
 export default {
   name: "ability-dialog",
   store,
   components: {
-    Icon,
+    BaseIcon,
     TheModal,
-    FactorValue,
+    BaseFactor,
     EmotionDiagram
   },
   props: {
     label: [Boolean, String],
-    emotions: Object,
     costs: Object,
+    emotions: Object,
     show: Boolean
   },
   data: () => ({
@@ -56,11 +68,11 @@ export default {
     eraActive: function() {
       return this.isEraActive(this.era);
     },
-    emotionalProfile: function() {
+    emotionProfile: function() {
       return _.merge({ color: "light" }, this.getEmotions());
     },
     emotionValues: function() {
-      return [this.emotions, this.emotionalProfile];
+      return [this.emotions, this.emotionProfile];
     },
     ...mapGetters([
       "getAbility",
@@ -93,10 +105,10 @@ export default {
         <div class="w-1/4 py-3 pl-6">
           <h4 class="uppercase mb-3 text-light">{{ ability.name }}</h4>
           <div class="w-24 h-24 bg-sky-25 overflow-hidden rounded-full inline-flex flex-no-shrink items-center justify-center">
-            <icon
+            <base-icon
               class="w-16 h-16 text-light"
               :label="ability.label"
-            ></icon>
+            ></base-icon>
           </div>
         </div>
         <div class="w-1/2 py-3">
@@ -104,7 +116,7 @@ export default {
             <emotion-diagram
               class="w-64 h-64"
               :values="emotionValues"
-              :hideLabels="false"
+              :labels="false"
             ></emotion-diagram>
           </slot>
         </div>
@@ -116,13 +128,13 @@ export default {
           <div class="bg-sky-25 px-4 py-2 clip-2-corners w-full">
             <h4 class="uppercase text-sm mb-2 text-light">{{ $t('Cost') }}</h4>
             <div>
-              <factor-value
+              <base-factor
                 v-for="(value, cost) in costs"
                 class="h-4 mb-1"
                 :key="cost"
                 :label="cost"
                 :value="value"
-              ></factor-value>
+              ></base-factor>
             </div>
           </div>
         </div>

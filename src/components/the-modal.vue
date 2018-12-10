@@ -1,6 +1,6 @@
 <docs>
 ### The Modal
-Helper element to display modal dialogs within, that take a z-index priority over all other elements
+Helper element to display modal dialogs within, that take a z-index priority over all other elements.
 
 ##### Instantiation
 `<the-modal></the-modal>`
