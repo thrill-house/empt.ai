@@ -39,11 +39,5 @@ export default {
 
 <style lang="scss">
 .ability-symbiosis {
-  @apply fixed
-  pin
-  flex justify-center items-center
-  z-50;
-
-  //@extend %bg-navy-75;
 }
 </style>

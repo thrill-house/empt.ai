@@ -57,10 +57,10 @@ export default {
       return this.influence.trees;
     },
     dependencies: function() {
-      return this.influence.dependencies;
+      return this.influence.dependencies || {};
     },
     dependants: function() {
-      return this.getAbilityDependants(this.label);
+      return this.getAbilityDependants(this.label) || {};
     },
     era: function() {
       return this.ability.era;
@@ -123,36 +123,36 @@ export default {
     >
       <base-factor
         v-for="(value, factor) in factors"
+        class="w-1/2 h-4 mb-1"
         :key="factor"
         :label="factor"
         :value="value.base"
-        class="w-1/2 h-4 mb-1"
       ></base-factor>
       <base-factor
         v-for="(value, tree) in trees"
+        class="w-1/2 h-4 mb-1"
         :key="tree"
         :label="tree"
         :value="value"
-        class="w-1/2 h-4 mb-1"
       ></base-factor>
     </div>
     <div v-show="hover" class="flex relative z-10 py-1 pl-16 pr-2 ml-16 h-16">
       <div class="flex flex-wrap justify-between w-1/2 pr-1">
         <ability-symbiosis
           v-for="(value, dependency, index) in dependencies"
+          class="border-2 border-sky"
           :key="dependency"
           :label="dependency"
-          :class="{ 'mx-auto -mt-2': index == 2 }"
-          class="border-2 border-sky"
+          :class="{ 'mx-auto -mt-2': index === 2 }"
         ></ability-symbiosis>
       </div>
       <div class="flex flex-wrap justify-between content-start w-1/2 pl-1">
         <ability-symbiosis
           v-for="(value, dependant, index) in dependants"
+          class="bg-sky"
           :key="dependant"
           :label="dependant"
-          :class="{ 'mx-auto -mt-2': index == 2 }"
-          class="bg-sky"
+          :class="{ 'mx-auto -mt-2': index === 2 }"
         ></ability-symbiosis>
       </div>
     </div>
