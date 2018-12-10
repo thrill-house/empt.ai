@@ -119,16 +119,16 @@ export default {
       abilities: 'abilities',
     }),
     ...mapGetters([
-      'getStart',
-      'getNow',
-      'getDuration',
-      'getEvents',
-      'getAllEventsOfType',
       'getActiveSockets',
-      'getSlotsForSocket',
-      'getSlotEvents',
-      'getEventObject',
+      'getAllEventsOfType',
+      'getDuration',
       'getEventAffordability',
+      'getEventObject',
+      'getEvents',
+      'getNow',
+      'getSlotEvents',
+      'getSlotsForSocket',
+      'getStart',
     ]),
   },
   methods: {
@@ -216,14 +216,14 @@ export default {
     },
     ...mapMutations(['setStart']),
     ...mapActions([
+      'addAbilityEvent',
+      'addEvent',
+      'addSlotEvent',
+      'addSocketEvent',
       'initAbilities',
+      'setEvents',
       'startSession',
       'stopSession',
-      'setEvents',
-      'addEvent',
-      'addSocketEvent',
-      'addSlotEvent',
-      'addAbilityEvent',
     ]),
   },
   watch: {
@@ -261,31 +261,31 @@ export default {
     </header>
 
     <!--
-    ---- Game events
+    ---- The menu
     --->
-    <section :class="{ off: theEventsToggle }">
+    <section :class="{ off: theMenuToggle }">
       <header>
-        <button class="toggle" @click="toggle('theEventsToggle')">
-          Toggle
-        </button>
-        <div v-html="docs.theEvents" class="docs"></div>
-        <div class="tweakers">
-          <h5>Tweakers</h5>
-          <label>Random socket</label>
-          <button @click="randomSocket">Activate</button>
-          <hr />
-          <label>Random ability</label>
-          <button @click="randomAbility">Research</button>
-          <hr />
-          <label>Random slot</label>
-          <button @click="randomSlot">Install</button>
-        </div>
+        <button class="toggle" @click="toggle('theMenuToggle')">Toggle</button>
+        <div v-html="docs.theMenu" class="docs"></div>
       </header>
-      <the-events></the-events>
+      <the-menu></the-menu>
     </section>
 
     <!--
-    ---- Game time
+    ---- The player
+    --->
+    <section :class="{ off: thePlayerToggle }">
+      <header>
+        <button class="toggle" @click="toggle('thePlayerToggle')">
+          Toggle
+        </button>
+        <div v-html="docs.thePlayer" class="docs"></div>
+      </header>
+      <the-player></the-player>
+    </section>
+
+    <!--
+    ---- The time
     --->
     <section :class="{ off: theTimeToggle }">
       <header>
@@ -310,7 +310,7 @@ export default {
     </section>
 
     <!--
-    ---- Game score
+    ---- The score
     --->
     <section :class="{ off: theScoreToggle }">
       <header>
@@ -321,7 +321,7 @@ export default {
     </section>
 
     <!--
-    ---- Game factors
+    ---- The factors
     --->
     <section :class="{ off: theFactorsToggle }">
       <header>
@@ -334,102 +334,20 @@ export default {
     </section>
 
     <!--
-    ---- Enabled ability
+    ---- The sockets
     --->
-    <section :class="{ off: abilityEnabledToggle }">
+    <section :class="{ off: theSocketsToggle }">
       <header>
-        <button class="toggle" @click="toggle('abilityEnabledToggle')">
+        <button class="toggle" @click="toggle('theSocketsToggle')">
           Toggle
         </button>
-        <div v-html="docs.abilityEnabled" class="docs"></div>
-        <div class="tweakers">
-          <h5>Tweakers</h5>
-          <label>Enabled Ability</label>
-          <select v-model="abilityEnabledTweaker">
-            <option disabled value="">Choose</option>
-            <option
-              v-for="abilityEvent in getAllEventsOfType('ability')"
-              :value="abilityEvent.instance"
-            >
-              {{ abilityEvent.instance }}
-            </option>
-          </select>
-        </div>
+        <div v-html="docs.theSockets" class="docs"></div>
       </header>
-      <ability-enabled :instance="abilityEnabledTweaker"></ability-enabled>
+      <the-sockets></the-sockets>
     </section>
 
     <!--
-    ---- Ability slot
-    --->
-    <section :class="{ off: socketSlotToggle }">
-      <header>
-        <button class="toggle" @click="toggle('socketSlotToggle')">
-          Toggle
-        </button>
-        <div v-html="docs.socketSlot" class="docs"></div>
-        <div class="tweakers">
-          <h5>Tweakers</h5>
-          <label>Ability Slot</label>
-          <select v-model="socketSlotTweaker">
-            <option disabled value="">Choose</option>
-            <option v-for="socketSlot in slots" :value="socketSlot">
-              {{ socketSlot.name }}
-            </option>
-          </select>
-        </div>
-      </header>
-      <socket-slot :label="socketSlotTweaker"></socket-slot>
-    </section>
-
-    <!--
-    ---- Data socket
-    --->
-    <section :class="{ off: socketActivatedToggle }">
-      <header>
-        <button class="toggle" @click="toggle('socketActivatedToggle')">
-          Toggle
-        </button>
-        <div v-html="docs.socketActivated" class="docs"></div>
-        <div class="tweakers">
-          <h5>Tweakers</h5>
-          <label>Data Socket</label>
-          <select v-model="socketActivatedTweaker">
-            <option disabled value="">Choose</option>
-            <option v-for="(socketActivated, index) in sockets" :value="index">
-              {{ socketActivated.name }}
-            </option>
-          </select>
-        </div>
-      </header>
-      <socket-activated :label="socketActivatedTweaker"></socket-activated>
-    </section>
-
-    <!--
-    ---- Available ability
-    --->
-    <section :class="{ off: abilityAvailableToggle }">
-      <header>
-        <button class="toggle" @click="toggle('abilityAvailableToggle')">
-          Toggle
-        </button>
-        <div v-html="docs.abilityAvailable" class="docs"></div>
-        <div class="tweakers">
-          <h5>Tweakers</h5>
-          <label>Available Ability</label>
-          <select v-model="abilityAvailableTweaker">
-            <option disabled value="">Choose</option>
-            <option v-for="(ability, index) in abilities" :value="index">
-              {{ ability.name }}
-            </option>
-          </select>
-        </div>
-      </header>
-      <ability-available :label="abilityAvailableTweaker"></ability-available>
-    </section>
-
-    <!--
-    ---- Ability library
+    ---- The abilities
     --->
     <section :class="{ off: theAbilitiesToggle }">
       <header>
@@ -442,20 +360,7 @@ export default {
     </section>
 
     <!--
-    ---- Purchaseable ability
-    --->
-    <section :class="{ off: abilityPurchaseableToggle }">
-      <header>
-        <button class="toggle" @click="toggle('abilityPurchaseableToggle')">
-          Toggle
-        </button>
-        <div v-html="docs.abilityPurchaseable" class="docs"></div>
-      </header>
-      <ability-purchaseable></ability-purchaseable>
-    </section>
-
-    <!--
-    ---- Ability market
+    ---- The marketplace
     --->
     <section :class="{ off: theMarketplaceToggle }">
       <header>
@@ -468,7 +373,55 @@ export default {
     </section>
 
     <!--
-    ---- Emotional profile
+    ---- The story
+    --->
+    <section :class="{ off: theStoryToggle }">
+      <header>
+        <button class="toggle" @click="toggle('theStoryToggle')">Toggle</button>
+        <div v-html="docs.theStory" class="docs"></div>
+      </header>
+      <the-story></the-story>
+    </section>
+
+    <!--
+    ---- The leaders
+    --->
+    <section :class="{ off: theLeadersToggle }">
+      <header>
+        <button class="toggle" @click="toggle('theLeadersToggle')">
+          Toggle
+        </button>
+        <div v-html="docs.theLeaders" class="docs"></div>
+      </header>
+      <the-leaders></the-leaders>
+    </section>
+
+    <!--
+    ---- The events
+    --->
+    <section :class="{ off: theEventsToggle }">
+      <header>
+        <button class="toggle" @click="toggle('theEventsToggle')">
+          Toggle
+        </button>
+        <div v-html="docs.theEvents" class="docs"></div>
+        <div class="tweakers">
+          <h5>Tweakers</h5>
+          <label>Random socket</label>
+          <button @click="randomSocket">Activate</button>
+          <hr />
+          <label>Random ability</label>
+          <button @click="randomAbility">Research</button>
+          <hr />
+          <label>Random slot</label>
+          <button @click="randomSlot">Install</button>
+        </div>
+      </header>
+      <the-events></the-events>
+    </section>
+
+    <!--
+    ---- Emotion profile
     --->
     <section :class="{ off: emotionProfileToggle }">
       <header>
@@ -568,57 +521,53 @@ export default {
     </section>
 
     <!--
-    ---- Playing field
+    ---- Socket activated
     --->
-    <section :class="{ off: theSocketsToggle }">
+    <section :class="{ off: socketActivatedToggle }">
       <header>
-        <button class="toggle" @click="toggle('theSocketsToggle')">
+        <button class="toggle" @click="toggle('socketActivatedToggle')">
           Toggle
         </button>
-        <div v-html="docs.theSockets" class="docs"></div>
+        <div v-html="docs.socketActivated" class="docs"></div>
+        <div class="tweakers">
+          <h5>Tweakers</h5>
+          <label>Data Socket</label>
+          <select v-model="socketActivatedTweaker">
+            <option disabled value="">Choose</option>
+            <option v-for="(socketActivated, index) in sockets" :value="index">
+              {{ socketActivated.name }}
+            </option>
+          </select>
+        </div>
       </header>
-      <the-sockets></the-sockets>
+      <socket-activated :label="socketActivatedTweaker"></socket-activated>
     </section>
 
     <!--
-    ---- Leader boards
+    ---- Socket slot
     --->
-    <section :class="{ off: theLeadersToggle }">
+    <section :class="{ off: socketSlotToggle }">
       <header>
-        <button class="toggle" @click="toggle('theLeadersToggle')">
+        <button class="toggle" @click="toggle('socketSlotToggle')">
           Toggle
         </button>
-        <div v-html="docs.theLeaders" class="docs"></div>
+        <div v-html="docs.socketSlot" class="docs"></div>
+        <div class="tweakers">
+          <h5>Tweakers</h5>
+          <label>Ability Slot</label>
+          <select v-model="socketSlotTweaker">
+            <option disabled value="">Choose</option>
+            <option v-for="socketSlot in slots" :value="socketSlot">
+              {{ socketSlot.name }}
+            </option>
+          </select>
+        </div>
       </header>
-      <the-leaders></the-leaders>
+      <socket-slot :label="socketSlotTweaker"></socket-slot>
     </section>
 
     <!--
-    ---- Narrative output
-    --->
-    <section :class="{ off: theStoryToggle }">
-      <header>
-        <button class="toggle" @click="toggle('theStoryToggle')">Toggle</button>
-        <div v-html="docs.theStory" class="docs"></div>
-      </header>
-      <the-story></the-story>
-    </section>
-
-    <!--
-    ---- User profile
-    --->
-    <section :class="{ off: thePlayerToggle }">
-      <header>
-        <button class="toggle" @click="toggle('thePlayerToggle')">
-          Toggle
-        </button>
-        <div v-html="docs.thePlayer" class="docs"></div>
-      </header>
-      <the-player></the-player>
-    </section>
-
-    <!--
-    ---- Mini-game
+    ---- Socket challenge
     --->
     <section :class="{ off: socketChallengeToggle }">
       <header>
@@ -631,18 +580,69 @@ export default {
     </section>
 
     <!--
-    ---- Primary navigation
+    ---- Ability available
     --->
-    <section :class="{ off: theMenuToggle }">
+    <section :class="{ off: abilityAvailableToggle }">
       <header>
-        <button class="toggle" @click="toggle('theMenuToggle')">Toggle</button>
-        <div v-html="docs.theMenu" class="docs"></div>
+        <button class="toggle" @click="toggle('abilityAvailableToggle')">
+          Toggle
+        </button>
+        <div v-html="docs.abilityAvailable" class="docs"></div>
+        <div class="tweakers">
+          <h5>Tweakers</h5>
+          <label>Available Ability</label>
+          <select v-model="abilityAvailableTweaker">
+            <option disabled value="">Choose</option>
+            <option v-for="(ability, index) in abilities" :value="index">
+              {{ ability.name }}
+            </option>
+          </select>
+        </div>
       </header>
-      <the-menu></the-menu>
+      <ability-available :label="abilityAvailableTweaker"></ability-available>
     </section>
 
     <!--
-    ---- Dialog research
+    ---- Ability enabled
+    --->
+    <section :class="{ off: abilityEnabledToggle }">
+      <header>
+        <button class="toggle" @click="toggle('abilityEnabledToggle')">
+          Toggle
+        </button>
+        <div v-html="docs.abilityEnabled" class="docs"></div>
+        <div class="tweakers">
+          <h5>Tweakers</h5>
+          <label>Enabled Ability</label>
+          <select v-model="abilityEnabledTweaker">
+            <option disabled value="">Choose</option>
+            <option
+              v-for="abilityEvent in getAllEventsOfType('ability')"
+              :value="abilityEvent.instance"
+            >
+              {{ abilityEvent.instance }}
+            </option>
+          </select>
+        </div>
+      </header>
+      <ability-enabled :instance="abilityEnabledTweaker"></ability-enabled>
+    </section>
+
+    <!--
+    ---- Ability purchaseable
+    --->
+    <section :class="{ off: abilityPurchaseableToggle }">
+      <header>
+        <button class="toggle" @click="toggle('abilityPurchaseableToggle')">
+          Toggle
+        </button>
+        <div v-html="docs.abilityPurchaseable" class="docs"></div>
+      </header>
+      <ability-purchaseable></ability-purchaseable>
+    </section>
+
+    <!--
+    ---- Ability research
     --->
     <section :class="{ off: abilityResearchToggle }">
       <header>
@@ -655,7 +655,7 @@ export default {
     </section>
 
     <!--
-    ---- Dialog install
+    ---- Ability install
     --->
     <section :class="{ off: abilityInstallToggle }">
       <header>
