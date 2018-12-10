@@ -6,10 +6,10 @@ import Vue from 'vue';
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
 
 import AbilityAvailable from './components/ability-available';
-import AbilityEnabled from './components/ability-enabled';
 import AbilityInstall from './components/ability-install';
 import AbilityPurchaseable from './components/ability-purchaseable';
 import AbilityResearch from './components/ability-research';
+import AbilitySlotted from './components/ability-slotted';
 import EmotionDiagram from './components/emotion-diagram';
 import EmotionProfile from './components/emotion-profile';
 import SocketActivated from './components/socket-activated';
@@ -36,7 +36,7 @@ export default {
   },
   data: () => ({
     abilityAvailableTweaker: 'neutral-1',
-    abilityEnabledTweaker: 'neutral-1',
+    abilitySlottedTweaker: 'neutral-1',
     emotionDiagramAngerTweaker: 1,
     emotionDiagramExcitementTweaker: 1,
     emotionDiagramFearTweaker: 1,
@@ -50,10 +50,10 @@ export default {
   store,
   components: {
     AbilityAvailable,
-    AbilityEnabled,
     AbilityInstall,
     AbilityPurchaseable,
     AbilityResearch,
+    AbilitySlotted,
     EmotionDiagram,
     EmotionProfile,
     SocketActivated,
@@ -73,7 +73,7 @@ export default {
   },
   localStorage: {
     abilityAvailableToggle: { type: Boolean },
-    abilityEnabledToggle: { type: Boolean },
+    abilitySlottedToggle: { type: Boolean },
     abilityInstallToggle: { type: Boolean },
     abilityPurchaseableToggle: { type: Boolean },
     abilityResearchToggle: { type: Boolean },
@@ -604,16 +604,16 @@ export default {
     <!--
     ---- Ability enabled
     --->
-    <section :class="{ off: abilityEnabledToggle }">
+    <section :class="{ off: abilitySlottedToggle }">
       <header>
-        <button class="toggle" @click="toggle('abilityEnabledToggle')">
+        <button class="toggle" @click="toggle('abilitySlottedToggle')">
           Toggle
         </button>
-        <div v-html="docs.abilityEnabled" class="docs"></div>
+        <div v-html="docs.abilitySlotted" class="docs"></div>
         <div class="tweakers">
           <h5>Tweakers</h5>
           <label>Enabled Ability</label>
-          <select v-model="abilityEnabledTweaker">
+          <select v-model="abilitySlottedTweaker">
             <option disabled value="">Choose</option>
             <option
               v-for="abilityEvent in getAllEventsOfType('ability')"
@@ -624,7 +624,7 @@ export default {
           </select>
         </div>
       </header>
-      <ability-enabled :instance="abilityEnabledTweaker"></ability-enabled>
+      <ability-slotted :instance="abilitySlottedTweaker"></ability-slotted>
     </section>
 
     <!--

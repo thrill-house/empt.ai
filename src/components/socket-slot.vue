@@ -13,7 +13,7 @@ The ability slot is a space attached to a data sources. When an ability is assig
 import store from '../store';
 import { mapState, mapGetters, mapActions } from 'vuex';
 
-import AbilityEnabled from './ability-enabled';
+import AbilitySlotted from './ability-slotted';
 import BaseIcon from './base-icon';
 import EmotionDiagram from './emotion-diagram';
 
@@ -21,7 +21,7 @@ export default {
   name: 'socket-slot',
   store,
   components: {
-    AbilityEnabled,
+    AbilitySlotted,
     BaseIcon,
     EmotionDiagram,
   },
@@ -85,10 +85,10 @@ export default {
 
 <template>
   <div class="socket-slot" @mouseover="hover = true" @mouseout="hover = false">
-    <ability-enabled
+    <ability-slotted
       v-if="event && abilityInstance && (!slottingLabel || !hover)"
       :instance="abilityInstance"
-    ></ability-enabled>
+    ></ability-slotted>
     <div
       v-else
       class="socket-slot bg-tile-overlay hexagon w-48 h-hex*48 px-2 py-6 flex flex-col justify-between content-center items-center bg-light text-light text-center"
