@@ -118,7 +118,7 @@ if (process.env.NODE_ENV === "docs") {
 
   module.exports.plugins = (module.exports.plugins || []).concat([
     new ExtractTextPlugin({
-      filename: "../DOCS.md",
+      filename: "../../DOCS.md",
       allChunks: true
     })
   ]);
