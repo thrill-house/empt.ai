@@ -7,8 +7,9 @@ The component displays all **sockets**, and by extension all **slots** and **abi
 </docs>
 
 <script>
-import { mapState, mapGetters } from "vuex";
 import store from "../store";
+import { mapState, mapGetters } from "vuex";
+
 import SocketActivated from "./socket-activated";
 
 export default {

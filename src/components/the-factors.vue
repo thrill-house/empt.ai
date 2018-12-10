@@ -7,9 +7,9 @@ The component displays the current values for multipliers used to calculate the 
 </docs>
 
 <script>
-import { mapGetters } from "vuex";
-import store from "../store";
 import _ from "lodash";
+import store from "../store";
+import { mapGetters } from "vuex";
 
 export default {
   name: "the-factors",

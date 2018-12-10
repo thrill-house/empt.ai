@@ -7,8 +7,8 @@ Displays an ability that is listed on the marketplace and is available for purch
 </docs>
 
 <script>
-import { mapState } from "vuex";
 import store from "../store";
+import { mapState } from "vuex";
 
 export default {
   name: "ability-purchaseable",

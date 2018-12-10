@@ -14,8 +14,9 @@ A representation of a factor with a corresponding base-icon and value.
 </docs>
 
 <script>
-import { mapGetters } from "vuex";
 import store from "../store";
+import { mapGetters } from "vuex";
+
 import BaseIcon from "./base-icon";
 
 export default {

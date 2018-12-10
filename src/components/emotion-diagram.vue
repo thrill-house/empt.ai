@@ -20,10 +20,11 @@ Displays the a diagram of emotions, given a single or set of value sets
 </docs>
 
 <script>
-import { mapState, mapGetters } from "vuex";
-import store from "../store";
 import _ from "lodash";
 import math from "mathjs";
+import store from "../store";
+import { mapState, mapGetters } from "vuex";
+
 import EmotionValues from "./emotion-values";
 
 export default {

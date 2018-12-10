@@ -10,8 +10,9 @@ Displays options for selecting an ability to install in a slot. A button is disp
 </docs>
 
 <script>
-import { mapState, mapGetters, mapActions } from "vuex";
 import store from "../store";
+import { mapState, mapGetters, mapActions } from "vuex";
+
 import AbilityInstall from "./ability-install";
 
 export default {

@@ -10,25 +10,26 @@ The component displays an ability that is defined within the global data store. 
 </docs>
 
 <script>
-import { mapState, mapGetters, mapActions } from "vuex";
 import store from "../store";
-import BaseIcon from "./base-icon";
+import { mapState, mapGetters, mapActions } from "vuex";
+
+import AbilityInstallable from "./ability-installable";
+import AbilityResearchable from "./ability-researchable";
+import AbilitySymbiosis from "./ability-symbiosis";
 import BaseEra from "./base-era";
 import BaseFactor from "./base-factor";
-import AbilitySymbiosis from "./ability-symbiosis";
-import AbilityResearchable from "./ability-researchable";
-import AbilityInstallable from "./ability-installable";
+import BaseIcon from "./base-icon";
 
 export default {
   name: "ability-available",
   store,
   components: {
-    BaseIcon,
+    AbilityInstallable,
+    AbilityResearchable,
+    AbilitySymbiosis,
     BaseEra,
     BaseFactor,
-    AbilitySymbiosis,
-    AbilityResearchable,
-    AbilityInstallable
+    BaseIcon
   },
   props: {
     label: String

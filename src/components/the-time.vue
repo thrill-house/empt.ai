@@ -7,9 +7,9 @@ The component displays how much time has elapsed between the first event and the
 </docs>
 
 <script>
-import { mapState, mapGetters, mapMutations } from "vuex";
-import store from "../store";
 import _ from "lodash";
+import store from "../store";
+import { mapState, mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "the-time",

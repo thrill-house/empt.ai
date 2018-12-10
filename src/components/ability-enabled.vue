@@ -10,12 +10,13 @@ The enabled ability is an ability that is currently enabled within a socket.
 </docs>
 
 <script>
-import { mapState, mapGetters, mapActions } from "vuex";
 import store from "../store";
-import BaseIcon from "./base-icon";
+import { mapState, mapGetters, mapActions } from "vuex";
+
+import AbilitySymbiosis from "./ability-symbiosis";
 import BaseEra from "./base-era";
 import BaseFactor from "./base-factor";
-import AbilitySymbiosis from "./ability-symbiosis";
+import BaseIcon from "./base-icon";
 import EmotionDiagram from "./emotion-diagram";
 
 export default {
@@ -25,10 +26,10 @@ export default {
   },
   store,
   components: {
-    BaseIcon,
+    AbilitySymbiosis,
     BaseEra,
     BaseFactor,
-    AbilitySymbiosis,
+    BaseIcon,
     EmotionDiagram
   },
   computed: {

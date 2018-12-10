@@ -12,21 +12,22 @@ The data socket is the base component that abilities are attached to. When enabl
 </docs>
 
 <script>
-import { mapState, mapGetters, mapActions } from "vuex";
 import _ from "lodash";
 import store from "../store";
-import BaseIcon from "./base-icon";
+import { mapState, mapGetters, mapActions } from "vuex";
+
 import BaseEra from "./base-era";
 import BaseFactor from "./base-factor";
+import BaseIcon from "./base-icon";
 import SocketSlot from "./socket-slot";
 
 export default {
   name: "socket-activated",
   store,
   components: {
-    BaseIcon,
     BaseEra,
     BaseFactor,
+    BaseIcon,
     SocketSlot
   },
   props: {

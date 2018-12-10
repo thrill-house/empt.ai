@@ -7,8 +7,9 @@ Displays a modal dialog for researching an ability.
 </docs>
 
 <script>
-import { mapState, mapGetters, mapActions } from "vuex";
 import store from "../store";
+import { mapState, mapGetters, mapActions } from "vuex";
+
 import AbilityDialog from "./ability-dialog";
 import EmotionDiagram from "./emotion-diagram";
 

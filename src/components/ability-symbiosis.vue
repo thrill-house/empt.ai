@@ -11,6 +11,7 @@ An ability that has some sort of relationship (depends on or is depended on) wit
 
 <script>
 import store from "../store";
+
 import BaseIcon from "./base-icon";
 
 export default {

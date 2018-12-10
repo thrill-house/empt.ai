@@ -10,8 +10,8 @@ Representation of an element's era relative to the total number of eras.
 </docs>
 
 <script>
-import { mapGetters } from "vuex";
 import svg from "../svg";
+import { mapGetters } from "vuex";
 
 export default {
   name: "base-era",

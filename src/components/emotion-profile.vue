@@ -7,8 +7,9 @@ Aggregates the player's current emotional profile based on currently slotted abi
 </docs>
 
 <script>
-import { mapGetters } from "vuex";
 import store from "../store";
+import { mapGetters } from "vuex";
+
 import EmotionDiagram from "./emotion-diagram";
 
 export default {

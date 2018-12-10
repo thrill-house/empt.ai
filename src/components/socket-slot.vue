@@ -10,18 +10,19 @@ The ability slot is a space attached to a data sources. When an ability is assig
 </docs>
 
 <script>
-import { mapState, mapGetters, mapActions } from "vuex";
 import store from "../store";
-import BaseIcon from "./base-icon";
+import { mapState, mapGetters, mapActions } from "vuex";
+
 import AbilityEnabled from "./ability-enabled";
+import BaseIcon from "./base-icon";
 import EmotionDiagram from "./emotion-diagram";
 
 export default {
   name: "socket-slot",
   store,
   components: {
-    BaseIcon,
     AbilityEnabled,
+    BaseIcon,
     EmotionDiagram
   },
   props: {

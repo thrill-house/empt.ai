@@ -7,8 +7,9 @@ Displays a modal dialog for selecting an ability to install.
 </docs>
 
 <script>
-import { mapState, mapGetters, mapActions } from "vuex";
 import store from "../store";
+import { mapState, mapGetters, mapActions } from "vuex";
+
 import AbilityDialog from "./ability-dialog";
 import EmotionDiagram from "./emotion-diagram";
 
@@ -64,7 +65,6 @@ export default {
       return this.getScores();
     },
     submittable: function() {
-      console.log(this.selectedEvent);
       return this.affordable && this.selectedEvent !== false;
     },
     emotionProfile: function() {

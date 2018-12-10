@@ -7,8 +7,9 @@ The component displays abilities that are available to the player to research or
 </docs>
 
 <script>
-import { mapState, mapGetters, mapActions } from "vuex";
 import store from "../store";
+import { mapState, mapGetters, mapActions } from "vuex";
+
 import AbilityAvailable from "./ability-available";
 
 export default {

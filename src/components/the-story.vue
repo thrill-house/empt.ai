@@ -7,8 +7,8 @@ Displays story elements that occur throughout the course of the narrative as a r
 </docs>
 
 <script>
-import { mapState } from "vuex";
 import store from "../store";
+import { mapState } from "vuex";
 
 export default {
   name: "the-story",

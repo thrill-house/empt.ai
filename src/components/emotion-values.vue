@@ -18,10 +18,10 @@ Displays the provided values within an emotion diagram.
 </docs>
 
 <script>
-import { mapState, mapGetters } from "vuex";
-import store from "../store";
 import _ from "lodash";
 import math from "mathjs";
+import store from "../store";
+import { mapState, mapGetters } from "vuex";
 
 export default {
   name: "emotion-values",

@@ -1,31 +1,31 @@
 <script>
-import Vue from "vue";
-import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
-import store from "./store";
 import _ from "lodash";
 import moment from "moment";
+import store from "./store";
+import Vue from "vue";
+import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
 
-import TheEvents from "./components/the-events";
-import TheTime from "./components/the-time";
-import TheScore from "./components/the-score";
-import TheFactors from "./components/the-factors";
-import SocketActivated from "./components/socket-activated";
-import SocketSlot from "./components/socket-slot";
-import AbilityEnabled from "./components/ability-enabled";
 import AbilityAvailable from "./components/ability-available";
-import TheAbilities from "./components/the-abilities";
+import AbilityEnabled from "./components/ability-enabled";
+import AbilityInstall from "./components/ability-install";
 import AbilityPurchaseable from "./components/ability-purchaseable";
+import AbilityResearch from "./components/ability-research";
+import EmotionDiagram from "./components/emotion-diagram";
+import EmotionProfile from "./components/emotion-profile";
+import SocketActivated from "./components/socket-activated";
+import SocketChallenge from "./components/socket-challenge";
+import SocketSlot from "./components/socket-slot";
+import TheAbilities from "./components/the-abilities";
+import TheEvents from "./components/the-events";
+import TheFactors from "./components/the-factors";
+import TheLeaders from "./components/the-leaders";
 import TheMarketplace from "./components/the-marketplace";
 import TheMenu from "./components/the-menu";
-import TheSockets from "./components/the-sockets";
-import EmotionProfile from "./components/emotion-profile";
-import EmotionDiagram from "./components/emotion-diagram";
-import TheLeaders from "./components/the-leaders";
-import TheStory from "./components/the-story";
 import ThePlayer from "./components/the-player";
-import SocketChallenge from "./components/socket-challenge";
-import AbilityResearch from "./components/ability-research";
-import AbilityInstall from "./components/ability-install";
+import TheScore from "./components/the-score";
+import TheSockets from "./components/the-sockets";
+import TheStory from "./components/the-story";
+import TheTime from "./components/the-time";
 
 export default {
   name: "app",
@@ -35,66 +35,66 @@ export default {
     this.startSession();
   },
   data: () => ({
-    messageTweaker: "This and that",
-    sessionDurationTweaker: 0,
-    abilityEnabledTweaker: "neutral-1",
     abilityAvailableTweaker: "neutral-1",
-    socketSlotTweaker: "root-1",
-    socketActivatedTweaker: "root",
-    emotionDiagramHappinessTweaker: 1,
-    emotionDiagramSadnessTweaker: 1,
+    abilityEnabledTweaker: "neutral-1",
+    emotionDiagramAngerTweaker: 1,
     emotionDiagramExcitementTweaker: 1,
     emotionDiagramFearTweaker: 1,
+    emotionDiagramHappinessTweaker: 1,
+    emotionDiagramSadnessTweaker: 1,
     emotionDiagramTendernessTweaker: 1,
-    emotionDiagramAngerTweaker: 1
+    messageTweaker: "This and that",
+    sessionDurationTweaker: 0,
+    socketActivatedTweaker: "root",
+    socketSlotTweaker: "root-1"
   }),
   store,
   components: {
-    TheEvents,
-    TheTime,
-    TheScore,
-    TheFactors,
-    SocketActivated,
-    SocketSlot,
-    AbilityEnabled,
     AbilityAvailable,
-    TheAbilities,
+    AbilityEnabled,
+    AbilityInstall,
     AbilityPurchaseable,
+    AbilityResearch,
+    EmotionDiagram,
+    EmotionProfile,
+    SocketActivated,
+    SocketChallenge,
+    SocketSlot,
+    TheAbilities,
+    TheEvents,
+    TheFactors,
+    TheLeaders,
     TheMarketplace,
     TheMenu,
-    TheSockets,
-    EmotionProfile,
-    EmotionDiagram,
-    TheLeaders,
-    TheStory,
     ThePlayer,
-    SocketChallenge,
-    AbilityResearch,
-    AbilityInstall
+    TheScore,
+    TheSockets,
+    TheStory,
+    TheTime
   },
   localStorage: {
-    docsToggle: { type: Boolean },
-    theEventsToggle: { type: Boolean },
-    theTimeToggle: { type: Boolean },
-    theScoreToggle: { type: Boolean },
-    theFactorsToggle: { type: Boolean },
-    socketActivatedToggle: { type: Boolean },
-    socketSlotToggle: { type: Boolean },
-    abilityEnabledToggle: { type: Boolean },
     abilityAvailableToggle: { type: Boolean },
-    theAbilitiesToggle: { type: Boolean },
+    abilityEnabledToggle: { type: Boolean },
+    abilityInstallToggle: { type: Boolean },
     abilityPurchaseableToggle: { type: Boolean },
+    abilityResearchToggle: { type: Boolean },
+    docsToggle: { type: Boolean },
+    emotionDiagramToggle: { type: Boolean },
+    emotionProfileToggle: { type: Boolean },
+    socketActivatedToggle: { type: Boolean },
+    socketChallengeToggle: { type: Boolean },
+    socketSlotToggle: { type: Boolean },
+    theAbilitiesToggle: { type: Boolean },
+    theEventsToggle: { type: Boolean },
+    theFactorsToggle: { type: Boolean },
+    theLeadersToggle: { type: Boolean },
     theMarketplaceToggle: { type: Boolean },
     theMenuToggle: { type: Boolean },
-    theSocketsToggle: { type: Boolean },
-    emotionProfileToggle: { type: Boolean },
-    emotionDiagramToggle: { type: Boolean },
-    theLeadersToggle: { type: Boolean },
-    theStoryToggle: { type: Boolean },
     thePlayerToggle: { type: Boolean },
-    socketChallengeToggle: { type: Boolean },
-    abilityResearchToggle: { type: Boolean },
-    abilityInstallToggle: { type: Boolean }
+    theScoreToggle: { type: Boolean },
+    theSocketsToggle: { type: Boolean },
+    theStoryToggle: { type: Boolean },
+    theTimeToggle: { type: Boolean }
   },
   computed: {
     docs: function() {

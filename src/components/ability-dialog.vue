@@ -18,21 +18,22 @@ A shared component for researching and installing abilities
 </docs>
 
 <script>
-import { mapState, mapGetters, mapActions } from "vuex";
 import store from "../store";
-import BaseIcon from "./base-icon";
-import TheModal from "./the-modal";
+import { mapState, mapGetters, mapActions } from "vuex";
+
 import BaseFactor from "./base-factor";
+import BaseIcon from "./base-icon";
 import EmotionDiagram from "./emotion-diagram";
+import TheModal from "./the-modal";
 
 export default {
   name: "ability-dialog",
   store,
   components: {
-    BaseIcon,
-    TheModal,
     BaseFactor,
-    EmotionDiagram
+    BaseIcon,
+    EmotionDiagram,
+    TheModal
   },
   props: {
     label: [Boolean, String],
