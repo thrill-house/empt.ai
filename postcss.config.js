@@ -1,17 +1,17 @@
-const _ = require("lodash");
-const tailwindcss = require("tailwindcss");
-const fs = require("fs");
-const path = require("path");
-const tailwindConfig = path.join(__dirname, "tailwind.config.js");
+const _ = require('lodash');
+const tailwindcss = require('tailwindcss');
+const fs = require('fs');
+const path = require('path');
+const tailwindConfig = path.join(__dirname, 'tailwind.config.js');
 
 module.exports = {
   plugins: [
     function() {
-      let vars = ["colors", "backgrounds", "opacity"],
+      let vars = ['colors', 'backgrounds', 'opacity'],
         tailwind = require(tailwindConfig),
-        outputPath = path.join(__dirname, "src/scss/_$variables.scss"),
+        outputPath = path.join(__dirname, 'src/scss/_$variables.scss'),
         current = fs.readFileSync(outputPath).toString(),
-        content = "",
+        content = '',
         sassify = function(variable) {
           let lines = [`$${variable}: (`];
           let valueLines = [];
@@ -19,10 +19,10 @@ module.exports = {
           _.each(tailwind[variable], function(value, key) {
             valueLines.push(`  ${key}: ${value}`);
           });
-          lines.push(_.join(valueLines, ",\n"));
-          lines.push(");\n");
+          lines.push(_.join(valueLines, ',\n'));
+          lines.push(');\n');
 
-          return _.join(lines, "\n");
+          return _.join(lines, '\n');
         };
 
       _.each(vars, function(value) {
@@ -34,6 +34,6 @@ module.exports = {
       }
     },
     tailwindcss(tailwindConfig),
-    require("autoprefixer")
-  ]
+    require('autoprefixer'),
+  ],
 };

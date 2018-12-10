@@ -10,27 +10,27 @@ The ability slot is a space attached to a data sources. When an ability is assig
 </docs>
 
 <script>
-import store from "../store";
-import { mapState, mapGetters, mapActions } from "vuex";
+import store from '../store';
+import { mapState, mapGetters, mapActions } from 'vuex';
 
-import AbilityEnabled from "./ability-enabled";
-import BaseIcon from "./base-icon";
-import EmotionDiagram from "./emotion-diagram";
+import AbilityEnabled from './ability-enabled';
+import BaseIcon from './base-icon';
+import EmotionDiagram from './emotion-diagram';
 
 export default {
-  name: "socket-slot",
+  name: 'socket-slot',
   store,
   components: {
     AbilityEnabled,
     BaseIcon,
-    EmotionDiagram
+    EmotionDiagram,
   },
   props: {
-    label: String
+    label: String,
   },
   data: function() {
     return {
-      hover: false
+      hover: false,
     };
   },
   computed: {
@@ -38,33 +38,33 @@ export default {
       return this.getSocketForSlot(this.label);
     },
     event: function() {
-      var event = this.getEventOfType(this.label, "slot");
+      var event = this.getEventOfType(this.label, 'slot');
       return event && event.positive ? event : false;
     },
     abilityInstance: function() {
       if (this.event) {
         var instance = this.getEventOfType(
           this.event.instance,
-          "slot",
-          "instance"
+          'slot',
+          'instance'
         );
         if (instance.timestamp <= this.event.timestamp) {
           return this.event.instance;
         }
       }
 
-      return "";
+      return '';
     },
     slotting: function() {
-      return this.getInteraction("slot");
+      return this.getInteraction('slot');
     },
     slottingLabel: function() {
-      return this.slotting ? this.slotting.label : "";
+      return this.slotting ? this.slotting.label : '';
     },
     slottingInstance: function() {
-      return this.slotting ? this.slotting.instance : "";
+      return this.slotting ? this.slotting.instance : '';
     },
-    ...mapGetters(["getEventOfType", "getSocketForSlot", "getInteraction"])
+    ...mapGetters(['getEventOfType', 'getSocketForSlot', 'getInteraction']),
   },
   methods: {
     addEvent: function(ability, instance) {
@@ -72,14 +72,14 @@ export default {
         this.addSlotEvent({
           label: this.label,
           ability: ability,
-          instance: instance
+          instance: instance,
         })
       ) {
-        this.resetInteraction("slot");
+        this.resetInteraction('slot');
       }
     },
-    ...mapActions(["addSlotEvent", "resetInteraction"])
-  }
+    ...mapActions(['addSlotEvent', 'resetInteraction']),
+  },
 };
 </script>
 
@@ -134,7 +134,7 @@ export default {
 </template>
 
 <style lang="scss">
-@import "../scss/$variables";
+@import '../scss/$variables';
 
 .socket-slot {
   &:before {

@@ -1,13 +1,13 @@
-import Vue from "vue";
-import Vuex from "vuex";
-import VueLocalStorage from "vue-localstorage";
-import session from "./modules/session";
-import scores from "./modules/scores";
-import options from "./modules/options";
-import eras from "./modules/eras";
-import sockets from "./modules/sockets";
-import slots from "./modules/slots";
-import abilities from "./modules/abilities";
+import Vue from 'vue';
+import Vuex from 'vuex';
+import VueLocalStorage from 'vue-localstorage';
+import session from './modules/session';
+import scores from './modules/scores';
+import options from './modules/options';
+import eras from './modules/eras';
+import sockets from './modules/sockets';
+import slots from './modules/slots';
+import abilities from './modules/abilities';
 
 Vue.use(Vuex);
 
@@ -16,14 +16,14 @@ Vue.mixin({
     uid: {
       type: String,
       default: function() {
-        return "uid-" + this._uid;
-      }
-    }
-  }
+        return 'uid-' + this._uid;
+      },
+    },
+  },
 });
 
 Vue.use(VueLocalStorage, {
-  bind: true
+  bind: true,
 });
 
 export default new Vuex.Store({
@@ -34,6 +34,6 @@ export default new Vuex.Store({
     eras,
     sockets,
     slots,
-    abilities
-  }
+    abilities,
+  },
 });

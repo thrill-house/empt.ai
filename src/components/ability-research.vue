@@ -7,18 +7,18 @@ Displays a modal dialog for researching an ability.
 </docs>
 
 <script>
-import store from "../store";
-import { mapState, mapGetters, mapActions } from "vuex";
+import store from '../store';
+import { mapState, mapGetters, mapActions } from 'vuex';
 
-import AbilityDialog from "./ability-dialog";
-import EmotionDiagram from "./emotion-diagram";
+import AbilityDialog from './ability-dialog';
+import EmotionDiagram from './emotion-diagram';
 
 export default {
-  name: "ability-research",
+  name: 'ability-research',
   store,
   components: {
     AbilityDialog,
-    EmotionDiagram
+    EmotionDiagram,
   },
   data: () => ({
     emotions: {
@@ -27,15 +27,15 @@ export default {
       tenderness: 0,
       fear: 0,
       sadness: 0,
-      anger: 0
+      anger: 0,
     },
     complements: {
-      excitement: "fear",
-      happiness: "sadness",
-      tenderness: "anger",
-      fear: "excitement",
-      sadness: "happiness",
-      anger: "tenderness"
+      excitement: 'fear',
+      happiness: 'sadness',
+      tenderness: 'anger',
+      fear: 'excitement',
+      sadness: 'happiness',
+      anger: 'tenderness',
     },
     sides: {
       excitement: 1,
@@ -43,13 +43,13 @@ export default {
       tenderness: 1,
       fear: -1,
       sadness: -1,
-      anger: -1
+      anger: -1,
     },
-    requiredEmotions: 4
+    requiredEmotions: 4,
   }),
   computed: {
     interaction: function() {
-      return this.getInteraction("research");
+      return this.getInteraction('research');
     },
     label: function() {
       return this.interaction.label;
@@ -77,7 +77,7 @@ export default {
     },
     emotionalPreview: function() {
       return _.mergeWith(
-        { color: "sky" },
+        { color: 'sky' },
         this.emotionProfile,
         this.emotions,
         _.add
@@ -86,7 +86,7 @@ export default {
     emotionValues: function() {
       return [
         this.emotionalPreview,
-        _.merge({ color: "light" }, this.emotionProfile)
+        _.merge({ color: 'light' }, this.emotionProfile),
       ];
     },
     affordability: function() {
@@ -110,22 +110,22 @@ export default {
     },
     newEvent: function() {
       return {
-        type: "ability",
+        type: 'ability',
         label: this.label,
         target: false,
-        emotions: this.emotions
+        emotions: this.emotions,
       };
     },
-    ...mapState(["abilities"]),
+    ...mapState(['abilities']),
     ...mapGetters([
-      "getEventsOfType",
-      "getAbility",
-      "getAbilityCosts",
-      "getScores",
-      "getEmotions",
-      "getInteraction",
-      "isEraActive"
-    ])
+      'getEventsOfType',
+      'getAbility',
+      'getAbilityCosts',
+      'getScores',
+      'getEmotions',
+      'getInteraction',
+      'isEraActive',
+    ]),
   },
   methods: {
     adjust: function(emotion, amount) {
@@ -143,7 +143,7 @@ export default {
     confirm: function(label) {
       if (this.sumEmotions === this.requiredEmotions) {
         var event = _.defaults(this.newEvent, {
-          instance: this.label + "-" + _.now()
+          instance: this.label + '-' + _.now(),
         });
 
         this.dialog = false;
@@ -153,12 +153,12 @@ export default {
 
         this.cancel();
         this.setInteraction({
-          interaction: "slot",
+          interaction: 'slot',
           label: label,
-          instance: event.instance
+          instance: event.instance,
         });
       } else {
-        alert("Fill in all emotions");
+        alert('Fill in all emotions');
       }
     },
     resetEmotions: function() {
@@ -166,7 +166,7 @@ export default {
     },
     cancel: function() {
       this.resetEmotions();
-      this.resetInteraction("research");
+      this.resetInteraction('research');
     },
     getComplement: function(emotion) {
       return this.complements[emotion];
@@ -220,8 +220,8 @@ export default {
     isEmotionValue: function(emotion) {
       return this.isEmotionDecrementable(emotion);
     },
-    ...mapActions(["addAbilityEvent", "setInteraction", "resetInteraction"])
-  }
+    ...mapActions(['addAbilityEvent', 'setInteraction', 'resetInteraction']),
+  },
 };
 </script>
 

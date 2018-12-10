@@ -18,34 +18,34 @@ A shared component for researching and installing abilities
 </docs>
 
 <script>
-import store from "../store";
-import { mapState, mapGetters, mapActions } from "vuex";
+import store from '../store';
+import { mapState, mapGetters, mapActions } from 'vuex';
 
-import BaseFactor from "./base-factor";
-import BaseIcon from "./base-icon";
-import EmotionDiagram from "./emotion-diagram";
-import TheModal from "./the-modal";
+import BaseFactor from './base-factor';
+import BaseIcon from './base-icon';
+import EmotionDiagram from './emotion-diagram';
+import TheModal from './the-modal';
 
 export default {
-  name: "ability-dialog",
+  name: 'ability-dialog',
   store,
   components: {
     BaseFactor,
     BaseIcon,
     EmotionDiagram,
-    TheModal
+    TheModal,
   },
   props: {
     label: [Boolean, String],
     costs: Object,
     emotions: Object,
-    show: Boolean
+    show: Boolean,
   },
   data: () => ({
     buttons: {
-      install: "Install",
-      research: "Research"
-    }
+      install: 'Install',
+      research: 'Research',
+    },
   }),
   computed: {
     ability: function() {
@@ -55,7 +55,7 @@ export default {
       return this.getValidSlotEvents(this.label);
     },
     installedInstances: function() {
-      return _.map(this.installed, "instance");
+      return _.map(this.installed, 'instance');
     },
     remaining: function() {
       return this.total - this.installed.length;
@@ -70,21 +70,21 @@ export default {
       return this.isEraActive(this.era);
     },
     emotionProfile: function() {
-      return _.merge({ color: "light" }, this.getEmotions());
+      return _.merge({ color: 'light' }, this.getEmotions());
     },
     emotionValues: function() {
       return [this.emotions, this.emotionProfile];
     },
     ...mapGetters([
-      "getAbility",
-      "getValidSlotEvents",
-      "getInteraction",
-      "getEmotions"
-    ])
+      'getAbility',
+      'getValidSlotEvents',
+      'getInteraction',
+      'getEmotions',
+    ]),
   },
   methods: {
-    ...mapActions(["setInteraction", "resetInteraction"])
-  }
+    ...mapActions(['setInteraction', 'resetInteraction']),
+  },
 };
 </script>
 
@@ -155,7 +155,7 @@ export default {
     &:before,
     &:after {
       @apply w-1/4 h-px bg-light;
-      content: "";
+      content: '';
     }
   }
 }

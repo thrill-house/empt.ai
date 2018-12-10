@@ -1,8 +1,8 @@
-@import url("//fonts.googleapis.com/css?family=Titillium+Web:400,700");
+@import url('//fonts.googleapis.com/css?family=Titillium+Web:400,700');
 
 @tailwind preflight;
 @tailwind components;
-@import "patterns";
+@import 'patterns';
 @tailwind utilities;
 
 body {

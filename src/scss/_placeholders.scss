@@ -1,4 +1,4 @@
-@import "$variables";
+@import '$variables';
 
 @each $c, $color in $colors {
   @each $o, $opaque in $opacity {

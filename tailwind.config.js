@@ -42,38 +42,38 @@ View the full documentation at https://tailwindcss.com.
 |
 */
 
-const _ = require("lodash");
+const _ = require('lodash');
 
 let hexRatio = Math.sqrt(3 / 2);
 
 let colors = {
-  transparent: "transparent",
-  dark: "#000",
-  light: "#fff",
-  grey: "#ddd",
-  sky: "#68ABE7",
-  blue: "#353d77",
-  navy: "#20364B",
-  midnight: "#122356",
-  science: "#74ebcf",
-  society: "#f4838e",
-  economy: "#fbeb69",
-  influence: "#76a5ff",
-  confidence: "#76a5ff",
-  bandwidth: "#94e4f8",
-  data: "#94e4f8",
-  neutral: "#a6d3ff"
+  transparent: 'transparent',
+  dark: '#000',
+  light: '#fff',
+  grey: '#ddd',
+  sky: '#68ABE7',
+  blue: '#353d77',
+  navy: '#20364B',
+  midnight: '#122356',
+  science: '#74ebcf',
+  society: '#f4838e',
+  economy: '#fbeb69',
+  influence: '#76a5ff',
+  confidence: '#76a5ff',
+  bandwidth: '#94e4f8',
+  data: '#94e4f8',
+  neutral: '#a6d3ff',
 };
 
 let backgrounds = {
-  tile: "url(/assets/img/tile.svg)",
-  "dotted-horizontal": `linear-gradient(to right, ${
-    colors["dark"]
+  tile: 'url(/assets/img/tile.svg)',
+  'dotted-horizontal': `linear-gradient(to right, ${
+    colors['dark']
   } 1px, transparent 1%)`,
-  "dotted-vertical": `linear-gradient(${colors["dark"]} 1px, transparent 1%)`,
-  gradient: `radial-gradient(50% 100%, ${colors["blue"]} 2%, ${
-    colors["midnight"]
-  } 42%, ${colors["dark"]} 100%)`
+  'dotted-vertical': `linear-gradient(${colors['dark']} 1px, transparent 1%)`,
+  gradient: `radial-gradient(50% 100%, ${colors['blue']} 2%, ${
+    colors['midnight']
+  } 42%, ${colors['dark']} 100%)`,
 };
 
 module.exports = {
@@ -114,9 +114,9 @@ module.exports = {
 
   screens: {
     //'sm': '576px',
-    md: "768px",
+    md: '768px',
     //'lg': '992px',
-    xl: "1200px"
+    xl: '1200px',
   },
 
   /*
@@ -138,15 +138,15 @@ module.exports = {
   */
 
   fonts: {
-    primary: ["Titillium Web", "Helvetica", "Arial", "sans-serif"],
+    primary: ['Titillium Web', 'Helvetica', 'Arial', 'sans-serif'],
     mono: [
-      "Menlo",
-      "Monaco",
-      "Consolas",
-      "Liberation Mono",
-      "Courier New",
-      "monospace"
-    ]
+      'Menlo',
+      'Monaco',
+      'Consolas',
+      'Liberation Mono',
+      'Courier New',
+      'monospace',
+    ],
   },
 
   /*
@@ -169,17 +169,17 @@ module.exports = {
   */
 
   textSizes: {
-    "3xs": ".5625rem", // 9px
-    "2xs": ".625rem", // 10px
-    xs: ".75rem", // 12px
-    sm: ".875rem", // 14px
-    base: "1rem", // 16px
-    lg: "1.125rem", // 18px
-    xl: "1.25rem", // 20px
-    "2xl": "1.5rem", // 24px
-    "3xl": "1.875rem", // 30px
-    "4xl": "2.25rem", // 36px
-    "5xl": "3rem" // 48px
+    '3xs': '.5625rem', // 9px
+    '2xs': '.625rem', // 10px
+    xs: '.75rem', // 12px
+    sm: '.875rem', // 14px
+    base: '1rem', // 16px
+    lg: '1.125rem', // 18px
+    xl: '1.25rem', // 20px
+    '2xl': '1.5rem', // 24px
+    '3xl': '1.875rem', // 30px
+    '4xl': '2.25rem', // 36px
+    '5xl': '3rem', // 48px
   },
 
   /*
@@ -205,7 +205,7 @@ module.exports = {
     semibold: 600,
     bold: 700,
     extrabold: 800,
-    black: 900
+    black: 900,
   },
 
   /*
@@ -224,7 +224,7 @@ module.exports = {
     none: 1,
     tight: 1.25,
     normal: 1.5,
-    loose: 2
+    loose: 2,
   },
 
   /*
@@ -240,9 +240,9 @@ module.exports = {
   */
 
   tracking: {
-    tight: "-0.05em",
-    normal: "0",
-    wide: "0.05em"
+    tight: '-0.05em',
+    normal: '0',
+    wide: '0.05em',
   },
 
   /*
@@ -289,9 +289,9 @@ module.exports = {
   */
 
   backgroundSize: {
-    auto: "auto",
-    cover: "cover",
-    contain: "contain"
+    auto: 'auto',
+    cover: 'cover',
+    contain: 'contain',
   },
 
   /*
@@ -308,11 +308,11 @@ module.exports = {
   */
 
   borderWidths: {
-    default: "1px",
-    "0": "0",
-    "2": "2px",
-    "4": "4px",
-    "8": "8px"
+    default: '1px',
+    '0': '0',
+    '2': '2px',
+    '4': '4px',
+    '8': '8px',
   },
 
   /*
@@ -332,7 +332,7 @@ module.exports = {
   |
   */
 
-  borderColors: global.Object.assign({ default: colors["grey-light"] }, colors),
+  borderColors: global.Object.assign({ default: colors['grey-light'] }, colors),
 
   /*
   |-----------------------------------------------------------------------------
@@ -351,11 +351,11 @@ module.exports = {
   */
 
   borderRadius: {
-    none: "0",
-    sm: ".125rem",
-    default: ".25rem",
-    lg: ".5rem",
-    full: "9999px"
+    none: '0',
+    sm: '.125rem',
+    default: '.25rem',
+    lg: '.5rem',
+    full: '9999px',
   },
 
   /*
@@ -379,40 +379,40 @@ module.exports = {
   */
 
   width: {
-    auto: "auto",
-    px: "1px",
-    "1": "0.25rem",
-    "2": "0.5rem",
-    "3": "0.75rem",
-    "4": "1rem",
-    "6": "1.5rem",
-    "8": "2rem",
-    "10": "2.5rem",
-    "12": "3rem",
-    "16": "4rem",
-    "24": "6rem",
-    "28": "7rem",
-    "32": "8rem",
-    "48": "12rem",
-    "64": "16rem",
-    "80": "20rem",
-    "96": "24rem",
-    "128": "32rem",
-    "160": "40rem",
-    "192": "48rem",
-    "1/2": "50%",
-    "1/3": "33.33333%",
-    "2/3": "66.66667%",
-    "1/4": "25%",
-    "3/4": "75%",
-    "1/5": "20%",
-    "2/5": "40%",
-    "3/5": "60%",
-    "4/5": "80%",
-    "1/6": "16.66667%",
-    "5/6": "83.33333%",
-    full: "100%",
-    screen: "100vw"
+    auto: 'auto',
+    px: '1px',
+    '1': '0.25rem',
+    '2': '0.5rem',
+    '3': '0.75rem',
+    '4': '1rem',
+    '6': '1.5rem',
+    '8': '2rem',
+    '10': '2.5rem',
+    '12': '3rem',
+    '16': '4rem',
+    '24': '6rem',
+    '28': '7rem',
+    '32': '8rem',
+    '48': '12rem',
+    '64': '16rem',
+    '80': '20rem',
+    '96': '24rem',
+    '128': '32rem',
+    '160': '40rem',
+    '192': '48rem',
+    '1/2': '50%',
+    '1/3': '33.33333%',
+    '2/3': '66.66667%',
+    '1/4': '25%',
+    '3/4': '75%',
+    '1/5': '20%',
+    '2/5': '40%',
+    '3/5': '60%',
+    '4/5': '80%',
+    '1/6': '16.66667%',
+    '5/6': '83.33333%',
+    full: '100%',
+    screen: '100vw',
   },
 
   /*
@@ -431,53 +431,53 @@ module.exports = {
   */
 
   height: {
-    auto: "auto",
-    px: "1px",
-    "1": "0.25rem",
-    "2": "0.5rem",
-    "3": "0.75rem",
-    "4": "1rem",
-    "6": "1.5rem",
-    "8": "2rem",
-    "10": "2.5rem",
-    "12": "3rem",
-    "16": "4rem",
-    "24": "6rem",
-    "28": "7rem",
-    "32": "8rem",
-    "48": "12rem",
-    "64": "16rem",
-    "80": "20rem",
-    "96": "24rem",
-    "128": "32rem",
-    "160": "40rem",
-    "192": "48rem",
-    "1/2": "50%",
-    "1/3": "33.33333%",
-    "2/3": "66.66667%",
-    "1/4": "25%",
-    "3/4": "75%",
-    "1/5": "20%",
-    "2/5": "40%",
-    "3/5": "60%",
-    "4/5": "80%",
-    "1/6": "16.66667%",
-    "5/6": "83.33333%",
-    "hex*1": 0.25 * hexRatio + "rem",
-    "hex*2": 0.5 * hexRatio + "rem",
-    "hex*3": 0.75 * hexRatio + "rem",
-    "hex*4": 1 * hexRatio + "rem",
-    "hex*6": 1.5 * hexRatio + "rem",
-    "hex*8": 2 * hexRatio + "rem",
-    "hex*10": 2.5 * hexRatio + "rem",
-    "hex*12": 3 * hexRatio + "rem",
-    "hex*16": 4 * hexRatio + "rem",
-    "hex*24": 6 * hexRatio + "rem",
-    "hex*32": 8 * hexRatio + "rem",
-    "hex*48": 12 * hexRatio + "rem",
-    "hex*64": 16 * hexRatio + "rem",
-    full: "100%",
-    screen: "100vh"
+    auto: 'auto',
+    px: '1px',
+    '1': '0.25rem',
+    '2': '0.5rem',
+    '3': '0.75rem',
+    '4': '1rem',
+    '6': '1.5rem',
+    '8': '2rem',
+    '10': '2.5rem',
+    '12': '3rem',
+    '16': '4rem',
+    '24': '6rem',
+    '28': '7rem',
+    '32': '8rem',
+    '48': '12rem',
+    '64': '16rem',
+    '80': '20rem',
+    '96': '24rem',
+    '128': '32rem',
+    '160': '40rem',
+    '192': '48rem',
+    '1/2': '50%',
+    '1/3': '33.33333%',
+    '2/3': '66.66667%',
+    '1/4': '25%',
+    '3/4': '75%',
+    '1/5': '20%',
+    '2/5': '40%',
+    '3/5': '60%',
+    '4/5': '80%',
+    '1/6': '16.66667%',
+    '5/6': '83.33333%',
+    'hex*1': 0.25 * hexRatio + 'rem',
+    'hex*2': 0.5 * hexRatio + 'rem',
+    'hex*3': 0.75 * hexRatio + 'rem',
+    'hex*4': 1 * hexRatio + 'rem',
+    'hex*6': 1.5 * hexRatio + 'rem',
+    'hex*8': 2 * hexRatio + 'rem',
+    'hex*10': 2.5 * hexRatio + 'rem',
+    'hex*12': 3 * hexRatio + 'rem',
+    'hex*16': 4 * hexRatio + 'rem',
+    'hex*24': 6 * hexRatio + 'rem',
+    'hex*32': 8 * hexRatio + 'rem',
+    'hex*48': 12 * hexRatio + 'rem',
+    'hex*64': 16 * hexRatio + 'rem',
+    full: '100%',
+    screen: '100vh',
   },
 
   /*
@@ -495,8 +495,8 @@ module.exports = {
   */
 
   minWidth: {
-    "0": "0",
-    full: "100%"
+    '0': '0',
+    full: '100%',
   },
 
   /*
@@ -514,9 +514,9 @@ module.exports = {
   */
 
   minHeight: {
-    "0": "0",
-    full: "100%",
-    screen: "100vh"
+    '0': '0',
+    full: '100%',
+    screen: '100vh',
   },
 
   /*
@@ -535,16 +535,16 @@ module.exports = {
   */
 
   maxWidth: {
-    xs: "20rem",
-    sm: "30rem",
-    md: "40rem",
-    lg: "50rem",
-    xl: "60rem",
-    "2xl": "70rem",
-    "3xl": "80rem",
-    "4xl": "90rem",
-    "5xl": "100rem",
-    full: "100%"
+    xs: '20rem',
+    sm: '30rem',
+    md: '40rem',
+    lg: '50rem',
+    xl: '60rem',
+    '2xl': '70rem',
+    '3xl': '80rem',
+    '4xl': '90rem',
+    '5xl': '100rem',
+    full: '100%',
   },
 
   /*
@@ -562,8 +562,8 @@ module.exports = {
   */
 
   maxHeight: {
-    full: "100%",
-    screen: "100vh"
+    full: '100%',
+    screen: '100vh',
   },
 
   /*
@@ -582,18 +582,18 @@ module.exports = {
   */
 
   padding: {
-    px: "1px",
-    "0": "0",
-    "1": "0.25rem",
-    "2": "0.5rem",
-    "3": "0.75rem",
-    "4": "1rem",
-    "5": "1.25rem",
-    "6": "1.5rem",
-    "8": "2rem",
-    "10": "2.5rem",
-    "12": "3rem",
-    "16": "4rem"
+    px: '1px',
+    '0': '0',
+    '1': '0.25rem',
+    '2': '0.5rem',
+    '3': '0.75rem',
+    '4': '1rem',
+    '5': '1.25rem',
+    '6': '1.5rem',
+    '8': '2rem',
+    '10': '2.5rem',
+    '12': '3rem',
+    '16': '4rem',
   },
 
   /*
@@ -612,19 +612,19 @@ module.exports = {
   */
 
   margin: {
-    auto: "auto",
-    px: "1px",
-    "0": "0",
-    "1": "0.25rem",
-    "2": "0.5rem",
-    "3": "0.75rem",
-    "4": "1rem",
-    "5": "1.25rem",
-    "6": "1.5rem",
-    "8": "2rem",
-    "10": "2.5rem",
-    "12": "3rem",
-    "16": "4rem"
+    auto: 'auto',
+    px: '1px',
+    '0': '0',
+    '1': '0.25rem',
+    '2': '0.5rem',
+    '3': '0.75rem',
+    '4': '1rem',
+    '5': '1.25rem',
+    '6': '1.5rem',
+    '8': '2rem',
+    '10': '2.5rem',
+    '12': '3rem',
+    '16': '4rem',
   },
 
   /*
@@ -643,18 +643,18 @@ module.exports = {
   */
 
   negativeMargin: {
-    px: "1px",
-    "0": "0",
-    "1": "0.25rem",
-    "2": "0.5rem",
-    "3": "0.75rem",
-    "4": "1rem",
-    "5": "1.25rem",
-    "6": "1.5rem",
-    "8": "2rem",
-    "10": "2.5rem",
-    "12": "3rem",
-    "16": "4rem"
+    px: '1px',
+    '0': '0',
+    '1': '0.25rem',
+    '2': '0.5rem',
+    '3': '0.75rem',
+    '4': '1rem',
+    '5': '1.25rem',
+    '6': '1.5rem',
+    '8': '2rem',
+    '10': '2.5rem',
+    '12': '3rem',
+    '16': '4rem',
   },
 
   /*
@@ -674,11 +674,11 @@ module.exports = {
   */
 
   shadows: {
-    default: "0 2px 4px 0 rgba(0,0,0,0.10)",
-    md: "0 4px 8px 0 rgba(0,0,0,0.12), 0 2px 4px 0 rgba(0,0,0,0.08)",
-    lg: "0 15px 30px 0 rgba(0,0,0,0.11), 0 5px 15px 0 rgba(0,0,0,0.08)",
-    inner: "inset 0 2px 4px 0 rgba(0,0,0,0.06)",
-    none: "none"
+    default: '0 2px 4px 0 rgba(0,0,0,0.10)',
+    md: '0 4px 8px 0 rgba(0,0,0,0.12), 0 2px 4px 0 rgba(0,0,0,0.08)',
+    lg: '0 15px 30px 0 rgba(0,0,0,0.11), 0 5px 15px 0 rgba(0,0,0,0.08)',
+    inner: 'inset 0 2px 4px 0 rgba(0,0,0,0.06)',
+    none: 'none',
   },
 
   /*
@@ -695,14 +695,14 @@ module.exports = {
   */
 
   zIndex: {
-    auto: "auto",
-    "-1": -1,
-    "0": 0,
-    "10": 10,
-    "20": 20,
-    "30": 30,
-    "40": 40,
-    "50": 50
+    auto: 'auto',
+    '-1': -1,
+    '0': 0,
+    '10': 10,
+    '20': 20,
+    '30': 30,
+    '40': 40,
+    '50': 50,
   },
 
   /*
@@ -719,13 +719,13 @@ module.exports = {
   */
 
   opacity: {
-    "0": "0",
-    "10": "0.1",
-    "25": "0.25",
-    "50": "0.5",
-    "75": "0.75",
-    "90": "0.9",
-    "100": "1"
+    '0': '0',
+    '10': '0.1',
+    '25': '0.25',
+    '50': '0.5',
+    '75': '0.75',
+    '90': '0.9',
+    '100': '1',
   },
 
   /*
@@ -743,7 +743,7 @@ module.exports = {
   */
 
   svgFill: {
-    current: "currentColor !important"
+    current: 'currentColor !important',
   },
 
   /*
@@ -761,7 +761,7 @@ module.exports = {
   */
 
   svgStroke: {
-    current: "currentColor !important"
+    current: 'currentColor !important',
   },
 
   /*
@@ -784,51 +784,51 @@ module.exports = {
   */
 
   modules: {
-    appearance: ["responsive"],
-    backgroundAttachment: ["responsive"],
-    backgroundColors: ["responsive", "hover"],
-    backgroundPosition: ["responsive"],
-    backgroundRepeat: ["responsive"],
-    backgroundSize: ["responsive"],
-    borderColors: ["responsive", "hover"],
-    borderRadius: ["responsive"],
-    borderStyle: ["responsive"],
-    borderWidths: ["responsive"],
-    cursor: ["responsive"],
-    display: ["responsive"],
-    flexbox: ["responsive"],
-    float: ["responsive"],
-    fonts: ["responsive"],
-    fontWeights: ["responsive", "hover"],
-    height: ["responsive"],
-    leading: ["responsive"],
-    lists: ["responsive"],
-    margin: ["responsive"],
-    maxHeight: ["responsive"],
-    maxWidth: ["responsive"],
-    minHeight: ["responsive"],
-    minWidth: ["responsive"],
-    negativeMargin: ["responsive"],
-    opacity: ["responsive"],
-    overflow: ["responsive"],
-    padding: ["responsive"],
-    pointerEvents: ["responsive"],
-    position: ["responsive"],
-    resize: ["responsive"],
-    shadows: ["responsive"],
+    appearance: ['responsive'],
+    backgroundAttachment: ['responsive'],
+    backgroundColors: ['responsive', 'hover'],
+    backgroundPosition: ['responsive'],
+    backgroundRepeat: ['responsive'],
+    backgroundSize: ['responsive'],
+    borderColors: ['responsive', 'hover'],
+    borderRadius: ['responsive'],
+    borderStyle: ['responsive'],
+    borderWidths: ['responsive'],
+    cursor: ['responsive'],
+    display: ['responsive'],
+    flexbox: ['responsive'],
+    float: ['responsive'],
+    fonts: ['responsive'],
+    fontWeights: ['responsive', 'hover'],
+    height: ['responsive'],
+    leading: ['responsive'],
+    lists: ['responsive'],
+    margin: ['responsive'],
+    maxHeight: ['responsive'],
+    maxWidth: ['responsive'],
+    minHeight: ['responsive'],
+    minWidth: ['responsive'],
+    negativeMargin: ['responsive'],
+    opacity: ['responsive'],
+    overflow: ['responsive'],
+    padding: ['responsive'],
+    pointerEvents: ['responsive'],
+    position: ['responsive'],
+    resize: ['responsive'],
+    shadows: ['responsive'],
     svgFill: [],
     svgStroke: [],
-    textAlign: ["responsive"],
-    textColors: ["responsive", "hover"],
-    textSizes: ["responsive"],
-    textStyle: ["responsive", "hover"],
-    tracking: ["responsive"],
-    userSelect: ["responsive"],
-    verticalAlign: ["responsive"],
-    visibility: ["responsive"],
-    whitespace: ["responsive"],
-    width: ["responsive"],
-    zIndex: ["responsive"]
+    textAlign: ['responsive'],
+    textColors: ['responsive', 'hover'],
+    textSizes: ['responsive'],
+    textStyle: ['responsive', 'hover'],
+    tracking: ['responsive'],
+    userSelect: ['responsive'],
+    verticalAlign: ['responsive'],
+    visibility: ['responsive'],
+    whitespace: ['responsive'],
+    width: ['responsive'],
+    zIndex: ['responsive'],
   },
 
   /*
@@ -846,131 +846,131 @@ module.exports = {
   */
 
   plugins: [
-    require("tailwindcss-transitions")({
+    require('tailwindcss-transitions')({
       properties: {
-        none: "none",
-        all: "all",
-        opacity: "opacity",
-        transform: "transform",
-        z: "z-index",
-        modal: ["opacity", "z-index"]
+        none: 'none',
+        all: 'all',
+        opacity: 'opacity',
+        transform: 'transform',
+        z: 'z-index',
+        modal: ['opacity', 'z-index'],
       },
       durations: {
-        none: "0ms",
-        fast: "300ms",
-        default: "600ms",
-        slow: "1200ms"
+        none: '0ms',
+        fast: '300ms',
+        default: '600ms',
+        slow: '1200ms',
       },
       timingFunctions: {
-        default: "linear",
-        ease: "ease",
-        "ease-in-out": "ease-in-out"
+        default: 'linear',
+        ease: 'ease',
+        'ease-in-out': 'ease-in-out',
       },
       delays: {
-        none: "0ms",
-        short: "300ms",
-        medium: "600ms",
-        long: "1200ms"
+        none: '0ms',
+        short: '300ms',
+        medium: '600ms',
+        long: '1200ms',
       },
       willChange: {
-        opacity: "opacity",
-        transform: "transform"
+        opacity: 'opacity',
+        transform: 'transform',
       },
-      variants: ["responsive"]
+      variants: ['responsive'],
     }),
 
-    require("tailwindcss-transforms")({
+    require('tailwindcss-transforms')({
       translate: {
-        "0": "0",
-        full: "100%",
-        screen: "100vh"
+        '0': '0',
+        full: '100%',
+        screen: '100vh',
       },
       negativeTranslate: {
-        "0": "0",
-        full: "100%",
-        screen: "100vh"
+        '0': '0',
+        full: '100%',
+        screen: '100vh',
       },
       scale: {
-        "0": "0",
-        "90": "0.9",
-        "100": "1",
-        "110": "1.1"
+        '0': '0',
+        '90': '0.9',
+        '100': '1',
+        '110': '1.1',
       },
       rotate: {
-        "0": "0deg",
-        "90": "90deg",
-        "180": "180deg"
+        '0': '0deg',
+        '90': '90deg',
+        '180': '180deg',
       },
       negativeRotate: {
-        "90": "90deg",
-        "180": "180deg"
+        '90': '90deg',
+        '180': '180deg',
       },
       skew: false,
       negativeSkew: false,
       origins: false,
-      variants: ["responsive", "hover"]
+      variants: ['responsive', 'hover'],
     }),
-    require("tailwindcss-filters")({
-      variants: ["responsive"],
+    require('tailwindcss-filters')({
+      variants: ['responsive'],
       filters: {
-        grayscale: "grayscale(100%)"
+        grayscale: 'grayscale(100%)',
       },
-      backdropFilters: {}
+      backdropFilters: {},
     }),
-    require("tailwindcss-layout")({
+    require('tailwindcss-layout')({
       order: {
-        reset: "inherit",
+        reset: 'inherit',
         first: -1,
-        "1": 1,
-        "2": 2,
-        "3": 3,
-        "4": 4,
-        "5": 5,
-        "6": 6,
-        last: 999
+        '1': 1,
+        '2': 2,
+        '3': 3,
+        '4': 4,
+        '5': 5,
+        '6': 6,
+        last: 999,
       },
       aspectRatio: {
         full: 1,
-        "4/3": 4 / 3,
-        "16/9": 16 / 9
+        '4/3': 4 / 3,
+        '16/9': 16 / 9,
       },
-      variants: ["responsive"]
+      variants: ['responsive'],
     }),
 
     function({ addComponents, addUtilities, config }) {
       let clipUtilities = {
-        ".clip-corners": {
-          "clip-path":
-            "polygon(0.333rem 0%, calc(100% - 0.333rem) 0%, 100% 0.333rem, 100% calc(100% - 0.333rem), calc(100% - 0.333rem) 100%, 0.333rem 100%, 0% calc(100% - 0.333rem), 0% 0.333rem)"
+        '.clip-corners': {
+          'clip-path':
+            'polygon(0.333rem 0%, calc(100% - 0.333rem) 0%, 100% 0.333rem, 100% calc(100% - 0.333rem), calc(100% - 0.333rem) 100%, 0.333rem 100%, 0% calc(100% - 0.333rem), 0% 0.333rem)',
         },
-        ".clip-2-corners": {
-          "clip-path":
-            "polygon(0.666rem 0%, 100% 0%, 100% calc(100% - 0.666rem), calc(100% - 0.666rem) 100%, 0% 100%, 0% 0.666rem)"
+        '.clip-2-corners': {
+          'clip-path':
+            'polygon(0.666rem 0%, 100% 0%, 100% calc(100% - 0.666rem), calc(100% - 0.666rem) 100%, 0% 100%, 0% 0.666rem)',
         },
-        ".clip-hexagon": {
-          "clip-path":
-            "polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%)"
+        '.clip-hexagon': {
+          'clip-path':
+            'polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%)',
         },
-        ".clip-parallelogram": {
-          "clip-path":
-            "polygon(calc(100% - 1.5rem) 0, 100% 1.5rem, 100% 100%, 40% 100%, 0 0)"
-        }
+        '.clip-parallelogram': {
+          'clip-path':
+            'polygon(calc(100% - 1.5rem) 0, 100% 1.5rem, 100% 100%, 40% 100%, 0 0)',
+        },
       };
 
       let backgroundUtilities = {
-        ".bg-tile": {
-          "background-image": `${backgrounds.tile}, ${backgrounds.gradient}`,
-          "background-position": "left top, center top",
-          "background-repeat": "repeat, no-repeat",
-          "background-size": "auto, cover",
-          "background-attachment": "fixed, fixed"
-        }
+        '.bg-tile': {
+          'background-image': `${backgrounds.tile}, ${backgrounds.gradient}`,
+          'background-position': 'left top, center top',
+          'background-repeat': 'repeat, no-repeat',
+          'background-size': 'auto, cover',
+          'background-attachment': 'fixed, fixed',
+        },
       };
 
       addUtilities([clipUtilities, backgroundUtilities], {
-        variants: ["responsive"]
+        variants: ['responsive'],
       });
-    }
+    },
   ],
 
   /*
@@ -984,12 +984,12 @@ module.exports = {
   */
 
   options: {
-    prefix: "",
+    prefix: '',
     important: false,
-    separator: ":"
+    separator: ':',
   },
 
   experiments: {
-    shadowLookup: true
-  }
+    shadowLookup: true,
+  },
 };

@@ -1,4 +1,4 @@
-import Vue from "vue";
+import Vue from 'vue';
 
 const state = {
   MULTIPLIER_RATE: 1.12,
@@ -11,8 +11,8 @@ const state = {
     excitement: 3,
     fear: 6,
     tenderness: 4,
-    anger: 5
-  }
+    anger: 5,
+  },
 };
 
 // getters
@@ -38,7 +38,8 @@ const getters = {
 
         var eventScore = {
           data: duration * factors.bandwidth - firstEvent.costs.data,
-          confidence: duration * factors.influence - firstEvent.costs.confidence
+          confidence:
+            duration * factors.influence - firstEvent.costs.confidence,
         };
       } else {
         var eventScore = firstEvent.finalScore;
@@ -46,7 +47,7 @@ const getters = {
 
       var score = {
         data: eventScore.data + previous.data,
-        confidence: eventScore.confidence + previous.confidence
+        confidence: eventScore.confidence + previous.confidence,
       };
 
       firstEvent.currentScore = eventScore;
@@ -77,7 +78,7 @@ const getters = {
           if (factor.trees) {
             _.each(factor.trees, (tree, key) => {
               var treeObject = getters[
-                "get" + _.upperFirst(_.camelCase(event.type))
+                'get' + _.upperFirst(_.camelCase(event.type))
               ](event.label);
 
               if (treeObject && key === treeObject.type) {
@@ -91,7 +92,7 @@ const getters = {
             _.each(factor.dependencies, (dependency, key) => {
               var boosterEvent = _.last(
                 getters[
-                  "getValid" + _.upperFirst(_.camelCase(event.type)) + "Events"
+                  'getValid' + _.upperFirst(_.camelCase(event.type)) + 'Events'
                 ](key)
               );
 
@@ -120,7 +121,7 @@ const getters = {
   },
   getEmotions: (state, getters) => (before = getters.getNow()) => {
     var slotEvents = getters.getAllEventsOfType(
-      "slot",
+      'slot',
       getters.getValidEvents(before)
     );
     var emotions = _.defaults({}, state.EMOTIONS_INIT);
@@ -128,12 +129,12 @@ const getters = {
     _.each(slotEvents, function(slotEvent) {
       var abilityEvent = getters.getEventOfType(
         slotEvent.instance,
-        "ability",
-        "instance"
+        'ability',
+        'instance'
       );
 
       _.each(emotions, function(emotion, key) {
-        emotions[key] += abilityEvent["emotions"][key];
+        emotions[key] += abilityEvent['emotions'][key];
       });
     });
 
@@ -141,10 +142,10 @@ const getters = {
   },
   prettyUnit: (state, getters) => (value, filter) => {
     return Vue.filter(filter)(value);
-  }
+  },
 };
 
 export default {
   state,
-  getters
+  getters,
 };

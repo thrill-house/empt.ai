@@ -1,4 +1,4 @@
-@import "placeholders";
+@import 'placeholders';
 
 button {
   &:focus {
@@ -17,7 +17,7 @@ button {
 
   &:before {
     @apply absolute z--1 clip-hexagon;
-    content: "";
+    content: '';
   }
 
   &.bg-tile-overlay {
@@ -38,7 +38,7 @@ button {
 
   &:before {
     @apply absolute pin;
-    content: "";
+    content: '';
     background-position: left top, left top, center top;
     background-repeat: repeat, repeat, no-repeat;
     background-size: auto, auto, cover;
@@ -48,7 +48,7 @@ button {
 
   &:after {
     @apply absolute pin;
-    content: "";
+    content: '';
     z-index: 1;
   }
 

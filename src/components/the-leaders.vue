@@ -7,12 +7,12 @@ Displays a players progress in relation to other players of the game, based on a
 </docs>
 
 <script>
-import store from "../store";
-import { mapState } from "vuex";
+import store from '../store';
+import { mapState } from 'vuex';
 
 export default {
-  name: "the-leaders",
-  store
+  name: 'the-leaders',
+  store,
 };
 </script>
 

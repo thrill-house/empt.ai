@@ -1,66 +1,66 @@
 const state = {
   student: {
-    name: "Student",
+    name: 'Student',
     stage: 1,
     active: false,
-    enables: "influence"
+    enables: 'influence',
   },
   university: {
-    name: "University",
+    name: 'University',
     stage: 2,
-    active: false
+    active: false,
   },
   business: {
-    name: "Business",
+    name: 'Business',
     stage: 3,
-    active: false
+    active: false,
   },
   government: {
-    name: "Government",
+    name: 'Government',
     stage: 4,
-    active: false
+    active: false,
   },
   consciousness: {
-    name: "Consciousness",
+    name: 'Consciousness',
     stage: 5,
-    active: false
-  }
+    active: false,
+  },
 };
 
 // getters
 const getters = {
-  getEra: (state, getters) => label => {
+  getEra: (state, getters) => (label) => {
     return state[label];
   },
-  getStage: (state, getters) => label => {
+  getStage: (state, getters) => (label) => {
     return getters.getEra(label).stage;
   },
   getStages: (state, getters) => () => {
     return _.keys(state).length;
   },
-  isEraActive: (state, getters) => label => {
+  isEraActive: (state, getters) => (label) => {
     var era = getters.getEra(label);
-    return era["active"] !== undefined && era.active;
-  }
+    return era['active'] !== undefined && era.active;
+  },
 };
 
 // mutations
 const mutations = {
   activateEra: (state, era) => {
     state[era].active = true;
-  }
+  },
 };
 
 // actions
 const actions = {
-  activateEra: ({ state, commit }, era = "student") => {
-    commit("activateEra", era);
-  }
+  activateEra: ({ state, commit }, era = 'student') => {
+    commit('activateEra', era);
+  },
 };
 
 export default {
   state,
   getters,
   mutations,
-  actions
+  actions,
 };

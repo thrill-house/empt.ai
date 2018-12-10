@@ -10,18 +10,18 @@ The component displays an ability that is defined within the global data store. 
 </docs>
 
 <script>
-import store from "../store";
-import { mapState, mapGetters, mapActions } from "vuex";
+import store from '../store';
+import { mapState, mapGetters, mapActions } from 'vuex';
 
-import AbilityInstallable from "./ability-installable";
-import AbilityResearchable from "./ability-researchable";
-import AbilitySymbiosis from "./ability-symbiosis";
-import BaseEra from "./base-era";
-import BaseFactor from "./base-factor";
-import BaseIcon from "./base-icon";
+import AbilityInstallable from './ability-installable';
+import AbilityResearchable from './ability-researchable';
+import AbilitySymbiosis from './ability-symbiosis';
+import BaseEra from './base-era';
+import BaseFactor from './base-factor';
+import BaseIcon from './base-icon';
 
 export default {
-  name: "ability-available",
+  name: 'ability-available',
   store,
   components: {
     AbilityInstallable,
@@ -29,19 +29,19 @@ export default {
     AbilitySymbiosis,
     BaseEra,
     BaseFactor,
-    BaseIcon
+    BaseIcon,
   },
   props: {
-    label: String
+    label: String,
   },
   data: function() {
     return {
-      hover: false
+      hover: false,
     };
   },
   created: function() {
-    this.$on("research", this.researchDialog);
-    this.$on("install", this.installDialog);
+    this.$on('research', this.researchDialog);
+    this.$on('install', this.installDialog);
   },
   computed: {
     ability: function() {
@@ -69,16 +69,16 @@ export default {
       return this.isEraActive(this.era);
     },
     install: function() {
-      return this.getInteraction("installingAbility");
+      return this.getInteraction('installingAbility');
     },
     installLabel: function() {
-      return this.install ? this.install.label : "";
+      return this.install ? this.install.label : '';
     },
     research: function() {
-      return this.getInteraction("researchingAbility");
+      return this.getInteraction('researchingAbility');
     },
     researchLabel: function() {
-      return this.research ? this.research.label : "";
+      return this.research ? this.research.label : '';
     },
     interaction: function() {
       return (
@@ -86,15 +86,15 @@ export default {
       );
     },
     ...mapState({
-      abilities: state => state.abilities.list
+      abilities: (state) => state.abilities.list,
     }),
     ...mapGetters([
-      "getAbility",
-      "isEraActive",
-      "getAbilityDependants",
-      "getInteraction",
-      "prettyUnit"
-    ])
+      'getAbility',
+      'isEraActive',
+      'getAbilityDependants',
+      'getInteraction',
+      'prettyUnit',
+    ]),
   },
   methods: {
     researchDialog: function() {
@@ -102,8 +102,8 @@ export default {
     },
     installDialog: function() {
       this.$refs.install.startInstalling();
-    }
-  }
+    },
+  },
 };
 </script>
 

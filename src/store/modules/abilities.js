@@ -1,5 +1,5 @@
-import _ from "lodash";
-import api from "../../api";
+import _ from 'lodash';
+import api from '../../api';
 
 //const state = {};
 
@@ -1305,23 +1305,23 @@ let state = {
 */
 
 const state = {
-  list: {}
+  list: {},
 };
 
 // getters
 const getters = {
-  getAbility: (state, getters) => label => {
+  getAbility: (state, getters) => (label) => {
     return state.list[label] || false;
   },
-  getAbilityDependants: (state, getters) => label => {
+  getAbilityDependants: (state, getters) => (label) => {
     if (state.list) {
-      var abilities = _.pickBy(state.list, ability => {
+      var abilities = _.pickBy(state.list, (ability) => {
         return (
           ability.factors.influence && ability.factors.influence.dependencies
         );
       });
 
-      var dependantAbilities = _.pickBy(abilities, ability => {
+      var dependantAbilities = _.pickBy(abilities, (ability) => {
         return _.includes(
           _.keys(ability.factors.influence.dependencies),
           label
@@ -1329,7 +1329,7 @@ const getters = {
       });
 
       if (_.size(dependantAbilities)) {
-        return _.mapValues(dependantAbilities, dependantAbility => {
+        return _.mapValues(dependantAbilities, (dependantAbility) => {
           return dependantAbility.factors.influence.dependencies[label];
         });
       }
@@ -1337,10 +1337,10 @@ const getters = {
 
     return false;
   },
-  getAbilityEvents: (state, getters) => label => {
-    return getters.getEventsOfType(label, "ability");
+  getAbilityEvents: (state, getters) => (label) => {
+    return getters.getEventsOfType(label, 'ability');
   },
-  getAbilityCosts: (state, getters, rootState) => event => {
+  getAbilityCosts: (state, getters, rootState) => (event) => {
     var ability = getters.getAbility(event.label);
     var activeLength = getters.getAbilityEvents(event.label).length;
     var abilityCosts = {};
@@ -1359,33 +1359,33 @@ const getters = {
     }
 
     return _.defaults({ data: 0 }, abilityCosts, rootState.scores.COSTS_INIT);
-  }
+  },
 };
 
 // actions
 const mutations = {
   initAbilities(state, abilities) {
     state.list = abilities;
-  }
+  },
 };
 
 // actions
 const actions = {
   initAbilities({ commit }) {
-    api.get("abilities.json").then(function(response) {
-      commit("initAbilities", _.keyBy(response.data.data, "label"));
+    api.get('abilities.json').then(function(response) {
+      commit('initAbilities', _.keyBy(response.data.data, 'label'));
     });
   },
   addAbilityEvent({ dispatch }, event) {
-    dispatch("addEvent", event);
-  }
+    dispatch('addEvent', event);
+  },
 };
 
 export default {
   state,
   getters,
   mutations,
-  actions
+  actions,
 };
 
 // Google sheets formula

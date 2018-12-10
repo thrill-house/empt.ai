@@ -10,18 +10,18 @@ An ability that has some sort of relationship (depends on or is depended on) wit
 </docs>
 
 <script>
-import store from "../store";
+import store from '../store';
 
-import BaseIcon from "./base-icon";
+import BaseIcon from './base-icon';
 
 export default {
-  name: "ability-symbiosis",
+  name: 'ability-symbiosis',
   components: {
-    BaseIcon
+    BaseIcon,
   },
   props: {
-    label: String
-  }
+    label: String,
+  },
 };
 </script>
 

@@ -10,22 +10,22 @@ Displays options for selecting an ability to install in a slot. A button is disp
 </docs>
 
 <script>
-import store from "../store";
-import { mapState, mapGetters, mapActions } from "vuex";
+import store from '../store';
+import { mapState, mapGetters, mapActions } from 'vuex';
 
-import AbilityInstall from "./ability-install";
+import AbilityInstall from './ability-install';
 
 export default {
-  name: "ability-installable",
+  name: 'ability-installable',
   store,
   props: {
-    label: String
+    label: String,
   },
   components: {
-    AbilityInstall
+    AbilityInstall,
   },
   data: () => ({
-    task: "install"
+    task: 'install',
   }),
   computed: {
     ability: function() {
@@ -57,28 +57,28 @@ export default {
     },
     newEvent: function() {
       return {
-        type: "slot",
-        target: "ability",
-        ability: this.label
+        type: 'slot',
+        target: 'ability',
+        ability: this.label,
       };
     },
     ...mapGetters([
-      "getAbilityEvents",
-      "getValidSlotEvents",
-      "getAbility",
-      "getSlotCosts",
-      "getScores"
-    ])
+      'getAbilityEvents',
+      'getValidSlotEvents',
+      'getAbility',
+      'getSlotCosts',
+      'getScores',
+    ]),
   },
   methods: {
     install: function() {
       this.setInteraction({
-        interaction: "install",
-        label: this.label
+        interaction: 'install',
+        label: this.label,
       });
     },
-    ...mapActions(["setInteraction", "resetInteraction"])
-  }
+    ...mapActions(['setInteraction', 'resetInteraction']),
+  },
 };
 </script>
 

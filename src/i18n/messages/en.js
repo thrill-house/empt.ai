@@ -1,8 +1,17 @@
 export default {
-  Preview: "Preview",
-  Install: "Install",
-  Cancel: "Cancel",
-  "Cancel {item}": "Cancel {item}",
-  installation: "installation",
-  "{num} emotions": "{num} emotions"
+  'Cancel {item}': 'Cancel {item}',
+  Cancel: 'Cancel',
+  Challenge: 'Challenge',
+  Confidence: 'Confidence',
+  Cost: 'Cost',
+  Data: 'Data',
+  Install: 'Install',
+  installation: 'installation',
+  Installing: 'Installing',
+  'No valid event for “{instance}”.': '',
+  Preview: 'Preview',
+  Research: 'Research',
+  Researching: 'Researching',
+  Toggle: 'Toggle',
+  '{num} emotions': '{num} emotions',
 };

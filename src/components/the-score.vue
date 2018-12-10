@@ -7,12 +7,12 @@
 </docs>
 
 <script>
-import _ from "lodash";
-import store from "../store";
-import { mapState, mapGetters } from "vuex";
+import _ from 'lodash';
+import store from '../store';
+import { mapState, mapGetters } from 'vuex';
 
 export default {
-  name: "the-score",
+  name: 'the-score',
   store,
   computed: {
     factors: function() {
@@ -21,8 +21,8 @@ export default {
     scores: function() {
       return this.getScores();
     },
-    ...mapGetters(["getScores", "getFactors"])
-  }
+    ...mapGetters(['getScores', 'getFactors']),
+  },
 };
 </script>
 

@@ -7,33 +7,33 @@ Aggregates the player's current emotional profile based on currently slotted abi
 </docs>
 
 <script>
-import store from "../store";
-import { mapGetters } from "vuex";
+import store from '../store';
+import { mapGetters } from 'vuex';
 
-import EmotionDiagram from "./emotion-diagram";
+import EmotionDiagram from './emotion-diagram';
 
 export default {
-  name: "emotion-profile",
+  name: 'emotion-profile',
   store,
   components: {
-    EmotionDiagram
+    EmotionDiagram,
   },
   props: {
     labels: {
       type: Boolean,
-      default: true
+      default: true,
     },
     color: {
       type: String,
-      default: "light"
-    }
+      default: 'light',
+    },
   },
   computed: {
     emotions: function() {
       return _.merge({ color: this.color }, this.getEmotions());
     },
-    ...mapGetters(["getEmotions"])
-  }
+    ...mapGetters(['getEmotions']),
+  },
 };
 </script>
 

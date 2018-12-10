@@ -7,21 +7,21 @@ The component displays all **sockets**, and by extension all **slots** and **abi
 </docs>
 
 <script>
-import store from "../store";
-import { mapState, mapGetters } from "vuex";
+import store from '../store';
+import { mapState, mapGetters } from 'vuex';
 
-import SocketActivated from "./socket-activated";
+import SocketActivated from './socket-activated';
 
 export default {
-  name: "the-sockets",
+  name: 'the-sockets',
   components: {
-    SocketActivated
+    SocketActivated,
   },
   props: {
-    label: String
+    label: String,
   },
   store,
-  computed: mapState(["sockets"])
+  computed: mapState(['sockets']),
 };
 </script>
 

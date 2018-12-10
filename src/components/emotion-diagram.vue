@@ -20,18 +20,18 @@ Displays the a diagram of emotions, given a single or set of value sets
 </docs>
 
 <script>
-import _ from "lodash";
-import math from "mathjs";
-import store from "../store";
-import { mapState, mapGetters } from "vuex";
+import _ from 'lodash';
+import math from 'mathjs';
+import store from '../store';
+import { mapState, mapGetters } from 'vuex';
 
-import EmotionValues from "./emotion-values";
+import EmotionValues from './emotion-values';
 
 export default {
-  name: "emotion-diagram",
+  name: 'emotion-diagram',
   store,
   components: {
-    EmotionValues
+    EmotionValues,
   },
   props: {
     values: {
@@ -39,12 +39,12 @@ export default {
       validator: function(value) {
         var valuesArray = !_.isArray(value) ? [value] : value,
           required = [
-            "happiness",
-            "sadness",
-            "excitement",
-            "fear",
-            "tenderness",
-            "anger"
+            'happiness',
+            'sadness',
+            'excitement',
+            'fear',
+            'tenderness',
+            'anger',
           ],
           valid = true;
 
@@ -55,17 +55,17 @@ export default {
         });
 
         return valid;
-      }
+      },
     },
     scale: Number,
     color: {
       type: String,
-      default: "light"
+      default: 'light',
     },
     labels: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   computed: {
     valuesList: function() {
@@ -89,29 +89,29 @@ export default {
         tenderness: this.calculateRatio(this.maxScale, 150),
         fear: this.calculateRatio(this.maxScale, 210),
         sadness: this.calculateRatio(this.maxScale, 270),
-        anger: this.calculateRatio(this.maxScale, 330)
+        anger: this.calculateRatio(this.maxScale, 330),
       };
     },
     axes: function() {
       var happinessSadness = this.createPairs(
-          _.pick(this.axisPositions, ["happiness", "sadness"])
+          _.pick(this.axisPositions, ['happiness', 'sadness'])
         ),
         excitementFear = this.createPairs(
-          _.pick(this.axisPositions, ["excitement", "fear"])
+          _.pick(this.axisPositions, ['excitement', 'fear'])
         ),
         tendernessAnger = this.createPairs(
-          _.pick(this.axisPositions, ["tenderness", "anger"])
+          _.pick(this.axisPositions, ['tenderness', 'anger'])
         );
       return _.merge({}, happinessSadness, excitementFear, tendernessAnger);
     },
     showLabels: function() {
       return this.getLabelsEnabled() && !this.labels;
     },
-    ...mapGetters(["getLabelsEnabled"])
+    ...mapGetters(['getLabelsEnabled']),
   },
   methods: {
     calculateRatio: function(emotion, degree) {
-      var degreeUnit = math.unit(degree, "deg"),
+      var degreeUnit = math.unit(degree, 'deg'),
         circleSin = math.sin(degreeUnit),
         circleCos = math.cos(degreeUnit),
         maxRatio = this.maxScale > 0 ? this.max / this.maxScale : 0,
@@ -124,7 +124,7 @@ export default {
       return {
         x: x,
         y: y,
-        ratio: emotionRatio
+        ratio: emotionRatio,
       };
     },
     createPairs: function(positions) {
@@ -133,7 +133,7 @@ export default {
         function(result, value, position) {
           _.each(positions, function(val, pos) {
             if (position != pos) {
-              var label = _.join([position, pos].sort(), "-");
+              var label = _.join([position, pos].sort(), '-');
               if (!result[label]) {
                 result[label] = { from: value, to: val };
               }
@@ -145,16 +145,16 @@ export default {
 
       return paired;
     },
-    createCoordinates: function(positions, x = "x", y = "y") {
+    createCoordinates: function(positions, x = 'x', y = 'y') {
       return _.map(positions, function(value, position) {
         return [value[x], value[y]];
       });
     },
     joinCoordinates: function(
       coordinates,
-      postFix = "",
-      pointsJoin = ",",
-      coordinatesJoin = " "
+      postFix = '',
+      pointsJoin = ',',
+      coordinatesJoin = ' '
     ) {
       return _.join(
         _.map(coordinates, function(value, coordinate) {
@@ -169,9 +169,9 @@ export default {
       );
     },
     label: function(label) {
-      return !this.labels ? (this.showLabels ? label : "??????") : "";
-    }
-  }
+      return !this.labels ? (this.showLabels ? label : '??????') : '';
+    },
+  },
 };
 </script>
 
@@ -218,14 +218,14 @@ export default {
 </template>
 
 <style lang="scss">
-@import "../scss/placeholders";
+@import '../scss/placeholders';
 
 .emotion-diagram {
   &:before,
   &:after {
     @extend %bg-sky-25;
     @apply rounded-full block absolute;
-    content: "";
+    content: '';
   }
 
   &:before {

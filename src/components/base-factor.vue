@@ -14,24 +14,24 @@ A representation of a factor with a corresponding base-icon and value.
 </docs>
 
 <script>
-import store from "../store";
-import { mapGetters } from "vuex";
+import store from '../store';
+import { mapGetters } from 'vuex';
 
-import BaseIcon from "./base-icon";
+import BaseIcon from './base-icon';
 
 export default {
-  name: "base-factor",
+  name: 'base-factor',
   store,
   components: {
-    BaseIcon
+    BaseIcon,
   },
   props: {
     label: String,
-    value: Number
+    value: Number,
   },
   computed: {
-    ...mapGetters(["prettyUnit"])
-  }
+    ...mapGetters(['prettyUnit']),
+  },
 };
 </script>
 

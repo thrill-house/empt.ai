@@ -8,15 +8,15 @@ Helper element to display modal dialogs within, that take a z-index priority ove
 
 <script>
 export default {
-  name: "the-modal",
+  name: 'the-modal',
   props: {
-    show: Boolean
+    show: Boolean,
   },
   methods: {
     close: function() {
-      this.$emit("close");
-    }
-  }
+      this.$emit('close');
+    },
+  },
 };
 </script>
 

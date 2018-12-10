@@ -18,20 +18,20 @@ Displays the provided values within an emotion diagram.
 </docs>
 
 <script>
-import _ from "lodash";
-import math from "mathjs";
-import store from "../store";
-import { mapState, mapGetters } from "vuex";
+import _ from 'lodash';
+import math from 'mathjs';
+import store from '../store';
+import { mapState, mapGetters } from 'vuex';
 
 export default {
-  name: "emotion-values",
+  name: 'emotion-values',
   store,
   props: {
     emotions: {
       type: Object,
       validator: function(value) {
         return _.every(
-          ["happiness", "sadness", "excitement", "fear", "tenderness", "anger"],
+          ['happiness', 'sadness', 'excitement', 'fear', 'tenderness', 'anger'],
           _.partial(_.has, value)
         );
       },
@@ -41,14 +41,14 @@ export default {
         excitement: 1,
         fear: 1,
         tenderness: 1,
-        anger: 1
-      }
+        anger: 1,
+      },
     },
     color: {
       type: String,
-      default: "light"
+      default: 'light',
     },
-    scale: Number
+    scale: Number,
   },
   computed: {
     max: function() {
@@ -65,7 +65,7 @@ export default {
         tenderness: this.calculateRatio(emotions.tenderness, 150),
         fear: this.calculateRatio(emotions.fear, 210),
         sadness: this.calculateRatio(emotions.sadness, 270),
-        anger: this.calculateRatio(emotions.anger, 330)
+        anger: this.calculateRatio(emotions.anger, 330),
       };
     },
     pairs: function() {
@@ -76,11 +76,11 @@ export default {
     },
     coordinatesPoints: function() {
       return this.joinCoordinates(this.coordinates);
-    }
+    },
   },
   methods: {
     calculateRatio: function(emotion, degree) {
-      var degreeUnit = math.unit(degree, "deg"),
+      var degreeUnit = math.unit(degree, 'deg'),
         circleSin = math.sin(degreeUnit),
         circleCos = math.cos(degreeUnit),
         maxRatio = this.maxScale > 0 ? this.max / this.maxScale : 0,
@@ -93,7 +93,7 @@ export default {
       return {
         x: x,
         y: y,
-        ratio: emotionRatio
+        ratio: emotionRatio,
       };
     },
     createPairs: function(positions) {
@@ -102,7 +102,7 @@ export default {
         function(result, value, position) {
           _.each(positions, function(val, pos) {
             if (position != pos) {
-              var label = _.join([position, pos].sort(), "-");
+              var label = _.join([position, pos].sort(), '-');
               if (!result[label]) {
                 result[label] = { from: value, to: val };
               }
@@ -114,16 +114,16 @@ export default {
 
       return paired;
     },
-    createCoordinates: function(positions, x = "x", y = "y") {
+    createCoordinates: function(positions, x = 'x', y = 'y') {
       return _.map(positions, function(value, position) {
         return [value[x], value[y]];
       });
     },
     joinCoordinates: function(
       coordinates,
-      postFix = "",
-      pointsJoin = ",",
-      coordinatesJoin = " "
+      postFix = '',
+      pointsJoin = ',',
+      coordinatesJoin = ' '
     ) {
       return _.join(
         _.map(coordinates, function(value, coordinate) {
@@ -136,8 +136,8 @@ export default {
         }),
         coordinatesJoin
       );
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -184,14 +184,14 @@ export default {
 </template>
 
 <style lang="scss">
-@import "../scss/placeholders";
+@import '../scss/placeholders';
 
 .emotion-diagram {
   &:before,
   &:after {
     @extend %bg-sky-25;
     @apply rounded-full block absolute;
-    content: "";
+    content: '';
   }
 
   &:before {

@@ -7,12 +7,12 @@ Provides a method to navigate between the different primary screens of the game 
 </docs>
 
 <script>
-import store from "../store";
-import { mapState } from "vuex";
+import store from '../store';
+import { mapState } from 'vuex';
 
 export default {
-  name: "the-menu",
-  store
+  name: 'the-menu',
+  store,
 };
 </script>
 

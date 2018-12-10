@@ -10,17 +10,17 @@ Displays options for researching an ability, when available. A button is display
 </docs>
 
 <script>
-import store from "../store";
-import { mapState, mapGetters, mapActions } from "vuex";
+import store from '../store';
+import { mapState, mapGetters, mapActions } from 'vuex';
 
 export default {
-  name: "ability-researchable",
+  name: 'ability-researchable',
   store,
   props: {
-    label: String
+    label: String,
   },
   data: () => ({
-    show: false
+    show: false,
   }),
   computed: {
     ability: function() {
@@ -44,30 +44,30 @@ export default {
     },
     newEvent: function() {
       return {
-        type: "ability",
+        type: 'ability',
         label: this.label,
         target: false,
-        emotions: this.emotions
+        emotions: this.emotions,
       };
     },
-    ...mapState(["abilities"]),
+    ...mapState(['abilities']),
     ...mapGetters([
-      "getEventsOfType",
-      "getAbility",
-      "getAbilityCosts",
-      "getScores",
-      "isEraActive"
-    ])
+      'getEventsOfType',
+      'getAbility',
+      'getAbilityCosts',
+      'getScores',
+      'isEraActive',
+    ]),
   },
   methods: {
     research: function() {
       this.setInteraction({
-        interaction: "research",
-        label: this.label
+        interaction: 'research',
+        label: this.label,
       });
     },
-    ...mapActions(["addAbilityEvent", "setInteraction", "resetInteraction"])
-  }
+    ...mapActions(['addAbilityEvent', 'setInteraction', 'resetInteraction']),
+  },
 };
 </script>
 

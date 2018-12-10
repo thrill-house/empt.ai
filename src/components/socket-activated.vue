@@ -12,30 +12,30 @@ The data socket is the base component that abilities are attached to. When enabl
 </docs>
 
 <script>
-import _ from "lodash";
-import store from "../store";
-import { mapState, mapGetters, mapActions } from "vuex";
+import _ from 'lodash';
+import store from '../store';
+import { mapState, mapGetters, mapActions } from 'vuex';
 
-import BaseEra from "./base-era";
-import BaseFactor from "./base-factor";
-import BaseIcon from "./base-icon";
-import SocketSlot from "./socket-slot";
+import BaseEra from './base-era';
+import BaseFactor from './base-factor';
+import BaseIcon from './base-icon';
+import SocketSlot from './socket-slot';
 
 export default {
-  name: "socket-activated",
+  name: 'socket-activated',
   store,
   components: {
     BaseEra,
     BaseFactor,
     BaseIcon,
-    SocketSlot
+    SocketSlot,
   },
   props: {
-    label: String
+    label: String,
   },
   data: function() {
     return {
-      showChallenge: false
+      showChallenge: false,
     };
   },
   computed: {
@@ -65,28 +65,28 @@ export default {
       return this.getScores();
     },
     event: function() {
-      return this.getEventOfType(this.label, "socket");
+      return this.getEventOfType(this.label, 'socket');
     },
     newEvent: function() {
       return {
-        type: "socket",
-        label: this.label
+        type: 'socket',
+        label: this.label,
       };
     },
     ...mapGetters([
-      "getScores",
-      "getEventOfType",
-      "getSocket",
-      "getSocketCosts",
-      "getSlotsForSocket"
-    ])
+      'getScores',
+      'getEventOfType',
+      'getSocket',
+      'getSocketCosts',
+      'getSlotsForSocket',
+    ]),
   },
   methods: {
     activate: function() {
       this.addSocketEvent(this.newEvent);
     },
-    ...mapActions(["addSocketEvent"])
-  }
+    ...mapActions(['addSocketEvent']),
+  },
 };
 </script>
 
@@ -154,19 +154,19 @@ export default {
 </template>
 
 <style lang="scss">
-@import "../scss/$variables";
+@import '../scss/$variables';
 
 .socket-activated-field {
   display: grid;
   grid-template-rows: repeat(6, 1fr);
   grid-template-columns: repeat(6, 1fr);
   grid-template-areas:
-    ". a a b b ."
-    ". a a b b ."
-    "c c d d e e"
-    "c c d d e e"
-    ". f f g g ."
-    ". f f g g .";
+    '. a a b b .'
+    '. a a b b .'
+    'c c d d e e'
+    'c c d d e e'
+    '. f f g g .'
+    '. f f g g .';
 
   .socket-activated {
     grid-area: d;

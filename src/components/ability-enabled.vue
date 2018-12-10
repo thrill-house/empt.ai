@@ -10,19 +10,19 @@ The enabled ability is an ability that is currently enabled within a socket.
 </docs>
 
 <script>
-import store from "../store";
-import { mapState, mapGetters, mapActions } from "vuex";
+import store from '../store';
+import { mapState, mapGetters, mapActions } from 'vuex';
 
-import AbilitySymbiosis from "./ability-symbiosis";
-import BaseEra from "./base-era";
-import BaseFactor from "./base-factor";
-import BaseIcon from "./base-icon";
-import EmotionDiagram from "./emotion-diagram";
+import AbilitySymbiosis from './ability-symbiosis';
+import BaseEra from './base-era';
+import BaseFactor from './base-factor';
+import BaseIcon from './base-icon';
+import EmotionDiagram from './emotion-diagram';
 
 export default {
-  name: "ability-enabled",
+  name: 'ability-enabled',
   props: {
-    instance: String
+    instance: String,
   },
   store,
   components: {
@@ -30,7 +30,7 @@ export default {
     BaseEra,
     BaseFactor,
     BaseIcon,
-    EmotionDiagram
+    EmotionDiagram,
   },
   computed: {
     abilityLabel: function() {
@@ -58,10 +58,10 @@ export default {
       return this.getAbilityDependants(this.abilityLabel);
     },
     event: function() {
-      return this.getEventOfType(this.instance, "ability", "instance");
+      return this.getEventOfType(this.instance, 'ability', 'instance');
     },
     slotEvent: function() {
-      return this.getEventOfType(this.instance, "slot", "instance");
+      return this.getEventOfType(this.instance, 'slot', 'instance');
     },
     socket: function() {
       return this.getSocketForSlot(this.slotEvent.label);
@@ -70,31 +70,31 @@ export default {
       return this.ability.tree === this.socket.tree;
     },
     ...mapState({
-      abilities: state => state.abilities.list
+      abilities: (state) => state.abilities.list,
     }),
     ...mapGetters([
-      "getFactors",
-      "getEra",
-      "getEventOfType",
-      "getEventObjects",
-      "getStage",
-      "getAbility",
-      "getAbilityDependants",
-      "hasValidSlotEvents",
-      "getSocketForSlot",
-      "prettyUnit"
-    ])
+      'getFactors',
+      'getEra',
+      'getEventOfType',
+      'getEventObjects',
+      'getStage',
+      'getAbility',
+      'getAbilityDependants',
+      'hasValidSlotEvents',
+      'getSocketForSlot',
+      'prettyUnit',
+    ]),
   },
   methods: {
     clearSlotEvent: function() {
       this.addSlotEvent({
         label: this.slotEvent.label,
         ability: this.slotEvent.ability,
-        instance: ""
+        instance: '',
       });
     },
-    ...mapActions(["addSlotEvent"])
-  }
+    ...mapActions(['addSlotEvent']),
+  },
 };
 </script>
 

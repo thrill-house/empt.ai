@@ -10,13 +10,13 @@ Reference to a SVG sprite id for usage as base-icon.
 </docs>
 
 <script>
-import svg from "../svg";
+import svg from '../svg';
 
 export default {
-  name: "base-icon",
+  name: 'base-icon',
   props: {
-    label: String
-  }
+    label: String,
+  },
 };
 </script>
 

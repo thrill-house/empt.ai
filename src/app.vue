@@ -1,52 +1,52 @@
 <script>
-import _ from "lodash";
-import moment from "moment";
-import store from "./store";
-import Vue from "vue";
-import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
+import _ from 'lodash';
+import moment from 'moment';
+import store from './store';
+import Vue from 'vue';
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
 
-import AbilityAvailable from "./components/ability-available";
-import AbilityEnabled from "./components/ability-enabled";
-import AbilityInstall from "./components/ability-install";
-import AbilityPurchaseable from "./components/ability-purchaseable";
-import AbilityResearch from "./components/ability-research";
-import EmotionDiagram from "./components/emotion-diagram";
-import EmotionProfile from "./components/emotion-profile";
-import SocketActivated from "./components/socket-activated";
-import SocketChallenge from "./components/socket-challenge";
-import SocketSlot from "./components/socket-slot";
-import TheAbilities from "./components/the-abilities";
-import TheEvents from "./components/the-events";
-import TheFactors from "./components/the-factors";
-import TheLeaders from "./components/the-leaders";
-import TheMarketplace from "./components/the-marketplace";
-import TheMenu from "./components/the-menu";
-import ThePlayer from "./components/the-player";
-import TheScore from "./components/the-score";
-import TheSockets from "./components/the-sockets";
-import TheStory from "./components/the-story";
-import TheTime from "./components/the-time";
+import AbilityAvailable from './components/ability-available';
+import AbilityEnabled from './components/ability-enabled';
+import AbilityInstall from './components/ability-install';
+import AbilityPurchaseable from './components/ability-purchaseable';
+import AbilityResearch from './components/ability-research';
+import EmotionDiagram from './components/emotion-diagram';
+import EmotionProfile from './components/emotion-profile';
+import SocketActivated from './components/socket-activated';
+import SocketChallenge from './components/socket-challenge';
+import SocketSlot from './components/socket-slot';
+import TheAbilities from './components/the-abilities';
+import TheEvents from './components/the-events';
+import TheFactors from './components/the-factors';
+import TheLeaders from './components/the-leaders';
+import TheMarketplace from './components/the-marketplace';
+import TheMenu from './components/the-menu';
+import ThePlayer from './components/the-player';
+import TheScore from './components/the-score';
+import TheSockets from './components/the-sockets';
+import TheStory from './components/the-story';
+import TheTime from './components/the-time';
 
 export default {
-  name: "app",
+  name: 'app',
   created: function() {
     this.addSocketEvent(this.initEvent);
     this.initAbilities();
     this.startSession();
   },
   data: () => ({
-    abilityAvailableTweaker: "neutral-1",
-    abilityEnabledTweaker: "neutral-1",
+    abilityAvailableTweaker: 'neutral-1',
+    abilityEnabledTweaker: 'neutral-1',
     emotionDiagramAngerTweaker: 1,
     emotionDiagramExcitementTweaker: 1,
     emotionDiagramFearTweaker: 1,
     emotionDiagramHappinessTweaker: 1,
     emotionDiagramSadnessTweaker: 1,
     emotionDiagramTendernessTweaker: 1,
-    messageTweaker: "This and that",
+    messageTweaker: 'This and that',
     sessionDurationTweaker: 0,
-    socketActivatedTweaker: "root",
-    socketSlotTweaker: "root-1"
+    socketActivatedTweaker: 'root',
+    socketSlotTweaker: 'root-1',
   }),
   store,
   components: {
@@ -70,7 +70,7 @@ export default {
     TheScore,
     TheSockets,
     TheStory,
-    TheTime
+    TheTime,
   },
   localStorage: {
     abilityAvailableToggle: { type: Boolean },
@@ -94,7 +94,7 @@ export default {
     theScoreToggle: { type: Boolean },
     theSocketsToggle: { type: Boolean },
     theStoryToggle: { type: Boolean },
-    theTimeToggle: { type: Boolean }
+    theTimeToggle: { type: Boolean },
   },
   computed: {
     docs: function() {
@@ -104,32 +104,32 @@ export default {
     },
     initEvent: function() {
       return {
-        type: "socket",
-        label: "root",
-        timestamp: +moment(this.start).subtract(1, "seconds")
+        type: 'socket',
+        label: 'root',
+        timestamp: +moment(this.start).subtract(1, 'seconds'),
       };
     },
     ...mapState({
-      start: state => state.session.start,
-      now: state => state.session.now,
-      interval: state => state.session.interval,
-      options: "options",
-      sockets: "sockets",
-      slots: "slots",
-      abilities: "abilities"
+      start: (state) => state.session.start,
+      now: (state) => state.session.now,
+      interval: (state) => state.session.interval,
+      options: 'options',
+      sockets: 'sockets',
+      slots: 'slots',
+      abilities: 'abilities',
     }),
     ...mapGetters([
-      "getStart",
-      "getNow",
-      "getDuration",
-      "getEvents",
-      "getAllEventsOfType",
-      "getActiveSockets",
-      "getSlotsForSocket",
-      "getSlotEvents",
-      "getEventObject",
-      "getEventAffordability"
-    ])
+      'getStart',
+      'getNow',
+      'getDuration',
+      'getEvents',
+      'getAllEventsOfType',
+      'getActiveSockets',
+      'getSlotsForSocket',
+      'getSlotEvents',
+      'getEventObject',
+      'getEventAffordability',
+    ]),
   },
   methods: {
     toggle: function(section) {
@@ -139,14 +139,14 @@ export default {
       this.docsToggle = !this.docsToggle;
     },
     randomSocket: function() {
-      var active = _.map(this.getActiveSockets(), "label"),
+      var active = _.map(this.getActiveSockets(), 'label'),
         labels = _.shuffle(_.difference(_.keys(this.sockets), active)),
         socketEvent = false;
 
-      _.each(labels, socketLabel => {
+      _.each(labels, (socketLabel) => {
         socketEvent = {
-          type: "socket",
-          label: socketLabel
+          type: 'socket',
+          label: socketLabel,
         };
 
         if (this.getEventAffordability(socketEvent)) {
@@ -159,7 +159,7 @@ export default {
       });
 
       if (!socketEvent) {
-        console.log("No sockets currently affordable");
+        console.log('No sockets currently affordable');
         return false;
       }
 
@@ -168,10 +168,10 @@ export default {
     randomAbility: function() {
       var label = _.sample(_.keys(this.abilities.list)),
         abilityEvent = {
-          type: "ability",
+          type: 'ability',
           label: label,
-          instance: label + "-" + _.now(),
-          target: false
+          instance: label + '-' + _.now(),
+          target: false,
         };
 
       if (label && this.getEventAffordability(abilityEvent)) {
@@ -186,45 +186,45 @@ export default {
 
         this.addAbilityEvent(abilityEvent);
       } else {
-        console.log("No abilities currently affordable");
+        console.log('No abilities currently affordable');
         return false;
       }
 
       return true;
     },
     randomSlot: function() {
-      var socketLabel = _.sample(_.map(this.getActiveSockets(), "label")),
+      var socketLabel = _.sample(_.map(this.getActiveSockets(), 'label')),
         slotLabel = _.sample(_.keys(this.getSlotsForSocket(socketLabel))),
-        abilityEvent = _.sample(this.getAllEventsOfType("ability")),
+        abilityEvent = _.sample(this.getAllEventsOfType('ability')),
         slotEvent = {
           label: slotLabel,
           ability: abilityEvent.label,
-          instance: abilityEvent.instance
+          instance: abilityEvent.instance,
         };
 
       if (
         slotEvent &&
-        this.getEventAffordability(_.merge(slotEvent, { type: "slot" }))
+        this.getEventAffordability(_.merge(slotEvent, { type: 'slot' }))
       ) {
         this.addSlotEvent(slotEvent);
       } else {
-        console.log("No slots currently affordable");
+        console.log('No slots currently affordable');
         return false;
       }
 
       return true;
     },
-    ...mapMutations(["setStart"]),
+    ...mapMutations(['setStart']),
     ...mapActions([
-      "initAbilities",
-      "startSession",
-      "stopSession",
-      "setEvents",
-      "addEvent",
-      "addSocketEvent",
-      "addSlotEvent",
-      "addAbilityEvent"
-    ])
+      'initAbilities',
+      'startSession',
+      'stopSession',
+      'setEvents',
+      'addEvent',
+      'addSocketEvent',
+      'addSlotEvent',
+      'addAbilityEvent',
+    ]),
   },
   watch: {
     sessionDurationTweaker: function(value) {
@@ -239,8 +239,8 @@ export default {
 
       this.setStart(newStart);
       this.setEvents(events);
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -597,7 +597,7 @@ export default {
 </template>
 
 <style lang="scss">
-@import "./scss/default";
+@import './scss/default';
 
 #app {
   @apply flex flex-wrap;

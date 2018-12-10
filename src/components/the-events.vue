@@ -7,16 +7,16 @@
 </docs>
 
 <script>
-import _ from "lodash";
-import store from "../store";
-import { mapState, mapGetters } from "vuex";
+import _ from 'lodash';
+import store from '../store';
+import { mapState, mapGetters } from 'vuex';
 
 export default {
-  name: "the-events",
+  name: 'the-events',
   store,
   data: function() {
     return {
-      off: true
+      off: true,
     };
   },
   computed: {
@@ -29,9 +29,9 @@ export default {
     events: function() {
       return this.getEvents();
     },
-    ...mapState(["session", "eras"]),
-    ...mapGetters(["getEvents"])
-  }
+    ...mapState(['session', 'eras']),
+    ...mapGetters(['getEvents']),
+  },
 };
 </script>
 

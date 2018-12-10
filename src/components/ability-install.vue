@@ -7,26 +7,26 @@ Displays a modal dialog for selecting an ability to install.
 </docs>
 
 <script>
-import store from "../store";
-import { mapState, mapGetters, mapActions } from "vuex";
+import store from '../store';
+import { mapState, mapGetters, mapActions } from 'vuex';
 
-import AbilityDialog from "./ability-dialog";
-import EmotionDiagram from "./emotion-diagram";
+import AbilityDialog from './ability-dialog';
+import EmotionDiagram from './emotion-diagram';
 
 export default {
-  name: "ability-install",
+  name: 'ability-install',
   store,
   components: {
     AbilityDialog,
-    EmotionDiagram
+    EmotionDiagram,
   },
   data: () => ({
     selectedEvent: false,
-    highlightedEvent: false
+    highlightedEvent: false,
   }),
   computed: {
     interaction: function() {
-      return this.getInteraction("install");
+      return this.getInteraction('install');
     },
     label: function() {
       return this.interaction.label;
@@ -44,7 +44,7 @@ export default {
       return this.getValidSlotEvents(this.label);
     },
     installedInstances: function() {
-      return _.map(this.installed, "instance");
+      return _.map(this.installed, 'instance');
     },
     era: function() {
       return this.ability.era;
@@ -81,7 +81,7 @@ export default {
           : combineEmotions;
 
       return _.mergeWith(
-        { color: "sky" },
+        { color: 'sky' },
         this.emotionProfile,
         combineEmotions,
         _.add
@@ -89,33 +89,33 @@ export default {
     },
     newEvent: function() {
       return {
-        type: "slot",
-        target: "ability",
-        ability: this.label
+        type: 'slot',
+        target: 'ability',
+        ability: this.label,
       };
     },
     slotting: function() {
-      return this.getInteraction("slottingAbility");
+      return this.getInteraction('slottingAbility');
     },
     slottingLabel: function() {
-      return this.slotting ? this.slotting.label : "";
+      return this.slotting ? this.slotting.label : '';
     },
     installing: function() {
-      return this.getInteraction("installingAbility");
+      return this.getInteraction('installingAbility');
     },
     installingLabel: function() {
-      return this.installing ? this.installing.label : "";
+      return this.installing ? this.installing.label : '';
     },
-    ...mapState(["abilities"]),
+    ...mapState(['abilities']),
     ...mapGetters([
-      "getAbilityEvents",
-      "getAbility",
-      "getSlotCosts",
-      "getValidSlotEvents",
-      "getScores",
-      "getInteraction",
-      "getEmotions"
-    ])
+      'getAbilityEvents',
+      'getAbility',
+      'getSlotCosts',
+      'getValidSlotEvents',
+      'getScores',
+      'getInteraction',
+      'getEmotions',
+    ]),
   },
   methods: {
     isSelected: function(event) {
@@ -148,14 +148,14 @@ export default {
     cancel: function() {
       this.deselect();
       this.lowlight();
-      this.resetInteraction("install");
+      this.resetInteraction('install');
     },
     confirm: function() {
       this.setInteraction({
-        interaction: "slot",
+        interaction: 'slot',
         label: this.label,
         ability: this.getAbility(this.label),
-        instance: this.selectedEvent.instance
+        instance: this.selectedEvent.instance,
       });
       this.cancel();
     },
@@ -164,8 +164,8 @@ export default {
         return emotion === 0 ? 0.1 : emotion;
       });
     },
-    ...mapActions(["setInteraction", "resetInteraction"])
-  }
+    ...mapActions(['setInteraction', 'resetInteraction']),
+  },
 };
 </script>
 
