@@ -43,8 +43,19 @@ View the full documentation at https://tailwindcss.com.
 */
 
 const _ = require('lodash');
+const α = require('color-alpha');
 
 let hexRatio = Math.sqrt(3 / 2);
+
+let opacities = {
+  '0': 0,
+  '10': 0.1,
+  '25': 0.25,
+  '50': 0.5,
+  '75': 0.75,
+  '90': 0.9,
+  '100': 1,
+};
 
 let colors = {
   transparent: 'transparent',
@@ -64,6 +75,35 @@ let colors = {
   data: '#94E4F8',
   neutral: '#A6D3FF',
 };
+
+/**
+ * TODO: Merge colors with opacities in tailwind so there's no need for SASS variables.
+ */
+
+/*let mergeColors = {};
+
+_.map(colors, function(color, c, collection) {
+  if(c !== 'transparent') {
+    _.merge(
+      collection,
+      _.fromPairs(
+        _.map(opacities, function(opacity, o) {
+          if(opacity > 0 && opacity < 1 && color !== undefined) {
+            return [`${c}-${o}`, α(color, opacity)];
+          }
+
+          return ['', ''];
+        })
+      )
+    );
+
+    merge = collection;
+  }
+
+  return '';
+});
+
+//console.log(merge);*/
 
 let backgrounds = {
   tile: 'url(/assets/img/tile.svg)',
@@ -718,15 +758,7 @@ module.exports = {
   |
   */
 
-  opacity: {
-    '0': '0',
-    '10': '0.1',
-    '25': '0.25',
-    '50': '0.5',
-    '75': '0.75',
-    '90': '0.9',
-    '100': '1',
-  },
+  opacity: opacities,
 
   /*
   |-----------------------------------------------------------------------------
@@ -878,7 +910,6 @@ module.exports = {
       },
       variants: ['responsive'],
     }),
-
     require('tailwindcss-transforms')({
       translate: {
         '0': '0',
@@ -936,7 +967,6 @@ module.exports = {
       },
       variants: ['responsive'],
     }),
-
     function({ addComponents, addUtilities, config }) {
       let clipUtilities = {
         '.clip-corners': {

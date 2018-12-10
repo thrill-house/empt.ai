@@ -2,6 +2,7 @@ export default {
   'Cancel {item}': 'Cancel {item}',
   Cancel: 'Cancel',
   Challenge: 'Challenge',
+  Connect: 'Connect',
   Confidence: 'Confidence',
   Cost: 'Cost',
   Data: 'Data',

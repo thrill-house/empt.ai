@@ -1,5 +1,5 @@
 <docs>
-### Ability enabled
+### Ability slotted
 The enabled ability is an ability that is currently enabled within a socket.
 
 ##### Properties

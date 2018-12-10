@@ -12,7 +12,7 @@ import AbilityResearch from './components/ability-research';
 import AbilitySlotted from './components/ability-slotted';
 import EmotionDiagram from './components/emotion-diagram';
 import EmotionProfile from './components/emotion-profile';
-import SocketActivated from './components/socket-activated';
+import SocketField from './components/socket-field';
 import SocketChallenge from './components/socket-challenge';
 import SocketSlot from './components/socket-slot';
 import TheAbilities from './components/the-abilities';
@@ -44,7 +44,7 @@ export default {
     emotionDiagramSadnessTweaker: 1,
     emotionDiagramTendernessTweaker: 1,
     sessionDurationTweaker: 0,
-    socketActivatedTweaker: 'root',
+    socketFieldTweaker: 'root',
     socketSlotTweaker: 'root-1',
   }),
   store,
@@ -56,7 +56,7 @@ export default {
     AbilitySlotted,
     EmotionDiagram,
     EmotionProfile,
-    SocketActivated,
+    SocketField,
     SocketChallenge,
     SocketSlot,
     TheAbilities,
@@ -80,7 +80,7 @@ export default {
     docsToggle: { type: Boolean },
     emotionDiagramToggle: { type: Boolean },
     emotionProfileToggle: { type: Boolean },
-    socketActivatedToggle: { type: Boolean },
+    socketFieldToggle: { type: Boolean },
     socketChallengeToggle: { type: Boolean },
     socketSlotToggle: { type: Boolean },
     theAbilitiesToggle: { type: Boolean },
@@ -520,26 +520,26 @@ export default {
     </section>
 
     <!--
-    ---- Socket activated
+    ---- Socket online
     --->
-    <section :class="{ off: socketActivatedToggle }">
+    <section :class="{ off: socketFieldToggle }">
       <header>
-        <button class="toggle" @click="toggle('socketActivatedToggle')">
+        <button class="toggle" @click="toggle('socketFieldToggle')">
           Toggle
         </button>
-        <div v-html="docs.socketActivated" class="docs"></div>
+        <div v-html="docs.socketField" class="docs"></div>
         <div class="tweakers">
           <h5>Tweakers</h5>
           <label>Data Socket</label>
-          <select v-model="socketActivatedTweaker">
+          <select v-model="socketFieldTweaker">
             <option disabled value="">Choose</option>
-            <option v-for="(socketActivated, index) in sockets" :value="index">
-              {{ socketActivated.name }}
+            <option v-for="(socketField, index) in sockets" :value="index">
+              {{ socketField.name }}
             </option>
           </select>
         </div>
       </header>
-      <socket-activated :label="socketActivatedTweaker"></socket-activated>
+      <socket-field :label="socketFieldTweaker"></socket-field>
     </section>
 
     <!--

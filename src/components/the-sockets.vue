@@ -10,12 +10,12 @@ The component displays all **sockets**, and by extension all **slots** and **abi
 import store from '../store';
 import { mapState, mapGetters } from 'vuex';
 
-import SocketActivated from './socket-activated';
+import SocketOnline from './socket-online';
 
 export default {
   name: 'the-sockets',
   components: {
-    SocketActivated,
+    SocketOnline,
   },
   props: {
     label: String,
@@ -27,12 +27,12 @@ export default {
 
 <template>
   <div class="the-sockets flex flex-wrap w-full">
-    <socket-activated
+    <socket-online
       v-for="(socket, index) in sockets"
       :key="index"
       :label="index"
     >
-    </socket-activated>
+    </socket-online>
   </div>
 </template>
 
