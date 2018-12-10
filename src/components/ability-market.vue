@@ -6,12 +6,6 @@ Lists all abilities that are available on the marketplace for the player to purc
 `<ability-market></ability-market>`
 </docs>
 
-<template>
-  <div id="ability-market">
-	  ...
-  </div>
-</template>
-
 <script>
 import { mapState } from "vuex";
 import store from "../store";
@@ -22,7 +16,13 @@ export default {
 };
 </script>
 
+<template>
+  <div class="ability-market">
+	  ...
+  </div>
+</template>
+
 <style lang="scss">
-#ability-market {
+.ability-market {
 }
 </style>

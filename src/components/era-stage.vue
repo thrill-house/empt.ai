@@ -9,12 +9,6 @@ Representation of an elements era relative to the total number of era's
 `<era-stage label="era-label"></era-stage>`
 </docs>
 
-<template>
-  <div class="flex flex-col-reverse items-center">
-    <span v-for="n in total" :class="[ 'bg-' + (stage >= n? 'sky': 'grey-50')  ]" class="w-full h-1 my-px inline-block"></span>
-  </div>
-</template>
-
 <script>
 import { mapGetters } from "vuex";
 import svg from "../svg";
@@ -35,3 +29,9 @@ export default {
   }
 };
 </script>
+
+<template>
+  <div class="flex flex-col-reverse items-center">
+    <span v-for="n in total" :class="[ 'bg-' + (stage >= n? 'sky': 'grey-50')  ]" class="w-full h-1 my-px inline-block"></span>
+  </div>
+</template>

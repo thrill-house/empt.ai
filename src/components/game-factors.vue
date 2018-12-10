@@ -6,29 +6,6 @@ The component displays the current values for multipliers used to calculate the 
 `<game-factors></game-factors>`
 </docs>
 
-<template>
-  <div id="game-factors" class="body">
-    <template v-if="factors.bandwidth > 0">
-	    <label class="label">Bandwidth</label><output class="output">+{{ factors.bandwidth|bandwidth }}</output>
-    </template>
-    <template v-if="factors.influence > 0">
-	    <hr>
-	    <label class="label">Influence</label><output class="output">+{{ factors.influence|influence }}</output>
-    </template>
-    <template v-if="factors.boosts > 0">
-	    <hr>
-	    <label class="label">Dependency boosts</label><output class="output">+{{ factors.boosts|percentage }}</output>
-    </template>
-    <template v-if="factors.science > 0 || factors.economy > 0 || factors.society > 0">
-	    <hr>
-	    <label class="label">Tree boosts</label>
-	    <output class="output" v-if="factors.science > 0">+{{ factors.science|science }}</output>
-	    <output class="output" v-if="factors.economy > 0">+{{ factors.economy|economy }}</output>
-	    <output class="output" v-if="factors.society > 0">+{{ factors.society|society }}</output>
-    </template>
-  </div>
-</template>
-
 <script>
 import { mapGetters } from "vuex";
 import store from "../store";
@@ -46,7 +23,33 @@ export default {
 };
 </script>
 
+<template>
+  <div class="game-factors body">
+    <template v-if="factors.bandwidth > 0">
+      <label class="label">{{ $t('Bandwidth') }}</label>
+      <output class="output">+{{ factors.bandwidth|bandwidth }}</output>
+    </template>
+    <template v-if="factors.influence > 0">
+      <hr>
+      <label class="label">{{ $t('Influence') }}</label>
+      <output class="output">+{{ factors.influence|influence }}</output>
+    </template>
+    <template v-if="factors.boosts > 0">
+      <hr>
+      <label class="label">{{ $t('Dependency boosts') }}</label>
+      <output class="output">+{{ factors.boosts|percentage }}</output>
+    </template>
+    <template v-if="factors.science > 0 || factors.economy > 0 || factors.society > 0">
+      <hr>
+      <label class="label">{{ $t('Not a valid event') }}Tree boosts</label>
+      <output class="output" v-if="factors.science > 0">+{{ factors.science|science }}</output>
+      <output class="output" v-if="factors.economy > 0">+{{ factors.economy|economy }}</output>
+      <output class="output" v-if="factors.society > 0">+{{ factors.society|society }}</output>
+    </template>
+  </div>
+</template>
+
 <style lang="scss">
-#game-factors {
+.game-factors {
 }
 </style>

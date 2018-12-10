@@ -6,12 +6,6 @@ Displays information pertaining to the player's profile.
 `<user-profile></user-profile>`
 </docs>
 
-<template>
-  <div id="user-profile">
-	  ...
-  </div>
-</template>
-
 <script>
 import { mapState } from "vuex";
 import store from "../store";
@@ -22,7 +16,13 @@ export default {
 };
 </script>
 
+<template>
+  <div class="user-profile">
+	  ...
+  </div>
+</template>
+
 <style lang="scss">
-#user-profile {
+.user-profile {
 }
 </style>

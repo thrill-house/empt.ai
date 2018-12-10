@@ -6,12 +6,8 @@ Reference to a SVG sprite id for usage as icon.
 - `label` — A label referring to the icon id in the SVG sprite.
 
 ##### Instantiation
-`<icon label="icon-id"></icon>`
+`<icon label="icon-label"></icon>`
 </docs>
-
-<template>
-  <svg class="icon fill-current"><use :xlink:href="'#' + label"></use></svg>
-</template>
 
 <script>
 import svg from "../svg";
@@ -23,3 +19,9 @@ export default {
   }
 };
 </script>
+
+<template>
+  <svg class="icon fill-current">
+  	<use :xlink:href="'#' + label"></use>
+  </svg>
+</template>

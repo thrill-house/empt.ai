@@ -6,12 +6,6 @@ The component displays how much time has elapsed between the first event and the
 `<game-time></game-time>`
 </docs>
 
-<template>
-  <div id="game-time">
-	  <label class="label">Elapsed</label><output class="output">{{ elapsed|duration }}</output>
-  </div>
-</template>
-
 <script>
 import { mapState, mapGetters, mapMutations } from "vuex";
 import store from "../store";
@@ -33,5 +27,14 @@ export default {
 };
 </script>
 
+<template>
+  <div class="game-time">
+    <label class="label">Elapsed</label>
+    <output class="output">{{ elapsed|duration }}</output>
+  </div>
+</template>
+
 <style lang="scss">
+.game-time {
+}
 </style>

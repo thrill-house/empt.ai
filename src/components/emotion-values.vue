@@ -17,39 +17,6 @@ Displays the provided values within an emotion diagram.
 ```
 </docs>
 
-<template>
-  <div class="emotion-values absolute block pin w-full h-full">
-	  <svg class="w-full h-full" viewBox="0 0 100 100">
-      <defs>
-        <clipPath :id="uid + '-points'">
-          <polygon :points="coordinatesPoints"></polygon>
-        </clipPath>
-      </defs>
-      <polygon :points="coordinatesPoints"
-        :class="'text-' + color"
-        fill="currentColor"
-        fill-opacity="0.25"
-        stroke="currentColor"
-        stroke-width="1"
-        stroke-opacity="0.5"
-        vector-effect="non-scaling-stroke"></polygon>
-      <polyline v-for="(value, pair) in pairs"
-        :points="joinCoordinates(createCoordinates([value.from, value.to]))"
-        :class="'text-' + color"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1"
-        stroke-opacity="0.5"
-        vector-effect="non-scaling-stroke"
-        :style="{ 'clip-path': 'url(#' + uid + '-points)' }"></polyline>
-    </svg>
-    <span v-for="(value, position) in positions"
-      class="absolute block w-2 h-2 -ml-1 -mt-1 rounded-full"
-      :class="[position, 'bg-' + color]"
-      :style="{ left: value.x + '%', top: value.y + '%', transform: 'scale(' + value.ratio + ')' }"></span>
-  </div>
-</template>
-
 <script>
 import { mapState, mapGetters } from "vuex";
 import store from "../store";
@@ -173,6 +140,48 @@ export default {
   }
 };
 </script>
+
+<template>
+  <div class="emotion-values absolute block pin w-full h-full">
+    <svg
+      class="w-full h-full"
+      viewBox="0 0 100 100"
+    >
+      <defs>
+        <clipPath :id="uid + '-points'">
+          <polygon :points="coordinatesPoints"></polygon>
+        </clipPath>
+      </defs>
+      <polygon
+        :points="coordinatesPoints"
+        :class="'text-' + color"
+        fill="currentColor"
+        fill-opacity="0.25"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-opacity="0.5"
+        vector-effect="non-scaling-stroke"
+      ></polygon>
+      <polyline
+        v-for="(value, pair) in pairs"
+        :points="joinCoordinates(createCoordinates([value.from, value.to]))"
+        :class="'text-' + color"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-opacity="0.5"
+        vector-effect="non-scaling-stroke"
+        :style="{ 'clip-path': 'url(#' + uid + '-points)' }"
+      ></polyline>
+    </svg>
+    <span
+      v-for="(value, position) in positions"
+      class="absolute block w-2 h-2 -ml-1 -mt-1 rounded-full"
+      :class="[position, 'bg-' + color]"
+      :style="{ left: value.x + '%', top: value.y + '%', transform: 'scale(' + value.ratio + ')' }"
+    ></span>
+  </div>
+</template>
 
 <style lang="scss">
 @import "../scss/placeholders";

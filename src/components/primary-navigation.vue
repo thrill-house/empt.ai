@@ -6,12 +6,6 @@ Provides a method to navigate between the different primary screens of the game 
 `<primary-navigation></primary-navigation>`
 </docs>
 
-<template>
-  <div id="primary-navigation">
-	  ...
-  </div>
-</template>
-
 <script>
 import { mapState } from "vuex";
 import store from "../store";
@@ -22,7 +16,13 @@ export default {
 };
 </script>
 
+<template>
+  <div class="primary-navigation">
+	  ...
+  </div>
+</template>
+
 <style lang="scss">
-#primary-navigation {
+.primary-navigation {
 }
 </style>

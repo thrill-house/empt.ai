@@ -6,12 +6,6 @@ Displays an ability that is listed on the marketplace and is available for purch
 `<purchaseable-ability></purchaseable-ability>`
 </docs>
 
-<template>
-  <div id="purchaseable-ability">
-	  ...
-  </div>
-</template>
-
 <script>
 import { mapState } from "vuex";
 import store from "../store";
@@ -22,7 +16,13 @@ export default {
 };
 </script>
 
+<template>
+  <div class="purchaseable-ability">
+	  ...
+  </div>
+</template>
+
 <style lang="scss">
-#purchaseable-ability {
+.purchaseable-ability {
 }
 </style>

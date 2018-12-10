@@ -21,12 +21,15 @@ export default {
 </script>
 
 <template>
-  <transition name="fade" slot="modal">
+  <transition
+    name="fade"
+    slot="modal"
+  >
     <aside
       v-show="show"
       class="the-modal bg-navy-75"
     >
-      <slot>THE MODAL</slot>
+      <slot></slot>
     </aside>
   </transition>
 </template>

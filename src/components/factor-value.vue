@@ -10,13 +10,6 @@ A representation of a factor with a corresponding icon and value.
 `<factor-value label="factor-label" value="123"></factor-value>`
 </docs>
 
-<template>
-  <output v-if="value" class="factor-value inline-flex items-center text-xs font-bold text-light">
-    <icon :label="label" :class="'text-' + label" class="w-4 h-4 mr-1"></icon>
-    <span class="filter-grayscale">+{{ prettyUnit(value, label) }}</span>
-  </output>
-</template>
-
 <script>
 import { mapGetters } from "vuex";
 import store from "../store";
@@ -37,3 +30,17 @@ export default {
   }
 };
 </script>
+
+<template>
+  <output
+  v-if="value"
+  class="factor-value inline-flex items-center text-xs font-bold text-light"
+  >
+    <icon
+      class="w-4 h-4 mr-1"
+      :label="label"
+      :class="'text-' + label"
+    ></icon>
+    <span class="filter-grayscale">+{{ prettyUnit(value, label) }}</span>
+  </output>
+</template>

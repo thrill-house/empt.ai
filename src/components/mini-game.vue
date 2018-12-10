@@ -6,12 +6,6 @@ Displays a mini-game to the user that can be completed to receive a score bonus 
 `<mini-game></mini-game>`
 </docs>
 
-<template>
-  <div id="mini-game">
-	  ...
-  </div>
-</template>
-
 <script>
 import { mapState } from "vuex";
 import store from "../store";
@@ -22,7 +16,13 @@ export default {
 };
 </script>
 
+<template>
+  <div class="mini-game">
+	  ...
+  </div>
+</template>
+
 <style lang="scss">
-#mini-game {
+.mini-game {
 }
 </style>

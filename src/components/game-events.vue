@@ -1,30 +1,14 @@
 <docs>
-### Game events
-The component lists all events associated with the game that are stored in the global data store. This is a helper component used for testing and balancing that won't be used as an interface element in the game.
-
-##### Instantiation
-`<game-events></game-events>`
+  ### Game events
+  The component lists all events associated with the game that are stored in the global data store. This is a helper component used for testing and balancing that won't be used as an interface element in the game.
+  ##### Instantiation
+  `<game-events></game-events>`
 </docs>
-
-<template>
-  <div id="game-events">
-    <button class="button orange" @click="off = !off">{{ $t('Toggle') }}</button>
-    <div class="debug mt-4" :class="{ hidden: off }">
-      <div v-if="events">
-        <div class="event py-2 border-t border-solid border-grey" v-for="(event) in events" v-if="event.timestamp < now">
-    	    <pre>{{ event }}</pre>
-        </div>
-        <div v-else>{{ $t('Not a valid event') }}</div>
-      </div>
-    </div>
-  </div>
-</template>
 
 <script>
 import { mapState, mapGetters } from "vuex";
 import store from "../store";
 import _ from "lodash";
-
 export default {
   name: "game-events",
   store,
@@ -49,5 +33,31 @@ export default {
 };
 </script>
 
+<template>
+  <div class="game-events">
+    <button
+      class="button orange"
+      @click="off = !off"
+    >{{ $t('Toggle') }}</button>
+    <div
+      class="debug mt-4"
+      :class="{ hidden: off }"
+    >
+      <div v-if="events">
+        <div
+          v-for="(event) in events"
+          v-if="event.timestamp < now"
+          class="event py-2 border-t border-solid border-grey"
+        >
+          <pre>{{ event }}</pre>
+        </div>
+        <div v-else>{{ $t('Not a valid event') }}</div>
+      </div>
+    </div>
+  </div>
+</template>
+
 <style lang="scss">
+.game-events {
+}
 </style>

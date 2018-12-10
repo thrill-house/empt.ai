@@ -6,15 +6,6 @@ The component displays abilities that are available to the player to research or
 `<ability-library></ability-library>`
 </docs>
 
-<template>
-  <div id="ability-library" class="flex flex-wrap w-full">
-	  <available-ability v-for="(ability, index) in abilities"
-    :label="index"
-    :key="index"
-    class="w-64 text-light"></available-ability>
-  </div>
-</template>
-
 <script>
 import { mapState, mapGetters, mapActions } from "vuex";
 import store from "../store";
@@ -54,7 +45,18 @@ export default {
 };
 </script>
 
+<template>
+  <div class="ability-library flex flex-wrap w-full">
+    <available-ability
+      v-for="(ability, index) in abilities"
+      class="w-64 text-light"
+      :label="index"
+      :key="index"
+    ></available-ability>
+  </div>
+</template>
+
 <style lang="scss">
-#ability-library {
+.ability-library {
 }
 </style>

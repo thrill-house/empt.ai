@@ -5,35 +5,6 @@
   `<install-ability label="ability-label"></install-ability>`
 </docs>
 
-<template>
-  <button
-     v-if="ability && events.length"
-    class="install-ability button bg-sky-25 text-light text-left text-xs px-3 py-px relative w-full z-10"
-    :class="{ 'cursor-wait': (!affordable) }"
-    :disabled="!affordable"
-    @click="install()"
-  >
-    <!--span
-      class="absolute block pin h-full bg-sky-50 rounded z-0"
-      :style="{width: affordability + '%'}"
-    ></span-->
-    <span class="relative block z-10">
-      {{ $t('Install') }}
-      <span
-        class="inline-block rounded-full px-1 h-3 bg-light text-sky text-center align-bottom text-2xs font-bold"
-        :class="{ 'bg-grey': !remaining }"
-      >{{ remaining }}/{{ total }}</span>
-      <br>
-      <span class="font-bold filter-grayscale">{{ costs.data|data }}</span>
-    </span>
-  </button>
-  <!--button
-  v-else
-  class="button bg-blue-75 text-xs px-3 py-px text-light text-left relative w-full"
-  @click="endSlotting()">
-    {{ $t('Cancel {item}', { item: $t('installation')} ) }}
-  </button-->
-</template>
 <script>
 import { mapState, mapGetters, mapActions } from "vuex";
 import store from "../store";
@@ -106,5 +77,37 @@ export default {
 };
 </script>
 
+<template>
+  <button
+     v-if="ability && events.length"
+    class="install-ability button bg-sky-25 text-light text-left text-xs px-3 py-px relative w-full z-10"
+    :class="{ 'cursor-wait': (!affordable) }"
+    :disabled="!affordable"
+    @click="install()"
+  >
+    <!--span
+      class="absolute block pin h-full bg-sky-50 rounded z-0"
+      :style="{width: affordability + '%'}"
+    ></span-->
+    <span class="relative block z-10">
+      {{ $t('Install') }}
+      <span
+        class="inline-block rounded-full px-1 h-3 bg-light text-sky text-center align-bottom text-2xs font-bold"
+        :class="{ 'bg-grey': !remaining }"
+      >{{ remaining }}/{{ total }}</span>
+      <br>
+      <span class="font-bold filter-grayscale">{{ costs.data|data }}</span>
+    </span>
+  </button>
+  <!--button
+  v-else
+  class="button bg-blue-75 text-xs px-3 py-px text-light text-left relative w-full"
+  @click="endSlotting()">
+    {{ $t('Cancel {item}', { item: $t('installation')} ) }}
+  </button-->
+</template>
+
 <style lang="scss">
+.install-ability {
+}
 </style>

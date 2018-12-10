@@ -6,16 +6,6 @@ The component displays all **data sockets**, **socket slots** and **enabled abil
 `<playing-field></playing-field>`
 </docs>
 
-<template>
-  <div id="playing-field" class="flex flex-wrap w-full">
-	  <data-socket
-	    v-for="(socket, index) in sockets"
-	    :key="index"
-	    :label="index">
-	  </data-socket>
-  </div>
-</template>
-
 <script>
 import { mapState, mapGetters } from "vuex";
 import store from "../store";
@@ -34,5 +24,17 @@ export default {
 };
 </script>
 
+<template>
+  <div class="playing-field flex flex-wrap w-full">
+    <data-socket
+      v-for="(socket, index) in sockets"
+      :key="index"
+      :label="index">
+    </data-socket>
+  </div>
+</template>
+
 <style lang="scss">
+.playing-field {
+}
 </style>

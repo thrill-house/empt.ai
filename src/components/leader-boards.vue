@@ -6,12 +6,6 @@ Displays a players progress in relation to other players of the game, based on a
 `<leader-boards></leader-boards>`
 </docs>
 
-<template>
-  <div id="leader-boards">
-	  ...
-  </div>
-</template>
-
 <script>
 import { mapState } from "vuex";
 import store from "../store";
@@ -22,7 +16,13 @@ export default {
 };
 </script>
 
+<template>
+  <div class="leader-boards">
+	  ...
+  </div>
+</template>
+
 <style lang="scss">
-#leader-boards {
+.leader-boards {
 }
 </style>

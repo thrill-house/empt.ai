@@ -6,14 +6,6 @@ Aggregates the player's current emotional profile based on currently slotted abi
 `<emotional-profile></emotional-profile>`
 </docs>
 
-<template>
-  <div class="emotional-profile relative block">
-	  <emotion-diagram class="w-full h-full"
-  	  :hideLabels="hideLabels"
-  	  :values="emotions"></emotion-diagram>
-  </div>
-</template>
-
 <script>
 import { mapGetters } from "vuex";
 import store from "../store";
@@ -44,5 +36,15 @@ export default {
 };
 </script>
 
+<template>
+  <div class="emotional-profile relative block">
+    <emotion-diagram class="w-full h-full"
+      :hideLabels="hideLabels"
+      :values="emotions"></emotion-diagram>
+  </div>
+</template>
+
 <style lang="scss">
+.emotional-profile {
+}
 </style>

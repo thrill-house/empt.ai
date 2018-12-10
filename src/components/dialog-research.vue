@@ -6,73 +6,6 @@ Displays a modal dialog for researching an ability.
 `<dialog-research label="ability-label" emotions="{}"></dialog-research>`
 </docs>
 
-<template>
-  <ability-dialog
-    :label="label"
-    :costs="costs"
-    :show="show"
-  >
-    <span
-      slot="researchToggle"
-      class="button text-lg uppercase font-bold px-4 py-2 text-navy bg-light"
-    >{{ $t('Researching') }}</span>
-
-    <button
-      class="button uppercase bg-sky px-4 py-2 mb-4 font-bold text-light"
-      slot="confirm"
-      :disabled="!submittable"
-      :class="{ 'opacity-10': !submittable }"
-      @click="confirm()"
-    >{{ $t('Research') }}</button>
-
-    <button
-      class="button uppercase bg-blue px-4 py-2 font-bold text-light"
-      slot="cancel"
-      @click="cancel()"
-    >{{ $t('Cancel') }}</button>
-
-    <!--button
-      class="button uppercase bg-sky px-4 py-2 mb-4 font-bold text-light"
-      :disabled="sumEmotions !== requiredEmotions"
-      :class="{ 'opacity-10': sumEmotions !== requiredEmotions }"
-      @click="engageResearch(label)"
-    >{{ $t('Confirm') }}</button-->
-
-    <template slot="emotions">
-      <emotion-diagram
-        class="w-64 h-64"
-        :values="emotionValues"
-        :hideLabels="false"
-      >
-        <span
-          v-for="(value, emotion) in emotions"
-          class="inline-flex"
-          :key="emotion"
-          :slot="emotion"
-          :class="[ emotionSide(emotion) > 0? 'order-first mr-1': 'ml-1' ]"
-        >
-          <button
-            class="bg-light text-navy p-px text-2xs text-center h-3 w-3 block font-bold uppercase rounded-l-full border-r border-navy"
-            @click="adjust(emotion, emotionSide(emotion) * -1)"
-          >❮</button>
-          <button
-            class="bg-light text-navy p-px text-2xs text-center h-3 w-3 block font-bold uppercase rounded-r-full"
-            @click="adjust(emotion, emotionSide(emotion))"
-          >❯</button>
-        </span>
-      </emotion-diagram>
-    </template>
-
-    <template slot="buttons">
-      <emotion-diagram
-        class="m-1 w-24 h-24 border border-light"
-        :values="emotions"
-        :scale.number="2"
-      ></emotion-diagram>
-    </template>
-  </ability-dialog>
-</template>
-
 <script>
 import { mapState, mapGetters, mapActions } from "vuex";
 import store from "../store";
@@ -291,5 +224,75 @@ export default {
 };
 </script>
 
+<template>
+  <ability-dialog
+    class="dialog-research"
+    :label="label"
+    :costs="costs"
+    :show="show"
+  >
+    <span
+      slot="researchToggle"
+      class="button text-lg uppercase font-bold px-4 py-2 text-navy bg-light"
+    >{{ $t('Researching') }}</span>
+
+    <button
+      class="button uppercase bg-sky px-4 py-2 mb-4 font-bold text-light"
+      slot="confirm"
+      :disabled="!submittable"
+      :class="{ 'opacity-10': !submittable }"
+      @click="confirm()"
+    >{{ $t('Research') }}</button>
+
+    <button
+      class="button uppercase bg-blue px-4 py-2 font-bold text-light"
+      slot="cancel"
+      @click="cancel()"
+    >{{ $t('Cancel') }}</button>
+
+    <!--button
+      class="button uppercase bg-sky px-4 py-2 mb-4 font-bold text-light"
+      :disabled="sumEmotions !== requiredEmotions"
+      :class="{ 'opacity-10': sumEmotions !== requiredEmotions }"
+      @click="engageResearch(label)"
+    >{{ $t('Confirm') }}</button-->
+
+    <template slot="emotions">
+      <emotion-diagram
+        class="w-64 h-64"
+        :values="emotionValues"
+        :hideLabels="false"
+      >
+        <span
+          v-for="(value, emotion) in emotions"
+          class="inline-flex"
+          :key="emotion"
+          :slot="emotion"
+          :class="[ emotionSide(emotion) > 0? 'order-first mr-1': 'ml-1' ]"
+        >
+          <button
+            class="bg-light text-navy p-px text-2xs text-center h-3 w-3 block font-bold uppercase rounded-l-full border-r border-navy"
+            @click="adjust(emotion, emotionSide(emotion) * -1)"
+          >❮</button>
+          <button
+            class="bg-light text-navy p-px text-2xs text-center h-3 w-3 block font-bold uppercase rounded-r-full"
+            @click="adjust(emotion, emotionSide(emotion))"
+          >❯</button>
+        </span>
+      </emotion-diagram>
+    </template>
+
+    <template slot="buttons">
+      <emotion-diagram
+        class="m-1 w-24 h-24 border border-light"
+        :values="emotions"
+        :scale.number="2"
+      ></emotion-diagram>
+    </template>
+  </ability-dialog>
+</template>
+
 <style lang="scss">
+.dialog-research {
+}
 </style>

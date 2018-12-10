@@ -6,12 +6,6 @@ Displays story elements that occur throughout the course of the narrative as a r
 `<narrative-output></narrative-output>`
 </docs>
 
-<template>
-  <div id="narrative-output">
-	  ...
-  </div>
-</template>
-
 <script>
 import { mapState } from "vuex";
 import store from "../store";
@@ -22,7 +16,13 @@ export default {
 };
 </script>
 
+<template>
+  <div class="narrative-output">
+	  ...
+  </div>
+</template>
+
 <style lang="scss">
-#narrative-output {
+.narrative-output {
 }
 </style>

@@ -9,44 +9,6 @@ The data socket is the base component that abilities are attached to. When enabl
 `<data-socket label="data-socket-label"></data-socket>`
 </docs>
 
-<template>
-  <div class="data-socket-field py-8">
-    <div :class="'bg-' + socket.type" class="data-socket hexagon bg-tile-overlay w-48 h-hex*48 px-2 py-6 text-center flex flex-col justify-between items-center" @mouseover="showChallenge = true" @mouseout="showChallenge = false">
-	    <header class="flex items-center justify-center text-center bg-grey-25 p-2 w-2/3 h-12 order-2">
-		    <h4 class="title text-light text-sm uppercase">{{ socket.name }}</h4>
-	    </header>
-	    <div class="flex w-full h-12 flex-wrap justify-center items-center pl-3 order-2">
-  	    <template v-if="event">
-    		  <factor-value
-  		    v-show="!showChallenge"
-  		    v-for="(value, factor) in factors"
-    	    :key="factor"
-  		    :label="factor"
-  		    :value="value.base"
-  		    class="w-1/2"></factor-value>
-  		    <button v-show="showChallenge" class="bg-sky text-xs text-light uppercase font-bold p-2 mr-3 button">Challenge</button>
-  	    </template>
-  	    <button v-else @click.once="activate" :class="{ 'cursor-wait bg-grey-50': (!affordable) }" class="relative text-xs text-light uppercase font-bold p-2 mr-3 button" :disabled="!affordable">
-    			<span :style="{width: affordability + '%'}" class="absolute block pin h-full bg-sky z-0"></span>
-    			<span class="relative z-10">
-    				<template v-if="costs.confidence > scores.confidence">Costs {{ costs.confidence|confidence }}</template>
-    				<template v-else>Connect</template>
-    			</span>
-    		</button>
-	    </div>
-	    <icon :label="socket.type" :class="'text-' + socket.type" class="w-8 h-8 text-light mb-2 order-1"></icon>
-	    <era-stage :label="socket.era" class="mt-1 order-4 w-2"></era-stage>
-    </div>
-    <ability-slot
-      v-if="event"
-	    v-for="(slot, index) in slots"
-	    :key="index"
-	    :label="index"
-	    :class="[slot.position, index]">
-    </ability-slot>
-  </div>
-</template>
-
 <script>
 import { mapState, mapGetters, mapActions } from "vuex";
 import _ from "lodash";
@@ -124,6 +86,69 @@ export default {
   }
 };
 </script>
+
+<template>
+  <div class="data-socket-field py-8">
+    <div
+      class="data-socket hexagon bg-tile-overlay w-48 h-hex*48 px-2 py-6 text-center flex flex-col justify-between items-center"
+      :class="'bg-' + socket.type"
+      @mouseover="showChallenge = true"
+      @mouseout="showChallenge = false"
+    >
+      <header class="flex items-center justify-center text-center bg-grey-25 p-2 w-2/3 h-12 order-2">
+        <h4 class="title text-light text-sm uppercase">{{ socket.name }}</h4>
+      </header>
+      <div class="flex w-full h-12 flex-wrap justify-center items-center pl-3 order-2">
+        <template v-if="event">
+          <factor-value
+            v-for="(value, factor) in factors"
+            v-show="!showChallenge"
+            class="w-1/2"
+            :key="factor"
+            :label="factor"
+            :value="value.base"
+          ></factor-value>
+          <button
+            v-show="showChallenge"
+            class="bg-sky text-xs text-light uppercase font-bold p-2 mr-3 button"
+          >{{ $t('Challenge') }}</button>
+        </template>
+        <button
+          v-else
+          class="relative text-xs text-light uppercase font-bold p-2 mr-3 button"
+          :class="{ 'cursor-wait bg-grey-50': (!affordable) }"
+          :disabled="!affordable"
+          @click.once="activate()"
+        >
+          <span
+            class="absolute block pin h-full bg-sky z-0"
+            :style="{width: affordability + '%'}"
+          ></span>
+          <span class="relative z-10">
+            <template v-if="costs.confidence > scores.confidence">Costs {{ costs.confidence|confidence }}</template>
+            <template v-else>{{ $t('Connect') }}</template>
+          </span>
+        </button>
+      </div>
+      <icon
+        class="w-8 h-8 text-light mb-2 order-1"
+        :label="socket.type"
+        :class="'text-' + socket.type"
+      ></icon>
+      <era-stage
+        class="mt-1 order-4 w-2"
+        :label="socket.era"
+      ></era-stage>
+    </div>
+    <ability-slot
+      v-if="event"
+      v-for="(slot, index) in slots"
+      :key="index"
+      :label="index"
+      :class="[slot.position, index]">
+    </ability-slot>
+  </div>
+</template>
 
 <style lang="scss">
 @import "../scss/$variables";
