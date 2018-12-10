@@ -17,9 +17,7 @@ export default {
 </script>
 
 <template>
-  <div class="the-player">
-	  ...
-  </div>
+  <div class="the-player">...</div>
 </template>
 
 <style lang="scss">

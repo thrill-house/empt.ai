@@ -27,24 +27,32 @@ export default {
   <div class="the-factors body">
     <template v-if="factors.bandwidth > 0">
       <label class="label">{{ $t('Bandwidth') }}</label>
-      <output class="output">+{{ factors.bandwidth|bandwidth }}</output>
+      <output class="output">+{{ factors.bandwidth | bandwidth }}</output>
     </template>
     <template v-if="factors.influence > 0">
-      <hr>
+      <hr />
       <label class="label">{{ $t('Influence') }}</label>
-      <output class="output">+{{ factors.influence|influence }}</output>
+      <output class="output">+{{ factors.influence | influence }}</output>
     </template>
     <template v-if="factors.boosts > 0">
-      <hr>
+      <hr />
       <label class="label">{{ $t('Dependency boosts') }}</label>
-      <output class="output">+{{ factors.boosts|percentage }}</output>
+      <output class="output">+{{ factors.boosts | percentage }}</output>
     </template>
-    <template v-if="factors.science > 0 || factors.economy > 0 || factors.society > 0">
-      <hr>
+    <template
+      v-if="factors.science > 0 || factors.economy > 0 || factors.society > 0"
+    >
+      <hr />
       <label class="label">{{ $t('Not a valid event') }}Tree boosts</label>
-      <output class="output" v-if="factors.science > 0">+{{ factors.science|science }}</output>
-      <output class="output" v-if="factors.economy > 0">+{{ factors.economy|economy }}</output>
-      <output class="output" v-if="factors.society > 0">+{{ factors.society|society }}</output>
+      <output class="output" v-if="factors.science > 0"
+        >+{{ factors.science | science }}</output
+      >
+      <output class="output" v-if="factors.economy > 0"
+        >+{{ factors.economy | economy }}</output
+      >
+      <output class="output" v-if="factors.society > 0"
+        >+{{ factors.society | society }}</output
+      >
     </template>
   </div>
 </template>

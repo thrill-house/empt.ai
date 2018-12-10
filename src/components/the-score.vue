@@ -28,13 +28,13 @@ export default {
 
 <template>
   <div class="the-score body text-light">
-    <label class="label">{{ $t('Data') }}</label>:
-    <output class="output">{{ scores.data|data }}</output> —
-    <output class="output">+{{ factors.bandwidth|bandwidth }}</output>
-    <hr>
-    <label class="label">{{ $t('Confidence') }}</label>:
-    <output class="output">{{ scores.confidence|confidence }}</output> —
-    <output class="output">+{{ factors.influence|influence }}</output>
+    <label class="label">{{ $t('Data') }}</label
+    >: <output class="output">{{ scores.data | data }}</output> —
+    <output class="output">+{{ factors.bandwidth | bandwidth }}</output>
+    <hr />
+    <label class="label">{{ $t('Confidence') }}</label
+    >: <output class="output">{{ scores.confidence | confidence }}</output> —
+    <output class="output">+{{ factors.influence | influence }}</output>
   </div>
 </template>
 

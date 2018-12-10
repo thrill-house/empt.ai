@@ -84,9 +84,9 @@ export default {
 
 <template>
   <button
-     v-if="ability && events.length"
+    v-if="ability && events.length"
     class="ability-installable button bg-sky-25 text-light text-left text-xs px-3 py-px relative w-full z-10"
-    :class="{ 'cursor-wait': (!affordable) }"
+    :class="{ 'cursor-wait': !affordable }"
     :disabled="!affordable"
     @click="install()"
   >
@@ -99,9 +99,10 @@ export default {
       <span
         class="inline-block rounded-full px-1 h-3 bg-light text-sky text-center align-bottom text-2xs font-bold"
         :class="{ 'bg-grey': !remaining }"
-      >{{ remaining }}/{{ total }}</span>
-      <br>
-      <span class="font-bold filter-grayscale">{{ costs.data|data }}</span>
+        >{{ remaining }}/{{ total }}</span
+      >
+      <br />
+      <span class="font-bold filter-grayscale">{{ costs.data | data }}</span>
     </span>
   </button>
   <!--button

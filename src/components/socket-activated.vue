@@ -98,10 +98,14 @@ export default {
       @mouseover="showChallenge = true"
       @mouseout="showChallenge = false"
     >
-      <header class="flex items-center justify-center text-center bg-grey-25 p-2 w-2/3 h-12 order-2">
+      <header
+        class="flex items-center justify-center text-center bg-grey-25 p-2 w-2/3 h-12 order-2"
+      >
         <h4 class="title text-light text-sm uppercase">{{ socket.name }}</h4>
       </header>
-      <div class="flex w-full h-12 flex-wrap justify-center items-center pl-3 order-2">
+      <div
+        class="flex w-full h-12 flex-wrap justify-center items-center pl-3 order-2"
+      >
         <template v-if="event">
           <base-factor
             v-for="(value, factor) in factors"
@@ -114,21 +118,25 @@ export default {
           <button
             v-show="showChallenge"
             class="bg-sky text-xs text-light uppercase font-bold p-2 mr-3 button"
-          >{{ $t('Challenge') }}</button>
+          >
+            {{ $t('Challenge') }}
+          </button>
         </template>
         <button
           v-else
           class="relative text-xs text-light uppercase font-bold p-2 mr-3 button"
-          :class="{ 'cursor-wait bg-grey-50': (!affordable) }"
+          :class="{ 'cursor-wait bg-grey-50': !affordable }"
           :disabled="!affordable"
           @click.once="activate()"
         >
           <span
             class="absolute block pin h-full bg-sky z-0"
-            :style="{width: affordability + '%'}"
+            :style="{ width: affordability + '%' }"
           ></span>
           <span class="relative z-10">
-            <template v-if="costs.confidence > scores.confidence">Costs {{ costs.confidence|confidence }}</template>
+            <template v-if="costs.confidence > scores.confidence"
+              >Costs {{ costs.confidence | confidence }}</template
+            >
             <template v-else>{{ $t('Connect') }}</template>
           </span>
         </button>
@@ -138,17 +146,15 @@ export default {
         :label="socket.type"
         :class="'text-' + socket.type"
       ></base-icon>
-      <base-era
-        class="mt-1 order-4 w-2"
-        :label="socket.era"
-      ></base-era>
+      <base-era class="mt-1 order-4 w-2" :label="socket.era"></base-era>
     </div>
     <socket-slot
       v-if="event"
       v-for="(slot, index) in slots"
       :key="index"
       :label="index"
-      :class="[slot.position, index]">
+      :class="[slot.position, index]"
+    >
     </socket-slot>
   </div>
 </template>

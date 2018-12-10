@@ -170,15 +170,12 @@ export default {
 </script>
 
 <template>
-  <ability-dialog
-    :label="ability.label"
-    :emotions="emotions"
-    :show="show"
-  >
+  <ability-dialog :label="ability.label" :emotions="emotions" :show="show">
     <span
       slot="installToggle"
       class="button text-lg uppercase font-bold px-4 py-2 text-navy bg-light"
-    >{{ $t('Installing') }}</span>
+      >{{ $t('Installing') }}</span
+    >
 
     <button
       class="button uppercase bg-sky px-4 py-2 mb-4 font-bold text-light"
@@ -186,13 +183,17 @@ export default {
       :disabled="!submittable"
       :class="{ 'opacity-10': !submittable }"
       @click="confirm()"
-    >{{ $t('Install') }}</button>
+    >
+      {{ $t('Install') }}
+    </button>
 
     <button
       class="button uppercase bg-blue px-4 py-2 font-bold text-light"
       slot="cancel"
       @click="cancel()"
-    >{{ $t('Cancel') }}</button>
+    >
+      {{ $t('Cancel') }}
+    </button>
 
     <template slot="buttons">
       <button
@@ -206,18 +207,36 @@ export default {
         <emotion-diagram
           class="w-24 h-24"
           :values="event.emotions"
-          :color="isInstalledDeselected(event)? 'sky': 'light'"
+          :color="isInstalledDeselected(event) ? 'sky' : 'light'"
           :class="{ 'border border-light': isSelected(event) }"
         >
           <div
             class="w-full h-full flex items-center justify-center rounded-full z-30 relative"
-            :class="[(isSelected(event)? 'bg-light-25': isInstalled(event)? 'bg-sky-25': '')]"
+            :class="[
+              isSelected(event)
+                ? 'bg-light-25'
+                : isInstalled(event)
+                ? 'bg-sky-25'
+                : '',
+            ]"
           >
             <span
               class="uppercase text-xs font-bold text-light p-1"
-              :class="[(isSelected(event)? 'text-navy': isInstalled(event)? 'text-light': '')]"
+              :class="[
+                isSelected(event)
+                  ? 'text-navy'
+                  : isInstalled(event)
+                  ? 'text-light'
+                  : '',
+              ]"
             >
-              {{ isInstalledDeselected(event)? $t('Installed'): (isSelected(event)? $t('Selected'): '') }}
+              {{
+                isInstalledDeselected(event)
+                  ? $t('Installed')
+                  : isSelected(event)
+                  ? $t('Selected')
+                  : ''
+              }}
             </span>
           </div>
         </emotion-diagram>
@@ -230,9 +249,7 @@ export default {
       :class="{ 'opacity-10': sumEmotions !== requiredEmotions }"
       @click="engageResearch(label)"
     >{{ $t('Confirm') }}</button-->
-
   </ability-dialog>
 </template>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

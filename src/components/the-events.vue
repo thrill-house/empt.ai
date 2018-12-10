@@ -37,17 +37,13 @@ export default {
 
 <template>
   <div class="the-events">
-    <button
-      class="button orange"
-      @click="off = !off"
-    >{{ $t('Toggle') }}</button>
-    <div
-      class="debug mt-4"
-      :class="{ hidden: off }"
-    >
+    <button class="button orange" @click="off = !off">
+      {{ $t('Toggle') }}
+    </button>
+    <div class="debug mt-4" :class="{ hidden: off }">
       <div v-if="events">
         <div
-          v-for="(event) in events"
+          v-for="event in events"
           v-if="event.timestamp < now"
           class="event py-2 border-t border-solid border-grey"
         >

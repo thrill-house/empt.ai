@@ -143,10 +143,7 @@ export default {
 
 <template>
   <div class="emotion-values absolute block pin w-full h-full">
-    <svg
-      class="w-full h-full"
-      viewBox="0 0 100 100"
-    >
+    <svg class="w-full h-full" viewBox="0 0 100 100">
       <defs>
         <clipPath :id="uid + '-points'">
           <polygon :points="coordinatesPoints"></polygon>
@@ -178,7 +175,11 @@ export default {
       v-for="(value, position) in positions"
       class="absolute block w-2 h-2 -ml-1 -mt-1 rounded-full"
       :class="[position, 'bg-' + color]"
-      :style="{ left: value.x + '%', top: value.y + '%', transform: 'scale(' + value.ratio + ')' }"
+      :style="{
+        left: value.x + '%',
+        top: value.y + '%',
+        transform: 'scale(' + value.ratio + ')',
+      }"
     ></span>
   </div>
 </template>

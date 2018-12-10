@@ -9,16 +9,14 @@ Vue.filter('duration', (str) =>
     .fromNow(true)
 );
 
-Vue.filter(
-  'percentage',
-  (str) =>
-    str
-      ? math
-          .chain(str)
-          .subtract(1)
-          .multiply(100)
-          .format(4).value + '%'
-      : 0
+Vue.filter('percentage', (str) =>
+  str
+    ? math
+        .chain(str)
+        .subtract(1)
+        .multiply(100)
+        .format(4).value + '%'
+    : 0
 );
 
 Vue.filter('data', (str) =>

@@ -14,7 +14,7 @@ Displays the a diagram of emotions, given a single or set of value sets
   labels.boolean="true"
   color.string="light"
   scale.number="10"
-  values.object="{object}" OR values.array=[{object},...]"
+  values.object="{object}" OR values.array="[{object},...]"
 >Optional label</emotion-diagram>
 ```
 </docs>
@@ -181,25 +181,24 @@ export default {
     :class="{ 'mx-16': !labels }"
   >
     <div class="absolute block pin w-full h-full">
-      <svg
-        class="w-full h-full"
-        viewBox="0 0 100 100"
-      >
+      <svg class="w-full h-full" viewBox="0 0 100 100">
         <polyline
           v-for="(value, axis) in axes"
           :points="joinCoordinates(createCoordinates([value.from, value.to]))"
-          class="text-light" fill="none"
+          class="text-light"
+          fill="none"
           stroke="currentColor"
           stroke-width="1"
           stroke-opacity="0.25"
-          vector-effect="non-scaling-stroke" ></polyline>
+          vector-effect="non-scaling-stroke"
+        ></polyline>
       </svg>
     </div>
     <div class="absolute block pin w-full h-full z-50">
       <div
         v-for="(value, axisPosition) in axisPositions"
         class="absolute block h-4 flex -mt-2 px-2 text-light text-xs uppercase font-bold"
-        :class="[ axisPosition, { '-translate-x-full': value.x < 50 }]"
+        :class="[axisPosition, { '-translate-x-full': value.x < 50 }]"
         :style="{ left: value.x + '%', top: value.y + '%' }"
       >
         <span>{{ label(axisPosition) }}</span>

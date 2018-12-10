@@ -245,42 +245,45 @@ export default {
 </script>
 
 <template>
-  <main
-    id="app"
-    class="p-8 bg-tile"
-    :class="{'hide-docs': docsToggle}"
-  >
+  <main id="app" class="p-8 bg-tile" :class="{ 'hide-docs': docsToggle }">
     <header class="w-full flex items-center text-light">
-      <div class="w-32">
-        <img src="/assets/img/logo.png">
-      </div>
+      <div class="w-32"><img src="/assets/img/logo.png" /></div>
       <div class="docs keep p-4">
         <h1>Project EMPATIS — Vue components</h1>
         <h2>Component library of user interface elements.</h2>
-        <button class="font-bold text-xs mt-4 mr-4 py-2 px-4 rounded bg-sky text-light" @click="toggleDocs()">{{ docsToggle? 'Show': 'Hide' }} documentation</button>
+        <button
+          class="font-bold text-xs mt-4 mr-4 py-2 px-4 rounded bg-sky text-light"
+          @click="toggleDocs()"
+        >
+          {{ docsToggle ? 'Show' : 'Hide' }} documentation
+        </button>
       </div>
     </header>
-    
+
     <!--
     ---- Game events
     --->
     <section :class="{ off: theEventsToggle }">
       <header>
-        <button class="toggle" @click="toggle('theEventsToggle')">Toggle</button>
+        <button class="toggle" @click="toggle('theEventsToggle')">
+          Toggle
+        </button>
         <div v-html="docs.theEvents" class="docs"></div>
         <div class="tweakers">
           <h5>Tweakers</h5>
           <label>Random socket</label>
-          <button @click="randomSocket">Activate</button><hr>
+          <button @click="randomSocket">Activate</button>
+          <hr />
           <label>Random ability</label>
-          <button @click="randomAbility">Research</button><hr>
+          <button @click="randomAbility">Research</button>
+          <hr />
           <label>Random slot</label>
           <button @click="randomSlot">Install</button>
         </div>
       </header>
       <the-events></the-events>
     </section>
-    
+
     <!--
     ---- Game time
     --->
@@ -297,7 +300,7 @@ export default {
               {{ option.label }}
             </option>
           </select>
-          <hr>
+          <hr />
           <label>Interval</label>
           <button v-if="interval" @click="stopSession">Stop</button>
           <button v-else @click="startSession">Start</button>
@@ -305,7 +308,7 @@ export default {
       </header>
       <the-time></the-time>
     </section>
-    
+
     <!--
     ---- Game score
     --->
@@ -316,31 +319,38 @@ export default {
       </header>
       <the-score></the-score>
     </section>
-    
+
     <!--
     ---- Game factors
     --->
     <section :class="{ off: theFactorsToggle }">
       <header>
-        <button class="toggle" @click="toggle('theFactorsToggle')">Toggle</button>
+        <button class="toggle" @click="toggle('theFactorsToggle')">
+          Toggle
+        </button>
         <div v-html="docs.theFactors" class="docs"></div>
       </header>
       <the-factors></the-factors>
     </section>
-    
+
     <!--
     ---- Enabled ability
     --->
     <section :class="{ off: abilityEnabledToggle }">
       <header>
-        <button class="toggle" @click="toggle('abilityEnabledToggle')">Toggle</button>
+        <button class="toggle" @click="toggle('abilityEnabledToggle')">
+          Toggle
+        </button>
         <div v-html="docs.abilityEnabled" class="docs"></div>
         <div class="tweakers">
           <h5>Tweakers</h5>
           <label>Enabled Ability</label>
           <select v-model="abilityEnabledTweaker">
             <option disabled value="">Choose</option>
-            <option v-for="(abilityEvent) in getAllEventsOfType('ability')" :value="abilityEvent.instance">
+            <option
+              v-for="abilityEvent in getAllEventsOfType('ability')"
+              :value="abilityEvent.instance"
+            >
               {{ abilityEvent.instance }}
             </option>
           </select>
@@ -348,13 +358,15 @@ export default {
       </header>
       <ability-enabled :instance="abilityEnabledTweaker"></ability-enabled>
     </section>
-    
+
     <!--
     ---- Ability slot
     --->
     <section :class="{ off: socketSlotToggle }">
       <header>
-        <button class="toggle" @click="toggle('socketSlotToggle')">Toggle</button>
+        <button class="toggle" @click="toggle('socketSlotToggle')">
+          Toggle
+        </button>
         <div v-html="docs.socketSlot" class="docs"></div>
         <div class="tweakers">
           <h5>Tweakers</h5>
@@ -369,13 +381,15 @@ export default {
       </header>
       <socket-slot :label="socketSlotTweaker"></socket-slot>
     </section>
-    
+
     <!--
     ---- Data socket
     --->
     <section :class="{ off: socketActivatedToggle }">
       <header>
-        <button class="toggle" @click="toggle('socketActivatedToggle')">Toggle</button>
+        <button class="toggle" @click="toggle('socketActivatedToggle')">
+          Toggle
+        </button>
         <div v-html="docs.socketActivated" class="docs"></div>
         <div class="tweakers">
           <h5>Tweakers</h5>
@@ -390,13 +404,15 @@ export default {
       </header>
       <socket-activated :label="socketActivatedTweaker"></socket-activated>
     </section>
-    
+
     <!--
     ---- Available ability
     --->
     <section :class="{ off: abilityAvailableToggle }">
       <header>
-        <button class="toggle" @click="toggle('abilityAvailableToggle')">Toggle</button>
+        <button class="toggle" @click="toggle('abilityAvailableToggle')">
+          Toggle
+        </button>
         <div v-html="docs.abilityAvailable" class="docs"></div>
         <div class="tweakers">
           <h5>Tweakers</h5>
@@ -411,123 +427,172 @@ export default {
       </header>
       <ability-available :label="abilityAvailableTweaker"></ability-available>
     </section>
-    
+
     <!--
     ---- Ability library
     --->
     <section :class="{ off: theAbilitiesToggle }">
       <header>
-        <button class="toggle" @click="toggle('theAbilitiesToggle')">Toggle</button>
+        <button class="toggle" @click="toggle('theAbilitiesToggle')">
+          Toggle
+        </button>
         <div v-html="docs.theAbilities" class="docs"></div>
       </header>
       <the-abilities></the-abilities>
     </section>
-    
+
     <!--
     ---- Purchaseable ability
     --->
     <section :class="{ off: abilityPurchaseableToggle }">
       <header>
-        <button class="toggle" @click="toggle('abilityPurchaseableToggle')">Toggle</button>
+        <button class="toggle" @click="toggle('abilityPurchaseableToggle')">
+          Toggle
+        </button>
         <div v-html="docs.abilityPurchaseable" class="docs"></div>
       </header>
       <ability-purchaseable></ability-purchaseable>
     </section>
-    
+
     <!--
     ---- Ability market
     --->
     <section :class="{ off: theMarketplaceToggle }">
       <header>
-        <button class="toggle" @click="toggle('theMarketplaceToggle')">Toggle</button>
+        <button class="toggle" @click="toggle('theMarketplaceToggle')">
+          Toggle
+        </button>
         <div v-html="docs.theMarketplace" class="docs"></div>
       </header>
       <the-marketplace></the-marketplace>
     </section>
-    
+
     <!--
     ---- Emotional profile
     --->
     <section :class="{ off: emotionProfileToggle }">
       <header>
-        <button class="toggle" @click="toggle('emotionProfileToggle')">Toggle</button>
+        <button class="toggle" @click="toggle('emotionProfileToggle')">
+          Toggle
+        </button>
         <div v-html="docs.emotionProfile" class="docs"></div>
       </header>
       <emotion-profile class="w-64 h-64"></emotion-profile>
     </section>
-    
+
     <!--
     ---- Emotion diagram
     --->
     <section :class="{ off: emotionDiagramToggle }">
       <header>
-        <button class="toggle" @click="toggle('emotionDiagramToggle')">Toggle</button>
+        <button class="toggle" @click="toggle('emotionDiagramToggle')">
+          Toggle
+        </button>
         <div v-html="docs.emotionDiagram" class="docs"></div>
         <div class="tweakers">
           <h5>Tweakers</h5>
           <label>Happiness</label>
-          <input type="range" v-model.number="emotionDiagramHappinessTweaker" min="1" max="100">
-          <hr>
+          <input
+            type="range"
+            v-model.number="emotionDiagramHappinessTweaker"
+            min="1"
+            max="100"
+          />
+          <hr />
           <label>Sadness</label>
-          <input type="range" v-model.number="emotionDiagramSadnessTweaker" min="1" max="100">
-          <hr>
+          <input
+            type="range"
+            v-model.number="emotionDiagramSadnessTweaker"
+            min="1"
+            max="100"
+          />
+          <hr />
           <label>Excitement</label>
-          <input type="range" v-model.number="emotionDiagramExcitementTweaker" min="1" max="100">
-          <hr>
+          <input
+            type="range"
+            v-model.number="emotionDiagramExcitementTweaker"
+            min="1"
+            max="100"
+          />
+          <hr />
           <label>Fear</label>
-          <input type="range" v-model.number="emotionDiagramFearTweaker" min="1" max="100">
-          <hr>
+          <input
+            type="range"
+            v-model.number="emotionDiagramFearTweaker"
+            min="1"
+            max="100"
+          />
+          <hr />
           <label>Tenderness</label>
-          <input type="range" v-model.number="emotionDiagramTendernessTweaker" min="1" max="100">
-          <hr>
+          <input
+            type="range"
+            v-model.number="emotionDiagramTendernessTweaker"
+            min="1"
+            max="100"
+          />
+          <hr />
           <label>Anger</label>
-          <input type="range" v-model.number="emotionDiagramAngerTweaker" min="1" max="100">
-          <hr>
+          <input
+            type="range"
+            v-model.number="emotionDiagramAngerTweaker"
+            min="1"
+            max="100"
+          />
+          <hr />
         </div>
       </header>
-      <emotion-diagram class="w-128 h-128"
-      :labels="false"
-      :values="[{
-        happiness: 12,
-        sadness: 24,
-        excitement: 36,
-        fear: 48,
-        tenderness: 60,
-        anger: 72,
-        color: 'sky'
-      }, {
-        happiness: emotionDiagramHappinessTweaker,
-        sadness: emotionDiagramSadnessTweaker,
-        excitement: emotionDiagramExcitementTweaker,
-        fear: emotionDiagramFearTweaker,
-        tenderness: emotionDiagramTendernessTweaker,
-        anger: emotionDiagramAngerTweaker,
-        color: 'light'
-      }]"></emotion-diagram>
+      <emotion-diagram
+        class="w-128 h-128"
+        :labels="false"
+        :values="[
+          {
+            happiness: 12,
+            sadness: 24,
+            excitement: 36,
+            fear: 48,
+            tenderness: 60,
+            anger: 72,
+            color: 'sky',
+          },
+          {
+            happiness: emotionDiagramHappinessTweaker,
+            sadness: emotionDiagramSadnessTweaker,
+            excitement: emotionDiagramExcitementTweaker,
+            fear: emotionDiagramFearTweaker,
+            tenderness: emotionDiagramTendernessTweaker,
+            anger: emotionDiagramAngerTweaker,
+            color: 'light',
+          },
+        ]"
+      ></emotion-diagram>
     </section>
-    
+
     <!--
     ---- Playing field
     --->
     <section :class="{ off: theSocketsToggle }">
       <header>
-        <button class="toggle" @click="toggle('theSocketsToggle')">Toggle</button>
+        <button class="toggle" @click="toggle('theSocketsToggle')">
+          Toggle
+        </button>
         <div v-html="docs.theSockets" class="docs"></div>
       </header>
       <the-sockets></the-sockets>
     </section>
-    
+
     <!--
     ---- Leader boards
     --->
     <section :class="{ off: theLeadersToggle }">
       <header>
-        <button class="toggle" @click="toggle('theLeadersToggle')">Toggle</button>
+        <button class="toggle" @click="toggle('theLeadersToggle')">
+          Toggle
+        </button>
         <div v-html="docs.theLeaders" class="docs"></div>
       </header>
       <the-leaders></the-leaders>
     </section>
-    
+
     <!--
     ---- Narrative output
     --->
@@ -538,29 +603,33 @@ export default {
       </header>
       <the-story></the-story>
     </section>
-    
+
     <!--
     ---- User profile
     --->
     <section :class="{ off: thePlayerToggle }">
       <header>
-        <button class="toggle" @click="toggle('thePlayerToggle')">Toggle</button>
+        <button class="toggle" @click="toggle('thePlayerToggle')">
+          Toggle
+        </button>
         <div v-html="docs.thePlayer" class="docs"></div>
       </header>
       <the-player></the-player>
     </section>
-    
+
     <!--
     ---- Mini-game
     --->
     <section :class="{ off: socketChallengeToggle }">
       <header>
-        <button class="toggle" @click="toggle('socketChallengeToggle')">Toggle</button>
+        <button class="toggle" @click="toggle('socketChallengeToggle')">
+          Toggle
+        </button>
         <div v-html="docs.socketChallenge" class="docs"></div>
       </header>
       <socket-challenge></socket-challenge>
     </section>
-    
+
     <!--
     ---- Primary navigation
     --->
@@ -571,13 +640,15 @@ export default {
       </header>
       <the-menu></the-menu>
     </section>
-    
+
     <!--
     ---- Dialog research
     --->
     <section :class="{ off: abilityResearchToggle }">
       <header>
-        <button class="toggle" @click="toggle('abilityResearchToggle')">Toggle</button>
+        <button class="toggle" @click="toggle('abilityResearchToggle')">
+          Toggle
+        </button>
         <div v-html="docs.abilityResearch" class="docs"></div>
       </header>
       <ability-research></ability-research>
@@ -588,7 +659,9 @@ export default {
     --->
     <section :class="{ off: abilityInstallToggle }">
       <header>
-        <button class="toggle" @click="toggle('abilityInstallToggle')">Toggle</button>
+        <button class="toggle" @click="toggle('abilityInstallToggle')">
+          Toggle
+        </button>
         <div v-html="docs.abilityInstall" class="docs"></div>
       </header>
       <ability-install></ability-install>

@@ -93,15 +93,19 @@ export default {
       v-else
       class="socket-slot bg-tile-overlay hexagon w-48 h-hex*48 px-2 py-6 flex flex-col justify-between content-center items-center bg-light text-light text-center"
       :class="[
-        {'slotting-prompt': hover},
-        {'tree-match': slottingLabel && slotting.ability.type == socket.type},
-        'bg-' + (slottingLabel && hover? slotting.ability.type: 'light')
+        { 'slotting-prompt': hover },
+        { 'tree-match': slottingLabel && slotting.ability.type == socket.type },
+        'bg-' + (slottingLabel && hover ? slotting.ability.type : 'light'),
       ]"
     >
       <div
         v-if="slottingLabel"
         class="w-24 h-24 rounded-full inline-flex align-center items-center justify-center order-2"
-        :class="['bg-' + (slottingLabel && hover? slotting.ability.type: 'light') + '-25']"
+        :class="[
+          'bg-' +
+            (slottingLabel && hover ? slotting.ability.type : 'light') +
+            '-25',
+        ]"
       >
         <base-icon
           v-if="slottingLabel"
@@ -113,7 +117,11 @@ export default {
       <div
         v-if="slottingLabel"
         class="w-8 h-8 rounded-full inline-flex items-center justify-center mb-2 order-1"
-        :class="['bg-' + (slottingLabel && hover? slotting.ability.type: 'light') + '-25']"
+        :class="[
+          'bg-' +
+            (slottingLabel && hover ? slotting.ability.type : 'light') +
+            '-25',
+        ]"
       >
         <base-icon
           v-show="hover"
@@ -125,10 +133,11 @@ export default {
       <button
         v-if="slottingLabel && slottingInstance"
         class="relative text-xs text-light uppercase font-bold p-2 button bg-sky mt-2 order-3"
-        
         :class="{ 'opacity-0': !hover }"
         @click="addEvent(slottingLabel, slottingInstance)"
-      >{{ $t('Install') }}</button>
+      >
+        {{ $t('Install') }}
+      </button>
     </div>
   </div>
 </template>

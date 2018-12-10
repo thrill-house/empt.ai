@@ -30,7 +30,8 @@ export default {
     <socket-activated
       v-for="(socket, index) in sockets"
       :key="index"
-      :label="index">
+      :label="index"
+    >
     </socket-activated>
   </div>
 </template>

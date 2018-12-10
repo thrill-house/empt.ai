@@ -30,7 +30,7 @@ export default {
 <template>
   <div class="the-time">
     <label class="label">Elapsed</label>
-    <output class="output">{{ elapsed|duration }}</output>
+    <output class="output">{{ elapsed | duration }}</output>
   </div>
 </template>
 

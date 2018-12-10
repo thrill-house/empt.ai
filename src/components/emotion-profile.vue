@@ -39,9 +39,11 @@ export default {
 
 <template>
   <div class="emotion-profile relative block">
-    <emotion-diagram class="w-full h-full"
+    <emotion-diagram
+      class="w-full h-full"
       :labels="labels"
-      :values="emotions"></emotion-diagram>
+      :values="emotions"
+    ></emotion-diagram>
   </div>
 </template>
 

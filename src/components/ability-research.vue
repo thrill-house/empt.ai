@@ -180,8 +180,8 @@ export default {
         : value == this.requiredEmotions / 2 ||
           (this.sumEmotions - value <= this.requiredEmotions / 2 &&
             this.maxEmotion < this.requiredEmotions / 2)
-          ? this.requiredEmotions / 2
-          : 1;
+        ? this.requiredEmotions / 2
+        : 1;
     },
     getMaxEmotions: function(emotions) {
       var self = this;
@@ -235,7 +235,8 @@ export default {
     <span
       slot="researchToggle"
       class="button text-lg uppercase font-bold px-4 py-2 text-navy bg-light"
-    >{{ $t('Researching') }}</span>
+      >{{ $t('Researching') }}</span
+    >
 
     <button
       class="button uppercase bg-sky px-4 py-2 mb-4 font-bold text-light"
@@ -243,13 +244,17 @@ export default {
       :disabled="!submittable"
       :class="{ 'opacity-10': !submittable }"
       @click="confirm()"
-    >{{ $t('Research') }}</button>
+    >
+      {{ $t('Research') }}
+    </button>
 
     <button
       class="button uppercase bg-blue px-4 py-2 font-bold text-light"
       slot="cancel"
       @click="cancel()"
-    >{{ $t('Cancel') }}</button>
+    >
+      {{ $t('Cancel') }}
+    </button>
 
     <!--button
       class="button uppercase bg-sky px-4 py-2 mb-4 font-bold text-light"
@@ -269,16 +274,20 @@ export default {
           class="inline-flex"
           :key="emotion"
           :slot="emotion"
-          :class="[ emotionSide(emotion) > 0? 'order-first mr-1': 'ml-1' ]"
+          :class="[emotionSide(emotion) > 0 ? 'order-first mr-1' : 'ml-1']"
         >
           <button
             class="bg-light text-navy p-px text-2xs text-center h-3 w-3 block font-bold uppercase rounded-l-full border-r border-navy"
             @click="adjust(emotion, emotionSide(emotion) * -1)"
-          >❮</button>
+          >
+            ❮
+          </button>
           <button
             class="bg-light text-navy p-px text-2xs text-center h-3 w-3 block font-bold uppercase rounded-r-full"
             @click="adjust(emotion, emotionSide(emotion))"
-          >❯</button>
+          >
+            ❯
+          </button>
         </span>
       </emotion-diagram>
     </template>

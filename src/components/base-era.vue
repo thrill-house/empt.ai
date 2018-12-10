@@ -35,7 +35,7 @@ export default {
     <span
       v-for="n in total"
       class="w-full h-1 my-px inline-block"
-      :class="[ 'bg-' + (stage >= n? 'sky': 'grey-50')  ]"
+      :class="['bg-' + (stage >= n ? 'sky' : 'grey-50')]"
     ></span>
   </div>
 </template>

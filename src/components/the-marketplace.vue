@@ -17,9 +17,7 @@ export default {
 </script>
 
 <template>
-  <div class="the-marketplace">
-	  ...
-  </div>
+  <div class="the-marketplace">...</div>
 </template>
 
 <style lang="scss">

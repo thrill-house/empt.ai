@@ -17,9 +17,7 @@ export default {
 </script>
 
 <template>
-  <div class="the-leaders">
-	  ...
-  </div>
+  <div class="the-leaders">...</div>
 </template>
 
 <style lang="scss">

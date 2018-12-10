@@ -26,7 +26,9 @@ export default {
 </script>
 
 <template>
-  <div class="ability-symbiosis w-8 h-8 rounded-full inline-flex items-center justify-center">
+  <div
+    class="ability-symbiosis w-8 h-8 rounded-full inline-flex items-center justify-center"
+  >
     <base-icon
       class="w-4 h-4 text-light"
       :label="label"

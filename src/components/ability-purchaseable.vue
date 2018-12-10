@@ -17,9 +17,7 @@ export default {
 </script>
 
 <template>
-  <div class="ability-purchaseable">
-	  ...
-  </div>
+  <div class="ability-purchaseable">...</div>
 </template>
 
 <style lang="scss">

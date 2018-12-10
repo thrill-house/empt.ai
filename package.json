@@ -46,6 +46,7 @@
     "numeral": "^2.0.6",
     "only-if-changed-webpack-plugin": "0.0.1",
     "pre-commit": "^1.2.2",
+    "prettier": "^1.15.3",
     "raw-loader": "^0.5.1",
     "require-glob": "^3.2.0",
     "sass-loader": "^6.0.7",

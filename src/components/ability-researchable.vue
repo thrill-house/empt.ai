@@ -75,7 +75,7 @@ export default {
   <button
     v-if="ability"
     class="ability-researchable button bg-sky-25 text-light text-left text-xs px-3 py-px relative w-full"
-    :class="{'cursor-wait': (!affordable)}"
+    :class="{ 'cursor-wait': !affordable }"
     :disabled="!affordable"
     @click="research()"
   >
@@ -84,12 +84,12 @@ export default {
        :style="{width: affordability + '%'}"
     ></span-->
     <span class="relative z-10">
-      {{ $t('Research') }}
-      <br>
-      <span class="font-bold filter-grayscale">{{ costs.confidence|confidence }}</span>
+      {{ $t('Research') }} <br />
+      <span class="font-bold filter-grayscale">{{
+        costs.confidence | confidence
+      }}</span>
     </span>
   </button>
 </template>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

@@ -17,9 +17,7 @@ export default {
 </script>
 
 <template>
-  <div class="the-story">
-	  ...
-  </div>
+  <div class="the-story">...</div>
 </template>
 
 <style lang="scss">

@@ -136,16 +136,13 @@ export default {
         class="w-1/2 h-4 mb-1"
       ></base-factor>
     </div>
-    <div
-      v-show="hover"
-      class="flex relative z-10 py-1 pl-16 pr-2 ml-16 h-16"
-    >
+    <div v-show="hover" class="flex relative z-10 py-1 pl-16 pr-2 ml-16 h-16">
       <div class="flex flex-wrap justify-between w-1/2 pr-1">
         <ability-symbiosis
           v-for="(value, dependency, index) in dependencies"
           :key="dependency"
           :label="dependency"
-          :class="{ 'mx-auto -mt-2': (index == 2) }"
+          :class="{ 'mx-auto -mt-2': index == 2 }"
           class="border-2 border-sky"
         ></ability-symbiosis>
       </div>
@@ -154,7 +151,7 @@ export default {
           v-for="(value, dependant, index) in dependants"
           :key="dependant"
           :label="dependant"
-          :class="{'mx-auto -mt-2': index == 2}"
+          :class="{ 'mx-auto -mt-2': index == 2 }"
           class="bg-sky"
         ></ability-symbiosis>
       </div>
@@ -171,13 +168,14 @@ export default {
         :label="label"
       ></ability-researchable>
     </div>
-    <div class="w-24 h-24 bg-tile-overlay bg-light overflow-hidden border border-light rounded-full inline-flex flex-no-shrink items-center justify-center absolute pin-l pin-t ml-3 mt-6 z-20 order-2">
-      <base-icon
-        class="w-16 h-16 text-light"
-        :label="label"
-      ></base-icon>
+    <div
+      class="w-24 h-24 bg-tile-overlay bg-light overflow-hidden border border-light rounded-full inline-flex flex-no-shrink items-center justify-center absolute pin-l pin-t ml-3 mt-6 z-20 order-2"
+    >
+      <base-icon class="w-16 h-16 text-light" :label="label"></base-icon>
     </div>
-    <div class="w-12 h-12 bg-tile-overlay bg-light overflow-hidden border border-light rounded-full inline-flex items-center justify-center mb-2 order-1 absolute pin-t pin-l -mt-1 -ml-3">
+    <div
+      class="w-12 h-12 bg-tile-overlay bg-light overflow-hidden border border-light rounded-full inline-flex items-center justify-center mb-2 order-1 absolute pin-t pin-l -mt-1 -ml-3"
+    >
       <base-icon
         class="w-6 h-6"
         :label="ability.type"
