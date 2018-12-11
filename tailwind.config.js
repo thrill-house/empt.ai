@@ -119,6 +119,7 @@ module.exports = {
   |
   */
 
+  colorList: colorList,
   colors: colors,
   backgrounds: backgrounds,
 
@@ -441,6 +442,7 @@ module.exports = {
     '1/6': '16.66667%',
     '5/6': '83.33333%',
     full: '100%',
+    'full*2': '200%',
     screen: '100vw',
   },
 
@@ -506,6 +508,7 @@ module.exports = {
     'hex*48': 12 * hexRatio + 'rem',
     'hex*64': 16 * hexRatio + 'rem',
     full: '100%',
+    'full*2': '200%',
     screen: '100vh',
   },
 
@@ -727,6 +730,8 @@ module.exports = {
     auto: 'auto',
     '-1': -1,
     '0': 0,
+    '1': 1,
+    '2': 2,
     '10': 10,
     '20': 20,
     '30': 30,
@@ -918,10 +923,12 @@ module.exports = {
       },
       rotate: {
         '0': '0deg',
+        '45': '45deg',
         '90': '90deg',
         '180': '180deg',
       },
       negativeRotate: {
+        '45': '45deg',
         '90': '90deg',
         '180': '180deg',
       },
@@ -988,16 +995,7 @@ module.exports = {
         },
       };
 
-      let pinUtilities = {
-        '.pin-2': {
-          top: `${config('padding.2')}`,
-          left: `${config('padding.2')}`,
-          bottom: `${config('padding.2')}`,
-          right: `${config('padding.2')}`,
-        },
-      };
-
-      addUtilities([clipUtilities, backgroundUtilities, pinUtilities], {
+      addUtilities([clipUtilities, backgroundUtilities], {
         variants: ['responsive'],
       });
     },

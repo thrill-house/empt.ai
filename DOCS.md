@@ -169,18 +169,6 @@ The component displays an ability that is defined within the global data store. 
 
 `<ability-available label.string="ability-label"></ability-available>`
 
-### Ability enabled
-
-The enabled ability is an ability that is currently enabled within a socket.
-
-##### Properties
-
-- `instance` — An instance ID referring to an owned ability in the global store.
-
-##### Instantiation
-
-`<ability-enabled instance.string="ability-instance-id"></ability-enabled>`
-
 ### Ability purchaseable
 
 Displays an ability that is listed on the marketplace and is available for purchase by the player.
@@ -197,6 +185,18 @@ Displays a modal dialog for researching an ability.
 
 `<ability-research></ability-research>`
 
+### Ability slotted
+
+The enabled ability is an ability that is currently enabled within a socket.
+
+##### Properties
+
+- `instance` — An instance ID referring to an owned ability in the global store.
+
+##### Instantiation
+
+`<ability-slotted instance.string="ability-instance-id"></ability-slotted>`
+
 ### Emotion profile
 
 Aggregates the player's current emotional profile based on currently slotted abilities.
@@ -204,6 +204,18 @@ Aggregates the player's current emotional profile based on currently slotted abi
 ##### Instantiation
 
 `<emotion-profile></emotion-profile>`
+
+### Base button
+
+Buttons!
+
+##### Instantiation
+
+`<base-button></base-button>`
+
+### Base hexagon
+
+Helper component for hexagons as the base for sockets, slots and slotted abilities.
 
 ### Socket slot
 
@@ -217,11 +229,9 @@ The ability slot is a space attached to a data sources. When an ability is assig
 
 `<socket-slot label.string="slot-label"></socket-slot>`
 
-### Socket activated
+### Socket base
 
 The data socket is the base component that abilities are attached to. When enabled, their multipliers are applied to the score calculation.
-
-> **TODO**: Refactor to **socket**, **socket-inactive** & **socket-activated**.
 
 ##### Properties
 
@@ -229,7 +239,31 @@ The data socket is the base component that abilities are attached to. When enabl
 
 ##### Instantiation
 
-`<socket-activated label.string="socket-activated-label"></socket-activated>`
+`<socket-base label.string="socket-label"></socket-base>`
+
+### Socket online
+
+The data socket is the base component that abilities are attached to. When enabled, their multipliers are applied to the score calculation.
+
+##### Properties
+
+- `label` — A label referring to a data socket in the global store.
+
+##### Instantiation
+
+`<socket-online label.string="socket-online-label"></socket-online>`
+
+### Socket field
+
+Helper component for sockets to extend, defining the socket and its slots locations.
+
+##### Properties
+
+- `label` — A label referring to a data socket in the global store.
+
+##### Instantiation
+
+`<socket-field label.string="socket-label"></socket-field>`
 
 ### Socket challenge
 

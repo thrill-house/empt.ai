@@ -3,7 +3,8 @@
 @tailwind preflight;
 @tailwind components;
 
-@import 'variables';
+@import '$variables';
+@import 'mixins';
 
 @import 'components/base-icon';
 @import 'components/base-button';

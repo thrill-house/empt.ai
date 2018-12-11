@@ -1,0 +1,8 @@
+@mixin color-mod($attribute) {
+  @each $label, $color in $colorList {
+    &--#{$label} {
+      @debug #{$attribute}-#{$label};
+      //@apply #{$attribute}-#{$label};
+    }
+  }
+}

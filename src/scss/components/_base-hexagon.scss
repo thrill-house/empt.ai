@@ -3,7 +3,7 @@
  */
 .hexagon {
   @apply relative  w-48 h-hex*48 clip-hexagon;
-  margin: -13.333% 0.25rem;
+  margin: -13.333% config('margin.1');
 
   &:before {
     @apply absolute z--1 clip-hexagon;
@@ -18,21 +18,20 @@
     }
 
     &:before {
-      @apply absolute pin;
+      @apply absolute pin z-2;
       background-position: left top, left top, center top;
       background-repeat: repeat, repeat, no-repeat;
       background-size: auto, auto, cover;
       background-attachment: fixed, fixed, fixed;
-      z-index: 2;
     }
   }
 
-  @each $color in neutral, economy, science, society {
-    &--#{$color} {
+  @each $label, $color in $colorList {
+    &--#{$label} {
       &:before {
         background-image: linear-gradient(
-            config('colors.#{$color}-25') 0%,
-            config('colors.#{$color}-25') 100%
+            config('colors.#{$label}-50') 0%,
+            config('colors.#{$label}-50') 100%
           ),
           config('backgrounds.tile'), config('backgrounds.gradient');
       }

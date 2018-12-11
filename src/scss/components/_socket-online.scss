@@ -7,8 +7,6 @@
   }
 
   &--online {
-    @apply opacity-100;
-
     &:hover {
       .socket-base {
         &__factors {

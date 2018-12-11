@@ -6,8 +6,7 @@
   justify-between items-center
   bg-neutral
   px-2 py-6
-  text-center
-  opacity-50;
+  text-center;
   grid-area: d;
 
   &:hover {
@@ -15,29 +14,24 @@
   }
 
   &:before {
-    @apply pin-2;
+    @apply m-2;
   }
 
   &:after {
-    @apply absolute pin;
+    @apply absolute pin
+    w-full*2 h-full*2
+    z-1
+    rotate-45;
     content: '';
     left: -50%;
     top: -50%;
-    width: 200%;
-    height: 200%;
-    transform: rotate(45deg);
-    z-index: 1;
     background-image: config('backgrounds.dotted-horizontal'),
       config('backgrounds.dotted-vertical');
     background-position: center center;
     background-size: 2px 2px;
   }
 
-  @each $color in neutral, economy, science, society {
-    &--#{$color} {
-      @apply bg-#{$color}-75;
-    }
-  }
+  @include color-mod(bg);
 
   &__header {
     @apply flex
