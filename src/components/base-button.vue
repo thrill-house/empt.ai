@@ -18,7 +18,3 @@ export default {
 <template>
   <button class="button"><slot></slot></button>
 </template>
-
-<style lang="scss">
-// See components
-</style>

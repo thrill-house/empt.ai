@@ -12,7 +12,3 @@ export default {
 <template>
   <div class="hexagon"><slot></slot></div>
 </template>
-
-<style lang="scss">
-// See components
-</style>

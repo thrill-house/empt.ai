@@ -1,0 +1,12 @@
+/**
+ * Shared styles for BaseButton components.
+ */
+.icon {
+  @apply fill-current;
+
+  &--medium {
+    @apply w-8 h-8;
+  }
+
+  @include color-mod(text);
+}

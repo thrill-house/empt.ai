@@ -38,4 +38,29 @@
       @apply bg-#{$color}-75;
     }
   }
+
+  &__header {
+    @apply flex
+    items-center justify-center
+    text-center
+    bg-grey-25
+    p-2
+    w-2/3 h-12
+    order-2;
+  }
+
+  &__title {
+    @apply text-light text-sm uppercase;
+  }
+
+  &__content {
+    @apply flex flex-wrap
+    justify-center items-center
+    w-full h-12
+    order-2;
+  }
+
+  &__icon {
+    @apply mb-2 order-1;
+  }
 }

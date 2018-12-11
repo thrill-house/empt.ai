@@ -5,6 +5,7 @@ export default {
   Connect: 'Connect',
   Confidence: 'Confidence',
   Cost: 'Cost',
+  Costs: 'Costs',
   Data: 'Data',
   Install: 'Install',
   installation: 'installation',

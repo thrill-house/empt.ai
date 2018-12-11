@@ -14,6 +14,7 @@ import _ from 'lodash';
 import store from '../store';
 import { mapState, mapGetters, mapActions } from 'vuex';
 
+import BaseButton from './base-button';
 import BaseEra from './base-era';
 import BaseIcon from './base-icon';
 import BaseHexagon from './base-hexagon';
@@ -23,6 +24,7 @@ export default {
   name: 'socket-base',
   store,
   components: {
+    BaseButton,
     BaseEra,
     BaseHexagon,
     BaseIcon,
@@ -88,36 +90,34 @@ export default {
     class="socket-base hexagon--tile"
     :class="[`socket-base--${socket.type}`, `hexagon--${socket.type}`]"
   >
-    <header
-      class="flex items-center justify-center text-center bg-grey-25 p-2 w-2/3 h-12 order-2"
-    >
-      <h4 class="title text-light text-sm uppercase">{{ socket.name }}</h4>
+    <header class="socket-base__header">
+      <h4 class="socket-base__title">{{ socket.name }}</h4>
     </header>
-    <div class="flex w-full h-12 flex-wrap justify-center items-center order-2">
+    <div class="socket-base__content">
       <slot>
-        <button
-          class="relative text-xs text-light uppercase font-bold p-2 button"
-          :class="{ 'cursor-wait bg-grey-50': !affordable }"
+        <base-button
+          class="button--medium button--bold"
+          :class="[affordable ? 'button--sky' : 'button--navy']"
           :disabled="!affordable"
           @click.once="activate()"
         >
           <span
-            class="absolute block pin h-full bg-sky z-0"
+            class="button__progress button__progress--sky"
             :style="{ width: affordability + '%' }"
           ></span>
-          <span class="relative z-10">
-            <template v-if="costs.confidence > scores.confidence">
-              Costs {{ costs.confidence | confidence }}
-            </template>
-            <template v-else>{{ $t('Connect') }}</template>
-          </span>
-        </button>
+          <!-- <span class="relative z-10"> -->
+          <template v-if="costs.confidence > scores.confidence">
+            {{ $t('Costs') }} {{ costs.confidence | confidence }}
+          </template>
+          <template v-else>{{ $t('Connect') }}</template>
+          <!-- </span> -->
+        </base-button>
       </slot>
     </div>
     <base-icon
-      class="w-8 h-8 text-light mb-2 order-1"
+      class="icon--medium socket-base__icon"
       :label="socket.type"
-      :class="'text-' + socket.type"
+      :class="`icon--${socket.type}`"
     ></base-icon>
     <base-era class="mt-1 order-4 w-2" :label="socket.era"></base-era>
   </base-hexagon>

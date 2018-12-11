@@ -21,7 +21,5 @@ export default {
 </script>
 
 <template>
-  <svg class="base-icon fill-current">
-    <use :xlink:href="'#' + label"></use>
-  </svg>
+  <svg class="icon"><use :xlink:href="'#' + label"></use></svg>
 </template>

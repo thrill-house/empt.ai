@@ -2,18 +2,25 @@
  * Shared styles for BaseButton components.
  */
 .button {
-  @apply clip-corners;
-
-  &--sky {
-    @apply bg-sky text-light;
-  }
+  @apply relative clip-corners text-light;
 
   &--medium {
     @apply p-2 text-xs;
   }
 
+  @include color-mod(bg);
+
   &--bold,
-  &__bold {
+  &__label {
     @apply uppercase font-bold;
+  }
+
+  &__progress {
+    @apply block
+    absolute pin
+    h-full
+    z--1;
+
+    @include color-mod(bg);
   }
 }
