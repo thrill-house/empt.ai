@@ -217,8 +217,6 @@ export default {
 </template>
 
 <style lang="scss">
-@import '../scss/placeholders';
-
 .emotion-diagram {
   &:before,
   &:after {

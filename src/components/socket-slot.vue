@@ -34,6 +34,9 @@ export default {
     };
   },
   computed: {
+    slot: function() {
+      return this.getSlot(this.label);
+    },
     socket: function() {
       return this.getSocketForSlot(this.label);
     },
@@ -64,7 +67,12 @@ export default {
     slottingInstance: function() {
       return this.slotting ? this.slotting.instance : '';
     },
-    ...mapGetters(['getEventOfType', 'getSocketForSlot', 'getInteraction']),
+    ...mapGetters([
+      'getEventOfType',
+      'getSlot',
+      'getSocketForSlot',
+      'getInteraction',
+    ]),
   },
   methods: {
     addEvent: function(ability, instance) {
@@ -84,7 +92,12 @@ export default {
 </script>
 
 <template>
-  <div class="socket-slot" @mouseover="hover = true" @mouseout="hover = false">
+  <div
+    class="socket-slot"
+    :class="`socket-slot--${slot.position}`"
+    @mouseover="hover = true"
+    @mouseout="hover = false"
+  >
     <ability-slotted
       v-if="event && abilityInstance && (!slottingLabel || !hover)"
       :instance="abilityInstance"
@@ -144,27 +157,28 @@ export default {
 
 <style lang="scss">
 .socket-slot {
-  &:before {
-    @apply pin;
+  &--top-left {
+    grid-area: a;
   }
 
-  &:after {
-    @apply hidden;
+  &--top-right {
+    grid-area: b;
   }
 
-  &.slotting-prompt {
-    &:before {
-      top: 0.1666rem;
-      left: 0.1666rem;
-      bottom: 0.1666rem;
-      right: 0.1666rem;
-    }
+  &--left {
+    grid-area: c;
   }
 
-  &:not(.tree-match) {
-    &:after {
-      @apply block bg-light;
-    }
+  &--right {
+    grid-area: e;
+  }
+
+  &--bottom-left {
+    grid-area: f;
+  }
+
+  &--bottom-right {
+    grid-area: g;
   }
 }
 </style>

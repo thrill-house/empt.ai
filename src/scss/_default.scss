@@ -2,7 +2,13 @@
 
 @tailwind preflight;
 @tailwind components;
-@import 'patterns';
+
+@import 'components/base-button';
+@import 'components/base-hexagon';
+
+@import 'components/socket-base';
+@import 'components/socket-online';
+
 @tailwind utilities;
 
 body {

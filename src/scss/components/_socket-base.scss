@@ -1,0 +1,41 @@
+/**
+ * Shared styles for SocketBase components.
+ */
+.socket-base {
+  @apply flex flex-col
+  justify-between items-center
+  bg-neutral
+  px-2 py-6
+  text-center
+  opacity-50;
+  grid-area: d;
+
+  &:hover {
+    @apply opacity-100;
+  }
+
+  &:before {
+    @apply pin-2;
+  }
+
+  &:after {
+    @apply absolute pin;
+    content: '';
+    left: -50%;
+    top: -50%;
+    width: 200%;
+    height: 200%;
+    transform: rotate(45deg);
+    z-index: 1;
+    background-image: config('backgrounds.dotted-horizontal'),
+      config('backgrounds.dotted-vertical');
+    background-position: center center;
+    background-size: 2px 2px;
+  }
+
+  @each $color in neutral, economy, science, society {
+    &--#{$color} {
+      @apply bg-#{$color}-75;
+    }
+  }
+}

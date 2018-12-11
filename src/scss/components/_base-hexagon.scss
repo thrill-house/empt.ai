@@ -1,0 +1,41 @@
+/**
+ * Shared styles for BaseHexagon components.
+ */
+.hexagon {
+  @apply relative  w-48 h-hex*48 clip-hexagon;
+  margin: -13.333% 0.25rem;
+
+  &:before {
+    @apply absolute z--1 clip-hexagon;
+    content: '';
+  }
+
+  &--tile {
+    background-color: none;
+
+    > * {
+      @apply relative z-10;
+    }
+
+    &:before {
+      @apply absolute pin;
+      background-position: left top, left top, center top;
+      background-repeat: repeat, repeat, no-repeat;
+      background-size: auto, auto, cover;
+      background-attachment: fixed, fixed, fixed;
+      z-index: 2;
+    }
+  }
+
+  @each $color in neutral, economy, science, society {
+    &--#{$color} {
+      &:before {
+        background-image: linear-gradient(
+            config('colors.#{$color}-25') 0%,
+            config('colors.#{$color}-25') 100%
+          ),
+          config('backgrounds.tile'), config('backgrounds.gradient');
+      }
+    }
+  }
+}

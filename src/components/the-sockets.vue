@@ -10,29 +10,30 @@ The component displays all **sockets**, and by extension all **slots** and **abi
 import store from '../store';
 import { mapState, mapGetters } from 'vuex';
 
-import SocketOnline from './socket-online';
+import SocketField from './socket-field';
 
 export default {
   name: 'the-sockets',
   components: {
-    SocketOnline,
+    SocketField,
   },
   props: {
     label: String,
   },
   store,
-  computed: mapState(['sockets']),
+  computed: {
+    ...mapState(['sockets']),
+  },
 };
 </script>
 
 <template>
   <div class="the-sockets flex flex-wrap w-full">
-    <socket-online
+    <socket-field
       v-for="(socket, index) in sockets"
       :key="index"
       :label="index"
-    >
-    </socket-online>
+    ></socket-field>
   </div>
 </template>
 

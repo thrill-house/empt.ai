@@ -218,8 +218,17 @@ const getters = {
   getSocket: (state, getters) => (label) => {
     return state[label];
   },
-  getActiveSockets: (state, getters) => () => {
+  getSocketsEvents: (state, getters) => () => {
     return _.filter(getters.getEvents(), { type: 'socket' });
+  },
+  getActiveSocketLabels: (state, getters) => () => {
+    return _.map(getters.getSocketsEvents(), 'label');
+  },
+  getActiveSockets: (state, getters) => () => {
+    return _.pick(state, getters.getActiveSocketLabels());
+  },
+  getInactiveSockets: (state, getters) => () => {
+    return _.omit(state, getters.getActiveSocketLabels());
   },
   getSocketCosts: (state, getters, rootState) => (event) => {
     var socket = getters.getSocket(event.label);

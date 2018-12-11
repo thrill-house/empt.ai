@@ -1,0 +1,19 @@
+/**
+ * Shared styles for BaseButton components.
+ */
+.button {
+  @apply clip-corners;
+
+  &--sky {
+    @apply bg-sky text-light;
+  }
+
+  &--medium {
+    @apply p-2 text-xs;
+  }
+
+  &--bold,
+  &__bold {
+    @apply uppercase font-bold;
+  }
+}

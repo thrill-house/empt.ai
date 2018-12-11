@@ -1,0 +1,24 @@
+/**
+ * Shared styles for SocketOnline components.
+ */
+.socket-base {
+  &__challenge {
+    @apply hidden;
+  }
+
+  &--online {
+    @apply opacity-100;
+
+    &:hover {
+      .socket-base {
+        &__factors {
+          @apply hidden;
+        }
+
+        &__challenge {
+          @apply block;
+        }
+      }
+    }
+  }
+}

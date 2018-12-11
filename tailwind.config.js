@@ -978,7 +978,9 @@ module.exports = {
 
       let backgroundUtilities = {
         '.bg-tile': {
-          'background-image': `${backgrounds.tile}, ${backgrounds.gradient}`,
+          'background-image': `${config('backgrounds.tile')}, ${config(
+            'backgrounds.gradient'
+          )}`,
           'background-position': 'left top, center top',
           'background-repeat': 'repeat, no-repeat',
           'background-size': 'auto, cover',
@@ -986,7 +988,16 @@ module.exports = {
         },
       };
 
-      addUtilities([clipUtilities, backgroundUtilities], {
+      let pinUtilities = {
+        '.pin-2': {
+          top: `${config('padding.2')}`,
+          left: `${config('padding.2')}`,
+          bottom: `${config('padding.2')}`,
+          right: `${config('padding.2')}`,
+        },
+      };
+
+      addUtilities([clipUtilities, backgroundUtilities, pinUtilities], {
         variants: ['responsive'],
       });
     },
