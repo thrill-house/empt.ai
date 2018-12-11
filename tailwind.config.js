@@ -47,17 +47,7 @@ const α = require('color-alpha');
 
 let hexRatio = Math.sqrt(3 / 2);
 
-let opacities = {
-  '0': 0,
-  '10': 0.1,
-  '25': 0.25,
-  '50': 0.5,
-  '75': 0.75,
-  '90': 0.9,
-  '100': 1,
-};
-
-let colors = {
+let colorList = {
   transparent: 'transparent',
   dark: '#000',
   light: '#FFF',
@@ -76,34 +66,33 @@ let colors = {
   neutral: '#A6D3FF',
 };
 
-/**
- * TODO: Merge colors with opacities in tailwind so there's no need for SASS variables.
- */
+let opacities = {
+  '0': 0,
+  '10': 0.1,
+  '25': 0.25,
+  '50': 0.5,
+  '75': 0.75,
+  '90': 0.9,
+  '100': 1,
+};
 
-/*let mergeColors = {};
+let colors = _.reduce(
+  colorList,
+  function(result, color, c) {
+    result[c] = color;
 
-_.map(colors, function(color, c, collection) {
-  if(c !== 'transparent') {
-    _.merge(
-      collection,
-      _.fromPairs(
-        _.map(opacities, function(opacity, o) {
-          if(opacity > 0 && opacity < 1 && color !== undefined) {
-            return [`${c}-${o}`, α(color, opacity)];
-          }
+    if (color !== 'transparent') {
+      _.each(opacities, (opacity, o) => {
+        if (opacity > 0 && opacity < 1) {
+          result[`${c}-${o}`] = α(color, opacity);
+        }
+      });
+    }
 
-          return ['', ''];
-        })
-      )
-    );
-
-    merge = collection;
-  }
-
-  return '';
-});
-
-//console.log(merge);*/
+    return result;
+  },
+  {}
+);
 
 let backgrounds = {
   tile: 'url(/assets/img/tile.svg)',

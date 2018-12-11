@@ -136,8 +136,6 @@ export default {
 </template>
 
 <style lang="scss">
-@import '../scss/$variables';
-
 .socket-base-field {
   display: grid;
   grid-template-rows: repeat(6, 1fr);
@@ -150,7 +148,7 @@ export default {
     '. f f g g .'
     '. f f g g .';
 
-  .socket-base {
+  /*.socket-base {
     grid-area: d;
 
     &:before {
@@ -190,6 +188,6 @@ export default {
 
   .bottom-right {
     grid-area: g;
-  }
+  }*
 }
 </style>

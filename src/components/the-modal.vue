@@ -31,8 +31,7 @@ export default {
   @apply fixed
   pin
   flex justify-center items-center
+  bg-navy-75
   z-50;
-
-  //@extend %bg-navy-75;
 }
 </style>

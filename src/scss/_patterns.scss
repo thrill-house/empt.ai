@@ -52,17 +52,17 @@ button {
     z-index: 1;
   }
 
-  @each $c, $color in $colors {
-    &.bg-#{$c} {
-      background-color: none;
+  // @each $c, $color in $colors {
+  //   &.bg-#{$c} {
+  //     background-color: none;
 
-      &:before {
-        background-image: linear-gradient(
-            rgba($color, 0.25) 0%,
-            rgba($color, 0.25) 100%
-          ),
-          map-get($backgrounds, tile), map-get($backgrounds, gradient);
-      }
-    }
-  }
+  //     &:before {
+  //       background-image: linear-gradient(
+  //           rgba($color, 0.25) 0%,
+  //           rgba($color, 0.25) 100%
+  //         ),
+  //         map-get($backgrounds, tile), map-get($backgrounds, gradient);
+  //     }
+  //   }
+  // }
 }

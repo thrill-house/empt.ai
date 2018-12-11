@@ -143,8 +143,6 @@ export default {
 </template>
 
 <style lang="scss">
-@import '../scss/$variables';
-
 .socket-slot {
   &:before {
     @apply pin;
