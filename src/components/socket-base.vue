@@ -18,7 +18,6 @@ import BaseButton from './base-button';
 import BaseEra from './base-era';
 import BaseIcon from './base-icon';
 import BaseHexagon from './base-hexagon';
-import SocketSlot from './socket-slot';
 
 export default {
   name: 'socket-base',
@@ -28,7 +27,6 @@ export default {
     BaseEra,
     BaseHexagon,
     BaseIcon,
-    SocketSlot,
   },
   props: {
     label: String,
@@ -36,9 +34,6 @@ export default {
   computed: {
     socket: function() {
       return this.getSocket(this.label);
-    },
-    slots: function() {
-      return this.getSlotsForSocket(this.label);
     },
     affordability: function() {
       return _.clamp(
@@ -115,8 +110,8 @@ export default {
     </div>
     <base-icon
       class="icon--medium socket-base__icon"
-      :label="socket.type"
-      :class="`icon--${socket.type}`"
+      :label="socket.tree"
+      :class="`icon--${socket.tree}`"
     ></base-icon>
     <base-era class="mt-1 order-4 w-2" :label="socket.era"></base-era>
   </base-hexagon>

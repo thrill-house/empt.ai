@@ -141,7 +141,6 @@ const getters = {
     }
 
     var functionName = 'get' + _.upperFirst(_.camelCase(target));
-
     return getters[functionName](event[id]);
   },
   getEventObjects: (state, getters) => (events, id = 'label') => {

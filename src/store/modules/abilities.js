@@ -1,8 +1,6 @@
 import _ from 'lodash';
 import api from '../../api';
 
-//const state = {};
-
 /*
 let state = {
   "chat-buddy": {

@@ -28,7 +28,7 @@ export default {
     EmotionDiagram,
   },
   props: {
-    label: String,
+    slotObject: Object,
   },
   data: function() {
     return {
@@ -37,10 +37,19 @@ export default {
   },
   computed: {
     slot: function() {
-      return this.getSlot(this.label);
+      return this.slotObject;
+    },
+    label: function() {
+      return this.slot.label;
+    },
+    socketLabel: function() {
+      return this.slot.socketLabel;
     },
     socket: function() {
-      return this.getSocketForSlot(this.label);
+      return this.getSocketForSlot(this.socketLabel);
+    },
+    position: function() {
+      return this.slot.posititon;
     },
     event: function() {
       var event = this.getEventOfType(this.label, 'slot');

@@ -1,3 +1,7 @@
+import _ from 'lodash';
+import api from '../../api';
+
+/*
 const state = {
   root: {
     name: 'Root',
@@ -212,11 +216,19 @@ const state = {
     },
   },
 };
+*/
+
+const state = {
+  list: {},
+};
 
 // getters
 const getters = {
   getSocket: (state, getters) => (label) => {
-    return state[label];
+    return state.list[label];
+  },
+  getSocketSlots: (state, getters) => (label) => {
+    return getters.getSocket(label).slots;
   },
   getSocketsEvents: (state, getters) => () => {
     return _.filter(getters.getEvents(), { type: 'socket' });
@@ -225,10 +237,10 @@ const getters = {
     return _.map(getters.getSocketsEvents(), 'label');
   },
   getActiveSockets: (state, getters) => () => {
-    return _.pick(state, getters.getActiveSocketLabels());
+    return _.pick(state.list, getters.getActiveSocketLabels());
   },
   getInactiveSockets: (state, getters) => () => {
-    return _.omit(state, getters.getActiveSocketLabels());
+    return _.omit(state.list, getters.getActiveSocketLabels());
   },
   getSocketCosts: (state, getters, rootState) => (event) => {
     var socket = getters.getSocket(event.label);
@@ -255,12 +267,20 @@ const getters = {
 // mutations
 const mutations = {
   activateSocket: (state, label) => {
-    state[label].active = true;
+    state.list[label].active = true;
+  },
+  initSockets(state, sockets) {
+    state.list = sockets;
   },
 };
 
 // actions
 const actions = {
+  initSockets({ commit }) {
+    api.get('sockets.json').then(function(response) {
+      commit('initSockets', _.keyBy(response.data.data, 'label'));
+    });
+  },
   addSocketEvent: ({ dispatch, commit, getters }, event) => {
     return dispatch('addEvent', event).then((success) => {
       var socket = getters.getEventObject(event);
@@ -272,5 +292,6 @@ const actions = {
 export default {
   state,
   getters,
+  mutations,
   actions,
 };

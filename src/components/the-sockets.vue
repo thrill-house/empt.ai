@@ -14,15 +14,17 @@ import SocketField from './socket-field';
 
 export default {
   name: 'the-sockets',
+  store,
   components: {
     SocketField,
   },
   props: {
     label: String,
   },
-  store,
   computed: {
-    ...mapState(['sockets']),
+    ...mapState({
+      sockets: (state) => state.sockets.list,
+    }),
   },
 };
 </script>

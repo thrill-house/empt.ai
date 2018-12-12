@@ -13,8 +13,8 @@ Helper component for sockets to extend, defining the socket and its slots locati
 import store from '../store';
 import { mapGetters } from 'vuex';
 
-import AbilitySlotted from './ability-slotted';
-import AbilitySlotting from './ability-slotting';
+//import AbilitySlotted from './ability-slotted';
+//import AbilitySlotting from './ability-slotting';
 import SocketBase from './socket-base';
 import SocketOnline from './socket-online';
 import SocketSlot from './socket-slot';
@@ -23,8 +23,8 @@ export default {
   name: 'socket-field',
   store,
   components: {
-    AbilitySlotted,
-    AbilitySlotting,
+    //AbilitySlotted,
+    //AbilitySlotting,
     SocketBase,
     SocketOnline,
     SocketSlot,
@@ -37,7 +37,7 @@ export default {
       return this.getSocket(this.label);
     },
     slots: function() {
-      return this.getSlotsForSocket(this.label);
+      return this.socket.slots;
     },
     slotted: function() {
       console.log(
@@ -60,6 +60,7 @@ export default {
     },
     ...mapGetters([
       'getSocket',
+      'getSocketSlots',
       'getSlotEvents',
       'getEventsOfType',
       'getEventOfType',
@@ -76,13 +77,14 @@ export default {
     <socket-online v-if="event" :label="label"></socket-online>
     <socket-base v-else :label="label"></socket-base>
     <template v-if="true">
-      <ability-slotted
+      <!-- <ability-slotted
         v-for="(slot, index) in slotted"
         :label="slot.label"
-      ></ability-slotted>
+      ></ability-slotted> -->
       <socket-slot
-        v-for="(slot, index) in unslotted"
-        :label="index"
+        v-for="(slot, index) in slots"
+        :key="index"
+        :slotObject="slot"
       ></socket-slot>
     </template>
     <!-- <template v-for="(slot, index) in slots">

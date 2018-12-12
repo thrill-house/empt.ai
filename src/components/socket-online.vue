@@ -44,7 +44,7 @@ export default {
 <template>
   <socket-base
     class="socket-base--online"
-    :class="[`socket-base--${socket.type}`, `hexagon--${socket.type}`]"
+    :class="[`socket-base--${socket.tree}`, `hexagon--${socket.tree}`]"
     :label="label"
   >
     <div class="socket-base__factors">

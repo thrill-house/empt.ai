@@ -30,9 +30,12 @@ import TheTime from './components/the-time';
 export default {
   name: 'app',
   created: function() {
-    this.addSocketEvent(this.initEvent);
+    this.initSockets();
     this.initAbilities();
-    this.startSession();
+    window.setTimeout(() => {
+      this.addSocketEvent(this.initEvent);
+      this.startSession();
+    }, 2000);
   },
   data: () => ({
     abilityAvailableTweaker: 'neutral-1',
@@ -219,6 +222,7 @@ export default {
       'addEvent',
       'addSlotEvent',
       'addSocketEvent',
+      'initSockets',
       'initAbilities',
       'setEvents',
       'startSession',
@@ -539,7 +543,7 @@ export default {
           </select>
         </div>
       </header>
-      <socket-field :label="socketFieldTweaker"></socket-field>
+      <!-- <socket-field :label="socketFieldTweaker"></socket-field> -->
     </section>
 
     <!--
@@ -562,7 +566,7 @@ export default {
           </select>
         </div>
       </header>
-      <socket-slot :label="socketSlotTweaker"></socket-slot>
+      <!-- <socket-slot :label="socketSlotTweaker"></socket-slot> -->
     </section>
 
     <!--
@@ -624,7 +628,7 @@ export default {
           </select>
         </div>
       </header>
-      <ability-slotted :instance="abilitySlottedTweaker"></ability-slotted>
+      <!-- <ability-slotted :instance="abilitySlottedTweaker"></ability-slotted> -->
     </section>
 
     <!--
