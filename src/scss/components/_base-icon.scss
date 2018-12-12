@@ -8,5 +8,5 @@
     @apply w-8 h-8;
   }
 
-  @include color-mod(text);
+  @include --colors(text);
 }
