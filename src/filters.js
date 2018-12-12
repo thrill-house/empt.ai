@@ -1,7 +1,8 @@
-import Vue from 'vue';
+import _ from 'lodash';
 import math from 'mathjs';
-import numeral from 'numeral';
 import moment from 'moment';
+import numeral from 'numeral';
+import Vue from 'vue';
 
 Vue.filter('duration', (str) =>
   moment()
@@ -44,3 +45,18 @@ Vue.filter('economy', (str) => Vue.filter('percentage')(str));
 Vue.filter('society', (str) => Vue.filter('percentage')(str));
 
 Vue.filter('neutral', (str) => Vue.filter('percentage')(str));
+
+Vue.filter('bem', (str, elems, connector = '__', include = true) => {
+  elems = _.isArray(elems) ? elems : [elems];
+  var elements = _.join(
+    _.map(elems, (elem) => `${str}${connector}${elem}`),
+    ' '
+  );
+  return `${include ? str : ''} ${elements}`;
+});
+
+Vue.filter('el', (str, elems) => Vue.filter('bem')(str, elems, '__'));
+
+Vue.filter('mod', (str, elems) => Vue.filter('bem')(str, elems, '--'));
+
+Vue.filter('dash', (str, elems) => Vue.filter('bem')(str, elems, '-', false));

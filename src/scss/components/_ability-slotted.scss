@@ -1,0 +1,55 @@
+/**
+ * Shared styles for AbilitySlotted components.
+ */
+.ability-slotted {
+  @apply flex flex-col
+  justify-center items-center
+  px-2;
+
+  @include --colors('bg', 'after', '-75');
+
+  &:before {
+    @apply m-1;
+  }
+
+  &:after {
+    @apply absolute pin;
+  }
+
+  &__content {
+    @apply flex
+    justify-between items-center
+    w-full
+    order-2;
+
+    &-icon {
+      @apply order-2;
+    }
+
+    &-dependencies,
+    &-dependants {
+      @apply flex flex-col
+        justify-center
+        flex-no-shrink
+        w-8;
+    }
+
+    &-dependencies {
+      @apply ml-px
+        order-1;
+    }
+
+    &-dependants {
+      @apply mr-px
+        order-3;
+    }
+  }
+
+  &__tree {
+    @apply mb-2 order-1;
+  }
+
+  &__era {
+    @apply mt-2 w-2 order-3;
+  }
+}

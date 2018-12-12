@@ -49,9 +49,9 @@ let hexRatio = Math.sqrt(3 / 2);
 
 let colorList = {
   dark: '#000',
-  light: '#FFF',
-  grey: '#BBB',
   ash: '#666',
+  grey: '#BBB',
+  light: '#FFF',
   sky: '#68ABE7',
   blue: '#353D77',
   navy: '#20364B',

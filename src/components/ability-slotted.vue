@@ -43,10 +43,14 @@ export default {
       return this.slot.label;
     },
     abilityLabel: function() {
+      console.log(this.slot);
       return this.event.label;
     },
     ability: function() {
       return this.getAbility(this.abilityLabel);
+    },
+    tree: function() {
+      return this.ability.tree;
     },
     factors: function() {
       return this.ability.factors;
@@ -70,7 +74,7 @@ export default {
       return this.getEventOfType(this.instance, 'ability', 'instance');
     },
     slotEvent: function() {
-      return this.getEventOfType(this.instance, 'slot', 'instance');
+      return this.slot.event;
     },
     socket: function() {
       return this.getSocket(this.slot.socketLabel);
@@ -108,18 +112,28 @@ export default {
 </script>
 
 <template>
-  <socket-slot :slotObject="slotObject">
-    <div class="flex justify-between items-center w-full order-2">
+  <socket-slot
+    class="ability-slotted hexagon--grey"
+    :class="[`ability-slotted--${treeMatch ? tree : 'light'}`]"
+    :slotObject="slotObject"
+  >
+    <div class="ability-slotted__content">
       <div
-        class="w-24 h-24 rounded-full inline-flex flex-no-shrink items-center justify-center order-2"
-        :class="['bg-' + ability.tree + '-25']"
+        class="ability-slotted__content-icon icon-container icon-container--large icon-container--light"
+        :class="[`icon-container--${tree}`]"
       >
+        <!-- <div
+        :class="[
+          'ability-slotted' | el('content-icon'),
+          'icon' | dash('container') | mod(['large', 'light', tree]),
+        ]"
+      > -->
         <base-icon
-          class="w-16 h-16 text-light"
+          class="icon--large icon--light"
           :label="abilityLabel"
         ></base-icon>
       </div>
-      <!-- <div class="w-8 flex-no-shrink outputs order-1 ml-px">
+      <div class="ability-slotted__content-dependencies">
         <ability-symbiosis
           v-for="(value, dependency, index) in dependencies"
           class="border-2"
@@ -131,7 +145,7 @@ export default {
           :label="dependency"
         ></ability-symbiosis>
       </div>
-      <div class="w-8 flex-no-shrink outputs order-3 mr-px">
+      <div class="ability-slotted__content-dependants">
         <ability-symbiosis
           v-for="(value, dependant, index) in dependants"
           :class="[
@@ -141,35 +155,18 @@ export default {
           :key="dependant"
           :label="dependant"
         ></ability-symbiosis>
-      </div> -->
+      </div>
     </div>
     <div
-      class="w-8 h-8 rounded-full inline-flex items-center justify-center mb-2 order-1"
-      :class="['bg-' + (treeMatch ? ability.type : 'grey') + '-25']"
+      class="ability-slotted__tree icon-container icon-container--small"
+      :class="[`icon-container--${treeMatch ? tree : 'grey'}`]"
     >
       <base-icon
-        class="w-4 h-4"
-        :label="ability.type"
-        :class="'text-' + ability.type"
+        class="icon--small"
+        :class="`icon--${tree}`"
+        :label="tree"
       ></base-icon>
     </div>
-    <base-era :label="ability.era" class="mt-2 w-2 order-3"></base-era>
+    <base-era class="ability-slotted__era" :label="ability.era"></base-era>
   </socket-slot>
 </template>
-
-<style lang="scss">
-.ability-slotted {
-  &:before {
-    top: 0.1666rem;
-    left: 0.1666rem;
-    bottom: 0.1666rem;
-    right: 0.1666rem;
-  }
-
-  &:not(.tree-match) {
-    &:after {
-      @apply bg-light;
-    }
-  }
-}
-</style>

@@ -12,6 +12,7 @@ require('../assets/img/crypto-mining.svg');
 require('../assets/img/grant-proposal-generator.svg');
 require('../assets/img/homework-ghostwriter.svg');
 require('../assets/img/human-movement-simulation.svg');
+require('../assets/img/tweet-bot.svg');
 require('../assets/img/tell-jokes.svg');
 require('../assets/img/tutor-students.svg');
 require('../assets/img/video-game-level-solver.svg');
