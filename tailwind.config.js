@@ -48,7 +48,6 @@ const α = require('color-alpha');
 let hexRatio = Math.sqrt(3 / 2);
 
 let colorList = {
-  //transparent: 'transparent',
   dark: '#000',
   light: '#FFF',
   grey: '#DDD',

@@ -30,7 +30,7 @@ module.exports = {
       });
 
       if (content !== current) {
-        fs.writeFile(outputPath, content);
+        fs.writeFileSync(outputPath, content);
       }
     },
     tailwindcss(tailwindConfig),
