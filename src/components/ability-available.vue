@@ -110,7 +110,7 @@ export default {
 <template>
   <div
     v-if="ability && eraActive"
-    class="ability-available relative w-80 h-32 bg-tile-overlay bg-light m-4"
+    class="ability-available relative w-80 h-32 m-4"
     @mouseover="hover = true"
     @mouseout="hover = false"
   >
@@ -156,7 +156,9 @@ export default {
         ></ability-symbiosis>
       </div>
     </div>
-    <div class="flex items-start justify-end pl-16 pr-2 pb-2 ml-16 h-10">
+    <div
+      class="flex items-start justify-end pl-16 pr-2 pb-2 ml-16 h-10 relative z-10"
+    >
       <ability-installable
         class="w-1/2 mr-1"
         ref="install"
@@ -169,12 +171,12 @@ export default {
       ></ability-researchable>
     </div>
     <div
-      class="w-24 h-24 bg-tile-overlay bg-light overflow-hidden border border-light rounded-full inline-flex flex-no-shrink items-center justify-center absolute pin-l pin-t ml-3 mt-6 z-20 order-2"
+      class="w-24 h-24 bg-stain bg-stain-ash-50 overflow-hidden border border-light rounded-full inline-flex flex-no-shrink items-center justify-center absolute pin-l pin-t ml-3 mt-6 z-20 order-2"
     >
       <base-icon class="w-16 h-16 text-light" :label="label"></base-icon>
     </div>
     <div
-      class="w-12 h-12 bg-tile-overlay bg-light overflow-hidden border border-light rounded-full inline-flex items-center justify-center mb-2 order-1 absolute pin-t pin-l -mt-1 -ml-3"
+      class="w-12 h-12 bg-stain bg-stain-ash-50 overflow-hidden border border-light rounded-full inline-flex items-center justify-center mb-2 order-1 absolute pin-t pin-l -mt-1 -ml-3 z-10"
     >
       <base-icon
         class="w-6 h-6"
@@ -194,25 +196,24 @@ export default {
 
 <style lang="scss">
 .ability-available {
-  background: none;
+  //background: none;
 
   &:before,
   &:after {
-    @apply clip-parallelogram;
+    @apply absolute pin clip-parallelogram;
+    content: '';
   }
 
   &:before {
-    @apply absolute;
+    @apply bg-stain bg-stain-ash-50 z-1;
     top: 1px;
-    left: 3px;
+    left: 2px;
     bottom: 1px;
     right: 1px;
-    z-index: 1;
   }
 
   &:after {
-    @apply bg-light;
-    z-index: 0;
+    @apply bg-light z-0;
   }
 
   .circle-a,
@@ -221,13 +222,13 @@ export default {
   }
 
   .circle-a {
-    @apply h-16 w-16 -ml-5 -mt-3;
-    z-index: 0;
+    @apply h-16 w-16 -ml-5 -mt-3 z-0;
+    //z-index: 0;
   }
 
   .circle-b {
-    @apply bg-tile h-28 w-28 ml-1 mt-4;
-    z-index: 0;
+    @apply bg-tile h-28 w-28 ml-1 mt-4 z-0;
+    //z-index: 0;
   }
 }
 </style>

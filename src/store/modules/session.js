@@ -1,20 +1,19 @@
 import _ from 'lodash';
 
-/*
 let debugEvents = {
-  "1541758580990": {
-    type: "socket",
-    label: "root",
+  '1541758580990': {
+    type: 'socket',
+    label: 'root',
     timestamp: 1541758580990,
-    id: "38",
+    id: '38',
     costs: { data: 1, confidence: 0 },
     factors: { bandwidth: 1, influence: 0 },
     currentScore: { data: 4, confidence: 0 },
-    finalScore: { data: 4, confidence: 0 }
+    finalScore: { data: 4, confidence: 0 },
   },
-  "1541758613628": {
-    type: "ability",
-    label: "chat-buddy",
+  '1541758613628': {
+    type: 'ability',
+    label: 'chat-buddy',
     target: false,
     emotions: {
       happiness: 0,
@@ -22,40 +21,39 @@ let debugEvents = {
       tenderness: 0,
       anger: 1,
       excitement: 0,
-      fear: 2
+      fear: 2,
     },
-    instance: "chat-buddy-1541762021517",
+    instance: 'chat-buddy-1541762021517',
     timestamp: 1541758613628,
-    id: "42",
+    id: '42',
     costs: { data: 0, confidence: 20 },
     factors: { bandwidth: 16, influence: 0 },
     currentScore: { data: 80, confidence: -20 },
-    finalScore: { data: 80, confidence: -20 }
+    finalScore: { data: 80, confidence: -20 },
   },
-  "1541758689476": {
-    type: "slot",
-    target: "ability",
-    label: "root-3",
-    ability: "chat-buddy",
-    instance: "chat-buddy-1541762021517",
+  '1541758689476': {
+    type: 'slot',
+    target: 'ability',
+    label: 'root-left',
+    ability: 'chat-buddy',
+    instance: 'chat-buddy-1541762021517',
     positive: true,
-    negated: [{ type: "slot", instance: "chat-buddy-1541762021517" }],
+    negated: [{ type: 'slot', instance: 'chat-buddy-1541762021517' }],
     timestamp: 1541758689476,
-    id: "51",
+    id: '51',
     costs: { confidence: 0, data: 15 },
     factors: { bandwidth: 17.01, influence: 1.15 },
     currentScore: { data: 53, confidence: 4.6 },
-    finalScore: { data: 53, confidence: 4.6 }
-  }
+    finalScore: { data: 53, confidence: 4.6 },
+  },
 };
-*/
 
 const state = {
   start: _.now(),
   now: _.now(),
   interval: false,
-  //events: debugEvents,
-  events: {},
+  events: debugEvents,
+  //events: {},
   labelsEnabled: false,
   interactions: {
     research: false,

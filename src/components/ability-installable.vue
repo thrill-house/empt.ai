@@ -85,7 +85,7 @@ export default {
 <template>
   <button
     v-if="ability && events.length"
-    class="ability-installable button bg-sky-25 text-light text-left text-xs px-3 py-px relative w-full z-10"
+    class="ability-installable button bg-sky text-light text-left text-xs px-3 py-px relative w-full z-10"
     :class="{ 'cursor-wait': !affordable }"
     :disabled="!affordable"
     @click="install()"

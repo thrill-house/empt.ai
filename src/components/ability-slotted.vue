@@ -24,7 +24,7 @@ export default {
   name: 'ability-slotted',
   props: {
     instance: String,
-    label: String,
+    slotObject: Object,
   },
   store,
   components: {
@@ -36,6 +36,12 @@ export default {
     SocketSlot,
   },
   computed: {
+    slot: function() {
+      return this.slotObject;
+    },
+    label: function() {
+      return this.slot.label;
+    },
     abilityLabel: function() {
       return this.event.label;
     },
@@ -67,7 +73,7 @@ export default {
       return this.getEventOfType(this.instance, 'slot', 'instance');
     },
     socket: function() {
-      return this.getSocketForSlot(this.slotEvent.label);
+      return this.getSocket(this.slot.socketLabel);
     },
     treeMatch: function() {
       return this.ability.tree === this.socket.tree;
@@ -84,7 +90,7 @@ export default {
       'getAbility',
       'getAbilityDependants',
       'hasValidSlotEvents',
-      'getSocketForSlot',
+      'getSocket',
       'prettyUnit',
     ]),
   },
@@ -102,7 +108,7 @@ export default {
 </script>
 
 <template>
-  <socket-slot :label="label">
+  <socket-slot :slotObject="slotObject">
     <div class="flex justify-between items-center w-full order-2">
       <div
         class="w-24 h-24 rounded-full inline-flex flex-no-shrink items-center justify-center order-2"
@@ -113,7 +119,7 @@ export default {
           :label="abilityLabel"
         ></base-icon>
       </div>
-      <div class="w-8 flex-no-shrink outputs order-1 ml-px">
+      <!-- <div class="w-8 flex-no-shrink outputs order-1 ml-px">
         <ability-symbiosis
           v-for="(value, dependency, index) in dependencies"
           class="border-2"
@@ -135,7 +141,7 @@ export default {
           :key="dependant"
           :label="dependant"
         ></ability-symbiosis>
-      </div>
+      </div> -->
     </div>
     <div
       class="w-8 h-8 rounded-full inline-flex items-center justify-center mb-2 order-1"
