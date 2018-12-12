@@ -6,12 +6,9 @@
   justify-between items-center
   bg-neutral
   px-2 py-6
+  mx-1 -mt-hex/16
   text-center;
   grid-area: d;
-
-  &:hover {
-    @apply opacity-100;
-  }
 
   &:before {
     @apply m-2;
@@ -20,18 +17,15 @@
   &:after {
     @apply absolute pin
     w-full*2 h-full*2
+    bg-dots
     z-1
     rotate-45;
     content: '';
     left: -50%;
     top: -50%;
-    background-image: config('backgrounds.dotted-horizontal'),
-      config('backgrounds.dotted-vertical');
-    background-position: center center;
-    background-size: 2px 2px;
   }
 
-  @include --colors(bg);
+  @include --colors();
 
   &__header {
     @apply flex

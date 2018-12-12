@@ -87,8 +87,7 @@ export default {
 
 <template>
   <base-hexagon
-    class="socket-base hexagon--tile"
-    :class="[`socket-base--${socket.type}`, `hexagon--${socket.type}`]"
+    class="socket-base socket-base--light hexagon--tile hexagon--grey"
   >
     <header class="socket-base__header">
       <h4 class="socket-base__title">{{ socket.name }}</h4>

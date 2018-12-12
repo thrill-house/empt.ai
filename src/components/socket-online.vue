@@ -42,7 +42,11 @@ export default {
 </script>
 
 <template>
-  <socket-base :label="label" class="socket-base--online">
+  <socket-base
+    class="socket-base--online"
+    :class="[`socket-base--${socket.type}`, `hexagon--${socket.type}`]"
+    :label="label"
+  >
     <div class="socket-base__factors">
       <base-factor
         v-for="(value, factor) in factors"

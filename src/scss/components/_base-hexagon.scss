@@ -2,8 +2,10 @@
  * Shared styles for BaseHexagon components.
  */
 .hexagon {
-  @apply relative  w-48 h-hex*48 clip-hexagon;
-  margin: -13.333% config('margin.1');
+  @apply relative 
+  w-48 h-hex*48
+  overflow-hidden
+  clip-hexagon;
 
   &:before {
     @apply absolute z--1 clip-hexagon;
@@ -18,23 +20,9 @@
     }
 
     &:before {
-      @apply absolute pin z-2;
-      background-position: left top, left top, center top;
-      background-repeat: repeat, repeat, no-repeat;
-      background-size: auto, auto, cover;
-      background-attachment: fixed, fixed, fixed;
+      @apply absolute pin z-2 bg-stain;
     }
   }
 
-  @each $label, $color in $colorList {
-    &--#{$label} {
-      &:before {
-        background-image: linear-gradient(
-            config('colors.#{$label}-50') 0%,
-            config('colors.#{$label}-50') 100%
-          ),
-          config('backgrounds.tile'), config('backgrounds.gradient');
-      }
-    }
-  }
+  @include --colors('bg-stain', 'before', '-50');
 }

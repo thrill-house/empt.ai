@@ -1,7 +1,14 @@
-@mixin --colors($attribute) {
+@mixin --colors($attribute: 'bg', $pseudo: false, $postfix: '') {
   @each $label, $color in $colorList {
     &--#{$label} {
-      @apply #{$attribute}-#{$label};
+      @if $pseudo {
+        &:#{$pseudo} {
+          @apply #{$attribute}-#{$label}#{$postfix};
+          content: '';
+        }
+      } @else {
+        @apply #{$attribute}-#{$label}#{$postfix};
+      }
     }
   }
 }

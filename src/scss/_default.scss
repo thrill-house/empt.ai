@@ -10,8 +10,10 @@
 @import 'components/base-button';
 @import 'components/base-hexagon';
 
+@import 'components/socket-field';
 @import 'components/socket-base';
 @import 'components/socket-online';
+@import 'components/socket-slot';
 
 @tailwind utilities;
 

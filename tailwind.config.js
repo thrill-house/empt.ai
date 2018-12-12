@@ -50,7 +50,8 @@ let hexRatio = Math.sqrt(3 / 2);
 let colorList = {
   dark: '#000',
   light: '#FFF',
-  grey: '#DDD',
+  grey: '#BBB',
+  ash: '#666',
   sky: '#68ABE7',
   blue: '#353D77',
   navy: '#20364B',
@@ -93,17 +94,6 @@ let colors = _.reduce(
   {}
 );
 
-let backgrounds = {
-  tile: 'url(/assets/img/tile.svg)',
-  'dotted-horizontal': `linear-gradient(to right, ${
-    colors['dark']
-  } 1px, transparent 1%)`,
-  'dotted-vertical': `linear-gradient(${colors['dark']} 1px, transparent 1%)`,
-  gradient: `radial-gradient(50% 100%, ${colors['blue']} 2%, ${
-    colors['midnight']
-  } 42%, ${colors['dark']} 100%)`,
-};
-
 module.exports = {
   /*
   |-----------------------------------------------------------------------------
@@ -120,7 +110,6 @@ module.exports = {
 
   colorList: colorList,
   colors: colors,
-  backgrounds: backgrounds,
 
   /*
   |-----------------------------------------------------------------------------
@@ -493,19 +482,19 @@ module.exports = {
     '4/5': '80%',
     '1/6': '16.66667%',
     '5/6': '83.33333%',
-    'hex*1': 0.25 * hexRatio + 'rem',
-    'hex*2': 0.5 * hexRatio + 'rem',
-    'hex*3': 0.75 * hexRatio + 'rem',
-    'hex*4': 1 * hexRatio + 'rem',
-    'hex*6': 1.5 * hexRatio + 'rem',
-    'hex*8': 2 * hexRatio + 'rem',
-    'hex*10': 2.5 * hexRatio + 'rem',
-    'hex*12': 3 * hexRatio + 'rem',
-    'hex*16': 4 * hexRatio + 'rem',
-    'hex*24': 6 * hexRatio + 'rem',
-    'hex*32': 8 * hexRatio + 'rem',
-    'hex*48': 12 * hexRatio + 'rem',
-    'hex*64': 16 * hexRatio + 'rem',
+    'hex*1': `${0.25 * hexRatio}rem`,
+    'hex*2': `${0.5 * hexRatio}rem`,
+    'hex*3': `${0.75 * hexRatio}rem`,
+    'hex*4': `${1 * hexRatio}rem`,
+    'hex*6': `${1.5 * hexRatio}rem`,
+    'hex*8': `${2 * hexRatio}rem`,
+    'hex*10': `${2.5 * hexRatio}rem`,
+    'hex*12': `${3 * hexRatio}rem`,
+    'hex*16': `${4 * hexRatio}rem`,
+    'hex*24': `${6 * hexRatio}rem`,
+    'hex*32': `${8 * hexRatio}rem`,
+    'hex*48': `${12 * hexRatio}rem`,
+    'hex*64': `${16 * hexRatio}rem`,
     full: '100%',
     'full*2': '200%',
     screen: '100vh',
@@ -656,6 +645,7 @@ module.exports = {
     '10': '2.5rem',
     '12': '3rem',
     '16': '4rem',
+    'hex/16': `${4 / hexRatio}rem`,
   },
 
   /*
@@ -686,6 +676,7 @@ module.exports = {
     '10': '2.5rem',
     '12': '3rem',
     '16': '4rem',
+    'hex/16': `${4 / hexRatio}rem`,
   },
 
   /*
@@ -982,17 +973,47 @@ module.exports = {
         },
       };
 
+      let bg = {
+        dotsX: `linear-gradient(to right, ${config(
+          'colors.dark'
+        )} 1px, transparent 1%)`,
+        dotsY: `linear-gradient(${config('colors.dark')} 1px, transparent 1%)`,
+        tile: 'url(/assets/img/tile.svg)',
+        gradient: `radial-gradient(50% 100%, ${config(
+          'colors.blue'
+        )} 2%, ${config('colors.midnight')} 42%, ${config(
+          'colors.dark'
+        )} 100%)`,
+      };
+
       let backgroundUtilities = {
+        '.bg-dots': {
+          'background-image': `${bg.dotsX}, ${bg.dotsY}`,
+          'background-position': 'center center',
+          'background-size': '2px 2px',
+        },
         '.bg-tile': {
-          'background-image': `${config('backgrounds.tile')}, ${config(
-            'backgrounds.gradient'
-          )}`,
+          'background-image': `${bg.tile}, ${bg.gradient}`,
           'background-position': 'left top, center top',
           'background-repeat': 'repeat, no-repeat',
           'background-size': 'auto, cover',
           'background-attachment': 'fixed, fixed',
         },
+        '.bg-stain': {
+          'background-position': 'left top, left top, center top',
+          'background-repeat': 'repeat, repeat, no-repeat',
+          'background-size': 'auto, auto, cover',
+          'background-attachment': 'fixed, fixed, fixed',
+        },
       };
+
+      _.each(config('colors'), (color, label) => {
+        backgroundUtilities[`.bg-stain-${label}`] = {
+          'background-image': `linear-gradient(${color} 0%, ${color} 100%), ${
+            bg.tile
+          }, ${bg.gradient}`,
+        };
+      });
 
       addUtilities([clipUtilities, backgroundUtilities], {
         variants: ['responsive'],

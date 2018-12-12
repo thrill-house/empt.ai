@@ -14,6 +14,7 @@ import store from '../store';
 import { mapState, mapGetters, mapActions } from 'vuex';
 
 import AbilitySlotted from './ability-slotted';
+import BaseHexagon from './base-hexagon';
 import BaseIcon from './base-icon';
 import EmotionDiagram from './emotion-diagram';
 
@@ -22,6 +23,7 @@ export default {
   store,
   components: {
     AbilitySlotted,
+    BaseHexagon,
     BaseIcon,
     EmotionDiagram,
   },
@@ -92,18 +94,18 @@ export default {
 </script>
 
 <template>
-  <div
-    class="socket-slot"
-    :class="`socket-slot--${slot.position}`"
-    @mouseover="hover = true"
-    @mouseout="hover = false"
+  <base-hexagon
+    class="socket-slot hexagon--tile hexagon--ash"
+    :class="[`socket-slot--${slot.position}`]"
   >
-    <ability-slotted
+    <slot></slot>
+    <!-- <ability-slotted
       v-if="event && abilityInstance && (!slottingLabel || !hover)"
       :instance="abilityInstance"
-    ></ability-slotted>
+    ></ability-slotted> -->
+    <!-- 
     <div
-      v-else
+      
       class="socket-slot bg-tile-overlay hexagon w-48 h-hex*48 px-2 py-6 flex flex-col justify-between content-center items-center bg-light text-light text-center"
       :class="[
         { 'slotting-prompt': hover },
@@ -152,33 +154,6 @@ export default {
         {{ $t('Install') }}
       </button>
     </div>
-  </div>
+     -->
+  </base-hexagon>
 </template>
-
-<style lang="scss">
-.socket-slot {
-  &--top-left {
-    grid-area: a;
-  }
-
-  &--top-right {
-    grid-area: b;
-  }
-
-  &--left {
-    grid-area: c;
-  }
-
-  &--right {
-    grid-area: e;
-  }
-
-  &--bottom-left {
-    grid-area: f;
-  }
-
-  &--bottom-right {
-    grid-area: g;
-  }
-}
-</style>

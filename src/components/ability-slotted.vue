@@ -18,11 +18,13 @@ import BaseEra from './base-era';
 import BaseFactor from './base-factor';
 import BaseIcon from './base-icon';
 import EmotionDiagram from './emotion-diagram';
+import SocketSlot from './socket-slot';
 
 export default {
   name: 'ability-slotted',
   props: {
     instance: String,
+    label: String,
   },
   store,
   components: {
@@ -31,6 +33,7 @@ export default {
     BaseFactor,
     BaseIcon,
     EmotionDiagram,
+    SocketSlot,
   },
   computed: {
     abilityLabel: function() {
@@ -99,11 +102,7 @@ export default {
 </script>
 
 <template>
-  <div
-    v-if="event && slotEvent"
-    class="ability-slotted bg-tile-overlay hexagon w-48 h-hex*48 px-2 py-6 flex flex-col justify-between items-center"
-    :class="['bg-' + ability.tree, { 'tree-match': treeMatch }]"
-  >
+  <socket-slot :label="label">
     <div class="flex justify-between items-center w-full order-2">
       <div
         class="w-24 h-24 rounded-full inline-flex flex-no-shrink items-center justify-center order-2"
@@ -149,10 +148,7 @@ export default {
       ></base-icon>
     </div>
     <base-era :label="ability.era" class="mt-2 w-2 order-3"></base-era>
-  </div>
-  <div v-else class="ability disabled">
-    {{ $t('No valid event for “{instance}”.', { instance: instance }) }}
-  </div>
+  </socket-slot>
 </template>
 
 <style lang="scss">

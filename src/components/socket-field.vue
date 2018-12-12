@@ -13,6 +13,8 @@ Helper component for sockets to extend, defining the socket and its slots locati
 import store from '../store';
 import { mapGetters } from 'vuex';
 
+import AbilitySlotted from './ability-slotted';
+import AbilitySlotting from './ability-slotting';
 import SocketBase from './socket-base';
 import SocketOnline from './socket-online';
 import SocketSlot from './socket-slot';
@@ -21,6 +23,8 @@ export default {
   name: 'socket-field',
   store,
   components: {
+    AbilitySlotted,
+    AbilitySlotting,
     SocketBase,
     SocketOnline,
     SocketSlot,
@@ -35,11 +39,35 @@ export default {
     slots: function() {
       return this.getSlotsForSocket(this.label);
     },
+    slotted: function() {
+      console.log(
+        _.map(this.slots, (slot, label) => {
+          return this.getSlotEvents(label) || false;
+        })
+      );
+      return _.map(this.slots, (slot, label) => {
+        return this.getSlotEvents(label) || false;
+      });
+    },
+    unslotted: function() {
+      return _.omit(this.slots, this.slotted);
+    },
     event: function() {
       return this.getEventOfType(this.label, 'socket');
     },
-    ...mapGetters(['getSocket', 'getEventOfType', 'getSlotsForSocket']),
+    slotEvents: function() {
+      return this.getEventsOfType(this.label, 'ability', 'instance');
+    },
+    ...mapGetters([
+      'getSocket',
+      'getSlotEvents',
+      'getEventsOfType',
+      'getEventOfType',
+      'getSlotEvents',
+      'getSlotsForSocket',
+    ]),
   },
+  methods: {},
 };
 </script>
 
@@ -47,25 +75,27 @@ export default {
   <div class="socket-field">
     <socket-online v-if="event" :label="label"></socket-online>
     <socket-base v-else :label="label"></socket-base>
-    <socket-slot
-      v-for="(slot, index) in slots"
-      :key="index"
-      :label="index"
-    ></socket-slot>
+    <template v-if="true">
+      <ability-slotted
+        v-for="(slot, index) in slotted"
+        :label="slot.label"
+      ></ability-slotted>
+      <socket-slot
+        v-for="(slot, index) in unslotted"
+        :label="index"
+      ></socket-slot>
+    </template>
+    <!-- <template v-for="(slot, index) in slots">
+      <ability-slotting
+        v-if="false"
+        :key="index"
+        :slot="index"
+      ></ability-slotting>
+      <ability-slotted
+        v-if=""
+        :slotLabel="index"
+      ></ability-slotted>
+      
+    </template> -->
   </div>
 </template>
-
-<style lang="scss">
-.socket-field {
-  display: grid;
-  grid-template-rows: repeat(6, 1fr);
-  grid-template-columns: repeat(6, 1fr);
-  grid-template-areas:
-    '. a a b b .'
-    '. a a b b .'
-    'c c d d e e'
-    'c c d d e e'
-    '. f f g g .'
-    '. f f g g .';
-}
-</style>
