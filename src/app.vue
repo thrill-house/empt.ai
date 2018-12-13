@@ -35,7 +35,7 @@ export default {
     window.setTimeout(() => {
       this.addSocketEvent(this.initEvent);
       this.startSession();
-    }, 2000);
+    }, 3000);
   },
   data: () => ({
     abilityAvailableTweaker: 'neutral-1',

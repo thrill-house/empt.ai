@@ -4,27 +4,29 @@
 .socket-slot {
   @apply mx-1 -mt-hex/16;
 
-  &--top-left {
-    grid-area: a;
-  }
+  &--position {
+    &-top-left {
+      grid-area: a;
+    }
 
-  &--top-right {
-    grid-area: b;
-  }
+    &-top-right {
+      grid-area: b;
+    }
 
-  &--left {
-    grid-area: c;
-  }
+    &-left {
+      grid-area: c;
+    }
 
-  &--right {
-    grid-area: e;
-  }
+    &-right {
+      grid-area: e;
+    }
 
-  &--bottom-left {
-    grid-area: f;
-  }
+    &-bottom-left {
+      grid-area: f;
+    }
 
-  &--bottom-right {
-    grid-area: g;
+    &-bottom-right {
+      grid-area: g;
+    }
   }
 }

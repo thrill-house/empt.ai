@@ -2,18 +2,29 @@
  * Shared styles for BaseButton components.
  */
 .button {
-  @apply relative clip-corners text-light;
+  @apply relative
+  clip-corners
+  text-light
+  transition-all transition-duration-fast transition-timing-ease;
 
-  &--medium {
-    @apply p-2 text-xs;
+  &:hover {
+    @apply scale-button;
+  }
+
+  &--size {
+    &-medium {
+      @apply p-2 text-xs;
+    }
+  }
+
+  &--font,
+  &__label--font {
+    &-bold {
+      @apply uppercase font-bold;
+    }
   }
 
   @include --colors;
-
-  &--bold,
-  &__label {
-    @apply uppercase font-bold;
-  }
 
   &__progress {
     @apply block

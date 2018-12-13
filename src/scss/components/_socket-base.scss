@@ -51,4 +51,8 @@
   &__icon {
     @apply mb-2 order-1;
   }
+
+  &__era {
+    @apply mt-1 order-4 w-2;
+  }
 }

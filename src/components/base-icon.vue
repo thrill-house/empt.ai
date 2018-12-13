@@ -14,12 +14,21 @@ import svg from '../svg';
 
 export default {
   name: 'base-icon',
+  blockName: 'icon',
   props: {
     label: String,
+    color: {
+      type: [String, Boolean],
+      default: false,
+    },
+    size: {
+      type: [String, Boolean],
+      default: false,
+    },
   },
 };
 </script>
 
 <template>
-  <svg class="icon"><use :xlink:href="'#' + label"></use></svg>
+  <svg v-bem="{ color, size }"><use :xlink:href="'#' + label"></use></svg>
 </template>

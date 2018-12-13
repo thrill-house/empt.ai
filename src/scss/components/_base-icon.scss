@@ -1,40 +1,22 @@
 /**
- * Shared styles for BaseButton components.
+ * Shared styles for BaseIcon components.
  */
 .icon {
   @apply fill-current;
 
-  &--small {
-    @apply w-4 h-4;
-  }
+  &--size {
+    &-small {
+      @apply w-4 h-4;
+    }
 
-  &--medium {
-    @apply w-8 h-8;
-  }
-
-  &--large {
-    @apply w-16 h-16;
-  }
-
-  @include --colors('text');
-
-  &-container {
-    @apply inline-flex flex-no-shrink
-      justify-center items-center
-      rounded-full;
-
-    &--small {
+    &-medium {
       @apply w-8 h-8;
     }
 
-    &--medium {
+    &-large {
       @apply w-16 h-16;
     }
-
-    &--large {
-      @apply w-24 h-24;
-    }
-
-    @include --colors('bg', false, '-50');
   }
+
+  @include --colors($property: 'text');
 }

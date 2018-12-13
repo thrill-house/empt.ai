@@ -21,6 +21,7 @@ import BaseHexagon from './base-hexagon';
 
 export default {
   name: 'socket-base',
+  blockName: 'socket-base',
   store,
   components: {
     BaseButton,
@@ -30,6 +31,10 @@ export default {
   },
   props: {
     label: String,
+    color: {
+      type: [String, Boolean],
+      default: 'grey',
+    },
   },
   computed: {
     socket: function() {
@@ -81,38 +86,33 @@ export default {
 </script>
 
 <template>
-  <base-hexagon
-    class="socket-base socket-base--light hexagon--tile hexagon--grey"
-  >
-    <header class="socket-base__header">
-      <h4 class="socket-base__title">{{ socket.name }}</h4>
+  <base-hexagon v-bem="{ color }" :tile="true" :color="color">
+    <header v-bem:header>
+      <h4 v-bem:title>{{ socket.name }}</h4>
     </header>
-    <div class="socket-base__content">
+    <div v-bem:content>
       <slot>
         <base-button
-          class="button--medium button--bold"
-          :class="[affordable ? 'button--sky' : 'button--navy']"
+          v-bem:connect
+          size="medium"
+          :progress="affordability"
+          :color="affordable ? 'sky' : 'navy'"
           :disabled="!affordable"
           @click.once="activate()"
         >
-          <span
-            class="button__progress button__progress--sky"
-            :style="{ width: affordability + '%' }"
-          ></span>
-          <!-- <span class="relative z-10"> -->
-          <template v-if="costs.confidence > scores.confidence">
+          <template v-if="affordable">
             {{ $t('Costs') }} {{ costs.confidence | confidence }}
           </template>
           <template v-else>{{ $t('Connect') }}</template>
-          <!-- </span> -->
         </base-button>
       </slot>
     </div>
     <base-icon
-      class="icon--medium socket-base__icon"
+      v-bem:icon
+      size="medium"
+      :color="socket.tree"
       :label="socket.tree"
-      :class="`icon--${socket.tree}`"
     ></base-icon>
-    <base-era class="mt-1 order-4 w-2" :label="socket.era"></base-era>
+    <base-era v-bem:era :label="socket.era"></base-era>
   </base-hexagon>
 </template>

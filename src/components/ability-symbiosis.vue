@@ -12,29 +12,53 @@ An ability that has some sort of relationship (depends on or is depended on) wit
 <script>
 import store from '../store';
 
+import BaseBadge from './base-badge';
 import BaseIcon from './base-icon';
 
 export default {
   name: 'ability-symbiosis',
-  components: {
-    BaseIcon,
-  },
+  blockName: 'ability-symbiosis',
   props: {
     label: String,
+    color: {
+      type: [String, Boolean],
+      default: false,
+    },
+    iconColor: {
+      type: [String, Boolean],
+      default: 'light',
+    },
+    borderColor: {
+      type: [String, Boolean],
+      default: false,
+    },
+    borderSize: {
+      type: [String, Boolean],
+      default: false,
+    },
+  },
+  components: {
+    BaseBadge,
+    BaseIcon,
   },
 };
 </script>
 
 <template>
-  <div
-    class="ability-symbiosis w-8 h-8 rounded-full inline-flex items-center justify-center"
+  <base-badge
+    v-bem
+    size="small"
+    :color="color"
+    :borderColor="borderColor"
+    :borderSize="borderSize"
   >
     <base-icon
-      class="w-4 h-4 text-light"
+      v-bem:icon
+      :color="iconColor"
+      size="small"
       :label="label"
-      :class="['text-' + label]"
     ></base-icon>
-  </div>
+  </base-badge>
 </template>
 
 <style lang="scss">

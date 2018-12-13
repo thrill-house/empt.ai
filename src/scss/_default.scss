@@ -6,8 +6,10 @@
 @import '$variables';
 @import 'mixins';
 
+@import 'components/base-badge';
 @import 'components/base-icon';
 @import 'components/base-button';
+@import 'components/base-era';
 @import 'components/base-hexagon';
 
 @import 'components/socket-field';

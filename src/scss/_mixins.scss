@@ -1,13 +1,19 @@
-@mixin --colors($attribute: 'bg', $pseudo: false, $postfix: '') {
+@mixin --colors(
+  $property: 'bg',
+  $pseudo: false,
+  $postfix: '',
+  $modifier: 'color',
+  $delimit: '--'
+) {
   @each $label, $color in $colorList {
-    &--#{$label} {
+    &#{$delimit}#{$modifier}-#{$label} {
       @if $pseudo {
         &:#{$pseudo} {
-          @apply #{$attribute}-#{$label}#{$postfix};
+          @apply #{$property}-#{$label}#{$postfix};
           content: '';
         }
       } @else {
-        @apply #{$attribute}-#{$label}#{$postfix};
+        @apply #{$property}-#{$label}#{$postfix};
       }
     }
   }

@@ -897,11 +897,19 @@ module.exports = {
     require('tailwindcss-transforms')({
       translate: {
         '0': '0',
+        '1': '0.25rem',
+        '2': '0.5rem',
+        '3': '0.75rem',
+        '4': '1rem',
         full: '100%',
         screen: '100vh',
       },
       negativeTranslate: {
         '0': '0',
+        '1': '0.25rem',
+        '2': '0.5rem',
+        '3': '0.75rem',
+        '4': '1rem',
         full: '100%',
         screen: '100vh',
       },
@@ -910,6 +918,7 @@ module.exports = {
         '90': '0.9',
         '100': '1',
         '110': '1.1',
+        button: '1.05',
       },
       rotate: {
         '0': '0deg',
@@ -930,7 +939,10 @@ module.exports = {
     require('tailwindcss-filters')({
       variants: ['responsive'],
       filters: {
+        none: 'none',
         grayscale: 'grayscale(100%)',
+        shadow: `drop-shadow(0 2px 4px ${colors['dark-10']})`,
+        'shadow-md': `drop-shadow(0 4px 8px ${colors['dark-25']})`,
       },
       backdropFilters: {},
     }),

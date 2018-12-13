@@ -14,6 +14,7 @@ import store from '../store';
 import { mapState, mapGetters, mapActions } from 'vuex';
 
 import AbilitySymbiosis from './ability-symbiosis';
+import BaseBadge from './base-badge';
 import BaseEra from './base-era';
 import BaseFactor from './base-factor';
 import BaseIcon from './base-icon';
@@ -22,13 +23,15 @@ import SocketSlot from './socket-slot';
 
 export default {
   name: 'ability-slotted',
+  blockName: 'ability-slotted',
+  store,
   props: {
     instance: String,
     slotObject: Object,
   },
-  store,
   components: {
     AbilitySymbiosis,
+    BaseBadge,
     BaseEra,
     BaseFactor,
     BaseIcon,
@@ -43,7 +46,6 @@ export default {
       return this.slot.label;
     },
     abilityLabel: function() {
-      console.log(this.slot);
       return this.event.label;
     },
     ability: function() {
@@ -113,60 +115,39 @@ export default {
 
 <template>
   <socket-slot
-    class="ability-slotted hexagon--grey"
-    :class="[`ability-slotted--${treeMatch ? tree : 'light'}`]"
+    v-bem="{ color: treeMatch ? tree : 'light' }"
+    color="grey"
     :slotObject="slotObject"
   >
-    <div class="ability-slotted__content">
-      <div
-        class="ability-slotted__content-icon icon-container icon-container--large icon-container--light"
-        :class="[`icon-container--${tree}`]"
-      >
-        <!-- <div
-        :class="[
-          'ability-slotted' | el('content-icon'),
-          'icon' | dash('container') | mod(['large', 'light', tree]),
-        ]"
-      > -->
-        <base-icon
-          class="icon--large icon--light"
-          :label="abilityLabel"
-        ></base-icon>
-      </div>
-      <div class="ability-slotted__content-dependencies">
+    <div v-bem:content>
+      <base-badge v-bem:content-badge size="large" :color="tree">
+        <base-icon size="large" color="light" :label="abilityLabel" />
+      </base-badge>
+      <div v-bem:content-dependencies>
         <ability-symbiosis
+          v-bem:symbiosis
           v-for="(value, dependency, index) in dependencies"
-          class="border-2"
-          :class="[
-            'border-' + (hasValidSlotEvents(dependency) ? 'sky' : 'light'),
-            { 'mt-1': index > 0 },
-          ]"
+          :color="false"
+          :iconColor="hasValidSlotEvents(dependency) ? 'sky' : 'light'"
+          :borderColor="hasValidSlotEvents(dependency) ? 'sky' : 'light'"
+          borderSize="medium"
           :key="dependency"
           :label="dependency"
         ></ability-symbiosis>
       </div>
-      <div class="ability-slotted__content-dependants">
+      <div v-bem:content-dependants>
         <ability-symbiosis
+          v-bem:symbiosis
           v-for="(value, dependant, index) in dependants"
-          :class="[
-            'bg-' + (hasValidSlotEvents(dependant) ? 'sky' : 'grey-50'),
-            { 'mt-1': index > 0 },
-          ]"
+          :color="hasValidSlotEvents(dependant) ? 'sky' : 'grey'"
           :key="dependant"
           :label="dependant"
         ></ability-symbiosis>
       </div>
     </div>
-    <div
-      class="ability-slotted__tree icon-container icon-container--small"
-      :class="[`icon-container--${treeMatch ? tree : 'grey'}`]"
-    >
-      <base-icon
-        class="icon--small"
-        :class="`icon--${tree}`"
-        :label="tree"
-      ></base-icon>
-    </div>
-    <base-era class="ability-slotted__era" :label="ability.era"></base-era>
+    <base-badge v-bem:tree size="small" :color="treeMatch ? tree : 'grey'">
+      <base-icon size="small" :color="tree" :label="tree" />
+    </base-badge>
+    <base-era v-bem:era :label="ability.era" />
   </socket-slot>
 </template>

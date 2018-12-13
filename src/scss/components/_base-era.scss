@@ -1,0 +1,12 @@
+/**
+ * Shared styles for BaseButton components.
+ */
+.era {
+  @apply flex flex-col-reverse items-center w-2;
+
+  &__stage {
+    @apply w-full h-1 my-px inline-block;
+
+    @include --colors;
+  }
+}

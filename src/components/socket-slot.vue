@@ -20,6 +20,7 @@ import EmotionDiagram from './emotion-diagram';
 
 export default {
   name: 'socket-slot',
+  blockName: 'socket-slot',
   store,
   components: {
     AbilitySlotted,
@@ -29,6 +30,10 @@ export default {
   },
   props: {
     slotObject: Object,
+    color: {
+      type: [String, Boolean],
+      default: 'ash',
+    },
   },
   data: function() {
     return {
@@ -103,10 +108,7 @@ export default {
 </script>
 
 <template>
-  <base-hexagon
-    class="socket-slot hexagon--tile hexagon--ash"
-    :class="[`socket-slot--${slot.position}`]"
-  >
+  <base-hexagon v-bem="{ position: slot.position }" :tile="true" :color="color">
     <slot></slot>
     <!-- <ability-slotted
       v-if="event && abilityInstance && (!slottingLabel || !hover)"

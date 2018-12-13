@@ -15,6 +15,7 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'base-era',
+  blockName: 'era',
   props: {
     label: String,
   },
@@ -31,11 +32,10 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-col-reverse items-center">
+  <div v-bem>
     <span
       v-for="n in total"
-      class="w-full h-1 my-px inline-block"
-      :class="['bg-' + (stage >= n ? 'sky' : 'grey-50')]"
+      v-bem:stage="{ color: stage >= n ? 'sky' : 'grey' }"
     ></span>
   </div>
 </template>

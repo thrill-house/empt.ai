@@ -1,0 +1,42 @@
+/**
+ * Shared styles for BaseBadge components.
+ */
+.badge {
+  @apply inline-flex flex-no-shrink
+      justify-center items-center
+      rounded-full;
+
+  &--size {
+    &-small {
+      @apply w-8 h-8;
+    }
+
+    &-medium {
+      @apply w-16 h-16;
+    }
+
+    &-large {
+      @apply w-24 h-24;
+    }
+  }
+
+  @include --colors($property: 'bg', $postfix: '-50');
+
+  &--border {
+    &-size {
+      &-small {
+        @apply border;
+      }
+
+      &-medium {
+        @apply border-2;
+      }
+
+      &-large {
+        @apply border-4;
+      }
+    }
+
+    @include --colors($property: 'border', $delimit: '-');
+  }
+}

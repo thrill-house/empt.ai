@@ -6,7 +6,7 @@
   justify-center items-center
   px-2;
 
-  @include --colors('bg', 'after', '-75');
+  @include --colors($property: 'bg', $pseudo: 'after', $postfix: '-75');
 
   &:before {
     @apply m-1;
@@ -22,7 +22,7 @@
     w-full
     order-2;
 
-    &-icon {
+    &-badge {
       @apply order-2;
     }
 
@@ -32,6 +32,10 @@
         justify-center
         flex-no-shrink
         w-8;
+
+      * + * {
+        @apply mt-1;
+      }
     }
 
     &-dependencies {
@@ -50,6 +54,6 @@
   }
 
   &__era {
-    @apply mt-2 w-2 order-3;
+    @apply mt-2 order-3;
   }
 }

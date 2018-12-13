@@ -20,6 +20,7 @@ import SocketBase from './socket-base';
 
 export default {
   name: 'socket-online',
+  blockName: 'socket-base',
   store,
   components: {
     BaseButton,
@@ -42,12 +43,8 @@ export default {
 </script>
 
 <template>
-  <socket-base
-    class="socket-base--online"
-    :class="[`socket-base--${socket.tree}`, `hexagon--${socket.tree}`]"
-    :label="label"
-  >
-    <div class="socket-base__factors">
+  <socket-base v-bem.online :color="socket.tree" :label="label">
+    <div v-bem:factors>
       <base-factor
         v-for="(value, factor) in factors"
         :key="factor"
@@ -55,11 +52,7 @@ export default {
         :value="value.base"
       ></base-factor>
     </div>
-    <base-button
-      class="socket-base__challenge button--sky button--medium button--bold"
-    >
-      {{ $t('Challenge') }}
-    </base-button>
+    <base-button v-bem:challenge> {{ $t('Challenge') }} </base-button>
   </socket-base>
 </template>
 
