@@ -26,7 +26,8 @@ export default {
   blockName: 'ability-slotted',
   store,
   props: {
-    instance: String,
+    abilityLabel: String,
+    instance: [String, Boolean],
     slotObject: Object,
   },
   components: {
@@ -44,9 +45,6 @@ export default {
     },
     label: function() {
       return this.slot.label;
-    },
-    abilityLabel: function() {
-      return this.event.label;
     },
     ability: function() {
       return this.getAbility(this.abilityLabel);

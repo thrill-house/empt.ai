@@ -14,7 +14,7 @@ import store from '../store';
 import { mapGetters } from 'vuex';
 
 import AbilitySlotted from './ability-slotted';
-//import AbilitySlotting from './ability-slotting';
+import AbilitySlotting from './ability-slotting';
 import SocketBase from './socket-base';
 import SocketOnline from './socket-online';
 import SocketSlot from './socket-slot';
@@ -24,7 +24,7 @@ export default {
   store,
   components: {
     AbilitySlotted,
-    //AbilitySlotting,
+    AbilitySlotting,
     SocketBase,
     SocketOnline,
     SocketSlot,
@@ -33,6 +33,9 @@ export default {
     label: String,
   },
   computed: {
+    interaction: function() {
+      return this.getInteraction('slot');
+    },
     socket: function() {
       return this.getSocket(this.label);
     },
@@ -49,6 +52,9 @@ export default {
     unslotted: function() {
       return _.omit(this.slots, _.keys(this.slotted));
     },
+    slotting: function() {
+      return _.merge(this.slotted, this.unslotted);
+    },
     event: function() {
       return this.getEventOfType(this.label, 'socket');
     },
@@ -63,6 +69,7 @@ export default {
       'getEventOfType',
       'getSlotEvents',
       'getSlotsForSocket',
+      'getInteraction',
     ]),
   },
   methods: {},
@@ -73,10 +80,20 @@ export default {
   <div class="socket-field">
     <socket-online v-if="event" :label="label"></socket-online>
     <socket-base v-else :label="label"></socket-base>
-    <template v-if="true">
+    <template v-if="event && interaction">
+      <ability-slotting
+        v-for="(slot, index) in slotting"
+        :key="index"
+        :abilityLabel="interaction.label"
+        :instance="interaction.instance"
+        :slotObject="slot"
+      ></ability-slotting>
+    </template>
+    <template v-else>
       <ability-slotted
         v-for="(slot, index) in slotted"
         :key="index"
+        :abilityLabel="slot.event.ability"
         :instance="slot.event.instance"
         :slotObject="slot"
       ></ability-slotted>
@@ -86,17 +103,5 @@ export default {
         :slotObject="slot"
       ></socket-slot>
     </template>
-    <!-- <template v-for="(slot, index) in slots">
-      <ability-slotting
-        v-if="false"
-        :key="index"
-        :slot="index"
-      ></ability-slotting>
-      <ability-slotted
-        v-if=""
-        :slotLabel="index"
-      ></ability-slotted>
-      
-    </template> -->
   </div>
 </template>
