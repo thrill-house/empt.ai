@@ -29,6 +29,10 @@ export default {
     abilityLabel: String,
     instance: [String, Boolean],
     slotObject: Object,
+    installing: {
+      type: Boolean,
+      default: false,
+    },
   },
   components: {
     AbilitySymbiosis,
@@ -113,7 +117,7 @@ export default {
 
 <template>
   <socket-slot
-    v-bem="{ color: treeMatch ? tree : 'light' }"
+    v-bem="{ color: treeMatch ? tree : 'light', installing: installing }"
     color="grey"
     :slotObject="slotObject"
   >

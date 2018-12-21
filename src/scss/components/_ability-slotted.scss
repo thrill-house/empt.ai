@@ -56,4 +56,8 @@
   &__era {
     @apply mt-2 order-3;
   }
+
+  &--installing &__content-badge {
+    animation: tada 1.5s infinite;
+  }
 }

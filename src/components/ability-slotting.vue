@@ -14,6 +14,7 @@ import store from '../store';
 import { mapState, mapGetters, mapActions } from 'vuex';
 
 import AbilitySlotted from './ability-slotted';
+import BaseButton from './base-button';
 import SocketSlot from './socket-slot';
 
 export default {
@@ -22,6 +23,7 @@ export default {
   store,
   components: {
     AbilitySlotted,
+    BaseButton,
     SocketSlot,
   },
   props: {
@@ -33,6 +35,32 @@ export default {
     hover: false,
   }),
   computed: {
+    label: function() {
+      return this.slotObject.label;
+    },
+    component: function() {
+      return this.hover || this.slotEvent ? 'ability-slotted' : 'socket-slot';
+    },
+    component: function() {
+      return this.hover || this.slotEvent ? 'ability-slotted' : 'socket-slot';
+    },
+    slotEvent: function() {
+      return this.slotObject.event || false;
+    },
+    slotInstance: function() {
+      return this.hover
+        ? this.instance
+        : this.slotEvent
+        ? this.slotEvent.instance
+        : false;
+    },
+    newEvent: function() {
+      return {
+        label: this.label,
+        ability: this.abilityLabel,
+        instance: this.instance,
+      };
+    },
     ...mapState({
       abilities: (state) => state.abilities.list,
     }),
@@ -50,30 +78,28 @@ export default {
     ]),
   },
   methods: {
-    clearSlotEvent: function() {
-      this.addSlotEvent({
-        label: this.slotEvent.label,
-        ability: this.slotEvent.ability,
-        instance: '',
-      });
+    addEvent: function() {
+      console.log(this.newEvent);
+      if (this.addSlotEvent(this.newEvent)) {
+        this.resetInteraction('slot');
+      }
     },
-    ...mapActions(['addSlotEvent']),
+    ...mapActions(['addSlotEvent', 'resetInteraction']),
   },
 };
 </script>
 
 <template>
-  <ability-slotted
-    v-if="hover"
-    :abilityLabel="abilityLabel"
-    :slotObject="slotObject"
-    :instance="instance"
-  ></ability-slotted>
-  <ability-slotted
-    v-else-if="slotObject.event"
-    :abilityLabel="abilityLabel"
-    :slotObject="slotObject"
-    :instance="slotObject.event.instance"
-  ></ability-slotted>
-  <socket-slot v-else :slotObject="slotObject"></socket-slot>
+  <keep-alive>
+    <component
+      :is="component"
+      :abilityLabel="abilityLabel"
+      :slotObject="slotObject"
+      :instance="slotInstance"
+      :installing="hover"
+      @mouseenter.native="hover = true"
+      @mouseleave.native="hover = false"
+      @click.native="addEvent(abilityLabel, instance)"
+    ></component>
+  </keep-alive>
 </template>

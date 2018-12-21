@@ -140,23 +140,19 @@ export default {
         this.adjust(complement, amount * -1);
       }
     },
-    confirm: function(label) {
+    confirm: function() {
       if (this.sumEmotions === this.requiredEmotions) {
         var event = _.defaults(this.newEvent, {
           instance: this.label + '-' + _.now(),
         });
 
-        this.dialog = false;
-        this.emotions = _.mapValues(this.emotions, () => 0);
-
         this.addAbilityEvent(event);
-
-        this.cancel();
         this.setInteraction({
           interaction: 'slot',
-          label: label,
+          label: this.label,
           instance: event.instance,
         });
+        this.cancel();
       } else {
         alert('Fill in all emotions');
       }
@@ -165,6 +161,7 @@ export default {
       this.emotions = _.mapValues(this.emotions, () => 0);
     },
     cancel: function() {
+      this.dialog = false;
       this.resetEmotions();
       this.resetInteraction('research');
     },

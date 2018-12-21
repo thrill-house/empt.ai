@@ -80,7 +80,7 @@ export default {
   <div class="socket-field">
     <socket-online v-if="event" :label="label"></socket-online>
     <socket-base v-else :label="label"></socket-base>
-    <template v-if="event && interaction">
+    <template v-if="interaction">
       <ability-slotting
         v-for="(slot, index) in slotting"
         :key="index"
