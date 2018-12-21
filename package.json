@@ -1,9 +1,9 @@
 {
-  "name": "project-empatic-vue-components",
-  "description": "Vue.js components for Project EMPATIC",
+  "name": "project-empatis-components",
+  "description": "Vue.js components for Project EMPATIS",
   "version": "0.1.0",
   "author": "info@michaelpierce.trade",
-  "url": "git@git.thrill.house:dash-game/vue-components.git",
+  "url": "git@git.thrill.house:project-empatis/components.git",
   "license": "MIT",
   "private": true,
   "scripts": {

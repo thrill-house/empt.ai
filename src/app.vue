@@ -252,8 +252,8 @@ export default {
     <header class="w-full flex items-center text-light">
       <div class="w-32"><img src="/assets/img/logo.png" /></div>
       <div class="docs keep p-4">
-        <h1>Project EMPATIS — Vue components</h1>
-        <h2>Component library of user interface elements.</h2>
+        <h1>Project EMPATIS — Components</h1>
+        <h2>Vue.js component library of user interface elements.</h2>
         <button
           class="font-bold text-xs mt-4 mr-4 py-2 px-4 rounded bg-sky text-light"
           @click="toggleDocs()"
