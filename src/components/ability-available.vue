@@ -15,7 +15,7 @@ import { mapState, mapGetters, mapActions } from 'vuex';
 
 import AbilityInstallable from './ability-installable';
 import AbilityResearchable from './ability-researchable';
-import AbilitySymbiosis from './ability-symbiosis';
+import AbilitySymbioses from './ability-symbioses';
 import BaseEra from './base-era';
 import BaseFactor from './base-factor';
 import BaseIcon from './base-icon';
@@ -26,7 +26,7 @@ export default {
   components: {
     AbilityInstallable,
     AbilityResearchable,
-    AbilitySymbiosis,
+    AbilitySymbioses,
     BaseEra,
     BaseFactor,
     BaseIcon,
@@ -138,22 +138,16 @@ export default {
     </div>
     <div v-show="hover" class="flex relative z-10 py-1 pl-16 pr-2 ml-16 h-16">
       <div class="flex flex-wrap justify-between w-1/2 pr-1">
-        <ability-symbiosis
-          v-for="(value, dependency, index) in dependencies"
-          class="border-2 border-sky"
-          :key="dependency"
-          :label="dependency"
-          :class="{ 'mx-auto -mt-2': index === 2 }"
-        ></ability-symbiosis>
+        <ability-symbioses
+          :symbiotes="dependencies"
+          type="dependency"
+        ></ability-symbioses>
       </div>
       <div class="flex flex-wrap justify-between content-start w-1/2 pl-1">
-        <ability-symbiosis
-          v-for="(value, dependant, index) in dependants"
-          class="bg-sky"
-          :key="dependant"
-          :label="dependant"
-          :class="{ 'mx-auto -mt-2': index === 2 }"
-        ></ability-symbiosis>
+        <ability-symbioses
+          :symbiotes="dependants"
+          type="dependant"
+        ></ability-symbioses>
       </div>
     </div>
     <div

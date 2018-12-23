@@ -13,7 +13,7 @@ The enabled or installing ability is shown within a socket slot.
 import store from '../store';
 import { mapState, mapGetters, mapActions } from 'vuex';
 
-import AbilitySymbiosis from './ability-symbiosis';
+import AbilitySymbioses from './ability-symbioses';
 import BaseBadge from './base-badge';
 import BaseEra from './base-era';
 import BaseFactor from './base-factor';
@@ -35,7 +35,7 @@ export default {
     },
   },
   components: {
-    AbilitySymbiosis,
+    AbilitySymbioses,
     BaseBadge,
     BaseEra,
     BaseFactor,
@@ -127,29 +127,16 @@ export default {
           <base-icon size="large" color="light" :label="abilityLabel" />
         </slot>
       </base-badge>
-      <!-- <div v-bem:content-dependencies>
-        <ability-symbiosis
-          v-bem:symbiosis
-          v-if="dependencies"
-          v-for="(value, dependency, index) in dependencies"
-          :color="false"
-          :iconColor="hasValidSlotEvents(dependency) ? 'sky' : 'light'"
-          :borderColor="hasValidSlotEvents(dependency) ? 'sky' : 'light'"
-          borderSize="medium"
-          :key="dependency"
-          :label="dependency"
-        ></ability-symbiosis>
-      </div>
-      <div v-bem:content-dependants>
-        <ability-symbiosis
-          v-bem:symbiosis
-          v-if="dependants"
-          v-for="(value, dependant, index) in dependants"
-          :color="hasValidSlotEvents(dependant) ? 'sky' : 'grey'"
-          :key="dependant"
-          :label="dependant"
-        ></ability-symbiosis>
-      </div> -->
+      <ability-symbioses
+        v-bem:content-dependencies
+        type="dependency"
+        :symbiotes="dependencies"
+      ></ability-symbioses>
+      <ability-symbioses
+        v-bem:content-dependants
+        type="dependant"
+        :symbiotes="dependants"
+      ></ability-symbioses>
     </div>
     <base-badge v-bem:tree size="small" :color="treeMatch ? tree : 'grey'">
       <base-icon size="small" :color="tree" :label="tree" />
