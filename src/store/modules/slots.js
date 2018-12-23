@@ -249,7 +249,10 @@ const getters = {
     return state[label];
   },
   getSlotEvents: (state, getters) => (label) => {
-    return _.filter(getters.getEvents(), { type: 'slot', label: label });
+    return _.filter(getters.getValidEvents(), { type: 'slot', label: label });
+  },
+  getSlotEvent: (state, getters) => (label) => {
+    return _.head(getters.getSlotEvents(label));
   },
   getValidSlotEvents: (state, getters) => (abilityLabel = '') => {
     var filter = { type: 'slot', target: 'ability' };

@@ -1333,7 +1333,7 @@ const getters = {
       }
     }
 
-    return false;
+    return {};
   },
   getAbilityEvents: (state, getters) => (label) => {
     return getters.getEventsOfType(label, 'ability');

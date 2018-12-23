@@ -1,5 +1,6 @@
 import _ from 'lodash';
 
+/*
 let debugEvents = {
   '1541758580990': {
     type: 'socket',
@@ -47,13 +48,14 @@ let debugEvents = {
     finalScore: { data: 53, confidence: 4.6 },
   },
 };
+*/
 
 const state = {
   start: _.now(),
   now: _.now(),
   interval: false,
-  events: debugEvents,
-  //events: {},
+  // events: debugEvents,
+  events: {},
   labelsEnabled: false,
   interactions: {
     research: false,

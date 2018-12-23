@@ -9,7 +9,7 @@ import AbilityAvailable from './components/ability-available';
 import AbilityInstall from './components/ability-install';
 import AbilityPurchaseable from './components/ability-purchaseable';
 import AbilityResearch from './components/ability-research';
-import AbilitySlotted from './components/ability-slotted';
+import AbilitySlot from './components/ability-slot';
 import EmotionDiagram from './components/emotion-diagram';
 import EmotionProfile from './components/emotion-profile';
 import SocketField from './components/socket-field';
@@ -29,34 +29,13 @@ import TheTime from './components/the-time';
 
 export default {
   name: 'app',
-  created: function() {
-    this.initSockets();
-    this.initAbilities();
-    window.setTimeout(() => {
-      this.addSocketEvent(this.initEvent);
-      this.startSession();
-    }, 3000);
-  },
-  data: () => ({
-    abilityAvailableTweaker: 'neutral-1',
-    abilitySlottedTweaker: 'neutral-1',
-    emotionDiagramAngerTweaker: 1,
-    emotionDiagramExcitementTweaker: 1,
-    emotionDiagramFearTweaker: 1,
-    emotionDiagramHappinessTweaker: 1,
-    emotionDiagramSadnessTweaker: 1,
-    emotionDiagramTendernessTweaker: 1,
-    sessionDurationTweaker: 0,
-    socketFieldTweaker: 'root',
-    socketSlotTweaker: 'root-1',
-  }),
   store,
   components: {
     AbilityAvailable,
     AbilityInstall,
     AbilityPurchaseable,
     AbilityResearch,
-    AbilitySlotted,
+    AbilitySlot,
     EmotionDiagram,
     EmotionProfile,
     SocketField,
@@ -98,6 +77,27 @@ export default {
     theStoryToggle: { type: Boolean },
     theTimeToggle: { type: Boolean },
   },
+  created: function() {
+    this.initSockets();
+    this.initAbilities();
+    window.setTimeout(() => {
+      this.addSocketEvent(this.initEvent);
+      this.startSession();
+    }, 3000);
+  },
+  data: () => ({
+    abilityAvailableTweaker: 'chat-buddy',
+    abilitySlottedTweaker: 'chat-buddy',
+    emotionDiagramAngerTweaker: 1,
+    emotionDiagramExcitementTweaker: 1,
+    emotionDiagramFearTweaker: 1,
+    emotionDiagramHappinessTweaker: 1,
+    emotionDiagramSadnessTweaker: 1,
+    emotionDiagramTendernessTweaker: 1,
+    sessionDurationTweaker: 0,
+    socketFieldTweaker: 'root',
+    socketSlotTweaker: 'root-left',
+  }),
   computed: {
     docs: function() {
       return _.transform(this.$options.components, function(result, component) {
@@ -537,13 +537,13 @@ export default {
           <label>Data Socket</label>
           <select v-model="socketFieldTweaker">
             <option disabled value="">Choose</option>
-            <option v-for="(socketField, index) in sockets" :value="index">
+            <option v-for="(socketField, index) in sockets.list" :value="index">
               {{ socketField.name }}
             </option>
           </select>
         </div>
       </header>
-      <!-- <socket-field :label="socketFieldTweaker"></socket-field> -->
+      <socket-field :label="socketFieldTweaker"></socket-field>
     </section>
 
     <!--
@@ -628,7 +628,7 @@ export default {
           </select>
         </div>
       </header>
-      <!-- <ability-slotted :instance="abilitySlottedTweaker"></ability-slotted> -->
+      <!-- <ability-slot :instance="abilitySlottedTweaker"></ability-slot> -->
     </section>
 
     <!--
