@@ -65,12 +65,13 @@ const getters = {
 
     return score;
   },
-  getFactors: (state, getters) => (
+  calculateFactors: (state, getters) => (
     event,
     factors = _.defaults({}, state.FACTORS_INIT)
   ) => {
     if (event !== undefined) {
       var eventObject = getters.getEventObject(event);
+
       if (eventObject && eventObject.factors) {
         _.each(eventObject.factors, (factor, key) => {
           var base = factor.base || 0;
@@ -114,7 +115,7 @@ const getters = {
     var factors = _.defaults({}, state.FACTORS_INIT);
 
     _.each(events, function(event) {
-      factors = getters.getFactors(event, factors);
+      factors = getters.calculateFactors(event, factors);
     });
 
     return factors;
