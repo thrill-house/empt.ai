@@ -56,8 +56,3 @@ export default {
     ></ability-available>
   </div>
 </template>
-
-<style lang="scss">
-.the-abilities {
-}
-</style>

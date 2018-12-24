@@ -174,8 +174,9 @@ export default {
     >
       <base-icon
         class="w-6 h-6"
-        :label="ability.type"
-        :class="'text-' + ability.type"
+        :label="ability.tree"
+        :color="ability.tree"
+        size="medium"
       ></base-icon>
     </div>
     <span class="circle-a"></span>
