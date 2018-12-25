@@ -24,15 +24,14 @@ const getters = {
   ) => {
     let score = previous,
       firstEvent = _.first(events),
+      eventScore = firstEvent ? firstEvent.finalScore : {},
       remainingEvents = _.tail(events),
       nextEvent = _.first(remainingEvents),
       nextTimestamp =
         nextEvent !== undefined ? nextEvent.timestamp : before - 1;
 
     if (firstEvent !== undefined) {
-      let eventScore = {};
-
-      if (firstEvent.finalScore === undefined) {
+      if (eventScore === undefined) {
         let duration = getters.getDuration(firstEvent.timestamp, nextTimestamp),
           factors = (firstEvent.factors =
             firstEvent.factors === undefined
@@ -44,11 +43,9 @@ const getters = {
           confidence:
             duration * factors.influence - firstEvent.costs.confidence,
         };
-      } else {
-        eventScore = firstEvent.finalScore;
       }
 
-      let score = {
+      score = {
         data: eventScore.data + previous.data,
         confidence: eventScore.confidence + previous.confidence,
       };
