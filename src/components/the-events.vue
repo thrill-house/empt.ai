@@ -14,19 +14,19 @@ import { mapState, mapGetters } from 'vuex';
 export default {
   name: 'the-events',
   store,
-  data: function() {
+  data() {
     return {
       off: true,
     };
   },
   computed: {
-    start: function() {
+    start() {
       return this.session.start;
     },
-    now: function() {
+    now() {
       return this.session.now;
     },
-    events: function() {
+    events() {
       return this.getEvents();
     },
     ...mapState(['session', 'eras']),

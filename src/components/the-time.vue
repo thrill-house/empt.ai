@@ -15,7 +15,7 @@ export default {
   name: 'the-time',
   store,
   computed: {
-    elapsed: function() {
+    elapsed() {
       return this.now - this.start;
     },
     ...mapState({

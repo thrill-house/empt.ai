@@ -77,7 +77,7 @@ export default {
     theStoryToggle: { type: Boolean },
     theTimeToggle: { type: Boolean },
   },
-  created: function() {
+  created() {
     this.initSockets();
     this.initAbilities();
     window.setTimeout(() => {
@@ -99,12 +99,12 @@ export default {
     socketSlotTweaker: 'root-left',
   }),
   computed: {
-    docs: function() {
+    docs() {
       return _.transform(this.$options.components, function(result, component) {
         result[_.camelCase(component.name)] = component.__docs;
       });
     },
-    initEvent: function() {
+    initEvent() {
       return {
         type: 'socket',
         label: 'root',
@@ -134,13 +134,13 @@ export default {
     ]),
   },
   methods: {
-    toggle: function(section) {
+    toggle(section) {
       this[section] = !this[section];
     },
-    toggleDocs: function() {
+    toggleDocs() {
       this.docsToggle = !this.docsToggle;
     },
-    randomSocket: function() {
+    randomSocket() {
       let active = _.map(this.getActiveSockets(), 'label'),
         labels = _.shuffle(_.difference(_.keys(this.sockets), active)),
         socketEvent = false;
@@ -167,7 +167,7 @@ export default {
 
       return true;
     },
-    randomAbility: function() {
+    randomAbility() {
       let label = _.sample(_.keys(this.abilities.list)),
         abilityEvent = {
           type: 'ability',
@@ -194,7 +194,7 @@ export default {
 
       return true;
     },
-    randomSlot: function() {
+    randomSlot() {
       let socketLabel = _.sample(_.map(this.getActiveSockets(), 'label')),
         slotLabel = _.sample(_.keys(this.getSlotsForSocket(socketLabel))),
         abilityEvent = _.sample(this.getAllEventsOfType('ability')),
@@ -230,7 +230,7 @@ export default {
     ]),
   },
   watch: {
-    sessionDurationTweaker: function(value) {
+    sessionDurationTweaker(value) {
       let oldStart = this.getStart(),
         newStart = this.getNow() - value,
         events = _.map(this.getEvents(), function(event) {

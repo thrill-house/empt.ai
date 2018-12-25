@@ -29,7 +29,7 @@ export default {
   props: {
     emotions: {
       type: Object,
-      validator: function(value) {
+      validator(value) {
         return _.every(
           ['happiness', 'sadness', 'excitement', 'fear', 'tenderness', 'anger'],
           _.partial(_.has, value)
@@ -51,13 +51,13 @@ export default {
     scale: Number,
   },
   computed: {
-    max: function() {
+    max() {
       return _.max(_.filter(_.values(this.emotions), _.isFinite));
     },
-    maxScale: function() {
+    maxScale() {
       return this.scale || this.max;
     },
-    positions: function() {
+    positions() {
       let emotions = this.emotions;
       return {
         excitement: this.calculateRatio(emotions.excitement, 30),
@@ -68,18 +68,18 @@ export default {
         anger: this.calculateRatio(emotions.anger, 330),
       };
     },
-    pairs: function() {
+    pairs() {
       return this.createPairs(this.positions);
     },
-    coordinates: function() {
+    coordinates() {
       return this.createCoordinates(this.positions);
     },
-    coordinatesPoints: function() {
+    coordinatesPoints() {
       return this.joinCoordinates(this.coordinates);
     },
   },
   methods: {
-    calculateRatio: function(emotion, degree) {
+    calculateRatio(emotion, degree) {
       let degreeUnit = math.unit(degree, 'deg'),
         circleSin = math.sin(degreeUnit),
         circleCos = math.cos(degreeUnit),
@@ -96,7 +96,7 @@ export default {
         ratio: emotionRatio,
       };
     },
-    createPairs: function(positions) {
+    createPairs(positions) {
       let paired = _.transform(
         positions,
         function(result, value, position) {
@@ -114,12 +114,12 @@ export default {
 
       return paired;
     },
-    createCoordinates: function(positions, x = 'x', y = 'y') {
+    createCoordinates(positions, x = 'x', y = 'y') {
       return _.map(positions, function(value, position) {
         return [value[x], value[y]];
       });
     },
-    joinCoordinates: function(
+    joinCoordinates(
       coordinates,
       postFix = '',
       pointsJoin = ',',

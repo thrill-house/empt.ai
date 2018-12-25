@@ -25,52 +25,52 @@ export default {
     highlightedEvent: false,
   }),
   computed: {
-    interaction: function() {
+    interaction() {
       return this.getInteraction('install');
     },
-    label: function() {
+    label() {
       return this.interaction.label;
     },
-    show: function() {
+    show() {
       return this.interaction !== false && this.label !== false;
     },
-    ability: function() {
+    ability() {
       return this.getAbility(this.label);
     },
-    events: function() {
+    events() {
       return this.getAbilityEvents(this.label);
     },
-    installed: function() {
+    installed() {
       return this.getAbilitySlotEvents(this.label);
     },
-    installedInstances: function() {
+    installedInstances() {
       return _.map(this.installed, 'instance');
     },
-    era: function() {
+    era() {
       return this.ability.era;
     },
-    eraActive: function() {
+    eraActive() {
       return this.isEraActive(this.era);
     },
-    affordability: function() {
+    affordability() {
       return _.clamp((this.scores.data / this.costs.data) * 100, 0, 100);
     },
-    affordable: function() {
+    affordable() {
       return this.affordability === 100;
     },
-    costs: function() {
+    costs() {
       return this.getSlotCosts(this.newEvent);
     },
-    scores: function() {
+    scores() {
       return this.getScores();
     },
-    submittable: function() {
+    submittable() {
       return this.affordable && this.selectedEvent !== false;
     },
-    emotionProfile: function() {
+    emotionProfile() {
       return this.getEmotions();
     },
-    emotions: function() {
+    emotions() {
       let combineEmotions =
         this.highlightedEvent.emotions || this.selectedEvent.emotions;
 
@@ -87,23 +87,23 @@ export default {
         _.add
       );
     },
-    newEvent: function() {
+    newEvent() {
       return {
         type: 'slot',
         target: 'ability',
         ability: this.label,
       };
     },
-    slotting: function() {
+    slotting() {
       return this.getInteraction('slottingAbility');
     },
-    slottingLabel: function() {
+    slottingLabel() {
       return this.slotting ? this.slotting.label : '';
     },
-    installing: function() {
+    installing() {
       return this.getInteraction('installingAbility');
     },
-    installingLabel: function() {
+    installingLabel() {
       return this.installing ? this.installing.label : '';
     },
     ...mapState(['abilities']),
@@ -118,39 +118,39 @@ export default {
     ]),
   },
   methods: {
-    isSelected: function(event) {
+    isSelected(event) {
       return event ? this.selectedEvent.instance === event.instance : false;
     },
-    isInstalled: function(event) {
+    isInstalled(event) {
       return event
         ? _.includes(this.installedInstances, event.instance)
         : false;
     },
-    isInstalledDeselected: function(event) {
+    isInstalledDeselected(event) {
       return this.isInstalled(event) && !this.isSelected(event);
     },
-    select: function(event) {
+    select(event) {
       if (this.selectedEvent !== event) {
         this.selectedEvent = event;
       } else {
         this.deselect();
       }
     },
-    deselect: function() {
+    deselect() {
       this.selectedEvent = false;
     },
-    highlight: function(event) {
+    highlight(event) {
       this.highlightedEvent = event;
     },
-    lowlight: function() {
+    lowlight() {
       this.highlightedEvent = false;
     },
-    cancel: function() {
+    cancel() {
       this.deselect();
       this.lowlight();
       this.resetInteraction('install');
     },
-    confirm: function() {
+    confirm() {
       this.setInteraction({
         interaction: 'slot',
         label: this.label,
@@ -159,7 +159,7 @@ export default {
       });
       this.cancel();
     },
-    tweakEmotions: function(emotions) {
+    tweakEmotions(emotions) {
       return _.mapValues(emotions, function(emotion) {
         return emotion === 0 ? 0.1 : emotion;
       });

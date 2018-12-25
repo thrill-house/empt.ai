@@ -20,10 +20,10 @@ export default {
     label: String,
   },
   computed: {
-    stage: function() {
+    stage() {
       return this.getStage(this.label);
     },
-    total: function() {
+    total() {
       return this.getStages();
     },
     ...mapGetters(['getStage', 'getStages']),

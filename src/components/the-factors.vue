@@ -15,7 +15,7 @@ export default {
   name: 'the-factors',
   store,
   computed: {
-    factors: function() {
+    factors() {
       return this.getFactors();
     },
     ...mapGetters(['getFactors']),

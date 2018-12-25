@@ -19,13 +19,13 @@ export default {
     AbilityAvailable,
   },
   computed: {
-    selectedAbility: function() {
+    selectedAbility() {
       return this.getInteraction('selectedAbility');
     },
-    selectedLabel: function() {
+    selectedLabel() {
       return this.selectedAbility ? this.selectedAbility.label : '';
     },
-    selectedInstance: function() {
+    selectedInstance() {
       return this.selectedAbility ? this.selectedAbility.instance : '';
     },
     ...mapState({
@@ -34,7 +34,7 @@ export default {
     ...mapGetters(['getInteraction']),
   },
   methods: {
-    selectAbility: function(label, instance) {
+    selectAbility(label, instance) {
       this.setInteraction({
         interaction: 'selectedAbility',
         label: label,

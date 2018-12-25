@@ -48,31 +48,31 @@ export default {
     },
   }),
   computed: {
-    ability: function() {
+    ability() {
       return this.getAbility(this.label);
     },
-    installed: function() {
+    installed() {
       return this.getAbilitySlotEvents(this.label);
     },
-    installedInstances: function() {
+    installedInstances() {
       return _.map(this.installed, 'instance');
     },
-    remaining: function() {
+    remaining() {
       return this.total - this.installed.length;
     },
-    total: function() {
+    total() {
       return this.events.length;
     },
-    era: function() {
+    era() {
       return this.ability.era;
     },
-    eraActive: function() {
+    eraActive() {
       return this.isEraActive(this.era);
     },
-    emotionProfile: function() {
+    emotionProfile() {
       return _.merge({ color: 'light' }, this.getEmotions());
     },
-    emotionValues: function() {
+    emotionValues() {
       return [this.emotions, this.emotionProfile];
     },
     ...mapGetters([

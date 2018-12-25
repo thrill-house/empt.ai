@@ -13,7 +13,7 @@ export default {
     show: Boolean,
   },
   methods: {
-    close: function() {
+    close() {
       this.$emit('close');
     },
   },

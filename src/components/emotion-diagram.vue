@@ -36,7 +36,7 @@ export default {
   props: {
     values: {
       type: [Object, Array],
-      validator: function(value) {
+      validator(value) {
         let valuesArray = !_.isArray(value) ? [value] : value,
           required = [
             'happiness',
@@ -68,21 +68,21 @@ export default {
     },
   },
   computed: {
-    valuesList: function() {
+    valuesList() {
       return !_.isArray(this.values) ? [this.values] : this.values;
     },
-    allMax: function() {
+    allMax() {
       return _.map(this.valuesList, function(values) {
         return _.max(_.filter(_.values(values), _.isFinite));
       });
     },
-    max: function() {
+    max() {
       return _.max(this.allMax) || 1;
     },
-    maxScale: function() {
+    maxScale() {
       return this.scale || this.max || 1;
     },
-    axisPositions: function() {
+    axisPositions() {
       return {
         excitement: this.calculateRatio(this.maxScale, 30),
         happiness: this.calculateRatio(this.maxScale, 90),
@@ -92,7 +92,7 @@ export default {
         anger: this.calculateRatio(this.maxScale, 330),
       };
     },
-    axes: function() {
+    axes() {
       let happinessSadness = this.createPairs(
           _.pick(this.axisPositions, ['happiness', 'sadness'])
         ),
@@ -104,13 +104,13 @@ export default {
         );
       return _.merge({}, happinessSadness, excitementFear, tendernessAnger);
     },
-    showLabels: function() {
+    showLabels() {
       return this.getLabelsEnabled() && !this.labels;
     },
     ...mapGetters(['getLabelsEnabled']),
   },
   methods: {
-    calculateRatio: function(emotion, degree) {
+    calculateRatio(emotion, degree) {
       let degreeUnit = math.unit(degree, 'deg'),
         circleSin = math.sin(degreeUnit),
         circleCos = math.cos(degreeUnit),
@@ -127,7 +127,7 @@ export default {
         ratio: emotionRatio,
       };
     },
-    createPairs: function(positions) {
+    createPairs(positions) {
       let paired = _.transform(
         positions,
         function(result, value, position) {
@@ -145,12 +145,12 @@ export default {
 
       return paired;
     },
-    createCoordinates: function(positions, x = 'x', y = 'y') {
+    createCoordinates(positions, x = 'x', y = 'y') {
       return _.map(positions, function(value, position) {
         return [value[x], value[y]];
       });
     },
-    joinCoordinates: function(
+    joinCoordinates(
       coordinates,
       postFix = '',
       pointsJoin = ',',
@@ -168,7 +168,7 @@ export default {
         coordinatesJoin
       );
     },
-    label: function(label) {
+    label(label) {
       return !this.labels ? (this.showLabels ? label : '??????') : '';
     },
   },

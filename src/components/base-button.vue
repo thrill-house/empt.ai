@@ -14,7 +14,7 @@ export default {
     label: String,
     color: {
       type: [String, Boolean],
-      default: function() {
+      default() {
         return this.showProgress ? 'navy' : 'sky';
       },
     },
@@ -28,7 +28,7 @@ export default {
     },
     progressColor: {
       type: [String, Boolean],
-      default: function() {
+      default() {
         return 'sky';
       },
     },
@@ -38,7 +38,7 @@ export default {
     },
   },
   computed: {
-    showProgress: function() {
+    showProgress() {
       return _.isFinite(this.progress) && this.progress < 100;
     },
   },

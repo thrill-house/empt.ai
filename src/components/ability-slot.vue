@@ -44,46 +44,46 @@ export default {
     SocketSlot,
   },
   computed: {
-    slot: function() {
+    slot() {
       return this.slotter;
     },
-    label: function() {
+    label() {
       return this.slot.label;
     },
-    ability: function() {
+    ability() {
       return this.getAbility(this.abilityLabel);
     },
-    tree: function() {
+    tree() {
       return this.ability.tree;
     },
-    factors: function() {
+    factors() {
       return this.ability.factors;
     },
-    calculatedFactors: function() {
+    calculatedFactors() {
       return this.getFactors(this.slotEvent);
     },
-    influence: function() {
+    influence() {
       return this.factors.influence || {};
     },
-    trees: function() {
+    trees() {
       return this.influence.trees || {};
     },
-    dependencies: function() {
+    dependencies() {
       return this.influence.dependencies || {};
     },
-    dependants: function() {
+    dependants() {
       return this.getAbilityDependants(this.abilityLabel);
     },
-    event: function() {
+    event() {
       return this.getEventOfType(this.abilityInstance, 'ability', 'instance');
     },
-    slotEvent: function() {
+    slotEvent() {
       return this.slot.event;
     },
-    socket: function() {
+    socket() {
       return this.getSocket(this.slot.socketLabel);
     },
-    treeMatch: function() {
+    treeMatch() {
       return this.ability.tree === this.socket.tree;
     },
     ...mapState({
@@ -103,7 +103,7 @@ export default {
     ]),
   },
   methods: {
-    clearSlotEvent: function() {
+    clearSlotEvent() {
       this.addSlotEvent({
         label: this.slotEvent.label,
         ability: this.slotEvent.ability,

@@ -37,32 +37,32 @@ export default {
     },
   },
   computed: {
-    socket: function() {
+    socket() {
       return this.getSocket(this.label);
     },
-    affordability: function() {
+    affordability() {
       return _.clamp(
         (this.scores.confidence / this.costs.confidence) * 100,
         0,
         100
       );
     },
-    affordable: function() {
+    affordable() {
       return this.affordability === 100;
     },
-    factors: function() {
+    factors() {
       return this.socket.factors;
     },
-    costs: function() {
+    costs() {
       return this.getSocketCosts(this.newEvent);
     },
-    scores: function() {
+    scores() {
       return this.getScores();
     },
-    event: function() {
+    event() {
       return this.getEventOfType(this.label, 'socket');
     },
-    newEvent: function() {
+    newEvent() {
       return {
         type: 'socket',
         label: this.label,
@@ -77,7 +77,7 @@ export default {
     ]),
   },
   methods: {
-    activate: function() {
+    activate() {
       this.addSocketEvent(this.newEvent);
     },
     ...mapActions(['addSocketEvent']),

@@ -22,7 +22,7 @@ const getters = {
     events = getters.getEvents(before),
     previous = _.defaults({}, state.SCORES_INIT)
   ) => {
-    let score = {},
+    let score = previous,
       firstEvent = _.first(events),
       remainingEvents = _.tail(events),
       nextEvent = _.first(remainingEvents),
@@ -62,8 +62,6 @@ const getters = {
 
         return getters.getScores(before, remainingEvents, score);
       }
-    } else {
-      score = previous;
     }
 
     return score;

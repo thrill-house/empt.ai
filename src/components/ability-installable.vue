@@ -28,34 +28,34 @@ export default {
     task: 'install',
   }),
   computed: {
-    ability: function() {
+    ability() {
       return this.getAbility(this.label);
     },
-    events: function() {
+    events() {
       return this.getAbilityEvents(this.label);
     },
-    installed: function() {
+    installed() {
       return this.getAbilitySlotEvents(this.label);
     },
-    remaining: function() {
+    remaining() {
       return this.total - this.installed.length;
     },
-    total: function() {
+    total() {
       return this.events.length;
     },
-    affordability: function() {
+    affordability() {
       return _.clamp((this.scores.data / this.costs.data) * 100, 0, 100);
     },
-    affordable: function() {
+    affordable() {
       return this.affordability === 100;
     },
-    costs: function() {
+    costs() {
       return this.getSlotCosts(this.newEvent);
     },
-    scores: function() {
+    scores() {
       return this.getScores();
     },
-    newEvent: function() {
+    newEvent() {
       return {
         type: 'slot',
         target: 'ability',
@@ -71,7 +71,7 @@ export default {
     ]),
   },
   methods: {
-    install: function() {
+    install() {
       this.setInteraction({
         interaction: 'install',
         label: this.label,

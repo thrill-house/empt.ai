@@ -29,16 +29,16 @@ export default {
     label: String,
   },
   computed: {
-    socket: function() {
+    socket() {
       return this.getSocket(this.label);
     },
-    slots: function() {
+    slots() {
       return _.each(this.socket.slots, (slot, label) => {
         let event = this.getSlotEvents(label);
         _.set(slot, 'event', _.head(event));
       });
     },
-    event: function() {
+    event() {
       return this.getEventOfType(this.label, 'socket');
     },
     ...mapGetters([

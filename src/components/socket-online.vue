@@ -31,10 +31,10 @@ export default {
     label: String,
   },
   computed: {
-    socket: function() {
+    socket() {
       return this.getSocket(this.label);
     },
-    factors: function() {
+    factors() {
       return this.socket.factors;
     },
     ...mapGetters(['getSocket']),

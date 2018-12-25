@@ -28,25 +28,25 @@ export default {
     type: String,
   },
   computed: {
-    isSlotted: function() {
+    isSlotted() {
       return this.getAbilitySlotEvent(this.label).length ? true : false;
     },
-    isDependency: function() {
+    isDependency() {
       return this.type === 'dependency';
     },
-    isDependant: function() {
+    isDependant() {
       return this.type === 'dependant';
     },
-    color: function() {
+    color() {
       return this.isDependant ? (this.isSlotted ? 'sky' : 'grey') : false;
     },
-    iconColor: function() {
+    iconColor() {
       return this.isDependency && this.isSlotted ? 'sky' : 'light';
     },
-    borderColor: function() {
+    borderColor() {
       return this.isDependency ? (this.isSlotted ? 'sky' : 'light') : false;
     },
-    borderSize: function() {
+    borderSize() {
       return this.borderColor ? 'medium' : false;
     },
     ...mapGetters(['getAbilitySlotEvent']),

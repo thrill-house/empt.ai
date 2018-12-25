@@ -34,52 +34,52 @@ export default {
   }),
   computed: {
     // Label of the slot
-    label: function() {
+    label() {
       return this.slotter.label;
     },
 
     // Get our interaction, if there is one.
-    interaction: function() {
+    interaction() {
       return this.getInteraction('slot');
     },
-    interactionInstance: function() {
+    interactionInstance() {
       return this.interaction.instance || false;
     },
-    interactionLabel: function() {
+    interactionLabel() {
       return this.interaction.label || false;
     },
 
     // Get event in slot, if there is one.
-    event: function() {
+    event() {
       return this.getSlotEvent(this.label) || false;
     },
-    eventInstance: function() {
+    eventInstance() {
       return this.event.instance || false;
     },
-    eventLabel: function() {
+    eventLabel() {
       return this.event.ability || false;
     },
 
     // See if we're previewing an slotting event.
-    previewing: function() {
+    previewing() {
       return this.interaction && this.hover;
     },
 
     // See if there's an event or slotting preview going on.
-    component: function() {
+    component() {
       return this.previewing || this.event ? 'ability-slot' : 'socket-slot';
     },
 
     // Figure out our ability details depending on if we’re installing or if there is already an event.
-    abilityLabel: function() {
+    abilityLabel() {
       return this.previewing ? this.interactionLabel : this.eventLabel;
     },
-    abilityInstance: function() {
+    abilityInstance() {
       return this.previewing ? this.interactionInstance : this.eventInstance;
     },
 
     // Placeholder for a new slotting event
-    slotEvent: function() {
+    slotEvent() {
       return {
         label: this.label,
         ability: this.interactionLabel,
@@ -105,7 +105,7 @@ export default {
     ]),
   },
   methods: {
-    addEvent: function() {
+    addEvent() {
       if (this.previewing && this.addSlotEvent(this.slotEvent)) {
         this.resetInteraction('slot');
       }

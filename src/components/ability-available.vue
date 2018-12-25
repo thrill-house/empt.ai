@@ -34,53 +34,53 @@ export default {
   props: {
     label: String,
   },
-  data: function() {
+  data() {
     return {
       hover: false,
     };
   },
-  created: function() {
+  created() {
     this.$on('research', this.researchDialog);
     this.$on('install', this.installDialog);
   },
   computed: {
-    ability: function() {
+    ability() {
       return this.getAbility(this.label);
     },
-    factors: function() {
+    factors() {
       return this.ability.factors;
     },
-    influence: function() {
+    influence() {
       return this.factors.influence;
     },
-    trees: function() {
+    trees() {
       return this.influence.trees;
     },
-    dependencies: function() {
+    dependencies() {
       return this.influence.dependencies || {};
     },
-    dependants: function() {
+    dependants() {
       return this.getAbilityDependants(this.label) || {};
     },
-    era: function() {
+    era() {
       return this.ability.era;
     },
-    eraActive: function() {
+    eraActive() {
       return this.isEraActive(this.era);
     },
-    install: function() {
+    install() {
       return this.getInteraction('installingAbility');
     },
-    installLabel: function() {
+    installLabel() {
       return this.install ? this.install.label : '';
     },
-    research: function() {
+    research() {
       return this.getInteraction('researchingAbility');
     },
-    researchLabel: function() {
+    researchLabel() {
       return this.research ? this.research.label : '';
     },
-    interaction: function() {
+    interaction() {
       return (
         this.researchLabel === this.label || this.installLabel === this.label
       );
@@ -97,10 +97,10 @@ export default {
     ]),
   },
   methods: {
-    researchDialog: function() {
+    researchDialog() {
       this.$refs.research.startResearching();
     },
-    installDialog: function() {
+    installDialog() {
       this.$refs.install.startInstalling();
     },
   },

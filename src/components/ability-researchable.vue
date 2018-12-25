@@ -23,26 +23,26 @@ export default {
     show: false,
   }),
   computed: {
-    ability: function() {
+    ability() {
       return this.getAbility(this.label);
     },
-    affordability: function() {
+    affordability() {
       return _.clamp(
         (this.scores.confidence / this.costs.confidence) * 100,
         0,
         100
       );
     },
-    affordable: function() {
+    affordable() {
       return this.affordability === 100;
     },
-    costs: function() {
+    costs() {
       return this.getAbilityCosts(this.newEvent);
     },
-    scores: function() {
+    scores() {
       return this.getScores();
     },
-    newEvent: function() {
+    newEvent() {
       return {
         type: 'ability',
         label: this.label,
@@ -60,7 +60,7 @@ export default {
     ]),
   },
   methods: {
-    research: function() {
+    research() {
       this.setInteraction({
         interaction: 'research',
         label: this.label,

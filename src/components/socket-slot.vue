@@ -27,13 +27,13 @@ export default {
       default: 'ash',
     },
   },
-  data: function() {
+  data() {
     return {
       hover: false,
     };
   },
   computed: {
-    position: function() {
+    position() {
       return this.slotter.position;
     },
   },

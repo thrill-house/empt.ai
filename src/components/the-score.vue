@@ -15,10 +15,10 @@ export default {
   name: 'the-score',
   store,
   computed: {
-    factors: function() {
+    factors() {
       return this.getFactors();
     },
-    scores: function() {
+    scores() {
       return this.getScores();
     },
     ...mapGetters(['getScores', 'getFactors']),

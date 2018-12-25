@@ -48,34 +48,34 @@ export default {
     requiredEmotions: 4,
   }),
   computed: {
-    interaction: function() {
+    interaction() {
       return this.getInteraction('research');
     },
-    label: function() {
+    label() {
       return this.interaction.label;
     },
-    show: function() {
+    show() {
       return this.interaction !== false && this.label !== false;
     },
-    ability: function() {
+    ability() {
       return this.getAbility(this.label);
     },
-    sumEmotions: function() {
+    sumEmotions() {
       return _.sum(_.values(this.emotions));
     },
-    enoughEmotions: function() {
+    enoughEmotions() {
       return this.sumEmotions === this.requiredEmotions;
     },
-    maxEmotion: function() {
+    maxEmotion() {
       return _.max(_.values(this.emotions));
     },
-    maximums: function() {
+    maximums() {
       return this.getMaxEmotions(this.emotions);
     },
-    emotionProfile: function() {
+    emotionProfile() {
       return this.getEmotions();
     },
-    emotionalPreview: function() {
+    emotionalPreview() {
       return _.mergeWith(
         { color: 'sky' },
         this.emotionProfile,
@@ -83,32 +83,32 @@ export default {
         _.add
       );
     },
-    emotionValues: function() {
+    emotionValues() {
       return [
         this.emotionalPreview,
         _.merge({ color: 'light' }, this.emotionProfile),
       ];
     },
-    affordability: function() {
+    affordability() {
       return _.clamp(
         (this.scores.confidence / this.costs.confidence) * 100,
         0,
         100
       );
     },
-    affordable: function() {
+    affordable() {
       return this.affordability === 100;
     },
-    costs: function() {
+    costs() {
       return this.getAbilityCosts(this.newEvent);
     },
-    scores: function() {
+    scores() {
       return this.getScores();
     },
-    submittable: function() {
+    submittable() {
       return this.affordable && this.enoughEmotions;
     },
-    newEvent: function() {
+    newEvent() {
       return {
         type: 'ability',
         label: this.label,
@@ -128,7 +128,7 @@ export default {
     ]),
   },
   methods: {
-    adjust: function(emotion, amount) {
+    adjust(emotion, amount) {
       let complement = this.getComplement(emotion);
 
       if (
@@ -140,7 +140,7 @@ export default {
         this.adjust(complement, amount * -1);
       }
     },
-    confirm: function() {
+    confirm() {
       if (this.sumEmotions === this.requiredEmotions) {
         let event = _.defaults(this.newEvent, {
           instance: this.label + '-' + _.now(),
@@ -157,18 +157,18 @@ export default {
         alert('Fill in all emotions');
       }
     },
-    resetEmotions: function() {
+    resetEmotions() {
       this.emotions = _.mapValues(this.emotions, () => 0);
     },
-    cancel: function() {
+    cancel() {
       this.dialog = false;
       this.resetEmotions();
       this.resetInteraction('research');
     },
-    getComplement: function(emotion) {
+    getComplement(emotion) {
       return this.complements[emotion];
     },
-    getMaxEmotion: function(emotion) {
+    getMaxEmotion(emotion) {
       let value = this.emotions[emotion],
         complement = this.emotions[this.complements[emotion]];
 
@@ -180,41 +180,41 @@ export default {
         ? this.requiredEmotions / 2
         : 1;
     },
-    getMaxEmotions: function(emotions) {
+    getMaxEmotions(emotions) {
       let self = this;
 
       return _.mapValues(emotions, function(value, emotion) {
         return self.getMaxEmotion(emotion);
       });
     },
-    emotionSide: function(emotion) {
+    emotionSide(emotion) {
       return this.sides[emotion];
     },
-    isEmotionMax: function(emotion) {
+    isEmotionMax(emotion) {
       return this.emotions[emotion] === this.maximums[emotion];
     },
-    isEmotionMin: function(emotion) {
+    isEmotionMin(emotion) {
       return this.emotions[emotion] === 0;
     },
-    isEmotionInRange: function(emotion) {
+    isEmotionInRange(emotion) {
       return (
         this.emotions[emotion] >= 0 &&
         this.emotions[emotion] <= this.maximums[emotion]
       );
     },
-    isEmotionIncrementable: function(emotion) {
+    isEmotionIncrementable(emotion) {
       return this.isEmotionInRange(emotion) && !this.isEmotionMax(emotion);
     },
-    isEmotionDecrementable: function(emotion) {
+    isEmotionDecrementable(emotion) {
       return this.isEmotionInRange(emotion) && !this.isEmotionMin(emotion);
     },
-    isEmotionAdjustable: function(emotion, amount) {
+    isEmotionAdjustable(emotion, amount) {
       return (
         (amount > 0 && this.isEmotionIncrementable(emotion)) ||
         (amount < 0 && this.isEmotionDecrementable(emotion))
       );
     },
-    isEmotionValue: function(emotion) {
+    isEmotionValue(emotion) {
       return this.isEmotionDecrementable(emotion);
     },
     ...mapActions(['addAbilityEvent', 'setInteraction', 'resetInteraction']),
