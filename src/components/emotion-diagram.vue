@@ -37,7 +37,7 @@ export default {
     values: {
       type: [Object, Array],
       validator: function(value) {
-        var valuesArray = !_.isArray(value) ? [value] : value,
+        let valuesArray = !_.isArray(value) ? [value] : value,
           required = [
             'happiness',
             'sadness',
@@ -93,7 +93,7 @@ export default {
       };
     },
     axes: function() {
-      var happinessSadness = this.createPairs(
+      let happinessSadness = this.createPairs(
           _.pick(this.axisPositions, ['happiness', 'sadness'])
         ),
         excitementFear = this.createPairs(
@@ -111,7 +111,7 @@ export default {
   },
   methods: {
     calculateRatio: function(emotion, degree) {
-      var degreeUnit = math.unit(degree, 'deg'),
+      let degreeUnit = math.unit(degree, 'deg'),
         circleSin = math.sin(degreeUnit),
         circleCos = math.cos(degreeUnit),
         maxRatio = this.maxScale > 0 ? this.max / this.maxScale : 0,
@@ -128,12 +128,12 @@ export default {
       };
     },
     createPairs: function(positions) {
-      var paired = _.transform(
+      let paired = _.transform(
         positions,
         function(result, value, position) {
           _.each(positions, function(val, pos) {
             if (position != pos) {
-              var label = _.join([position, pos].sort(), '-');
+              let label = _.join([position, pos].sort(), '-');
               if (!result[label]) {
                 result[label] = { from: value, to: val };
               }

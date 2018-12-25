@@ -1,248 +1,3 @@
-const state = {
-  // Student
-  'root-1': {
-    socket: 'root',
-    type: 'neutral',
-    position: 'top-right',
-  },
-  'root-2': {
-    socket: 'root',
-    type: 'neutral',
-    position: 'bottom-right',
-  },
-  'root-3': {
-    socket: 'root',
-    type: 'neutral',
-    position: 'left',
-  },
-
-  // University
-  'science-university-1': {
-    socket: 'science-university',
-    type: 'science',
-    position: 'top-left',
-  },
-  'science-university-2': {
-    socket: 'science-university',
-    type: 'science',
-    position: 'right',
-  },
-
-  'economy-university-1': {
-    socket: 'economy-university',
-    type: 'economy',
-    position: 'right',
-  },
-  'economy-university-2': {
-    socket: 'economy-university',
-    type: 'economy',
-    position: 'bottom-left',
-  },
-
-  'society-university-1': {
-    socket: 'society-university',
-    type: 'society',
-    position: 'top-left',
-  },
-  'society-university-2': {
-    socket: 'society-university',
-    type: 'society',
-    position: 'bottom-left',
-  },
-
-  // Business
-  'science-business-1': {
-    socket: 'science-business',
-    type: 'science',
-    position: 'top-left',
-  },
-  'science-business-2': {
-    socket: 'science-business',
-    type: 'science',
-    position: 'right',
-  },
-  'science-business-3': {
-    socket: 'science-business',
-    type: 'science',
-    position: 'right',
-  },
-
-  'economy-business-1': {
-    socket: 'economy-business',
-    type: 'economy',
-    position: 'right',
-  },
-  'economy-business-2': {
-    socket: 'economy-business',
-    type: 'economy',
-    position: 'bottom-left',
-  },
-  'economy-business-3': {
-    socket: 'economy-business',
-    type: 'economy',
-    position: 'bottom-left',
-  },
-
-  'society-business-1': {
-    socket: 'society-business',
-    type: 'society',
-    position: 'top-left',
-  },
-  'society-business-2': {
-    socket: 'society-business',
-    type: 'society',
-    position: 'bottom-left',
-  },
-  'society-business-3': {
-    socket: 'society-business',
-    type: 'society',
-    position: 'bottom-left',
-  },
-
-  // Government
-  'science-government-1': {
-    socket: 'science-government',
-    type: 'science',
-    position: 'top-left',
-  },
-  'science-government-2': {
-    socket: 'science-government',
-    type: 'science',
-    position: 'right',
-  },
-  'science-government-3': {
-    socket: 'science-government',
-    type: 'science',
-    position: 'right',
-  },
-  'science-government-4': {
-    socket: 'science-government',
-    type: 'science',
-    position: 'right',
-  },
-
-  'economy-government-1': {
-    socket: 'economy-government',
-    type: 'economy',
-    position: 'right',
-  },
-  'economy-government-2': {
-    socket: 'economy-government',
-    type: 'economy',
-    position: 'bottom-left',
-  },
-  'economy-government-3': {
-    socket: 'economy-government',
-    type: 'economy',
-    position: 'bottom-left',
-  },
-  'economy-government-4': {
-    socket: 'economy-government',
-    type: 'economy',
-    position: 'bottom-left',
-  },
-
-  'society-government-1': {
-    socket: 'society-government',
-    type: 'society',
-    position: 'top-left',
-  },
-  'society-government-2': {
-    socket: 'society-government',
-    type: 'society',
-    position: 'bottom-left',
-  },
-  'society-government-3': {
-    socket: 'society-government',
-    type: 'society',
-    position: 'bottom-left',
-  },
-  'society-government-4': {
-    socket: 'society-government',
-    type: 'society',
-    position: 'bottom-left',
-  },
-
-  // Consciousness
-  'science-consciousness-1': {
-    socket: 'science-consciousness',
-    type: 'science',
-    position: 'top-left',
-  },
-  'science-consciousness-2': {
-    socket: 'science-consciousness',
-    type: 'science',
-    position: 'right',
-  },
-  'science-consciousness-3': {
-    socket: 'science-consciousness',
-    type: 'science',
-    position: 'right',
-  },
-  'science-consciousness-4': {
-    socket: 'science-consciousness',
-    type: 'science',
-    position: 'right',
-  },
-  'science-consciousness-5': {
-    socket: 'science-consciousness',
-    type: 'science',
-    position: 'right',
-  },
-
-  'economy-consciousness-1': {
-    socket: 'economy-consciousness',
-    type: 'economy',
-    position: 'right',
-  },
-  'economy-consciousness-2': {
-    socket: 'economy-consciousness',
-    type: 'economy',
-    position: 'bottom-left',
-  },
-  'economy-consciousness-3': {
-    socket: 'economy-consciousness',
-    type: 'economy',
-    position: 'bottom-left',
-  },
-  'economy-consciousness-4': {
-    socket: 'economy-consciousness',
-    type: 'economy',
-    position: 'bottom-left',
-  },
-  'economy-consciousness-5': {
-    socket: 'economy-consciousness',
-    type: 'economy',
-    position: 'bottom-left',
-  },
-
-  'society-consciousness-1': {
-    socket: 'society-consciousness',
-    type: 'society',
-    position: 'top-left',
-  },
-  'society-consciousness-2': {
-    socket: 'society-consciousness',
-    type: 'society',
-    position: 'top-right',
-  },
-  'society-consciousness-3': {
-    socket: 'society-consciousness',
-    type: 'society',
-    position: 'left',
-  },
-  'society-consciousness-4': {
-    socket: 'society-consciousness',
-    type: 'society',
-    position: 'bottom-left',
-  },
-  'society-consciousness-5': {
-    socket: 'society-consciousness',
-    type: 'society',
-    position: 'bottom-right',
-  },
-};
-
 // getters
 const getters = {
   getSlot: (state, getters) => (label) => {
@@ -252,10 +7,11 @@ const getters = {
     return _.filter(getters.getValidEvents(), { type: 'slot', label: label });
   },
   getSlotEvent: (state, getters) => (label) => {
-    return _.head(getters.getSlotEvents(label));
+    let slotEvents = getters.getSlotEvents(label);
+    return slotEvents.length ? _.tail(getters.getSlotEvents(label)) : false;
   },
-  getValidSlotEvents: (state, getters) => (abilityLabel = '') => {
-    var filter = { type: 'slot', target: 'ability' };
+  getAbilitySlotEvents: (state, getters) => (abilityLabel = '') => {
+    let filter = { type: 'slot', target: 'ability' };
 
     if (abilityLabel) {
       filter['ability'] = abilityLabel;
@@ -263,13 +19,13 @@ const getters = {
 
     return _.filter(getters.getValidEvents(), filter);
   },
-  hasValidSlotEvents: (state, getters) => (abilityLabel = '') => {
-    return getters.getValidSlotEvents(abilityLabel).length ? true : false;
+  getAbilitySlotEvent: (state, getters) => (abilityLabel = '') => {
+    return getters.getAbilitySlotEvents(abilityLabel);
   },
   getSlotCosts: (state, getters, rootState) => (event) => {
-    var ability = getters.getAbility(event.ability);
-    var activeLength = getters.getAbilityEvents(event.ability).length;
-    var slotCosts = {};
+    let ability = getters.getAbility(event.ability),
+      activeLength = getters.getAbilityEvents(event.ability).length,
+      slotCosts = {};
 
     if (ability) {
       _.forIn(ability.costs, (cost, key) => {
@@ -304,7 +60,7 @@ const getters = {
 const actions = {
   addSlotEvent: ({ getters, dispatch }, eventValues) => {
     // Set instance to provided instance
-    var instance = eventValues.instance,
+    let instance = eventValues.instance,
       positive = true,
       slotEvents = getters.getSlotEvents(eventValues.label),
       // Get the last event for this instance, if it exists.
@@ -341,7 +97,7 @@ const actions = {
       positive = false;
     }
 
-    var event = {
+    let event = {
       type: 'slot',
       target: 'ability',
       label: eventValues.label,
@@ -364,7 +120,6 @@ const actions = {
 };
 
 export default {
-  state,
   getters,
   actions,
 };

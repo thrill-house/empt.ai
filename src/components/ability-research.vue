@@ -129,7 +129,7 @@ export default {
   },
   methods: {
     adjust: function(emotion, amount) {
-      var complement = this.getComplement(emotion);
+      let complement = this.getComplement(emotion);
 
       if (
         !this.isEmotionValue(complement) &&
@@ -142,7 +142,7 @@ export default {
     },
     confirm: function() {
       if (this.sumEmotions === this.requiredEmotions) {
-        var event = _.defaults(this.newEvent, {
+        let event = _.defaults(this.newEvent, {
           instance: this.label + '-' + _.now(),
         });
 
@@ -169,7 +169,7 @@ export default {
       return this.complements[emotion];
     },
     getMaxEmotion: function(emotion) {
-      var value = this.emotions[emotion],
+      let value = this.emotions[emotion],
         complement = this.emotions[this.complements[emotion]];
 
       return complement > 0
@@ -181,7 +181,7 @@ export default {
         : 1;
     },
     getMaxEmotions: function(emotions) {
-      var self = this;
+      let self = this;
 
       return _.mapValues(emotions, function(value, emotion) {
         return self.getMaxEmotion(emotion);

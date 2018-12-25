@@ -22,30 +22,30 @@ const getters = {
     events = getters.getEvents(before),
     previous = _.defaults({}, state.SCORES_INIT)
   ) => {
-    var firstEvent = _.first(events);
-    var remainingEvents = _.tail(events);
-    var nextEvent = _.first(remainingEvents);
-    var nextTimestamp =
-      nextEvent != undefined ? nextEvent.timestamp : before - 1;
+    let firstEvent = _.first(events),
+      remainingEvents = _.tail(events),
+      nextEvent = _.first(remainingEvents),
+      nextTimestamp =
+        nextEvent !== undefined ? nextEvent.timestamp : before - 1;
 
     if (firstEvent !== undefined) {
       if (firstEvent.finalScore === undefined) {
-        var duration = getters.getDuration(firstEvent.timestamp, nextTimestamp);
-        var factors = (firstEvent.factors =
-          firstEvent.factors === undefined
-            ? getters.getFactors(nextTimestamp)
-            : firstEvent.factors);
+        let duration = getters.getDuration(firstEvent.timestamp, nextTimestamp),
+          factors = (firstEvent.factors =
+            firstEvent.factors === undefined
+              ? getters.getFactors(nextTimestamp)
+              : firstEvent.factors);
 
-        var eventScore = {
+        let eventScore = {
           data: duration * factors.bandwidth - firstEvent.costs.data,
           confidence:
             duration * factors.influence - firstEvent.costs.confidence,
         };
       } else {
-        var eventScore = firstEvent.finalScore;
+        let eventScore = firstEvent.finalScore;
       }
 
-      var score = {
+      let score = {
         data: eventScore.data + previous.data,
         confidence: eventScore.confidence + previous.confidence,
       };
@@ -70,15 +70,15 @@ const getters = {
     factors = _.defaults({}, state.FACTORS_INIT)
   ) => {
     if (event !== undefined) {
-      var eventObject = getters.getEventObject(event);
+      let eventObject = getters.getEventObject(event);
 
       if (eventObject && eventObject.factors) {
         _.each(eventObject.factors, (factor, key) => {
-          var base = factor.base || 0;
+          let base = factor.base || 0;
 
           if (factor.trees) {
             _.each(factor.trees, (tree, key) => {
-              var treeObject = getters[
+              let treeObject = getters[
                 'get' + _.upperFirst(_.camelCase(event.type))
               ](event.label);
 
@@ -91,7 +91,7 @@ const getters = {
 
           if (factor.dependencies) {
             _.each(factor.dependencies, (dependency, key) => {
-              var boosterEvent = _.last(
+              let boosterEvent = _.last(
                 getters[
                   'getValid' + _.upperFirst(_.camelCase(event.type)) + 'Events'
                 ](key)
@@ -111,8 +111,8 @@ const getters = {
     return factors;
   },
   getFactors: (state, getters) => (before = getters.getNow()) => {
-    var events = getters.getValidEvents(before);
-    var factors = _.defaults({}, state.FACTORS_INIT);
+    let events = getters.getValidEvents(before),
+      factors = _.defaults({}, state.FACTORS_INIT);
 
     _.each(events, function(event) {
       factors = getters.calculateFactors(event, factors);
@@ -121,14 +121,14 @@ const getters = {
     return factors;
   },
   getEmotions: (state, getters) => (before = getters.getNow()) => {
-    var slotEvents = getters.getAllEventsOfType(
+    let slotEvents = getters.getAllEventsOfType(
       'slot',
       getters.getValidEvents(before)
     );
-    var emotions = _.defaults({}, state.EMOTIONS_INIT);
+    let emotions = _.defaults({}, state.EMOTIONS_INIT);
 
     _.each(slotEvents, function(slotEvent) {
-      var abilityEvent = getters.getEventOfType(
+      let abilityEvent = getters.getEventOfType(
         slotEvent.instance,
         'ability',
         'instance'

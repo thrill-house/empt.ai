@@ -29,7 +29,7 @@ export default {
     },
   },
   computed: {
-    emotions: function() {
+    emotions() {
       return _.merge({ color: this.color }, this.getEmotions());
     },
     ...mapGetters(['getEmotions']),

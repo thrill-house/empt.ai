@@ -99,7 +99,7 @@ export default {
       'getAbilityDependants',
       'getInteraction',
       'getSlotEvent',
-      'hasValidSlotEvents',
+      'getAbilitySlotEvent',
       'getSocketForSlot',
       'prettyUnit',
     ]),

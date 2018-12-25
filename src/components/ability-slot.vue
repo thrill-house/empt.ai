@@ -97,7 +97,7 @@ export default {
       'getStage',
       'getAbility',
       'getAbilityDependants',
-      'hasValidSlotEvents',
+      'getAbilitySlotEvent',
       'getSocket',
       'prettyUnit',
     ]),

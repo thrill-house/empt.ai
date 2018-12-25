@@ -52,7 +52,7 @@ export default {
       return this.getAbility(this.label);
     },
     installed: function() {
-      return this.getValidSlotEvents(this.label);
+      return this.getAbilitySlotEvents(this.label);
     },
     installedInstances: function() {
       return _.map(this.installed, 'instance');
@@ -77,7 +77,7 @@ export default {
     },
     ...mapGetters([
       'getAbility',
-      'getValidSlotEvents',
+      'getAbilitySlotEvents',
       'getInteraction',
       'getEmotions',
     ]),

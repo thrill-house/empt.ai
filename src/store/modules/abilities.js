@@ -1313,13 +1313,13 @@ const getters = {
   },
   getAbilityDependants: (state, getters) => (label) => {
     if (state.list) {
-      var abilities = _.pickBy(state.list, (ability) => {
+      let abilities = _.pickBy(state.list, (ability) => {
         return (
           ability.factors.influence && ability.factors.influence.dependencies
         );
       });
 
-      var dependantAbilities = _.pickBy(abilities, (ability) => {
+      let dependantAbilities = _.pickBy(abilities, (ability) => {
         return _.includes(
           _.keys(ability.factors.influence.dependencies),
           label
@@ -1339,9 +1339,9 @@ const getters = {
     return getters.getEventsOfType(label, 'ability');
   },
   getAbilityCosts: (state, getters, rootState) => (event) => {
-    var ability = getters.getAbility(event.label);
-    var activeLength = getters.getAbilityEvents(event.label).length;
-    var abilityCosts = {};
+    let ability = getters.getAbility(event.label),
+      activeLength = getters.getAbilityEvents(event.label).length,
+      abilityCosts = {};
 
     if (ability) {
       _.forIn(ability.costs, (cost, key) => {

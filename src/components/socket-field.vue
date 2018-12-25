@@ -34,7 +34,7 @@ export default {
     },
     slots: function() {
       return _.each(this.socket.slots, (slot, label) => {
-        var event = this.getSlotEvents(label);
+        let event = this.getSlotEvents(label);
         _.set(slot, 'event', _.head(event));
       });
     },

@@ -141,7 +141,7 @@ export default {
       this.docsToggle = !this.docsToggle;
     },
     randomSocket: function() {
-      var active = _.map(this.getActiveSockets(), 'label'),
+      let active = _.map(this.getActiveSockets(), 'label'),
         labels = _.shuffle(_.difference(_.keys(this.sockets), active)),
         socketEvent = false;
 
@@ -168,7 +168,7 @@ export default {
       return true;
     },
     randomAbility: function() {
-      var label = _.sample(_.keys(this.abilities.list)),
+      let label = _.sample(_.keys(this.abilities.list)),
         abilityEvent = {
           type: 'ability',
           label: label,
@@ -195,7 +195,7 @@ export default {
       return true;
     },
     randomSlot: function() {
-      var socketLabel = _.sample(_.map(this.getActiveSockets(), 'label')),
+      let socketLabel = _.sample(_.map(this.getActiveSockets(), 'label')),
         slotLabel = _.sample(_.keys(this.getSlotsForSocket(socketLabel))),
         abilityEvent = _.sample(this.getAllEventsOfType('ability')),
         slotEvent = {
@@ -231,14 +231,14 @@ export default {
   },
   watch: {
     sessionDurationTweaker: function(value) {
-      var oldStart = this.getStart();
-      var newStart = this.getNow() - value;
-      var events = _.map(this.getEvents(), function(event) {
-        var difference = event.timestamp - oldStart;
-        event.timestamp = newStart + difference;
-        event.finalScore = undefined;
-        return event;
-      });
+      let oldStart = this.getStart(),
+        newStart = this.getNow() - value,
+        events = _.map(this.getEvents(), function(event) {
+          let difference = event.timestamp - oldStart;
+          event.timestamp = newStart + difference;
+          event.finalScore = undefined;
+          return event;
+        });
 
       this.setStart(newStart);
       this.setEvents(events);

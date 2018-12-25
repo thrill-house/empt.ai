@@ -58,7 +58,7 @@ export default {
       return this.scale || this.max;
     },
     positions: function() {
-      var emotions = this.emotions;
+      let emotions = this.emotions;
       return {
         excitement: this.calculateRatio(emotions.excitement, 30),
         happiness: this.calculateRatio(emotions.happiness, 90),
@@ -80,7 +80,7 @@ export default {
   },
   methods: {
     calculateRatio: function(emotion, degree) {
-      var degreeUnit = math.unit(degree, 'deg'),
+      let degreeUnit = math.unit(degree, 'deg'),
         circleSin = math.sin(degreeUnit),
         circleCos = math.cos(degreeUnit),
         maxRatio = this.maxScale > 0 ? this.max / this.maxScale : 0,
@@ -97,12 +97,12 @@ export default {
       };
     },
     createPairs: function(positions) {
-      var paired = _.transform(
+      let paired = _.transform(
         positions,
         function(result, value, position) {
           _.each(positions, function(val, pos) {
             if (position != pos) {
-              var label = _.join([position, pos].sort(), '-');
+              let label = _.join([position, pos].sort(), '-');
               if (!result[label]) {
                 result[label] = { from: value, to: val };
               }

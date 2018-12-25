@@ -29,7 +29,7 @@ export default {
   },
   computed: {
     isSlotted: function() {
-      return this.hasValidSlotEvents(this.label);
+      return this.getAbilitySlotEvent(this.label).length ? true : false;
     },
     isDependency: function() {
       return this.type === 'dependency';
@@ -49,7 +49,7 @@ export default {
     borderSize: function() {
       return this.borderColor ? 'medium' : false;
     },
-    ...mapGetters(['hasValidSlotEvents']),
+    ...mapGetters(['getAbilitySlotEvent']),
   },
 };
 </script>

@@ -35,7 +35,7 @@ export default {
       return this.getAbilityEvents(this.label);
     },
     installed: function() {
-      return this.getValidSlotEvents(this.label);
+      return this.getAbilitySlotEvents(this.label);
     },
     remaining: function() {
       return this.total - this.installed.length;
@@ -64,7 +64,7 @@ export default {
     },
     ...mapGetters([
       'getAbilityEvents',
-      'getValidSlotEvents',
+      'getAbilitySlotEvents',
       'getAbility',
       'getSlotCosts',
       'getScores',

@@ -243,9 +243,9 @@ const getters = {
     return _.omit(state.list, getters.getActiveSocketLabels());
   },
   getSocketCosts: (state, getters, rootState) => (event) => {
-    var socket = getters.getSocket(event.label);
-    var activeLength = getters.getActiveSockets().length;
-    var socketCosts = {};
+    let socket = getters.getSocket(event.label),
+      activeLength = getters.getActiveSockets().length,
+      socketCosts = {};
 
     if (socket) {
       _.forIn(socket.costs, (cost, key) => {
@@ -283,7 +283,7 @@ const actions = {
   },
   addSocketEvent: ({ dispatch, commit, getters }, event) => {
     return dispatch('addEvent', event).then((success) => {
-      var socket = getters.getEventObject(event);
+      let socket = getters.getEventObject(event);
       commit('activateEra', socket.era, { root: true });
     });
   },

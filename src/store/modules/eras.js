@@ -39,7 +39,7 @@ const getters = {
     return _.keys(state).length;
   },
   isEraActive: (state, getters) => (label) => {
-    var era = getters.getEra(label);
+    let era = getters.getEra(label);
     return era['active'] !== undefined && era.active;
   },
 };

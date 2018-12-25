@@ -84,12 +84,12 @@ const getters = {
     );
   },
   getValidEvents: (state, getters) => (before = state.now) => {
-    var events = getters.getEvents(before);
-    var negatedEvents = [];
+    let events = getters.getEvents(before),
+      negatedEvents = [];
 
     _.each(events, function(event) {
       _.each(event.negated, function(negated) {
-        var negatedEvent = _.last(
+        let negatedEvent = _.last(
           _.filter(getters.getEvents(event.timestamp), negated)
         );
         if (
@@ -102,7 +102,7 @@ const getters = {
       });
 
       if (event.positive !== undefined && !event.positive) {
-        var negatedEvent = _.last(
+        let negatedEvent = _.last(
           _.filter(getters.getEvents(event.timestamp), {
             type: event.type,
             instance: event.instance,
@@ -129,22 +129,22 @@ const getters = {
     return _.last(getters.getEventsOfType(label, type, id));
   },
   getEventObject: (state, getters) => (event, id = 'label') => {
-    var target = event.type;
+    let target = event.type;
 
     if (event.target !== undefined) {
       if (event.target) {
-        var target = event.target;
+        let target = event.target;
         id = event.target;
       } else {
         return {};
       }
     }
 
-    var functionName = 'get' + _.upperFirst(_.camelCase(target));
+    let functionName = 'get' + _.upperFirst(_.camelCase(target));
     return getters[functionName](event[id]);
   },
   getEventObjects: (state, getters) => (events, id = 'label') => {
-    var objects = [];
+    let objects = [];
 
     _.each(events, function(event) {
       objects.push(getters.getEventObject(event, id));
@@ -153,13 +153,13 @@ const getters = {
     return objects;
   },
   getEventCosts: (state, getters, rootState) => (event) => {
-    var functionName = 'get' + _.upperFirst(_.camelCase(event.type)) + 'Costs';
+    let functionName = 'get' + _.upperFirst(_.camelCase(event.type)) + 'Costs';
     return getters[functionName](event);
   },
   getEventAffordability: (state, getters, rootState) => (event) => {
-    var eventObject = getters.getEventObject(event);
-    var scores = getters.getScores(event.timestamp);
-    var costs = getters.getEventCosts(event);
+    let eventObject = getters.getEventObject(event),
+      scores = getters.getScores(event.timestamp),
+      costs = getters.getEventCosts(event);
 
     if (
       _.isMatchWith(costs, scores, function(cost, score) {
@@ -221,7 +221,7 @@ const actions = {
       event.timestamp = _.now();
     }
 
-    var affordable = getters.getEventAffordability(event);
+    let affordable = getters.getEventAffordability(event);
 
     if (affordable) {
       event.id = _.uniqueId();

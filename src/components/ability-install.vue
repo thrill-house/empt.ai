@@ -41,7 +41,7 @@ export default {
       return this.getAbilityEvents(this.label);
     },
     installed: function() {
-      return this.getValidSlotEvents(this.label);
+      return this.getAbilitySlotEvents(this.label);
     },
     installedInstances: function() {
       return _.map(this.installed, 'instance');
@@ -71,7 +71,7 @@ export default {
       return this.getEmotions();
     },
     emotions: function() {
-      var combineEmotions =
+      let combineEmotions =
         this.highlightedEvent.emotions || this.selectedEvent.emotions;
 
       combineEmotions =
@@ -111,7 +111,7 @@ export default {
       'getAbilityEvents',
       'getAbility',
       'getSlotCosts',
-      'getValidSlotEvents',
+      'getAbilitySlotEvents',
       'getScores',
       'getInteraction',
       'getEmotions',
