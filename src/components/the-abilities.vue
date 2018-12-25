@@ -50,7 +50,6 @@ export default {
   <div class="the-abilities flex flex-wrap w-full">
     <ability-available
       v-for="(ability, index) in abilities"
-      class="w-64 text-light"
       :label="index"
       :key="index"
     ></ability-available>

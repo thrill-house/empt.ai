@@ -16,17 +16,20 @@ import { mapState, mapGetters, mapActions } from 'vuex';
 import AbilityInstallable from './ability-installable';
 import AbilityResearchable from './ability-researchable';
 import AbilitySymbioses from './ability-symbioses';
+import BaseBadge from './base-badge';
 import BaseEra from './base-era';
 import BaseFactor from './base-factor';
 import BaseIcon from './base-icon';
 
 export default {
   name: 'ability-available',
+  blockName: 'ability-available',
   store,
   components: {
     AbilityInstallable,
     AbilityResearchable,
     AbilitySymbioses,
+    BaseBadge,
     BaseEra,
     BaseFactor,
     BaseIcon,
@@ -34,16 +37,14 @@ export default {
   props: {
     label: String,
   },
-  data() {
-    return {
-      hover: false,
-    };
-  },
   created() {
     this.$on('research', this.researchDialog);
     this.$on('install', this.installDialog);
   },
   computed: {
+    enabled() {
+      return this.ability && this.eraActive;
+    },
     ability() {
       return this.getAbility(this.label);
     },
@@ -55,6 +56,9 @@ export default {
     },
     trees() {
       return this.influence.trees;
+    },
+    tree() {
+      return this.ability.tree;
     },
     dependencies() {
       return this.influence.dependencies || {};
@@ -108,19 +112,11 @@ export default {
 </script>
 
 <template>
-  <div
-    v-if="ability && eraActive"
-    class="ability-available relative w-80 h-32 m-4"
-    @mouseover="hover = true"
-    @mouseout="hover = false"
-  >
-    <header class="flex py-1 pl-10 h-6 relative w-full z-10">
-      <h4 class="uppercase mr-2">{{ ability.name }}</h4>
+  <div v-if="enabled" v-bem>
+    <header v-bem:header>
+      <h4 v-bem:header-title>{{ ability.name }}</h4>
     </header>
-    <div
-      v-show="!hover"
-      class="flex flex-wrap content-start relative z-10 pl-16 ml-16 py-1 h-16"
-    >
+    <div v-bem:factors>
       <base-factor
         v-for="(value, factor) in factors"
         class="w-1/2 h-4 mb-1"
@@ -136,49 +132,48 @@ export default {
         :value="value"
       ></base-factor>
     </div>
-    <div v-show="hover" class="flex relative z-10 py-1 pl-16 pr-2 ml-16 h-16">
-      <div class="flex flex-wrap justify-between w-1/2 pr-1">
-        <ability-symbioses
-          :symbiotes="dependencies"
-          type="dependency"
-        ></ability-symbioses>
-      </div>
-      <div class="flex flex-wrap justify-between content-start w-1/2 pl-1">
-        <ability-symbioses
-          :symbiotes="dependants"
-          type="dependant"
-        ></ability-symbioses>
-      </div>
+    <div v-bem:content>
+      <ability-symbioses
+        v-bem:content-dependencies
+        type="dependency"
+        :symbiotes="dependencies"
+      ></ability-symbioses>
+      <ability-symbioses
+        v-bem:content-dependants
+        type="dependant"
+        :symbiotes="dependants"
+      ></ability-symbioses>
     </div>
-    <div
-      class="flex items-start justify-end pl-16 pr-2 pb-2 ml-16 h-10 relative z-10"
-    >
+    <div v-bem:actions>
       <ability-installable
-        class="w-1/2 mr-1"
+        v-bem:actions-installable
         ref="install"
         :label="label"
       ></ability-installable>
       <ability-researchable
-        class="w-1/2 ml-1"
+        v-bem:actions-researchable
         ref="research"
         :label="label"
       ></ability-researchable>
     </div>
-    <div
-      class="w-24 h-24 bg-stain bg-stain-ash-50 overflow-hidden border border-light rounded-full inline-flex flex-no-shrink items-center justify-center absolute pin-l pin-t ml-3 mt-6 z-20 order-2"
+    <base-badge
+      v-bem:icon
+      size="large"
+      stain="ash"
+      borderColor="light"
+      borderSize="small"
     >
-      <base-icon class="w-16 h-16 text-light" :label="label"></base-icon>
-    </div>
-    <div
-      class="w-12 h-12 bg-stain bg-stain-ash-50 overflow-hidden border border-light rounded-full inline-flex items-center justify-center mb-2 order-1 absolute pin-t pin-l -mt-1 -ml-3 z-10"
+      <base-icon size="large" color="light" :label="label" />
+    </base-badge>
+    <base-badge
+      v-bem:tree
+      size="small"
+      stain="ash"
+      borderColor="light"
+      borderSize="small"
     >
-      <base-icon
-        class="w-6 h-6"
-        :label="ability.tree"
-        :color="ability.tree"
-        size="medium"
-      ></base-icon>
-    </div>
+      <base-icon size="small" :color="tree" :label="tree" />
+    </base-badge>
     <span class="circle-a"></span>
     <div class="circle-b overflow-hidden">
       <base-era
@@ -188,42 +183,3 @@ export default {
     </div>
   </div>
 </template>
-
-<style lang="scss">
-.ability-available {
-  //background: none;
-
-  &:before,
-  &:after {
-    @apply absolute pin clip-parallelogram;
-    content: '';
-  }
-
-  &:before {
-    @apply bg-stain bg-stain-ash-50 z-1;
-    top: 1px;
-    left: 2px;
-    bottom: 1px;
-    right: 1px;
-  }
-
-  &:after {
-    @apply bg-light z-0;
-  }
-
-  .circle-a,
-  .circle-b {
-    @apply absolute block border border-grey rounded-full pin-l pin-t;
-  }
-
-  .circle-a {
-    @apply h-16 w-16 -ml-5 -mt-3 z-0;
-    //z-index: 0;
-  }
-
-  .circle-b {
-    @apply bg-tile h-28 w-28 ml-1 mt-4 z-0;
-    //z-index: 0;
-  }
-}
-</style>

@@ -15,6 +15,10 @@ export default {
       type: [String, Boolean],
       default: false,
     },
+    stain: {
+      type: [String, Boolean],
+      default: false,
+    },
     borderColor: {
       type: [String, Boolean],
       default: false,
@@ -32,5 +36,7 @@ export default {
 </script>
 
 <template>
-  <div v-bem="{ color, borderColor, size, borderSize }"><slot></slot></div>
+  <div v-bem="{ color, stain, borderColor, size, borderSize }">
+    <slot></slot>
+  </div>
 </template>

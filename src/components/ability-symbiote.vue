@@ -57,11 +57,11 @@ export default {
 <template>
   <base-badge
     v-bem
-    size="small"
+    size="tiny"
     :color="color"
     :borderColor="borderColor"
     :borderSize="borderSize"
   >
-    <base-icon v-bem:icon color="light" size="small" :label="label"></base-icon>
+    <base-icon v-bem:icon color="light" size="tiny" :label="label"></base-icon>
   </base-badge>
 </template>

@@ -19,3 +19,8 @@ export default {
 <template>
   <div class="socket-challenge">...</div>
 </template>
+
+<style lang="scss">
+.socket-challenge {
+}
+</style>

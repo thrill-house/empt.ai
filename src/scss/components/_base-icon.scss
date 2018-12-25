@@ -5,8 +5,12 @@
   @apply fill-current;
 
   &--size {
-    &-small {
+    &-tiny {
       @apply w-4 h-4;
+    }
+
+    &-small {
+      @apply w-6 h-6;
     }
 
     &-medium {
