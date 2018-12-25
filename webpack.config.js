@@ -1,8 +1,8 @@
-var path = require('path');
-var webpack = require('webpack');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var OnlyIfChangedPlugin = require('only-if-changed-webpack-plugin');
-var docsLoader = require.resolve('./custom-loaders/docs-loader.js');
+const path = require('path');
+const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const OnlyIfChangedPlugin = require('only-if-changed-webpack-plugin');
+const docsLoader = require.resolve('./custom-loaders/docs-loader.js');
 
 module.exports = {
   entry: './src/main.js',

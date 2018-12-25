@@ -22,13 +22,16 @@ const getters = {
     events = getters.getEvents(before),
     previous = _.defaults({}, state.SCORES_INIT)
   ) => {
-    let firstEvent = _.first(events),
+    let score = {},
+      firstEvent = _.first(events),
       remainingEvents = _.tail(events),
       nextEvent = _.first(remainingEvents),
       nextTimestamp =
         nextEvent !== undefined ? nextEvent.timestamp : before - 1;
 
     if (firstEvent !== undefined) {
+      let eventScore = {};
+
       if (firstEvent.finalScore === undefined) {
         let duration = getters.getDuration(firstEvent.timestamp, nextTimestamp),
           factors = (firstEvent.factors =
@@ -36,13 +39,13 @@ const getters = {
               ? getters.getFactors(nextTimestamp)
               : firstEvent.factors);
 
-        let eventScore = {
+        eventScore = {
           data: duration * factors.bandwidth - firstEvent.costs.data,
           confidence:
             duration * factors.influence - firstEvent.costs.confidence,
         };
       } else {
-        let eventScore = firstEvent.finalScore;
+        eventScore = firstEvent.finalScore;
       }
 
       let score = {
