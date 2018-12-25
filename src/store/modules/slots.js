@@ -48,7 +48,7 @@ const getters = {
   },
   getSlotsForSocket: (state, getters) => (socket) => {
     return _.pickBy(state, (slot) => {
-      return slot.socket == socket;
+      return slot.socket === socket;
     });
   },
   getSocketForSlot: (state, getters) => (slot) => {

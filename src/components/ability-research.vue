@@ -174,7 +174,7 @@ export default {
 
       return complement > 0
         ? 0
-        : value == this.requiredEmotions / 2 ||
+        : value === this.requiredEmotions / 2 ||
           (this.sumEmotions - value <= this.requiredEmotions / 2 &&
             this.maxEmotion < this.requiredEmotions / 2)
         ? this.requiredEmotions / 2
@@ -298,8 +298,3 @@ export default {
     </template>
   </ability-dialog>
 </template>
-
-<style lang="scss">
-.ability-research {
-}
-</style>

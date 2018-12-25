@@ -101,7 +101,7 @@ export default {
         positions,
         function(result, value, position) {
           _.each(positions, function(val, pos) {
-            if (position != pos) {
+            if (position !== pos) {
               let label = _.join([position, pos].sort(), '-');
               if (!result[label]) {
                 result[label] = { from: value, to: val };
