@@ -1308,28 +1308,47 @@ const state = {
 
 // getters
 const getters = {
+  getAbilities: (state) => () => {
+    return state.list;
+  },
   getAbility: (state, getters) => (label) => {
-    return state.list[label] || false;
+    return getters.getAbilities()[label] || false;
   },
   getAbilityDependants: (state, getters) => (label) => {
-    if (state.list) {
-      let abilities = _.pickBy(state.list, (ability) => {
-        return (
-          ability.factors.influence && ability.factors.influence.dependencies
-        );
-      });
+    if (getters.getAbilities()) {
+      let dependantAbilities = _.pickBy(
+        _.pickBy(
+          state.list,
+          (ability) =>
+            ability.factors.influence && ability.factors.influence.dependencies
+        ),
+        (ability) =>
+          _.includes(_.keys(ability.factors.influence.dependencies), label)
+      );
 
-      let dependantAbilities = _.pickBy(abilities, (ability) => {
-        return _.includes(
-          _.keys(ability.factors.influence.dependencies),
-          label
-        );
-      });
+      return getters.getSortedSymbiotes(dependantAbilities, label);
+    }
 
-      if (_.size(dependantAbilities)) {
-        return _.mapValues(dependantAbilities, (dependantAbility) => {
-          return dependantAbility.factors.influence.dependencies[label];
-        });
+    return {};
+  },
+  getSortedSymbiotes: (state, getters) => (symbiotes, label) => {
+    if (symbiotes) {
+      let sortedSymbiotes = _.transform(
+        _.sortBy(symbiotes, [
+          (symbiote) => _.indexOf(_.keys(getters.getEras()), symbiote.era),
+        ]),
+        (result, value) => {
+          result[value.label] = value;
+        },
+        {}
+      );
+
+      if (_.size(sortedSymbiotes)) {
+        return _.mapValues(
+          sortedSymbiotes,
+          (sortedSymbiote) =>
+            sortedSymbiote.factors.influence.dependencies[label]
+        );
       }
     }
 

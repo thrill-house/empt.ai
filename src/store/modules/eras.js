@@ -29,14 +29,17 @@ const state = {
 
 // getters
 const getters = {
+  getEras: (state) => () => {
+    return state;
+  },
   getEra: (state, getters) => (label) => {
-    return state[label];
+    return getters.getEras()[label];
   },
   getStage: (state, getters) => (label) => {
     return getters.getEra(label).stage;
   },
   getStages: (state, getters) => () => {
-    return _.keys(state).length;
+    return _.keys(getters.getEras()).length;
   },
   isEraActive: (state, getters) => (label) => {
     let era = getters.getEra(label);

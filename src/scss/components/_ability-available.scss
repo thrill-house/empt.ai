@@ -67,16 +67,16 @@
       pl-1;
 
       > * {
-        @apply -my-1;
+        @apply -my-1 order-3 mx-auto;
+
+        &:first-child {
+          @apply order-1 mx-0;
+        }
 
         &:last-child {
-          @apply mx-auto;
+          @apply mx-0 order-2;
         }
       }
-    }
-
-    &-dependencies {
-      @apply pr-1;
     }
 
     &-dependants {
