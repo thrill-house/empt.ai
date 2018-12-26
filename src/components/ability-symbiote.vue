@@ -24,18 +24,36 @@ export default {
     BaseIcon,
   },
   props: {
-    label: String,
+    label: [String, Boolean],
     type: String,
   },
   computed: {
+    empty() {
+      return !this.label;
+    },
+    ability() {
+      return !this.empty ? this.getAbility(this.label) : false;
+    },
     isSlotted() {
-      return this.getAbilitySlotEvent(this.label).length ? true : false;
+      return this.event.length ? true : false;
     },
     isDependency() {
       return this.type === 'dependency';
     },
     isDependant() {
       return this.type === 'dependant';
+    },
+    eraActive() {
+      return !this.empty ? this.isEraActive(this.ability.era) : false;
+    },
+    inactive() {
+      return !this.eraActive && !this.empty;
+    },
+    event() {
+      return this.getAbilitySlotEvent(this.label);
+    },
+    icon() {
+      return !this.empty ? (this.eraActive ? this.label : 'unknown') : 'empty';
     },
     color() {
       return this.isDependant ? (this.isSlotted ? 'sky' : 'grey') : false;
@@ -49,7 +67,7 @@ export default {
     borderSize() {
       return this.borderColor ? 'medium' : false;
     },
-    ...mapGetters(['getAbilitySlotEvent']),
+    ...mapGetters(['getAbility', 'getAbilitySlotEvent', 'isEraActive']),
   },
 };
 </script>
@@ -58,10 +76,12 @@ export default {
   <base-badge
     v-bem
     size="tiny"
+    :empty="empty"
+    :inactive="inactive"
     :color="color"
     :borderColor="borderColor"
     :borderSize="borderSize"
   >
-    <base-icon v-bem:icon color="light" size="tiny" :label="label"></base-icon>
+    <base-icon v-bem:icon color="light" size="tiny" :label="icon"></base-icon>
   </base-badge>
 </template>

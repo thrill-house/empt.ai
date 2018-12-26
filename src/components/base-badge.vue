@@ -31,12 +31,20 @@ export default {
       type: [String, Boolean],
       default: false,
     },
+    empty: {
+      type: Boolean,
+      default: false,
+    },
+    inactive: {
+      type: Boolean,
+      default: false,
+    },
   },
 };
 </script>
 
 <template>
-  <div v-bem="{ color, stain, borderColor, size, borderSize }">
+  <div v-bem="{ color, stain, borderColor, size, borderSize, empty, inactive }">
     <slot></slot>
   </div>
 </template>

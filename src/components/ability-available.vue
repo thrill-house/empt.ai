@@ -119,14 +119,14 @@ export default {
     <div v-bem:factors>
       <base-factor
         v-for="(value, factor) in factors"
-        class="w-1/2 h-4 mb-1"
+        v-bem:factors-base
         :key="factor"
         :label="factor"
         :value="value.base"
       ></base-factor>
       <base-factor
         v-for="(value, tree) in trees"
-        class="w-1/2 h-4 mb-1"
+        v-bem:factors-tree
         :key="tree"
         :label="tree"
         :value="value"
@@ -136,11 +136,13 @@ export default {
       <ability-symbioses
         v-bem:content-dependencies
         type="dependency"
+        :minimum="3"
         :symbiotes="dependencies"
       ></ability-symbioses>
       <ability-symbioses
         v-bem:content-dependants
         type="dependant"
+        :minimum="3"
         :symbiotes="dependants"
       ></ability-symbioses>
     </div>
@@ -174,12 +176,19 @@ export default {
     >
       <base-icon size="small" :color="tree" :label="tree" />
     </base-badge>
-    <span class="circle-a"></span>
-    <div class="circle-b overflow-hidden">
-      <base-era
-        class="order-3 absolute pin-l pin-b w-3 mb-10 z-10 items-start"
-        :label="ability.era"
-      ></base-era>
-    </div>
+    <base-badge
+      v-bem:tree-background
+      size="medium"
+      borderColor="light"
+      borderSize="small"
+    />
+    <base-badge
+      v-bem:icon-background
+      size="larger"
+      borderColor="light"
+      borderSize="small"
+    >
+      <base-era v-bem:era :label="ability.era"></base-era>
+    </base-badge>
   </div>
 </template>

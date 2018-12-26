@@ -138,8 +138,8 @@ export default {
         :symbiotes="dependants"
       ></ability-symbioses>
     </div>
-    <base-badge v-bem:tree size="small" :color="treeMatch ? tree : 'grey'">
-      <base-icon size="small" :color="tree" :label="tree" />
+    <base-badge v-bem:tree size="tiny" :color="treeMatch ? tree : 'grey'">
+      <base-icon size="tiny" :color="tree" :label="tree" />
     </base-badge>
     <base-era v-bem:era :label="ability.era" />
   </socket-slot>

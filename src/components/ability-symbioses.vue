@@ -27,6 +27,18 @@ export default {
   props: {
     type: String,
     symbiotes: Object,
+    minimum: {
+      type: Number,
+      default: 0,
+    },
+  },
+  computed: {
+    length() {
+      return _.keys(this.symbiotes).length || 0;
+    },
+    remainder() {
+      return this.minimum - this.length;
+    },
   },
 };
 </script>
@@ -38,6 +50,12 @@ export default {
       :type="type"
       :key="index"
       :label="index"
-    ></ability-symbiote>
+    />
+    <ability-symbiote
+      v-for="remain in remainder"
+      :type="type"
+      :key="remain"
+      :label="false"
+    />
   </div>
 </template>

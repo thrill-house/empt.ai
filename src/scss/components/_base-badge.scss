@@ -16,6 +16,14 @@
     @apply z-2;
   }
 
+  &--empty {
+    @apply opacity-10;
+  }
+
+  &--inactive {
+    @apply opacity-50;
+  }
+
   &--size {
     &-tiny {
       @apply w-8 h-8;
@@ -31,6 +39,10 @@
 
     &-large {
       @apply w-24 h-24;
+    }
+
+    &-larger {
+      @apply w-28 h-28;
     }
   }
 
