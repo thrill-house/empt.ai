@@ -15,6 +15,7 @@ import { mapGetters } from 'vuex';
 
 import BaseBadge from './base-badge';
 import BaseIcon from './base-icon';
+import TheTooltip from './the-tooltip';
 
 export default {
   name: 'ability-symbiote',
@@ -22,12 +23,23 @@ export default {
   components: {
     BaseBadge,
     BaseIcon,
+    TheTooltip,
   },
   props: {
     label: [String, Boolean],
     type: String,
+    source: {
+      type: [Object, Boolean],
+      default: false,
+    },
   },
+  data: () => ({
+    hover: false,
+  }),
   computed: {
+    name() {
+      return !this.inactive ? this.ability.name : '??????';
+    },
     empty() {
       return !this.label;
     },
@@ -67,7 +79,22 @@ export default {
     borderSize() {
       return this.borderColor ? 'medium' : false;
     },
+    factor() {
+      return this.source && this.ability
+        ? this.isDependency
+          ? this.source.factors.influence.dependencies[this.label]
+          : this.ability.factors.influence.dependencies[this.source.label]
+        : false;
+    },
     ...mapGetters(['getAbility', 'getAbilitySlotEvent', 'isEraActive']),
+  },
+  methods: {
+    over() {
+      this.hover = true;
+    },
+    out() {
+      this.hover = false;
+    },
   },
 };
 </script>
@@ -81,7 +108,17 @@ export default {
     :color="color"
     :borderColor="borderColor"
     :borderSize="borderSize"
+    @mouseover.native="over()"
+    @mouseout.native="out()"
   >
     <base-icon v-bem:icon size="tiny" :color="iconColor" :label="icon" />
+    <!-- <the-tooltip
+      v-if="factor"
+      :show="hover"
+    >
+      {{ isDependency ? $t('Receives') : $t('Provides') }}
+      {{ factor | percentage }}
+      {{ isDependency ? $t('boost from') : $t('boost to') }} {{ name }}
+    </the-tooltip> -->
   </base-badge>
 </template>

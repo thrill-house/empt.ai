@@ -136,12 +136,14 @@ export default {
       <ability-symbioses
         v-bem:content-dependencies
         type="dependency"
+        :source="ability"
         :minimum="3"
         :symbiotes="dependencies"
       ></ability-symbioses>
       <ability-symbioses
         v-bem:content-dependants
         type="dependant"
+        :source="ability"
         :minimum="3"
         :symbiotes="dependants"
       ></ability-symbioses>

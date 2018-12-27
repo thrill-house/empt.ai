@@ -27,11 +27,6 @@ export default {
       default: 'ash',
     },
   },
-  data() {
-    return {
-      hover: false,
-    };
-  },
   computed: {
     position() {
       return this.slotter.position;

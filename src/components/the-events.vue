@@ -14,11 +14,9 @@ import { mapState, mapGetters } from 'vuex';
 export default {
   name: 'the-events',
   store,
-  data() {
-    return {
-      off: true,
-    };
-  },
+  data: () => ({
+    off: true,
+  }),
   computed: {
     start() {
       return this.session.start;

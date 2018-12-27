@@ -27,6 +27,10 @@ export default {
   props: {
     type: String,
     symbiotes: Object,
+    source: {
+      type: [Object, Boolean],
+      default: false,
+    },
     minimum: {
       type: Number,
       default: 0,
@@ -48,12 +52,14 @@ export default {
     <ability-symbiote
       v-for="(symbiote, index) in symbiotes"
       :type="type"
+      :source="source"
       :key="index"
       :label="index"
     />
     <ability-symbiote
       v-for="remain in remainder"
       :type="type"
+      :source="false"
       :key="remain"
       :label="false"
     />

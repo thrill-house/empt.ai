@@ -12,8 +12,8 @@ import AbilityResearch from './components/ability-research';
 import AbilitySlot from './components/ability-slot';
 import EmotionDiagram from './components/emotion-diagram';
 import EmotionProfile from './components/emotion-profile';
-import SocketField from './components/socket-field';
 import SocketChallenge from './components/socket-challenge';
+import SocketField from './components/socket-field';
 import SocketSlot from './components/socket-slot';
 import TheAbilities from './components/the-abilities';
 import TheEvents from './components/the-events';
@@ -26,6 +26,7 @@ import TheScore from './components/the-score';
 import TheSockets from './components/the-sockets';
 import TheStory from './components/the-story';
 import TheTime from './components/the-time';
+import TheTooltip from './components/the-tooltip';
 
 export default {
   name: 'app',
@@ -38,8 +39,8 @@ export default {
     AbilitySlot,
     EmotionDiagram,
     EmotionProfile,
-    SocketField,
     SocketChallenge,
+    SocketField,
     SocketSlot,
     TheAbilities,
     TheEvents,
@@ -52,6 +53,7 @@ export default {
     TheSockets,
     TheStory,
     TheTime,
+    TheTooltip,
   },
   localStorage: {
     abilityAvailableToggle: { type: Boolean },
@@ -669,6 +671,8 @@ export default {
       </header>
       <ability-install></ability-install>
     </section>
+
+    <the-tooltip></the-tooltip>
   </main>
 </template>
 
