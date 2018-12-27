@@ -153,8 +153,8 @@ const getters = {
     return objects;
   },
   getEventCosts: (state, getters, rootState) => (event) => {
-    let functionName = 'get' + _.upperFirst(_.camelCase(event.type)) + 'Costs';
-    return getters[functionName](event);
+    let eventType = _.upperFirst(_.camelCase(event.type));
+    return getters[`get${eventType}Costs`](event);
   },
   getEventAffordability: (state, getters, rootState) => (event) => {
     let eventObject = getters.getEventObject(event),

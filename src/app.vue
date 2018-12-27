@@ -172,7 +172,7 @@ export default {
         abilityEvent = {
           type: 'ability',
           label: label,
-          instance: label + '-' + _.now(),
+          instance: `${label}-${_.now()}`,
           target: false,
         };
 

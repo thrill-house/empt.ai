@@ -151,7 +151,7 @@ export default {
       </defs>
       <polygon
         :points="coordinatesPoints"
-        :class="'text-' + color"
+        :class="`text-${color}`"
         fill="currentColor"
         fill-opacity="0.25"
         stroke="currentColor"
@@ -162,23 +162,23 @@ export default {
       <polyline
         v-for="(value, pair) in pairs"
         :points="joinCoordinates(createCoordinates([value.from, value.to]))"
-        :class="'text-' + color"
+        :class="`text-${color}`"
         fill="none"
         stroke="currentColor"
         stroke-width="1"
         stroke-opacity="0.5"
         vector-effect="non-scaling-stroke"
-        :style="{ 'clip-path': 'url(#' + uid + '-points)' }"
+        :style="{ 'clip-path': `url(#${uid}-points)` }"
       ></polyline>
     </svg>
     <span
       v-for="(value, position) in positions"
       class="absolute block w-2 h-2 -ml-1 -mt-1 rounded-full"
-      :class="[position, 'bg-' + color]"
+      :class="[position, `bg-${color}`]"
       :style="{
         left: value.x + '%',
         top: value.y + '%',
-        transform: 'scale(' + value.ratio + ')',
+        transform: `scale(${value.ratio})`,
       }"
     ></span>
   </div>

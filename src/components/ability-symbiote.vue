@@ -56,7 +56,7 @@ export default {
       return !this.empty ? (this.eraActive ? this.label : 'unknown') : 'empty';
     },
     color() {
-      return this.isDependant ? (this.isSlotted ? 'sky' : 'grey') : false;
+      return this.isDependant ? (this.isSlotted ? 'sky' : 'grey') : 'ash';
     },
     iconColor() {
       return this.isDependency && this.isSlotted ? 'sky' : 'light';
@@ -82,6 +82,6 @@ export default {
     :borderColor="borderColor"
     :borderSize="borderSize"
   >
-    <base-icon v-bem:icon color="light" size="tiny" :label="icon"></base-icon>
+    <base-icon v-bem:icon size="tiny" :color="iconColor" :label="icon" />
   </base-badge>
 </template>

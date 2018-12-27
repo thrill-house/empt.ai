@@ -30,5 +30,5 @@ export default {
 </script>
 
 <template>
-  <svg v-bem="{ color, size }"><use :xlink:href="'#' + label"></use></svg>
+  <svg v-bem="{ color, size }"><use :xlink:href="`#${label}`"></use></svg>
 </template>

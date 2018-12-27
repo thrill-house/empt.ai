@@ -71,13 +71,12 @@ const getters = {
 
       if (eventObject && eventObject.factors) {
         _.each(eventObject.factors, (factor, key) => {
-          let base = factor.base || 0;
+          let base = factor.base || 0,
+            objectName = _.upperFirst(_.camelCase(event.type));
 
           if (factor.trees) {
             _.each(factor.trees, (tree, key) => {
-              let treeObject = getters[
-                `get${_.upperFirst(_.camelCase(event.type))}`
-              ](event.label);
+              let treeObject = getters[`get${objectName}`](event.label);
 
               if (treeObject && key === treeObject.type) {
                 base *= tree;
@@ -89,9 +88,7 @@ const getters = {
           if (factor.dependencies) {
             _.each(factor.dependencies, (dependency, key) => {
               let boosterEvent = _.last(
-                getters[
-                  `getValid${_.upperFirst(_.camelCase(event.type))}Events`
-                ](key)
+                getters[`getValid${objectName}Events`](key)
               );
 
               if (boosterEvent) {

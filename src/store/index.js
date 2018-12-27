@@ -25,7 +25,7 @@ Vue.mixin({
     uid: {
       type: String,
       default() {
-        return 'uid-' + this._uid;
+        return `uid-${this._uid}`;
       },
     },
   },

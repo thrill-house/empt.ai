@@ -143,7 +143,7 @@ export default {
     confirm() {
       if (this.sumEmotions === this.requiredEmotions) {
         let event = _.defaults(this.newEvent, {
-          instance: this.label + '-' + _.now(),
+          instance: `${this.label}-${_.now()}`,
         });
 
         this.addAbilityEvent(event);

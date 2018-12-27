@@ -43,7 +43,7 @@ export default {
     <base-icon
       class="w-4 h-4 mr-1"
       :label="label"
-      :class="'text-' + label"
+      :class="`text-${label}`"
     ></base-icon>
     <span class="filter-grayscale">+{{ prettyUnit(value, label) }}</span>
   </output>
