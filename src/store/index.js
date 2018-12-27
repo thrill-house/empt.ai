@@ -4,6 +4,7 @@ import options from './modules/options';
 import scores from './modules/scores';
 import session from './modules/session';
 import sockets from './modules/sockets';
+import time from './modules/time';
 import Vue from 'vue';
 import vueBem from '@verstaerker/vue-bem';
 import VueLocalStorage from 'vue-localstorage';
@@ -32,11 +33,12 @@ Vue.mixin({
 
 export default new Vuex.Store({
   modules: {
-    session,
-    scores,
-    options,
-    eras,
-    sockets,
     abilities,
+    eras,
+    options,
+    scores,
+    session,
+    sockets,
+    time,
   },
 });

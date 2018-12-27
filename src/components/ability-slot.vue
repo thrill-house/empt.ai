@@ -102,16 +102,6 @@ export default {
       'prettyUnit',
     ]),
   },
-  methods: {
-    clearSlotEvent() {
-      this.addSlotEvent({
-        label: this.slotEvent.label,
-        ability: this.slotEvent.ability,
-        instance: '',
-      });
-    },
-    ...mapActions(['addSlotEvent']),
-  },
 };
 </script>
 

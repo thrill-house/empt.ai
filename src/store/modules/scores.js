@@ -29,6 +29,7 @@ const getters = {
       nextEvent = _.first(remainingEvents),
       nextTimestamp =
         nextEvent !== undefined ? nextEvent.timestamp : before - 1;
+
     if (firstEvent !== undefined) {
       if (eventScore === undefined) {
         let duration = getters.getDuration(firstEvent.timestamp, nextTimestamp),
@@ -104,7 +105,7 @@ const getters = {
 
     return factors;
   },
-  getFactors: (state, getters) => (before = getters.getNow()) => {
+  getFactors: (state, getters) => (before = getters.getUpdated()) => {
     let events = getters.getValidEvents(before),
       factors = _.defaults({}, state.FACTORS_INIT);
 
@@ -114,7 +115,7 @@ const getters = {
 
     return factors;
   },
-  getEmotions: (state, getters) => (before = getters.getNow()) => {
+  getEmotions: (state, getters) => (before = getters.getUpdated()) => {
     let slotEvents = getters.getAllEventsOfType(
       'slot',
       getters.getValidEvents(before)

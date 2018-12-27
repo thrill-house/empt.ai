@@ -1,60 +1,6 @@
 import _ from 'lodash';
 
-/*
-let debugEvents = {
-  '1541758580990': {
-    type: 'socket',
-    label: 'root',
-    timestamp: 1541758580990,
-    id: '38',
-    costs: { data: 1, confidence: 0 },
-    factors: { bandwidth: 1, influence: 0 },
-    currentScore: { data: 4, confidence: 0 },
-    finalScore: { data: 4, confidence: 0 },
-  },
-  '1541758613628': {
-    type: 'ability',
-    label: 'chat-buddy',
-    target: false,
-    emotions: {
-      happiness: 0,
-      sadness: 1,
-      tenderness: 0,
-      anger: 1,
-      excitement: 0,
-      fear: 2,
-    },
-    instance: 'chat-buddy-1541762021517',
-    timestamp: 1541758613628,
-    id: '42',
-    costs: { data: 0, confidence: 20 },
-    factors: { bandwidth: 16, influence: 0 },
-    currentScore: { data: 80, confidence: -20 },
-    finalScore: { data: 80, confidence: -20 },
-  },
-  '1541758689476': {
-    type: 'slot',
-    target: 'ability',
-    label: 'root-left',
-    ability: 'chat-buddy',
-    instance: 'chat-buddy-1541762021517',
-    positive: true,
-    negated: [{ type: 'slot', instance: 'chat-buddy-1541762021517' }],
-    timestamp: 1541758689476,
-    id: '51',
-    costs: { confidence: 0, data: 15 },
-    factors: { bandwidth: 17.01, influence: 1.15 },
-    currentScore: { data: 53, confidence: 4.6 },
-    finalScore: { data: 53, confidence: 4.6 },
-  },
-};
-*/
-
 const state = {
-  start: _.now(),
-  now: _.now(),
-  interval: false,
-  // events: debugEvents,
   events: {},
   labelsEnabled: false,
   interactions: {
@@ -66,24 +12,15 @@ const state = {
 
 // getters
 const getters = {
-  getStart: (state) => () => {
-    return state.start;
-  },
-  getNow: (state) => () => {
-    return state.now;
-  },
-  getDuration: (state) => (start = state.start, end = state.now) => {
-    return _.round((end - start) / 1000);
-  },
-  getEvents: (state) => (before = state.now) => {
+  getEvents: (state, getters) => (before = getters.getNow()) => {
     return _.sortBy(
       _.filter(state.events, function(value) {
-        return value.timestamp < before;
+        return before === false || value.timestamp < before;
       }),
       'timestamp'
     );
   },
-  getValidEvents: (state, getters) => (before = state.now) => {
+  getValidEvents: (state, getters) => (before = getters.getNow()) => {
     let events = getters.getEvents(before),
       negatedEvents = [];
 
@@ -129,19 +66,18 @@ const getters = {
     return _.last(getters.getEventsOfType(label, type, id));
   },
   getEventObject: (state, getters) => (event, id = 'label') => {
-    let target = event.type,
-      label = id;
+    let target = event.type;
 
     if (event.target !== undefined) {
       if (event.target) {
         target = event.target;
-        label = event.target;
+        id = event.target;
       } else {
         return {};
       }
     }
 
-    return getters[`get${_.upperFirst(_.camelCase(target))}`](event[label]);
+    return getters[`get${_.upperFirst(_.camelCase(target))}`](event[id]);
   },
   getEventObjects: (state, getters) => (events, id = 'label') => {
     let objects = [];
@@ -181,15 +117,6 @@ const getters = {
 
 // mutations
 const mutations = {
-  setStart: (state, start = _.now()) => {
-    state.start = start;
-  },
-  setNow: (state, now = _.now()) => {
-    state.now = now;
-  },
-  setInterval: (state, interval = false) => {
-    state.interval = interval;
-  },
   addEvent: (state, event) => {
     if (event !== undefined) {
       state.events[event.timestamp] = event;
@@ -228,6 +155,7 @@ const actions = {
       event.id = _.uniqueId();
       event.costs = affordable;
       commit('addEvent', event);
+      commit('setUpdated', event.timestamp + 1);
     } else {
       alert('You can’t afford that');
     }
@@ -238,18 +166,6 @@ const actions = {
     _.each(events, function(event) {
       dispatch('addEvent', event);
     });
-  },
-  startSession: ({ commit }) => {
-    commit(
-      'setInterval',
-      window.setInterval(function() {
-        commit('setNow');
-      }, 1000)
-    );
-  },
-  stopSession: ({ state, commit }) => {
-    window.clearInterval(state.interval);
-    commit('setInterval');
   },
   setInteraction: ({ commit }, interaction) => {
     commit('setInteraction', interaction);

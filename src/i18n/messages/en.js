@@ -1,6 +1,7 @@
 export default {
   'Cancel {item}': 'Cancel {item}',
   'No valid event for “{instance}”.': '',
+  'Not a valid event': 'Not a valid event',
   '{num} emotions': '{num} emotions',
   Bandwidth: 'Bandwidth',
   Cancel: 'Cancel',

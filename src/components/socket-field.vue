@@ -19,6 +19,7 @@ import SocketSlotter from './socket-slotter';
 
 export default {
   name: 'socket-field',
+  blockName: 'socket-field',
   store,
   components: {
     SocketBase,
@@ -52,18 +53,17 @@ export default {
       'getInteraction',
     ]),
   },
-  methods: {},
 };
 </script>
 
 <template>
-  <div v-if="socket" class="socket-field">
-    <socket-online v-if="event" :label="label"></socket-online>
-    <socket-base v-else :label="label"></socket-base>
+  <div v-if="socket" v-bem>
+    <socket-online v-if="event" :label="label" />
+    <socket-base v-else :label="label" />
     <socket-slotter
       v-for="(slot, index) in slots"
       :key="index"
       :slotter="slot"
-    ></socket-slotter>
+    />
   </div>
 </template>
