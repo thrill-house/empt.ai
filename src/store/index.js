@@ -3,7 +3,6 @@ import eras from './modules/eras';
 import options from './modules/options';
 import scores from './modules/scores';
 import session from './modules/session';
-import slots from './modules/slots';
 import sockets from './modules/sockets';
 import Vue from 'vue';
 import vueBem from '@verstaerker/vue-bem';
@@ -38,7 +37,6 @@ export default new Vuex.Store({
     options,
     eras,
     sockets,
-    slots,
     abilities,
   },
 });
