@@ -8,7 +8,7 @@ const getters = {
   },
   getSlotEvent: (state, getters) => (label) => {
     let slotEvents = getters.getSlotEvents(label);
-    return slotEvents.length ? _.tail(getters.getSlotEvents(label)) : false;
+    return slotEvents.length ? _.last(slotEvents) : false;
   },
   getAbilitySlotEvents: (state, getters) => (abilityLabel = '') => {
     let filter = { type: 'slot', target: 'ability' };

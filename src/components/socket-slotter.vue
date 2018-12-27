@@ -105,7 +105,13 @@ export default {
     ]),
   },
   methods: {
-    addEvent() {
+    over() {
+      this.hover = true;
+    },
+    out() {
+      this.hover = false;
+    },
+    click() {
       if (this.previewing && this.addSlotEvent(this.slotEvent)) {
         this.resetInteraction('slot');
       }
@@ -123,9 +129,9 @@ export default {
       :abilityInstance="abilityInstance"
       :abilityLabel="abilityLabel"
       :installing="previewing"
-      @mouseenter.native="hover = true"
-      @mouseleave.native="hover = false"
-      @click.native="addEvent()"
+      @mouseover.native="over()"
+      @mouseout.native="out()"
+      @click.native="click()"
     ></component>
   </keep-alive>
 </template>

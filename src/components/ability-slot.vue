@@ -26,7 +26,7 @@ export default {
   blockName: 'ability-slot',
   store,
   props: {
-    abilityLabel: String,
+    abilityLabel: [String, Boolean],
     abilityInstance: [String, Boolean],
     slotter: Object,
     installing: {
@@ -51,13 +51,13 @@ export default {
       return this.slot.label;
     },
     ability() {
-      return this.getAbility(this.abilityLabel);
+      return this.getAbility(this.abilityLabel) || {};
     },
     tree() {
-      return this.ability.tree;
+      return this.ability.tree || {};
     },
     factors() {
-      return this.ability.factors;
+      return this.ability.factors || {};
     },
     calculatedFactors() {
       return this.getFactors(this.slotEvent);
@@ -72,7 +72,7 @@ export default {
       return this.influence.dependencies || {};
     },
     dependants() {
-      return this.getAbilityDependants(this.abilityLabel);
+      return this.getAbilityDependants(this.ability.label) || {};
     },
     event() {
       return this.getEventOfType(this.abilityInstance, 'ability', 'instance');
@@ -130,11 +130,13 @@ export default {
       <ability-symbioses
         v-bem:content-dependencies
         type="dependency"
+        :minimum="3"
         :symbiotes="dependencies"
       ></ability-symbioses>
       <ability-symbioses
         v-bem:content-dependants
         type="dependant"
+        :minimum="3"
         :symbiotes="dependants"
       ></ability-symbioses>
     </div>
