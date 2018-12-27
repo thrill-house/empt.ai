@@ -15,6 +15,10 @@ export default {
       type: [String, Boolean],
       default: false,
     },
+    fade: {
+      type: [String, Boolean],
+      default: false,
+    },
     stain: {
       type: [String, Boolean],
       default: false,
@@ -44,7 +48,18 @@ export default {
 </script>
 
 <template>
-  <div v-bem="{ color, stain, borderColor, size, borderSize, empty, inactive }">
+  <div
+    v-bem="{
+      color,
+      fade,
+      stain,
+      borderColor,
+      size,
+      borderSize,
+      empty,
+      inactive,
+    }"
+  >
     <slot></slot>
   </div>
 </template>

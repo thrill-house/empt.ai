@@ -64,7 +64,8 @@
     @include --colors($property: 'border', $delimit: '-');
   }
 
-  @include --colors($property: 'bg', $postfix: '-50');
+  @include --colors($property: 'bg');
+  @include --colors($property: 'bg', $postfix: '-50', $modifier: 'fade');
   @include --colors(
     $property: 'bg-stain',
     $pseudo: 'before',

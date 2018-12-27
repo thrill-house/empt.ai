@@ -122,7 +122,7 @@ export default {
     :slotter="slotter"
   >
     <div v-bem:content>
-      <base-badge v-bem:content-badge size="large" :color="tree">
+      <base-badge v-bem:content-badge size="large" :fade="tree">
         <slot name="badge">
           <base-icon size="large" color="light" :label="abilityLabel" />
         </slot>
@@ -140,7 +140,7 @@ export default {
         :symbiotes="dependants"
       ></ability-symbioses>
     </div>
-    <base-badge v-bem:tree size="tiny" :color="treeMatch ? tree : 'grey'">
+    <base-badge v-bem:tree size="tiny" :fade="treeMatch ? tree : 'grey'">
       <base-icon size="tiny" :color="tree" :label="tree" />
     </base-badge>
     <base-era v-bem:era :label="ability.era" />
