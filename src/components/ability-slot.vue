@@ -60,7 +60,7 @@ export default {
       return this.ability.factors || {};
     },
     calculatedFactors() {
-      return this.getFactors(this.slotEvent);
+      return this.calculateFactors(this.slotEvent);
     },
     influence() {
       return this.factors.influence || {};

@@ -129,19 +129,19 @@ const getters = {
     return _.last(getters.getEventsOfType(label, type, id));
   },
   getEventObject: (state, getters) => (event, id = 'label') => {
-    let target = event.type;
+    let target = event.type,
+      label = id;
 
     if (event.target !== undefined) {
       if (event.target) {
-        let target = event.target;
-        id = event.target;
+        target = event.target;
+        label = event.target;
       } else {
         return {};
       }
     }
 
-    let functionName = 'get' + _.upperFirst(_.camelCase(target));
-    return getters[functionName](event[id]);
+    return getters[`get${_.upperFirst(_.camelCase(target))}`](event[label]);
   },
   getEventObjects: (state, getters) => (events, id = 'label') => {
     let objects = [];
@@ -222,6 +222,7 @@ const actions = {
     }
 
     let affordable = getters.getEventAffordability(event);
+    let factors = getters.calculateFactors(event);
 
     if (affordable) {
       event.id = _.uniqueId();

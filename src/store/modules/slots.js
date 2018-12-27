@@ -10,6 +10,9 @@ const getters = {
     let slotEvents = getters.getSlotEvents(label);
     return slotEvents.length ? _.last(slotEvents) : false;
   },
+  getValidSlotEvents: (state, getters) => (label) => {
+    return getters.getSlotEvents(label);
+  },
   getAbilitySlotEvents: (state, getters) => (abilityLabel = '') => {
     let filter = { type: 'slot', target: 'ability' };
 

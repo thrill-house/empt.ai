@@ -29,7 +29,6 @@ const getters = {
       nextEvent = _.first(remainingEvents),
       nextTimestamp =
         nextEvent !== undefined ? nextEvent.timestamp : before - 1;
-
     if (firstEvent !== undefined) {
       if (eventScore === undefined) {
         let duration = getters.getDuration(firstEvent.timestamp, nextTimestamp),
@@ -77,7 +76,7 @@ const getters = {
           if (factor.trees) {
             _.each(factor.trees, (tree, key) => {
               let treeObject = getters[
-                'get' + _.upperFirst(_.camelCase(event.type))
+                `get${_.upperFirst(_.camelCase(event.type))}`
               ](event.label);
 
               if (treeObject && key === treeObject.type) {
@@ -91,7 +90,7 @@ const getters = {
             _.each(factor.dependencies, (dependency, key) => {
               let boosterEvent = _.last(
                 getters[
-                  'getValid' + _.upperFirst(_.camelCase(event.type)) + 'Events'
+                  `getValid${_.upperFirst(_.camelCase(event.type))}Events`
                 ](key)
               );
 
