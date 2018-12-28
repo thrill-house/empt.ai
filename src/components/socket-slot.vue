@@ -36,7 +36,7 @@ export default {
 </script>
 
 <template>
-  <base-hexagon v-bem="{ position }" :tile="true" :color="false" :stain="stain">
+  <base-hexagon v-bem="{ position }" :tile="true" :stain="stain">
     <slot></slot>
   </base-hexagon>
 </template>

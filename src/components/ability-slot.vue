@@ -63,7 +63,7 @@ export default {
       return this.calculateFactors(this.slotEvent);
     },
     influence() {
-      return this.calculateFactors.influence || {};
+      return this.factors.influence || {};
     },
     trees() {
       return this.influence.trees || {};
@@ -82,6 +82,9 @@ export default {
     },
     socket() {
       return this.getSocket(this.slot.socketLabel);
+    },
+    color() {
+      return this.treeMatch ? this.tree : 'light';
     },
     stain() {
       return this.treeMatch ? this.tree : 'grey';
@@ -111,7 +114,7 @@ export default {
 
 <template>
   <socket-slot
-    v-bem
+    v-bem="{ color, installing }"
     :stain="stain"
     :color="false"
     :slotter="slotter"
@@ -122,6 +125,7 @@ export default {
           <base-icon size="large" color="light" :label="abilityLabel" />
         </slot>
       </base-badge>
+      {{ dependencies }}
       <ability-symbioses
         v-bem:content-dependencies
         type="dependency"
