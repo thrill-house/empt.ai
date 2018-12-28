@@ -124,7 +124,7 @@ export default {
       'getScores',
       'getEmotions',
       'getInteraction',
-      'isEraActive',
+      'getIsEraActive',
     ]),
   },
   methods: {

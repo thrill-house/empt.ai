@@ -70,7 +70,7 @@ export default {
       return this.ability.era;
     },
     eraActive() {
-      return this.isEraActive(this.era);
+      return this.getIsEraActive(this.era);
     },
     install() {
       return this.getInteraction('installingAbility');
@@ -94,7 +94,7 @@ export default {
     }),
     ...mapGetters([
       'getAbility',
-      'isEraActive',
+      'getIsEraActive',
       'getAbilityDependants',
       'getInteraction',
       'prettyUnit',

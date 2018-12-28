@@ -1,0 +1,16 @@
+/**
+ * Shared styles for AbilitySlotted components.
+ */
+.ability-symbiote {
+  &--slotted {
+    animation: pulse 3s infinite;
+  }
+
+  &--unknown {
+    @apply opacity-50;
+  }
+
+  &--empty {
+    @apply opacity-10;
+  }
+}

@@ -24,6 +24,7 @@
 
     &-badge {
       @apply order-2;
+      animation: pulse 3s infinite;
     }
 
     &-dependencies,

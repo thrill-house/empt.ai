@@ -40,9 +40,6 @@ export default {
     name() {
       return !this.inactive ? this.ability.name : '??????';
     },
-    empty() {
-      return !this.label;
-    },
     ability() {
       return !this.empty ? this.getAbility(this.label) : false;
     },
@@ -55,17 +52,27 @@ export default {
     isDependant() {
       return this.type === 'dependant';
     },
-    eraActive() {
-      return !this.empty ? this.isEraActive(this.ability.era) : false;
+    isEmpty() {
+      return !this.label;
     },
-    inactive() {
-      return !this.eraActive && !this.empty;
+    isAvailable() {
+      return !this.isEmpty && this.isEraActive;
+    },
+    isUnknown() {
+      return !this.isEmpty && !this.isEraActive;
+    },
+    isEraActive() {
+      return !this.isEmpty ? this.getIsEraActive(this.ability.era) : false;
     },
     event() {
-      return this.getAbilitySlotEvent(this.label);
+      return !this.isEmpty ? this.getAbilitySlotEvent(this.label) : {};
     },
     icon() {
-      return !this.empty ? (this.eraActive ? this.label : 'unknown') : 'empty';
+      return !this.isEmpty
+        ? this.isAvailable
+          ? this.label
+          : 'unknown'
+        : 'empty';
     },
     color() {
       return this.isDependant ? (this.isSlotted ? 'sky' : 'grey') : 'ash';
@@ -86,7 +93,7 @@ export default {
           : this.ability.factors.influence.dependencies[this.source.label]
         : false;
     },
-    ...mapGetters(['getAbility', 'getAbilitySlotEvent', 'isEraActive']),
+    ...mapGetters(['getAbility', 'getAbilitySlotEvent', 'getIsEraActive']),
   },
   methods: {
     over() {
@@ -101,10 +108,12 @@ export default {
 
 <template>
   <base-badge
-    v-bem
+    v-bem="{
+      slotted: isSlotted,
+      unknown: isUnknown,
+      empty: isEmpty,
+    }"
     size="tiny"
-    :empty="empty"
-    :inactive="inactive"
     :color="color"
     :borderColor="borderColor"
     :borderSize="borderSize"

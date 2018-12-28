@@ -35,14 +35,6 @@ export default {
       type: [String, Boolean],
       default: false,
     },
-    empty: {
-      type: Boolean,
-      default: false,
-    },
-    inactive: {
-      type: Boolean,
-      default: false,
-    },
   },
 };
 </script>
@@ -56,8 +48,6 @@ export default {
       borderColor,
       size,
       borderSize,
-      empty,
-      inactive,
     }"
   >
     <slot></slot>

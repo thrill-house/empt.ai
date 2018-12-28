@@ -41,7 +41,7 @@ const getters = {
   getStages: (state, getters) => () => {
     return _.keys(getters.getEras()).length;
   },
-  isEraActive: (state, getters) => (label) => {
+  getIsEraActive: (state, getters) => (label) => {
     let era = getters.getEra(label);
     return era['active'] !== undefined && era.active;
   },

@@ -144,21 +144,25 @@ const mutations = {
 // actions
 const actions = {
   addEvent: ({ commit, dispatch, getters }, event) => {
-    if (event.timestamp === undefined) {
-      event.timestamp = _.now();
-    }
+    return new Promise((resolve, reject) => {
+      if (event.timestamp === undefined) {
+        event.timestamp = _.now();
+      }
 
-    let affordable = getters.getEventAffordability(event);
-    let factors = getters.calculateFactors(event);
+      let affordable = getters.getEventAffordability(event);
+      let factors = getters.calculateFactors(event);
 
-    if (affordable) {
-      event.id = _.uniqueId();
-      event.costs = affordable;
-      commit('addEvent', event);
-      commit('setUpdated', event.timestamp + 1);
-    } else {
-      alert('You can’t afford that');
-    }
+      if (affordable) {
+        event.id = _.uniqueId();
+        event.costs = affordable;
+        commit('addEvent', event);
+        commit('setUpdated', event.timestamp + 1);
+        resolve();
+      } else {
+        alert('You can’t afford that');
+        reject();
+      }
+    });
   },
   setEvents: ({ dispatch, commit }, events) => {
     commit('resetEvents');

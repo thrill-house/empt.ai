@@ -112,7 +112,7 @@ export default {
     :slotter="slotter"
   >
     <div v-bem:content>
-      <base-badge v-bem:content-badge size="large" :fade="tree">
+      <base-badge v-bem:content-badge size="large" :fade="tree" :pulse="true">
         <slot name="badge">
           <base-icon size="large" color="light" :label="abilityLabel" />
         </slot>

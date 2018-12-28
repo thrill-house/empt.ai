@@ -340,10 +340,14 @@ const actions = {
     });
   },
   addSocketEvent: ({ dispatch, commit, getters }, event) => {
-    return dispatch('addEvent', event).then((success) => {
-      let socket = getters.getEventObject(event);
-      commit('activateEra', socket.era, { root: true });
-    });
+    return dispatch('addEvent', event)
+      .then(() => {
+        let socket = getters.getEventObject(event);
+        commit('activateEra', socket.era, { root: true });
+      })
+      .catch((error) => {
+        console.log({ error });
+      });
   },
   addSlotEvent: ({ getters, dispatch }, eventValues) => {
     // Set instance to provided instance

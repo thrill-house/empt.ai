@@ -16,14 +16,6 @@
     @apply z-2;
   }
 
-  &--empty {
-    @apply opacity-10;
-  }
-
-  &--inactive {
-    @apply opacity-50;
-  }
-
   &--size {
     &-tiny {
       @apply w-8 h-8;

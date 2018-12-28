@@ -56,7 +56,7 @@ export default {
       'getAbility',
       'getAbilityCosts',
       'getScores',
-      'isEraActive',
+      'getIsEraActive',
     ]),
   },
   methods: {

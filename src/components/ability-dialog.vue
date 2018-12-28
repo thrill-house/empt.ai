@@ -67,7 +67,7 @@ export default {
       return this.ability.era;
     },
     eraActive() {
-      return this.isEraActive(this.era);
+      return this.getIsEraActive(this.era);
     },
     emotionProfile() {
       return _.merge({ color: 'light' }, this.getEmotions());

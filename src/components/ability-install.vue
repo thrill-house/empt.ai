@@ -50,7 +50,7 @@ export default {
       return this.ability.era;
     },
     eraActive() {
-      return this.isEraActive(this.era);
+      return this.getIsEraActive(this.era);
     },
     affordability() {
       return _.clamp((this.scores.data / this.costs.data) * 100, 0, 100);
