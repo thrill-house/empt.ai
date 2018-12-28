@@ -118,7 +118,7 @@ const mutations = {
 // actions
 const actions = {
   initSockets({ commit }) {
-    api.get('sockets.json').then(function(response) {
+    return api.get('sockets.json').then(function(response) {
       commit('initSockets', _.keyBy(response.data.data, 'label'));
     });
   },

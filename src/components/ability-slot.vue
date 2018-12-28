@@ -83,6 +83,9 @@ export default {
     socket() {
       return this.getSocket(this.slot.socketLabel);
     },
+    stain() {
+      return this.treeMatch ? this.tree : 'grey';
+    },
     treeMatch() {
       return this.ability.tree === this.socket.tree;
     },
@@ -108,8 +111,9 @@ export default {
 
 <template>
   <socket-slot
-    v-bem="{ color: treeMatch ? tree : 'light', installing: installing }"
-    color="grey"
+    v-bem
+    :stain="stain"
+    :color="false"
     :slotter="slotter"
   >
     <div v-bem:content>

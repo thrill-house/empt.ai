@@ -12,6 +12,10 @@ export default {
       type: [String, Boolean],
       default: false,
     },
+    stain: {
+      type: [String, Boolean],
+      default: false,
+    },
     tile: {
       type: Boolean,
       default: false,
@@ -21,5 +25,5 @@ export default {
 </script>
 
 <template>
-  <div v-bem="{ color, tile }"><slot></slot></div>
+  <div v-bem="{ color, tile, stain }"><slot></slot></div>
 </template>

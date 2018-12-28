@@ -25,4 +25,10 @@
   }
 
   @include --colors($property: 'bg-stain', $pseudo: 'before', $postfix: '-50');
+  @include --colors(
+    $property: 'bg-stain',
+    $pseudo: 'before',
+    $postfix: '-25',
+    $modifier: 'stain'
+  );
 }

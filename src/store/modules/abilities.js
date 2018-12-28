@@ -92,7 +92,7 @@ const mutations = {
 // actions
 const actions = {
   initAbilities({ commit }) {
-    api.get('abilities.json').then(function(response) {
+    return api.get('abilities.json').then(function(response) {
       commit('initAbilities', _.keyBy(response.data.data, 'label'));
     });
   },

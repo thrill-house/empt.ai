@@ -22,7 +22,7 @@ export default {
   },
   props: {
     slotter: Object,
-    color: {
+    stain: {
       type: [String, Boolean],
       default: 'ash',
     },
@@ -36,7 +36,7 @@ export default {
 </script>
 
 <template>
-  <base-hexagon v-bem="{ position }" :tile="true" :color="color">
+  <base-hexagon v-bem="{ position }" :tile="true" :color="false" :stain="stain">
     <slot></slot>
   </base-hexagon>
 </template>
