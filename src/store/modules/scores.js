@@ -2,7 +2,7 @@ import Vue from 'vue';
 
 const state = {
   MULTIPLIER_RATE: 1.12,
-  SCORES_INIT: { data: 500, confidence: 500 },
+  SCORES_INIT: { data: 1, confidence: 21 },
   FACTORS_INIT: { bandwidth: 0, influence: 0 },
   COSTS_INIT: { data: 0, confidence: 0 },
   EMOTIONS_INIT: {
@@ -73,13 +73,15 @@ const getters = {
       if (eventObject && eventObject.factors) {
         _.each(eventObject.factors, (factor, key) => {
           let base = factor.base || 0,
-            objectName = _.upperFirst(_.camelCase(event.type));
+            target = event.target || event.type,
+            label = event.target ? event[event.target] : event.label,
+            objectName = _.upperFirst(_.camelCase(target));
 
           if (factor.trees) {
             _.each(factor.trees, (tree, key) => {
-              let treeObject = getters[`get${objectName}`](event.label);
+              let treeObject = getters[`get${objectName}`](label);
 
-              if (treeObject && key === treeObject.type) {
+              if (treeObject && key === treeObject.tree) {
                 base *= tree;
                 return false;
               }

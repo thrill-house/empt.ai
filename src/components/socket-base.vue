@@ -98,7 +98,7 @@ export default {
           :progress="affordability"
           :color="affordable ? 'sky' : 'navy'"
           :disabled="!affordable"
-          @click.once="activate()"
+          @click.native.once="activate()"
         >
           <template v-if="affordable">
             {{ $t('Costs') }} {{ costs.confidence | confidence }}

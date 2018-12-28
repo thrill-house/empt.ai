@@ -59,6 +59,12 @@ const getters = {
   ) => {
     return _.filter(events, { type: type });
   },
+  getValidEventsOfType: (state, getters) => (label, type, id = 'label') => {
+    return _.filter(
+      getters.getAllEventsOfType(type, getters.getValidEvents()),
+      { [id]: label }
+    );
+  },
   getEventsOfType: (state, getters) => (label, type, id = 'label') => {
     return _.filter(getters.getAllEventsOfType(type), { [id]: label });
   },
@@ -150,16 +156,18 @@ const actions = {
       }
 
       let affordable = getters.getEventAffordability(event);
-      let factors = getters.calculateFactors(event);
 
       if (affordable) {
         event.id = _.uniqueId();
         event.costs = affordable;
+
         commit('addEvent', event);
         commit('setUpdated', event.timestamp + 1);
+
         resolve();
       } else {
         alert('You can’t afford that');
+
         reject();
       }
     });

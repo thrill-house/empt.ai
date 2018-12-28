@@ -63,7 +63,7 @@ export default {
       return this.calculateFactors(this.slotEvent);
     },
     influence() {
-      return this.factors.influence || {};
+      return this.calculateFactors.influence || {};
     },
     trees() {
       return this.influence.trees || {};
@@ -98,6 +98,7 @@ export default {
       'getAbility',
       'getAbilityDependants',
       'getAbilitySlotEvent',
+      'calculateFactors',
       'getSocket',
       'prettyUnit',
     ]),
