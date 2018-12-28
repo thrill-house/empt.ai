@@ -6,6 +6,10 @@
     @apply hidden;
   }
 
+  &__factors {
+    @apply flex flex-col;
+  }
+
   &--online {
     &:hover {
       .socket-base {

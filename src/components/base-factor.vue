@@ -21,6 +21,7 @@ import BaseIcon from './base-icon';
 
 export default {
   name: 'base-factor',
+  blockName: 'factor',
   store,
   components: {
     BaseIcon,
@@ -28,23 +29,19 @@ export default {
   props: {
     label: String,
     value: Number,
+    accumulating: Boolean,
   },
   computed: {
-    ...mapGetters(['prettyUnit']),
+    ...mapGetters(['getPrettyUnit']),
   },
 };
 </script>
 
 <template>
-  <output
-    v-if="value"
-    class="base-factor inline-flex items-center text-xs font-bold text-light"
-  >
-    <base-icon
-      class="w-4 h-4 mr-1"
-      :label="label"
-      :class="`text-${label}`"
-    ></base-icon>
-    <span class="filter-grayscale">+{{ prettyUnit(value, label) }}</span>
+  <output v-bem v-if="value">
+    <base-icon v-bem:icon size="tiny" :color="label" :label="label"></base-icon>
+    <span v-bem:label="{ accumulating }">
+      +{{ getPrettyUnit(value, label) }}
+    </span>
   </output>
 </template>

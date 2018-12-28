@@ -60,7 +60,7 @@ export default {
       return this.ability.factors || {};
     },
     calculatedFactors() {
-      return this.calculateFactors(this.slotEvent);
+      return this.getCalculatedFactors(this.slotEvent);
     },
     influence() {
       return this.factors.influence || {};
@@ -78,7 +78,7 @@ export default {
       return this.getEventOfType(this.abilityInstance, 'ability', 'instance');
     },
     slotEvent() {
-      return this.slot.event;
+      return this.getEventOfType(this.abilityInstance, 'slot', 'instance');
     },
     socket() {
       return this.getSocket(this.slot.socketLabel);
@@ -104,9 +104,9 @@ export default {
       'getAbility',
       'getAbilityDependants',
       'getAbilitySlotEvent',
-      'calculateFactors',
+      'getCalculatedFactors',
       'getSocket',
-      'prettyUnit',
+      'getPrettyUnit',
     ]),
   },
 };
@@ -125,7 +125,16 @@ export default {
           <base-icon size="large" color="light" :label="abilityLabel" />
         </slot>
       </base-badge>
-      {{ dependencies }}
+      <!-- <div v-bem:content-factors>
+        <base-factor
+          v-for="(value, factor) in calculatedFactors"
+          v-bem:factors-base
+          :key="factor"
+          :label="factor"
+          :value="value"
+          :accumulating="true"
+        ></base-factor>
+      </div> -->
       <ability-symbioses
         v-bem:content-dependencies
         type="dependency"

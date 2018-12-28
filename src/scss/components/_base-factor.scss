@@ -1,0 +1,19 @@
+/**
+ * Shared styles for BaseFactor components.
+ */
+.factor {
+  @apply inline-flex
+  items-center
+  text-xs text-light
+  font-bold;
+
+  &__icon {
+    @apply mr-1;
+  }
+
+  &__label {
+    &--accumulating {
+      animation: fadeOutUp 1s ease-in infinite;
+    }
+  }
+}

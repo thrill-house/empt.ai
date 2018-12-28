@@ -14,9 +14,33 @@ const getters = {
   getSocketSlots: (state, getters) => (label) => {
     return getters.getSocket(label).slots;
   },
+  getSocketSlotLabels: (state, getters) => (label) => {
+    return _.map(getters.getSocketSlots(label), 'label');
+  },
+
+  // Get ALL socket events
   getSocketsEvents: (state, getters) => () => {
     return _.filter(getters.getEvents(), { type: 'socket' });
   },
+
+  // Get ALL socket events that are valid.
+  getValidSocketsEvents: (state, getters) => () => {
+    return _.filter(getters.getValidEvents(), { type: 'socket' });
+  },
+
+  // Get ALL socket events for a given socket.
+  getSocketEvents: (state, getters) => (label) => {
+    return _.filter(getters.getSocketsEvents(), { label: label });
+  },
+
+  // Get ALL socket events for a given socket that are valid.
+  getSocketEvent: (state, getters) => (label) => {
+    let socketEvents = _.filter(getters.getValidSocketsEvents(), {
+      label: label,
+    });
+    return socketEvents.length ? _.last(socketEvents) : false;
+  },
+
   getActiveSocketLabels: (state, getters) => () => {
     return _.map(getters.getSocketsEvents(), 'label');
   },
@@ -55,6 +79,13 @@ const getters = {
   getSlotEvent: (state, getters) => (label) => {
     let slotEvents = getters.getSlotEvents(label);
     return slotEvents.length ? _.last(slotEvents) : false;
+  },
+  getSocketSlotEvents: (state, getters) => (label) => {
+    return _.filter(
+      _.map(getters.getSocketSlotLabels(label), (socketLabel) => {
+        return getters.getSlotEvent(socketLabel);
+      })
+    );
   },
   getValidSlotEvents: (state, getters) => (label) => {
     return getters.getSlotEvents(label);

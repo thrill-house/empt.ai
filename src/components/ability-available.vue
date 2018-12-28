@@ -97,7 +97,7 @@ export default {
       'getIsEraActive',
       'getAbilityDependants',
       'getInteraction',
-      'prettyUnit',
+      'getPrettyUnit',
     ]),
   },
   methods: {

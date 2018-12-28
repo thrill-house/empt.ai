@@ -12,7 +12,7 @@ const state = {
 
 // getters
 const getters = {
-  getEvents: (state, getters) => (before = getters.getNow()) => {
+  getEvents: (state, getters) => (before = getters.getUpdated()) => {
     return _.sortBy(
       _.filter(state.events, function(value) {
         return before === false || value.timestamp < before;
@@ -20,7 +20,7 @@ const getters = {
       'timestamp'
     );
   },
-  getValidEvents: (state, getters) => (before = getters.getNow()) => {
+  getValidEvents: (state, getters) => (before = getters.getUpdated()) => {
     let events = getters.getEvents(before),
       negatedEvents = [];
 

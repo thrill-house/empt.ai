@@ -101,7 +101,7 @@ export default {
       'getSlotEvent',
       'getAbilitySlotEvent',
       'getSocketForSlot',
-      'prettyUnit',
+      'getPrettyUnit',
     ]),
   },
   methods: {

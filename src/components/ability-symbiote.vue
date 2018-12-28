@@ -75,7 +75,7 @@ export default {
         : 'empty';
     },
     color() {
-      return this.isDependant ? (this.isSlotted ? 'sky' : 'grey') : 'ash';
+      return this.isDependant ? (this.isSlotted ? 'sky' : 'grey') : 'midnight';
     },
     iconColor() {
       return this.isDependency && this.isSlotted ? 'sky' : 'light';

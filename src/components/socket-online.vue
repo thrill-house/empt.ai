@@ -34,10 +34,28 @@ export default {
     socket() {
       return this.getSocket(this.label);
     },
+    event() {
+      return this.getSocketEvent(this.label);
+    },
+    slotEvents() {
+      return this.getSocketSlotEvents(this.label);
+    },
     factors() {
       return this.socket.factors;
     },
-    ...mapGetters(['getSocket']),
+    calculatedFactors() {
+      return this.getCalculatedFactors(this.event);
+    },
+    cumulativeFactors() {
+      return this.getEventsFactors(this.slotEvents, this.calculatedFactors);
+    },
+    ...mapGetters([
+      'getSocket',
+      'getSocketEvent',
+      'getSocketSlotEvents',
+      'getCalculatedFactors',
+      'getEventsFactors',
+    ]),
   },
 };
 </script>
@@ -46,10 +64,11 @@ export default {
   <socket-base v-bem.online :color="socket.tree" :label="label">
     <div v-bem:factors>
       <base-factor
-        v-for="(value, factor) in factors"
+        v-for="(value, factor) in cumulativeFactors"
         :key="factor"
         :label="factor"
-        :value="value.base"
+        :value="value"
+        :accumulating="true"
       ></base-factor>
     </div>
     <base-button v-bem:challenge> {{ $t('Challenge') }} </base-button>

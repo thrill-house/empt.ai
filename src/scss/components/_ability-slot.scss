@@ -27,6 +27,16 @@
       animation: pulse 3s infinite;
     }
 
+    // &-factors {
+    //   @apply hidden
+    //   flex-col
+    //   order-2;
+
+    //   > * + * {
+    //     @apply mt-1;
+    //   }
+    // }
+
     &-dependencies,
     &-dependants {
       @apply flex flex-col
@@ -61,4 +71,18 @@
   &--installing &__content-badge {
     animation: tada 1.5s infinite;
   }
+
+  // &:hover {
+  //   .ability-slot {
+  //     &__content {
+  //       &-badge {
+  //         @apply hidden;
+  //       }
+
+  //       &-factors {
+  //         @apply flex;
+  //       }
+  //     }
+  //   }
+  // }
 }

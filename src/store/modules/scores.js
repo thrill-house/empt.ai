@@ -63,7 +63,7 @@ const getters = {
 
     return score;
   },
-  calculateFactors: (state, getters) => (
+  getCalculatedFactors: (state, getters) => (
     event,
     factors = _.defaults({}, state.FACTORS_INIT)
   ) => {
@@ -108,11 +108,14 @@ const getters = {
     return factors;
   },
   getFactors: (state, getters) => (before = getters.getUpdated()) => {
-    let events = getters.getValidEvents(before),
-      factors = _.defaults({}, state.FACTORS_INIT);
-
+    return getters.getEventsFactors(getters.getValidEvents(before));
+  },
+  getEventsFactors: (state, getters) => (
+    events,
+    factors = _.defaults({}, state.FACTORS_INIT)
+  ) => {
     _.each(events, function(event) {
-      factors = getters.calculateFactors(event, factors);
+      factors = getters.getCalculatedFactors(event, factors);
     });
 
     return factors;
@@ -138,7 +141,7 @@ const getters = {
 
     return emotions;
   },
-  prettyUnit: (state, getters) => (value, filter) => {
+  getPrettyUnit: (state, getters) => (value, filter) => {
     return Vue.filter(filter)(value);
   },
 };
