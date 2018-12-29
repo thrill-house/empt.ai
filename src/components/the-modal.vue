@@ -9,9 +9,6 @@ Helper element to display modal dialogs within, that take a z-index priority ove
 <script>
 export default {
   name: 'the-modal',
-  props: {
-    show: Boolean,
-  },
   methods: {
     close() {
       this.$emit('close');
@@ -22,7 +19,7 @@ export default {
 
 <template>
   <transition name="fade" slot="modal">
-    <aside v-show="show" class="the-modal bg-navy-75"><slot></slot></aside>
+    <aside class="the-modal bg-navy-75"><slot></slot></aside>
   </transition>
 </template>
 

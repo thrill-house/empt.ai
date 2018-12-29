@@ -656,7 +656,7 @@ export default {
         </button>
         <div v-html="docs.abilityResearch" class="docs"></div>
       </header>
-      <ability-research></ability-research>
+      <!-- <ability-research></ability-research> -->
     </section>
 
     <!--
@@ -669,10 +669,11 @@ export default {
         </button>
         <div v-html="docs.abilityInstall" class="docs"></div>
       </header>
-      <ability-install></ability-install>
+      <!-- <ability-install></ability-install> -->
     </section>
 
-    <the-tooltip></the-tooltip>
+    <portal-target name="modals" slim />
+    <portal-target name="tooltips" slim />
   </main>
 </template>
 

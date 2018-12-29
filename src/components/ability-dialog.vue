@@ -39,7 +39,6 @@ export default {
     label: [Boolean, String],
     costs: Object,
     emotions: Object,
-    show: Boolean,
   },
   data: () => ({
     buttons: {
@@ -89,7 +88,7 @@ export default {
 </script>
 
 <template>
-  <the-modal :show="label && show">
+  <the-modal>
     <div
       class="ability-dialog relative w-192 h-128 py-3 bg-navy border border-grey"
     >

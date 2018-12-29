@@ -35,6 +35,10 @@ export default {
   },
   data: () => ({
     hover: false,
+    position: {
+      top: 0,
+      left: 0,
+    },
   }),
   computed: {
     name() {
@@ -102,6 +106,9 @@ export default {
     out() {
       this.hover = false;
     },
+    move(event) {
+      this.position = { top: event.pageY, left: event.pageX };
+    },
   },
 };
 </script>
@@ -117,17 +124,17 @@ export default {
     :color="color"
     :borderColor="borderColor"
     :borderSize="borderSize"
-    @mouseover.native="over()"
-    @mouseout.native="out()"
+    @mouseover.native="over"
+    @mouseout.native="out"
+    @mousemove.native="move"
   >
     <base-icon v-bem:icon size="tiny" :color="iconColor" :label="icon" />
-    <!-- <the-tooltip
-      v-if="factor"
-      :show="hover"
-    >
-      {{ isDependency ? $t('Receives') : $t('Provides') }}
-      {{ factor | percentage }}
-      {{ isDependency ? $t('boost from') : $t('boost to') }} {{ name }}
-    </the-tooltip> -->
+    <portal v-if="hover && factor" to="tooltips">
+      <the-tooltip :position="position">
+        {{ isDependency ? $t('Receives') : $t('Provides') }}
+        {{ factor | percentage }}
+        {{ isDependency ? $t('boost from') : $t('boost to') }} {{ name }}
+      </the-tooltip>
+    </portal>
   </base-badge>
 </template>

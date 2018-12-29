@@ -11,19 +11,14 @@ export default {
   name: 'the-tooltip',
   blockName: 'the-tooltip',
   props: {
-    show: Boolean,
+    position: Object,
   },
   computed: {
     top() {
-      return 50;
+      return `${this.position.top}px`;
     },
     left() {
-      return 50;
-    },
-  },
-  methods: {
-    close() {
-      this.$emit('close');
+      return `${this.position.left + 20}px`;
     },
   },
 };
@@ -31,7 +26,7 @@ export default {
 
 <template>
   <transition name="fade" slot="tooltip">
-    <aside v-show="show" v-bem :style="{ top, left }"><slot /></aside>
+    <aside v-bem :style="{ top, left }"><slot /></aside>
   </transition>
 </template>
 

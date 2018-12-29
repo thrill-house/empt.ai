@@ -24,6 +24,10 @@
 
 @tailwind utilities;
 
+* {
+  outline: none !important;
+}
+
 body {
   @apply font-primary;
 }

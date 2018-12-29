@@ -20,20 +20,14 @@ export default {
     AbilityDialog,
     EmotionDiagram,
   },
+  props: {
+    label: String,
+  },
   data: () => ({
     selectedEvent: false,
     highlightedEvent: false,
   }),
   computed: {
-    interaction() {
-      return this.getInteraction('install');
-    },
-    label() {
-      return this.interaction.label;
-    },
-    show() {
-      return this.interaction !== false && this.label !== false;
-    },
     ability() {
       return this.getAbility(this.label);
     },
@@ -94,18 +88,6 @@ export default {
         ability: this.label,
       };
     },
-    slotting() {
-      return this.getInteraction('slottingAbility');
-    },
-    slottingLabel() {
-      return this.slotting ? this.slotting.label : '';
-    },
-    installing() {
-      return this.getInteraction('installingAbility');
-    },
-    installingLabel() {
-      return this.installing ? this.installing.label : '';
-    },
     ...mapState(['abilities']),
     ...mapGetters([
       'getAbilityEvents',
@@ -113,7 +95,6 @@ export default {
       'getSlotCosts',
       'getAbilitySlotEvents',
       'getScores',
-      'getInteraction',
       'getEmotions',
     ]),
   },
@@ -146,17 +127,19 @@ export default {
       this.highlightedEvent = false;
     },
     cancel() {
+      this.$emit('close');
       this.deselect();
       this.lowlight();
-      this.resetInteraction('install');
     },
     confirm() {
-      this.setInteraction({
-        interaction: 'slot',
-        label: this.label,
-        ability: this.getAbility(this.label),
-        instance: this.selectedEvent.instance,
-      });
+      // this.setInteraction({
+      //   interaction: 'slot',
+      //   label: this.label,
+      //   ability: this.getAbility(this.label),
+      //   instance: this.selectedEvent.instance,
+      // });
+
+      this.$emit('select', this.selectedEvent.instance);
       this.cancel();
     },
     tweakEmotions(emotions) {
@@ -164,13 +147,12 @@ export default {
         return emotion === 0 ? 0.1 : emotion;
       });
     },
-    ...mapActions(['setInteraction', 'resetInteraction']),
   },
 };
 </script>
 
 <template>
-  <ability-dialog :label="ability.label" :emotions="emotions" :show="show">
+  <ability-dialog :label="label" :emotions="emotions">
     <span
       slot="installToggle"
       class="button text-lg uppercase font-bold px-4 py-2 text-navy bg-light"
@@ -242,13 +224,6 @@ export default {
         </emotion-diagram>
       </button>
     </template>
-
-    <!--button
-      class="button uppercase bg-sky px-4 py-2 mb-4 font-bold text-light"
-      :disabled="sumEmotions !== requiredEmotions"
-      :class="{ 'opacity-10': sumEmotions !== requiredEmotions }"
-      @click="engageResearch(label)"
-    >{{ $t('Confirm') }}</button-->
   </ability-dialog>
 </template>
 

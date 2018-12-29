@@ -14,6 +14,7 @@ import store from '../store';
 import { mapState, mapGetters, mapActions } from 'vuex';
 
 import AbilityInstall from './ability-install';
+import AbilitySlotter from './ability-slotter';
 
 export default {
   name: 'ability-installable',
@@ -23,9 +24,11 @@ export default {
   },
   components: {
     AbilityInstall,
+    AbilitySlotter,
   },
   data: () => ({
-    task: 'install',
+    showModal: false,
+    instance: false,
   }),
   computed: {
     ability() {
@@ -71,13 +74,23 @@ export default {
     ]),
   },
   methods: {
-    install() {
-      this.setInteraction({
-        interaction: 'install',
-        label: this.label,
-      });
+    open() {
+      this.showModal = true;
     },
-    ...mapActions(['setInteraction', 'resetInteraction']),
+    close() {
+      console.log('close');
+      this.showModal = false;
+      //this.select(false);
+    },
+    select(instance) {
+      console.log('select');
+      this.instance = instance;
+    },
+    cancel() {
+      console.log('cancel');
+      this.select(false);
+      this.close();
+    },
   },
 };
 </script>
@@ -88,7 +101,7 @@ export default {
     class="ability-installable button bg-sky text-light text-left text-xs px-3 py-px relative w-full z-10"
     :class="{ 'cursor-wait': !affordable }"
     :disabled="!affordable"
-    @click="install()"
+    @click="open()"
   >
     <!--span
       class="absolute block pin h-full bg-sky-50 rounded z-0"
@@ -104,16 +117,18 @@ export default {
       <br />
       <span class="font-bold filter-grayscale">{{ costs.data | data }}</span>
     </span>
+    <portal v-if="showModal" to="modals">
+      <ability-install :label="label" @close="close" @select="select" />
+    </portal>
+    <portal v-if="instance" to="slotter">
+      <ability-slotter
+        v-if="instance"
+        slot-scope="props"
+        :label="label"
+        :instance="instance"
+        :slotter="props.slotter"
+        @cancel="cancel"
+      />
+    </portal>
   </button>
-  <!--button
-  v-else
-  class="button bg-blue-75 text-xs px-3 py-px text-light text-left relative w-full"
-  @click="endSlotting()">
-    {{ $t('Cancel {item}', { item: $t('installation')} ) }}
-  </button-->
 </template>
-
-<style lang="scss">
-.ability-installable {
-}
-</style>

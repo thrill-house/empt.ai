@@ -13,14 +13,19 @@ Displays options for researching an ability, when available. A button is display
 import store from '../store';
 import { mapState, mapGetters, mapActions } from 'vuex';
 
+import AbilityResearch from './ability-research';
+
 export default {
   name: 'ability-researchable',
   store,
+  components: {
+    AbilityResearch,
+  },
   props: {
     label: String,
   },
   data: () => ({
-    show: false,
+    showModal: false,
   }),
   computed: {
     ability() {
@@ -60,13 +65,13 @@ export default {
     ]),
   },
   methods: {
-    research() {
-      this.setInteraction({
-        interaction: 'research',
-        label: this.label,
-      });
+    open() {
+      this.showModal = true;
     },
-    ...mapActions(['addAbilityEvent', 'setInteraction', 'resetInteraction']),
+    close() {
+      this.showModal = false;
+    },
+    ...mapActions(['addAbilityEvent']),
   },
 };
 </script>
@@ -77,7 +82,7 @@ export default {
     class="ability-researchable button bg-sky text-light text-left text-xs px-3 py-px relative w-full"
     :class="{ 'cursor-wait': !affordable }"
     :disabled="!affordable"
-    @click="research()"
+    @click="open()"
   >
     <!--span
       class="absolute block pin h-full bg-sky-50 rounded z-0"
@@ -89,6 +94,9 @@ export default {
         costs.confidence | confidence
       }}</span>
     </span>
+    <portal to="modals" v-if="showModal">
+      <ability-research :label="label" @close="close()" />
+    </portal>
   </button>
 </template>
 

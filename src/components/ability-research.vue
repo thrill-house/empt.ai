@@ -20,6 +20,9 @@ export default {
     AbilityDialog,
     EmotionDiagram,
   },
+  props: {
+    label: String,
+  },
   data: () => ({
     emotions: {
       excitement: 0,
@@ -48,15 +51,6 @@ export default {
     requiredEmotions: 4,
   }),
   computed: {
-    interaction() {
-      return this.getInteraction('research');
-    },
-    label() {
-      return this.interaction.label;
-    },
-    show() {
-      return this.interaction !== false && this.label !== false;
-    },
     ability() {
       return this.getAbility(this.label);
     },
@@ -123,7 +117,6 @@ export default {
       'getAbilityCosts',
       'getScores',
       'getEmotions',
-      'getInteraction',
       'getIsEraActive',
     ]),
   },
@@ -147,11 +140,6 @@ export default {
         });
 
         this.addAbilityEvent(event);
-        this.setInteraction({
-          interaction: 'slot',
-          label: this.label,
-          instance: event.instance,
-        });
         this.cancel();
       } else {
         alert('Fill in all emotions');
@@ -161,9 +149,9 @@ export default {
       this.emotions = _.mapValues(this.emotions, () => 0);
     },
     cancel() {
-      this.dialog = false;
+      //this.dialog = false;
+      this.$emit('close');
       this.resetEmotions();
-      this.resetInteraction('research');
     },
     getComplement(emotion) {
       return this.complements[emotion];
@@ -217,18 +205,13 @@ export default {
     isEmotionValue(emotion) {
       return this.isEmotionDecrementable(emotion);
     },
-    ...mapActions(['addAbilityEvent', 'setInteraction', 'resetInteraction']),
+    ...mapActions(['addAbilityEvent']),
   },
 };
 </script>
 
 <template>
-  <ability-dialog
-    class="ability-research"
-    :label="label"
-    :costs="costs"
-    :show="show"
-  >
+  <ability-dialog class="ability-research" :label="label" :costs="costs">
     <span
       slot="researchToggle"
       class="button text-lg uppercase font-bold px-4 py-2 text-navy bg-light"
@@ -252,13 +235,6 @@ export default {
     >
       {{ $t('Cancel') }}
     </button>
-
-    <!--button
-      class="button uppercase bg-sky px-4 py-2 mb-4 font-bold text-light"
-      :disabled="sumEmotions !== requiredEmotions"
-      :class="{ 'opacity-10': sumEmotions !== requiredEmotions }"
-      @click="engageResearch(label)"
-    >{{ $t('Confirm') }}</button-->
 
     <template slot="emotions">
       <emotion-diagram
