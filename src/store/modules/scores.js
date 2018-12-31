@@ -3,7 +3,8 @@ import Vue from 'vue';
 const state = {
   MULTIPLIER_RATE: 1.12,
   SCORES_INIT: { data: 50000, confidence: 50000 },
-  FACTORS_INIT: { bandwidth: 0, influence: 0 },
+  FACTORS_INIT: { influence: 0, bandwidth: 0 },
+  TREES_INIT: { neutral: 0, science: 0, economy: 0, society: 0 },
   COSTS_INIT: { data: 0, confidence: 0 },
   EMOTIONS_INIT: {
     happiness: 7,

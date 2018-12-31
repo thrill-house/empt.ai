@@ -16,7 +16,7 @@ import { mapState, mapGetters, mapActions } from 'vuex';
 import AbilitySymbioses from './ability-symbioses';
 import BaseBadge from './base-badge';
 import BaseEra from './base-era';
-import BaseFactor from './base-factor';
+import BaseFactors from './base-factors';
 import BaseHover from './base-hover';
 import BaseIcon from './base-icon';
 import EmotionDiagram from './emotion-diagram';
@@ -32,7 +32,7 @@ export default {
     AbilitySymbioses,
     BaseBadge,
     BaseEra,
-    BaseFactor,
+    BaseFactors,
     BaseIcon,
     EmotionDiagram,
     SocketSlot,
@@ -56,6 +56,12 @@ export default {
     },
     ability() {
       return this.getAbility(this.abilityLabel) || {};
+    },
+    name() {
+      return this.ability.name;
+    },
+    description() {
+      return this.ability.description;
     },
     tree() {
       return this.ability.tree || {};
@@ -139,23 +145,16 @@ export default {
         <slot name="tooltip">
           <portal v-if="hover" to="tooltips">
             <the-tooltip v-bem:tooltip :position="position">
-              <div v-bem:tooltip-factors>
-                <base-factor
-                  v-for="(value, factor) in calculatedFactors"
-                  v-bem:factors-base
-                  :key="factor"
-                  :label="factor"
-                  :value="value"
-                  :accumulating="true"
-                ></base-factor>
-                <base-factor
-                  v-for="(value, tree) in trees"
-                  v-bem:factors-tree
-                  :key="tree"
-                  :label="tree"
-                  :value="value"
-                ></base-factor>
-              </div>
+              <header v-bem:tooltip-header>
+                <h4 v-bem:tooltip-header-title>{{ name }}</h4>
+                <p v-bem:tooltip-header-description>{{ description }}</p>
+              </header>
+              <base-factors
+                v-bem:tooltip-factors
+                :bases="calculatedFactors"
+                :trees="trees"
+                :accumulating="true"
+              />
             </the-tooltip>
           </portal>
         </slot>

@@ -37,18 +37,10 @@
   }
 
   &__factors {
-    @apply relative
-    flex flex-wrap
-    content-start
-    h-16
+    @apply h-16
     ml-16
     pl-16 pb-2
     z-10;
-
-    &-base,
-    &-tree {
-      @apply w-1/2 h-4 mb-1 pl-1;
-    }
   }
 
   &__content {

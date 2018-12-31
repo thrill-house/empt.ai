@@ -3,11 +3,6 @@ import _ from 'lodash';
 const state = {
   events: {},
   labelsEnabled: false,
-  // interactions: {
-  //   research: false,
-  //   install: false,
-  //   slot: false,
-  // },
 };
 
 // getters
@@ -116,9 +111,6 @@ const getters = {
   getLabelsEnabled: (state) => () => {
     return state.labelsEnabled;
   },
-  // getInteraction: (state) => (label) => {
-  //   return state.interactions[label];
-  // },
 };
 
 // mutations
@@ -134,17 +126,6 @@ const mutations = {
   resetEvents: (state, events) => {
     state.events = {};
   },
-  // setInteraction: (state, interaction) => {
-  //   if (interaction !== undefined && interaction.interaction !== undefined) {
-  //     state.interactions[interaction.interaction] = interaction;
-  //     return true;
-  //   }
-
-  //   return false;
-  // },
-  // resetInteraction: (state, interactionLabel) => {
-  //   state.interactions[interactionLabel] = false;
-  // },
 };
 
 // actions
@@ -179,12 +160,6 @@ const actions = {
       dispatch('addEvent', event);
     });
   },
-  // setInteraction: ({ commit }, interaction) => {
-  //   commit('setInteraction', interaction);
-  // },
-  // resetInteraction: ({ commit }, interactionLabel) => {
-  //   commit('resetInteraction', interactionLabel);
-  // },
 };
 
 export default {

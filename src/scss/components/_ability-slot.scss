@@ -51,9 +51,20 @@
   }
 
   &__tooltip {
+    &-header {
+      @apply mb-2;
+
+      &-title {
+        @apply uppercase;
+      }
+
+      &-description {
+      }
+    }
+
     &-factors {
       @apply flex flex-wrap
-      w-48;
+      w-auto max-w-48;
     }
   }
 

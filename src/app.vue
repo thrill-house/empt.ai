@@ -80,12 +80,11 @@ export default {
     theTimeToggle: { type: Boolean },
   },
   created() {
-    this.initSockets();
-    this.initAbilities();
-    window.setTimeout(() => {
+    this.initSockets().then(() => {
       this.addSocketEvent(this.initEvent);
       this.startSession();
-    }, 3000);
+    });
+    this.initAbilities();
   },
   data: () => ({
     abilityAvailableTweaker: 'chat-buddy',
@@ -114,9 +113,9 @@ export default {
       };
     },
     ...mapState({
-      start: (state) => state.session.start,
-      now: (state) => state.session.now,
-      interval: (state) => state.session.interval,
+      start: (state) => state.time.start,
+      now: (state) => state.time.now,
+      interval: (state) => state.time.interval,
       options: 'options',
       sockets: 'sockets',
       slots: 'slots',

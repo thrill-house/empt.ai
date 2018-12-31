@@ -18,7 +18,7 @@ import AbilityResearchable from './ability-researchable';
 import AbilitySymbioses from './ability-symbioses';
 import BaseBadge from './base-badge';
 import BaseEra from './base-era';
-import BaseFactor from './base-factor';
+import BaseFactors from './base-factors';
 import BaseIcon from './base-icon';
 
 export default {
@@ -31,7 +31,7 @@ export default {
     AbilitySymbioses,
     BaseBadge,
     BaseEra,
-    BaseFactor,
+    BaseFactors,
     BaseIcon,
   },
   props: {
@@ -48,8 +48,14 @@ export default {
     ability() {
       return this.getAbility(this.label);
     },
+    name() {
+      return this.ability.name;
+    },
     factors() {
       return this.ability.factors;
+    },
+    bases() {
+      return _.mapValues(this.ability.factors, 'base');
     },
     influence() {
       return this.factors.influence;
@@ -114,24 +120,9 @@ export default {
 <template>
   <div v-if="enabled" v-bem>
     <header v-bem:header>
-      <h4 v-bem:header-title>{{ ability.name }}</h4>
+      <h4 v-bem:header-title>{{ name }}</h4>
     </header>
-    <div v-bem:factors>
-      <base-factor
-        v-for="(value, factor) in factors"
-        v-bem:factors-base
-        :key="factor"
-        :label="factor"
-        :value="value.base"
-      ></base-factor>
-      <base-factor
-        v-for="(value, tree) in trees"
-        v-bem:factors-tree
-        :key="tree"
-        :label="tree"
-        :value="value"
-      ></base-factor>
-    </div>
+    <base-factors v-bem:factors :bases="bases" :trees="trees"></base-factors>
     <div v-bem:content>
       <ability-symbioses
         v-bem:content-dependencies

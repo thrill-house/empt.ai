@@ -8,7 +8,10 @@ export default {
   name: 'base-hover',
   data: () => ({
     hover: false,
-    position: { top: 0, left: 0 },
+    position: {
+      top: 0,
+      left: 0,
+    },
   }),
   methods: {
     over() {
@@ -18,7 +21,10 @@ export default {
       this.hover = false;
     },
     move(event) {
-      this.position = { top: event.pageY, left: event.pageX };
+      this.position = {
+        top: event.pageY,
+        left: event.pageX,
+      };
     },
   },
 };
