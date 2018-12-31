@@ -7,10 +7,29 @@
   }
 
   &--unknown {
-    @apply opacity-50;
+    @apply opacity-25;
   }
 
   &--empty {
     @apply opacity-10;
+  }
+
+  &__tooltip {
+    @apply font-normal text-sm;
+  }
+
+  &__percentage {
+    &--slotted {
+      @apply text-sky;
+    }
+
+    &--not-slotted {
+      @apply text-grey;
+    }
+  }
+
+  &__percentage,
+  &__name {
+    @apply font-bold;
   }
 }

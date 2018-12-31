@@ -17,23 +17,17 @@ import AbilitySymbioses from './ability-symbioses';
 import BaseBadge from './base-badge';
 import BaseEra from './base-era';
 import BaseFactor from './base-factor';
+import BaseHover from './base-hover';
 import BaseIcon from './base-icon';
 import EmotionDiagram from './emotion-diagram';
 import SocketSlot from './socket-slot';
+import TheTooltip from './the-tooltip';
 
 export default {
   name: 'ability-slot',
   blockName: 'ability-slot',
   store,
-  props: {
-    abilityLabel: [String, Boolean],
-    abilityInstance: [String, Boolean],
-    slotter: Object,
-    installing: {
-      type: Boolean,
-      default: false,
-    },
-  },
+  extends: BaseHover,
   components: {
     AbilitySymbioses,
     BaseBadge,
@@ -42,6 +36,16 @@ export default {
     BaseIcon,
     EmotionDiagram,
     SocketSlot,
+    TheTooltip,
+  },
+  props: {
+    abilityLabel: [String, Boolean],
+    abilityInstance: [String, Boolean],
+    slotter: Object,
+    installing: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     slot() {
@@ -120,21 +124,42 @@ export default {
     :slotter="slotter"
   >
     <div v-bem:content>
-      <base-badge v-bem:content-badge size="large" :fade="tree" :pulse="true">
+      <base-badge
+        v-bem:content-badge
+        size="large"
+        :fade="tree"
+        :pulse="true"
+        @mouseover.native="over"
+        @mouseout.native="out"
+        @mousemove.native="move"
+      >
         <slot name="badge">
           <base-icon size="large" color="light" :label="abilityLabel" />
         </slot>
+        <slot name="tooltip">
+          <portal v-if="hover" to="tooltips">
+            <the-tooltip v-bem:tooltip :position="position">
+              <div v-bem:tooltip-factors>
+                <base-factor
+                  v-for="(value, factor) in calculatedFactors"
+                  v-bem:factors-base
+                  :key="factor"
+                  :label="factor"
+                  :value="value"
+                  :accumulating="true"
+                ></base-factor>
+                <base-factor
+                  v-for="(value, tree) in trees"
+                  v-bem:factors-tree
+                  :key="tree"
+                  :label="tree"
+                  :value="value"
+                ></base-factor>
+              </div>
+            </the-tooltip>
+          </portal>
+        </slot>
       </base-badge>
-      <!-- <div v-bem:content-factors>
-        <base-factor
-          v-for="(value, factor) in calculatedFactors"
-          v-bem:factors-base
-          :key="factor"
-          :label="factor"
-          :value="value"
-          :accumulating="true"
-        ></base-factor>
-      </div> -->
       <ability-symbioses
         v-bem:content-dependencies
         type="dependency"

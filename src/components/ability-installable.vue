@@ -78,16 +78,13 @@ export default {
       this.showModal = true;
     },
     close() {
-      console.log('close');
       this.showModal = false;
       //this.select(false);
     },
     select(instance) {
-      console.log('select');
       this.instance = instance;
     },
     cancel() {
-      console.log('cancel');
       this.select(false);
       this.close();
     },

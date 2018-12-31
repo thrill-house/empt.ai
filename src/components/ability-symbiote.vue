@@ -10,16 +10,19 @@ An ability that has some sort of relationship (depends on or is depended on) wit
 </docs>
 
 <script>
+import Vue from 'vue';
 import store from '../store';
 import { mapGetters } from 'vuex';
 
 import BaseBadge from './base-badge';
+import BaseHover from './base-hover';
 import BaseIcon from './base-icon';
 import TheTooltip from './the-tooltip';
 
 export default {
   name: 'ability-symbiote',
   blockName: 'ability-symbiote',
+  extends: BaseHover,
   components: {
     BaseBadge,
     BaseIcon,
@@ -33,16 +36,9 @@ export default {
       default: false,
     },
   },
-  data: () => ({
-    hover: false,
-    position: {
-      top: 0,
-      left: 0,
-    },
-  }),
   computed: {
     name() {
-      return !this.inactive ? this.ability.name : '??????';
+      return this.isAvailable ? this.ability.name : '??????';
     },
     ability() {
       return !this.empty ? this.getAbility(this.label) : false;
@@ -79,7 +75,7 @@ export default {
         : 'empty';
     },
     color() {
-      return this.isDependant ? (this.isSlotted ? 'sky' : 'grey') : 'midnight';
+      return this.isDependant ? (this.isSlotted ? 'sky' : 'ash') : 'ash';
     },
     iconColor() {
       return this.isDependency && this.isSlotted ? 'sky' : 'light';
@@ -97,18 +93,10 @@ export default {
           : this.ability.factors.influence.dependencies[this.source.label]
         : false;
     },
+    percentage() {
+      return this.factor ? Vue.filter('percentage')(this.factor) : false;
+    },
     ...mapGetters(['getAbility', 'getAbilitySlotEvent', 'getIsEraActive']),
-  },
-  methods: {
-    over() {
-      this.hover = true;
-    },
-    out() {
-      this.hover = false;
-    },
-    move(event) {
-      this.position = { top: event.pageY, left: event.pageX };
-    },
   },
 };
 </script>
@@ -130,10 +118,21 @@ export default {
   >
     <base-icon v-bem:icon size="tiny" :color="iconColor" :label="icon" />
     <portal v-if="hover && factor" to="tooltips">
-      <the-tooltip :position="position">
-        {{ isDependency ? $t('Receives') : $t('Provides') }}
-        {{ factor | percentage }}
-        {{ isDependency ? $t('boost from') : $t('boost to') }} {{ name }}
+      <the-tooltip v-bem:tooltip :position="position">
+        <template v-if="isDependency">
+          <span
+            v-bem:percentage="{ slotted: isSlotted, 'not-slotted': !isSlotted }"
+            >+{{ percentage }}</span
+          >
+          {{ $t('with') }} <span v-bem:name>{{ name }}</span>
+        </template>
+        <template v-else>
+          <span v-bem:name>{{ name }}</span> {{ $t('gains') }}
+          <span
+            v-bem:percentage="{ slotted: isSlotted, 'not-slotted': !isSlotted }"
+            >+{{ percentage }}</span
+          >
+        </template>
       </the-tooltip>
     </portal>
   </base-badge>

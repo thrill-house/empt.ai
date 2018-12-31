@@ -29,12 +29,3 @@ export default {
     <aside v-bem :style="{ top, left }"><slot /></aside>
   </transition>
 </template>
-
-<style lang="scss">
-.the-tooltip {
-  @apply absolute
-  bg-navy
-  text-light
-  z-50;
-}
-</style>

@@ -29,7 +29,6 @@ export default {
     slotter: Object,
   },
   computed: {
-    // Placeholder for a new slotting event
     slotEvent() {
       return {
         label: this.slotter.label,
@@ -40,7 +39,6 @@ export default {
   },
   methods: {
     click() {
-      console.log('click');
       this.addSlotEvent(this.slotEvent);
       this.$emit('cancel');
     },
@@ -56,5 +54,7 @@ export default {
     :slotter="slotter"
     :installing="true"
     @click.native="click()"
-  ></ability-slot>
+  >
+    <span slot="tooltip"></span>
+  </ability-slot>
 </template>

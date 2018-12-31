@@ -2,13 +2,10 @@ export default {
   'boost from': 'boost from',
   'boost to': 'boost to',
   'Cancel {item}': 'Cancel {item}',
+  gains: 'gains',
   'No valid event for “{instance}”.': 'No valid event for “{instance}”.',
   'Not a valid event': 'Not a valid event',
-  'Provides {percent} boost to {ability}':
-    'Provides {percent} boost to {ability}',
-  Provides: 'Provides',
-  'Receives {percent} boost from {ability}':
-    'Receives {percent} boost from {ability}',
+  with: 'with',
   '{num} emotions': '{num} emotions',
   Bandwidth: 'Bandwidth',
   Cancel: 'Cancel',
@@ -24,6 +21,7 @@ export default {
   Installed: 'Installed',
   Installing: 'Installing',
   Preview: 'Preview',
+  Provides: 'Provides',
   Receives: 'Receives',
   Research: 'Research',
   Researching: 'Researching',
