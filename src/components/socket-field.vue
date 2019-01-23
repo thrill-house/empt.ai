@@ -66,3 +66,21 @@ export default {
     />
   </div>
 </template>
+
+<style lang="scss">
+@import '../scss/mixins';
+
+.socket-field {
+  @apply mt-hex/16;
+  display: grid;
+  grid-template-rows: repeat(6, 1fr);
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-areas:
+    '. a a b b .'
+    '. a a b b .'
+    'c c d d e e'
+    'c c d d e e'
+    '. f f g g .'
+    '. f f g g .';
+}
+</style>

@@ -27,3 +27,39 @@ export default {
 <template>
   <div v-bem="{ color, tile, stain }"><slot></slot></div>
 </template>
+
+<style lang="scss">
+@import '../scss/mixins';
+
+.hexagon {
+  @apply relative 
+  w-48 h-hex*48
+  overflow-hidden
+  clip-hexagon;
+
+  &:before {
+    @apply absolute z--1 clip-hexagon;
+    content: '';
+  }
+
+  &--tile {
+    background-color: none;
+
+    > * {
+      @apply relative z-10;
+    }
+
+    &:before {
+      @apply absolute pin z-2 bg-stain;
+    }
+  }
+
+  @include --colors($property: 'bg-stain', $pseudo: 'before', $postfix: '-50');
+  @include --colors(
+    $property: 'bg-stain',
+    $pseudo: 'before',
+    $postfix: '-25',
+    $modifier: 'stain'
+  );
+}
+</style>

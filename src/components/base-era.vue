@@ -39,3 +39,17 @@ export default {
     ></span>
   </div>
 </template>
+
+<style lang="scss">
+@import '../scss/mixins';
+
+.era {
+  @apply flex flex-col-reverse items-center min-w-2;
+
+  &__stage {
+    @apply w-full h-1 my-px inline-block;
+
+    @include --colors;
+  }
+}
+</style>

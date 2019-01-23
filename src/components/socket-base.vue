@@ -115,3 +115,63 @@ export default {
     <base-era v-bem:era :label="socket.era"></base-era>
   </base-hexagon>
 </template>
+
+<style lang="scss">
+@import '../scss/mixins';
+
+.socket-base {
+  @apply flex flex-col
+  justify-between items-center
+  bg-neutral
+  px-2 py-6
+  mx-1 -mt-hex/16
+  text-center;
+  grid-area: d;
+
+  &:before {
+    @apply m-2;
+  }
+
+  &:after {
+    @apply absolute pin
+    w-full*2 h-full*2
+    bg-dots
+    z-1
+    rotate-45;
+    content: '';
+    left: -50%;
+    top: -50%;
+  }
+
+  @include --colors;
+
+  &__header {
+    @apply flex
+    items-center justify-center
+    text-center
+    bg-grey-25
+    p-2
+    w-2/3 h-12
+    order-2;
+  }
+
+  &__title {
+    @apply text-light text-sm uppercase;
+  }
+
+  &__content {
+    @apply flex flex-wrap
+    justify-center items-center
+    w-full h-12
+    order-2;
+  }
+
+  &__icon {
+    @apply mb-2 order-1;
+  }
+
+  &__era {
+    @apply mt-1 order-4 w-2;
+  }
+}
+</style>

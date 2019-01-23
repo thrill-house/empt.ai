@@ -54,3 +54,16 @@ export default {
     <aside v-bem :style="{ top, left, transform }"><slot /></aside>
   </transition>
 </template>
+
+<style lang="scss">
+@import '../scss/mixins';
+
+.the-tooltip {
+  @apply absolute
+  p-2
+  border border-ash
+  bg-navy-75
+  text-light
+  z-50;
+}
+</style>

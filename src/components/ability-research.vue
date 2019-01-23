@@ -274,3 +274,7 @@ export default {
     </template>
   </ability-dialog>
 </template>
+
+<style lang="scss">
+@import '../scss/mixins';
+</style>

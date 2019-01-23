@@ -55,3 +55,41 @@ export default {
     <slot></slot>
   </button>
 </template>
+
+<style lang="scss">
+@import '../scss/mixins';
+
+.button {
+  @apply clip-corners
+  text-light
+  transition-all transition-duration-fast transition-timing-ease;
+
+  &:hover {
+    @apply scale-button;
+  }
+
+  &--size {
+    &-medium {
+      @apply p-2 text-xs;
+    }
+  }
+
+  &--font,
+  &__label--font {
+    &-bold {
+      @apply uppercase font-bold;
+    }
+  }
+
+  @include --colors;
+
+  &__progress {
+    @apply block
+    absolute pin
+    h-full
+    z--1;
+
+    @include --colors;
+  }
+}
+</style>

@@ -138,3 +138,40 @@ export default {
     </portal>
   </base-badge>
 </template>
+
+<style lang="scss">
+@import '../scss/mixins';
+
+.ability-symbiote {
+  &--slotted {
+    animation: pulse 3s infinite;
+  }
+
+  &--unknown {
+    @apply opacity-25;
+  }
+
+  &--empty {
+    @apply opacity-10;
+  }
+
+  &__tooltip {
+    @apply font-normal text-sm;
+  }
+
+  &__percentage {
+    &--slotted {
+      @apply text-sky;
+    }
+
+    &--not-slotted {
+      @apply text-grey;
+    }
+  }
+
+  &__percentage,
+  &__name {
+    @apply font-bold;
+  }
+}
+</style>

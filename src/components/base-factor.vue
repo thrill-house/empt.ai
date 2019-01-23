@@ -51,3 +51,28 @@ export default {
     <span v-else v-bem:label="{ empty: isEmpty }"> — — — </span>
   </output>
 </template>
+
+<style lang="scss">
+@import '../scss/mixins';
+
+.factor {
+  @apply flex
+  items-center
+  text-xs text-light
+  font-bold;
+
+  &__icon {
+    @apply mr-1;
+  }
+
+  &__label {
+    &--accumulating {
+      animation: fadeOutUp 1s ease-in infinite;
+    }
+
+    &--empty {
+      @apply text-ash;
+    }
+  }
+}
+</style>

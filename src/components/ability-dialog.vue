@@ -149,6 +149,10 @@ export default {
 </template>
 
 <style lang="scss">
+@import '../scss/mixins';
+</style>
+
+<!-- <style lang="scss">
 .ability-dialog {
   &__header {
     @apply items-center;
@@ -160,4 +164,4 @@ export default {
     }
   }
 }
-</style>
+</style> -->

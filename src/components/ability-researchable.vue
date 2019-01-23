@@ -100,4 +100,6 @@ export default {
   </button>
 </template>
 
-<style lang="scss"></style>
+<style lang="scss">
+@import '../scss/mixins';
+</style>

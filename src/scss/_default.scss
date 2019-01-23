@@ -2,29 +2,6 @@
 
 @tailwind preflight;
 @tailwind components;
-
-@import '$variables';
-@import 'mixins';
-
-@import 'components/the-tooltip';
-
-@import 'components/base-badge';
-@import 'components/base-icon';
-@import 'components/base-button';
-@import 'components/base-era';
-@import 'components/base-factors';
-@import 'components/base-factor';
-@import 'components/base-hexagon';
-
-@import 'components/socket-field';
-@import 'components/socket-base';
-@import 'components/socket-online';
-@import 'components/socket-slot';
-
-@import 'components/ability-available';
-@import 'components/ability-slot';
-@import 'components/ability-symbiote';
-
 @tailwind utilities;
 
 * {

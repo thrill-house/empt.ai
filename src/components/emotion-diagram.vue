@@ -217,6 +217,8 @@ export default {
 </template>
 
 <style lang="scss">
+@import '../scss/mixins';
+
 .emotion-diagram {
   &:before,
   &:after {

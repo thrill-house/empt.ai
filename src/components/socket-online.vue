@@ -75,4 +75,44 @@ export default {
   </socket-base>
 </template>
 
-<style lang="scss"></style>
+<style lang="scss">
+@import '../scss/mixins';
+
+.socket-base {
+  &__challenge {
+    @apply hidden;
+  }
+
+  &__factors {
+    @apply flex flex-col;
+  }
+
+  &--online {
+    &:hover {
+      .socket-base {
+        &__factors {
+          @apply hidden;
+        }
+
+        &__challenge {
+          @apply block;
+        }
+      }
+    }
+
+    &:after {
+      animation: rotate 30s linear infinite;
+    }
+  }
+}
+
+@keyframes rotate {
+  from {
+    @apply rotate-0;
+  }
+
+  to {
+    @apply rotate-360;
+  }
+}
+</style>

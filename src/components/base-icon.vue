@@ -32,3 +32,31 @@ export default {
 <template>
   <svg v-bem="{ color, size }"><use :xlink:href="`#${label}`"></use></svg>
 </template>
+
+<style lang="scss">
+@import '../scss/mixins';
+
+.icon {
+  @apply fill-current;
+
+  &--size {
+    &-tiny {
+      @apply w-4 h-4;
+    }
+
+    &-small {
+      @apply w-6 h-6;
+    }
+
+    &-medium {
+      @apply w-8 h-8;
+    }
+
+    &-large {
+      @apply w-16 h-16;
+    }
+  }
+
+  @include --colors($property: 'text');
+}
+</style>

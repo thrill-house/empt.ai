@@ -1,3 +1,5 @@
+@import '$variables';
+
 @mixin --colors(
   $property: 'bg',
   $pseudo: false,

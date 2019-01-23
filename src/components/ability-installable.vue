@@ -129,3 +129,7 @@ export default {
     </portal>
   </button>
 </template>
+
+<style lang="scss">
+@import '../scss/mixins';
+</style>

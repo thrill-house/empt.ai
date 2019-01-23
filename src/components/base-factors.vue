@@ -75,3 +75,18 @@ export default {
     ></base-factor>
   </div>
 </template>
+
+<style lang="scss">
+@import '../scss/mixins';
+
+.factors {
+  @apply relative
+  flex flex-wrap
+  content-start
+  w-auto;
+
+  &__factor {
+    @apply w-1/2 h-4 mb-1 pl-1;
+  }
+}
+</style>

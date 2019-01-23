@@ -185,6 +185,10 @@ export default {
 </template>
 
 <style lang="scss">
+@import '../scss/mixins';
+</style>
+
+<!-- <style lang="scss">
 .emotion-diagram {
   &:before,
   &:after {
@@ -208,4 +212,4 @@ export default {
     @apply z-20;
   }
 }
-</style>
+</style> -->

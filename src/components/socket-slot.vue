@@ -39,3 +39,37 @@ export default {
     <slot></slot>
   </base-hexagon>
 </template>
+
+<style lang="scss">
+@import '../scss/mixins';
+
+.socket-slot {
+  @apply mx-1 -mt-hex/16;
+
+  &--position {
+    &-top-left {
+      grid-area: a;
+    }
+
+    &-top-right {
+      grid-area: b;
+    }
+
+    &-left {
+      grid-area: c;
+    }
+
+    &-right {
+      grid-area: e;
+    }
+
+    &-bottom-left {
+      grid-area: f;
+    }
+
+    &-bottom-right {
+      grid-area: g;
+    }
+  }
+}
+</style>

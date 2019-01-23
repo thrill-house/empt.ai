@@ -48,6 +48,5 @@ export default {
 </template>
 
 <style lang="scss">
-.emotion-profile {
-}
+@import '../scss/mixins';
 </style>
