@@ -85,6 +85,19 @@ export default {
     borderSize() {
       return this.borderColor ? 'medium' : false;
     },
+    slotted() {
+      return {
+        slotted: this.isSlotted,
+        'not-slotted': !this.isSlotted,
+      };
+    },
+    status() {
+      return {
+        unknown: this.isUnknown,
+        empty: this.isEmpty,
+        ...this.slotted,
+      };
+    },
     factor() {
       return this.source && this.ability
         ? this.isDependency
@@ -102,11 +115,7 @@ export default {
 
 <template>
   <base-badge
-    v-bem="{
-      slotted: isSlotted,
-      unknown: isUnknown,
-      empty: isEmpty,
-    }"
+    v-bem="status"
     size="tiny"
     :color="color"
     :borderColor="borderColor"
@@ -117,22 +126,14 @@ export default {
   >
     <base-icon v-bem:icon size="tiny" :color="iconColor" :label="icon" />
     <portal v-if="hover && factor" to="tooltips">
-      <the-tooltip v-bem:tooltip :position="position">
+      <the-tooltip v-bem:tooltip="slotted" :position="position">
         <template v-if="isDependency">
-          <span
-            v-bem:percentage="{ slotted: isSlotted, 'not-slotted': !isSlotted }"
-          >
-            +{{ percentage }}
-          </span>
+          <span v-bem:percentage="slotted"> +{{ percentage }} </span>
           {{ $t('with') }} <span v-bem:name>{{ name }}</span>
         </template>
         <template v-else>
           <span v-bem:name>{{ name }}</span> {{ $t('gains') }}
-          <span
-            v-bem:percentage="{ slotted: isSlotted, 'not-slotted': !isSlotted }"
-          >
-            +{{ percentage }}
-          </span>
+          <span v-bem:percentage="slotted"> +{{ percentage }} </span>
         </template>
       </the-tooltip>
     </portal>
@@ -157,6 +158,10 @@ export default {
 
   &__tooltip {
     @apply font-normal text-sm;
+
+    &--not-slotted {
+      @apply line-through;
+    }
   }
 
   &__percentage {
