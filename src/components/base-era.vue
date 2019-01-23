@@ -44,7 +44,9 @@ export default {
 @import '../scss/mixins';
 
 .era {
-  @apply flex flex-col-reverse items-center min-w-2;
+  @apply flex flex-col-reverse
+  items-center
+  min-w-2;
 
   &__stage {
     @apply w-full h-1 my-px inline-block;
