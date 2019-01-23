@@ -21,7 +21,6 @@ import TheTooltip from './the-tooltip';
 
 export default {
   name: 'ability-symbiote',
-  blockName: 'ability-symbiote',
   extends: BaseHover,
   components: {
     BaseBadge,

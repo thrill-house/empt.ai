@@ -9,7 +9,6 @@ Helper element to display tooltips that take a z-index priority over all other e
 <script>
 export default {
   name: 'the-tooltip',
-  blockName: 'the-tooltip',
   props: {
     position: Object,
   },

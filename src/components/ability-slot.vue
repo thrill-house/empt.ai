@@ -25,7 +25,6 @@ import TheTooltip from './the-tooltip';
 
 export default {
   name: 'ability-slot',
-  blockName: 'ability-slot',
   store,
   extends: BaseHover,
   components: {

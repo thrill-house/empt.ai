@@ -15,7 +15,6 @@ import BaseHexagon from './base-hexagon';
 
 export default {
   name: 'socket-slot',
-  blockName: 'socket-slot',
   store,
   components: {
     BaseHexagon,

@@ -18,7 +18,6 @@ import BaseIcon from './base-icon';
 
 export default {
   name: 'ability-symbioses',
-  blockName: 'ability-symbioses',
   components: {
     AbilitySymbiote,
     BaseBadge,

@@ -21,7 +21,6 @@ import BaseHexagon from './base-hexagon';
 
 export default {
   name: 'socket-base',
-  blockName: 'socket-base',
   store,
   components: {
     BaseButton,

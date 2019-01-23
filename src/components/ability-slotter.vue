@@ -18,7 +18,6 @@ import AbilitySlot from './ability-slot';
 
 export default {
   name: 'ability-slotter',
-  blockName: 'ability-slotter',
   store,
   components: {
     AbilitySlot,

@@ -19,7 +19,6 @@ import SocketSlotter from './socket-slotter';
 
 export default {
   name: 'socket-field',
-  blockName: 'socket-field',
   store,
   components: {
     SocketBase,

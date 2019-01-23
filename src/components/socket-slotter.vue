@@ -19,7 +19,6 @@ import SocketSlot from './socket-slot';
 
 export default {
   name: 'socket-slotter',
-  blockName: 'socket-slotter',
   store,
   components: {
     AbilitySlot,
