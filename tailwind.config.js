@@ -936,6 +936,7 @@ module.exports = {
         '45': '45deg',
         '90': '90deg',
         '180': '180deg',
+        '360': '360deg',
       },
       negativeRotate: {
         '45': '45deg',

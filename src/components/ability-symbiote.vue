@@ -122,16 +122,18 @@ export default {
         <template v-if="isDependency">
           <span
             v-bem:percentage="{ slotted: isSlotted, 'not-slotted': !isSlotted }"
-            >+{{ percentage }}</span
           >
+            +{{ percentage }}
+          </span>
           {{ $t('with') }} <span v-bem:name>{{ name }}</span>
         </template>
         <template v-else>
           <span v-bem:name>{{ name }}</span> {{ $t('gains') }}
           <span
             v-bem:percentage="{ slotted: isSlotted, 'not-slotted': !isSlotted }"
-            >+{{ percentage }}</span
           >
+            +{{ percentage }}
+          </span>
         </template>
       </the-tooltip>
     </portal>

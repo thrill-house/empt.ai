@@ -23,7 +23,6 @@ import BaseIcon from './base-icon';
 
 export default {
   name: 'ability-available',
-  blockName: 'ability-available',
   store,
   components: {
     AbilityInstallable,
@@ -130,26 +129,26 @@ export default {
         :source="ability"
         :minimum="3"
         :symbiotes="dependencies"
-      ></ability-symbioses>
+      />
       <ability-symbioses
         v-bem:content-dependants
         type="dependant"
         :source="ability"
         :minimum="3"
         :symbiotes="dependants"
-      ></ability-symbioses>
+      />
     </div>
     <div v-bem:actions>
       <ability-installable
         v-bem:actions-installable
         ref="install"
         :label="label"
-      ></ability-installable>
+      />
       <ability-researchable
         v-bem:actions-researchable
         ref="research"
         :label="label"
-      ></ability-researchable>
+      />
     </div>
     <base-badge
       v-bem:icon

@@ -1,9 +1,9 @@
 <docs>
-  ### The score
-  The component provides a representation of the player's current game score, meaning the number of **data** and **confidence** resources it has currently accumulated.
-  
-  ##### Instantiation
-  `<the-score></the-score>`
+### The score
+The component provides a representation of the player's current game score, meaning the number of **data** and **confidence** resources it has currently accumulated.
+
+##### Instantiation
+`<the-score></the-score>`
 </docs>
 
 <script>

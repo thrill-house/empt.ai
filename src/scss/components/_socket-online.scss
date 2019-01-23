@@ -22,5 +22,19 @@
         }
       }
     }
+
+    &:after {
+      animation: rotate 30s linear infinite;
+    }
+  }
+}
+
+@keyframes rotate {
+  from {
+    @apply rotate-0;
+  }
+
+  to {
+    @apply rotate-360;
   }
 }

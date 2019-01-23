@@ -609,7 +609,7 @@ export default {
     <!--
     ---- Ability enabled
     --->
-    <section :class="{ off: abilitySlottedToggle }">
+    <!-- <section :class="{ off: abilitySlottedToggle }">
       <header>
         <button class="toggle" @click="toggle('abilitySlottedToggle')">
           Toggle
@@ -629,8 +629,8 @@ export default {
           </select>
         </div>
       </header>
-      <!-- <ability-slot :instance="abilitySlottedTweaker"></ability-slot> -->
-    </section>
+      <ability-slot :instance="abilitySlottedTweaker"></ability-slot>
+    </section> -->
 
     <!--
     ---- Ability purchaseable
