@@ -1,0 +1,22 @@
+@import "$variables";
+
+@mixin --colors(
+  $property: "bg",
+  $pseudo: false,
+  $postfix: "",
+  $modifier: "color",
+  $delimit: "--"
+) {
+  @each $label, $color in $colorList {
+    &#{$delimit}#{$modifier}-#{"" + $label} {
+      @if $pseudo {
+        &:#{$pseudo} {
+          @apply #{$property}-#{"" + $label}#{$postfix};
+          content: "";
+        }
+      } @else {
+        @apply #{$property}-#{"" + $label}#{$postfix};
+      }
+    }
+  }
+}

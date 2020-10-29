@@ -1,0 +1,67 @@
+<docs>
+### Ability symbioses
+An ability that has some sort of relationship (depends on or is depended on) with another ability.
+
+##### Properties
+- `label` — A label referring to an ability in the global store.
+
+##### Instantiation
+`<ability-symbioses abilities.object="{ abilities }"></ability-symbioses>`
+</docs>
+
+<script>
+// import store from '../store';
+import _ from 'lodash-es';
+
+import AbilitySymbiote from './ability-symbiote';
+// import BaseBadge from './base-badge';
+// import BaseIcon from './base-icon';
+
+export default {
+  name: 'ability-symbioses',
+  components: {
+    AbilitySymbiote,
+    // BaseBadge,
+    // BaseIcon,
+  },
+  props: {
+    type: String,
+    symbiotes: Object,
+    source: {
+      type: [Object, Boolean],
+      default: false,
+    },
+    minimum: {
+      type: Number,
+      default: 0,
+    },
+  },
+  computed: {
+    length() {
+      return _.keys(this.symbiotes).length || 0;
+    },
+    remainder() {
+      return this.minimum - this.length;
+    },
+  },
+};
+</script>
+
+<template>
+  <div v-bem>
+    <ability-symbiote
+      v-for="(symbiote, index) in symbiotes"
+      :type="type"
+      :source="source"
+      :key="index"
+      :label="index"
+    />
+    <ability-symbiote
+      v-for="remain in remainder"
+      :type="type"
+      :source="false"
+      :key="remain"
+      :label="false"
+    />
+  </div>
+</template>
