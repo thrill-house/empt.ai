@@ -1,0 +1,110 @@
+[
+  {
+    "json": {
+      "$protocolVersion": 0,
+      "$id": "ByGJUCH9BL9sPpqG7qZ6YxsU3hdGEWPRV1tJzcXS6KnH",
+      "$type": "Emotions",
+      "$dataContractId": "C3ka7SGe6ABDAA3Su1XRGFHN4wQNz4YN9Gw2MbXHnjT6",
+      "$ownerId": "5YT97ejmefH5hRRQ8Q7qKBnz8RiNB5hUgWq6rggoo8NQ",
+      "$revision": 2,
+      "$createdAt": 1604324325459,
+      "$updatedAt": 1604324499598
+    },
+    "data": {
+      "title": "Happiness",
+      "emotionId": "HxDP2AgWvPUdJdWs9TLypXFnBYUwG6Nf4VR5vsZBSzaJ",
+      "sentiment": true,
+      "description": "I feel good"
+    }
+  },
+  {
+    "json": {
+      "$protocolVersion": 0,
+      "$id": "HxDP2AgWvPUdJdWs9TLypXFnBYUwG6Nf4VR5vsZBSzaJ",
+      "$type": "Emotions",
+      "$dataContractId": "C3ka7SGe6ABDAA3Su1XRGFHN4wQNz4YN9Gw2MbXHnjT6",
+      "$ownerId": "5YT97ejmefH5hRRQ8Q7qKBnz8RiNB5hUgWq6rggoo8NQ",
+      "$revision": 1,
+      "$createdAt": 1604324383092,
+      "$updatedAt": 1604324383092
+    },
+    "data": {
+      "title": "Sadness",
+      "emotionId": "ByGJUCH9BL9sPpqG7qZ6YxsU3hdGEWPRV1tJzcXS6KnH",
+      "sentiment": false,
+      "description": "I feel bad"
+    }
+  },
+  {
+    "json": {
+      "$protocolVersion": 0,
+      "$id": "428Nxo2W1ur1ZjzY6Lrx2BeCP68wLKtryLegeAjqDnQZ",
+      "$type": "Emotions",
+      "$dataContractId": "C3ka7SGe6ABDAA3Su1XRGFHN4wQNz4YN9Gw2MbXHnjT6",
+      "$ownerId": "5YT97ejmefH5hRRQ8Q7qKBnz8RiNB5hUgWq6rggoo8NQ",
+      "$revision": 2,
+      "$createdAt": 1604324555416,
+      "$updatedAt": 1604324709307
+    },
+    "data": {
+      "title": "Excitement",
+      "emotionId": "4M5Py6JQNeLmLcbbwL3LnKEHzL6G15NWrt1Wvfekojna",
+      "sentiment": true,
+      "description": "I feel jazzed!"
+    }
+  },
+  {
+    "json": {
+      "$protocolVersion": 0,
+      "$id": "H7h4prRwYmQaSazyhjr3Z5i5hzuQqFuo37DkdW3wKi2c",
+      "$type": "Emotions",
+      "$dataContractId": "C3ka7SGe6ABDAA3Su1XRGFHN4wQNz4YN9Gw2MbXHnjT6",
+      "$ownerId": "5YT97ejmefH5hRRQ8Q7qKBnz8RiNB5hUgWq6rggoo8NQ",
+      "$revision": 2,
+      "$createdAt": 1604324642738,
+      "$updatedAt": 1604324725410
+    },
+    "data": {
+      "title": "Anger",
+      "emotionId": "ALES5JaBGdFKfWQvTF5a9DxpWXVYPsgoiKVfruujRc1n",
+      "sentiment": false,
+      "description": "I feel mad"
+    }
+  },
+  {
+    "json": {
+      "$protocolVersion": 0,
+      "$id": "ALES5JaBGdFKfWQvTF5a9DxpWXVYPsgoiKVfruujRc1n",
+      "$type": "Emotions",
+      "$dataContractId": "C3ka7SGe6ABDAA3Su1XRGFHN4wQNz4YN9Gw2MbXHnjT6",
+      "$ownerId": "5YT97ejmefH5hRRQ8Q7qKBnz8RiNB5hUgWq6rggoo8NQ",
+      "$revision": 2,
+      "$createdAt": 1604324619733,
+      "$updatedAt": 1604324741985
+    },
+    "data": {
+      "title": "Tenderness",
+      "emotionId": "H7h4prRwYmQaSazyhjr3Z5i5hzuQqFuo37DkdW3wKi2c",
+      "sentiment": true,
+      "description": "I feel warm and fuzzy"
+    }
+  },
+  {
+    "json": {
+      "$protocolVersion": 0,
+      "$id": "4M5Py6JQNeLmLcbbwL3LnKEHzL6G15NWrt1Wvfekojna",
+      "$type": "Emotions",
+      "$dataContractId": "C3ka7SGe6ABDAA3Su1XRGFHN4wQNz4YN9Gw2MbXHnjT6",
+      "$ownerId": "5YT97ejmefH5hRRQ8Q7qKBnz8RiNB5hUgWq6rggoo8NQ",
+      "$revision": 2,
+      "$createdAt": 1604324586166,
+      "$updatedAt": 1604324755516
+    },
+    "data": {
+      "title": "Fear",
+      "emotionId": "428Nxo2W1ur1ZjzY6Lrx2BeCP68wLKtryLegeAjqDnQZ",
+      "sentiment": false,
+      "description": "I feel terrified"
+    }
+  }
+]
