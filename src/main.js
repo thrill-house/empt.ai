@@ -1,17 +1,15 @@
+import "./styles/default.scss";
 import { createApp } from "vue";
 // import VueLocalStorage from "vue-localstorage";
-
 import { createI18n } from "vue-i18n";
 import _ from "lodash-es";
 // import VueBem from "@verstaerker/vue-bem";
 import { chain } from "mathjs";
 import dayjs from "dayjs";
 import numeral from "numeral";
-
 import messages from "./i18n";
 import App from "./App.vue";
 import VuexStore from "./store";
-import "./styles/default.scss";
 
 const app = createApp(App);
 
@@ -21,9 +19,7 @@ app.use(VuexStore);
 //   blockSource: "blockName",
 // });
 
-// app.use(VueLocalStorage, {
-//   bind: true,
-// });
+// app.use(VueLocalStorage);
 
 const i18n = createI18n({
   legacy: false,
