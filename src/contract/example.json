@@ -3,8 +3,8 @@
     {
       "title": "Ability",
       "description": "Ability description",
-      "_treeId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
-      "_eraId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
+      "treeId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
+      "eraId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
       "factors": [
         {
           "type": "bandwidth",
@@ -15,9 +15,9 @@
           "dependency": {
             "document": "slots",
             "where": [
-              ["_treeId", "==", "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX"],
+              ["treeId", "==", "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX"],
               [
-                "_abilityId",
+                "abilityId",
                 "==",
                 "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX"
               ]
@@ -30,9 +30,9 @@
           "dependency": {
             "document": "slots",
             "where": [
-              ["_eraId", "==", "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX"],
+              ["eraId", "==", "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX"],
               [
-                "_abilityId",
+                "abilityId",
                 "==",
                 "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX"
               ]
@@ -46,7 +46,7 @@
             "document": "slots",
             "where": [
               [
-                "_abilityId",
+                "abilityId",
                 "==",
                 "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX"
               ]
@@ -63,9 +63,9 @@
           "dependency": {
             "document": "slots",
             "where": [
-              ["_treeId", "==", "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX"],
+              ["treeId", "==", "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX"],
               [
-                "_abilityId",
+                "abilityId",
                 "==",
                 "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX"
               ]
@@ -78,9 +78,9 @@
           "dependency": {
             "document": "slots",
             "where": [
-              ["_eraId", "==", "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX"],
+              ["eraId", "==", "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX"],
               [
-                "_abilityId",
+                "abilityId",
                 "==",
                 "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX"
               ]
@@ -94,7 +94,7 @@
             "document": "slots",
             "where": [
               [
-                "_abilityId",
+                "abilityId",
                 "==",
                 "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX"
               ]
@@ -113,8 +113,8 @@
     {
       "title": "Socket",
       "description": "Socket description",
-      "_treeId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
-      "_eraId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
+      "treeId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
+      "eraId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
       "slots": 3,
       "factors": [
         {
@@ -133,11 +133,7 @@
           "dependency": {
             "document": "trainings",
             "where": [
-              [
-                "_socketId",
-                "==",
-                "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX"
-              ]
+              ["socketId", "==", "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX"]
             ]
           }
         },
@@ -147,11 +143,7 @@
           "dependency": {
             "document": "trainings",
             "where": [
-              [
-                "_socketId",
-                "==",
-                "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX"
-              ]
+              ["socketId", "==", "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX"]
             ]
           }
         }
@@ -186,25 +178,25 @@
   "games": [{ "title": "Title" }],
   "sources": [
     {
-      "_gameId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
-      "_socketId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX"
+      "gameId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
+      "socketId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX"
     }
   ],
   "models": [
     {
-      "_gameId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
-      "_abilityId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
+      "gameId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
+      "abilityId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
       "feelings": [
         {
-          "_emotionId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
+          "emotionId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
           "value": 1
         },
         {
-          "_emotionId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
+          "emotionId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
           "value": 1
         },
         {
-          "_emotionId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
+          "emotionId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
           "value": 2
         }
       ]
@@ -212,32 +204,32 @@
   ],
   "slots": [
     {
-      "_gameId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
-      "_modelId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
-      "_sourceId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
-      "_abilityId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
-      "_socketId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
-      "_eraId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
-      "_treeId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
-      "_slotId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
+      "gameId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
+      "modelId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
+      "sourceId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
+      "abilityId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
+      "socketId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
+      "eraId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
+      "treeId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
+      "slotId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
       "slotIndex": 0
     },
     {
-      "_gameId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
-      "_modelId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
-      "_sourceId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
-      "_abilityId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
-      "_socketId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
-      "_eraId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
-      "_treeId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
+      "gameId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
+      "modelId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
+      "sourceId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
+      "abilityId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
+      "socketId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
+      "eraId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
+      "treeId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
       "slotIndex": 0
     }
   ],
   "trainings": [
     {
-      "_gameId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
-      "_sourceId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
-      "_socketId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
+      "gameId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
+      "sourceId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
+      "socketId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
       "answer": { "label": "Label", "value": "Value" }
     }
   ]
