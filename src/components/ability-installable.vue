@@ -10,15 +10,15 @@ Displays options for selecting an ability to install in a slot. A button is disp
 </docs>
 
 <script>
-import store from '../store';
-import {  mapGetters  } from 'vuex';
-import _ from 'lodash-es';
+import store from "../store";
+import { mapGetters } from "vuex";
+import _ from "lodash-es";
 
-import AbilityInstall from './ability-install';
-import AbilitySlotter from './ability-slotter';
+import AbilityInstall from "./ability-install";
+import AbilitySlotter from "./ability-slotter";
 
 export default {
-  name: 'ability-installable',
+  name: "ability-installable",
   store,
   props: {
     label: String,
@@ -61,17 +61,17 @@ export default {
     },
     newEvent() {
       return {
-        type: 'slot',
-        target: 'ability',
+        type: "slot",
+        target: "ability",
         ability: this.label,
       };
     },
     ...mapGetters([
-      'getAbilityEvents',
-      'getAbilitySlotEvents',
-      'getAbility',
-      'getSlotCosts',
-      'getScores',
+      "getAbilityEvents",
+      "getAbilitySlotEvents",
+      "getAbility",
+      "getSlotCosts",
+      "getScores",
     ]),
   },
   methods: {
@@ -106,14 +106,14 @@ export default {
       :style="{width: affordability + '%'}"
     ></span-->
     <span class="relative block z-10">
-      {{ $t('Install') }}
+      {{ $t("Install") }}
       <span
         class="inline-block rounded-full px-1 h-3 bg-light text-sky text-center align-bottom text-2xs font-bold"
         :class="{ 'bg-grey': !remaining }"
         >{{ remaining }}/{{ total }}</span
       >
       <br />
-      <span class="font-bold filter-grayscale">{{ $filters.data(costs.data) }}</span>
+      <span class="font-bold filter-grayscale" v-format:data="costs.data" />
     </span>
     <portal v-if="showModal" to="modals">
       <ability-install :label="label" @close="close" @select="select" />
@@ -132,5 +132,5 @@ export default {
 </template>
 
 <style lang="scss">
-@import '../styles/mixins';
+@import "../styles/mixins";
 </style>

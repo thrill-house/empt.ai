@@ -1,8 +1,9 @@
+import { keys } from "lodash-es";
 import { chain } from "mathjs";
 import dayjs from "dayjs";
 import numeral from "numeral";
 
-export default (el, { arg, value }) => {
+export default (el, { arg, value, modifiers }) => {
   const duration = (milliseconds) =>
     dayjs().subtract(milliseconds / 1000, "seconds");
 
@@ -39,7 +40,9 @@ export default (el, { arg, value }) => {
     influence,
   };
 
+  const [pre = "", post = ""] = keys(modifiers);
+
   if (formatters[arg] && value !== undefined) {
-    el.innerText = formatters[arg](value);
+    el.innerText = `${pre}${formatters[arg](value)}${post}`;
   }
 };

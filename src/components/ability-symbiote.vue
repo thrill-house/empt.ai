@@ -11,15 +11,15 @@ An ability that has some sort of relationship (depends on or is depended on) wit
 
 <script>
 // import store from '../store';
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 
-import BaseBadge from './base-badge';
-import BaseHover from './base-hover';
-import BaseIcon from './base-icon';
-import TheTooltip from './the-tooltip';
+import BaseBadge from "./base-badge";
+import BaseHover from "./base-hover";
+import BaseIcon from "./base-icon";
+import TheTooltip from "./the-tooltip";
 
 export default {
-  name: 'ability-symbiote',
+  name: "ability-symbiote",
   extends: BaseHover,
   components: {
     BaseBadge,
@@ -36,7 +36,7 @@ export default {
   },
   computed: {
     name() {
-      return this.isAvailable ? this.ability.name : '??????';
+      return this.isAvailable ? this.ability.name : "??????";
     },
     ability() {
       return !this.empty ? this.getAbility(this.label) : false;
@@ -45,10 +45,10 @@ export default {
       return this.event.length ? true : false;
     },
     isDependency() {
-      return this.type === 'dependency';
+      return this.type === "dependency";
     },
     isDependant() {
-      return this.type === 'dependant';
+      return this.type === "dependant";
     },
     isEmpty() {
       return !this.label;
@@ -69,25 +69,25 @@ export default {
       return !this.isEmpty
         ? this.isAvailable
           ? this.label
-          : 'unknown'
-        : 'empty';
+          : "unknown"
+        : "empty";
     },
     color() {
-      return this.isDependant ? (this.isSlotted ? 'sky' : 'ash') : 'ash';
+      return this.isDependant ? (this.isSlotted ? "sky" : "ash") : "ash";
     },
     iconColor() {
-      return this.isDependency && this.isSlotted ? 'sky' : 'light';
+      return this.isDependency && this.isSlotted ? "sky" : "light";
     },
     borderColor() {
-      return this.isDependency ? (this.isSlotted ? 'sky' : 'light') : false;
+      return this.isDependency ? (this.isSlotted ? "sky" : "light") : false;
     },
     borderSize() {
-      return this.borderColor ? 'medium' : false;
+      return this.borderColor ? "medium" : false;
     },
     slotted() {
       return {
         slotted: this.isSlotted,
-        'not-slotted': !this.isSlotted,
+        "not-slotted": !this.isSlotted,
       };
     },
     status() {
@@ -104,9 +104,9 @@ export default {
           : this.ability.factors.influence.dependencies[this.source.label]
         : false;
     },
-    ...mapGetters(['getAbility', 'getAbilitySlotEvent', 'getIsEraActive']),
+    ...mapGetters(["getAbility", "getAbilitySlotEvent", "getIsEraActive"]),
   },
-  emits: ['over', 'out', 'move']
+  emits: ["over", "out", "move"],
 };
 </script>
 
@@ -125,12 +125,12 @@ export default {
     <portal v-if="hover && factor" to="tooltips">
       <the-tooltip v-bem:tooltip="slotted" :position="position">
         <template v-if="isDependency">
-          <span v-bem:percentage="slotted"> +{{ $filters.percentage(factor) }} </span>
-          {{ $t('with') }} <span v-bem:name>{{ name }}</span>
+          <span v-bem:percentage="slotted" v-format:percentage.+="factor" />
+          {{ $t("with") }} <span v-bem:name>{{ name }}</span>
         </template>
         <template v-else>
-          <span v-bem:name>{{ name }}</span> {{ $t('gains') }}
-          <span v-bem:percentage="slotted"> +{{ $filters.percentage(factor) }} </span>
+          <span v-bem:name>{{ name }}</span> {{ $t("gains") }}
+          <span v-bem:percentage="slotted" v-format:percentage.+="factor" />
         </template>
       </the-tooltip>
     </portal>
@@ -138,7 +138,7 @@ export default {
 </template>
 
 <style lang="scss">
-@import '../styles/mixins';
+@import "../styles/mixins";
 
 .ability-symbiote {
   &--slotted {

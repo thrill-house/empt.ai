@@ -10,17 +10,17 @@ The data socket is the base component that abilities are attached to. When enabl
 </docs>
 
 <script>
-import _ from 'lodash-es';
-import store from '../store';
-import { mapGetters, mapActions } from 'vuex';
+import _ from "lodash-es";
+import store from "../store";
+import { mapGetters, mapActions } from "vuex";
 
-import BaseButton from './base-button';
-import BaseEra from './base-era';
-import BaseIcon from './base-icon';
-import BaseHexagon from './base-hexagon';
+import BaseButton from "./base-button";
+import BaseEra from "./base-era";
+import BaseIcon from "./base-icon";
+import BaseHexagon from "./base-hexagon";
 
 export default {
-  name: 'socket-base',
+  name: "socket-base",
   store,
   components: {
     BaseButton,
@@ -32,7 +32,7 @@ export default {
     label: String,
     color: {
       type: [String, Boolean],
-      default: 'grey',
+      default: "grey",
     },
   },
   computed: {
@@ -59,29 +59,29 @@ export default {
       return this.getScores();
     },
     event() {
-      return this.getEventOfType(this.label, 'socket');
+      return this.getEventOfType(this.label, "socket");
     },
     newEvent() {
       return {
-        type: 'socket',
+        type: "socket",
         label: this.label,
       };
     },
     ...mapGetters([
-      'getScores',
-      'getEventOfType',
-      'getSocket',
-      'getSocketCosts',
-      'getSlotsForSocket',
+      "getScores",
+      "getEventOfType",
+      "getSocket",
+      "getSocketCosts",
+      "getSlotsForSocket",
     ]),
   },
   methods: {
     activate() {
       this.addSocketEvent(this.newEvent);
     },
-    ...mapActions(['addSocketEvent']),
+    ...mapActions(["addSocketEvent"]),
   },
-  emits: ['activate']
+  emits: ["activate"],
 };
 </script>
 
@@ -101,9 +101,9 @@ export default {
           @click.once="activate"
         >
           <template v-if="affordable">
-            {{ $t('Costs') }} {{ $filters.confidence(costs.confidence) }}
+            {{ $t("Costs") }} <span v-format:confidence="costs.confidence" />
           </template>
-          <template v-else>{{ $t('Connect') }}</template>
+          <template v-else>{{ $t("Connect") }}</template>
         </base-button>
       </slot>
     </div>
@@ -118,7 +118,7 @@ export default {
 </template>
 
 <style lang="scss">
-@import '../styles/mixins';
+@import "../styles/mixins";
 
 .socket-base {
   @apply flex flex-col
@@ -139,7 +139,7 @@ export default {
     bg-dots
     z-10
     rotate-45;
-    content: '';
+    content: "";
     left: -50%;
     top: -50%;
   }

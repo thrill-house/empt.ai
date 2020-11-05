@@ -7,11 +7,11 @@ The component displays how much time has elapsed between the first event and the
 </docs>
 
 <script>
-import store from '../store';
-import { mapState, mapMutations } from 'vuex';
+import store from "../store";
+import { mapState, mapMutations } from "vuex";
 
 export default {
-  name: 'the-time',
+  name: "the-time",
   store,
   computed: {
     elapsed() {
@@ -22,14 +22,14 @@ export default {
       now: (state) => state.session.now,
     }),
   },
-  methods: mapMutations(['setStart', 'setNow']),
+  methods: mapMutations(["setStart", "setNow"]),
 };
 </script>
 
 <template>
   <div class="the-time">
     <label class="label">Elapsed</label>
-    <output class="output">{{ $filters.duration(elapsed) }}</output>
+    <output class="output" v-format:duration="elapsed" />
   </div>
 </template>
 

@@ -10,14 +10,14 @@ Displays options for researching an ability, when available. A button is display
 </docs>
 
 <script>
-import store from '../store';
-import { mapState, mapGetters, mapActions } from 'vuex';
-import _ from 'lodash-es';
+import store from "../store";
+import { mapState, mapGetters, mapActions } from "vuex";
+import _ from "lodash-es";
 
-import AbilityResearch from './ability-research';
+import AbilityResearch from "./ability-research";
 
 export default {
-  name: 'ability-researchable',
+  name: "ability-researchable",
   store,
   components: {
     AbilityResearch,
@@ -50,19 +50,19 @@ export default {
     },
     newEvent() {
       return {
-        type: 'ability',
+        type: "ability",
         label: this.label,
         target: false,
         emotions: this.emotions,
       };
     },
-    ...mapState(['abilities']),
+    ...mapState(["abilities"]),
     ...mapGetters([
-      'getEventsOfType',
-      'getAbility',
-      'getAbilityCosts',
-      'getScores',
-      'getIsEraActive',
+      "getEventsOfType",
+      "getAbility",
+      "getAbilityCosts",
+      "getScores",
+      "getIsEraActive",
     ]),
   },
   methods: {
@@ -72,7 +72,7 @@ export default {
     close() {
       this.showModal = false;
     },
-    ...mapActions(['addAbilityEvent']),
+    ...mapActions(["addAbilityEvent"]),
   },
 };
 </script>
@@ -90,10 +90,11 @@ export default {
        :style="{width: affordability + '%'}"
     ></span-->
     <span class="relative z-10">
-      {{ $t('Research') }} <br />
-      <span class="font-bold filter-grayscale">{{
-        $filters.confidence(costs.confidence)
-      }}</span>
+      {{ $t("Research") }} <br />
+      <span
+        class="font-bold filter-grayscale"
+        v-format:confidence="costs.confidence"
+      />
     </span>
     <portal to="modals" v-if="showModal">
       <ability-research :label="label" @close="close()" />
@@ -102,5 +103,5 @@ export default {
 </template>
 
 <style lang="scss">
-@import '../styles/mixins';
+@import "../styles/mixins";
 </style>
