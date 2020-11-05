@@ -10,7 +10,7 @@ export const store = createStore({
     };
   },
   getters: {
-    all: (state) => ({
+    allQuery: (state) => ({
       where: [["$ownerId", "==", state.ownerId]],
     }),
   },
@@ -36,7 +36,7 @@ export const store = createStore({
       documents: ["Games", "Sources", "Slots", "Trainings"],
       namespace: "player",
       subscribeToFrom: [
-        ["ownerId", "mnemonic", "all"],
+        ["ownerId", "mnemonic", "allQuery"],
         ["setOwner", "setMnemonic"],
       ],
     }),

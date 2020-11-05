@@ -31,7 +31,7 @@ export default (config) => {
     // An object that is passed into queries retrieving all documents.
     // Can include conditions so that only documents matching a certain set of parameters are returned.
     // By default it will return everything
-    all: {},
+    allQuery: {},
 
     // Map root state values or getters to the plugin state, so that connection details can be changed dynamically.
     // Accepts a tuple, with the first parameter being an array of field names present in the root state or existing as getters.
@@ -121,7 +121,7 @@ export default (config) => {
             },
             actions: {
               // Helper that wraps the "retrieve" action with a query to fetch all documents.
-              // The `all` parameter can be customised in plugin options.
+              // The `allQuery` parameter can be customised in plugin options.
               all: async ({
                 dispatch,
                 commit,
@@ -129,7 +129,7 @@ export default (config) => {
                   [namespace]: { options },
                 },
               }) => {
-                commit("all", await dispatch("retrieve"), options.all);
+                commit("all", await dispatch("retrieve"), options.allQuery);
               },
 
               // Helper to wrap the "retrieve" action to return the first document matching the `id` passed in the payload.
