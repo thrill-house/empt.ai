@@ -2,7 +2,7 @@ import { createStore } from "vuex";
 import VuexPersistence from "vuex-persist";
 import VuexDash from "./dash";
 
-export const store = createStore({
+export default createStore({
   state() {
     return {
       ownerId: process.env.VUE_APP_PLAYER_IDENTITY,
