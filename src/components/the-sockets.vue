@@ -7,14 +7,13 @@ The component displays all **sockets**, and by extension all **slots** and **abi
 </docs>
 
 <script>
-import store from '../store';
-import { mapState } from 'vuex';
+import { mapState } from "vuex";
 
-import SocketField from './socket-field';
+import SocketField from "./socket-field";
 
 export default {
-  name: 'the-sockets',
-  store,
+  name: "the-sockets",
+
   components: {
     SocketField,
   },

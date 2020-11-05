@@ -7,16 +7,15 @@ Displays a modal dialog for researching an ability.
 </docs>
 
 <script>
-import store from '../store';
-import { mapState, mapGetters, mapActions } from 'vuex';
-import _ from 'lodash-es';
+import { mapState, mapGetters, mapActions } from "vuex";
+import _ from "lodash-es";
 
-import AbilityDialog from './ability-dialog';
-import EmotionDiagram from './emotion-diagram';
+import AbilityDialog from "./ability-dialog";
+import EmotionDiagram from "./emotion-diagram";
 
 export default {
-  name: 'ability-research',
-  store,
+  name: "ability-research",
+
   components: {
     AbilityDialog,
     EmotionDiagram,
@@ -34,12 +33,12 @@ export default {
       anger: 0,
     },
     complements: {
-      excitement: 'fear',
-      happiness: 'sadness',
-      tenderness: 'anger',
-      fear: 'excitement',
-      sadness: 'happiness',
-      anger: 'tenderness',
+      excitement: "fear",
+      happiness: "sadness",
+      tenderness: "anger",
+      fear: "excitement",
+      sadness: "happiness",
+      anger: "tenderness",
     },
     sides: {
       excitement: 1,
@@ -72,7 +71,7 @@ export default {
     },
     emotionalPreview() {
       return _.mergeWith(
-        { color: 'sky' },
+        { color: "sky" },
         this.emotionProfile,
         this.emotions,
         _.add
@@ -81,7 +80,7 @@ export default {
     emotionValues() {
       return [
         this.emotionalPreview,
-        _.merge({ color: 'light' }, this.emotionProfile),
+        _.merge({ color: "light" }, this.emotionProfile),
       ];
     },
     affordability() {
@@ -105,20 +104,20 @@ export default {
     },
     newEvent() {
       return {
-        type: 'ability',
+        type: "ability",
         label: this.label,
         target: false,
         emotions: this.emotions,
       };
     },
-    ...mapState(['abilities']),
+    ...mapState(["abilities"]),
     ...mapGetters([
-      'getEventsOfType',
-      'getAbility',
-      'getAbilityCosts',
-      'getScores',
-      'getEmotions',
-      'getIsEraActive',
+      "getEventsOfType",
+      "getAbility",
+      "getAbilityCosts",
+      "getScores",
+      "getEmotions",
+      "getIsEraActive",
     ]),
   },
   methods: {
@@ -143,7 +142,7 @@ export default {
         this.addAbilityEvent(event);
         this.cancel();
       } else {
-        alert('Fill in all emotions');
+        alert("Fill in all emotions");
       }
     },
     resetEmotions() {
@@ -151,7 +150,7 @@ export default {
     },
     cancel() {
       //this.dialog = false;
-      this.$emit('close');
+      this.$emit("close");
       this.resetEmotions();
     },
     getComplement(emotion) {
@@ -172,7 +171,7 @@ export default {
     getMaxEmotions(emotions) {
       let self = this;
 
-      return _.mapValues(emotions, function(value, emotion) {
+      return _.mapValues(emotions, function (value, emotion) {
         return self.getMaxEmotion(emotion);
       });
     },
@@ -206,7 +205,7 @@ export default {
     isEmotionValue(emotion) {
       return this.isEmotionDecrementable(emotion);
     },
-    ...mapActions(['addAbilityEvent']),
+    ...mapActions(["addAbilityEvent"]),
   },
 };
 </script>
@@ -215,12 +214,11 @@ export default {
   <ability-dialog class="ability-research" :label="label" :costs="costs">
     <span
       class="button text-lg uppercase font-bold px-4 py-2 text-navy bg-light"
-      >
-      <slot name="researchToggle">
-      {{ $t('Researching') }}
-      </slot>
-      </span
     >
+      <slot name="researchToggle">
+        {{ $t("Researching") }}
+      </slot>
+    </span>
 
     <button
       class="button uppercase bg-sky px-4 py-2 mb-4 font-bold text-light"
@@ -229,7 +227,7 @@ export default {
       @click="confirm()"
     >
       <slot name="confirm">
-      {{ $t('Research') }}
+        {{ $t("Research") }}
       </slot>
     </button>
 
@@ -238,7 +236,7 @@ export default {
       @click="cancel()"
     >
       <slot name="cancel">
-      {{ $t('Cancel') }}
+        {{ $t("Cancel") }}
       </slot>
     </button>
 
@@ -255,18 +253,18 @@ export default {
           :class="[emotionSide(emotion) > 0 ? 'order-first mr-1' : 'ml-1']"
         >
           <slot :name="emotion">
-          <button
-            class="bg-light text-navy p-px text-2xs text-center h-3 w-3 block font-bold uppercase rounded-l-full border-r border-navy"
-            @click="adjust(emotion, emotionSide(emotion) * -1)"
-          >
-            ❮
-          </button>
-          <button
-            class="bg-light text-navy p-px text-2xs text-center h-3 w-3 block font-bold uppercase rounded-r-full"
-            @click="adjust(emotion, emotionSide(emotion))"
-          >
-            ❯
-          </button>
+            <button
+              class="bg-light text-navy p-px text-2xs text-center h-3 w-3 block font-bold uppercase rounded-l-full border-r border-navy"
+              @click="adjust(emotion, emotionSide(emotion) * -1)"
+            >
+              ❮
+            </button>
+            <button
+              class="bg-light text-navy p-px text-2xs text-center h-3 w-3 block font-bold uppercase rounded-r-full"
+              @click="adjust(emotion, emotionSide(emotion))"
+            >
+              ❯
+            </button>
           </slot>
         </span>
       </emotion-diagram>
@@ -283,5 +281,5 @@ export default {
 </template>
 
 <style lang="scss">
-@import '../styles/mixins';
+@import "../styles/mixins";
 </style>

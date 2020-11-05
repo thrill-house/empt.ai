@@ -7,16 +7,15 @@ Displays a modal dialog for selecting an ability to install.
 </docs>
 
 <script>
-import store from '../store';
-import { mapState, mapGetters } from 'vuex';
-import _ from 'lodash-es';
+import { mapState, mapGetters } from "vuex";
+import _ from "lodash-es";
 
-import AbilityDialog from './ability-dialog';
-import EmotionDiagram from './emotion-diagram';
+import AbilityDialog from "./ability-dialog";
+import EmotionDiagram from "./emotion-diagram";
 
 export default {
-  name: 'ability-install',
-  store,
+  name: "ability-install",
+
   components: {
     AbilityDialog,
     EmotionDiagram,
@@ -39,7 +38,7 @@ export default {
       return this.getAbilitySlotEvents(this.label);
     },
     installedInstances() {
-      return _.map(this.installed, 'instance');
+      return _.map(this.installed, "instance");
     },
     era() {
       return this.ability.era;
@@ -76,7 +75,7 @@ export default {
           : combineEmotions;
 
       return _.mergeWith(
-        { color: 'sky' },
+        { color: "sky" },
         this.emotionProfile,
         combineEmotions,
         _.add
@@ -84,19 +83,19 @@ export default {
     },
     newEvent() {
       return {
-        type: 'slot',
-        target: 'ability',
+        type: "slot",
+        target: "ability",
         ability: this.label,
       };
     },
-    ...mapState(['abilities']),
+    ...mapState(["abilities"]),
     ...mapGetters([
-      'getAbilityEvents',
-      'getAbility',
-      'getSlotCosts',
-      'getAbilitySlotEvents',
-      'getScores',
-      'getEmotions',
+      "getAbilityEvents",
+      "getAbility",
+      "getSlotCosts",
+      "getAbilitySlotEvents",
+      "getScores",
+      "getEmotions",
     ]),
   },
   methods: {
@@ -128,7 +127,7 @@ export default {
       this.highlightedEvent = false;
     },
     cancel() {
-      this.$emit('close');
+      this.$emit("close");
       this.deselect();
       this.lowlight();
     },
@@ -140,11 +139,11 @@ export default {
       //   instance: this.selectedEvent.instance,
       // });
 
-      this.$emit('select', this.selectedEvent.instance);
+      this.$emit("select", this.selectedEvent.instance);
       this.cancel();
     },
     tweakEmotions(emotions) {
-      return _.mapValues(emotions, function(emotion) {
+      return _.mapValues(emotions, function (emotion) {
         return emotion === 0 ? 0.1 : emotion;
       });
     },
@@ -156,12 +155,11 @@ export default {
   <ability-dialog :label="label" :emotions="emotions">
     <span
       class="button text-lg uppercase font-bold px-4 py-2 text-navy bg-light"
-      >
-      <slot name="installToggle">
-      {{ $t('Installing') }}
-      </slot>
-      </span
     >
+      <slot name="installToggle">
+        {{ $t("Installing") }}
+      </slot>
+    </span>
 
     <button
       class="button uppercase bg-sky px-4 py-2 mb-4 font-bold text-light"
@@ -170,7 +168,7 @@ export default {
       @click="confirm()"
     >
       <slot name="confirm">
-      {{ $t('Install') }}
+        {{ $t("Install") }}
       </slot>
     </button>
 
@@ -179,7 +177,7 @@ export default {
       @click="cancel()"
     >
       <slot name="cancel">
-      {{ $t('Cancel') }}
+        {{ $t("Cancel") }}
       </slot>
     </button>
 
@@ -221,10 +219,10 @@ export default {
             >
               {{
                 isInstalledDeselected(event)
-                  ? $t('Installed')
+                  ? $t("Installed")
                   : isSelected(event)
-                  ? $t('Selected')
-                  : ''
+                  ? $t("Selected")
+                  : ""
               }}
             </span>
           </div>
@@ -235,5 +233,5 @@ export default {
 </template>
 
 <style lang="scss">
-@import '../styles/mixins';
+@import "../styles/mixins";
 </style>

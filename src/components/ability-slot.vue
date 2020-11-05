@@ -10,22 +10,21 @@ The enabled or installing ability is shown within a socket slot.
 </docs>
 
 <script>
-import store from '../store';
-import { mapState, mapGetters } from 'vuex';
+import { mapState, mapGetters } from "vuex";
 
-import AbilitySymbioses from './ability-symbioses';
-import BaseBadge from './base-badge';
-import BaseEra from './base-era';
-import BaseFactors from './base-factors';
-import BaseHover from './base-hover';
-import BaseIcon from './base-icon';
+import AbilitySymbioses from "./ability-symbioses";
+import BaseBadge from "./base-badge";
+import BaseEra from "./base-era";
+import BaseFactors from "./base-factors";
+import BaseHover from "./base-hover";
+import BaseIcon from "./base-icon";
 // import EmotionDiagram from './emotion-diagram';
-import SocketSlot from './socket-slot';
-import TheTooltip from './the-tooltip';
+import SocketSlot from "./socket-slot";
+import TheTooltip from "./the-tooltip";
 
 export default {
-  name: 'ability-slot',
-  store,
+  name: "ability-slot",
+
   extends: BaseHover,
   components: {
     AbilitySymbioses,
@@ -84,19 +83,19 @@ export default {
       return this.getAbilityDependants(this.ability.label) || {};
     },
     event() {
-      return this.getEventOfType(this.abilityInstance, 'ability', 'instance');
+      return this.getEventOfType(this.abilityInstance, "ability", "instance");
     },
     slotEvent() {
-      return this.getEventOfType(this.abilityInstance, 'slot', 'instance');
+      return this.getEventOfType(this.abilityInstance, "slot", "instance");
     },
     socket() {
       return this.getSocket(this.slot.socketLabel);
     },
     color() {
-      return this.treeMatch ? this.tree : 'light';
+      return this.treeMatch ? this.tree : "light";
     },
     stain() {
-      return this.treeMatch ? this.tree : 'grey';
+      return this.treeMatch ? this.tree : "grey";
     },
     treeMatch() {
       return this.ability.tree === this.socket.tree;
@@ -105,20 +104,20 @@ export default {
       abilities: (state) => state.abilities.list,
     }),
     ...mapGetters([
-      'getFactors',
-      'getEra',
-      'getEventOfType',
-      'getEventObjects',
-      'getStage',
-      'getAbility',
-      'getAbilityDependants',
-      'getAbilitySlotEvent',
-      'getCalculatedFactors',
-      'getSocket',
+      "getFactors",
+      "getEra",
+      "getEventOfType",
+      "getEventObjects",
+      "getStage",
+      "getAbility",
+      "getAbilityDependants",
+      "getAbilitySlotEvent",
+      "getCalculatedFactors",
+      "getSocket",
       // 'getPrettyUnit',
     ]),
   },
-  emits: ['over', 'out', 'move']
+  emits: ["over", "out", "move"],
 };
 </script>
 
@@ -182,14 +181,14 @@ export default {
 </template>
 
 <style lang="scss">
-@import '../styles/mixins';
+@import "../styles/mixins";
 
 .ability-slot {
   @apply flex flex-col
   justify-center items-center
   px-2;
 
-  @include --colors($property: 'bg', $pseudo: 'after', $postfix: '-75');
+  @include --colors($property: "bg", $pseudo: "after", $postfix: "-75");
 
   &:before {
     @apply m-1;

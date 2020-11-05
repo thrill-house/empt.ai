@@ -10,17 +10,16 @@ Helper component for sockets to extend, defining the socket and its slots locati
 </docs>
 
 <script>
-import store from '../store';
-import { mapGetters } from 'vuex';
-import _ from 'lodash-es';
+import { mapGetters } from "vuex";
+import _ from "lodash-es";
 
-import SocketBase from './socket-base';
-import SocketOnline from './socket-online';
-import SocketSlotter from './socket-slotter';
+import SocketBase from "./socket-base";
+import SocketOnline from "./socket-online";
+import SocketSlotter from "./socket-slotter";
 
 export default {
-  name: 'socket-field',
-  store,
+  name: "socket-field",
+
   components: {
     SocketBase,
     SocketOnline,
@@ -36,21 +35,21 @@ export default {
     slots() {
       return _.each(this.socket.slots, (slot, label) => {
         let event = this.getSlotEvents(label);
-        _.set(slot, 'event', _.head(event));
+        _.set(slot, "event", _.head(event));
       });
     },
     event() {
-      return this.getEventOfType(this.label, 'socket');
+      return this.getEventOfType(this.label, "socket");
     },
     ...mapGetters([
-      'getSocket',
-      'getSocketSlots',
-      'getSlotEvents',
-      'getEventsOfType',
-      'getEventOfType',
-      'getSlotEvents',
-      'getSlotsForSocket',
-      'getInteraction',
+      "getSocket",
+      "getSocketSlots",
+      "getSlotEvents",
+      "getEventsOfType",
+      "getEventOfType",
+      "getSlotEvents",
+      "getSlotsForSocket",
+      "getInteraction",
     ]),
   },
 };
@@ -69,7 +68,7 @@ export default {
 </template>
 
 <style lang="scss">
-@import '../styles/mixins';
+@import "../styles/mixins";
 
 .socket-field {
   @apply mt-hex/16;
@@ -77,11 +76,11 @@ export default {
   grid-template-rows: repeat(6, 1fr);
   grid-template-columns: repeat(6, 1fr);
   grid-template-areas:
-    '. a a b b .'
-    '. a a b b .'
-    'c c d d e e'
-    'c c d d e e'
-    '. f f g g .'
-    '. f f g g .';
+    ". a a b b ."
+    ". a a b b ."
+    "c c d d e e"
+    "c c d d e e"
+    ". f f g g ."
+    ". f f g g .";
 }
 </style>

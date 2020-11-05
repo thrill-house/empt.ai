@@ -18,20 +18,20 @@ Displays the provided values within an emotion diagram.
 </docs>
 
 <script>
-import _ from 'lodash-es';
-import {unit, sin, cos} from 'mathjs';
-import store from '../store';
+import _ from "lodash-es";
+import { unit, sin, cos } from "mathjs";
+
 // import { mapState, mapGetters } from 'vuex';
 
 export default {
-  name: 'emotion-values',
-  store,
+  name: "emotion-values",
+
   props: {
     emotions: {
       type: Object,
       validator(value) {
         return _.every(
-          ['happiness', 'sadness', 'excitement', 'fear', 'tenderness', 'anger'],
+          ["happiness", "sadness", "excitement", "fear", "tenderness", "anger"],
           _.partial(_.has, value)
         );
       },
@@ -46,7 +46,7 @@ export default {
     },
     color: {
       type: String,
-      default: 'light',
+      default: "light",
     },
     scale: Number,
   },
@@ -80,7 +80,7 @@ export default {
   },
   methods: {
     calculateRatio(emotion, degree) {
-      let degreeUnit = unit(degree, 'deg'),
+      let degreeUnit = unit(degree, "deg"),
         circleSin = sin(degreeUnit),
         circleCos = cos(degreeUnit),
         maxRatio = this.maxScale > 0 ? this.max / this.maxScale : 0,
@@ -99,10 +99,10 @@ export default {
     createPairs(positions) {
       let paired = _.transform(
         positions,
-        function(result, value, position) {
-          _.each(positions, function(val, pos) {
+        function (result, value, position) {
+          _.each(positions, function (val, pos) {
             if (position !== pos) {
-              let label = _.join([position, pos].sort(), '-');
+              let label = _.join([position, pos].sort(), "-");
               if (!result[label]) {
                 result[label] = { from: value, to: val };
               }
@@ -114,21 +114,21 @@ export default {
 
       return paired;
     },
-    createCoordinates(positions, x = 'x', y = 'y') {
-      return _.map(positions, function(value) {
+    createCoordinates(positions, x = "x", y = "y") {
+      return _.map(positions, function (value) {
         return [value[x], value[y]];
       });
     },
     joinCoordinates(
       coordinates,
-      postFix = '',
-      pointsJoin = ',',
-      coordinatesJoin = ' '
+      postFix = "",
+      pointsJoin = ",",
+      coordinatesJoin = " "
     ) {
       return _.join(
-        _.map(coordinates, function(value) {
+        _.map(coordinates, function (value) {
           return _.join(
-            _.map(value, function(val) {
+            _.map(value, function (val) {
               return val + postFix;
             }),
             pointsJoin
@@ -187,7 +187,7 @@ export default {
 </template>
 
 <style lang="scss">
-@import '../styles/mixins';
+@import "../styles/mixins";
 </style>
 
 <!-- <style lang="scss">

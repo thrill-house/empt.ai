@@ -10,17 +10,16 @@ The data socket is the base component that abilities are attached to. When enabl
 </docs>
 
 <script>
-import store from '../store';
-import { mapGetters  } from 'vuex';
+import { mapGetters } from "vuex";
 
-import BaseButton from './base-button';
-import BaseFactor from './base-factor';
-import SocketBase from './socket-base';
+import BaseButton from "./base-button";
+import BaseFactor from "./base-factor";
+import SocketBase from "./socket-base";
 
 export default {
-  name: 'socket-online',
-  blockName: 'socket-base',
-  store,
+  name: "socket-online",
+  blockName: "socket-base",
+
   components: {
     BaseButton,
     BaseFactor,
@@ -49,11 +48,11 @@ export default {
       return this.getEventsFactors(this.slotEvents, this.calculatedFactors);
     },
     ...mapGetters([
-      'getSocket',
-      'getSocketEvent',
-      'getSocketSlotEvents',
-      'getCalculatedFactors',
-      'getEventsFactors',
+      "getSocket",
+      "getSocketEvent",
+      "getSocketSlotEvents",
+      "getCalculatedFactors",
+      "getEventsFactors",
     ]),
   },
 };
@@ -70,12 +69,12 @@ export default {
         :accumulating="true"
       ></base-factor>
     </div>
-    <base-button v-bem:challenge> {{ $t('Challenge') }} </base-button>
+    <base-button v-bem:challenge> {{ $t("Challenge") }} </base-button>
   </socket-base>
 </template>
 
 <style lang="scss">
-@import '../styles/mixins';
+@import "../styles/mixins";
 
 .socket-base {
   &__challenge {

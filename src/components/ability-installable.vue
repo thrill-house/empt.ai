@@ -10,7 +10,6 @@ Displays options for selecting an ability to install in a slot. A button is disp
 </docs>
 
 <script>
-import store from "../store";
 import { mapGetters } from "vuex";
 import _ from "lodash-es";
 
@@ -19,7 +18,7 @@ import AbilitySlotter from "./ability-slotter";
 
 export default {
   name: "ability-installable",
-  store,
+
   props: {
     label: String,
   },

@@ -10,16 +10,15 @@ Determine what, if anything should be slotted into the socket slot.
 </docs>
 
 <script>
-import store from '../store';
-import { mapState, mapGetters } from 'vuex';
+import { mapState, mapGetters } from "vuex";
 
-import AbilitySlot from './ability-slot';
-import BaseButton from './base-button';
-import SocketSlot from './socket-slot';
+import AbilitySlot from "./ability-slot";
+import BaseButton from "./base-button";
+import SocketSlot from "./socket-slot";
 
 export default {
-  name: 'socket-slotter',
-  store,
+  name: "socket-slotter",
+
   components: {
     AbilitySlot,
     BaseButton,
@@ -50,27 +49,27 @@ export default {
 
     // See if we're previewing an slotting event.
     portal() {
-      return this.hover ? 'slotter' : this.label;
+      return this.hover ? "slotter" : this.label;
     },
 
     // See if there's an event or slotting preview going on.
     component() {
-      return this.event ? 'ability-slot' : 'socket-slot';
+      return this.event ? "ability-slot" : "socket-slot";
     },
     ...mapState({
       abilities: (state) => state.abilities.list,
     }),
     ...mapGetters([
-      'getFactors',
-      'getEra',
-      'getEventOfType',
-      'getEventObjects',
-      'getStage',
-      'getAbility',
-      'getAbilityDependants',
-      'getSlotEvent',
-      'getAbilitySlotEvent',
-      'getSocketForSlot',
+      "getFactors",
+      "getEra",
+      "getEventOfType",
+      "getEventObjects",
+      "getStage",
+      "getAbility",
+      "getAbilityDependants",
+      "getSlotEvent",
+      "getAbilitySlotEvent",
+      "getSocketForSlot",
       // 'getPrettyUnit',
     ]),
   },
@@ -82,7 +81,7 @@ export default {
       this.hover = false;
     },
   },
-  emits: ['over', 'out']
+  emits: ["over", "out"],
 };
 </script>
 

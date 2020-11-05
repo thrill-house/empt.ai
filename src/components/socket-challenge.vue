@@ -7,12 +7,10 @@ Displays a mini-game to the user that can be completed to receive a score bonus 
 </docs>
 
 <script>
-import store from '../store';
 // import { mapState } from 'vuex';
 
 export default {
-  name: 'socket-challenge',
-  store,
+  name: "socket-challenge",
 };
 </script>
 

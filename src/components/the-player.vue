@@ -7,12 +7,10 @@ Displays information pertaining to the player's profile.
 </docs>
 
 <script>
-import store from '../store';
 // import { mapState } from 'vuex';
 
 export default {
-  name: 'the-player',
-  store,
+  name: "the-player",
 };
 </script>
 

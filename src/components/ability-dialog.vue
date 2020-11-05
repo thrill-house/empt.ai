@@ -18,18 +18,17 @@ A shared component for researching and installing abilities
 </docs>
 
 <script>
-import store from '../store';
-import {  mapGetters, mapActions } from 'vuex';
-import _ from 'lodash-es';
+import { mapGetters, mapActions } from "vuex";
+import _ from "lodash-es";
 
-import BaseFactor from './base-factor';
-import BaseIcon from './base-icon';
-import EmotionDiagram from './emotion-diagram';
-import TheModal from './the-modal';
+import BaseFactor from "./base-factor";
+import BaseIcon from "./base-icon";
+import EmotionDiagram from "./emotion-diagram";
+import TheModal from "./the-modal";
 
 export default {
-  name: 'ability-dialog',
-  store,
+  name: "ability-dialog",
+
   components: {
     BaseFactor,
     BaseIcon,
@@ -43,8 +42,8 @@ export default {
   },
   data: () => ({
     buttons: {
-      install: 'Install',
-      research: 'Research',
+      install: "Install",
+      research: "Research",
     },
   }),
   computed: {
@@ -55,7 +54,7 @@ export default {
       return this.getAbilitySlotEvents(this.label);
     },
     installedInstances() {
-      return _.map(this.installed, 'instance');
+      return _.map(this.installed, "instance");
     },
     remaining() {
       return this.total - this.installed.length;
@@ -70,20 +69,20 @@ export default {
       return this.getIsEraActive(this.era);
     },
     emotionProfile() {
-      return _.merge({ color: 'light' }, this.getEmotions());
+      return _.merge({ color: "light" }, this.getEmotions());
     },
     emotionValues() {
       return [this.emotions, this.emotionProfile];
     },
     ...mapGetters([
-      'getAbility',
-      'getAbilitySlotEvents',
-      'getInteraction',
-      'getEmotions',
+      "getAbility",
+      "getAbilitySlotEvents",
+      "getInteraction",
+      "getEmotions",
     ]),
   },
   methods: {
-    ...mapActions(['setInteraction', 'resetInteraction']),
+    ...mapActions(["setInteraction", "resetInteraction"]),
   },
 };
 </script>
@@ -97,7 +96,7 @@ export default {
         <slot v-for="(button, index) in buttons" :name="index + 'Toggle'">
           <button
             class="button text-lg uppercase font-bold px-4 py-2 bg-grey text-dark opacity-25"
-            @click="alert('hi');"
+            @click="alert('hi')"
             :key="index"
           >
             {{ $t(button) }}
@@ -130,7 +129,7 @@ export default {
             <slot name="confirm"></slot> <slot name="cancel"></slot>
           </div>
           <div class="bg-sky-25 px-4 py-2 clip-2-corners w-full">
-            <h4 class="uppercase text-sm mb-2 text-light">{{ $t('Cost') }}</h4>
+            <h4 class="uppercase text-sm mb-2 text-light">{{ $t("Cost") }}</h4>
             <div>
               <base-factor
                 v-for="(value, cost) in costs"
@@ -151,7 +150,7 @@ export default {
 </template>
 
 <style lang="scss">
-@import '../styles/mixins';
+@import "../styles/mixins";
 </style>
 
 <!-- <style lang="scss">

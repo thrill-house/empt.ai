@@ -7,15 +7,15 @@ Aggregates the player's current emotional profile based on currently slotted abi
 </docs>
 
 <script>
-import _ from 'lodash-es';
-import store from '../store';
-import { mapGetters } from 'vuex';
+import _ from "lodash-es";
 
-import EmotionDiagram from './emotion-diagram';
+import { mapGetters } from "vuex";
+
+import EmotionDiagram from "./emotion-diagram";
 
 export default {
-  name: 'emotion-profile',
-  store,
+  name: "emotion-profile",
+
   components: {
     EmotionDiagram,
   },
@@ -26,14 +26,14 @@ export default {
     },
     color: {
       type: String,
-      default: 'light',
+      default: "light",
     },
   },
   computed: {
     emotions() {
       return _.merge({ color: this.color }, this.getEmotions());
     },
-    ...mapGetters(['getEmotions']),
+    ...mapGetters(["getEmotions"]),
   },
 };
 </script>
@@ -49,5 +49,5 @@ export default {
 </template>
 
 <style lang="scss">
-@import '../styles/mixins';
+@import "../styles/mixins";
 </style>

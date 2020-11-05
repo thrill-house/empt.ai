@@ -7,12 +7,11 @@ The component lists all events associated with the game that are stored in the g
 </docs>
 
 <script>
-import store from '../store';
-import { mapState, mapGetters } from 'vuex';
+import { mapState, mapGetters } from "vuex";
 
 export default {
-  name: 'the-events',
-  store,
+  name: "the-events",
+
   data: () => ({
     off: true,
   }),
@@ -26,8 +25,8 @@ export default {
     events() {
       return this.getEvents();
     },
-    ...mapState(['session', 'eras']),
-    ...mapGetters(['getEvents']),
+    ...mapState(["session", "eras"]),
+    ...mapGetters(["getEvents"]),
   },
 };
 </script>
@@ -35,7 +34,7 @@ export default {
 <template>
   <div class="the-events">
     <button class="button orange" @click="off = !off">
-      {{ $t('Toggle') }}
+      {{ $t("Toggle") }}
     </button>
     <div class="debug mt-4" :class="{ hidden: off }">
       <div v-if="events">
@@ -45,7 +44,7 @@ export default {
           class="event py-2 border-t border-solid border-grey"
         >
           <pre v-if="event.timestamp < now">{{ event }}</pre>
-          <pre v-else>{{ $t('Not a valid event') }}</pre>
+          <pre v-else>{{ $t("Not a valid event") }}</pre>
         </div>
       </div>
     </div>

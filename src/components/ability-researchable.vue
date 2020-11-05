@@ -10,7 +10,6 @@ Displays options for researching an ability, when available. A button is display
 </docs>
 
 <script>
-import store from "../store";
 import { mapState, mapGetters, mapActions } from "vuex";
 import _ from "lodash-es";
 
@@ -18,7 +17,7 @@ import AbilityResearch from "./ability-research";
 
 export default {
   name: "ability-researchable",
-  store,
+
   components: {
     AbilityResearch,
   },

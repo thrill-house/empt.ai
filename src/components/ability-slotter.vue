@@ -11,14 +11,13 @@ Previews an ability to be installed.
 </docs>
 
 <script>
-import store from '../store';
-import {  mapActions } from 'vuex';
+import { mapActions } from "vuex";
 
-import AbilitySlot from './ability-slot';
+import AbilitySlot from "./ability-slot";
 
 export default {
-  name: 'ability-slotter',
-  store,
+  name: "ability-slotter",
+
   components: {
     AbilitySlot,
   },
@@ -39,9 +38,9 @@ export default {
   methods: {
     click() {
       this.addSlotEvent(this.slotEvent);
-      this.$emit('cancel');
+      this.$emit("cancel");
     },
-    ...mapActions(['addSlotEvent']),
+    ...mapActions(["addSlotEvent"]),
   },
 };
 </script>
@@ -55,7 +54,7 @@ export default {
     @click="click()"
   >
     <span>
-    <slot="tooltip" />
+      <slot ="tooltip" />
     </span>
   </ability-slot>
 </template>

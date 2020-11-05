@@ -7,11 +7,8 @@ Displays an ability that is listed on the marketplace and is available for purch
 </docs>
 
 <script>
-import store from '../store';
-
 export default {
-  name: 'ability-purchaseable',
-  store,
+  name: "ability-purchaseable",
 };
 </script>
 

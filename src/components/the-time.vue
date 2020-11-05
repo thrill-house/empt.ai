@@ -7,12 +7,11 @@ The component displays how much time has elapsed between the first event and the
 </docs>
 
 <script>
-import store from "../store";
 import { mapState, mapMutations } from "vuex";
 
 export default {
   name: "the-time",
-  store,
+
   computed: {
     elapsed() {
       return this.now - this.start;

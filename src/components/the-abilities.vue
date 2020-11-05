@@ -7,41 +7,40 @@ The component displays abilities that are available to the player to research or
 </docs>
 
 <script>
-import store from '../store';
-import { mapState, mapGetters, mapActions } from 'vuex';
+import { mapState, mapGetters, mapActions } from "vuex";
 
-import AbilityAvailable from './ability-available';
+import AbilityAvailable from "./ability-available";
 
 export default {
-  name: 'the-abilities',
-  store,
+  name: "the-abilities",
+
   components: {
     AbilityAvailable,
   },
   computed: {
     selectedAbility() {
-      return this.getInteraction('selectedAbility');
+      return this.getInteraction("selectedAbility");
     },
     selectedLabel() {
-      return this.selectedAbility ? this.selectedAbility.label : '';
+      return this.selectedAbility ? this.selectedAbility.label : "";
     },
     selectedInstance() {
-      return this.selectedAbility ? this.selectedAbility.instance : '';
+      return this.selectedAbility ? this.selectedAbility.instance : "";
     },
     ...mapState({
       abilities: (state) => state.abilities.list,
     }),
-    ...mapGetters(['getInteraction']),
+    ...mapGetters(["getInteraction"]),
   },
   methods: {
     selectAbility(label, instance) {
       this.setInteraction({
-        interaction: 'selectedAbility',
+        interaction: "selectedAbility",
         label: label,
         instance: instance,
       });
     },
-    ...mapActions(['setInteraction']),
+    ...mapActions(["setInteraction"]),
   },
 };
 </script>

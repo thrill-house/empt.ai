@@ -16,15 +16,14 @@ A representation of a factor with a corresponding base-icon and value.
 </docs>
 
 <script>
-import store from '../store';
 // import { mapGetters } from 'vuex';
 
-import BaseIcon from './base-icon';
+import BaseIcon from "./base-icon";
 
 export default {
-  name: 'base-factor',
-  blockName: 'factor',
-  store,
+  name: "base-factor",
+  blockName: "factor",
+
   components: {
     BaseIcon,
   },
@@ -54,7 +53,7 @@ export default {
 </template>
 
 <style lang="scss">
-@import '../styles/mixins';
+@import "../styles/mixins";
 
 .factor {
   @apply flex

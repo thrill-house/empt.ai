@@ -7,12 +7,11 @@ The component provides a representation of the player's current game score, mean
 </docs>
 
 <script>
-import store from "../store";
 import { mapGetters } from "vuex";
 
 export default {
   name: "the-score",
-  store,
+
   computed: {
     factors() {
       return this.getFactors();

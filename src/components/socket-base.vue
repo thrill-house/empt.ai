@@ -11,7 +11,7 @@ The data socket is the base component that abilities are attached to. When enabl
 
 <script>
 import _ from "lodash-es";
-import store from "../store";
+
 import { mapGetters, mapActions } from "vuex";
 
 import BaseButton from "./base-button";
@@ -21,7 +21,7 @@ import BaseHexagon from "./base-hexagon";
 
 export default {
   name: "socket-base",
-  store,
+
   components: {
     BaseButton,
     BaseEra,

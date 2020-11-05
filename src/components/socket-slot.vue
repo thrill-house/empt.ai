@@ -10,12 +10,11 @@ The ability slot is a space attached to a data sources. When an ability is assig
 </docs>
 
 <script>
-import store from '../store';
-import BaseHexagon from './base-hexagon';
+import BaseHexagon from "./base-hexagon";
 
 export default {
-  name: 'socket-slot',
-  store,
+  name: "socket-slot",
+
   components: {
     BaseHexagon,
   },
@@ -23,7 +22,7 @@ export default {
     slotter: Object,
     stain: {
       type: [String, Boolean],
-      default: 'ash',
+      default: "ash",
     },
   },
   computed: {
@@ -41,7 +40,7 @@ export default {
 </template>
 
 <style lang="scss">
-@import '../styles/mixins';
+@import "../styles/mixins";
 
 .socket-slot {
   @apply mx-1 -mt-hex/16;

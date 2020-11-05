@@ -10,21 +10,20 @@ The component displays an ability that is defined within the global data store. 
 </docs>
 
 <script>
-import store from '../store';
-import { mapState, mapGetters,  } from 'vuex';
-import _ from 'lodash-es';
+import { mapState, mapGetters } from "vuex";
+import _ from "lodash-es";
 
-import AbilityInstallable from './ability-installable';
-import AbilityResearchable from './ability-researchable';
-import AbilitySymbioses from './ability-symbioses';
-import BaseBadge from './base-badge';
-import BaseEra from './base-era';
-import BaseFactors from './base-factors';
-import BaseIcon from './base-icon';
+import AbilityInstallable from "./ability-installable";
+import AbilityResearchable from "./ability-researchable";
+import AbilitySymbioses from "./ability-symbioses";
+import BaseBadge from "./base-badge";
+import BaseEra from "./base-era";
+import BaseFactors from "./base-factors";
+import BaseIcon from "./base-icon";
 
 export default {
-  name: 'ability-available',
-  store,
+  name: "ability-available",
+
   components: {
     AbilityInstallable,
     AbilityResearchable,
@@ -55,7 +54,7 @@ export default {
       return this.ability.factors;
     },
     bases() {
-      return _.mapValues(this.ability.factors, 'base');
+      return _.mapValues(this.ability.factors, "base");
     },
     influence() {
       return this.factors.influence;
@@ -79,16 +78,16 @@ export default {
       return this.getIsEraActive(this.era);
     },
     install() {
-      return this.getInteraction('installingAbility');
+      return this.getInteraction("installingAbility");
     },
     installLabel() {
-      return this.install ? this.install.label : '';
+      return this.install ? this.install.label : "";
     },
     research() {
-      return this.getInteraction('researchingAbility');
+      return this.getInteraction("researchingAbility");
     },
     researchLabel() {
-      return this.research ? this.research.label : '';
+      return this.research ? this.research.label : "";
     },
     interaction() {
       return (
@@ -99,10 +98,10 @@ export default {
       abilities: (state) => state.abilities.list,
     }),
     ...mapGetters([
-      'getAbility',
-      'getIsEraActive',
-      'getAbilityDependants',
-      'getInteraction',
+      "getAbility",
+      "getIsEraActive",
+      "getAbilityDependants",
+      "getInteraction",
       // 'getPrettyUnit',
     ]),
   },
@@ -187,7 +186,7 @@ export default {
 </template>
 
 <style lang="scss">
-@import '../styles/mixins';
+@import "../styles/mixins";
 
 .ability-available {
   @apply relative
@@ -198,7 +197,7 @@ export default {
   &:before,
   &:after {
     @apply absolute inset-0 clip-parallelogram;
-    content: '';
+    content: "";
   }
 
   &:before {
