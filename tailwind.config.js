@@ -1,4 +1,3 @@
-const _ = require("lodash");
 const α = require("color-alpha");
 
 const hexRatio = Math.sqrt(3 / 2);
@@ -41,23 +40,19 @@ module.exports = {
   purge: [],
   theme: {
     /* Colors */
-    colors: _.reduce(
-      colorList,
-      function(result, color, c) {
-        result[c] = color;
+    colors: Object.keys(colorList).reduce((result, c) => {
+      result[c] = colorList[c];
 
-        if (color !== "transparent") {
-          _.each(opacities, (opacity, o) => {
-            if (opacity > 0 && opacity < 1) {
-              result[`${c}-${o}`] = α(color, opacity);
-            }
-          });
-        }
+      if (colorList[c] !== "transparent") {
+        Object.keys(opacities).forEach((o) => {
+          if (opacities[o] > 0 && opacities[o] < 1) {
+            result[`${c}-${o}`] = α(colorList[c], opacities[o]);
+          }
+        });
+      }
 
-        return result;
-      },
-      {}
-    ),
+      return result;
+    }, {}),
 
     opacity: opacities,
 
@@ -176,9 +171,9 @@ module.exports = {
         dotsY: `linear-gradient(to bottom, ${theme(
           "colors.dark"
         )} 1px, transparent 1%)`,
-        tile: "url(/assets/img/tile.svg)",
-        gradient: `radial-gradient(closest-side at 50% 100%, ${theme(
-          "colors.blue"
+        tile: "url(./assets/img/tile.svg)",
+        gradient: `radial-gradient(circle at 50% 100%, ${theme(
+          "colors.navy"
         )} 2%, ${theme("colors.midnight")} 42%, ${theme("colors.dark")} 100%)`,
       };
 
@@ -203,9 +198,11 @@ module.exports = {
         },
       };
 
-      _.each(theme("colors"), (color, label) => {
-        backgroundUtilities[`.bg-stain-${label}`] = {
-          "background-image": `linear-gradient(${color} 0%, ${color} 100%), ${bg.tile}, ${bg.gradient}`,
+      Object.keys(theme("colors")).forEach((color) => {
+        backgroundUtilities[`.bg-stain-${color}`] = {
+          "background-image": `linear-gradient(${theme(
+            `colors.${color}`
+          )} 0%, ${theme(`colors.${color}`)} 100%), ${bg.tile}, ${bg.gradient}`,
         };
       });
 

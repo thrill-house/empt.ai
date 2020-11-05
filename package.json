@@ -37,7 +37,6 @@
     "color-alpha": "^1.1.2",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^7.0.0-0",
-    "lodash": "^4.17.20",
     "sass": "^1.27.1",
     "sass-loader": "^10.0.4"
   },
