@@ -7,8 +7,6 @@ Aggregates the player's current emotional profile based on currently slotted abi
 </docs>
 
 <script>
-import _ from "lodash-es";
-
 import { mapGetters } from "vuex";
 
 import EmotionDiagram from "./diagram";
@@ -19,34 +17,36 @@ export default {
   components: {
     EmotionDiagram,
   },
-  props: {
-    labels: {
-      type: Boolean,
-      default: true,
-    },
-    color: {
-      type: String,
-      default: "light",
-    },
+  data() {
+    return {
+      labels: false,
+      color: "light",
+    };
   },
   computed: {
-    emotions() {
-      return _.merge({ color: this.color }, this.getEmotions());
-    },
-    ...mapGetters(["getEmotions"]),
+    ...mapGetters({
+      emotions: "score/emotions",
+    }),
   },
 };
 </script>
 
 <template>
-  <div class="emotion-profile relative block">
-    <emotion-diagram
-      class="w-full h-full"
-      :labels="labels"
-      :values="emotions"
-    ></emotion-diagram>
+  <div v-bem @mouseover="labels = true" @mouseout="labels = false">
+    <emotion-diagram v-bem:diagram :labels="labels" :values="emotions" />
   </div>
 </template>
 
 <style lang="scss">
+.emotion-profile {
+  @apply relative block;
+  @apply bg-tile;
+  @apply p-2 m-2 ml-4;
+  @apply z-30;
+  @apply rounded-full;
+
+  &__diagram {
+    @apply h-48 w-48;
+  }
+}
 </style>
