@@ -187,15 +187,11 @@ export default {
 </template>
 
 <style lang="scss">
-@import "../styles/mixins";
-</style>
-
-<!-- <style lang="scss">
 .emotion-diagram {
   &:before,
   &:after {
     @apply rounded-full block absolute bg-sky-25;
-    content: '';
+    content: "";
   }
 
   &:before {
@@ -214,4 +210,4 @@ export default {
     @apply z-20;
   }
 }
-</style> -->
+</style>

@@ -23,9 +23,7 @@ Displays the a diagram of emotions, given a single or set of value sets
 import _ from "lodash-es";
 import { unit, sin, cos } from "mathjs";
 
-import { mapGetters } from "vuex";
-
-import EmotionValues from "./emotion-values";
+import EmotionValues from "./values";
 
 export default {
   name: "emotion-diagram",
@@ -105,9 +103,11 @@ export default {
       return _.merge({}, happinessSadness, excitementFear, tendernessAnger);
     },
     showLabels() {
-      return this.getLabelsEnabled() && !this.labels;
+      // return true;
+      return false;
+      // return this.getLabelsEnabled() && !this.labels;
     },
-    ...mapGetters(["getLabelsEnabled"]),
+    // ...mapGetters(["getLabelsEnabled"]),
   },
   methods: {
     calculateRatio(emotion, degree) {
@@ -169,59 +169,59 @@ export default {
       );
     },
     label(label) {
-      return !this.labels ? (this.showLabels ? label : "??????") : "";
+      return this.labels ? (this.showLabels ? label : "🤔") : "";
     },
   },
 };
 </script>
 
 <template>
-  <div
-    class="emotion-diagram relative block bg-sky-25 rounded-full"
-    :class="{ 'mx-16': !labels }"
-  >
-    <div class="absolute block inset-0 w-full h-full">
-      <svg class="w-full h-full" viewBox="0 0 100 100">
-        <polyline
-          v-for="(value, axis) in axes"
-          :key="axis"
-          :points="joinCoordinates(createCoordinates([value.from, value.to]))"
-          class="text-light"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1"
-          stroke-opacity="0.25"
-          vector-effect="non-scaling-stroke"
-        ></polyline>
-      </svg>
-    </div>
-    <div class="absolute block inset-0 w-full h-full z-50">
-      <div
-        v-for="(value, axisPosition) in axisPositions"
-        :key="axisPosition"
-        class="absolute block h-4 flex -mt-2 px-2 text-light text-xs uppercase font-bold"
-        :class="[axisPosition, { '-translate-x-full': value.x < 50 }]"
-        :style="{ left: value.x + '%', top: value.y + '%' }"
-      >
-        <span>{{ label(axisPosition) }}</span>
-        <slot :name="axisPosition"></slot>
-      </div>
-    </div>
+  <div v-bem="{ labels }">
+    <svg v-bem:axes viewBox="0 0 100 100">
+      <polyline
+        v-for="(value, axis) in axes"
+        :key="axis"
+        :points="joinCoordinates(createCoordinates([value.from, value.to]))"
+        v-bem:axes.line
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1"
+        stroke-opacity="0.25"
+        vector-effect="non-scaling-stroke"
+      ></polyline>
+    </svg>
+    <label
+      v-for="(value, axisPosition) in axisPositions"
+      :key="axisPosition"
+      v-bem:label="{
+        top: value.y < 33,
+        left: value.x < 33,
+        bottom: value.y > 66,
+        right: value.x > 66,
+      }"
+      :style="{ left: value.x + '%', top: value.y + '%' }"
+    >
+      <span>{{ label(axisPosition) }}</span>
+      <slot :name="axisPosition" />
+    </label>
     <emotion-values
       v-for="(value, index) in valuesList"
       :key="index"
       :emotions="value"
       :color="value.color || color"
       :scale="maxScale"
+      v-bem:values
     ></emotion-values>
-    <slot></slot>
+    <slot />
   </div>
 </template>
 
 <style lang="scss">
-@import "../styles/mixins";
+// @import "../styles/mixins";
 
 .emotion-diagram {
+  @apply relative rounded-full bg-sky-25;
+
   &:before,
   &:after {
     @apply rounded-full block absolute bg-sky-25;
@@ -240,7 +240,28 @@ export default {
     top: 1/3 * 100%;
   }
 
-  .emotion-values {
+  &__axes {
+    @apply absolute block inset-0 w-full h-full;
+  }
+
+  &__label {
+    @apply absolute h-4 flex -mt-2 px-1 text-light uppercase font-bold z-50;
+    @apply transform;
+
+    &--left {
+      @apply -translate-x-full;
+    }
+
+    &--top {
+      @apply -translate-y-1/2 px-px;
+    }
+
+    &--bottom {
+      @apply translate-y-1/2 px-px;
+    }
+  }
+
+  &__values {
     @apply z-20;
   }
 }

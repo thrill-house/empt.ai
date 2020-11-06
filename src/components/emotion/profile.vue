@@ -11,7 +11,7 @@ import _ from "lodash-es";
 
 import { mapGetters } from "vuex";
 
-import EmotionDiagram from "./emotion-diagram";
+import EmotionDiagram from "./diagram";
 
 export default {
   name: "emotion-profile",
@@ -49,5 +49,4 @@ export default {
 </template>
 
 <style lang="scss">
-@import "../styles/mixins";
 </style>
