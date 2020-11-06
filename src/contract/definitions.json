@@ -41,9 +41,9 @@
     "properties": {
       "type": {
         "type": "string",
-        "minLength": 7,
+        "minLength": 9,
         "maxLength": 9,
-        "pattern": "^bandwidth$|^influence$|^neutral$|^science$|^economy$|^society$"
+        "pattern": "^bandwidth$|^influence$"
       },
       "factor": {
         "type": "number",
