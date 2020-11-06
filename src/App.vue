@@ -28,10 +28,10 @@ export default {
   <app-sidebar />
 </template>
 
-<style>
+<style lang="scss">
 .app {
-  @apply bg-tile text-light font-primary;
-  @apply h-screen w-screen;
   @apply relative;
+  @apply h-screen w-screen;
+  @apply bg-tile from-navy via-midnight to-dark text-light font-primary;
 }
 </style>
