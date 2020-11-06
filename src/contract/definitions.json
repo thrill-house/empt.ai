@@ -15,7 +15,7 @@
     "required": ["confidence", "data"],
     "description": "An object representing a cost."
   },
-  "Factor": {
+  "Base": {
     "type": "object",
     "additionalProperties": false,
     "properties": {
@@ -25,9 +25,28 @@
         "maxLength": 9,
         "pattern": "^bandwidth$|^influence$"
       },
+      "base": {
+        "type": "integer"
+      },
+      "dependency": {
+        "$ref": "#/definitions/Dependency"
+      }
+    },
+    "required": ["base", "type"],
+    "description": "An object representing a base."
+  },
+  "Factor": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "type": {
+        "type": "string",
+        "minLength": 7,
+        "maxLength": 9,
+        "pattern": "^bandwidth$|^influence$|^neutral$|^science$|^economy$|^society$"
+      },
       "factor": {
         "type": "number",
-        "exclusiveMinimum": 0,
         "multipleOf": 0.01
       },
       "dependency": {
@@ -124,6 +143,23 @@
     },
     "required": ["description", "value"],
     "description": "An object representing an answer."
+  },
+  "Meta": {
+    "type": "array",
+    "items": {
+      "type": "array",
+      "additionalItems": false,
+      "items": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        {
+          "type": ["string", "number", "boolean"]
+        }
+      ]
+    }
   },
   "Id": {
     "type": "string",

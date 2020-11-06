@@ -1,20 +1,22 @@
 // Run `node src/contract/register.js` from the root directory to register the contract.
-
 require("dotenv").config();
+
 const Dash = require("dash");
 const fs = require("fs");
 
 const clientOpts = {
   network: "evonet",
   wallet: {
-    mnemonic: process.env.GAME_MNEMONIC,
+    mnemonic: process.env.VUE_APP_GAME_MNEMONIC,
   },
 };
 const client = new Dash.Client(clientOpts);
 
 const registerContract = async () => {
   const platform = client.platform;
-  const identity = await platform.identities.get(process.env.GAME_IDENTITY);
+  const identity = await platform.identities.get(
+    process.env.VUE_APP_GAME_IDENTITY
+  );
   const documents = JSON.parse(fs.readFileSync(`${__dirname}/documents.json`));
   const definitions = JSON.parse(
     fs.readFileSync(`${__dirname}/definitions.json`)

@@ -18,9 +18,15 @@
         "$ref": "#/definitions/Id",
         "description": "A reference to the era to which this ability belongs."
       },
+      "bases": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Base"
+        },
+        "description": "The various bases that determine the contribution of this ability to the game score."
+      },
       "factors": {
         "type": "array",
-        "minItems": 1,
         "items": {
           "$ref": "#/definitions/Factor"
         },
@@ -29,11 +35,15 @@
       "costs": {
         "$ref": "#/definitions/Costs",
         "description": "The various costs associated with this ability."
+      },
+      "meta": {
+        "$ref": "#/definitions/Meta"
       }
     },
     "required": [
       "eraId",
       "treeId",
+      "bases",
       "costs",
       "description",
       "factors",
@@ -74,6 +84,9 @@
       "sentiment": {
         "type": "boolean",
         "description": "The extent to which this is a positive or negative emotion. A value of `true` represents positive while a value of `false` represents negative."
+      },
+      "meta": {
+        "$ref": "#/definitions/Meta"
       }
     },
     "required": [
@@ -107,13 +120,16 @@
         "$ref": "#/definitions/Description",
         "description": "The description of this era."
       },
-      "level": {
+      "stage": {
         "type": "integer",
         "minimum": 1,
-        "description": "The level of this era used to determine the order of the previous and next eras."
+        "description": "The stage of this era used to determine the order of the previous and next eras."
+      },
+      "meta": {
+        "$ref": "#/definitions/Meta"
       }
     },
-    "required": ["description", "level", "title", "$createdAt", "$updatedAt"],
+    "required": ["description", "stage", "title", "$createdAt", "$updatedAt"],
     "indices": [
       {
         "properties": [{ "$ownerId": "asc" }]
@@ -125,6 +141,9 @@
       "title": {
         "$ref": "#/definitions/Title",
         "description": "The memorable name assigned to this game."
+      },
+      "meta": {
+        "$ref": "#/definitions/Meta"
       }
     },
     "required": ["title", "$createdAt", "$updatedAt"],
@@ -281,28 +300,39 @@
         "maximum": 5,
         "description": "The number of slots this socket has available."
       },
+      "bases": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Base"
+        },
+        "description": "The various bases that determine the contribution of this socket to the game score."
+      },
       "factors": {
         "type": "array",
         "items": {
-          "$ref": "#/definitions/Factor",
-          "description": "The various factors that determine the contribution of this socket to the game score."
-        }
+          "$ref": "#/definitions/Factor"
+        },
+        "description": "The various factors that determine the contribution of this socket to the game score."
       },
       "bonuses": {
         "type": "array",
         "items": {
-          "$ref": "#/definitions/Bonus",
-          "description": "The various bonuses that determine the contribution of this socket to the game score."
-        }
+          "$ref": "#/definitions/Bonus"
+        },
+        "description": "The various bonuses that determine the contribution of this socket to the game score."
       },
       "costs": {
         "$ref": "#/definitions/Costs",
         "description": "The various costs associated with this socket."
+      },
+      "meta": {
+        "$ref": "#/definitions/Meta"
       }
     },
     "required": [
       "eraId",
       "treeId",
+      "bases",
       "bonuses",
       "costs",
       "description",
@@ -428,6 +458,9 @@
       "description": {
         "$ref": "#/definitions/Description",
         "description": "The description of this tree."
+      },
+      "meta": {
+        "$ref": "#/definitions/Meta"
       }
     },
     "required": ["description", "title", "$createdAt", "$updatedAt"],

@@ -5,13 +5,10 @@
       "description": "Ability description",
       "treeId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
       "eraId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
+      "bases": [],
       "factors": [
         {
           "type": "bandwidth",
-          "factor": 1.1
-        },
-        {
-          "type": "bandwidth",
           "dependency": {
             "document": "slots",
             "where": [
@@ -23,7 +20,7 @@
               ]
             ]
           },
-          "factor": 1.1
+          "factor": 0.05
         },
         {
           "type": "bandwidth",
@@ -38,7 +35,7 @@
               ]
             ]
           },
-          "factor": 1.1
+          "factor": 0.05
         },
         {
           "type": "bandwidth",
@@ -52,11 +49,11 @@
               ]
             ]
           },
-          "factor": 1.1
+          "factor": 0.05
         },
         {
           "type": "influence",
-          "factor": 1.1
+          "factor": 0.05
         },
         {
           "type": "influence",
@@ -71,7 +68,7 @@
               ]
             ]
           },
-          "factor": 1.1
+          "factor": 0.05
         },
         {
           "type": "influence",
@@ -86,7 +83,7 @@
               ]
             ]
           },
-          "factor": 1.1
+          "factor": 0.05
         },
         {
           "type": "influence",
@@ -100,13 +97,18 @@
               ]
             ]
           },
-          "factor": 1.1
+          "factor": 0.05
         }
       ],
       "costs": {
         "data": 100,
         "confidence": 100
-      }
+      },
+      "meta": [
+        ["string", "value"],
+        ["number", 1],
+        ["boolean", true]
+      ]
     }
   ],
   "sockets": [
@@ -116,16 +118,17 @@
       "treeId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
       "eraId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
       "slots": 3,
-      "factors": [
+      "bases": [
         {
           "type": "bandwidth",
-          "factor": 1.1
+          "base": 1
         },
         {
           "type": "influence",
-          "factor": 1.1
+          "base": 1
         }
       ],
+      "factors": [],
       "bonuses": [
         {
           "type": "data",
