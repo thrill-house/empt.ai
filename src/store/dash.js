@@ -1,14 +1,12 @@
 import Dash from "dash";
 import {
   each,
-  fromPairs,
   head,
   includes,
   invokeMap,
   keyBy,
-  map,
   omit,
-  pick,
+  reduce,
 } from "lodash-es";
 
 export default (config) => {
@@ -91,10 +89,10 @@ export default (config) => {
         },
       },
       // Dynamically create a module for each document in the list
-      modules: fromPairs(
-        map(documents, (document) => [
-          document,
-          {
+      modules: reduce(
+        documents,
+        (result, document) => {
+          result[document] = {
             namespaced: true,
             state() {
               return {
@@ -259,18 +257,28 @@ export default (config) => {
                 client.disconnect();
               },
             },
-          },
-        ])
+          };
+
+          return result;
+        },
+        {}
       ),
     });
 
     // Subscribe to root store mutations and sync root state values and getters to the plugin options.
     store.subscribe((mutation, state) => {
       if (includes(subscriptions, mutation.type)) {
-        store.commit(`${namespace}/updateOptions`, {
-          ...pick(state, fromRoot),
-          ...pick(store.getters, fromRoot),
-        });
+        const combined = { ...state, ...store.getters };
+        store.commit(
+          `${namespace}/updateOptions`,
+          reduce(
+            fromRoot,
+            (result, value, key) => {
+              result[key] = combined[value];
+            },
+            {}
+          )
+        );
       }
     });
   };
