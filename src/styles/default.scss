@@ -1,5 +1,13 @@
 @import url("//fonts.googleapis.com/css?family=Titillium+Web:400,700");
 
+:root {
+  --dots-x: linear-gradient(to right, var(--dot-color) 1px, transparent 1%);
+  --dots-y: linear-gradient(to bottom, var(--dot-color) 1px, transparent 1%);
+  --grout: linear-gradient(var(--grout-color) 0%, var(--grout-color) 100%);
+  --tile: url(../assets/img/tile.svg);
+  --radial: radial-gradient(circle at 50% 100%, var(--gradient-color-stops));
+}
+
 @tailwind base;
 @tailwind components;
 // @tailwind utilities;

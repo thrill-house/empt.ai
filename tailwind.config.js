@@ -140,11 +140,22 @@ module.exports = {
       zIndex: {
         "-10": "-10",
       },
+      // backgroundRepeat: {
+      //   tile: "repeat, no-repeat",
+      // },
+      // backgroundPosition: {
+      //   "position-tile": "left top, center top",
+      // },
+      // backgroundImage: {
+      //   tile:
+      //     "var(--image-tile), radial-gradient(circle at 50% 100%, var(--gradient-color-stops))",
+      // },
     },
   },
   variants: {},
   plugins: [
     function({ addUtilities, theme }) {
+      // function({ addUtilities }) {
       let clipUtilities = {
         ".clip-corners": {
           "clip-path":
@@ -162,35 +173,26 @@ module.exports = {
           "clip-path":
             "polygon(calc(100% - 1.5rem) 0, 100% 1.5rem, 100% 100%, 40% 100%, 0 0)",
         },
-      };
-
-      let bg = {
-        dotsX: `linear-gradient(to right, ${theme(
-          "colors.dark"
-        )} 1px, transparent 1%)`,
-        dotsY: `linear-gradient(to bottom, ${theme(
-          "colors.dark"
-        )} 1px, transparent 1%)`,
-        tile: "url(./assets/img/tile.svg)",
-        gradient: `radial-gradient(circle at 50% 100%, ${theme(
-          "colors.navy"
-        )} 2%, ${theme("colors.midnight")} 42%, ${theme("colors.dark")} 100%)`,
+        ".clip-1-corner": {
+          "clip-path": "polygon(0 0%, 75% 0%, 100% 100%, 0 100%)",
+        },
       };
 
       let backgroundUtilities = {
         ".bg-dots": {
-          "background-image": `${bg.dotsX}, ${bg.dotsY}`,
+          "background-image": "var(--dots-x), var(--dots-y)",
           "background-position": "center center",
           "background-size": "2px 2px",
         },
         ".bg-tile": {
-          "background-image": `${bg.tile}, ${bg.gradient}`,
+          "background-image": `var(--tile), radial-gradient(circle at 50% 100%, var(--gradient-color-stops))`,
           "background-position": "left top, center top",
           "background-repeat": "repeat, no-repeat",
           "background-size": "auto, cover",
           "background-attachment": "fixed, fixed",
         },
-        ".bg-stain": {
+        ".bg-grout": {
+          "background-image": `var(--grout), var(--tile), radial-gradient(circle at 50% 100%, var(--gradient-color-stops))`,
           "background-position": "left top, left top, center top",
           "background-repeat": "repeat, repeat, no-repeat",
           "background-size": "auto, auto, cover",
@@ -198,15 +200,8 @@ module.exports = {
         },
       };
 
-      Object.keys(theme("colors")).forEach((color) => {
-        backgroundUtilities[`.bg-stain-${color}`] = {
-          "background-image": `linear-gradient(${theme(
-            `colors.${color}`
-          )} 0%, ${theme(`colors.${color}`)} 100%), ${bg.tile}, ${bg.gradient}`,
-        };
-      });
-
       addUtilities([clipUtilities, backgroundUtilities], {
+        // addUtilities([clipUtilities], {
         variants: ["responsive"],
       });
     },
