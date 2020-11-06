@@ -8,7 +8,6 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@verstaerker/vue-bem": "^1.2.0",
     "axios": "^0.21.0",
     "core-js": "^3.6.5",
     "dash": "^3.16.1",
@@ -22,6 +21,7 @@
     "tailwindcss": "^1.9.6",
     "tailwindcss-filters": "^3.0.0",
     "vue": "^3.0.0",
+    "vue-css-modifiers": "^1.0.8",
     "vue-i18n": "^9.0.0-beta.6",
     "vue-json-editor": "^1.4.2",
     "vue-localstorage": "^0.6.2",
