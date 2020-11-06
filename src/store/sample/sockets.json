@@ -16,6 +16,11 @@
       "slots": 3,
       "title": "Root",
       "treeId": "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX",
+      "bases": [
+        { "type": "bandwidth", "base": 1 },
+        { "type": "influence", "base": 1 }
+      ],
+      "factors": [],
       "bonuses": [
         {
           "type": "data",
@@ -37,10 +42,6 @@
             "document": "trainings"
           }
         }
-      ],
-      "factors": [
-        { "type": "bandwidth", "factor": 1.1 },
-        { "type": "influence", "factor": 1.1 }
       ],
       "description": "The fount of all knowledge"
     }
