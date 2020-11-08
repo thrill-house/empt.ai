@@ -2,6 +2,7 @@ import { createStore } from "vuex";
 import VuexPersistence from "vuex-persist";
 import VuexDash from "./dash";
 import score from "./modules/score";
+import inventory from "./modules/inventory";
 
 export default createStore({
   state() {
@@ -33,7 +34,7 @@ export default createStore({
       state.gameId = payload;
     },
   },
-  modules: { score },
+  modules: { score, inventory },
   plugins: [
     new VuexDash({
       network: process.env.VUE_APP_GAME_NETWORK,
@@ -55,7 +56,7 @@ export default createStore({
     new VuexDash({
       network: process.env.VUE_APP_GAME_NETWORK,
       contractId: process.env.VUE_APP_GAME_CONTRACT,
-      documents: ["Sources", "Slots", "Trainings"],
+      documents: ["Models", "Sources", "Slots", "Trainings"],
       namespace: "game",
       subscribeToFrom: [
         { ownerId: "ownerId", mnemonic: "mnemonic", allQuery: "allOwnerQuery" },
