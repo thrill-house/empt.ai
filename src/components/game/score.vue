@@ -17,7 +17,7 @@ export default {
       factors: (state) => state.score.factors,
     }),
     ...mapGetters({
-      rates: "score/rates",
+      frequencies: "score/frequencies",
       resources: "score/resources",
     }),
   },
@@ -38,13 +38,19 @@ export default {
         ></dd>
       </dl>
     </dd>
-    <dt v-bem:label.rates>{{ $t("Frequencies") }}</dt>
-    <dd v-bem:collection.rates>
+    <dt v-bem:label.frequencies>{{ $t("Frequencies") }}</dt>
+    <dd v-bem:collection.frequencies>
       <dl v-bem:values>
         <dt v-bem:term.bandwidth>{{ $t("Bandwidth") }}</dt>
-        <dd v-bem:value.bandwidth v-format:bandwidth.+="rates.bandwidth"></dd>
+        <dd
+          v-bem:value.bandwidth
+          v-format:bandwidth.+="frequencies.bandwidth"
+        ></dd>
         <dt v-bem:term.influence>{{ $t("Influence") }}</dt>
-        <dd v-bem:value.influence v-format:influence.+="rates.influence"></dd>
+        <dd
+          v-bem:value.influence
+          v-format:influence.+="frequencies.influence"
+        ></dd>
       </dl>
     </dd>
   </dl>
@@ -71,7 +77,7 @@ export default {
       }
     }
 
-    &--rates {
+    &--frequencies {
       @apply ml-2;
       @apply clip-1-corner;
     }
@@ -81,7 +87,7 @@ export default {
     @apply h-20 w-48 px-4 py-1;
     @apply bg-sky-50;
 
-    &--rates {
+    &--frequencies {
       @apply ml-2;
     }
   }

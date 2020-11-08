@@ -1,5 +1,6 @@
 <script>
 import { mapActions } from "vuex";
+import { useI18n } from "vue-i18n";
 import AppHeader from "./components/app/header";
 import AppMain from "./components/app/main";
 import AppSidebar from "./components/app/sidebar";
@@ -7,6 +8,9 @@ import AppSidebar from "./components/app/sidebar";
 export default {
   name: "app",
   components: { AppHeader, AppMain, AppSidebar },
+  setup() {
+    return { ...useI18n() };
+  },
   created() {
     this.bases();
     this.factors();

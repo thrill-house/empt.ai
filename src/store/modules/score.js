@@ -126,14 +126,14 @@ export default {
 
     // Resources
     resources: (state, getters) =>
-      // TODO: Complicated resource calculation including changes to rates over time
+      // TODO: Complicated resource calculation including changes to frequencies over time
       ({
-        data: getters.elapsed * getters.rates.influence,
-        confidence: getters.elapsed * getters.rates.bandwidth,
+        data: getters.elapsed * getters.frequencies.influence,
+        confidence: getters.elapsed * getters.frequencies.bandwidth,
       }),
 
-    // Rates
-    rates: (state) => ({
+    // Frequencies
+    frequencies: (state) => ({
       influence: state.bases.influence * (1 + state.factors.influence),
       bandwidth: state.bases.bandwidth * (1 + state.factors.bandwidth),
     }),
