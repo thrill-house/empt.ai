@@ -3,13 +3,14 @@ const tailwindcss = require("tailwindcss");
 const autoprefixer = require("autoprefixer");
 const fs = require("fs");
 const path = require("path");
-const tailwindConfig = path.join(__dirname, "tailwind.config.js");
+const resolveConfig = require("tailwindcss/resolveConfig");
+const tailwindConfig = require("./tailwind.config.js");
 
 module.exports = {
   plugins: [
     function() {
       let vars = ["colorList"],
-        tailwind = require(tailwindConfig),
+        tailwind = resolveConfig(tailwindConfig),
         outputPath = path.join(__dirname, "src/styles/_$variables.scss"),
         current = fs.readFileSync(outputPath).toString(),
         content = "",
@@ -17,7 +18,7 @@ module.exports = {
           let lines = [`$${variable}: (`];
           let valueLines = [];
 
-          _.each(tailwind[variable], function(value, key) {
+          _.each(tailwind.theme.colors, function(value, key) {
             valueLines.push(`  ${key}: ${value}`);
           });
           lines.push(_.join(valueLines, ",\n"));

@@ -34,8 +34,8 @@ const opacities = {
 module.exports = {
   colorList,
   future: {
-    // removeDeprecatedGapUtilities: true,
-    // purgeLayersByDefault: true,
+    removeDeprecatedGapUtilities: true,
+    purgeLayersByDefault: true,
   },
   purge: [],
   theme: {
@@ -67,21 +67,6 @@ module.exports = {
         "Courier New",
         "monospace",
       ],
-    },
-
-    /* Font sizes */
-    fontSize: {
-      "3xs": ".5625rem",
-      "2xs": ".625rem",
-      xs: ".75rem",
-      sm: ".875rem",
-      base: "1rem",
-      lg: "1.125rem",
-      xl: "1.25rem",
-      "2xl": "1.5rem",
-      "3xl": "1.875rem",
-      "4xl": "2.25rem",
-      "5xl": "3rem",
     },
     extend: {
       spacing: {
@@ -132,9 +117,13 @@ module.exports = {
         "24": "6rem",
         "28": "7rem",
         "32": "8rem",
+        "48": "12rem",
+        "80": "20rem",
+        "96": "24rem",
       },
       maxWidth: {
         "48": "12rem",
+        "80": "20rem",
         "96": "24rem",
       },
       zIndex: {
@@ -155,6 +144,7 @@ module.exports = {
         "fear-icon": "var(--image-fear)",
         "tenderness-icon": "var(--image-tenderness)",
         "anger-icon": "var(--image-anger)",
+        inventory: "var(--image-inventory)",
       },
     },
   },
@@ -273,6 +263,11 @@ module.exports = {
         },
         ".mask-anger": {
           "mask-image": "var(--image-anger)",
+          "mask-size": "contain",
+          "mask-repeat": "no-repeat",
+        },
+        ".mask-inventory": {
+          "mask-image": "var(--image-inventory)",
           "mask-size": "contain",
           "mask-repeat": "no-repeat",
         },

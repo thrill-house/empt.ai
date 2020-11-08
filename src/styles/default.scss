@@ -16,12 +16,18 @@
   --image-fear: url(../assets/img/fear.svg);
   --image-tenderness: url(../assets/img/tenderness.svg);
   --image-anger: url(../assets/img/anger.svg);
+  --image-inventory: url(../assets/img/inventory.svg);
   --dots-x: linear-gradient(to right, var(--dot-color) 1px, transparent 1%);
   --dots-y: linear-gradient(to bottom, var(--dot-color) 1px, transparent 1%);
+  --grout-color: theme("colors.ash-50");
   --grout: linear-gradient(var(--grout-color) 0%, var(--grout-color) 100%);
   --radial: radial-gradient(circle at 50% 100%, var(--gradient-color-stops));
 }
 
 @tailwind base;
 @tailwind components;
-// @tailwind utilities;
+@tailwind utilities;
+
+* {
+  outline: none !important;
+}
