@@ -58,7 +58,7 @@ export default {
 
 <style lang="scss">
 .game-score {
-  @apply flex flex-col flex-wrap;
+  @apply flex flex-col flex-wrap items-center;
   @apply h-40 w-96 py-4 mt-4;
 
   &__label {
@@ -68,6 +68,8 @@ export default {
 
     &--resources {
       @apply relative;
+      @apply w-48 -ml-4;
+
       &::before {
         content: "";
         @apply absolute block top-0 left-0;
@@ -78,7 +80,7 @@ export default {
     }
 
     &--frequencies {
-      @apply ml-2;
+      // @apply ml-2;
       @apply clip-1-corner;
     }
   }
@@ -87,8 +89,12 @@ export default {
     @apply h-20 w-48 px-4 py-1;
     @apply bg-sky-50;
 
+    &--resources {
+      @apply w-48 -ml-4;
+    }
+
     &--frequencies {
-      @apply ml-2;
+      // @apply ml-2;
     }
   }
 
