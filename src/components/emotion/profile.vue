@@ -41,7 +41,7 @@ export default {
 .emotion-profile {
   @apply relative block;
   @apply bg-tile;
-  @apply p-2 m-2 ml-4;
+  @apply p-2 m-4;
   @apply z-30;
   @apply rounded-full;
 

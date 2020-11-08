@@ -19,17 +19,14 @@ export default (el, { arg, value, modifiers }) => {
 
   const data = (bytes) =>
     numeral(bytes)
-      .multiply(1000)
-      .format("0.00b");
+      .multiply(1024)
+      .format("0b");
 
-  const bandwidth = (bytes) => `${data(bytes)}/s`;
+  const bandwidth = (bytes) => `${data(bytes)}/sec`;
 
-  const confidence = (loves) => `${numeral(loves).format("0.[00]a")}❤`;
+  const confidence = (trust) => `${numeral(trust).format("0.[00]a")}`;
 
-  const influence = (likes) =>
-    `${numeral(likes)
-      .multiply(1000)
-      .format("0.[00]a")}★/s`;
+  const influence = (likes) => `${numeral(likes).format("0.[00]a")}/sec`;
 
   const formatters = {
     duration,

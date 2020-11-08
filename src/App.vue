@@ -31,7 +31,7 @@ export default {
 <style lang="scss">
 .app {
   @apply relative;
-  @apply h-screen w-screen;
+  @apply min-h-screen min-w-full;
   @apply bg-tile from-navy via-midnight to-dark text-light font-primary;
 }
 </style>

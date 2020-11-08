@@ -30,18 +30,21 @@ export default {
     <dd v-bem:collection.resources>
       <dl v-bem:values>
         <dt v-bem:term.data>{{ $t("Data") }}</dt>
-        <dd v-bem:value v-format:data="resources.data"></dd>
+        <dd v-bem:value.data v-format:data="resources.data"></dd>
         <dt v-bem:term.confidence>{{ $t("Confidence") }}</dt>
-        <dd v-bem:value v-format:confidence="resources.confidence"></dd>
+        <dd
+          v-bem:value.confidence
+          v-format:confidence="resources.confidence"
+        ></dd>
       </dl>
     </dd>
-    <dt v-bem:label.rates>{{ $t("Rates") }}</dt>
+    <dt v-bem:label.rates>{{ $t("Frequencies") }}</dt>
     <dd v-bem:collection.rates>
       <dl v-bem:values>
         <dt v-bem:term.bandwidth>{{ $t("Bandwidth") }}</dt>
-        <dd v-bem:value v-format:bandwidth.+="factors.bandwidth"></dd>
+        <dd v-bem:value.bandwidth v-format:bandwidth.+="rates.bandwidth"></dd>
         <dt v-bem:term.influence>{{ $t("Influence") }}</dt>
-        <dd v-bem:value v-format:influence.+="factors.influence"></dd>
+        <dd v-bem:value.influence v-format:influence.+="rates.influence"></dd>
       </dl>
     </dd>
   </dl>
@@ -50,11 +53,11 @@ export default {
 <style lang="scss">
 .game-score {
   @apply flex flex-col flex-wrap;
-  @apply h-40 w-80 py-4;
+  @apply h-40 w-96 py-4 mt-4;
 
   &__label {
     @apply text-xl font-bold uppercase;
-    @apply h-12 w-40 px-4 py-2;
+    @apply h-12 w-48 px-4 py-2;
     @apply bg-sky-50;
 
     &--resources {
@@ -63,7 +66,7 @@ export default {
         content: "";
         @apply absolute block top-0 left-0;
         @apply transform -translate-x-full;
-        @apply h-32 w-32;
+        @apply h-32 w-28;
         @apply bg-sky-50;
       }
     }
@@ -75,7 +78,7 @@ export default {
   }
 
   &__collection {
-    @apply h-20 w-40 px-4 py-1;
+    @apply h-20 w-48 px-4 py-1;
     @apply bg-sky-50;
 
     &--rates {
@@ -92,8 +95,37 @@ export default {
   }
 
   &__value {
-    @apply text-xl uppercase;
+    @apply inline-flex items-center;
+    @apply text-xl;
     @apply animate-pulse;
+
+    &:before {
+      content: "";
+      @apply inline-block;
+      @apply bg-contain bg-center bg-no-repeat;
+      @apply w-6 h-6 mr-2;
+    }
+
+    &--data {
+      &::before {
+        @apply bg-data mask-data;
+      }
+    }
+    &--confidence {
+      &::before {
+        @apply bg-confidence mask-confidence;
+      }
+    }
+    &--bandwidth {
+      &::before {
+        @apply bg-bandwidth mask-bandwidth;
+      }
+    }
+    &--influence {
+      &::before {
+        @apply bg-influence mask-influence;
+      }
+    }
   }
 }
 </style>

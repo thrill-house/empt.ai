@@ -18,6 +18,7 @@ Displays the provided values within an emotion diagram.
 </docs>
 
 <script>
+// TODO: Refactor
 import _ from "lodash-es";
 import { unit, sin, cos } from "mathjs";
 

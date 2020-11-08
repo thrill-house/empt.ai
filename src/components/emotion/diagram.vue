@@ -20,6 +20,7 @@ Displays the a diagram of emotions, given a single or set of value sets
 </docs>
 
 <script>
+// TODO: Refactor
 import _ from "lodash-es";
 import { unit, sin, cos } from "mathjs";
 
@@ -103,8 +104,8 @@ export default {
       return _.merge({}, happinessSadness, excitementFear, tendernessAnger);
     },
     showLabels() {
-      // return true;
-      return false;
+      return true;
+      // return false;
       // return this.getLabelsEnabled() && !this.labels;
     },
     // ...mapGetters(["getLabelsEnabled"]),
@@ -190,20 +191,23 @@ export default {
         vector-effect="non-scaling-stroke"
       ></polyline>
     </svg>
-    <label
-      v-for="(value, axisPosition) in axisPositions"
-      :key="axisPosition"
-      v-bem:label="{
-        top: value.y < 33,
-        left: value.x < 33,
-        bottom: value.y > 66,
-        right: value.x > 66,
-      }"
-      :style="{ left: value.x + '%', top: value.y + '%' }"
-    >
-      <span>{{ label(axisPosition) }}</span>
-      <slot :name="axisPosition" />
-    </label>
+    <template v-if="labels">
+      <label
+        v-for="(value, axisPosition) in axisPositions"
+        :key="axisPosition"
+        v-bem:label="{
+          [axisPosition]: true,
+          top: value.y < 33,
+          left: value.x < 33,
+          bottom: value.y > 66,
+          right: value.x > 66,
+        }"
+        :style="{ left: value.x + '%', top: value.y + '%' }"
+      >
+        <span>{{ label(axisPosition) }}</span>
+        <slot :name="axisPosition" />
+      </label>
+    </template>
     <emotion-values
       v-for="(value, index) in valuesList"
       :key="index"
@@ -220,7 +224,7 @@ export default {
 // @import "../styles/mixins";
 
 .emotion-diagram {
-  @apply relative rounded-full bg-sky-25;
+  @apply relative rounded-full bg-sky-25 border-sky border;
 
   &:before,
   &:after {
@@ -245,7 +249,7 @@ export default {
   }
 
   &__label {
-    @apply absolute h-4 flex -mt-2 px-1 text-light uppercase font-bold z-50;
+    @apply absolute w-4 h-4 flex -mt-2 bg-light text-light z-30;
     @apply transform;
 
     &--left {
@@ -258,6 +262,30 @@ export default {
 
     &--bottom {
       @apply translate-y-1/2 px-px;
+    }
+
+    &--happiness {
+      @apply mask-happiness;
+    }
+
+    &--sadness {
+      @apply mask-sadness;
+    }
+
+    &--excitement {
+      @apply mask-excitement;
+    }
+
+    &--fear {
+      @apply mask-fear;
+    }
+
+    &--tenderness {
+      @apply mask-tenderness;
+    }
+
+    &--anger {
+      @apply mask-anger;
     }
   }
 

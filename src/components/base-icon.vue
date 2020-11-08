@@ -10,11 +10,11 @@ Reference to a SVG sprite id for usage as base-icon.
 </docs>
 
 <script>
-import '../svg';
+import "../svg";
 
 export default {
-  name: 'base-icon',
-  blockName: 'icon',
+  name: "base-icon",
+  blockName: "icon",
   props: {
     label: String,
     color: {
@@ -34,9 +34,7 @@ export default {
 </template>
 
 <style lang="scss">
-@import '../styles/mixins';
-
-.icon {
+.base-icon {
   @apply fill-current;
 
   &--size {
@@ -57,6 +55,6 @@ export default {
     }
   }
 
-  @include --colors($property: 'text');
+  // @include --colors($property: "text");
 }
 </style>

@@ -18,7 +18,7 @@ export default {
 
 <style lang="scss">
 .app-header {
-  @apply absolute top-0 left-0;
+  @apply fixed top-0 left-0;
   @apply flex items-start;
 }
 </style>
