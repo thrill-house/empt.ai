@@ -20,7 +20,7 @@ export default (el, { arg, value, modifiers }) => {
   const data = (bytes) =>
     numeral(bytes)
       .multiply(1024)
-      .format("0b");
+      .format("0.00b");
 
   const bandwidth = (bytes) => `${data(bytes)}/sec`;
 

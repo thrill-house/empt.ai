@@ -1,19 +1,29 @@
 import { setup } from "bem-cn";
 import { kebabCase } from "lodash-es";
 
-export default (el, { instance, arg, modifiers, value }) => {
-  const block = setup({
-    el: "__",
-    mod: "--",
-    modValue: "-",
-  });
-  const b = block(instance.$.type.name);
-  const classes = b(arg ? kebabCase(arg) : null, { ...modifiers, ...value });
+const block = setup({
+  el: "__",
+  mod: "--",
+  modValue: "-",
+});
 
-  classes
+const bemClasses = (name, element, modifiers) => {
+  const b = block(name);
+  return b(element ? kebabCase(element) : null, modifiers)
     .toString()
-    .split(" ")
-    .forEach((className) => {
-      el.classList.add(className);
-    });
+    .split(" ");
+};
+
+export default (el, { instance, arg, modifiers, value, oldValue }) => {
+  const oldClasses = bemClasses(instance.$.type.name, arg, {
+    ...modifiers,
+    ...oldValue,
+  });
+  const newClasses = bemClasses(instance.$.type.name, arg, {
+    ...modifiers,
+    ...value,
+  });
+
+  el.classList.remove(...oldClasses);
+  el.classList.add(...newClasses);
 };
