@@ -1,4 +1,5 @@
 {
+  "Ability Library": "Fähigkeitsbibliothek",
   "Bandwidth": "Bandbreite",
   "Cancel": "Stornieren",
   "Cancel {item}": "Cancel {item}",
@@ -12,7 +13,8 @@
   "Influence": "Einfluss",
   "Install": "Installieren",
   "Installed": "Installiert",
-  "Installing": "Wirdinstalliert",
+  "Installing": "Wird installiert",
+  "Inventory": "Inventar",
   "No valid event for “{instance}”": "",
   "No valid event for “{instance}”.": "No valid event for “{instance}”.",
   "Not a valid event": "Not a valid event",
