@@ -12,8 +12,15 @@ export default {
     return { ...useI18n() };
   },
   created() {
+    // Calculate scores
     this.bases();
     this.factors();
+
+    // Take inventory
+    this.abilities();
+    this.models();
+
+    // Start the game
     this.startTimer();
   },
   methods: {
@@ -21,6 +28,8 @@ export default {
       startTimer: "score/startTimer",
       bases: "score/bases",
       factors: "score/factors",
+      abilities: "inventory/abilities",
+      models: "inventory/models",
     }),
   },
 };
