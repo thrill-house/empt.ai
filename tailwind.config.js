@@ -140,23 +140,28 @@ module.exports = {
       zIndex: {
         "-10": "-10",
       },
-      // backgroundRepeat: {
-      //   tile: "repeat, no-repeat",
-      // },
-      // backgroundPosition: {
-      //   "position-tile": "left top, center top",
-      // },
-      // backgroundImage: {
-      //   tile:
-      //     "var(--image-tile), radial-gradient(circle at 50% 100%, var(--gradient-color-stops))",
-      // },
+      backgroundImage: {
+        "data-icon": "var(--image-data)",
+        "confidence-icon": "var(--image-confidence)",
+        "bandwidth-icon": "var(--image-bandwidth)",
+        "influence-icon": "var(--image-influence)",
+        "neutral-icon": "var(--image-neutral)",
+        "science-icon": "var(--image-science)",
+        "economy-icon": "var(--image-economy)",
+        "society-icon": "var(--image-society)",
+        "happiness-icon": "var(--image-happiness)",
+        "sadness-icon": "var(--image-sadness)",
+        "excitement-icon": "var(--image-excitement)",
+        "fear-icon": "var(--image-fear)",
+        "tenderness-icon": "var(--image-tenderness)",
+        "anger-icon": "var(--image-anger)",
+      },
     },
   },
   variants: {},
   plugins: [
-    function({ addUtilities, theme }) {
-      // function({ addUtilities }) {
-      let clipUtilities = {
+    function({ addUtilities }) {
+      const clipUtilities = {
         ".clip-corners": {
           "clip-path":
             "polygon(0.333rem 0%, calc(100% - 0.333rem) 0%, 100% 0.333rem, 100% calc(100% - 0.333rem), calc(100% - 0.333rem) 100%, 0.333rem 100%, 0% calc(100% - 0.333rem), 0% 0.333rem)",
@@ -178,21 +183,21 @@ module.exports = {
         },
       };
 
-      let backgroundUtilities = {
+      const backgroundUtilities = {
         ".bg-dots": {
           "background-image": "var(--dots-x), var(--dots-y)",
           "background-position": "center center",
           "background-size": "2px 2px",
         },
         ".bg-tile": {
-          "background-image": `var(--tile), radial-gradient(circle at 50% 100%, var(--gradient-color-stops))`,
+          "background-image": `var(--image-tile), radial-gradient(circle at 50% 100%, var(--gradient-color-stops))`,
           "background-position": "left top, center top",
           "background-repeat": "repeat, no-repeat",
           "background-size": "auto, cover",
           "background-attachment": "fixed, fixed",
         },
         ".bg-grout": {
-          "background-image": `var(--grout), var(--tile), radial-gradient(circle at 50% 100%, var(--gradient-color-stops))`,
+          "background-image": `var(--grout), var(--image-tile), radial-gradient(circle at 50% 100%, var(--gradient-color-stops))`,
           "background-position": "left top, left top, center top",
           "background-repeat": "repeat, repeat, no-repeat",
           "background-size": "auto, auto, cover",
@@ -200,8 +205,80 @@ module.exports = {
         },
       };
 
-      addUtilities([clipUtilities, backgroundUtilities], {
-        // addUtilities([clipUtilities], {
+      const maskUtilities = {
+        ".mask-data": {
+          "mask-image": "var(--image-data)",
+          "mask-size": "contain",
+          "mask-repeat": "no-repeat",
+        },
+        ".mask-confidence": {
+          "mask-image": "var(--image-confidence)",
+          "mask-size": "contain",
+          "mask-repeat": "no-repeat",
+        },
+        ".mask-bandwidth": {
+          "mask-image": "var(--image-bandwidth)",
+          "mask-size": "contain",
+          "mask-repeat": "no-repeat",
+        },
+        ".mask-influence": {
+          "mask-image": "var(--image-influence)",
+          "mask-size": "contain",
+          "mask-repeat": "no-repeat",
+        },
+        ".mask-neutral": {
+          "mask-image": "var(--image-neutral)",
+          "mask-size": "contain",
+          "mask-repeat": "no-repeat",
+        },
+        ".mask-science": {
+          "mask-image": "var(--image-science)",
+          "mask-size": "contain",
+          "mask-repeat": "no-repeat",
+        },
+        ".mask-economy": {
+          "mask-image": "var(--image-economy)",
+          "mask-size": "contain",
+          "mask-repeat": "no-repeat",
+        },
+        ".mask-society": {
+          "mask-image": "var(--image-society)",
+          "mask-size": "contain",
+          "mask-repeat": "no-repeat",
+        },
+        ".mask-happiness": {
+          "mask-image": "var(--image-happiness)",
+          "mask-size": "contain",
+          "mask-repeat": "no-repeat",
+        },
+        ".mask-sadness": {
+          "mask-image": "var(--image-sadness)",
+          "mask-size": "contain",
+          "mask-repeat": "no-repeat",
+        },
+        ".mask-excitement": {
+          "mask-image": "var(--image-excitement)",
+          "mask-size": "contain",
+          "mask-repeat": "no-repeat",
+        },
+        ".mask-fear": {
+          "mask-image": "var(--image-fear)",
+          "mask-size": "contain",
+          "mask-repeat": "no-repeat",
+        },
+        ".mask-tenderness": {
+          "mask-image": "var(--image-tenderness)",
+          "mask-size": "contain",
+          "mask-repeat": "no-repeat",
+        },
+        ".mask-anger": {
+          "mask-image": "var(--image-anger)",
+          "mask-size": "contain",
+          "mask-repeat": "no-repeat",
+        },
+      };
+
+      addUtilities([clipUtilities, backgroundUtilities, maskUtilities], {
         variants: ["responsive"],
       });
     },

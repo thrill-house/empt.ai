@@ -1,10 +1,24 @@
 @import url("//fonts.googleapis.com/css?family=Titillium+Web:400,700");
 
 :root {
+  --image-tile: url(../assets/img/tile.svg);
+  --image-data: url(../assets/img/data.svg);
+  --image-confidence: url(../assets/img/confidence.svg);
+  --image-bandwidth: url(../assets/img/bandwidth.svg);
+  --image-influence: url(../assets/img/influence.svg);
+  --image-neutral: url(../assets/img/neutral.svg);
+  --image-science: url(../assets/img/science.svg);
+  --image-economy: url(../assets/img/economy.svg);
+  --image-society: url(../assets/img/society.svg);
+  --image-happiness: url(../assets/img/happiness.svg);
+  --image-sadness: url(../assets/img/sadness.svg);
+  --image-excitement: url(../assets/img/excitement.svg);
+  --image-fear: url(../assets/img/fear.svg);
+  --image-tenderness: url(../assets/img/tenderness.svg);
+  --image-anger: url(../assets/img/anger.svg);
   --dots-x: linear-gradient(to right, var(--dot-color) 1px, transparent 1%);
   --dots-y: linear-gradient(to bottom, var(--dot-color) 1px, transparent 1%);
   --grout: linear-gradient(var(--grout-color) 0%, var(--grout-color) 100%);
-  --tile: url(../assets/img/tile.svg);
   --radial: radial-gradient(circle at 50% 100%, var(--gradient-color-stops));
 }
 
