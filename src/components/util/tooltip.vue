@@ -1,14 +1,7 @@
-<docs>
-### The Tooltip
-Helper element to display tooltips that take a z-index priority over all other elements.
-
-##### Instantiation
-`<the-tooltip></the-tooltip>`
-</docs>
 
 <script>
 export default {
-  name: 'the-tooltip',
+  name: "util-tooltip",
   props: {
     position: Object,
   },
@@ -37,10 +30,10 @@ export default {
       return this.position.top >= window.innerHeight - this.height;
     },
     translateX() {
-      return this.isAtRight ? 'translateX(-100%)' : '';
+      return this.isAtRight ? "translateX(-100%)" : "";
     },
     translateY() {
-      return this.isAtBottom ? 'translateY(-100%)' : '';
+      return this.isAtBottom ? "translateY(-100%)" : "";
     },
     transform() {
       return `${this.translateX} ${this.translateY}`;
@@ -50,22 +43,20 @@ export default {
 </script>
 
 <template>
-  <transition name="fade" >
-  <slot name="tooltip">
-    <aside v-bem :style="{ top, left, transform }"><slot /></aside>
-  </slot>
+  <transition name="fade">
+    <slot name="tooltip">
+      <div v-bem :style="{ top, left, transform }"><slot /></div>
+    </slot>
   </transition>
 </template>
 
 <style lang="scss">
-@import '../styles/mixins';
-
-.the-tooltip {
-  @apply absolute
-  p-2
-  border border-ash
-  bg-navy-75
-  text-light
-  z-50;
+.util-tooltip {
+  @apply absolute;
+  @apply p-2;
+  @apply border border-ash;
+  @apply bg-navy-75;
+  @apply text-light;
+  @apply z-50;
 }
 </style>
