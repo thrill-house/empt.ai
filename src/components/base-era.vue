@@ -10,12 +10,12 @@ Representation of an element's era relative to the total number of eras.
 </docs>
 
 <script>
-import '../svg';
-import { mapGetters } from 'vuex';
+import "../svg";
+import { mapGetters } from "vuex";
 
 export default {
-  name: 'base-era',
-  blockName: 'era',
+  name: "base-era",
+  blockName: "era",
   props: {
     label: String,
   },
@@ -26,23 +26,23 @@ export default {
     total() {
       return this.getStages();
     },
-    ...mapGetters(['getStage', 'getStages']),
+    ...mapGetters(["getStage", "getStages"]),
   },
 };
 </script>
 
 <template>
   <div v-bem>
-    <span
+    <!-- <span
       v-for="n in total"
       v-bem:stage="{ color: stage >= n ? 'sky' : 'grey' }"
       :key="n"
-    ></span>
+    ></span> -->
   </div>
 </template>
 
 <style lang="scss">
-@import '../styles/mixins';
+@import "../styles/mixins";
 
 .era {
   @apply flex flex-col-reverse

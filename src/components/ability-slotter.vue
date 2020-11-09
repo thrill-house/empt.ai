@@ -54,7 +54,7 @@ export default {
     @click="click()"
   >
     <span>
-      <slot ="tooltip" />
+      <slot name="tooltip" />
     </span>
   </ability-slot>
 </template>

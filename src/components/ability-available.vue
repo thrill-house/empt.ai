@@ -10,31 +10,30 @@ The component displays an ability that is defined within the global data store. 
 </docs>
 
 <script>
-import { mapState, mapGetters } from "vuex";
+import { mapGetters } from "vuex";
 import _ from "lodash-es";
 
-import AbilityInstallable from "./ability-installable";
-import AbilityResearchable from "./ability-researchable";
-import AbilitySymbioses from "./ability-symbioses";
-import BaseBadge from "./base-badge";
-import BaseEra from "./base-era";
-import BaseFactors from "./base-factors";
-import BaseIcon from "./base-icon";
+// import AbilityInstallable from "./ability-installable";
+// import AbilityResearchable from "./ability-researchable";
+// import AbilitySymbioses from "./ability-symbioses";
+// import BaseBadge from "./base-badge";
+// import BaseEra from "./base-era";
+// import BaseFactors from "./base-factors";
+// import BaseIcon from "./base-icon";
 
 export default {
   name: "ability-available",
-
   components: {
-    AbilityInstallable,
-    AbilityResearchable,
-    AbilitySymbioses,
-    BaseBadge,
-    BaseEra,
-    BaseFactors,
-    BaseIcon,
+    // AbilityInstallable,
+    // AbilityResearchable,
+    // AbilitySymbioses,
+    // BaseBadge,
+    // BaseEra,
+    // BaseFactors,
+    // BaseIcon,
   },
   props: {
-    label: String,
+    id: String,
   },
   // created() {
   //   this.$on('research', this.researchDialog);
@@ -42,13 +41,16 @@ export default {
   // },
   computed: {
     enabled() {
-      return this.ability && this.eraActive;
+      // return this.ability && this.eraActive;
+      return true;
     },
     ability() {
-      return this.getAbility(this.label);
+      console.log(this.getAbilitySymbiotes(this.id));
+      console.log(this.getAbilityDependants(this.id));
+      return this.getAbility(this.id);
     },
-    name() {
-      return this.ability.name;
+    title() {
+      return this.ability.title;
     },
     factors() {
       return this.ability.factors;
@@ -60,7 +62,9 @@ export default {
       return this.factors.influence;
     },
     trees() {
-      return this.influence.trees;
+      console.log(this.getAbilitySymbiotes(this.id));
+      // return this.influence.trees;
+      return [];
     },
     tree() {
       return this.ability.tree;
@@ -94,16 +98,17 @@ export default {
         this.researchLabel === this.label || this.installLabel === this.label
       );
     },
-    ...mapState({
-      abilities: (state) => state.abilities.list,
+    // ...mapState({
+    //   abilities: (state) => state.abilities.list,
+    // }),
+    ...mapGetters({
+      getAbility: "inventory/getAbility",
+      getAbilitySymbiotes: "inventory/getAbilitySymbiotes",
+      getAbilityDependants: "inventory/getAbilityDependants",
+      // getIsEraActive,
+      // getAbilityDependants,
+      // getInteraction,
     }),
-    ...mapGetters([
-      "getAbility",
-      "getIsEraActive",
-      "getAbilityDependants",
-      "getInteraction",
-      // 'getPrettyUnit',
-    ]),
   },
   methods: {
     researchDialog() {
@@ -119,10 +124,10 @@ export default {
 <template>
   <div v-if="enabled" v-bem>
     <header v-bem:header>
-      <h4 v-bem:header-title>{{ name }}</h4>
+      <h4 v-bem:header-title>{{ title }}</h4>
     </header>
-    <base-factors v-bem:factors :bases="bases" :trees="trees"></base-factors>
-    <div v-bem:content>
+    <!-- <base-factors v-bem:factors :bases="bases" :trees="trees"></base-factors> -->
+    <!-- <div v-bem:content>
       <ability-symbioses
         v-bem:content-dependencies
         type="dependency"
@@ -137,8 +142,8 @@ export default {
         :minimum="3"
         :symbiotes="dependants"
       />
-    </div>
-    <div v-bem:actions>
+    </div> -->
+    <!-- <div v-bem:actions>
       <ability-installable
         v-bem:actions-installable
         ref="install"
@@ -181,42 +186,33 @@ export default {
       borderSize="small"
     >
       <base-era v-bem:era :label="ability.era"></base-era>
-    </base-badge>
+    </base-badge> -->
   </div>
 </template>
 
 <style lang="scss">
-@import "../styles/mixins";
+// @import "../styles/mixins";
 
 .ability-available {
-  @apply relative
-  w-80 h-32
-  m-4
-  text-light;
+  @apply relative;
+  @apply w-80 h-32 m-4;
+  @apply text-light;
 
   &:before,
   &:after {
-    @apply absolute inset-0 clip-parallelogram;
-    content: "";
   }
 
   &:before {
-    @apply bg-stain bg-stain-ash-50 z-10;
-    top: 1px;
-    left: 2px;
-    bottom: 1px;
-    right: 1px;
-  }
-
-  &:after {
-    @apply bg-light z-0;
+    content: "";
+    @apply absolute inset-0;
+    @apply bg-sky-50;
+    @apply clip-parallelogram;
   }
 
   &__header {
-    @apply relative
-    w-full h-6
-    py-1 pl-10
-    z-10;
+    @apply relative;
+    @apply w-full h-6  py-1 pl-10;
+    @apply z-10;
 
     &-title {
       @apply uppercase;
@@ -224,25 +220,19 @@ export default {
   }
 
   &__factors {
-    @apply h-16
-    ml-16
-    pl-16 pb-2
-    z-10;
+    @apply h-16 ml-16 pl-16 pb-2;
+    @apply z-10;
   }
 
   &__content {
-    @apply relative
-    hidden
-    h-16
-    ml-16
-    pl-16 pr-2 pb-2
-    z-10;
+    @apply relative  hidden;
+    @apply h-16 ml-16  pl-16 pr-2 pb-2;
+    @apply z-10;
 
     &-dependencies,
     &-dependants {
-      @apply flex flex-wrap
-      justify-between content-center
-      w-1/2;
+      @apply flex flex-wrap  justify-between content-center;
+      @apply w-1/2;
 
       > * {
         @apply -my-1 order-3 mx-auto;
@@ -267,18 +257,15 @@ export default {
   }
 
   &__actions {
-    @apply relative
-    flex
-    items-start justify-end
-    h-10
-    ml-16
-    pl-16 pr-2 pb-2
-    z-10;
+    @apply relative;
+    @apply flex items-start justify-end;
+    @apply h-10  ml-16  pl-16 pr-2 pb-2;
+    @apply z-10;
 
     &-installable,
     &-researchable {
-      @apply flex-grow-0
-      w-1/2;
+      @apply flex-grow-0;
+      @apply w-1/2;
     }
 
     &-installable {
@@ -291,38 +278,32 @@ export default {
   }
 
   &__icon {
-    @apply absolute
-    top-0 left-0
-    ml-3 mt-6
-    z-20;
+    @apply absolute top-0 left-0;
+    @apply ml-3 mt-6;
+    @apply z-20;
 
     &-background {
-      @apply absolute
-      top-0 left-0
-      ml-1 mt-4
-      bg-tile;
+      @apply absolute top-0 left-0;
+      @apply ml-1 mt-4;
+      @apply bg-tile;
     }
   }
 
   &__tree {
-    @apply absolute
-    top-0 left-0
-    -ml-3 -mt-1 mb-2
-    z-10;
+    @apply absolute top-0 left-0;
+    @apply -ml-3 -mt-1 mb-2;
+    @apply z-10;
 
     &-background {
-      @apply absolute
-      top-0 left-0
-      -ml-5 -mt-3;
+      @apply absolute  top-0 left-0;
+      @apply -ml-5 -mt-3;
     }
   }
 
   &__era {
-    @apply absolute
-    w-3
-    bottom-0 left-0
-    mb-10
-    z-10;
+    @apply absolute  bottom-0 left-0;
+    @apply w-3  mb-10;
+    @apply z-10;
   }
 
   &:hover {

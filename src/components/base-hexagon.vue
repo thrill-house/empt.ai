@@ -5,8 +5,8 @@ Helper component for hexagons as the base for sockets, slots and slotted abiliti
 
 <script>
 export default {
-  name: 'base-hexagon',
-  blockName: 'hexagon',
+  name: "base-hexagon",
+  blockName: "hexagon",
   props: {
     color: {
       type: [String, Boolean],
@@ -29,7 +29,7 @@ export default {
 </template>
 
 <style lang="scss">
-@import '../styles/mixins';
+@import "../styles/mixins";
 
 .hexagon {
   @apply relative 
@@ -39,7 +39,7 @@ export default {
 
   &:before {
     @apply absolute -z-10 clip-hexagon;
-    content: '';
+    content: "";
   }
 
   &--tile {
@@ -50,16 +50,16 @@ export default {
     }
 
     &:before {
-      @apply absolute inset-0 z-20 bg-stain;
+      // @apply absolute inset-0 z-20 bg-stain;
     }
   }
 
-  @include --colors($property: 'bg-stain', $pseudo: 'before', $postfix: '-50');
-  @include --colors(
-    $property: 'bg-stain',
-    $pseudo: 'before',
-    $postfix: '-25',
-    $modifier: 'stain'
-  );
+  // @include --colors($property: 'bg-stain', $pseudo: 'before', $postfix: '-50');
+  // @include --colors(
+  //   $property: 'bg-stain',
+  //   $pseudo: 'before',
+  //   $postfix: '-25',
+  //   $modifier: 'stain'
+  // );
 }
 </style>

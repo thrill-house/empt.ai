@@ -23,7 +23,7 @@ import _ from "lodash-es";
 
 import BaseFactor from "./base-factor";
 import BaseIcon from "./base-icon";
-import EmotionDiagram from "./emotion-diagram";
+import EmotionDiagram from "./emotion/diagram";
 import TheModal from "./the-modal";
 
 export default {

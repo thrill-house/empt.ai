@@ -188,7 +188,7 @@ export default {
   justify-center items-center
   px-2;
 
-  @include --colors($property: "bg", $pseudo: "after", $postfix: "-75");
+  // @include --colors($property: "bg", $pseudo: "after", $postfix: "-75");
 
   &:before {
     @apply m-1;

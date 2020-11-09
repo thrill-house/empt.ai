@@ -8,8 +8,8 @@ Little helper component for wrapping things like icons in a nice circular badge.
 
 <script>
 export default {
-  name: 'base-badge',
-  blockName: 'badge',
+  name: "base-badge",
+  blockName: "badge",
   props: {
     color: {
       type: [String, Boolean],
@@ -55,7 +55,7 @@ export default {
 </template>
 
 <style lang="scss">
-@import '../styles/mixins';
+@import "../styles/mixins";
 
 .badge {
   @apply inline-flex flex-shrink-0
@@ -64,7 +64,7 @@ export default {
   rounded-full;
 
   &:before {
-    @apply absolute inset-0 z-10 bg-stain;
+    // @apply absolute inset-0 z-10 bg-stain;
   }
 
   > * {
@@ -108,16 +108,16 @@ export default {
       }
     }
 
-    @include --colors($property: 'border', $delimit: '-');
+    // @include --colors($property: "border", $delimit: "-");
   }
 
-  @include --colors($property: 'bg');
-  @include --colors($property: 'bg', $postfix: '-50', $modifier: 'fade');
-  @include --colors(
-    $property: 'bg-stain',
-    $pseudo: 'before',
-    $postfix: '-50',
-    $modifier: 'stain'
-  );
+  // @include --colors($property: "bg");
+  // @include --colors($property: "bg", $postfix: "-50", $modifier: "fade");
+  // @include --colors(
+  //   $property: "bg-stain",
+  //   $pseudo: "before",
+  //   $postfix: "-50",
+  //   $modifier: "stain"
+  // );
 }
 </style>

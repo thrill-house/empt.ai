@@ -20,7 +20,7 @@ export default {
   name: "ability-installable",
 
   props: {
-    label: String,
+    id: String,
   },
   components: {
     AbilityInstall,
@@ -32,7 +32,7 @@ export default {
   }),
   computed: {
     ability() {
-      return this.getAbility(this.label);
+      return this.getAbility(this.id);
     },
     events() {
       return this.getAbilityEvents(this.label);
@@ -65,13 +65,13 @@ export default {
         ability: this.label,
       };
     },
-    ...mapGetters([
-      "getAbilityEvents",
-      "getAbilitySlotEvents",
-      "getAbility",
-      "getSlotCosts",
-      "getScores",
-    ]),
+    ...mapGetters({
+      // "getAbilityEvents",
+      // "getAbilitySlotEvents",
+      getAbility: "inventory/getAbility",
+      // "getSlotCosts",
+      // "getScores",
+    }),
   },
   methods: {
     open() {

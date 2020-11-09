@@ -11,7 +11,7 @@ import { mapState, mapGetters, mapActions } from "vuex";
 import _ from "lodash-es";
 
 import AbilityDialog from "./ability-dialog";
-import EmotionDiagram from "./emotion-diagram";
+import EmotionDiagram from "./emotion/diagram";
 
 export default {
   name: "ability-research",

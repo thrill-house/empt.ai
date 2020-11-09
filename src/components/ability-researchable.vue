@@ -22,14 +22,14 @@ export default {
     AbilityResearch,
   },
   props: {
-    label: String,
+    id: String,
   },
   data: () => ({
     showModal: false,
   }),
   computed: {
     ability() {
-      return this.getAbility(this.label);
+      return this.getAbility(this.id);
     },
     affordability() {
       return _.clamp(
@@ -56,13 +56,13 @@ export default {
       };
     },
     ...mapState(["abilities"]),
-    ...mapGetters([
-      "getEventsOfType",
-      "getAbility",
-      "getAbilityCosts",
-      "getScores",
-      "getIsEraActive",
-    ]),
+    ...mapGetters({
+      // "getEventsOfType",
+      getAbility: "inventory/getAbility",
+      // "getAbilityCosts",
+      // "getScores",
+      // "getIsEraActive",
+    }),
   },
   methods: {
     open() {
