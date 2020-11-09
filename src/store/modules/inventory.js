@@ -1,4 +1,4 @@
-import { filter, find, includes, reduce, uniq } from "lodash-es";
+import { find, filter, includes, pickBy, reduce, some, uniq } from "lodash-es";
 
 export const extractDependencyIds = (dependencies, type) =>
   reduce(
@@ -29,44 +29,64 @@ export default {
   }),
   getters: {
     // Get one ability
-    getAbility: (state) => (id) => state.abilities[id],
+    getAbilities: (state) => state.abilities,
 
     // Get one model
-    getModel: (state) => (id) => state.models[id],
+    getModels: (state) => state.models,
+
+    // Get one ability
+    getAbility: (state) => (id) => state.abilities?.[id],
+
+    // Get one model
+    getModel: (state) => (id) => state.models?.[id],
 
     // Get ability for model
     getModelAbility: (state, getters) => (id) =>
-      getters.getAbility(getters.getModel(id).abilityId),
+      getters.getAbility(getters.getModel(id)?.abilityId),
 
     // Get all models for ability
     getAbilityModels: (state) => (id) =>
-      filter(state.models, { abilityId: id }),
+      pickBy(state.models, { abilityId: id }),
 
-    // Get symbiotic abilities
-    getAbilitySymbiotes: (state) => (id) => {
-      return filter(state.abilities, (ability) => {
-        const dependantAbilities = extractDependencyIds(
-          ability.factors,
-          "abilityId"
-        );
+    // Get dependee abilities
+    getAbilityDependees: (state, getters) => (id) =>
+      pickBy(
+        state.abilities,
+        ({ $id }, a) =>
+          a !== id &&
+          includes(
+            extractDependencyIds(
+              getters.getAbility(id)?.factors || [],
+              "abilityId"
+            ),
+            $id
+          )
+      ),
 
-        return includes(dependantAbilities, id);
-      });
-    },
     // Get dependant abilities
-    getAbilityDependents: (state, getters) => (id) => {
-      const dependantAbilities = extractDependencyIds(
-        getters.getAbility(id).factors,
-        "abilityId"
+    getAbilityDependants: (state) => (id) =>
+      pickBy(
+        state.abilities,
+        (ability, a) =>
+          a !== id &&
+          includes(extractDependencyIds(ability.factors, "abilityId"), id)
+      ),
+
+    getAbilitySymbiosis: (state, getters) => (fromId, toId) => {
+      const receiver = filter(getters.getAbility(fromId)?.factors, (factor) =>
+        some(
+          factor?.dependency?.where,
+          (where) => where[0] === "abilityId" && where[2] === toId
+        )
       );
 
-      return filter(state.abilities, ({ $id }) => {
-        return includes(dependantAbilities, $id);
-      });
+      console.log(receiver);
+      // console.log({ receiver });
+      // pickBy(state.abilities, (ability) =>
+      //   includes(extractDependencyIds(ability.factors, "abilityId"), id)
+      //   ),
+      return receiver;
     },
-
-    getAbilityDependencyIds: (state) => (id) =>
-      filter(state.models, { abilityId: id }),
   },
   mutations: {
     abilities: (state, payload) => {
@@ -79,16 +99,11 @@ export default {
   actions: {
     abilities: async ({ commit, dispatch, rootGetters }) => {
       await dispatch("app/Abilities/all", null, { root: true });
-      const allAbilities = rootGetters["app/Abilities/all"];
-      // TODO: Filter abilities based on game era and other conditions
-
-      commit("abilities", allAbilities);
+      commit("abilities", rootGetters["app/Abilities/all"]);
     },
     models: async ({ commit, dispatch, rootGetters }) => {
       await dispatch("game/Models/all", null, { root: true });
-      const allModels = rootGetters["game/Models/all"];
-
-      commit("models", allModels);
+      commit("models", rootGetters["game/Models/all"]);
     },
   },
 };
