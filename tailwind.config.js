@@ -3,6 +3,7 @@ const α = require("color-alpha");
 const hexRatio = Math.sqrt(3 / 2);
 
 const colorList = {
+  transparent: "transparent",
   dark: "#000",
   ash: "#666",
   grey: "#bbb",
@@ -129,23 +130,6 @@ module.exports = {
       zIndex: {
         "-10": "-10",
       },
-      backgroundImage: {
-        "data-icon": "var(--image-data)",
-        "confidence-icon": "var(--image-confidence)",
-        "bandwidth-icon": "var(--image-bandwidth)",
-        "influence-icon": "var(--image-influence)",
-        "neutral-icon": "var(--image-neutral)",
-        "science-icon": "var(--image-science)",
-        "economy-icon": "var(--image-economy)",
-        "society-icon": "var(--image-society)",
-        "happiness-icon": "var(--image-happiness)",
-        "sadness-icon": "var(--image-sadness)",
-        "excitement-icon": "var(--image-excitement)",
-        "fear-icon": "var(--image-fear)",
-        "tenderness-icon": "var(--image-tenderness)",
-        "anger-icon": "var(--image-anger)",
-        inventory: "var(--image-inventory)",
-      },
     },
   },
   variants: {},
@@ -195,83 +179,35 @@ module.exports = {
         },
       };
 
-      const maskUtilities = {
-        ".mask-data": {
-          "mask-image": "var(--image-data)",
+      const maskUtilities = [
+        "data",
+        "confidence",
+        "bandwidth",
+        "influence",
+        "neutral",
+        "science",
+        "economy",
+        "society",
+        "happiness",
+        "sadness",
+        "excitement",
+        "fear",
+        "tenderness",
+        "anger",
+        "inventory",
+        "empty",
+        "unknown",
+        "buzzie",
+        "gamebryo",
+      ].reduce((result, mask) => {
+        result[`.mask-${mask}`] = {
+          "mask-image": `var(--image-${mask})`,
           "mask-size": "contain",
           "mask-repeat": "no-repeat",
-        },
-        ".mask-confidence": {
-          "mask-image": "var(--image-confidence)",
-          "mask-size": "contain",
-          "mask-repeat": "no-repeat",
-        },
-        ".mask-bandwidth": {
-          "mask-image": "var(--image-bandwidth)",
-          "mask-size": "contain",
-          "mask-repeat": "no-repeat",
-        },
-        ".mask-influence": {
-          "mask-image": "var(--image-influence)",
-          "mask-size": "contain",
-          "mask-repeat": "no-repeat",
-        },
-        ".mask-neutral": {
-          "mask-image": "var(--image-neutral)",
-          "mask-size": "contain",
-          "mask-repeat": "no-repeat",
-        },
-        ".mask-science": {
-          "mask-image": "var(--image-science)",
-          "mask-size": "contain",
-          "mask-repeat": "no-repeat",
-        },
-        ".mask-economy": {
-          "mask-image": "var(--image-economy)",
-          "mask-size": "contain",
-          "mask-repeat": "no-repeat",
-        },
-        ".mask-society": {
-          "mask-image": "var(--image-society)",
-          "mask-size": "contain",
-          "mask-repeat": "no-repeat",
-        },
-        ".mask-happiness": {
-          "mask-image": "var(--image-happiness)",
-          "mask-size": "contain",
-          "mask-repeat": "no-repeat",
-        },
-        ".mask-sadness": {
-          "mask-image": "var(--image-sadness)",
-          "mask-size": "contain",
-          "mask-repeat": "no-repeat",
-        },
-        ".mask-excitement": {
-          "mask-image": "var(--image-excitement)",
-          "mask-size": "contain",
-          "mask-repeat": "no-repeat",
-        },
-        ".mask-fear": {
-          "mask-image": "var(--image-fear)",
-          "mask-size": "contain",
-          "mask-repeat": "no-repeat",
-        },
-        ".mask-tenderness": {
-          "mask-image": "var(--image-tenderness)",
-          "mask-size": "contain",
-          "mask-repeat": "no-repeat",
-        },
-        ".mask-anger": {
-          "mask-image": "var(--image-anger)",
-          "mask-size": "contain",
-          "mask-repeat": "no-repeat",
-        },
-        ".mask-inventory": {
-          "mask-image": "var(--image-inventory)",
-          "mask-size": "contain",
-          "mask-repeat": "no-repeat",
-        },
-      };
+        };
+
+        return result;
+      }, {});
 
       addUtilities([clipUtilities, backgroundUtilities, maskUtilities], {
         variants: ["responsive"],
