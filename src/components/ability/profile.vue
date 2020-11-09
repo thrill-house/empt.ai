@@ -65,8 +65,8 @@ export default {
     //   return [];
     // },
     tree() {
-      // this.ability.treeId;
-      return this.ability?.tree;
+      // this.ability.tree;
+      return this.ability?.treeId;
     },
     dependees() {
       return this.getAbilityDependees(this.id);
@@ -79,7 +79,13 @@ export default {
     },
     era() {
       // this.ability.eraId;
-      return this.ability?.era;
+      // return this.ability?.era?.stage;
+      return 3;
+    },
+    eras() {
+      // this.ability.eraId;
+      // return this.ability?.era?.stage;
+      return ["Hobbyist", "University", "Economy", "Society", "Consciousness"];
     },
     // eraActive() {
     //   return this.getIsEraActive(this.era);
@@ -141,64 +147,40 @@ export default {
         :key="s"
       />
     </div>
-    <!-- <div v-bem:actions>
-      <ability-installable
-        v-bem:actions-installable
-        ref="install"
-        :label="label"
-      />
-      <ability-researchable
-        v-bem:actions-researchable
-        ref="research"
-        :label="label"
-      />
+    <div v-bem:badge>
+      <i v-bem:badgeIcon="{ [title]: true }" />
     </div>
-    <base-badge
-      v-bem:icon
-      size="large"
-      stain="ash"
-      borderColor="light"
-      borderSize="small"
-    >
-      <base-icon size="large" color="light" :label="label" />
-    </base-badge>
-    <base-badge
-      v-bem:tree
-      size="small"
-      stain="ash"
-      borderColor="light"
-      borderSize="small"
-    >
-      <base-icon size="small" :color="tree" :label="tree" />
-    </base-badge>
-    <base-badge
-      v-bem:tree-background
-      size="medium"
-      borderColor="light"
-      borderSize="small"
-    />
-    <base-badge
-      v-bem:icon-background
-      size="larger"
-      borderColor="light"
-      borderSize="small"
-    >
-      <base-era v-bem:era :label="ability.era"></base-era>
-    </base-badge> -->
+    <div v-bem:tree>
+      <i v-bem:treeIcon="{ [tree]: true }" />
+    </div>
+    <div v-bem:eras>
+      <ol v-bem:erasList>
+        <li
+          v-for="(eraItem, e) in eras"
+          v-bem:erasItem="{ active: e <= era - 1 }"
+          :key="e"
+        >
+          <span v-bem:erasLabel>{{ eraItem }}</span>
+        </li>
+      </ol>
+    </div>
   </article>
 </template>
 
 <style lang="scss">
 .ability-profile {
   @apply relative;
-  @apply w-80 h-32 m-4;
+  @apply w-80 h-32 m-8 ml-10;
   @apply text-light;
 
-  &:before,
-  &:after {
+  &:before {
+    content: "";
+    @apply absolute inset-0;
+    @apply bg-tile;
+    @apply clip-parallelogram;
   }
 
-  &:before {
+  &:after {
     content: "";
     @apply absolute inset-0;
     @apply bg-sky-50;
@@ -215,19 +197,20 @@ export default {
     }
   }
 
-  &__factors {
-    @apply h-16 ml-16 pl-16 pb-2;
-    @apply z-10;
-  }
+  // &__factors {
+  //   @apply h-16 ml-16 pl-16 pb-2;
+  //   @apply z-10;
+  // }
 
   &__symbiotes {
     // @apply relative hidden;
     @apply relative flex;
-    @apply h-16 ml-16 pl-16 pr-2 pb-2;
+    @apply h-16 ml-16 pl-16 pr-4 pb-0;
     @apply z-10;
   }
+
   &__symbiote {
-    @apply flex flex-wrap  justify-between content-center;
+    @apply flex flex-wrap justify-between content-center;
     @apply w-1/2;
 
     > * {
@@ -251,54 +234,128 @@ export default {
     }
   }
 
-  &__actions {
-    @apply relative;
-    @apply flex items-start justify-end;
-    @apply h-10  ml-16  pl-16 pr-2 pb-2;
-    @apply z-10;
+  // &__actions {
+  //   @apply relative;
+  //   @apply flex items-start justify-end;
+  //   @apply h-10  ml-16  pl-16 pr-2 pb-2;
+  //   @apply z-10;
 
-    &-installable,
-    &-researchable {
-      @apply flex-grow-0;
-      @apply w-1/2;
-    }
+  //   &-installable,
+  //   &-researchable {
+  //     @apply flex-grow-0;
+  //     @apply w-1/2;
+  //   }
 
-    &-installable {
-      @apply mr-1;
-    }
+  //   &-installable {
+  //     @apply mr-1;
+  //   }
 
-    &-researchable {
-      @apply ml-1;
-    }
-  }
+  //   &-researchable {
+  //     @apply ml-1;
+  //   }
+  // }
 
-  &__icon {
+  &__badge {
     @apply absolute top-0 left-0;
-    @apply ml-3 mt-6;
+    @apply flex justify-center items-center;
+    @apply w-24 h-24 ml-4 mt-8;
+    @apply bg-tile;
+    @apply rounded-full;
     @apply z-20;
 
-    &-background {
-      @apply absolute top-0 left-0;
-      @apply ml-1 mt-4;
-      @apply bg-tile;
+    &:before {
+      content: "";
+      @apply w-full h-full;
+      @apply bg-sky-50;
+      @apply rounded-full;
+      @apply border;
+      @apply z-10;
+    }
+
+    &-icon {
+      @apply absolute;
+      @apply block;
+      @apply w-12 h-12;
+      @apply bg-light;
+      @apply z-30;
+
+      // TODO: Get all icons in here automatically somehow.
+      &--Buzzie {
+        @apply mask-buzzie;
+      }
+
+      &--Gamebryo {
+        @apply mask-gamebryo;
+      }
     }
   }
 
   &__tree {
     @apply absolute top-0 left-0;
-    @apply -ml-3 -mt-1 mb-2;
-    @apply z-10;
+    @apply flex justify-center items-center;
+    @apply h-12 w-12 -ml-3 -mt-1;
+    @apply bg-tile;
+    @apply rounded-full;
+    @apply z-20;
+
+    &:before {
+      content: "";
+      @apply w-full h-full;
+      @apply bg-sky-50;
+      @apply rounded-full;
+      @apply border;
+      @apply z-10;
+    }
+
+    &-icon {
+      @apply absolute;
+      @apply block;
+      @apply w-6 h-6;
+      @apply bg-light;
+      @apply z-30;
+
+      // TODO: Get all icons in here automatically somehow.
+      @apply mask-buzzie;
+    }
 
     &-background {
-      @apply absolute  top-0 left-0;
+      @apply absolute top-0 left-0;
       @apply -ml-5 -mt-3;
     }
   }
 
-  &__era {
-    @apply absolute  bottom-0 left-0;
-    @apply w-3  mb-10;
-    @apply z-10;
+  &__eras {
+    @apply absolute top-0 left-0;
+    @apply w-28 h-28 ml-2 mt-6;
+    @apply bg-tile;
+    @apply border;
+    @apply rounded-full;
+    @apply overflow-hidden;
+    @apply -z-10;
+
+    &-list {
+      @apply absolute bottom-0 left-0;
+      @apply flex flex-col-reverse;
+      @apply w-3 mb-8;
+      @apply z-10;
+    }
+
+    &-item {
+      @apply w-full h-1 mt-1;
+      @apply bg-grey;
+
+      &:first-child {
+        @apply mb-1;
+      }
+
+      &--active {
+        @apply bg-sky;
+      }
+    }
+
+    &-label {
+      @apply sr-only;
+    }
   }
 
   &:hover &__factors {
