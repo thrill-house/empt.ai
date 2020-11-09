@@ -68,7 +68,7 @@ export default {
 
     &--resources {
       @apply relative;
-      @apply w-48 -ml-4;
+      @apply w-48 -ml-6;
 
       &::before {
         content: "";
@@ -80,8 +80,8 @@ export default {
     }
 
     &--frequencies {
-      // @apply ml-2;
       @apply clip-1-corner;
+      @apply -ml-2;
     }
   }
 
@@ -90,11 +90,11 @@ export default {
     @apply bg-sky-50;
 
     &--resources {
-      @apply w-48 -ml-4;
+      @apply w-48 -ml-6;
     }
 
     &--frequencies {
-      // @apply ml-2;
+      @apply -ml-2;
     }
   }
 
@@ -109,7 +109,6 @@ export default {
   &__value {
     @apply inline-flex items-center;
     @apply text-xl;
-    @apply animate-pulse;
 
     &:before {
       content: "";
