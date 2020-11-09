@@ -11,7 +11,6 @@ export default (el, { arg, value, modifiers }) => {
     number
       ? `${
           chain(number)
-            .subtract(1)
             .multiply(100)
             .format(4).value
         }%`
