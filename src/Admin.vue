@@ -319,7 +319,7 @@ export default {
       <dd class="w-3/4 p-1">
         <select
           v-model="network"
-          class="bg-ash-25 p-2 text-xl mr-4 w-full rounded-lg"
+          class="bg-ash bg-opacity-25 p-2 text-xl mr-4 w-full rounded-lg"
         >
           <option value="evonet">Evonet</option>
           <option value="testnet">Testnet</option>
@@ -330,7 +330,7 @@ export default {
         <input
           type="text"
           v-model="contract"
-          class="bg-ash-25 p-2 text-xl mr-4 w-full rounded-lg"
+          class="bg-ash bg-opacity-25 p-2 text-xl mr-4 w-full rounded-lg"
         />
       </dd>
       <dt class="text-xl w-1/4 border-b border-ash-50">Mnemonic</dt>
@@ -338,7 +338,7 @@ export default {
         <input
           type="text"
           v-model="mnemonic"
-          class="bg-ash-25 p-2 text-xl mr-4 w-full rounded-lg"
+          class="bg-ash bg-opacity-25 p-2 text-xl mr-4 w-full rounded-lg"
         />
       </dd>
       <dt class="text-xl w-1/4 border-b border-ash-50">Identity</dt>
@@ -346,7 +346,7 @@ export default {
         <input
           type="text"
           v-model="identity"
-          class="bg-ash-25 p-2 text-xl mr-4 w-full rounded-lg"
+          class="bg-ash bg-opacity-25 p-2 text-xl mr-4 w-full rounded-lg"
         />
         <button
           class="bg-light text-dark p-2 m-2 rounded"
@@ -437,7 +437,7 @@ export default {
             class="flex w-full border-b py-4"
           >
             <h3
-              class="p-2 bg-sky-25 text-xl rounded-lg w-full"
+              class="p-2 bg-sky bg-opacity-25 text-xl rounded-lg w-full"
               :class="{
                 'bg-sky-75': item.json.$id === id,
                 'animate-pulse': item.json.$id === id,
