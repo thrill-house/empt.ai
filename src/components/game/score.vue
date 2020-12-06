@@ -64,7 +64,7 @@ export default {
   &__label {
     @apply text-xl font-bold uppercase;
     @apply h-12 w-48 px-4 py-2;
-    @apply bg-sky-50;
+    @apply bg-sky bg-opacity-50;
 
     &--resources {
       @apply relative;
@@ -75,7 +75,7 @@ export default {
         @apply absolute block top-0 left-0;
         @apply transform -translate-x-full;
         @apply h-32 w-28;
-        @apply bg-sky-50;
+        @apply bg-sky bg-opacity-50;
       }
     }
 
@@ -87,7 +87,7 @@ export default {
 
   &__collection {
     @apply h-20 w-48 px-4 py-1;
-    @apply bg-sky-50;
+    @apply bg-sky bg-opacity-50;
 
     &--resources {
       @apply w-48 -ml-6;

@@ -34,9 +34,11 @@ export default {
 .app-sidebar {
   @apply fixed top-0 right-0;
   @apply flex items-start;
-  @apply w-96;
+  @apply w-96 min-h-screen;
   @apply transform translate-x-full;
   @apply transition-transform duration-500;
+  @apply bg-ash bg-opacity-25;
+  @apply shadow;
 
   &--open {
     @apply w-96;
@@ -52,7 +54,7 @@ export default {
   &__control {
     @apply w-10 h-10;
     @apply flex items-center justify-center;
-    @apply bg-sky-25;
+    @apply bg-sky bg-opacity-25;
 
     &::before {
       content: "";

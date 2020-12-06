@@ -205,7 +205,7 @@ export default {
   &:before {
     content: "";
     @apply absolute inset-0;
-    @apply bg-sky-50;
+    @apply bg-sky bg-opacity-50;
     @apply clip-parallelogram;
   }
 
@@ -302,7 +302,7 @@ export default {
 
   &__era {
     @apply absolute  bottom-0 left-0;
-    @apply w-3  mb-10;
+    @apply w-3 mb-10;
     @apply z-10;
   }
 

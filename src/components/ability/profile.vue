@@ -170,26 +170,33 @@ export default {
 <style lang="scss">
 .ability-profile {
   @apply relative;
-  @apply w-80 h-32 m-8 ml-10;
+  @apply w-80 h-32 my-8 ml-10 mr-6;
   @apply text-light;
 
   &:before {
     content: "";
     @apply absolute inset-0;
-    @apply bg-tile;
+    @apply bg-grout;
+    @apply bg-grout-sky bg-opacity-50;
     @apply clip-parallelogram;
+    @apply z-10;
   }
 
   &:after {
     content: "";
-    @apply absolute inset-0;
-    @apply bg-sky-50;
-    @apply clip-parallelogram;
+    @apply absolute top-0 left-0;
+    @apply w-16 h-16 -ml-5 -mt-3;
+    @apply bg-tile;
+    @apply border;
+    @apply rounded-full;
+    @apply overflow-hidden;
+    @apply -z-10;
   }
 
   &__header {
     @apply relative;
-    @apply w-full h-6  py-1 pl-10;
+    @apply w-full h-6 py-1 pl-10 ml-1;
+    @apply font-bold;
     @apply z-10;
 
     &-title {
@@ -203,15 +210,15 @@ export default {
   // }
 
   &__symbiotes {
-    // @apply relative hidden;
-    @apply relative flex;
-    @apply h-16 ml-16 pl-16 pr-4 pb-0;
+    @apply relative hidden;
+    // @apply relative flex;
+    @apply h-16 ml-16 mt-1 pl-12 pr-2 pb-0;
     @apply z-10;
   }
 
   &__symbiote {
     @apply flex flex-wrap justify-between content-center;
-    @apply w-1/2;
+    @apply w-1/2 mx-1;
 
     > * {
       @apply -my-1 order-3 mx-auto;
@@ -258,7 +265,7 @@ export default {
   &__badge {
     @apply absolute top-0 left-0;
     @apply flex justify-center items-center;
-    @apply w-24 h-24 ml-4 mt-8;
+    @apply w-24 h-24 ml-3 mt-8;
     @apply bg-tile;
     @apply rounded-full;
     @apply z-20;
@@ -266,7 +273,7 @@ export default {
     &:before {
       content: "";
       @apply w-full h-full;
-      @apply bg-sky-50;
+      @apply bg-sky bg-opacity-50;
       @apply rounded-full;
       @apply border;
       @apply z-10;
@@ -301,7 +308,7 @@ export default {
     &:before {
       content: "";
       @apply w-full h-full;
-      @apply bg-sky-50;
+      @apply bg-sky bg-opacity-50;
       @apply rounded-full;
       @apply border;
       @apply z-10;
@@ -317,21 +324,16 @@ export default {
       // TODO: Get all icons in here automatically somehow.
       @apply mask-buzzie;
     }
-
-    &-background {
-      @apply absolute top-0 left-0;
-      @apply -ml-5 -mt-3;
-    }
   }
 
   &__eras {
     @apply absolute top-0 left-0;
-    @apply w-28 h-28 ml-2 mt-6;
+    @apply w-28 h-28 ml-1 mt-6;
     @apply bg-tile;
     @apply border;
     @apply rounded-full;
     @apply overflow-hidden;
-    @apply -z-10;
+    @apply z-0;
 
     &-list {
       @apply absolute bottom-0 left-0;

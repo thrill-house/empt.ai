@@ -191,7 +191,7 @@ export default {
 .emotion-diagram {
   &:before,
   &:after {
-    @apply rounded-full block absolute bg-sky-25;
+    @apply rounded-full block absolute bg-sky bg-opacity-25;
     content: "";
   }
 

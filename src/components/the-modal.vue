@@ -8,10 +8,10 @@ Helper element to display modal dialogs within, that take a z-index priority ove
 
 <script>
 export default {
-  name: 'the-modal',
+  name: "the-modal",
   methods: {
     close() {
-      this.$emit('close');
+      this.$emit("close");
     },
   },
 };
@@ -19,8 +19,8 @@ export default {
 
 <template>
   <transition name="fade">
-    <slot name=modal>
-      <aside class="the-modal bg-navy-75"><slot></slot></aside>
+    <slot name="modal">
+      <aside class="the-modal bg-navy bg-opacity-75"><slot></slot></aside>
     </slot>
   </transition>
 </template>
@@ -30,7 +30,7 @@ export default {
   @apply fixed
   inset-0
   flex justify-center items-center
-  bg-navy-75
+  bg-navy bg-opacity-75
   z-50;
 }
 </style>

@@ -203,7 +203,7 @@ export default {
               isSelected(event)
                 ? 'bg-light-25'
                 : isInstalled(event)
-                ? 'bg-sky-25'
+                ? 'bg-sky bg-opacity-25'
                 : '',
             ]"
           >

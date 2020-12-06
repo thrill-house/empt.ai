@@ -107,7 +107,7 @@ export default {
         <div class="w-1/4 py-3 pl-6">
           <h4 class="uppercase mb-3 text-light">{{ ability.name }}</h4>
           <div
-            class="w-24 h-24 bg-sky-25 overflow-hidden rounded-full inline-flex flex-shrink-0 items-center justify-center"
+            class="w-24 h-24 bg-sky bg-opacity-25 overflow-hidden rounded-full inline-flex flex-shrink-0 items-center justify-center"
           >
             <base-icon
               class="w-16 h-16 text-light"
@@ -128,7 +128,7 @@ export default {
           <div class="flex flex-col">
             <slot name="confirm"></slot> <slot name="cancel"></slot>
           </div>
-          <div class="bg-sky-25 px-4 py-2 clip-2-corners w-full">
+          <div class="bg-sky bg-opacity-25 px-4 py-2 clip-2-corners w-full">
             <h4 class="uppercase text-sm mb-2 text-light">{{ $t("Cost") }}</h4>
             <div>
               <base-factor

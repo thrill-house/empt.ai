@@ -224,11 +224,11 @@ export default {
 // @import "../styles/mixins";
 
 .emotion-diagram {
-  @apply relative rounded-full bg-sky-25 border-sky border;
+  @apply relative rounded-full bg-sky bg-opacity-25 border-sky border;
 
   &:before,
   &:after {
-    @apply rounded-full block absolute bg-sky-25;
+    @apply rounded-full block absolute bg-sky bg-opacity-25;
     content: "";
   }
 

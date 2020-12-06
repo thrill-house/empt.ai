@@ -55,7 +55,7 @@ export default {
   @apply absolute;
   @apply p-2;
   @apply border border-ash;
-  @apply bg-navy-75;
+  @apply bg-navy bg-opacity-75;
   @apply text-light;
   @apply z-50;
 }

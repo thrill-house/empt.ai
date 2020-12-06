@@ -85,7 +85,7 @@ export default {
     @click="open()"
   >
     <!--span
-      class="absolute block inset-0 h-full bg-sky-50 rounded z-0"
+      class="absolute block inset-0 h-full bg-sky bg-opacity-50 rounded z-0"
        :style="{width: affordability + '%'}"
     ></span-->
     <span class="relative z-10">
