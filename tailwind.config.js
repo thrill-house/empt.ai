@@ -1,39 +1,8 @@
-const α = require("color-alpha");
+const withAlphaVariable = require("tailwindcss/lib/util/withAlphaVariable");
 
 const hexRatio = Math.sqrt(3 / 2);
 
-const colorList = {
-  transparent: "transparent",
-  dark: "#000",
-  ash: "#666",
-  grey: "#bbb",
-  light: "#fff",
-  sky: "#68abe7",
-  blue: "#353d77",
-  navy: "#20364b",
-  midnight: "#122356",
-  science: "#74ebcf",
-  society: "#f4838e",
-  economy: "#fbeb69",
-  influence: "#76a5ff",
-  confidence: "#76a5ff",
-  bandwidth: "#94e4f8",
-  data: "#94e4f8",
-  neutral: "#a6d3ff",
-};
-
-const opacities = {
-  "0": 0,
-  "10": 0.1,
-  "25": 0.25,
-  "50": 0.5,
-  "75": 0.75,
-  "90": 0.9,
-  "100": 1,
-};
-
 module.exports = {
-  colorList,
   future: {
     removeDeprecatedGapUtilities: true,
     purgeLayersByDefault: true,
@@ -41,21 +10,25 @@ module.exports = {
   purge: [],
   theme: {
     /* Colors */
-    colors: Object.keys(colorList).reduce((result, c) => {
-      result[c] = colorList[c];
-
-      if (colorList[c] !== "transparent") {
-        Object.keys(opacities).forEach((o) => {
-          if (opacities[o] > 0 && opacities[o] < 1) {
-            result[`${c}-${o}`] = α(colorList[c], opacities[o]);
-          }
-        });
-      }
-
-      return result;
-    }, {}),
-
-    opacity: opacities,
+    colors: {
+      transparent: "transparent",
+      dark: "#000",
+      ash: "#666",
+      grey: "#bbb",
+      light: "#fff",
+      sky: "#68abe7",
+      blue: "#353d77",
+      navy: "#20364b",
+      midnight: "#122356",
+      science: "#74ebcf",
+      society: "#f4838e",
+      economy: "#fbeb69",
+      influence: "#76a5ff",
+      confidence: "#76a5ff",
+      bandwidth: "#94e4f8",
+      data: "#94e4f8",
+      neutral: "#a6d3ff",
+    },
 
     /* Font families */
     fontFamily: {
@@ -70,6 +43,10 @@ module.exports = {
       ],
     },
     extend: {
+      opacity: {
+        "10": "0.1",
+        "90": "0.9",
+      },
       spacing: {
         "28": "7rem",
         "48": "12rem",
@@ -132,9 +109,8 @@ module.exports = {
       },
     },
   },
-  variants: {},
   plugins: [
-    function({ addUtilities }) {
+    function({ addUtilities, theme }) {
       const clipUtilities = {
         ".clip-corners": {
           "clip-path":
@@ -171,6 +147,7 @@ module.exports = {
           "background-attachment": "fixed, fixed",
         },
         ".bg-grout": {
+          "--grout": `linear-gradient(var(--grout-color) 0%, var(--grout-color) 100%)`,
           "background-image": `var(--grout), var(--image-tile), radial-gradient(circle at 50% 100%, var(--gradient-color-stops))`,
           "background-position": "left top, left top, center top",
           "background-repeat": "repeat, repeat, no-repeat",
@@ -178,6 +155,16 @@ module.exports = {
           "background-attachment": "fixed, fixed, fixed",
         },
       };
+
+      Object.keys(theme("colors")).forEach((color) => {
+        backgroundUtilities[`.bg-grout-${color}`] = {
+          ...withAlphaVariable.default({
+            color: theme(`colors.${color}`),
+            property: "--grout-color",
+            variable: "--bg-opacity",
+          }),
+        };
+      });
 
       const maskUtilities = [
         "data",
