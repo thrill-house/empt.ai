@@ -177,7 +177,7 @@ export default {
     @apply relative flex justify-between;
     @apply w-full h-16;
     @apply px-4 py-3;
-    @apply bg-midnight bg-opacity-25;
+    @apply bg-sky bg-opacity-50;
     @apply z-50;
   }
 
@@ -199,7 +199,7 @@ export default {
       @apply clip-corners;
 
       &:hover {
-        @apply bg-midnight bg-opacity-90;
+        @apply bg-midnight;
       }
     }
 
@@ -264,8 +264,8 @@ export default {
 
       &--active {
         @apply block;
-        @apply bg-midnight bg-opacity-90;
-        @apply rounded-xl;
+        @apply bg-midnight;
+        @apply clip-corners;
 
         &::before {
           @apply hidden;
