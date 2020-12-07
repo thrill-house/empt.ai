@@ -6,7 +6,7 @@ import UtilTooltip from "../util/tooltip";
 import ValueOutput from "../value/output";
 
 export default {
-  name: "ability-symbiote",
+  name: "ability-synergy",
   components: {
     UtilTooltip,
     ValueOutput,
@@ -96,7 +96,7 @@ export default {
 </template>
 
 <style lang="scss">
-.ability-symbiote {
+.ability-synergy {
   @apply flex items-center justify-center;
   @apply w-8 h-8;
   @apply rounded-full;

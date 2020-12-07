@@ -163,14 +163,14 @@ export default {
         type="dependency"
         :source="ability"
         :minimum="3"
-        :symbiotes="dependencies"
+        :synergies="dependencies"
       ></ability-symbioses>
       <ability-symbioses
         v-bem:content-dependants
         type="dependant"
         :source="ability"
         :minimum="3"
-        :symbiotes="dependants"
+        :synergies="dependants"
       ></ability-symbioses>
     </div>
     <base-badge v-bem:tree size="tiny" :fade="treeMatch ? tree : 'grey'">

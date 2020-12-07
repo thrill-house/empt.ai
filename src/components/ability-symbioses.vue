@@ -11,22 +11,22 @@ An ability that has some sort of relationship (depends on or is depended on) wit
 
 <script>
 // import store from '../store';
-import _ from 'lodash-es';
+import _ from "lodash-es";
 
-import AbilitySymbiote from './ability-symbiote';
+import AbilitySynergy from "./ability-synergy";
 // import BaseBadge from './base-badge';
 // import BaseIcon from './base-icon';
 
 export default {
-  name: 'ability-symbioses',
+  name: "ability-symbioses",
   components: {
-    AbilitySymbiote,
+    AbilitySynergy,
     // BaseBadge,
     // BaseIcon,
   },
   props: {
     type: String,
-    symbiotes: Object,
+    synergies: Object,
     source: {
       type: [Object, Boolean],
       default: false,
@@ -38,7 +38,7 @@ export default {
   },
   computed: {
     length() {
-      return _.keys(this.symbiotes).length || 0;
+      return _.keys(this.synergies).length || 0;
     },
     remainder() {
       return this.minimum - this.length;
@@ -49,14 +49,14 @@ export default {
 
 <template>
   <div v-bem>
-    <ability-symbiote
-      v-for="(symbiote, index) in symbiotes"
+    <ability-synergy
+      v-for="(synergy, index) in synergies"
       :type="type"
       :source="source"
       :key="index"
       :label="index"
     />
-    <ability-symbiote
+    <ability-synergy
       v-for="remain in remainder"
       :type="type"
       :source="false"

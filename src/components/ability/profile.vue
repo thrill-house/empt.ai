@@ -4,7 +4,7 @@ import { capitalize, sortBy } from "lodash-es";
 
 // import AbilityInstallable from "./ability-installable";
 // import AbilityResearchable from "./ability-researchable";
-import AbilitySymbiotes from "./symbiotes";
+import AbilitySynergies from "./synergies";
 
 import ValueList from "../value/list";
 // import BaseBadge from "./base-badge";
@@ -15,7 +15,7 @@ import ValueList from "../value/list";
 export default {
   name: "ability-profile",
   components: {
-    AbilitySymbiotes,
+    AbilitySynergies,
     ValueList,
     // AbilityInstallable,
     // AbilityResearchable,
@@ -56,7 +56,7 @@ export default {
     //   return this.factors.influence;
     // },
     // trees() {
-    //   console.log(this.getAbilitySymbiotes(this.id));
+    //   console.log(this.getAbilitySynergies(this.id));
     //   // return this.influence.trees;
     //   return [];
     // },
@@ -71,7 +71,7 @@ export default {
     dependants() {
       return this.getAbilityDependants(this.id);
     },
-    symbiotes() {
+    synergies() {
       return { receives: this.dependees, provides: this.dependants };
     },
 
@@ -160,10 +160,10 @@ export default {
           {{ $t("Attributes") }}
         </button>
         <button
-          v-bem:headerToggle="{ active: toggle === 'symbiotes' }"
-          @click="toggle = 'symbiotes'"
+          v-bem:headerToggle="{ active: toggle === 'synergies' }"
+          @click="toggle = 'synergies'"
         >
-          {{ $t("Symbiotes") }}
+          {{ $t("Synergies") }}
         </button>
       </nav>
     </header>
@@ -190,15 +190,15 @@ export default {
         </dd>
       </template>
     </dl>
-    <div v-bem:symbiotes="{ active: toggle === 'symbiotes' }">
-      <ability-symbiotes
-        v-for="(symbiotes, symbiote) in symbiotes"
-        v-bem:symbiotesList="{ [symbiote]: true }"
-        :type="symbiote"
+    <div v-bem:synergies="{ active: toggle === 'synergies' }">
+      <ability-synergies
+        v-for="(synergies, synergy) in synergies"
+        v-bem:synergiesList="{ [synergy]: true }"
+        :type="synergy"
         :source="ability"
         :minimum="3"
-        :symbiotes="symbiotes"
-        :key="symbiote"
+        :synergies="synergies"
+        :key="synergy"
       />
     </div>
     <div v-bem:badge>
@@ -361,7 +361,7 @@ export default {
     }
   }
 
-  &__symbiotes {
+  &__synergies {
     @apply relative hidden;
     @apply h-16 ml-16 mt-1 pl-12 pr-2;
     @apply z-10;

@@ -26,16 +26,16 @@ const getters = {
           _.includes(_.keys(ability.factors.influence.dependencies), label)
       );
 
-      return getters.getSortedSymbiotes(dependantAbilities, label);
+      return getters.getSortedSynergies(dependantAbilities, label);
     }
 
     return {};
   },
-  getSortedSymbiotes: (state, getters) => (symbiotes, label) => {
-    if (symbiotes) {
-      let sortedSymbiotes = _.transform(
-        _.sortBy(symbiotes, [
-          (symbiote) => _.indexOf(_.keys(getters.getEras()), symbiote.era),
+  getSortedSynergies: (state, getters) => (synergies, label) => {
+    if (synergies) {
+      let sortedSynergies = _.transform(
+        _.sortBy(synergies, [
+          (synergy) => _.indexOf(_.keys(getters.getEras()), synergy.era),
         ]),
         (result, value) => {
           result[value.label] = value;
@@ -43,11 +43,10 @@ const getters = {
         {}
       );
 
-      if (_.size(sortedSymbiotes)) {
+      if (_.size(sortedSynergies)) {
         return _.mapValues(
-          sortedSymbiotes,
-          (sortedSymbiote) =>
-            sortedSymbiote.factors.influence.dependencies[label]
+          sortedSynergies,
+          (sortedSynergy) => sortedSynergy.factors.influence.dependencies[label]
         );
       }
     }

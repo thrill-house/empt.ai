@@ -1,11 +1,11 @@
 <script>
 import { keys } from "lodash-es";
-import AbilitySymbiote from "./symbiote";
+import AbilitySynergy from "./synergy";
 
 export default {
-  name: "ability-symbiotes",
+  name: "ability-synergies",
   components: {
-    AbilitySymbiote,
+    AbilitySynergy,
   },
   props: {
     type: {
@@ -16,7 +16,7 @@ export default {
       type: [Object, Boolean],
       default: false,
     },
-    symbiotes: {
+    synergies: {
       type: Array,
       default: () => [],
     },
@@ -27,7 +27,7 @@ export default {
   },
   computed: {
     remainder() {
-      return this.minimum - keys(this.symbiotes).length;
+      return this.minimum - keys(this.synergies).length;
     },
   },
 };
@@ -35,14 +35,14 @@ export default {
 
 <template>
   <div v-bem>
-    <ability-symbiote
-      v-for="(symbiote, s) in symbiotes"
+    <ability-synergy
+      v-for="(synergy, s) in synergies"
       :type="type"
       :source="source"
       :key="s"
       :id="s"
     />
-    <ability-symbiote
+    <ability-synergy
       v-for="remain in remainder"
       :type="type"
       :key="remain"

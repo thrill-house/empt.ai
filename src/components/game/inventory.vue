@@ -140,8 +140,8 @@ export default {
             </button>
           </li>
           <li>
-            <button @click="invokeMap(abilityRefs, 'viewToggle', 'symbiotes')">
-              {{ $t("Symbiotes") }}
+            <button @click="invokeMap(abilityRefs, 'viewToggle', 'synergies')">
+              {{ $t("Synergies") }}
             </button>
           </li>
         </ul>

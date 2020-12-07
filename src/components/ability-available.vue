@@ -45,7 +45,7 @@ export default {
       return true;
     },
     ability() {
-      console.log(this.getAbilitySymbiotes(this.id));
+      console.log(this.getAbilitySynergies(this.id));
       console.log(this.getAbilityDependants(this.id));
       return this.getAbility(this.id);
     },
@@ -62,7 +62,7 @@ export default {
       return this.factors.influence;
     },
     trees() {
-      console.log(this.getAbilitySymbiotes(this.id));
+      console.log(this.getAbilitySynergies(this.id));
       // return this.influence.trees;
       return [];
     },
@@ -103,7 +103,7 @@ export default {
     // }),
     ...mapGetters({
       getAbility: "inventory/getAbility",
-      getAbilitySymbiotes: "inventory/getAbilitySymbiotes",
+      getAbilitySynergies: "inventory/getAbilitySynergies",
       getAbilityDependants: "inventory/getAbilityDependants",
       // getIsEraActive,
       // getAbilityDependants,
@@ -133,14 +133,14 @@ export default {
         type="dependency"
         :source="ability"
         :minimum="3"
-        :symbiotes="dependencies"
+        :synergies="dependencies"
       />
       <ability-symbioses
         v-bem:content-dependants
         type="dependant"
         :source="ability"
         :minimum="3"
-        :symbiotes="dependants"
+        :synergies="dependants"
       />
     </div> -->
     <!-- <div v-bem:actions>

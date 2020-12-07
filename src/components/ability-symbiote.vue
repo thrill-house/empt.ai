@@ -1,12 +1,12 @@
 <docs>
-### Ability symbiote
+### Ability synergy
 An ability that has some sort of relationship (depends on or is depended on) with another ability.
 
 ##### Properties
 - `label` — A label referring to an ability in the global store.
 
 ##### Instantiation
-`<ability-symbiote label.string="ability-label" type.string="dependency || dependant"></ability-symbiote>`
+`<ability-synergy label.string="ability-label" type.string="dependency || dependant"></ability-synergy>`
 </docs>
 
 <script>
@@ -19,7 +19,7 @@ import BaseIcon from "./base-icon";
 import TheTooltip from "./the-tooltip";
 
 export default {
-  name: "ability-symbiote",
+  name: "ability-synergy",
   extends: BaseHover,
   components: {
     BaseBadge,
@@ -140,7 +140,7 @@ export default {
 <style lang="scss">
 @import "../styles/mixins";
 
-.ability-symbiote {
+.ability-synergy {
   &--slotted {
     animation: pulse 3s infinite;
   }
