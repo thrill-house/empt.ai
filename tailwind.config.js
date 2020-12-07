@@ -167,6 +167,7 @@ module.exports = {
       });
 
       const maskUtilities = [
+        "base",
         "factor",
         "data",
         "confidence",
