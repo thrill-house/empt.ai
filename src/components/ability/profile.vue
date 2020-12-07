@@ -7,10 +7,6 @@ import { capitalize, sortBy } from "lodash-es";
 import AbilitySynergies from "./synergies";
 
 import ValueList from "../value/list";
-// import BaseBadge from "./base-badge";
-// import BaseEra from "./base-era";
-// import BaseFactors from "./base-factors";
-// import BaseIcon from "./base-icon";
 
 export default {
   name: "ability-profile",
@@ -19,10 +15,6 @@ export default {
     ValueList,
     // AbilityInstallable,
     // AbilityResearchable,
-    // BaseBadge,
-    // BaseEra,
-    // BaseFactors,
-    // BaseIcon,
   },
   props: {
     id: {
