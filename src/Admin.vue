@@ -309,7 +309,9 @@ export default {
 </script>
 
 <template>
-  <header class="w-full flex items-top justify-between border-b p-8">
+  <header
+    class="w-full h-96 flex-none flex items-top justify-between border-b p-8"
+  >
     <div>
       <h1 class="text-5xl">EMPTH.AI</h1>
       <h2 class="text-2xl">Admin panel</h2>
@@ -384,8 +386,11 @@ export default {
       </dd>
     </dl>
   </header>
-  <main class="flex w-full h-full justify-center items-stretch">
-    <section class="flex w-1/2 p-4">
+  <main
+    id="main"
+    class="flex flex-1 self-stretch w-full max-h-full justify-center items-stretch"
+  >
+    <section class="flex w-1/2 h-full p-4">
       <details
         v-for="(document, d) in documents"
         :key="d"
@@ -467,17 +472,18 @@ export default {
         </ul>
       </details>
     </section>
-    <section class="relative flex flex-col w-1/2 p-8 rounded-xl">
+    <section class="relative flex flex-col w-1/2 h-full p-8 rounded-xl">
       <vue-json-editor
+        id="editor"
         v-model="field"
         :value="field"
         :show-btns="false"
         :expandedOnStart="true"
         mode="form"
-        class="bg-light min-h-full w-full"
+        class="bg-light w-full flex-1"
         @json-change="onJsonChange"
       />
-      <div class="flex justify-between w-64 mt-8">
+      <div class="flex justify-between w-64 h-12 flex-none mt-8">
         <button
           class="bg-light text-dark p-2 rounded"
           @click="createDocument(this.document, this.field)"
@@ -500,3 +506,16 @@ export default {
   </main>
 </template>
 
+<style lang="scss">
+#main {
+  height: calc(100vh - 384px);
+}
+
+#editor {
+  height: calc(100% - 80px);
+
+  .jsoneditor-vue {
+    height: 100%;
+  }
+}
+</style>
