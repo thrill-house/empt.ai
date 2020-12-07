@@ -197,6 +197,9 @@ module.exports = {
         "inventory",
         "empty",
         "unknown",
+        "view",
+        "attributes",
+        "synergies",
         "buzzie",
         "gamebryo",
       ].reduce((result, mask) => {
@@ -204,6 +207,7 @@ module.exports = {
           "mask-image": `var(--image-${mask})`,
           "mask-size": "contain",
           "mask-repeat": "no-repeat",
+          "mask-position": "center center",
         };
 
         return result;

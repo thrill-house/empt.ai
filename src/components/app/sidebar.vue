@@ -47,7 +47,7 @@ export default {
 
   &__controls {
     @apply absolute top-0 left-0;
-    @apply w-10 mt-8;
+    @apply w-10 mt-16;
     @apply transform -translate-x-full;
   }
 

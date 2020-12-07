@@ -76,12 +76,12 @@ export default {
 <template>
   <section v-bem>
     <nav v-bem:actions>
-      <div v-bem:action.filter>
-        <ol
-          v-bem:filterList="{ tree: true, active: toggles?.trees }"
-          @mouseenter="addToggle('trees')"
-          @mouseleave="delete toggles.trees"
-        >
+      <div
+        v-bem:action.filter
+        @mouseenter="addToggle('trees')"
+        @mouseleave="delete toggles.trees"
+      >
+        <ol v-bem:filterList="{ tree: true, active: toggles?.trees }">
           <li v-bem:filterOption="{ active: !filters?.treeId }">
             <button
               v-bem:filterToggle="{ Tree: true }"
@@ -104,12 +104,12 @@ export default {
           </li>
         </ol>
       </div>
-      <div v-bem:action.filter>
-        <ol
-          v-bem:filterList="{ era: true, active: toggles?.eras }"
-          @mouseenter="addToggle('eras')"
-          @mouseleave="delete toggles.eras"
-        >
+      <div
+        v-bem:action.filter
+        @mouseenter="addToggle('eras')"
+        @mouseleave="delete toggles.eras"
+      >
+        <ol v-bem:filterList="{ era: true, active: toggles?.eras }">
           <li v-bem:filterOption="{ active: !filters?.eraId }">
             <button
               v-bem:filterToggle="{ Era: true }"
@@ -132,15 +132,25 @@ export default {
           </li>
         </ol>
       </div>
-      <div v-bem:action.switch>
-        <ul>
-          <li>
-            <button @click="invokeMap(abilityRefs, 'viewToggle', 'attributes')">
+      <div
+        v-bem:action.view
+        @mouseenter="addToggle('view')"
+        @mouseleave="delete toggles.view"
+      >
+        <ul v-bem:viewList="{ active: toggles?.view }">
+          <li v-bem:viewOption>
+            <button
+              v-bem:viewToggle="{ Attributes: true }"
+              @click="invokeMap(abilityRefs, 'viewToggle', 'attributes')"
+            >
               {{ $t("Attributes") }}
             </button>
           </li>
-          <li>
-            <button @click="invokeMap(abilityRefs, 'viewToggle', 'synergies')">
+          <li v-bem:viewOption>
+            <button
+              v-bem:viewToggle="{ Synergies: true }"
+              @click="invokeMap(abilityRefs, 'viewToggle', 'synergies')"
+            >
               {{ $t("Synergies") }}
             </button>
           </li>
@@ -158,13 +168,16 @@ export default {
 </template>
 
 <style lang="scss">
+@import "../../styles/mixins";
+
 .game-inventory {
   @apply w-full;
 
   &__actions {
     @apply relative flex justify-between;
-    @apply w-full;
-    @apply px-4 pt-4;
+    @apply w-full h-16;
+    @apply px-4 py-3;
+    @apply bg-midnight bg-opacity-25;
     @apply z-50;
   }
 
@@ -181,18 +194,12 @@ export default {
     @apply absolute;
 
     &-list {
-      @apply p-2;
+      @apply px-2;
       @apply leading-10;
-      @apply rounded-xl;
+      @apply clip-corners;
 
       &:hover {
-        @apply bg-sky bg-opacity-90;
-      }
-
-      &--trees {
-      }
-
-      &--eras {
+        @apply bg-midnight bg-opacity-90;
       }
     }
 
@@ -208,6 +215,10 @@ export default {
       @apply flex items-center;
       @apply text-sm;
 
+      &:hover {
+        @apply underline;
+      }
+
       &:before {
         content: "";
         @apply inline-block;
@@ -215,83 +226,77 @@ export default {
         @apply bg-light;
       }
 
-      &:hover {
-        @apply underline;
+      @include icons(
+        Tree,
+        Neutral,
+        Science,
+        Economy,
+        Society,
+        Era,
+        Hobbyist,
+        University,
+        Business,
+        Government,
+        Consciousness
+      );
+    }
+
+    &-list--active &-option {
+      @apply block;
+    }
+  }
+
+  &__view {
+    &-list {
+      @apply flex flex-col absolute;
+      @apply top-0 right-0;
+      @apply px-2;
+      @apply leading-10;
+
+      &:before {
+        content: "";
+        @apply block;
+        @apply self-end;
+        @apply w-6 h-6 mt-2;
+        @apply bg-light;
+        @apply mask-view;
       }
 
-      &--Tree {
-        &:before {
-          @apply mask-tree;
-        }
-      }
+      &--active {
+        @apply block;
+        @apply bg-midnight bg-opacity-90;
+        @apply rounded-xl;
 
-      &--Neutral {
-        &:before {
-          @apply mask-neutral;
-        }
-      }
-
-      &--Science {
-        &:before {
-          @apply mask-science;
-        }
-      }
-
-      &--Economy {
-        &:before {
-          @apply mask-economy;
-        }
-      }
-
-      &--Society {
-        &:before {
-          @apply mask-society;
-        }
-      }
-
-      &--Era {
-        &:before {
-          @apply mask-era;
-        }
-      }
-
-      &--Hobbyist {
-        &:before {
-          @apply mask-hobbyist;
-        }
-      }
-
-      &--University {
-        &:before {
-          @apply mask-university;
-        }
-      }
-
-      &--Business {
-        &:before {
-          @apply mask-business;
-        }
-      }
-
-      &--Government {
-        &:before {
-          @apply mask-government;
-        }
-      }
-
-      &--Consciousness {
-        &:before {
-          @apply mask-consciousness;
+        &::before {
+          @apply hidden;
         }
       }
     }
 
-    // &-option--active &-toggle {
-    //   @apply underline;
-    // }
+    &-option {
+      @apply hidden;
+    }
 
     &-list--active &-option {
-      @apply block;
+      @apply flex;
+    }
+
+    &-toggle {
+      @apply flex items-center;
+      @apply text-sm;
+
+      &:hover {
+        @apply underline;
+      }
+
+      &:before {
+        content: "";
+        @apply inline-block;
+        @apply w-6 h-6 mr-2;
+        @apply bg-light;
+      }
+
+      @include icons(Attributes, Synergies);
     }
   }
 }
