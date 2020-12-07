@@ -1,4 +1,4 @@
-import { random, reduce } from "lodash-es";
+import { ceil, random, reduce } from "lodash-es";
 
 export const getScores = (getters) => {
   const sources = getters["game/Sources/all"];
@@ -154,6 +154,9 @@ export default {
     interval: (state, payload) => {
       state.interval = payload;
     },
+    startTime: (state, payload) => {
+      state.startTime = payload;
+    },
     currentTime: (state, payload) => {
       state.currentTime = payload;
     },
@@ -165,9 +168,12 @@ export default {
     },
   },
   actions: {
+    init: ({ commit }) => {
+      commit("startTime", ceil(Date.now() / 1000));
+    },
     startTimer: ({ commit }) => {
       const interval = setInterval(() => {
-        commit("currentTime", Date.now() / 1000);
+        commit("currentTime", ceil(Date.now() / 1000));
       }, 1000);
 
       commit("interval", interval);

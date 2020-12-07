@@ -25,12 +25,14 @@ export default {
     this.models();
 
     // Start the game
+    this.init();
     this.startTimer();
   },
   methods: {
     ...mapActions({
       trees: "app/Trees/all",
       eras: "app/Eras/all",
+      init: "score/init",
       startTimer: "score/startTimer",
       bases: "score/bases",
       factors: "score/factors",
