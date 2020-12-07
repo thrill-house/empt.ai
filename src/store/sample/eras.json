@@ -11,7 +11,7 @@
       "$updatedAt": 1604399059364
     },
     "data": {
-      "level": 1,
+      "stage": 1,
       "title": "Hobbyist",
       "description": "Just getting a start"
     }
@@ -28,7 +28,7 @@
       "$updatedAt": 1604323919690
     },
     "data": {
-      "level": 2,
+      "stage": 2,
       "title": "University",
       "description": "Learning to walk"
     }
@@ -45,7 +45,7 @@
       "$updatedAt": 1604323946236
     },
     "data": {
-      "level": 3,
+      "stage": 3,
       "title": "Business",
       "description": "Time to make some money"
     }
@@ -62,7 +62,7 @@
       "$updatedAt": 1604323853525
     },
     "data": {
-      "level": 4,
+      "stage": 4,
       "title": "Government",
       "description": "Time to take the lead"
     }
@@ -79,7 +79,7 @@
       "$updatedAt": 1604323882199
     },
     "data": {
-      "level": 5,
+      "stage": 5,
       "title": "Consciousness",
       "description": "Waking up to reality"
     }
