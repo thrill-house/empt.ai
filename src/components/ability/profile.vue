@@ -4,7 +4,6 @@ import { capitalize, sortBy } from "lodash-es";
 
 // import AbilityInstallable from "./ability-installable";
 // import AbilityResearchable from "./ability-researchable";
-// import AbilitySymbioses from "./ability-symbioses";
 import AbilitySymbiotes from "./symbiotes";
 
 import ValueList from "../value/list";
@@ -20,7 +19,6 @@ export default {
     ValueList,
     // AbilityInstallable,
     // AbilityResearchable,
-    // AbilitySymbioses,
     // BaseBadge,
     // BaseEra,
     // BaseFactors,
@@ -36,9 +34,11 @@ export default {
   //   this.$on('research', this.researchDialog);
   //   this.$on('install', this.installDialog);
   // },
-  data: () => ({
-    toggle: "attributes",
-  }),
+  data() {
+    return {
+      toggle: "attributes",
+    };
+  },
   computed: {
     ability() {
       return this.getAbility(this.id);
@@ -135,6 +135,9 @@ export default {
   },
   methods: {
     capitalize,
+    viewToggle(view) {
+      this.toggle = view;
+    },
     // researchDialog() {
     //   this.$refs.research.startResearching();
     // },
