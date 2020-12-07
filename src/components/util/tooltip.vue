@@ -1,9 +1,9 @@
-
 <script>
 export default {
   name: "util-tooltip",
   props: {
     position: Object,
+    tag: String,
   },
   mounted() {
     this.width = this.$el.offsetWidth;
@@ -44,9 +44,9 @@ export default {
 
 <template>
   <transition name="fade">
-    <slot name="tooltip">
-      <div v-bem :style="{ top, left, transform }"><slot /></div>
-    </slot>
+    <component :is="tag || 'div'" v-bem :style="{ top, left, transform }">
+      <slot />
+    </component>
   </transition>
 </template>
 

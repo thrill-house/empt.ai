@@ -1,21 +1,13 @@
-<docs>
-### Available ability
-The component displays an ability that is defined within the global data store. If the player is not determined to be past the ability threshold, it will not be shown in any form to the player. If they are, depending on the whether a corresponding **research** or **purchase** event exists for the ability, it either displays options to enable it within the playing field, or to research it using in-game resources.
-
-##### Properties
-- `label` — A label referring to an ability in the global store.
-
-##### Instantiation
-`<ability-available label.string="ability-label"></ability-available>`
-</docs>
-
 <script>
 import { mapGetters } from "vuex";
+import { capitalize, sortBy } from "lodash-es";
 
 // import AbilityInstallable from "./ability-installable";
 // import AbilityResearchable from "./ability-researchable";
 // import AbilitySymbioses from "./ability-symbioses";
 import AbilitySymbiotes from "./symbiotes";
+
+import ValueList from "../value/list";
 // import BaseBadge from "./base-badge";
 // import BaseEra from "./base-era";
 // import BaseFactors from "./base-factors";
@@ -25,6 +17,7 @@ export default {
   name: "ability-profile",
   components: {
     AbilitySymbiotes,
+    ValueList,
     // AbilityInstallable,
     // AbilityResearchable,
     // AbilitySymbioses,
@@ -43,6 +36,9 @@ export default {
   //   this.$on('research', this.researchDialog);
   //   this.$on('install', this.installDialog);
   // },
+  data: () => ({
+    toggle: "attributes",
+  }),
   computed: {
     ability() {
       return this.getAbility(this.id);
@@ -50,9 +46,9 @@ export default {
     title() {
       return this.ability?.title;
     },
-    factors() {
-      return this.ability?.factors;
-    },
+    // factors() {
+    //   return this.ability?.factors;
+    // },
     bases() {
       return this.ability?.bases;
     },
@@ -64,10 +60,11 @@ export default {
     //   // return this.influence.trees;
     //   return [];
     // },
+
     tree() {
-      // this.ability.tree;
-      return this.ability?.treeId;
+      return this.getTree(this.ability.treeId)?.title;
     },
+
     dependees() {
       return this.getAbilityDependees(this.id);
     },
@@ -77,15 +74,26 @@ export default {
     symbiotes() {
       return { receives: this.dependees, provides: this.dependants };
     },
-    era() {
-      // this.ability.eraId;
-      // return this.ability?.era?.stage;
-      return 3;
+
+    treeFactors() {
+      return this.getAbilityTreeFactors(this.id);
     },
+    eraFactors() {
+      return this.getAbilityEraFactors(this.id);
+    },
+    sortedAttributes() {
+      return {
+        base: this.bases,
+        tree: this.treeFactors,
+        era: this.eraFactors,
+      };
+    },
+
     eras() {
-      // this.ability.eraId;
-      // return this.ability?.era?.stage;
-      return ["Hobbyist", "University", "Economy", "Society", "Consciousness"];
+      return sortBy(this.getEras, "stage");
+    },
+    era() {
+      return this.getEra(this.ability.eraId)?.stage || 0;
     },
     // eraActive() {
     //   return this.getIsEraActive(this.era);
@@ -114,12 +122,19 @@ export default {
       getAbility: "inventory/getAbility",
       getAbilityDependants: "inventory/getAbilityDependants",
       getAbilityDependees: "inventory/getAbilityDependees",
+      getAbilityBaseFactors: "inventory/getAbilityBaseFactors",
+      getAbilityTreeFactors: "inventory/getAbilityTreeFactors",
+      getAbilityEraFactors: "inventory/getAbilityEraFactors",
+      getTree: "app/Trees/one",
+      getEras: "app/Eras/all",
+      getEra: "app/Eras/one",
       // getIsEraActive,
       // getAbilityDependants,
       // getInteraction,
     }),
   },
   methods: {
+    capitalize,
     // researchDialog() {
     //   this.$refs.research.startResearching();
     // },
@@ -134,17 +149,53 @@ export default {
   <article v-bem>
     <header v-bem:header>
       <h4 v-bem:headerTitle>{{ title }}</h4>
+      <nav v-bem:headerNav>
+        <button
+          v-bem:headerToggle="{ active: toggle === 'attributes' }"
+          @click="toggle = 'attributes'"
+        >
+          {{ $t("Attributes") }}
+        </button>
+        <button
+          v-bem:headerToggle="{ active: toggle === 'symbiotes' }"
+          @click="toggle = 'symbiotes'"
+        >
+          {{ $t("Symbiotes") }}
+        </button>
+      </nav>
     </header>
-    <!-- <base-factors v-bem:factors :bases="bases" :trees="trees"></base-factors> -->
-    <div v-bem:symbiotes>
+    <dl v-bem:attributes="{ active: toggle === 'attributes' }">
+      <template
+        v-for="(attributes, attribute) in sortedAttributes"
+        :key="attribute"
+      >
+        <dt
+          v-bem:attributesType="{ [attribute]: true }"
+          :title="
+            $t('{attribute} {target} {type}', {
+              attribute: capitalize(attribute),
+              target: attribute === 'base' ? $t('rate') : $t('match'),
+              type: attribute === 'base' ? $t('boost') : $t('bonus'),
+            })
+          "
+        />
+        <dd v-bem:attributesValues="{ [attribute]: true }">
+          <value-list
+            v-bem:attributesList="{ [attribute]: true }"
+            :items="attributes"
+          />
+        </dd>
+      </template>
+    </dl>
+    <div v-bem:symbiotes="{ active: toggle === 'symbiotes' }">
       <ability-symbiotes
-        v-for="(symbiote, s) in symbiotes"
-        v-bem:symbiote="{ [s]: true }"
-        :type="s"
+        v-for="(symbiotes, symbiote) in symbiotes"
+        v-bem:symbiotesList="{ [symbiote]: true }"
+        :type="symbiote"
         :source="ability"
         :minimum="3"
-        :symbiotes="symbiote"
-        :key="s"
+        :symbiotes="symbiotes"
+        :key="symbiote"
       />
     </div>
     <div v-bem:badge>
@@ -157,7 +208,7 @@ export default {
       <ol v-bem:erasList>
         <li
           v-for="(eraItem, e) in eras"
-          v-bem:erasItem="{ active: e <= era - 1 }"
+          v-bem:erasItem="{ active: eraItem.stage <= era }"
           :key="e"
         >
           <span v-bem:erasLabel>{{ eraItem }}</span>
@@ -194,50 +245,151 @@ export default {
   }
 
   &__header {
-    @apply relative;
-    @apply w-full h-6 py-1 pl-10 ml-1;
+    @apply relative flex items-center justify-between;
+    @apply w-full h-6 pt-2 pl-10 pr-8 ml-1;
     @apply font-bold;
     @apply z-10;
 
     &-title {
       @apply uppercase;
     }
+
+    &-nav {
+      @apply flex;
+      @apply text-xs;
+
+      &::before {
+        content: "|";
+        @apply mx-1;
+        @apply order-2;
+      }
+    }
+
+    &-toggle {
+      @apply order-first;
+
+      & + & {
+        @apply order-last;
+      }
+
+      &--active {
+        @apply underline;
+      }
+    }
   }
 
-  // &__factors {
-  //   @apply h-16 ml-16 pl-16 pb-2;
-  //   @apply z-10;
-  // }
+  &__attributes {
+    @apply relative hidden;
+    @apply flex-col flex-wrap justify-between;
+    @apply h-16 ml-16 mt-2 pl-16 pr-6 pb-2;
+    @apply z-10;
+
+    &--active {
+      @apply flex;
+    }
+
+    &-type {
+      @apply flex items-center justify-end;
+      @apply h-4;
+      @apply text-sm leading-none;
+
+      &:before {
+        content: "";
+        @apply inline-block;
+        @apply w-4 h-4 mr-1;
+        @apply bg-light;
+      }
+
+      &--base {
+        &:before {
+          @apply mask-base;
+        }
+      }
+
+      &--tree {
+        &:before {
+          @apply mask-tree;
+        }
+      }
+
+      &--era {
+        &:before {
+          @apply mask-era;
+        }
+      }
+    }
+
+    &-label {
+      @apply sr-only;
+    }
+
+    &-values {
+      @apply flex justify-end;
+      @apply h-10;
+    }
+
+    &-list {
+      @apply flex flex-col items-end justify-evenly;
+
+      &--base {
+        @apply items-stretch self-stretch;
+
+        > dt {
+          // @apply mr-4;
+        }
+
+        > dd {
+          @apply justify-between;
+
+          &::before {
+            @apply mr-2;
+          }
+        }
+      }
+
+      &--tree,
+      &--era {
+        > dd {
+          &::before {
+            @apply hidden;
+          }
+        }
+      }
+    }
+  }
 
   &__symbiotes {
     @apply relative hidden;
-    // @apply relative flex;
-    @apply h-16 ml-16 mt-1 pl-12 pr-2 pb-0;
+    @apply h-16 ml-16 mt-1 pl-12 pr-2;
     @apply z-10;
-  }
 
-  &__symbiote {
-    @apply flex flex-wrap justify-between content-center;
-    @apply w-1/2 mx-1;
-
-    > * {
-      @apply -my-1 order-3 mx-auto;
-
-      &:first-child {
-        @apply order-1 mx-0;
-      }
-
-      &:last-child {
-        @apply mx-0 order-2;
-      }
+    &--active {
+      @apply flex;
     }
 
-    &--receives {
-      @apply pr-1;
-    }
+    &-list {
+      @apply flex flex-wrap justify-between content-center;
+      @apply w-1/2 mx-1;
 
-    &--provides {
-      @apply flex-wrap-reverse pl-1;
+      > * {
+        @apply -my-1 order-3 mx-auto;
+
+        &:first-child {
+          @apply order-1 mx-0;
+        }
+
+        &:last-child {
+          @apply mx-0 order-2;
+        }
+      }
+
+      &--receives {
+        @apply pr-1;
+      }
+
+      &--provides {
+        @apply flex-wrap-reverse pl-1;
+      }
     }
   }
 
@@ -318,11 +470,23 @@ export default {
       @apply absolute;
       @apply block;
       @apply w-6 h-6;
-      @apply bg-light;
       @apply z-30;
 
-      // TODO: Get all icons in here automatically somehow.
-      @apply mask-buzzie;
+      &--Neutral {
+        @apply mask-neutral bg-neutral;
+      }
+
+      &--Science {
+        @apply mask-science bg-science;
+      }
+
+      &--Economy {
+        @apply mask-economy bg-economy;
+      }
+
+      &--Society {
+        @apply mask-society bg-society;
+      }
     }
   }
 
@@ -358,14 +522,6 @@ export default {
     &-label {
       @apply sr-only;
     }
-  }
-
-  &:hover &__factors {
-    @apply hidden;
-  }
-
-  &:hover &__symbiotes {
-    @apply flex;
   }
 }
 </style>

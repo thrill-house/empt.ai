@@ -1,16 +1,10 @@
-<docs>
-### The score
-The component provides a representation of the player's current game score, meaning the number of **data** and **confidence** resources it has currently accumulated.
-
-##### Instantiation
-`<the-score></the-score>`
-</docs>
-
 <script>
 import { mapState, mapGetters } from "vuex";
+import ValueList from "../value/list";
 
 export default {
   name: "game-score",
+  components: { ValueList },
   computed: {
     ...mapState({
       bases: (state) => state.score.bases,
@@ -28,7 +22,8 @@ export default {
   <dl v-bem>
     <dt v-bem:label.resources>{{ $t("Resources") }}</dt>
     <dd v-bem:collection.resources>
-      <dl v-bem:values>
+      <value-list v-bem:list :items="resources" />
+      <!-- <dl v-bem:values>
         <dt v-bem:term.data>{{ $t("Data") }}</dt>
         <dd v-bem:value.data v-format:data="resources.data"></dd>
         <dt v-bem:term.confidence>{{ $t("Confidence") }}</dt>
@@ -36,22 +31,23 @@ export default {
           v-bem:value.confidence
           v-format:confidence="resources.confidence"
         ></dd>
-      </dl>
+      </dl> -->
     </dd>
     <dt v-bem:label.frequencies>{{ $t("Frequencies") }}</dt>
     <dd v-bem:collection.frequencies>
-      <dl v-bem:values>
+      <value-list v-bem:list :items="frequencies" />
+      <!-- <dl v-bem:values>
         <dt v-bem:term.bandwidth>{{ $t("Bandwidth") }}</dt>
         <dd
           v-bem:value.bandwidth
           v-format:bandwidth.+="frequencies.bandwidth"
-        ></dd>
+        />
         <dt v-bem:term.influence>{{ $t("Influence") }}</dt>
         <dd
           v-bem:value.influence
           v-format:influence.+="frequencies.influence"
-        ></dd>
-      </dl>
+        />
+      </dl> -->
     </dd>
   </dl>
 </template>
@@ -98,43 +94,15 @@ export default {
     }
   }
 
-  &__values {
+  &__list {
     @apply flex flex-wrap w-32;
-  }
 
-  &__term {
-    @apply sr-only;
-  }
+    dd {
+      @apply h-8;
+      @apply text-xl;
 
-  &__value {
-    @apply inline-flex items-center;
-    @apply text-xl;
-
-    &:before {
-      content: "";
-      @apply inline-block;
-      @apply bg-contain bg-center bg-no-repeat;
-      @apply w-6 h-6 mr-2;
-    }
-
-    &--data {
-      &::before {
-        @apply bg-data mask-data;
-      }
-    }
-    &--confidence {
-      &::before {
-        @apply bg-confidence mask-confidence;
-      }
-    }
-    &--bandwidth {
-      &::before {
-        @apply bg-bandwidth mask-bandwidth;
-      }
-    }
-    &--influence {
-      &::before {
-        @apply bg-influence mask-influence;
+      &:before {
+        @apply w-6 h-6 mr-2;
       }
     }
   }

@@ -3,11 +3,13 @@ import { mapGetters } from "vuex";
 
 import hover from "../../mixins/hover";
 import UtilTooltip from "../util/tooltip";
+import ValueOutput from "../value/output";
 
 export default {
   name: "ability-symbiote",
   components: {
     UtilTooltip,
+    ValueOutput,
   },
   mixins: [hover],
   props: {
@@ -48,7 +50,6 @@ export default {
     symbiosis() {
       return this.getAbilitySymbiosis(...this.relationship);
     },
-
     ...mapGetters({
       getAbility: "inventory/getAbility",
       getAbilitySymbiosis: "inventory/getAbilitySymbiosis",
@@ -67,37 +68,29 @@ export default {
     <i v-bem:icon="{ [title]: true, type, empty, unknown }" />
   </div>
   <teleport to="#app" v-if="!empty && hover">
-    <util-tooltip v-bem:tooltip :position="position">
-      <dl>
-        <dt v-bem:symbiosis v-if="type === 'receives'">
-          {{
-            $t("Receives from {sourceTitle} when both installed", {
+    <util-tooltip tag="dl" v-bem:tooltip :position="position">
+      <dt v-bem:symbiosis>
+        {{
+          {
+            receives: $t("Receives from {sourceTitle} when both installed.", {
               sourceTitle,
-            })
-          }}
-        </dt>
-        <dt v-bem:symbiosis v-else>
-          {{
-            $t("Provides {sourceTitle} when both installed", { sourceTitle })
-          }}
-        </dt>
-        <dd>
-          <dl v-bem:symbiosisValues>
-            <template v-for="({ type, factor }, s) in symbiosis" :key="s">
-              <dt v-bem:symbiosisType v-if="type === 'bandwidth'">
-                {{ $t("Bandwidth") }}
-              </dt>
-              <dt v-bem:symbiosisType v-else-if="type === 'influence'">
-                {{ $t("Influence") }}
-              </dt>
-              <dd
-                v-bem:symbiosisValue="{ [type]: true }"
-                v-format:percentage.+="factor"
-              />
-            </template>
-          </dl>
-        </dd>
-      </dl>
+            }),
+            provides: $t("Provides to {sourceTitle} when both installed.", {
+              sourceTitle,
+            }),
+          }[type]
+        }}
+      </dt>
+      <dd>
+        <dl v-bem:symbiosisValues>
+          <value-output
+            v-for="({ type, factor }, s) in symbiosis"
+            :key="s"
+            :type="type"
+            :factor="factor"
+          />
+        </dl>
+      </dd>
     </util-tooltip>
   </teleport>
 </template>
@@ -153,39 +146,17 @@ export default {
   }
 
   &__tooltip {
-    @apply flex;
+    @apply flex flex-col;
     @apply font-normal text-sm;
     @apply w-32;
   }
 
   &__symbiosis {
-    @apply mb-2 order-last;
+    @apply mb-2;
 
     &-values {
       @apply flex flex-wrap justify-between;
       @apply w-full;
-    }
-
-    &-type {
-      @apply sr-only;
-    }
-    &-value {
-      @apply flex;
-      @apply font-bold;
-
-      &:before {
-        content: "";
-        @apply block;
-        @apply w-5 h-5 mr-1;
-        @apply bg-light;
-      }
-
-      &--bandwidth:before {
-        @apply mask-bandwidth bg-bandwidth;
-      }
-      &--influence:before {
-        @apply mask-influence bg-influence;
-      }
     }
   }
 }
