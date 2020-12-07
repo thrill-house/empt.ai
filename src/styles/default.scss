@@ -3,15 +3,24 @@
 :root {
   --image-tile: url(../assets/bg/tile.svg);
 
+  --image-factor: url(../assets/score/factor.svg);
   --image-data: url(../assets/score/data.svg);
   --image-confidence: url(../assets/score/confidence.svg);
   --image-bandwidth: url(../assets/score/bandwidth.svg);
   --image-influence: url(../assets/score/influence.svg);
 
+  --image-tree: url(../assets/tree/tree.svg);
   --image-neutral: url(../assets/tree/neutral.svg);
   --image-science: url(../assets/tree/science.svg);
   --image-economy: url(../assets/tree/economy.svg);
   --image-society: url(../assets/tree/society.svg);
+
+  --image-era: url(../assets/era/era.svg);
+  --image-hobbyist: url(../assets/era/hobbyist.svg);
+  --image-university: url(../assets/era/university.svg);
+  --image-business: url(../assets/era/business.svg);
+  --image-government: url(../assets/era/government.svg);
+  --image-consciousness: url(../assets/era/consciousness.svg);
 
   --image-happiness: url(../assets/emotion/happiness.svg);
   --image-sadness: url(../assets/emotion/sadness.svg);
@@ -29,7 +38,7 @@
 
   --dots-x: linear-gradient(to right, var(--dot-color) 1px, transparent 1%);
   --dots-y: linear-gradient(to bottom, var(--dot-color) 1px, transparent 1%);
-  --grout-color: theme("colors.ash-50");
+  --grout-color: theme("colors.ash");
   --grout: linear-gradient(var(--grout-color) 0%, var(--grout-color) 100%);
   --radial: radial-gradient(circle at 50% 100%, var(--gradient-color-stops));
 }

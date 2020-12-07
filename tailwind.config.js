@@ -167,20 +167,32 @@ module.exports = {
       });
 
       const maskUtilities = [
+        "factor",
         "data",
         "confidence",
         "bandwidth",
         "influence",
+
+        "tree",
         "neutral",
         "science",
         "economy",
         "society",
+
+        "era",
+        "hobbyist",
+        "university",
+        "business",
+        "government",
+        "consciousness",
+
         "happiness",
         "sadness",
         "excitement",
         "fear",
         "tenderness",
         "anger",
+
         "inventory",
         "empty",
         "unknown",
