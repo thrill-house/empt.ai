@@ -53,7 +53,7 @@ export default (el, { arg, value, modifiers }) => {
   const data = (bytes) =>
     numeral(bytes)
       .multiply(8)
-      .format("0.00b");
+      .format("0.[00] b");
 
   const bandwidth = (bytes) => `${data(bytes)}`;
 
