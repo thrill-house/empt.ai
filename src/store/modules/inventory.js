@@ -67,26 +67,34 @@ export default {
     getAbilityDependants: (state) => (id) =>
       pickBy(
         state.abilities,
-        (ability, a) =>
-          a !== id &&
-          includes(extractDependencyIds(ability.factors, "abilityId"), id)
+        ({ factors }, a) =>
+          a !== id && includes(extractDependencyIds(factors, "abilityId"), id)
       ),
 
-    getAbilitySymbiosis: (state, getters) => (fromId, toId) => {
-      const receiver = filter(getters.getAbility(fromId)?.factors, (factor) =>
+    getAbilitySymbiosis: (state, getters) => (fromId, toId) =>
+      filter(getters.getAbility(fromId)?.factors, ({ dependency }) =>
         some(
-          factor?.dependency?.where,
+          dependency?.where,
           (where) => where[0] === "abilityId" && where[2] === toId
         )
-      );
+      ),
 
-      console.log(receiver);
-      // console.log({ receiver });
-      // pickBy(state.abilities, (ability) =>
-      //   includes(extractDependencyIds(ability.factors, "abilityId"), id)
-      //   ),
-      return receiver;
-    },
+    // It's possible for these to exist, but UI doesn't handle it, so ignore for now.
+    // getAbilityBaseFactors: (state, getters) => (id) =>
+    //   filter(
+    //     getters.getAbility(id)?.factors,
+    //     ({ dependency }) => dependency === undefined
+    //   ),
+
+    getAbilityTreeFactors: (state, getters) => (id) =>
+      filter(getters.getAbility(id)?.factors, ({ dependency }) =>
+        some(dependency?.where, (where) => where[0] === "treeId")
+      ),
+
+    getAbilityEraFactors: (state, getters) => (id) =>
+      filter(getters.getAbility(id)?.factors, ({ dependency }) =>
+        some(dependency?.where, (where) => where[0] === "eraId")
+      ),
   },
   mutations: {
     abilities: (state, payload) => {
