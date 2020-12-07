@@ -12,6 +12,10 @@ export default {
     return { ...useI18n() };
   },
   created() {
+    // Get stuff
+    this.trees();
+    this.eras();
+
     // Calculate scores
     this.bases();
     this.factors();
@@ -25,6 +29,8 @@ export default {
   },
   methods: {
     ...mapActions({
+      trees: "app/Trees/all",
+      eras: "app/Eras/all",
       startTimer: "score/startTimer",
       bases: "score/bases",
       factors: "score/factors",
