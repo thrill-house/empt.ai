@@ -267,14 +267,15 @@ export default (config) => {
 
     // Subscribe to root store mutations and sync root state values and getters to the plugin options.
     store.subscribe((mutation, state) => {
-      if (includes(subscriptions, mutation.type)) {
+      if (includes(fromRoot, mutation.type)) {
         const combined = { ...state, ...store.getters };
         store.commit(
           `${namespace}/updateOptions`,
           reduce(
-            fromRoot,
+            subscriptions,
             (result, value, key) => {
               result[key] = combined[value];
+              return result;
             },
             {}
           )
