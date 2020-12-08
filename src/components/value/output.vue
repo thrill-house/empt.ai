@@ -8,6 +8,20 @@ export default {
     value: Number,
   },
   computed: {
+    label() {
+      return {
+        influence: this.$t(
+          "Influence — a measure of how quickly confidence is amassed."
+        ),
+        bandwidth: this.$t(
+          "Bandwidth — a measure of how quickly data is collected."
+        ),
+        confidence: this.$t(
+          "Confidence — collected by expanding your influence."
+        ),
+        data: this.$t("Data — collected by broadening your bandwidth."),
+      }[this.type];
+    },
     format() {
       return this.factor !== undefined ? "percentage" : this.type;
     },
@@ -20,19 +34,13 @@ export default {
 
 <template>
   <dt v-bem:type>
-    {{
-      {
-        bandwidth: $t("Bandwidth"),
-        influence: $t("Influence"),
-        data: $t("Data"),
-        confidence: $t("Confidence"),
-      }[type]
-    }}
+    {{ label }}
   </dt>
   <dd
     v-bem:value="{ [type]: true }"
     v-format:[format]="value"
     v-format:[format].+="base || factor"
+    :title="label"
   />
 </template>
 

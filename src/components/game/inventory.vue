@@ -1,6 +1,6 @@
 <script>
 import { mapGetters } from "vuex";
-import { invokeMap, matches, pickBy, sortBy } from "lodash-es";
+import { invokeMap, pickBy, sortBy } from "lodash-es";
 
 import AbilityProfile from "../ability/profile";
 
@@ -17,7 +17,7 @@ export default {
   computed: {
     filteredAbilities() {
       return this.filters
-        ? pickBy(this.abilities, matches(this.filters))
+        ? pickBy(this.abilities, this.filters)
         : this.abilities;
     },
     trees() {

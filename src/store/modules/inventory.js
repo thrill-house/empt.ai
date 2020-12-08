@@ -56,7 +56,7 @@ export default {
           a !== id &&
           includes(
             extractDependencyIds(
-              getters.getAbility(id)?.factors || [],
+              getters.getAbilityFactors(id) || [],
               "abilityId"
             ),
             $id
@@ -72,29 +72,40 @@ export default {
       ),
 
     getAbilitySymbiosis: (state, getters) => (fromId, toId) =>
-      filter(getters.getAbility(fromId)?.factors, ({ dependency }) =>
+      filter(getters.getAbilityFactors(fromId), ({ dependency }) =>
         some(
           dependency?.where,
           (where) => where[0] === "abilityId" && where[2] === toId
         )
       ),
 
+    getAbilityFactors: (state, getters) => (id) =>
+      getters.getAbility(id)?.factors,
+
     // It's possible for these to exist, but UI doesn't handle it, so ignore for now.
     // getAbilityBaseFactors: (state, getters) => (id) =>
     //   filter(
-    //     getters.getAbility(id)?.factors,
+    //     getters.getAbilityFactors(id),
     //     ({ dependency }) => dependency === undefined
     //   ),
 
     getAbilityTreeFactors: (state, getters) => (id) =>
-      filter(getters.getAbility(id)?.factors, ({ dependency }) =>
+      filter(getters.getAbilityFactors(id), ({ dependency }) =>
         some(dependency?.where, (where) => where[0] === "treeId")
       ),
 
     getAbilityEraFactors: (state, getters) => (id) =>
-      filter(getters.getAbility(id)?.factors, ({ dependency }) =>
+      filter(getters.getAbilityFactors(id), ({ dependency }) =>
         some(dependency?.where, (where) => where[0] === "eraId")
       ),
+
+    getAbilityCosts: (state, getters) => (id) => getters.getAbility(id)?.costs,
+
+    getAbilityConfidenceCosts: (state, getters) => (id) =>
+      getters.getAbilityCosts(id)?.confidence,
+
+    getAbilityDataCosts: (state, getters) => (id) =>
+      getters.getAbilityCosts(id)?.data,
   },
   mutations: {
     abilities: (state, payload) => {

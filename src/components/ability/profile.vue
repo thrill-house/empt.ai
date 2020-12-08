@@ -87,6 +87,13 @@ export default {
     era() {
       return this.getEra(this.ability.eraId)?.stage || 0;
     },
+
+    researchCost() {
+      return this.getAbilityConfidenceCosts(this.id);
+    },
+    installCost() {
+      return this.getAbilityDataCosts(this.id);
+    },
     // eraActive() {
     //   return this.getIsEraActive(this.era);
     // },
@@ -114,9 +121,11 @@ export default {
       getAbility: "inventory/getAbility",
       getAbilityDependants: "inventory/getAbilityDependants",
       getAbilityDependees: "inventory/getAbilityDependees",
-      getAbilityBaseFactors: "inventory/getAbilityBaseFactors",
+      // getAbilityBaseFactors: "inventory/getAbilityBaseFactors", // Not using this currently, maybe later?
       getAbilityTreeFactors: "inventory/getAbilityTreeFactors",
       getAbilityEraFactors: "inventory/getAbilityEraFactors",
+      getAbilityConfidenceCosts: "inventory/getAbilityConfidenceCosts",
+      getAbilityDataCosts: "inventory/getAbilityDataCosts",
       getTree: "app/Trees/one",
       getEras: "app/Eras/all",
       getEra: "app/Eras/one",
@@ -190,6 +199,18 @@ export default {
         :minimum="3"
         :synergies="synergies"
         :key="synergy"
+      />
+    </div>
+    <div v-bem:actions>
+      <button
+        v-bem:actionsButton.confidence
+        v-format:confidence="researchCost"
+        :title="$t('Research')"
+      />
+      <button
+        v-bem:actionsButton.data
+        v-format:data="installCost"
+        :title="`${$t('Install')} (0/0)`"
       />
     </div>
     <div v-bem:badge>
@@ -277,7 +298,7 @@ export default {
   &__attributes {
     @apply relative hidden;
     @apply flex-col flex-wrap justify-between;
-    @apply h-16 ml-16 mt-2 pl-16 pr-6 pb-2;
+    @apply h-16 ml-16 mt-1 pl-16 pr-4 py-1;
     @apply z-10;
 
     &--active {
@@ -336,7 +357,7 @@ export default {
 
   &__synergies {
     @apply relative hidden;
-    @apply h-16 ml-16 mt-1 pl-12 pr-2;
+    @apply h-16 ml-16 mt-1 pl-12 pr-1 pb-1;
     @apply z-10;
 
     &--active {
@@ -369,26 +390,55 @@ export default {
     }
   }
 
-  // &__actions {
-  //   @apply relative;
-  //   @apply flex items-start justify-end;
-  //   @apply h-10  ml-16  pl-16 pr-2 pb-2;
-  //   @apply z-10;
+  &__actions {
+    @apply relative;
+    @apply flex flex-row-reverse items-start justify-between;
+    @apply h-10 ml-16 pl-16 pr-2 pb-2;
+    @apply z-10;
 
-  //   &-installable,
-  //   &-researchable {
-  //     @apply flex-grow-0;
-  //     @apply w-1/2;
-  //   }
+    &-button {
+      @apply relative flex flex-col flex-wrap content-start items-start justify-center;
+      @apply flex-grow-0;
+      @apply w-1/2 h-8;
+      @apply px-2;
+      @apply text-xs;
+      @apply leading-none;
+      @apply bg-navy;
+      @apply clip-corners;
 
-  //   &-installable {
-  //     @apply mr-1;
-  //   }
+      &::after {
+        content: attr(title);
+        @apply text-2xs;
+        @apply leading-none;
+        @apply order-last;
+      }
 
-  //   &-researchable {
-  //     @apply ml-1;
-  //   }
-  // }
+      &::before {
+        content: "";
+        @apply inline-block;
+        @apply w-4 h-8 mr-2;
+        @apply bg-light;
+        @apply order-first;
+      }
+
+      @include icons("::before", confidence, data);
+
+      &--confidence {
+        @apply ml-px;
+
+        &::before {
+          @apply bg-confidence;
+        }
+      }
+      &--data {
+        @apply mr-px;
+
+        &::before {
+          @apply bg-data;
+        }
+      }
+    }
+  }
 
   &__badge {
     @apply absolute top-0 left-0;
