@@ -20,7 +20,6 @@ Displays the provided values within an emotion diagram.
 <script>
 // TODO: Refactor
 import _ from "lodash-es";
-import { unit, sin, cos } from "mathjs";
 
 // import { mapState, mapGetters } from 'vuex';
 
@@ -81,9 +80,12 @@ export default {
   },
   methods: {
     calculateRatio(emotion, degree) {
-      let degreeUnit = unit(degree, "deg"),
-        circleSin = sin(degreeUnit),
-        circleCos = cos(degreeUnit),
+      let degreeUnit = degree * (Math.PI / 180),
+        circleSin = Math.sin(degreeUnit),
+        circleCos = Math.cos(degreeUnit),
+        // degreeUnit = unit(degree, "deg"),
+        //   circleSin = sin(degreeUnit),
+        //   circleCos = cos(degreeUnit),
         maxRatio = this.maxScale > 0 ? this.max / this.maxScale : 0,
         emotionRatio = emotion > 0 ? emotion / this.max : 0,
         axisX = 50 * circleSin,

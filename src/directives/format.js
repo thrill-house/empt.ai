@@ -1,5 +1,4 @@
 import { endsWith, keys, reduce } from "lodash-es";
-import { chain } from "mathjs";
 import dayjs from "dayjs";
 import numeral from "numeral";
 
@@ -41,19 +40,12 @@ export default (el, { arg, value, modifiers }) => {
   const duration = (milliseconds) =>
     dayjs().subtract(milliseconds / 1000, "seconds");
 
-  const percentage = (number) =>
-    number
-      ? `${
-          chain(number)
-            .multiply(100)
-            .format(4).value
-        }%`
-      : 0;
+  const percentage = (number) => `${numeral(number).format("0.[00]%")}`;
 
   const data = (bytes) =>
-    numeral(bytes)
+    `${numeral(bytes)
       .multiply(8)
-      .format("0.[00] b");
+      .format("0.[00] b")}`;
 
   const bandwidth = (bytes) => `${data(bytes)}`;
 
