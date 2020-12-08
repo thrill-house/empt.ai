@@ -197,7 +197,7 @@ export default {
         @apply underline;
       }
 
-      &:before {
+      &::before {
         content: "";
         @apply inline-block;
         @apply w-6 h-6 mr-2;
@@ -205,13 +205,12 @@ export default {
       }
 
       @include icons(
-        // Trees
+        "::before",
         trees,
         Neutral,
         Science,
         Economy,
         Society,
-        // Eras
         eras,
         Hobbyist,
         University,
@@ -233,7 +232,7 @@ export default {
       @apply px-2;
       @apply leading-10;
 
-      &:before {
+      &::before {
         content: "";
         @apply block;
         @apply self-end;
@@ -269,14 +268,14 @@ export default {
         @apply underline;
       }
 
-      &:before {
+      &::before {
         content: "";
         @apply inline-block;
         @apply w-6 h-6 mr-2;
         @apply bg-light;
       }
 
-      @include icons(attributes, synergies);
+      @include icons("::before", attributes, synergies);
     }
   }
 }

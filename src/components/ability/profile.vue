@@ -76,8 +76,8 @@ export default {
     sortedAttributes() {
       return {
         base: this.bases,
-        tree: this.treeFactors,
-        era: this.eraFactors,
+        trees: this.treeFactors,
+        eras: this.eraFactors,
       };
     },
 
@@ -146,16 +146,15 @@ export default {
       <h4 v-bem:headerTitle>{{ title }}</h4>
       <nav v-bem:headerNav>
         <button
-          v-bem:headerToggle="{ active: toggle === 'attributes' }"
-          @click="toggle = 'attributes'"
+          v-for="(viewLabel, view) in {
+            attributes: $t('Attributes'),
+            synergies: $t('Synergies'),
+          }"
+          v-bem:headerToggle="{ active: toggle === view }"
+          @click="toggle = view"
+          :key="view"
         >
-          {{ $t("Attributes") }}
-        </button>
-        <button
-          v-bem:headerToggle="{ active: toggle === 'synergies' }"
-          @click="toggle = 'synergies'"
-        >
-          {{ $t("Synergies") }}
+          {{ viewLabel }}
         </button>
       </nav>
     </header>
@@ -214,6 +213,8 @@ export default {
 </template>
 
 <style lang="scss">
+@import "../../styles/mixins";
+
 .ability-profile {
   @apply relative;
   @apply w-80 h-32 my-8 ml-10 mr-6;
@@ -295,23 +296,7 @@ export default {
         @apply bg-light;
       }
 
-      &--base {
-        &:before {
-          @apply mask-base;
-        }
-      }
-
-      &--tree {
-        &:before {
-          @apply mask-trees;
-        }
-      }
-
-      &--era {
-        &:before {
-          @apply mask-eras;
-        }
-      }
+      @include icons("::before", base, trees, eras);
     }
 
     &-label {
@@ -329,10 +314,6 @@ export default {
       &--base {
         @apply items-stretch self-stretch;
 
-        > dt {
-          // @apply mr-4;
-        }
-
         > dd {
           @apply justify-between;
 
@@ -342,8 +323,8 @@ export default {
         }
       }
 
-      &--tree,
-      &--era {
+      &--trees,
+      &--eras {
         > dd {
           &::before {
             @apply hidden;
@@ -433,14 +414,7 @@ export default {
       @apply bg-light;
       @apply z-30;
 
-      // TODO: Get all icons in here automatically somehow.
-      &--Buzzie {
-        @apply mask-buzzie;
-      }
-
-      &--Gamebryo {
-        @apply mask-gamebryo;
-      }
+      @include icons("", Buzzie, Gamebryo);
     }
   }
 
@@ -468,20 +442,22 @@ export default {
       @apply z-30;
 
       &--Neutral {
-        @apply mask-neutral bg-neutral;
+        @apply bg-neutral;
       }
 
       &--Science {
-        @apply mask-science bg-science;
+        @apply bg-science;
       }
 
       &--Economy {
-        @apply mask-economy bg-economy;
+        @apply bg-economy;
       }
 
       &--Society {
-        @apply mask-society bg-society;
+        @apply bg-society;
       }
+
+      @include icons("", Neutral, Science, Economy, Society);
     }
   }
 
