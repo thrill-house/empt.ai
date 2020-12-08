@@ -23,31 +23,10 @@ export default {
     <dt v-bem:label.resources>{{ $t("Resources") }}</dt>
     <dd v-bem:collection.resources>
       <value-list v-bem:list :items="resources" />
-      <!-- <dl v-bem:values>
-        <dt v-bem:term.data>{{ $t("Data") }}</dt>
-        <dd v-bem:value.data v-format:data="resources.data"></dd>
-        <dt v-bem:term.confidence>{{ $t("Confidence") }}</dt>
-        <dd
-          v-bem:value.confidence
-          v-format:confidence="resources.confidence"
-        ></dd>
-      </dl> -->
     </dd>
     <dt v-bem:label.frequencies>{{ $t("Frequencies") }}</dt>
     <dd v-bem:collection.frequencies>
       <value-list v-bem:list :items="frequencies" />
-      <!-- <dl v-bem:values>
-        <dt v-bem:term.bandwidth>{{ $t("Bandwidth") }}</dt>
-        <dd
-          v-bem:value.bandwidth
-          v-format:bandwidth.+="frequencies.bandwidth"
-        />
-        <dt v-bem:term.influence>{{ $t("Influence") }}</dt>
-        <dd
-          v-bem:value.influence
-          v-format:influence.+="frequencies.influence"
-        />
-      </dl> -->
     </dd>
   </dl>
 </template>

@@ -3,6 +3,7 @@ import en from "./locales/en";
 
 export default createI18n({
   legacy: false,
+  globalInjection: true,
   locale: "en",
   silentTranslationWarn: true,
   messages: { en },

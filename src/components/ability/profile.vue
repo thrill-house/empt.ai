@@ -38,20 +38,9 @@ export default {
     title() {
       return this.ability?.title;
     },
-    // factors() {
-    //   return this.ability?.factors;
-    // },
     bases() {
       return this.ability?.bases;
     },
-    // influence() {
-    //   return this.factors.influence;
-    // },
-    // trees() {
-    //   console.log(this.getAbilitySynergies(this.id));
-    //   // return this.influence.trees;
-    //   return [];
-    // },
 
     tree() {
       return this.getTree(this.ability.treeId)?.title;
@@ -96,7 +85,6 @@ export default {
     },
 
     models() {
-      // console.log(this.getModels);
       return this.getAbilityModels(this.id);
     },
 
