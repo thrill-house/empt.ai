@@ -177,7 +177,7 @@ export default {
       @apply clip-corners;
 
       &:hover {
-        @apply bg-midnight;
+        @apply bg-navy;
       }
     }
 
@@ -237,14 +237,14 @@ export default {
         content: "";
         @apply block;
         @apply self-end;
-        @apply w-6 h-6 mt-2;
+        @apply w-4 h-4 mt-3;
         @apply bg-light;
         @apply mask-view;
       }
 
       &--active {
         @apply block;
-        @apply bg-midnight;
+        @apply bg-navy;
         @apply clip-corners;
 
         &::before {
