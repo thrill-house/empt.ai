@@ -1,6 +1,6 @@
 <script>
 import { mapGetters } from "vuex";
-import { capitalize, sortBy } from "lodash-es";
+import { capitalize, keys, sortBy } from "lodash-es";
 
 // import AbilityInstallable from "./ability-installable";
 // import AbilityResearchable from "./ability-researchable";
@@ -94,6 +94,19 @@ export default {
     installCost() {
       return this.getAbilityDataCosts(this.id);
     },
+
+    models() {
+      // console.log(this.getModels);
+      return this.getAbilityModels(this.id);
+    },
+
+    modelsAvailable() {
+      // TODO: Figure out how many are already installed
+      return keys(this.models).length || 0;
+    },
+    modelsTotal() {
+      return keys(this.models).length || 0;
+    },
     // eraActive() {
     //   return this.getIsEraActive(this.era);
     // },
@@ -118,6 +131,7 @@ export default {
     //   abilities: (state) => state.abilities.list,
     // }),
     ...mapGetters({
+      getModels: "inventory/getModels",
       getAbility: "inventory/getAbility",
       getAbilityDependants: "inventory/getAbilityDependants",
       getAbilityDependees: "inventory/getAbilityDependees",
@@ -126,6 +140,7 @@ export default {
       getAbilityEraFactors: "inventory/getAbilityEraFactors",
       getAbilityConfidenceCosts: "inventory/getAbilityConfidenceCosts",
       getAbilityDataCosts: "inventory/getAbilityDataCosts",
+      getAbilityModels: "inventory/getAbilityModels",
       getTree: "app/Trees/one",
       getEras: "app/Eras/all",
       getEra: "app/Eras/one",
@@ -145,6 +160,31 @@ export default {
     // installDialog() {
     //   this.$refs.install.startInstalling();
     // },
+    // async research() {
+    //   const payload = {
+    //     gameId: "5JzFvZqxS7CkDte98qfsMamDqQPzgwYUuLwQggDximZj",
+    //     abilityId: "5JzFvZqxS7CkDte98qfsMamDqQPzgwYUuLwQggDximZj",
+    //     feelings: [
+    //       {
+    //         emotionId: "5JzFvZqxS7CkDte98qfsMamDqQPzgwYUuLwQggDximZj",
+    //         value: 2,
+    //       },
+    //       {
+    //         emotionId: "5JzFvZqxS7CkDte98qfsMamDqQPzgwYUuLwQggDximZj",
+    //         value: 1,
+    //       },
+    //       {
+    //         emotionId: "5JzFvZqxS7CkDte98qfsMamDqQPzgwYUuLwQggDximZj",
+    //         value: 1,
+    //       },
+    //     ],
+    //   };
+
+    //   await this.researchModel(payload);
+    // },
+    // ...mapActions({
+    //   researchModel: "game/Models/create",
+    // }),
   },
 };
 </script>
@@ -210,7 +250,7 @@ export default {
       <button
         v-bem:actionsButton.data
         v-format:data="installCost"
-        :title="`${$t('Install')} (0/0)`"
+        :title="`${$t('Install')} (${modelsAvailable}/${modelsTotal})`"
       />
     </div>
     <div v-bem:badge>

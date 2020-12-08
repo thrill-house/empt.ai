@@ -1,5 +1,5 @@
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapMutations } from "vuex";
 import { useI18n } from "vue-i18n";
 import AppHeader from "./components/app/header";
 import AppMain from "./components/app/main";
@@ -27,6 +27,8 @@ export default {
     // Start the game
     this.init();
     this.startTimer();
+    this.setOwner(process.env.VUE_APP_PLAYER_IDENTITY);
+    this.setMnemonic(process.env.VUE_APP_PLAYER_MNEMONIC);
   },
   methods: {
     ...mapActions({
@@ -39,6 +41,7 @@ export default {
       abilities: "inventory/abilities",
       models: "inventory/models",
     }),
+    ...mapMutations(["setOwner", "setMnemonic"]),
   },
 };
 </script>
