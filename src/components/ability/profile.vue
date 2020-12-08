@@ -38,12 +38,11 @@ export default {
     title() {
       return this.ability?.title;
     },
-    bases() {
-      return this.ability?.bases;
-    },
-
     tree() {
       return this.getTree(this.ability.treeId)?.title;
+    },
+    era() {
+      return this.getEra(this.ability.eraId)?.stage || 0;
     },
 
     dependees() {
@@ -56,6 +55,9 @@ export default {
       return { receives: this.dependees, provides: this.dependants };
     },
 
+    bases() {
+      return this.ability?.bases;
+    },
     treeFactors() {
       return this.getAbilityTreeFactors(this.id);
     },
@@ -72,9 +74,6 @@ export default {
 
     eras() {
       return sortBy(this.getEras, "stage");
-    },
-    era() {
-      return this.getEra(this.ability.eraId)?.stage || 0;
     },
 
     researchCost() {
