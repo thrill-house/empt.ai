@@ -11,8 +11,6 @@ export default {
   },
   data: () => ({
     toggles: null,
-    // Trees: false,
-    // toggleEras: false,
     filters: null,
     abilityRefs: [],
   }),
