@@ -303,13 +303,13 @@ export default {
 
       &--tree {
         &:before {
-          @apply mask-tree;
+          @apply mask-trees;
         }
       }
 
       &--era {
         &:before {
-          @apply mask-era;
+          @apply mask-eras;
         }
       }
     }

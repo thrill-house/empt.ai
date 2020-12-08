@@ -174,13 +174,13 @@ module.exports = {
         "bandwidth",
         "influence",
 
-        "tree",
+        "trees",
         "neutral",
         "science",
         "economy",
         "society",
 
-        "era",
+        "eras",
         "hobbyist",
         "university",
         "business",

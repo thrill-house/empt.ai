@@ -54,7 +54,7 @@ export default {
   &__control {
     @apply w-10 h-10;
     @apply flex items-center justify-center;
-    @apply bg-sky bg-opacity-25;
+    @apply bg-sky bg-opacity-50;
 
     &::before {
       content: "";

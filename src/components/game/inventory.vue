@@ -52,6 +52,12 @@ export default {
         }
       });
     },
+    actions() {
+      return {
+        trees: this.trees,
+        eras: this.eras,
+      };
+    },
     ...mapGetters({
       abilities: "inventory/getAbilities",
       getTrees: "app/Trees/all",
@@ -77,55 +83,29 @@ export default {
   <section v-bem>
     <nav v-bem:actions>
       <div
+        v-for="(actionFilter, action) in { trees: 'treeId', eras: 'eraId' }"
         v-bem:action.filter
-        @mouseenter="addToggle('trees')"
-        @mouseleave="delete toggles.trees"
+        @mouseenter="addToggle(action)"
+        @mouseleave="delete toggles?.[action]"
+        :key="action"
       >
-        <ol v-bem:filterList="{ tree: true, active: toggles?.trees }">
-          <li v-bem:filterOption="{ active: !filters?.treeId }">
+        <ol v-bem:filterList="{ [action]: true, active: toggles?.[action] }">
+          <li v-bem:filterOption="{ active: !filters?.[actionFilter] }">
             <button
-              v-bem:filterToggle="{ Tree: true }"
-              @click="delete filters.treeId"
+              v-bem:filterToggle="{ [action]: true }"
+              @click="delete filters?.[actionFilter]"
             >
-              {{ $t("All trees") }}
+              {{ $t("All {items}", { items: $t(action) }) }}
             </button>
           </li>
           <li
-            v-bem:filterOption="{ active: $id === filters?.treeId }"
-            v-for="({ $id, title }, t) in trees"
-            :key="t"
+            v-bem:filterOption="{ active: $id === filters?.[actionFilter] }"
+            v-for="({ $id, title }, a) in actions[action]"
+            :key="a"
           >
             <button
               v-bem:filterToggle="{ [title]: true }"
-              @click="addFilter('treeId', $id)"
-            >
-              {{ $t(title) }}
-            </button>
-          </li>
-        </ol>
-      </div>
-      <div
-        v-bem:action.filter
-        @mouseenter="addToggle('eras')"
-        @mouseleave="delete toggles.eras"
-      >
-        <ol v-bem:filterList="{ era: true, active: toggles?.eras }">
-          <li v-bem:filterOption="{ active: !filters?.eraId }">
-            <button
-              v-bem:filterToggle="{ Era: true }"
-              @click="delete filters.eraId"
-            >
-              {{ $t("All eras") }}
-            </button>
-          </li>
-          <li
-            v-bem:filterOption="{ active: $id === filters?.eraId }"
-            v-for="({ $id, title }, e) in eras"
-            :key="e"
-          >
-            <button
-              v-bem:filterToggle="{ [title]: true }"
-              @click="addFilter('eraId', $id)"
+              @click="addFilter(actionFilter, $id)"
             >
               {{ $t(title) }}
             </button>
@@ -140,7 +120,7 @@ export default {
         <ul v-bem:viewList="{ active: toggles?.view }">
           <li v-bem:viewOption>
             <button
-              v-bem:viewToggle="{ Attributes: true }"
+              v-bem:viewToggle="{ attributes: true }"
               @click="invokeMap(abilityRefs, 'viewToggle', 'attributes')"
             >
               {{ $t("Attributes") }}
@@ -148,7 +128,7 @@ export default {
           </li>
           <li v-bem:viewOption>
             <button
-              v-bem:viewToggle="{ Synergies: true }"
+              v-bem:viewToggle="{ synergies: true }"
               @click="invokeMap(abilityRefs, 'viewToggle', 'synergies')"
             >
               {{ $t("Synergies") }}
@@ -227,12 +207,14 @@ export default {
       }
 
       @include icons(
-        Tree,
+        // Trees
+        trees,
         Neutral,
         Science,
         Economy,
         Society,
-        Era,
+        // Eras
+        eras,
         Hobbyist,
         University,
         Business,
@@ -296,7 +278,7 @@ export default {
         @apply bg-light;
       }
 
-      @include icons(Attributes, Synergies);
+      @include icons(attributes, synergies);
     }
   }
 }
