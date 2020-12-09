@@ -21,6 +21,7 @@ export default {
         : this.abilities;
     },
     trees() {
+      // TODO: Move this sorting somewhere more useful
       return sortBy(this.getTrees, ({ title }) => {
         switch (title) {
           case "Neutral":
@@ -35,6 +36,7 @@ export default {
       });
     },
     eras() {
+      // TODO: Move this sorting somewhere more useful
       return sortBy(this.getEras, ({ title }) => {
         switch (title) {
           case "Hobbyist":
@@ -146,7 +148,7 @@ export default {
 </template>
 
 <style lang="scss">
-@import "../../styles/util";
+@import "../../styles/mixins";
 
 .game-inventory {
   @apply w-full;

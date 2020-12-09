@@ -236,7 +236,8 @@ export default {
 </template>
 
 <style lang="scss">
-@import "../../styles/util";
+@import "../../styles/components";
+@import "../../styles/mixins";
 
 .ability-profile {
   @apply relative;

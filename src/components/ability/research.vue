@@ -310,14 +310,12 @@ export default {
 </template>
 
 <style lang="scss">
-@import "../../styles/util";
+@import "../../styles/components";
+@import "../../styles/mixins";
 
 .ability-research {
   &__trigger {
-    @extend %button;
-    @extend %button-title;
-    @extend %button-icon;
-
+    @apply button button-title button-icon;
     @apply w-1/2 ml-px;
 
     &::before {

@@ -277,14 +277,12 @@ export default {
 </template>
 
 <style lang="scss">
-@import "../../styles/util";
+@import "../../styles/components";
+@import "../../styles/mixins";
 
 .ability-install {
   &__trigger {
-    @extend %button;
-    @extend %button-title;
-    @extend %button-icon;
-
+    @apply button button-title button-icon;
     @apply w-1/2 mr-px;
 
     &::before {

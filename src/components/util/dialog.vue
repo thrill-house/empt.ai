@@ -32,7 +32,7 @@ export default {
   }
 
   &__header {
-    @apply flex flex-no-wrap items-center justify-center;
+    @apply flex flex-nowrap items-center justify-center;
 
     &::before,
     &::after {
