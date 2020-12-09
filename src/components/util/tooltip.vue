@@ -43,11 +43,9 @@ export default {
 </script>
 
 <template>
-  <transition name="fade">
-    <component :is="tag || 'div'" v-bem :style="{ top, left, transform }">
-      <slot />
-    </component>
-  </transition>
+  <component :is="tag || 'div'" v-bem :style="{ top, left, transform }">
+    <slot />
+  </component>
 </template>
 
 <style lang="scss">

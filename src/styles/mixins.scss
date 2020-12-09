@@ -1,7 +1,0 @@
-@mixin icons($before: "::before", $list...) {
-  @each $item in $list {
-    &--#{$item}#{$before} {
-      @apply mask-#{to-lower-case($item)};
-    }
-  }
-}

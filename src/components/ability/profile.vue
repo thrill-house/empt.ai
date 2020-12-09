@@ -2,19 +2,18 @@
 import { mapGetters } from "vuex";
 import { capitalize, keys, sortBy } from "lodash-es";
 
-// import AbilityInstallable from "./ability-installable";
-// import AbilityResearchable from "./ability-researchable";
 import AbilitySynergies from "./synergies";
-
+import AbilityResearch from "./research";
+import AbilityInstall from "./install";
 import ValueList from "../value/list";
 
 export default {
   name: "ability-profile",
   components: {
     AbilitySynergies,
+    AbilityResearch,
+    AbilityInstall,
     ValueList,
-    // AbilityInstallable,
-    // AbilityResearchable,
   },
   props: {
     id: {
@@ -22,10 +21,15 @@ export default {
       default: null,
     },
   },
-  // created() {
-  //   this.$on('research', this.researchDialog);
-  //   this.$on('install', this.installDialog);
-  // },
+  provide() {
+    return {
+      id: this.id,
+      ability: this.ability,
+      title: this.title,
+      tree: this.tree,
+      era: this.era,
+    };
+  },
   data() {
     return {
       toggle: "attributes",
@@ -76,9 +80,6 @@ export default {
       return sortBy(this.getEras, "stage");
     },
 
-    researchCost() {
-      return this.getAbilityConfidenceCosts(this.id);
-    },
     installCost() {
       return this.getAbilityDataCosts(this.id);
     },
@@ -125,9 +126,6 @@ export default {
       // getAbilityBaseFactors: "inventory/getAbilityBaseFactors", // Not using this currently, maybe later?
       getAbilityTreeFactors: "inventory/getAbilityTreeFactors",
       getAbilityEraFactors: "inventory/getAbilityEraFactors",
-      getAbilityConfidenceCosts: "inventory/getAbilityConfidenceCosts",
-      getAbilityDataCosts: "inventory/getAbilityDataCosts",
-      getAbilityModels: "inventory/getAbilityModels",
       getTree: "app/Trees/one",
       getEras: "app/Eras/all",
       getEra: "app/Eras/one",
@@ -229,16 +227,8 @@ export default {
       />
     </div>
     <div v-bem:actions>
-      <button
-        v-bem:actionsButton.confidence
-        v-format:confidence="researchCost"
-        :title="$t('Research')"
-      />
-      <button
-        v-bem:actionsButton.data
-        v-format:data="installCost"
-        :title="`${$t('Install')} (${modelsAvailable}/${modelsTotal})`"
-      />
+      <ability-research v-bem:actionsTrigger.confidence />
+      <ability-install v-bem:actionsTrigger.data />
     </div>
     <div v-bem:badge>
       <i v-bem:badgeIcon="{ [title]: true }" />
@@ -261,7 +251,7 @@ export default {
 </template>
 
 <style lang="scss">
-@import "../../styles/mixins";
+@import "../../styles/util";
 
 .ability-profile {
   @apply relative;
@@ -422,49 +412,6 @@ export default {
     @apply flex flex-row-reverse items-start justify-between;
     @apply h-10 ml-16 pl-16 pr-2 pb-2;
     @apply z-10;
-
-    &-button {
-      @apply relative flex flex-col flex-wrap content-start items-start justify-center;
-      @apply flex-grow-0;
-      @apply w-1/2 h-8;
-      @apply px-2;
-      @apply text-xs;
-      @apply leading-none;
-      @apply bg-navy;
-      @apply clip-corners;
-
-      &::after {
-        content: attr(title);
-        @apply text-2xs;
-        @apply leading-none;
-        @apply order-last;
-      }
-
-      &::before {
-        content: "";
-        @apply inline-block;
-        @apply w-4 h-8 mr-2;
-        @apply bg-light;
-        @apply order-first;
-      }
-
-      @include icons("::before", confidence, data);
-
-      &--confidence {
-        @apply ml-px;
-
-        &::before {
-          @apply bg-confidence;
-        }
-      }
-      &--data {
-        @apply mr-px;
-
-        &::before {
-          @apply bg-data;
-        }
-      }
-    }
   }
 
   &__badge {

@@ -1,0 +1,35 @@
+// Placeholders
+%button {
+  @apply relative flex flex-col flex-wrap content-start items-start justify-center;
+  @apply flex-grow-0;
+  @apply h-8;
+  @apply px-2;
+  @apply text-xs;
+  @apply leading-none;
+  @apply bg-navy;
+  @apply clip-corners;
+
+  &-icon::before {
+    content: "";
+    @apply inline-block;
+    @apply w-4 h-4 mr-2 my-2;
+    @apply bg-light;
+    @apply order-first;
+  }
+
+  &-title::after {
+    content: attr(title);
+    @apply text-2xs;
+    @apply leading-none;
+    @apply order-last;
+  }
+}
+
+// Mixins
+@mixin icons($before: "::before", $list...) {
+  @each $item in $list {
+    &--#{$item}#{$before} {
+      @apply mask-#{to-lower-case($item)};
+    }
+  }
+}
