@@ -12,10 +12,10 @@ export default {
     return { ...useI18n() };
   },
   created() {
-    this.startup();
+    this.init();
   },
   methods: {
-    ...mapActions(["startup"]),
+    ...mapActions(["init"]),
   },
 };
 </script>

@@ -110,8 +110,8 @@ export default {
 
     // Bases
     bases: {
-      influence: 1,
-      bandwidth: 1,
+      influence: 0,
+      bandwidth: 0,
     },
 
     // factors
@@ -151,38 +151,53 @@ export default {
     }),
   },
   mutations: {
-    interval: (state, payload) => {
+    setInterval: (state, payload) => {
       state.interval = payload;
     },
-    startTime: (state, payload) => {
+    setStartTime: (state, payload) => {
       state.startTime = payload;
     },
-    currentTime: (state, payload) => {
+    setCurrentTime: (state, payload) => {
       state.currentTime = payload;
     },
-    bases: (state, payload) => {
+    setBases: (state, payload) => {
       state.bases = payload;
     },
-    factors: (state, payload) => {
+    setFactors: (state, payload) => {
       state.factors = payload;
     },
   },
   actions: {
-    init: async ({ commit }, payload) => {
-      commit("startTime", payload || ceil(Date.now() / 1000));
+    init: async ({ dispatch, rootGetters }) => {
+      const game = rootGetters['game'];
+
+      if (game) {
+        await dispatch("setStartTime", game?.$createdAt / 1000);
+
+        await dispatch("calculateBases");
+        await dispatch("calculateFactors");
+
+        await dispatch("startTimer");
+      }
     },
+
+    setStartTime: async ({ commit }, payload) => {
+      commit("setStartTime", payload);
+    },
+
     startTimer: async ({ commit }) => {
       const interval = setInterval(() => {
-        commit("currentTime", ceil(Date.now() / 1000));
+        commit("setCurrentTime", ceil(Date.now() / 1000));
       }, 1000);
 
-      commit("interval", interval);
+      commit("setInterval", interval);
     },
     stopTimer: async ({ commit, state }) => {
       clearInterval(state.interval);
-      commit("interval", null);
+      commit("setInterval", null);
     },
-    bases: async ({ commit }) => {
+
+    calculateBases: async ({ commit }) => {
       // TODO: Pass in real events
       const bases = calculateBases({
         sources: [1, 2, 3],
@@ -190,9 +205,9 @@ export default {
         trainings: [1, 2, 3],
       });
 
-      commit("bases", bases);
+      commit("setBases", bases);
     },
-    factors: async ({ commit }) => {
+    calculateFactors: async ({ commit }) => {
       // TODO: Pass in real events
       const factors = calculateFactors({
         sources: [1, 2, 3],
@@ -200,7 +215,7 @@ export default {
         trainings: [1, 2, 3],
       });
 
-      commit("factors", factors);
+      commit("setFactors", factors);
     },
   },
 };

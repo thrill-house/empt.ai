@@ -1,19 +1,20 @@
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapState, mapGetters, mapActions } from "vuex";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+
+dayjs.extend(relativeTime);
 
 export default {
   name: "game-settings",
   computed: {
     currentGame() {
-      return `${this.games[this.session.gameId].title} — ${
-        this.games[this.session.gameId].$createdAt
-      }`;
+      return this.game
+        ? `${this.game?.title} — ${dayjs(this.game?.$createdAt).fromNow()}`
+        : null;
     },
-    ...mapGetters({
-      loaded: "loaded",
-      session: "session",
-      games: "Player/Games/all",
-    }),
+    ...mapState(["ownerId", "mnemonic", "gameId", "games"]),
+    ...mapGetters(["game"]),
   },
   methods: {
     async newGame() {
@@ -21,13 +22,14 @@ export default {
         title: "This is a new game",
       });
     },
-    updateGame(e) {
-      this.setGame(e.target.value);
+
+    async updateGame(e) {
+      await this.loadGame(e.target.value);
     },
     ...mapActions({
-      setOwner: "setOwner",
+      setOwnerId: "setOwner",
       setMnemonic: "setMnemonic",
-      setGame: "setGame",
+      loadGame: "loadGame",
       createGame: "Player/Games/create",
     }),
   },
@@ -38,12 +40,12 @@ export default {
   <section v-bem>
     <div v-bem:form>
       <label v-bem:formLabel.owner>{{ $t("Owner") }}</label>
-      <input v-bem:formInput.owner :value="session.ownerId" @input="setOwner" />
+      <input v-bem:formInput.owner :value="ownerId" @input="setOwnerId" />
 
       <label v-bem:formLabel.mnemonic>{{ $t("Mnemonic") }}</label>
       <input
         v-bem:formInput.mnemonic
-        :value="session.mnemonic"
+        :value="mnemonic"
         @input="setMnemonic"
         type="password"
       />
@@ -53,10 +55,10 @@ export default {
         <select @input="updateGame">
           <option>Nothing</option>
           <option
-            v-for="(game, g) in games"
-            :value="game.$id"
-            :selected="session.gameId === game.$id"
-            :key="g"
+            v-for="(game, gId) in games"
+            :value="gId"
+            :selected="gameId === gId"
+            :key="gId"
           >
             {{ game.title }}
           </option>
@@ -67,8 +69,11 @@ export default {
       </button>
 
       <label v-bem:formLabel.session>{{ $t("Debug") }}</label>
-      <pre>{{ session }}</pre>
-      <pre>{{ loaded }}</pre>
+      <pre>{{ ownerId }}</pre>
+      <pre>{{ mnemonic }}</pre>
+      <pre>{{ gameId }}</pre>
+      <pre>{{ games }}</pre>
+      <pre>{{ game }}</pre>
     </div>
   </section>
 </template>

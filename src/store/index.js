@@ -1,5 +1,6 @@
 import { createStore } from "vuex";
 import VuexPersistence from "vuex-persist";
+
 import VuexDash from "./dash";
 import score from "./modules/score";
 import inventory from "./modules/inventory";
@@ -11,25 +12,12 @@ export default createStore({
       ownerId: process.env.VUE_APP_PLAYER_IDENTITY,
       mnemonic: process.env.VUE_APP_PLAYER_MNEMONIC,
       gameId: null,
-      loaded: {
-        games: null,
-        trees: null,
-        eras: null,
-        emotions: null,
-        abilities: null,
-        models: null,
-        sockets: null,
-        sources: null,
-      }
+      games: null,
     };
   },
   getters: {
-    loaded: (state) => state.loaded,
-    session: (state) => ({
-      ownerId: state.ownerId,
-      mnemonic: state.mnemonic,
-      gameId: state.gameId
-    }),
+    game: (state) => state?.games?.[state.gameId],
+
     allOwnerQuery: (state) => ({
       where: [["$ownerId", "==", state.ownerId]],
     }),
@@ -41,74 +29,56 @@ export default createStore({
     }),
   },
   mutations: {
-    setOwner: (state, payload) => {
+    setOwnerId: (state, payload) => {
       state.ownerId = payload;
     },
     setMnemonic: (state, payload) => {
       state.mnemonic = payload;
     },
-    setGame: (state, payload) => {
+    setGameId: (state, payload) => {
       state.gameId = payload;
     },
-    setLoaded: (state, payload) => {
-      state.loaded[payload] = Date.now();
+    setGames: (state, payload) => {
+      state.games = payload;
     },
   },
   actions: {
-    setOwner: async ({ commit }, payload) => {
-      commit("setOwner", payload);
+    init: async ({ dispatch, state }) => {
+      const { ownerId, mnemonic, gameId } = state;
+      dispatch("fetchApp");
+
+      if (ownerId && mnemonic) {
+        await dispatch("setOwnerId", ownerId);
+        await dispatch("setMnemonic", mnemonic);
+        await dispatch("fetchGames");
+
+        if (gameId) {
+          await dispatch("loadGame", gameId);
+        }
+      }
+    },
+
+    setOwnerId: async ({ commit }, payload) => {
+      commit("setOwnerId", payload);
     },
     setMnemonic: async ({ commit }, payload) => {
       commit("setMnemonic", payload);
     },
-    setGame: async ({ commit }, payload) => {
-      commit("setGame", payload);
+
+    fetchGames: async ({ commit, dispatch, getters }) => {
+      await dispatch("Player/Games/all");
+      commit("setGames", getters["Player/Games/all"]);
     },
-    startup: async ({ commit, dispatch, state }) => {
-      const { ownerId, mnemonic, gameId } = state;
+    fetchApp: async ({ dispatch, }) => {
+      await dispatch("App/Trees/all");
+      await dispatch("App/Eras/all");
+      await dispatch("App/Emotions/all");
+    },
 
-      if (ownerId && mnemonic) {
-        await dispatch("setOwner", ownerId);
-        await dispatch("setMnemonic", mnemonic);
-
-        await dispatch("Player/Games/all");
-        commit("setLoaded", 'games');
-
-        if (ownerId && mnemonic && gameId) {
-          await dispatch("setGame", gameId);
-
-          await dispatch("App/Trees/all");
-          commit("setLoaded", 'trees');
-
-          await dispatch("App/Eras/all");
-          commit("setLoaded", 'eras');
-
-          await dispatch("App/Emotions/all");
-          commit("setLoaded", 'emotions');
-
-          await dispatch("inventory/abilities");
-          commit("setLoaded", 'abilities');
-
-          await dispatch("inventory/models");
-          commit("setLoaded", 'models');
-
-          await dispatch("inventory/sockets");
-          commit("setLoaded", 'sockets');
-
-          await dispatch("inventory/sources");
-          commit("setLoaded", 'sources');
-
-          console.log("Start taking scores");
-          await dispatch("score/bases");
-          await dispatch("score/factors");
-
-          // TODO: initiate with our game time
-          await dispatch("score/init");
-          await dispatch("score/startTimer");
-        }
-      }
-
-      console.log("Done starting up");
+    loadGame: async ({ commit, dispatch, }, payload) => {
+      commit("setGameId", payload);
+      await dispatch("score/init");
+      await dispatch("inventory/init");
     },
   },
   modules: { score, inventory, system },
