@@ -1,19 +1,33 @@
 
 <script>
+import { reduce } from "lodash-es";
+
 import GameInventory from "../game/inventory";
+import GameSettings from "../game/settings";
+
 export default {
   name: "app-sidebar",
-  components: { GameInventory },
+  components: { GameInventory, GameSettings },
   data() {
     return {
       open: true,
-      gameInventory: true,
+      panels: {
+        inventory: false,
+        settings: true,
+      },
     };
   },
   methods: {
-    togglePanel(panel) {
-      this[panel] = !this[panel];
-      this.open = this[panel];
+    togglePanel(toggle) {
+      this.panels = reduce(
+        this.panels,
+        (accum, panel, key) => {
+          accum[key] = key === toggle ? !this.panels[toggle] : false;
+          return accum;
+        },
+        {}
+      );
+      this.open = this.panels[toggle];
     },
   },
 };
@@ -22,15 +36,21 @@ export default {
 <template>
   <aside v-bem="{ open }">
     <header v-bem:controls>
-      <button v-bem:control.inventory @click="togglePanel('gameInventory')">
+      <button v-bem:control.inventory @click="togglePanel('inventory')">
         <label v-bem:controlLabel>{{ $t("Inventory") }}</label>
       </button>
+      <button v-bem:control.settings @click="togglePanel('settings')">
+        <label v-bem:controlLabel>{{ $t("Settings") }}</label>
+      </button>
     </header>
-    <game-inventory v-if="gameInventory" />
+    <game-inventory v-if="panels.inventory" />
+    <game-settings v-if="panels.settings" />
   </aside>
 </template>
 
 <style lang="scss">
+@import "../../styles/mixins";
+
 .app-sidebar {
   @apply fixed top-0 right-0;
   @apply flex items-start;
@@ -56,18 +76,17 @@ export default {
     @apply flex items-center justify-center;
     @apply bg-sky bg-opacity-50;
 
+    & + & {
+      @apply mt-4;
+    }
+
     &::before {
       content: "";
       @apply block w-6 h-6;
       @apply bg-light;
     }
 
-    &--inventory {
-      &::before {
-        content: "";
-        @apply mask-inventory;
-      }
-    }
+    @include icons("::before", inventory, settings);
 
     &-label {
       @apply hidden absolute left-0;
