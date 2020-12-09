@@ -55,7 +55,7 @@ export default {
     dependants() {
       return this.getAbilityDependants(this.id);
     },
-    synergies() {
+    synergiesList() {
       return { receives: this.dependees, provides: this.dependants };
     },
 
@@ -202,7 +202,7 @@ export default {
     </dl>
     <div v-bem:synergies="{ active: toggle === 'synergies' }">
       <ability-synergies
-        v-for="(synergies, synergy) in synergies"
+        v-for="(synergies, synergy) in synergiesList"
         v-bem:synergiesList="{ [synergy]: true }"
         :type="synergy"
         :source="ability"

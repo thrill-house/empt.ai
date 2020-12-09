@@ -17,8 +17,8 @@ export default {
       default: false,
     },
     synergies: {
-      type: Array,
-      default: () => [],
+      type: Object,
+      default: () => ({}),
     },
     minimum: {
       type: Number,
