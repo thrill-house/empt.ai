@@ -42,7 +42,7 @@ export default {
 </template>
 
 <style lang="scss">
-@import "../styles/mixins";
+@import "../styles/util";
 
 .era {
   @apply flex flex-col-reverse

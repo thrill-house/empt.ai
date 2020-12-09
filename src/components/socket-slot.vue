@@ -40,7 +40,7 @@ export default {
 </template>
 
 <style lang="scss">
-@import "../styles/mixins";
+@import "../styles/util";
 
 .socket-slot {
   @apply mx-1 -mt-hex/16;

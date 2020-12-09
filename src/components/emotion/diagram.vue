@@ -223,7 +223,7 @@ export default {
 </template>
 
 <style lang="scss">
-// @import "../styles/mixins";
+// @import "../styles/util";
 
 .emotion-diagram {
   @apply relative rounded-full bg-sky bg-opacity-25 border-sky border;

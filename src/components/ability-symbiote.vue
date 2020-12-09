@@ -138,7 +138,7 @@ export default {
 </template>
 
 <style lang="scss">
-@import "../styles/mixins";
+@import "../styles/util";
 
 .ability-synergy {
   &--slotted {

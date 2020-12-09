@@ -55,7 +55,7 @@ export default {
 </template>
 
 <style lang="scss">
-@import "../styles/mixins";
+@import "../styles/util";
 
 .badge {
   @apply inline-flex flex-shrink-0

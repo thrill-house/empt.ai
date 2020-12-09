@@ -146,7 +146,7 @@ export default {
 </template>
 
 <style lang="scss">
-@import "../../styles/mixins";
+@import "../../styles/util";
 
 .game-inventory {
   @apply w-full;
