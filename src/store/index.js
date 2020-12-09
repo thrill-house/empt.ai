@@ -101,6 +101,8 @@ export default createStore({
           console.log("Start taking scores");
           await dispatch("score/bases");
           await dispatch("score/factors");
+
+          // TODO: initiate with our game time
           await dispatch("score/init");
           await dispatch("score/startTimer");
         }

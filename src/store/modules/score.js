@@ -126,11 +126,11 @@ export default {
 
     // Resources
     resources: (state, getters) =>
-      // TODO: Complicated resource calculation including changes to frequencies over time
-      ({
-        data: getters.elapsed * getters.frequencies.influence,
-        confidence: getters.elapsed * getters.frequencies.bandwidth,
-      }),
+    // TODO: Complicated resource calculation including changes to frequencies over time
+    ({
+      data: getters.elapsed * getters.frequencies.influence,
+      confidence: getters.elapsed * getters.frequencies.bandwidth,
+    }),
 
     // Frequencies
     frequencies: (state) => ({
@@ -140,15 +140,15 @@ export default {
 
     // Emotions
     emotions: () =>
-      // TODO: Complicated emotion calculation based on currently slotted models
-      ({
-        happiness: random(1, 7),
-        sadness: random(1, 7),
-        excitement: random(1, 7),
-        fear: random(1, 7),
-        tenderness: random(1, 7),
-        anger: random(1, 7),
-      }),
+    // TODO: Complicated emotion calculation based on currently slotted models
+    ({
+      happiness: random(1, 7),
+      sadness: random(1, 7),
+      excitement: random(1, 7),
+      fear: random(1, 7),
+      tenderness: random(1, 7),
+      anger: random(1, 7),
+    }),
   },
   mutations: {
     interval: (state, payload) => {
@@ -168,8 +168,8 @@ export default {
     },
   },
   actions: {
-    init: async ({ commit }) => {
-      commit("startTime", ceil(Date.now() / 1000));
+    init: async ({ commit }, payload) => {
+      commit("startTime", payload || ceil(Date.now() / 1000));
     },
     startTimer: async ({ commit }) => {
       const interval = setInterval(() => {
