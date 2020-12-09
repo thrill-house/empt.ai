@@ -7,25 +7,32 @@ dayjs.extend(relativeTime);
 
 export default {
   name: "game-settings",
+  data: () => ({
+    newGameTitle: null,
+  }),
   computed: {
     currentGame() {
       return this.game
         ? `${this.game?.title} — ${dayjs(this.game?.$createdAt).fromNow()}`
-        : null;
+        : `—`;
     },
     ...mapState(["ownerId", "mnemonic", "gameId", "games"]),
-    ...mapGetters(["game"]),
+    ...mapGetters({
+      game: "game",
+      models: "inventory/models",
+    }),
   },
   methods: {
     async newGame() {
       await this.createGame({
-        title: "This is a new game",
+        title: this.newGameTitle,
       });
     },
 
     async updateGame(e) {
       await this.loadGame(e.target.value);
     },
+
     ...mapActions({
       setOwnerId: "setOwner",
       setMnemonic: "setMnemonic",
@@ -39,7 +46,7 @@ export default {
 <template>
   <section v-bem>
     <div v-bem:form>
-      <label v-bem:formLabel.owner>{{ $t("Owner") }}</label>
+      <label v-bem:formLabel.owner>{{ $t("Owner ID") }}</label>
       <input v-bem:formInput.owner :value="ownerId" @input="setOwnerId" />
 
       <label v-bem:formLabel.mnemonic>{{ $t("Mnemonic") }}</label>
@@ -50,10 +57,10 @@ export default {
         type="password"
       />
 
-      <label v-bem:formLabel.game>{{ $t("Game") }}</label>
+      <label v-bem:formLabel.game>{{ $t("Loaded game") }}</label>
       <div v-bem:formInput.game :data-value="currentGame">
         <select @input="updateGame">
-          <option>Nothing</option>
+          <option :selected="!gameId">—</option>
           <option
             v-for="(game, gId) in games"
             :value="gId"
@@ -64,16 +71,26 @@ export default {
           </option>
         </select>
       </div>
+
+      <label v-bem:formLabel.mnemonic>{{ $t("New game") }}</label>
+      <input
+        v-bem:formInput.mnemonic
+        v-model="newGameTitle"
+        :placeholder="$t('Enter a catchy title')"
+      />
       <button v-bem:formButton.game @click="newGame">
-        {{ $t("Start a new game") }}
+        {{ $t("Create") }}
       </button>
 
       <label v-bem:formLabel.session>{{ $t("Debug") }}</label>
-      <pre>{{ ownerId }}</pre>
-      <pre>{{ mnemonic }}</pre>
-      <pre>{{ gameId }}</pre>
-      <pre>{{ games }}</pre>
-      <pre>{{ game }}</pre>
+      <div v-bem:debug>
+        <pre>{{ ownerId }}</pre>
+        <pre>{{ mnemonic }}</pre>
+        <pre>{{ gameId }}</pre>
+        <pre>{{ games }}</pre>
+        <pre>{{ game }}</pre>
+        <pre>{{ models }}</pre>
+      </div>
     </div>
   </section>
 </template>
@@ -86,6 +103,8 @@ export default {
   @apply w-full p-6;
 
   &__form {
+    @apply flex flex-col;
+
     &-label {
       @apply label;
 
@@ -108,8 +127,18 @@ export default {
 
     &-button {
       @apply button button-lg;
-      @apply mt-2;
+      @apply mt-4;
+
+      &--game {
+        @apply self-end;
+      }
     }
+  }
+
+  &__debug {
+    @apply p-3;
+    @apply bg-sky bg-opacity-50;
+    @apply clip-2-corners;
   }
 }
 </style>

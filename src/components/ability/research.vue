@@ -1,5 +1,5 @@
 <script>
-import { mapGetters } from "vuex";
+import { mapState, mapGetters, mapActions } from "vuex";
 // import _ from "lodash-es";
 
 // import AbilityDialog from "./ability-dialog";
@@ -118,6 +118,7 @@ export default {
     //   "getEmotions",
     //   "getIsEraActive",
     // ]),
+    ...mapState(["gameId"]),
     ...mapGetters({
       getAbilityConfidenceCosts: "inventory/abilityConfidenceCosts",
     }),
@@ -134,6 +135,28 @@ export default {
       this.dialog = false;
       // this.$refs.dialog.$el.close();
       // this.resetEmotions();
+    },
+    async research() {
+      const payload = {
+        gameId: this.gameId,
+        abilityId: this.id,
+        feelings: [
+          {
+            emotionId: "5JzFvZqxS7CkDte98qfsMamDqQPzgwYUuLwQggDximZj",
+            value: 2,
+          },
+          {
+            emotionId: "5JzFvZqxS7CkDte98qfsMamDqQPzgwYUuLwQggDximZj",
+            value: 1,
+          },
+          {
+            emotionId: "5JzFvZqxS7CkDte98qfsMamDqQPzgwYUuLwQggDximZj",
+            value: 1,
+          },
+        ],
+      };
+
+      await this.researchModel(payload);
     },
     //   adjust(emotion, amount) {
     //     let complement = this.getComplement(emotion);
@@ -216,6 +239,9 @@ export default {
     //     return this.isEmotionDecrementable(emotion);
     //   },
     //   ...mapActions(["addAbilityEvent"]),
+    ...mapActions({
+      researchModel: "Game/Models/create",
+    }),
   },
   watch: {
     dialogRef(dialog) {
@@ -231,8 +257,9 @@ export default {
     v-bem:trigger.confidence
     v-format:confidence="researchCost"
     :title="$t('Research')"
-    @click="showDialog()"
+    @click="research()"
   />
+  <!-- @click="showDialog()" -->
   <teleport to="#app" v-if="dialog">
     <util-dialog :ref="setDialogRef" tag="dialog" v-if="dialog" v-bem:dialog>
       <template v-slot:title>

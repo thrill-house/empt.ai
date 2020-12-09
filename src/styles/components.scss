@@ -25,12 +25,15 @@
     }
 
     &-lg {
-      @apply text-xl;
+      @apply h-12;
+      @apply px-4;
+      @apply text-xl font-bold;
     }
   }
 
   .label {
     @apply inline-flex items-center justify-center;
+    @apply self-start;
     @apply h-6;
     @apply ml-3 px-2;
     @apply text-sm uppercase font-bold;
@@ -44,9 +47,14 @@
     @apply px-3;
     @apply text-lg font-bold;
     @apply text-light;
-    @apply bg-sky bg-opacity-75;
-    @apply border-b-2  border-light;
+    @apply bg-sky bg-opacity-50;
+    @apply border-b-2 border-light;
     @apply clip-2-corners;
+
+    &::placeholder {
+      @apply italic font-normal;
+      @apply text-light text-opacity-50;
+    }
 
     &-textarea {
       @apply h-40;

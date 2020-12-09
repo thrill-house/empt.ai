@@ -175,7 +175,6 @@ export default {
 
     &-list {
       @apply px-2;
-      @apply leading-10;
       @apply clip-corners;
 
       &:hover {
@@ -184,10 +183,13 @@ export default {
     }
 
     &-option {
+      @apply items-center;
       @apply hidden;
+      @apply h-10;
+      @apply leading-10;
 
       &--active {
-        @apply block;
+        @apply flex;
       }
     }
 
@@ -223,7 +225,7 @@ export default {
     }
 
     &-list--active &-option {
-      @apply block;
+      @apply flex;
     }
   }
 
@@ -232,7 +234,6 @@ export default {
       @apply flex flex-col absolute;
       @apply top-0 right-0;
       @apply px-2;
-      @apply leading-10;
 
       &::before {
         content: "";
@@ -255,7 +256,10 @@ export default {
     }
 
     &-option {
+      @apply items-center;
       @apply hidden;
+      @apply h-10;
+      @apply leading-10;
     }
 
     &-list--active &-option {
