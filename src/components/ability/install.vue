@@ -108,8 +108,8 @@ export default {
     //   "getEmotions",
     // ]),
     ...mapGetters({
-      getAbilityDataCosts: "inventory/getAbilityDataCosts",
-      getAbilityModels: "inventory/getAbilityModels",
+      getAbilityDataCosts: "inventory/abilityDataCosts",
+      getAbilityModels: "inventory/abilityModels",
     }),
   },
   methods: {

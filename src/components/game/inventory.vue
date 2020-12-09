@@ -17,8 +17,8 @@ export default {
   computed: {
     filteredAbilities() {
       return this.filters
-        ? pickBy(this.abilities, this.filters)
-        : this.abilities;
+        ? pickBy(this.getAbilities, this.filters)
+        : this.getAbilities;
     },
     trees() {
       // TODO: Move this sorting somewhere more useful
@@ -59,7 +59,7 @@ export default {
       };
     },
     ...mapGetters({
-      abilities: "inventory/getAbilities",
+      getAbilities: "inventory/abilities",
       getTrees: "App/Trees/all",
       getEras: "App/Eras/all",
     }),

@@ -35,34 +35,34 @@ export default {
   }),
   getters: {
     // Get all abilities
-    getAbilities: (state) => state.abilities,
+    abilities: (state) => state.abilities,
 
     // Get all models
-    getModels: (state) => state.models,
+    models: (state) => state.models,
 
     // Get one ability
-    getAbility: (state) => (id) => state.abilities?.[id],
+    ability: (state) => (id) => state.abilities?.[id],
 
     // Get one model
-    getModel: (state) => (id) => state.models?.[id],
+    model: (state) => (id) => state.models?.[id],
 
     // Get ability for model
-    getModelAbility: (state, getters) => (id) =>
-      getters.getAbility(getters.getModel(id)?.abilityId),
+    modelAbility: (state, getters) => (id) =>
+      getters.ability(getters.model(id)?.abilityId),
 
     // Get all models for ability
-    getAbilityModels: (state) => (id) =>
+    abilityModels: (state) => (id) =>
       pickBy(state.models, { abilityId: id }),
 
     // Get dependee abilities
-    getAbilityDependees: (state, getters) => (id) =>
+    abilityDependees: (state, getters) => (id) =>
       pickBy(
         state.abilities,
         ({ $id }, a) =>
           a !== id &&
           includes(
             extractDependencyIds(
-              getters.getAbilityFactors(id) || [],
+              getters.abilityFactors(id) || [],
               "abilityId"
             ),
             $id
@@ -70,48 +70,48 @@ export default {
       ),
 
     // Get dependant abilities
-    getAbilityDependants: (state) => (id) =>
+    abilityDependants: (state) => (id) =>
       pickBy(
         state.abilities,
         ({ factors }, a) =>
           a !== id && includes(extractDependencyIds(factors, "abilityId"), id)
       ),
 
-    getAbilitySymbiosis: (state, getters) => (fromId, toId) =>
-      filter(getters.getAbilityFactors(fromId), ({ dependency }) =>
+    abilitySymbiosis: (state, getters) => (fromId, toId) =>
+      filter(getters.abilityFactors(fromId), ({ dependency }) =>
         some(
           dependency?.where,
           (where) => where[0] === "abilityId" && where[2] === toId
         )
       ),
 
-    getAbilityFactors: (state, getters) => (id) =>
-      getters.getAbility(id)?.factors,
+    abilityFactors: (state, getters) => (id) =>
+      getters.ability(id)?.factors,
 
     // It's possible for these to exist, but UI doesn't handle it, so ignore for now.
-    // getAbilityBaseFactors: (state, getters) => (id) =>
+    // abilityBaseFactors: (state, getters) => (id) =>
     //   filter(
-    //     getters.getAbilityFactors(id),
+    //     getters.abilityFactors(id),
     //     ({ dependency }) => dependency === undefined
     //   ),
 
-    getAbilityTreeFactors: (state, getters) => (id) =>
-      filter(getters.getAbilityFactors(id), ({ dependency }) =>
+    abilityTreeFactors: (state, getters) => (id) =>
+      filter(getters.abilityFactors(id), ({ dependency }) =>
         some(dependency?.where, (where) => where[0] === "treeId")
       ),
 
-    getAbilityEraFactors: (state, getters) => (id) =>
-      filter(getters.getAbilityFactors(id), ({ dependency }) =>
+    abilityEraFactors: (state, getters) => (id) =>
+      filter(getters.abilityFactors(id), ({ dependency }) =>
         some(dependency?.where, (where) => where[0] === "eraId")
       ),
 
-    getAbilityCosts: (state, getters) => (id) => getters.getAbility(id)?.costs,
+    abilityCosts: (state, getters) => (id) => getters.ability(id)?.costs,
 
-    getAbilityConfidenceCosts: (state, getters) => (id) =>
-      getters.getAbilityCosts(id)?.confidence,
+    abilityConfidenceCosts: (state, getters) => (id) =>
+      getters.abilityCosts(id)?.confidence,
 
-    getAbilityDataCosts: (state, getters) => (id) =>
-      getters.getAbilityCosts(id)?.data,
+    abilityDataCosts: (state, getters) => (id) =>
+      getters.abilityCosts(id)?.data,
   },
   mutations: {
     abilities: (state, payload) => {

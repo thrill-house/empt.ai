@@ -51,8 +51,8 @@ export default {
       return this.getAbilitySymbiosis(...this.relationship);
     },
     ...mapGetters({
-      getAbility: "inventory/getAbility",
-      getAbilitySymbiosis: "inventory/getAbilitySymbiosis",
+      getAbility: "inventory/ability",
+      getAbilitySymbiosis: "inventory/abilitySymbiosis",
     }),
   },
 };

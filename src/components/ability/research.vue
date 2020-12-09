@@ -119,7 +119,7 @@ export default {
     //   "getIsEraActive",
     // ]),
     ...mapGetters({
-      getAbilityConfidenceCosts: "inventory/getAbilityConfidenceCosts",
+      getAbilityConfidenceCosts: "inventory/abilityConfidenceCosts",
     }),
   },
   methods: {
