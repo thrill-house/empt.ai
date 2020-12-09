@@ -26,12 +26,18 @@ export default {
 
     // Models
     models: {},
+
+    // Sockets
+    sockets: {},
+
+    // Sources
+    sources: {},
   }),
   getters: {
-    // Get one ability
+    // Get all abilities
     getAbilities: (state) => state.abilities,
 
-    // Get one model
+    // Get all models
     getModels: (state) => state.models,
 
     // Get one ability
@@ -114,6 +120,12 @@ export default {
     models: (state, payload) => {
       state.models = payload;
     },
+    sockets: (state, payload) => {
+      state.sockets = payload;
+    },
+    sources: (state, payload) => {
+      state.sources = payload;
+    },
   },
   actions: {
     abilities: async ({ commit, dispatch, rootGetters }) => {
@@ -123,6 +135,14 @@ export default {
     models: async ({ commit, dispatch, rootGetters }) => {
       await dispatch("Game/Models/all", null, { root: true });
       commit("models", rootGetters["Game/Models/all"]);
+    },
+    sockets: async ({ commit, dispatch, rootGetters }) => {
+      await dispatch("App/Sockets/all", null, { root: true });
+      commit("sockets", rootGetters["App/Sockets/all"]);
+    },
+    sources: async ({ commit, dispatch, rootGetters }) => {
+      await dispatch("Game/Sources/all", null, { root: true });
+      commit("sources", rootGetters["Game/Sources/all"]);
     },
   },
 };

@@ -168,21 +168,21 @@ export default {
     },
   },
   actions: {
-    init: ({ commit }) => {
+    init: async ({ commit }) => {
       commit("startTime", ceil(Date.now() / 1000));
     },
-    startTimer: ({ commit }) => {
+    startTimer: async ({ commit }) => {
       const interval = setInterval(() => {
         commit("currentTime", ceil(Date.now() / 1000));
       }, 1000);
 
       commit("interval", interval);
     },
-    stopTimer: ({ commit, state }) => {
+    stopTimer: async ({ commit, state }) => {
       clearInterval(state.interval);
       commit("interval", null);
     },
-    bases: ({ commit }) => {
+    bases: async ({ commit }) => {
       // TODO: Pass in real events
       const bases = calculateBases({
         sources: [1, 2, 3],
@@ -192,7 +192,7 @@ export default {
 
       commit("bases", bases);
     },
-    factors: ({ commit }) => {
+    factors: async ({ commit }) => {
       // TODO: Pass in real events
       const factors = calculateFactors({
         sources: [1, 2, 3],
