@@ -1,9 +1,9 @@
 import { ceil, random, reduce } from "lodash-es";
 
 export const getScores = (getters) => {
-  const sources = getters["game/Sources/all"];
-  const slots = getters["game/Slots/all"];
-  const trainings = getters["game/Trainings/all"];
+  const sources = getters["Game/Sources/all"];
+  const slots = getters["Game/Slots/all"];
+  const trainings = getters["Game/Trainings/all"];
 
   return { sources, slots, trainings };
 };

@@ -117,12 +117,12 @@ export default {
   },
   actions: {
     abilities: async ({ commit, dispatch, rootGetters }) => {
-      await dispatch("app/Abilities/all", null, { root: true });
-      commit("abilities", rootGetters["app/Abilities/all"]);
+      await dispatch("App/Abilities/all", null, { root: true });
+      commit("abilities", rootGetters["App/Abilities/all"]);
     },
     models: async ({ commit, dispatch, rootGetters }) => {
-      await dispatch("game/Models/all", null, { root: true });
-      commit("models", rootGetters["game/Models/all"]);
+      await dispatch("Game/Models/all", null, { root: true });
+      commit("models", rootGetters["Game/Models/all"]);
     },
   },
 };

@@ -32,8 +32,8 @@ export default {
   },
   methods: {
     ...mapActions({
-      trees: "app/Trees/all",
-      eras: "app/Eras/all",
+      trees: "App/Trees/all",
+      eras: "App/Eras/all",
       init: "score/init",
       startTimer: "score/startTimer",
       bases: "score/bases",

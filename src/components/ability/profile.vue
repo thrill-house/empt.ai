@@ -111,9 +111,9 @@ export default {
       // getAbilityBaseFactors: "inventory/getAbilityBaseFactors", // Not using this currently, maybe later?
       getAbilityTreeFactors: "inventory/getAbilityTreeFactors",
       getAbilityEraFactors: "inventory/getAbilityEraFactors",
-      getTree: "app/Trees/one",
-      getEras: "app/Eras/all",
-      getEra: "app/Eras/one",
+      getTree: "App/Trees/one",
+      getEras: "App/Eras/all",
+      getEra: "App/Eras/one",
       // getIsEraActive,
       // getAbilityDependants,
       // getInteraction,
@@ -153,7 +153,7 @@ export default {
     //   await this.researchModel(payload);
     // },
     // ...mapActions({
-    //   researchModel: "game/Models/create",
+    //   researchModel: "Game/Models/create",
     // }),
   },
 };

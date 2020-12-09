@@ -41,13 +41,13 @@ export default createStore({
       contractId: process.env.VUE_APP_GAME_CONTRACT,
       ownerId: process.env.VUE_APP_GAME_IDENTITY,
       documents: ["Abilities", "Sockets", "Eras", "Trees", "Emotions"],
-      namespace: "app",
+      namespace: "App",
     }),
     new VuexDash({
       network: process.env.VUE_APP_GAME_NETWORK,
       contractId: process.env.VUE_APP_GAME_CONTRACT,
       documents: ["Games"],
-      namespace: "player",
+      namespace: "Player",
       subscribeToFrom: [
         { ownerId: "ownerId", mnemonic: "mnemonic", allQuery: "allGameQuery" },
         ["setGame"],
@@ -57,7 +57,7 @@ export default createStore({
       network: process.env.VUE_APP_GAME_NETWORK,
       contractId: process.env.VUE_APP_GAME_CONTRACT,
       documents: ["Models", "Sources", "Slots", "Trainings"],
-      namespace: "game",
+      namespace: "Game",
       subscribeToFrom: [
         { ownerId: "ownerId", mnemonic: "mnemonic", allQuery: "allOwnerQuery" },
         ["setOwner", "setMnemonic"],

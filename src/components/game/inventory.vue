@@ -58,8 +58,8 @@ export default {
     },
     ...mapGetters({
       abilities: "inventory/getAbilities",
-      getTrees: "app/Trees/all",
-      getEras: "app/Eras/all",
+      getTrees: "App/Trees/all",
+      getEras: "App/Eras/all",
     }),
   },
   methods: {
