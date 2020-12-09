@@ -127,7 +127,7 @@ export default (config) => {
                   [namespace]: { options },
                 },
               }) => {
-                commit("all", await dispatch("retrieve"), options.allQuery);
+                commit("all", await dispatch("retrieve", options.allQuery));
               },
 
               // Helper to wrap the "retrieve" action to return the first document matching the `id` passed in the payload.
