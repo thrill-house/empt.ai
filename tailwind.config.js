@@ -3,11 +3,7 @@ const withAlphaVariable = require("tailwindcss/lib/util/withAlphaVariable");
 const hexRatio = Math.sqrt(3 / 2);
 
 module.exports = {
-  future: {
-    removeDeprecatedGapUtilities: true,
-    purgeLayersByDefault: true,
-  },
-  purge: [],
+  purge: ['./src/**/*.{vue,js,ts,jsx,tsx}'],
   theme: {
     /* Colors */
     colors: {
@@ -113,8 +109,10 @@ module.exports = {
       },
     },
   },
+  // TODO: Remove this in place of doing it the TW 2.0 way: https://tailwindcss.com/docs/functions-and-directives#layer
   plugins: [
-    function({ addUtilities, theme }) {
+    function ({ addComponents, theme }) {
+      // TODO: Move these into a css import
       const clipUtilities = {
         ".clip-corners": {
           "clip-path":
@@ -137,6 +135,7 @@ module.exports = {
         },
       };
 
+      // TODO: Move these into a css import
       const backgroundUtilities = {
         ".bg-dots": {
           "background-image": "var(--dots-x), var(--dots-y)",
@@ -144,7 +143,7 @@ module.exports = {
           "background-size": "2px 2px",
         },
         ".bg-tile": {
-          "background-image": `var(--image-tile), radial-gradient(circle at 50% 100%, var(--gradient-color-stops))`,
+          "background-image": `var(--image-tile), radial-gradient(circle at 50% 100%, var(--tw-gradient-stops))`,
           "background-position": "left top, center top",
           "background-repeat": "repeat, no-repeat",
           "background-size": "auto, cover",
@@ -152,7 +151,7 @@ module.exports = {
         },
         ".bg-grout": {
           "--grout": `linear-gradient(var(--grout-color) 0%, var(--grout-color) 100%)`,
-          "background-image": `var(--grout), var(--image-tile), radial-gradient(circle at 50% 100%, var(--gradient-color-stops))`,
+          "background-image": `var(--grout), var(--image-tile), radial-gradient(circle at 50% 100%, var(--tw-gradient-stops))`,
           "background-position": "left top, left top, center top",
           "background-repeat": "repeat, repeat, no-repeat",
           "background-size": "auto, auto, cover",
@@ -160,17 +159,20 @@ module.exports = {
         },
       };
 
+      // TODO: Move these into a css import — NEED TO BE TW COMPONENTS BECAUSE OF SPECIFICITY ISSUES
       Object.keys(theme("colors")).forEach((color) => {
         backgroundUtilities[`.bg-grout-${color}`] = {
           ...withAlphaVariable.default({
             color: theme(`colors.${color}`),
             property: "--grout-color",
-            variable: "--bg-opacity",
+            variable: "--tw-bg-opacity",
           }),
         };
       });
 
+      // TODO: Move these into a css import
       const maskUtilities = [
+        // Values
         "base",
         "factor",
         "data",
@@ -178,12 +180,14 @@ module.exports = {
         "bandwidth",
         "influence",
 
+        // Trees
         "trees",
         "neutral",
         "science",
         "economy",
         "society",
 
+        // Eras
         "eras",
         "hobbyist",
         "university",
@@ -191,6 +195,7 @@ module.exports = {
         "government",
         "consciousness",
 
+        // Emotions
         "happiness",
         "sadness",
         "excitement",
@@ -198,7 +203,11 @@ module.exports = {
         "tenderness",
         "anger",
 
+        // Nav
         "inventory",
+        "settings",
+
+        // Abilities
         "empty",
         "unknown",
         "view",
@@ -217,7 +226,7 @@ module.exports = {
         return result;
       }, {});
 
-      addUtilities([clipUtilities, backgroundUtilities, maskUtilities], {
+      addComponents([clipUtilities, backgroundUtilities, maskUtilities], {
         variants: ["responsive"],
       });
     },

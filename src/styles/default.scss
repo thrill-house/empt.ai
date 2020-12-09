@@ -1,5 +1,6 @@
 @import url("//fonts.googleapis.com/css?family=Titillium+Web:400,700");
 
+// TODO: Refactor these into a file somewhere
 :root {
   --image-tile: url(../assets/bg/tile.svg);
 
@@ -31,6 +32,7 @@
   --image-anger: url(../assets/emotion/anger.svg);
 
   --image-inventory: url(../assets/nav/inventory.svg);
+  --image-settings: url(../assets/nav/settings.svg);
 
   --image-empty: url(../assets/ability/empty.svg);
   --image-unknown: url(../assets/ability/unknown.svg);
@@ -47,6 +49,7 @@
   --radial: radial-gradient(circle at 50% 100%, var(--gradient-color-stops));
 }
 
+/*! @import */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

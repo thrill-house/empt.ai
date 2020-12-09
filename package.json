@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "autoprefixer": "^9",
     "axios": "^0.21.0",
     "bem-cn": "^3.0.1",
     "core-js": "^3.6.5",
@@ -18,7 +19,8 @@
     "math": "^0.0.3",
     "moment": "^2.29.1",
     "numeral": "^2.0.6",
-    "tailwindcss": "^1.9.6",
+    "postcss": "^7",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "tailwindcss-filters": "^3.0.0",
     "vue": "^3.0.0",
     "vue-i18n": "^9.0.0-beta.6",
