@@ -1,5 +1,5 @@
 <script>
-import {  mapGetters } from "vuex";
+import { mapGetters } from "vuex";
 import { keys } from "lodash-es";
 // import _ from "lodash-es";
 
@@ -17,6 +17,8 @@ export default {
   // },
   inject: ["id", "ability", "title"],
   data: () => ({
+    dialog: false,
+    dialogRef: null,
     // selectedEvent: false,
     // highlightedEvent: false,
   }),
@@ -183,11 +185,11 @@ export default {
 <template>
   <button
     v-bind="$attrs"
-        v-bem:trigger.data
-        v-format:data="installCost"
-        :title="`${$t('Install')} (${modelsAvailable}/${modelsTotal})`"
+    v-bem:trigger.data
+    v-format:data="installCost"
+    :title="`${$t('Install')} (${modelsAvailable}/${modelsTotal})`"
     @click="showDialog()"
-      />
+  />
 
   <teleport to="#app" v-if="dialog">
     <util-dialog :ref="setDialogRef" tag="dialog" v-if="dialog" v-bem:dialog>
@@ -196,7 +198,7 @@ export default {
       </template>
     </util-dialog>
   </teleport>
-    <!-- <span
+  <!-- <span
       class="button text-lg uppercase font-bold px-4 py-2 text-navy bg-light"
     >
       <slot name="installToggle">

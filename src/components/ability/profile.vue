@@ -80,21 +80,6 @@ export default {
       return sortBy(this.getEras, "stage");
     },
 
-    installCost() {
-      return this.getAbilityDataCosts(this.id);
-    },
-
-    models() {
-      return this.getAbilityModels(this.id);
-    },
-
-    modelsAvailable() {
-      // TODO: Figure out how many are already installed
-      return keys(this.models).length || 0;
-    },
-    modelsTotal() {
-      return keys(this.models).length || 0;
-    },
     // eraActive() {
     //   return this.getIsEraActive(this.era);
     // },
@@ -227,8 +212,8 @@ export default {
       />
     </div>
     <div v-bem:actions>
-      <ability-research v-bem:actionsTrigger.confidence />
-      <ability-install v-bem:actionsTrigger.data />
+      <ability-research />
+      <ability-install />
     </div>
     <div v-bem:badge>
       <i v-bem:badgeIcon="{ [title]: true }" />

@@ -17,37 +17,35 @@ export default {
   //   label: String,
   // },
   inject: ["id", "ability", "title"],
-  data() {
-    return {
-      dialog: false,
-      dialogRef: null,
-      emotions: {
-        excitement: 0,
-        happiness: 0,
-        tenderness: 0,
-        fear: 0,
-        sadness: 0,
-        anger: 0,
-      },
-      complements: {
-        excitement: "fear",
-        happiness: "sadness",
-        tenderness: "anger",
-        fear: "excitement",
-        sadness: "happiness",
-        anger: "tenderness",
-      },
-      sides: {
-        excitement: 1,
-        happiness: 1,
-        tenderness: 1,
-        fear: -1,
-        sadness: -1,
-        anger: -1,
-      },
-      requiredEmotions: 4,
-    };
-  },
+  data: () => ({
+    dialog: false,
+    dialogRef: null,
+    emotions: {
+      excitement: 0,
+      happiness: 0,
+      tenderness: 0,
+      fear: 0,
+      sadness: 0,
+      anger: 0,
+    },
+    complements: {
+      excitement: "fear",
+      happiness: "sadness",
+      tenderness: "anger",
+      fear: "excitement",
+      sadness: "happiness",
+      anger: "tenderness",
+    },
+    sides: {
+      excitement: 1,
+      happiness: 1,
+      tenderness: 1,
+      fear: -1,
+      sadness: -1,
+      anger: -1,
+    },
+    requiredEmotions: 4,
+  }),
   computed: {
     researchCost() {
       return this.getAbilityConfidenceCosts(this.id);
