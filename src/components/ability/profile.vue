@@ -1,6 +1,6 @@
 <script>
 import { mapGetters } from "vuex";
-import { capitalize, keys, sortBy } from "lodash-es";
+import { capitalize, sortBy } from "lodash-es";
 
 import AbilitySynergies from "./synergies";
 import AbilityResearch from "./research";
