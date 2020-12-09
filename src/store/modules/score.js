@@ -151,19 +151,19 @@ export default {
     }),
   },
   mutations: {
-    setInterval: (state, payload) => {
+    interval: (state, payload) => {
       state.interval = payload;
     },
-    setStartTime: (state, payload) => {
+    startTime: (state, payload) => {
       state.startTime = payload;
     },
-    setCurrentTime: (state, payload) => {
+    currentTime: (state, payload) => {
       state.currentTime = payload;
     },
-    setBases: (state, payload) => {
+    bases: (state, payload) => {
       state.bases = payload;
     },
-    setFactors: (state, payload) => {
+    factors: (state, payload) => {
       state.factors = payload;
     },
   },
@@ -182,19 +182,19 @@ export default {
     },
 
     setStartTime: async ({ commit }, payload) => {
-      commit("setStartTime", payload);
+      commit("startTime", payload);
     },
 
     startTimer: async ({ commit }) => {
       const interval = setInterval(() => {
-        commit("setCurrentTime", ceil(Date.now() / 1000));
+        commit("currentTime", ceil(Date.now() / 1000));
       }, 1000);
 
-      commit("setInterval", interval);
+      commit("interval", interval);
     },
     stopTimer: async ({ commit, state }) => {
       clearInterval(state.interval);
-      commit("setInterval", null);
+      commit("interval", null);
     },
 
     calculateBases: async ({ commit }) => {
@@ -205,7 +205,7 @@ export default {
         trainings: [1, 2, 3],
       });
 
-      commit("setBases", bases);
+      commit("bases", bases);
     },
     calculateFactors: async ({ commit }) => {
       // TODO: Pass in real events
@@ -215,7 +215,7 @@ export default {
         trainings: [1, 2, 3],
       });
 
-      commit("setFactors", factors);
+      commit("factors", factors);
     },
   },
 };

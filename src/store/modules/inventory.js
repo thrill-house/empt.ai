@@ -114,16 +114,16 @@ export default {
       getters.getAbilityCosts(id)?.data,
   },
   mutations: {
-    setAbilities: (state, payload) => {
+    abilities: (state, payload) => {
       state.abilities = payload;
     },
-    setModels: (state, payload) => {
+    models: (state, payload) => {
       state.models = payload;
     },
-    setSockets: (state, payload) => {
+    sockets: (state, payload) => {
       state.sockets = payload;
     },
-    setSources: (state, payload) => {
+    sources: (state, payload) => {
       state.sources = payload;
     },
   },
@@ -141,19 +141,19 @@ export default {
 
     fetchAbilities: async ({ commit, dispatch, rootGetters }) => {
       await dispatch("App/Abilities/all", null, { root: true });
-      commit("setAbilities", rootGetters["App/Abilities/all"]);
+      commit("abilities", rootGetters["App/Abilities/all"]);
     },
     fetchModels: async ({ commit, dispatch, rootGetters }) => {
       await dispatch("Game/Models/all", null, { root: true });
-      commit("setModels", rootGetters["Game/Models/all"]);
+      commit("models", rootGetters["Game/Models/all"]);
     },
     fetchSockets: async ({ commit, dispatch, rootGetters }) => {
       await dispatch("App/Sockets/all", null, { root: true });
-      commit("setSockets", rootGetters["App/Sockets/all"]);
+      commit("sockets", rootGetters["App/Sockets/all"]);
     },
     fetchSources: async ({ commit, dispatch, rootGetters }) => {
       await dispatch("Game/Sources/all", null, { root: true });
-      commit("setSources", rootGetters["Game/Sources/all"]);
+      commit("sources", rootGetters["Game/Sources/all"]);
     },
   },
 };

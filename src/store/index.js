@@ -29,16 +29,16 @@ export default createStore({
     }),
   },
   mutations: {
-    setOwnerId: (state, payload) => {
+    ownerId: (state, payload) => {
       state.ownerId = payload;
     },
-    setMnemonic: (state, payload) => {
+    mnemonic: (state, payload) => {
       state.mnemonic = payload;
     },
-    setGameId: (state, payload) => {
+    gameId: (state, payload) => {
       state.gameId = payload;
     },
-    setGames: (state, payload) => {
+    games: (state, payload) => {
       state.games = payload;
     },
   },
@@ -59,15 +59,15 @@ export default createStore({
     },
 
     setOwnerId: async ({ commit }, payload) => {
-      commit("setOwnerId", payload);
+      commit("ownerId", payload);
     },
     setMnemonic: async ({ commit }, payload) => {
-      commit("setMnemonic", payload);
+      commit("mnemonic", payload);
     },
 
     fetchGames: async ({ commit, dispatch, getters }) => {
       await dispatch("Player/Games/all");
-      commit("setGames", getters["Player/Games/all"]);
+      commit("games", getters["Player/Games/all"]);
     },
     fetchApp: async ({ dispatch, }) => {
       await dispatch("App/Trees/all");
@@ -76,7 +76,7 @@ export default createStore({
     },
 
     loadGame: async ({ commit, dispatch, }, payload) => {
-      commit("setGameId", payload);
+      commit("gameId", payload);
       await dispatch("score/init");
       await dispatch("inventory/init");
     },
