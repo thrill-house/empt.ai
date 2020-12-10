@@ -515,7 +515,11 @@ export default {
   height: calc(100% - 80px);
 
   .jsoneditor-vue {
-    height: 100%;
+    @apply h-full;
+  }
+
+  .jsoneditor-menu {
+    @apply relative z-10;
   }
 }
 </style>

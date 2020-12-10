@@ -12,8 +12,8 @@ export default {
     return {
       open: true,
       panels: {
-        inventory: false,
-        settings: true,
+        inventory: true,
+        settings: false,
       },
     };
   },

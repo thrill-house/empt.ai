@@ -114,9 +114,6 @@ export default {
       let degreeUnit = degree * (Math.PI / 180),
         circleSin = Math.sin(degreeUnit),
         circleCos = Math.cos(degreeUnit),
-        // degreeUnit = unit(degree, "deg"),
-        //   circleSin = sin(degreeUnit),
-        //   circleCos = cos(degreeUnit),
         maxRatio = this.maxScale > 0 ? this.max / this.maxScale : 0,
         emotionRatio = emotion > 0 ? emotion / this.max : 0,
         axisX = 50 * circleSin,
@@ -191,7 +188,7 @@ export default {
         stroke-width="1"
         stroke-opacity="0.25"
         vector-effect="non-scaling-stroke"
-      ></polyline>
+      />
     </svg>
     <template v-if="labels">
       <label
@@ -217,7 +214,7 @@ export default {
       :color="value.color || color"
       :scale="maxScale"
       v-bem:values
-    ></emotion-values>
+    />
     <slot />
   </div>
 </template>
