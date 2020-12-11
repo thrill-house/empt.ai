@@ -68,11 +68,13 @@ export default createStore({
 
     fetchGames: async ({ commit, dispatch, getters }) => {
       await dispatch("Player/Games/all");
+
       commit("games", getters["Player/Games/all"]);
     },
 
     loadGame: async ({ commit, dispatch }, payload) => {
       commit("gameId", payload);
+
       await dispatch("score/init");
       await dispatch("inventory/init");
     },

@@ -9,6 +9,10 @@
     @apply bg-navy;
     @apply clip-corners;
 
+    &:disabled {
+      @apply bg-opacity-25;
+    }
+
     &-icon::before {
       content: "";
       @apply inline-block;

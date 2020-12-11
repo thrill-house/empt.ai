@@ -90,34 +90,16 @@ export default {
       return this.getAbilityConfidenceCosts(this.id);
     },
     scores() {
-      return { data: 0, confidence: 0 }; //this.getResources;
+      return { data: 0, confidence: 0 };
     },
     submittable() {
       return this.affordable && this.enoughEmotions;
     },
-    // newEvent() {
-    //   return {
-    //     type: "ability",
-    //     label: this.label,
-    //     target: false,
-    //     emotions: this.emotions,
-    //   };
-    // },
-    // ...mapState(["abilities"]),
-    // ...mapGetters([
-    //   "getEventsOfType",
-    //   "getAbility",
-    //   "getAbilityCosts",
-    //   "getScores",
-    //   "getEmotions",
-    //   "getIsEraActive",
-    // ]),
     ...mapState(["gameId"]),
     ...mapGetters({
       getAbilityConfidenceCosts: "inventory/abilityConfidenceCosts",
       feelings: "score/feelings",
       getEmotionByTitle: "labels/emotionByTitle",
-      // getResources: "score/resources",
     }),
   },
   methods: {
@@ -167,17 +149,6 @@ export default {
         this.adjust(complement, amount * -1);
       }
     },
-    // confirm() {
-    //   if (this.sumEmotions === this.requiredEmotions) {
-    //     let event = _.defaults(this.newEvent, {
-    //       instance: `${this.label}-${_.now()}`,
-    //     });
-    //     this.addAbilityEvent(event);
-    //     this.cancel();
-    //   } else {
-    //     alert("Fill in all emotions");
-    //   }
-    // },
     resetEmotions() {
       this.emotions = mapValues(this.emotions, () => 0);
     },
@@ -274,8 +245,10 @@ export default {
       </div>
 
       <div v-bem:actions>
-        <button v-bem:actionsButton.confirm="{ valid }" @click="research">
-          <!-- :disabled="!submittable" -->
+        <button 
+          v-bem:actionsButton.confirm="{ valid }" 
+          @click="research"
+          :disabled="!submittable">
           {{ $t("Research") }}
         </button>
 

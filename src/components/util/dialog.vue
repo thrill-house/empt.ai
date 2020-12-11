@@ -35,7 +35,7 @@ export default {
   @apply fixed inset-0;
   @apply w-192;
   @apply p-6;
-  @apply bg-navy text-light;
+  @apply text-light bg-ash bg-opacity-25;
   @apply z-50;
   @apply clip-2-corners;
 
