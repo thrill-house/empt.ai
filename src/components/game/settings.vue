@@ -39,6 +39,8 @@ export default {
       loadGame: "loadGame",
       createGame: "Player/Games/create",
     }),
+
+    dayjs,
   },
 };
 </script>
@@ -67,7 +69,7 @@ export default {
             :selected="gameId === gId"
             :key="gId"
           >
-            {{ game.title }}
+            {{ `${game.title}  — ${dayjs(game.$createdAt).fromNow()}` }}
           </option>
         </select>
       </div>
@@ -81,16 +83,6 @@ export default {
       <button v-bem:formButton.game @click="newGame">
         {{ $t("Create") }}
       </button>
-
-      <label v-bem:formLabel.session>{{ $t("Debug") }}</label>
-      <div v-bem:debug>
-        <pre>{{ ownerId }}</pre>
-        <pre>{{ mnemonic }}</pre>
-        <pre>{{ gameId }}</pre>
-        <pre>{{ games }}</pre>
-        <pre>{{ game }}</pre>
-        <pre>{{ models }}</pre>
-      </div>
     </div>
   </section>
 </template>

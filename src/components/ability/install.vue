@@ -282,7 +282,7 @@ export default {
 
 .ability-install {
   &__trigger {
-    @apply button button-title button-icon;
+    @apply button button-xs button-title button-icon;
     @apply w-1/2 mr-px;
 
     &::before {

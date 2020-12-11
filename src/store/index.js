@@ -5,6 +5,7 @@ import VuexDash from "./dash";
 import score from "./modules/score";
 import inventory from "./modules/inventory";
 import system from "./modules/system";
+import labels from "./modules/labels";
 
 export default createStore({
   state() {
@@ -45,7 +46,7 @@ export default createStore({
   actions: {
     init: async ({ dispatch, state }) => {
       const { ownerId, mnemonic, gameId } = state;
-      dispatch("fetchApp");
+      dispatch("labels/init");
 
       if (ownerId && mnemonic) {
         await dispatch("setOwnerId", ownerId);
@@ -69,19 +70,14 @@ export default createStore({
       await dispatch("Player/Games/all");
       commit("games", getters["Player/Games/all"]);
     },
-    fetchApp: async ({ dispatch, }) => {
-      await dispatch("App/Trees/all");
-      await dispatch("App/Eras/all");
-      await dispatch("App/Emotions/all");
-    },
 
-    loadGame: async ({ commit, dispatch, }, payload) => {
+    loadGame: async ({ commit, dispatch }, payload) => {
       commit("gameId", payload);
       await dispatch("score/init");
       await dispatch("inventory/init");
     },
   },
-  modules: { score, inventory, system },
+  modules: { score, inventory, system, labels },
   plugins: [
     new VuexDash({
       network: process.env.VUE_APP_GAME_NETWORK,

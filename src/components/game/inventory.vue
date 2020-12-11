@@ -1,6 +1,6 @@
 <script>
 import { mapGetters } from "vuex";
-import { invokeMap, pickBy, sortBy } from "lodash-es";
+import { invokeMap, pickBy } from "lodash-es";
 
 import AbilityProfile from "../ability/profile";
 
@@ -17,40 +17,8 @@ export default {
   computed: {
     filteredAbilities() {
       return this.filters
-        ? pickBy(this.getAbilities, this.filters)
-        : this.getAbilities;
-    },
-    trees() {
-      // TODO: Move this sorting somewhere more useful
-      return sortBy(this.getTrees, ({ title }) => {
-        switch (title) {
-          case "Neutral":
-            return 1;
-          case "Science":
-            return 2;
-          case "Economy":
-            return 3;
-          case "Society":
-            return 4;
-        }
-      });
-    },
-    eras() {
-      // TODO: Move this sorting somewhere more useful
-      return sortBy(this.getEras, ({ title }) => {
-        switch (title) {
-          case "Hobbyist":
-            return 1;
-          case "University":
-            return 2;
-          case "Business":
-            return 3;
-          case "Government":
-            return 4;
-          case "Consciousness":
-            return 4;
-        }
-      });
+        ? pickBy(this.abilities, this.filters)
+        : this.abilities;
     },
     actions() {
       return {
@@ -59,9 +27,9 @@ export default {
       };
     },
     ...mapGetters({
-      getAbilities: "inventory/abilities",
-      getTrees: "App/Trees/all",
-      getEras: "App/Eras/all",
+      abilities: "inventory/abilities",
+      trees: "labels/trees",
+      eras: "labels/eras",
     }),
   },
   methods: {

@@ -25,7 +25,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      emotions: "score/emotions",
+      feelings: "score/feelings",
     }),
   },
 };
@@ -33,7 +33,7 @@ export default {
 
 <template>
   <div v-bem @mouseover="labels = true" @mouseout="labels = false">
-    <emotion-diagram v-bem:diagram :labels="labels" :values="emotions" />
+    <emotion-diagram v-bem:diagram :labels="labels" :values="feelings" />
   </div>
 </template>
 

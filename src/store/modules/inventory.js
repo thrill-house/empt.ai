@@ -51,8 +51,7 @@ export default {
       getters.ability(getters.model(id)?.abilityId),
 
     // Get all models for ability
-    abilityModels: (state) => (id) =>
-      pickBy(state.models, { abilityId: id }),
+    abilityModels: (state) => (id) => pickBy(state.models, { abilityId: id }),
 
     // Get dependee abilities
     abilityDependees: (state, getters) => (id) =>
@@ -61,10 +60,7 @@ export default {
         ({ $id }, a) =>
           a !== id &&
           includes(
-            extractDependencyIds(
-              getters.abilityFactors(id) || [],
-              "abilityId"
-            ),
+            extractDependencyIds(getters.abilityFactors(id) || [], "abilityId"),
             $id
           )
       ),
@@ -85,8 +81,7 @@ export default {
         )
       ),
 
-    abilityFactors: (state, getters) => (id) =>
-      getters.ability(id)?.factors,
+    abilityFactors: (state, getters) => (id) => getters.ability(id)?.factors,
 
     // It's possible for these to exist, but UI doesn't handle it, so ignore for now.
     // abilityBaseFactors: (state, getters) => (id) =>
@@ -129,7 +124,7 @@ export default {
   },
   actions: {
     init: async ({ dispatch, rootGetters }) => {
-      const game = rootGetters['game'];
+      const game = rootGetters["game"];
 
       if (game) {
         await dispatch("fetchAbilities");
@@ -141,18 +136,22 @@ export default {
 
     fetchAbilities: async ({ commit, dispatch, rootGetters }) => {
       await dispatch("App/Abilities/all", null, { root: true });
+
       commit("abilities", rootGetters["App/Abilities/all"]);
     },
     fetchModels: async ({ commit, dispatch, rootGetters }) => {
       await dispatch("Game/Models/all", null, { root: true });
+
       commit("models", rootGetters["Game/Models/all"]);
     },
     fetchSockets: async ({ commit, dispatch, rootGetters }) => {
       await dispatch("App/Sockets/all", null, { root: true });
+
       commit("sockets", rootGetters["App/Sockets/all"]);
     },
     fetchSources: async ({ commit, dispatch, rootGetters }) => {
       await dispatch("Game/Sources/all", null, { root: true });
+
       commit("sources", rootGetters["Game/Sources/all"]);
     },
   },

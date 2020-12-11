@@ -3,7 +3,7 @@ const withAlphaVariable = require("tailwindcss/lib/util/withAlphaVariable");
 const hexRatio = Math.sqrt(3 / 2);
 
 module.exports = {
-  purge: ['./src/**/*.{vue,js,ts,jsx,tsx}'],
+  purge: ["./src/**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
     /* Colors */
     colors: {
@@ -111,7 +111,7 @@ module.exports = {
   },
   // TODO: Remove this in place of doing it the TW 2.0 way: https://tailwindcss.com/docs/functions-and-directives#layer
   plugins: [
-    function ({ addComponents, theme }) {
+    function({ addComponents, theme }) {
       // TODO: Move these into a css import
       const clipUtilities = {
         ".clip-corners": {
@@ -172,6 +172,9 @@ module.exports = {
 
       // TODO: Move these into a css import
       const maskUtilities = [
+        // Util
+        "loading",
+
         // Values
         "base",
         "factor",

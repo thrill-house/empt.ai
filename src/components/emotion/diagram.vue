@@ -82,12 +82,12 @@ export default {
     },
     axisPositions() {
       return {
-        excitement: this.calculateRatio(this.maxScale, 30),
         happiness: this.calculateRatio(this.maxScale, 90),
-        tenderness: this.calculateRatio(this.maxScale, 150),
-        fear: this.calculateRatio(this.maxScale, 210),
         sadness: this.calculateRatio(this.maxScale, 270),
+        tenderness: this.calculateRatio(this.maxScale, 150),
         anger: this.calculateRatio(this.maxScale, 330),
+        excitement: this.calculateRatio(this.maxScale, 30),
+        fear: this.calculateRatio(this.maxScale, 210),
       };
     },
     axes() {
@@ -193,7 +193,6 @@ export default {
     <template v-if="labels">
       <label
         v-for="(value, axisPosition) in axisPositions"
-        :key="axisPosition"
         v-bem:label="{
           [axisPosition]: true,
           top: value.y < 33,
@@ -201,9 +200,10 @@ export default {
           bottom: value.y > 66,
           right: value.x > 66,
         }"
+        :key="axisPosition"
         :style="{ left: value.x + '%', top: value.y + '%' }"
+        :title="label(axisPosition)"
       >
-        <span>{{ label(axisPosition) }}</span>
         <slot :name="axisPosition" />
       </label>
     </template>
@@ -220,15 +220,21 @@ export default {
 </template>
 
 <style lang="scss">
-// @import "../styles/util";
+@import "../../styles/components";
+@import "../../styles/mixins";
 
 .emotion-diagram {
-  @apply relative rounded-full bg-sky bg-opacity-25 border-sky border;
+  @apply relative;
+  @apply bg-sky bg-opacity-25;
+  @apply border-sky border;
+  @apply rounded-full;
 
   &:before,
   &:after {
-    @apply rounded-full block absolute bg-sky bg-opacity-25;
     content: "";
+    @apply absolute;
+    @apply block;
+    @apply bg-sky bg-opacity-25;
   }
 
   &:before {
@@ -244,47 +250,62 @@ export default {
   }
 
   &__axes {
-    @apply absolute block inset-0 w-full h-full;
+    @apply absolute inset-0;
+    @apply block;
+    @apply w-full h-full;
   }
 
   &__label {
-    @apply absolute w-4 h-4 flex -mt-2 bg-light text-light z-30;
+    @apply absolute;
+    @apply flex items-center;
+    @apply h-4;
+    @apply -mt-2;
     @apply transform;
+    @apply text-light;
+    @apply z-30;
+
+    &::before {
+      content: "";
+      @apply flex;
+      @apply w-4 h-4;
+      @apply bg-light;
+      @apply z-30;
+    }
+
+    @include icons(
+      "::before",
+      happiness,
+      sadness,
+      tenderness,
+      anger,
+      excitement,
+      fear
+    );
 
     &--left {
       @apply -translate-x-full;
+
+      &::before {
+        @apply ml-1;
+        @apply order-last;
+      }
+    }
+
+    &--right {
+      &::before {
+        @apply mr-1;
+        @apply order-first;
+      }
     }
 
     &--top {
-      @apply -translate-y-1/2 px-px;
+      @apply -translate-y-1/2;
+      @apply px-px;
     }
 
     &--bottom {
-      @apply translate-y-1/2 px-px;
-    }
-
-    &--happiness {
-      @apply mask-happiness;
-    }
-
-    &--sadness {
-      @apply mask-sadness;
-    }
-
-    &--excitement {
-      @apply mask-excitement;
-    }
-
-    &--fear {
-      @apply mask-fear;
-    }
-
-    &--tenderness {
-      @apply mask-tenderness;
-    }
-
-    &--anger {
-      @apply mask-anger;
+      @apply translate-y-1/2;
+      @apply px-px;
     }
   }
 

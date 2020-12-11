@@ -12,16 +12,16 @@ export default {
   }),
   getters: {
     // Get one ability
-    getSlots: (state) => state.slots,
+    slots: (state) => state.slots,
 
     // Get one training
-    getTrainings: (state) => state.trainings,
+    trainings: (state) => state.trainings,
 
     // Get one slot
-    getSlot: (state, getters) => (id) => getters.getSlots()?.[id],
+    slot: (state, getters) => (id) => getters.slots?.[id],
 
     // Get one training
-    getTraining: (state, getters) => (id) => getters.getTrainings()?.[id],
+    training: (state, getters) => (id) => getters.trainings?.[id],
   },
   mutations: {
     slots: (state, payload) => {
@@ -32,11 +32,20 @@ export default {
     },
   },
   actions: {
-    slots: async ({ commit, dispatch, rootGetters }) => {
+    init: async ({ dispatch, rootGetters }) => {
+      const game = rootGetters["game"];
+
+      if (game) {
+        await dispatch("fetchSlots");
+        await dispatch("fetchTrainings");
+      }
+    },
+
+    fetchSlots: async ({ commit, dispatch, rootGetters }) => {
       await dispatch("Game/Slots/all", null, { root: true });
       commit("slots", rootGetters["Game/Slots/all"]);
     },
-    trainings: async ({ commit, dispatch, rootGetters }) => {
+    fetchTrainings: async ({ commit, dispatch, rootGetters }) => {
       await dispatch("Game/Trainings/all", null, { root: true });
       commit("trainings", rootGetters["Game/Trainings/all"]);
     },
