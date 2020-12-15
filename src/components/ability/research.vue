@@ -112,7 +112,7 @@ export default {
     },
     async research() {
       this.researching = true;
-      
+
       const payload = {
         gameId: this.gameId,
         abilityId: this.id,
@@ -212,7 +212,7 @@ export default {
     v-bind="$attrs"
     v-bem:trigger.confidence="{ researching }"
     v-format:confidence="researchCost"
-    :title="researching? $t('Researching'): $t('Research')"
+    :title="researching ? $t('Researching') : $t('Research')"
     :disabled="researching"
     @click="showDialog()"
   />
@@ -245,13 +245,13 @@ export default {
       </div>
 
       <div v-bem:actions>
-        <button 
-          v-bem:actionsButton.confirm="{ valid }" 
+        <button
+          v-bem:actionsButton.confirm="{ valid }"
           @click="research"
-          :disabled="!submittable">
+          :disabled="!submittable"
+        >
           {{ $t("Research") }}
         </button>
-
         <button v-bem:actionsButton.cancel @click="cancelDialog">
           {{ $t("Cancel") }}
         </button>

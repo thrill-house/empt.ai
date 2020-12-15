@@ -1,26 +1,22 @@
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import { keys } from "lodash-es";
-// import _ from "lodash-es";
 
+import hover from "../../mixins/hover";
+import EmotionDiagram from "../emotion/diagram";
 import UtilDialog from "../util/dialog";
-// import AbilityDialog from "./ability-dialog";
-// import EmotionDiagram from "./emotion/diagram";
 
 export default {
   name: "ability-install",
   components: {
+    EmotionDiagram,
     UtilDialog,
   },
-  // props: {
-  //   label: String,
-  // },
+  mixins: [hover],
   inject: ["id", "ability", "title"],
   data: () => ({
-    dialog: false,
-    dialogRef: null,
-    // selectedEvent: false,
-    // highlightedEvent: false,
+    installing: false,
+    selectedModelId: null,
   }),
   computed: {
     installCost() {
@@ -38,146 +34,31 @@ export default {
     modelsTotal() {
       return keys(this.models).length || 0;
     },
-    // ability() {
-    //   return this.getAbility(this.label);
-    // },
-    // events() {
-    //   return this.getAbilityEvents(this.label);
-    // },
-    // installed() {
-    //   return this.getAbilitySlotEvents(this.label);
-    // },
-    // installedInstances() {
-    //   return _.map(this.installed, "instance");
-    // },
-    // era() {
-    //   return this.ability.era;
-    // },
-    // eraActive() {
-    //   return this.getIsEraActive(this.era);
-    // },
-    // affordability() {
-    //   return _.clamp((this.scores.data / this.costs.data) * 100, 0, 100);
-    // },
-    // affordable() {
-    //   return this.affordability === 100;
-    // },
-    // costs() {
-    //   return this.getSlotCosts(this.newEvent);
-    // },
-    // scores() {
-    //   return this.getScores();
-    // },
-    // submittable() {
-    //   return this.affordable && this.selectedEvent !== false;
-    // },
-    // emotionProfile() {
-    //   return this.getEmotions();
-    // },
-    // emotions() {
-    //   let combineEmotions =
-    //     this.highlightedEvent.emotions || this.selectedEvent.emotions;
-
-    //   combineEmotions =
-    //     this.isInstalled(this.highlightedEvent) ||
-    //     this.isInstalled(this.selectedEvent)
-    //       ? _.mapValues(combineEmotions, () => 0)
-    //       : combineEmotions;
-
-    //   return _.mergeWith(
-    //     { color: "sky" },
-    //     this.emotionProfile,
-    //     combineEmotions,
-    //     _.add
-    //   );
-    // },
-    // newEvent() {
-    //   return {
-    //     type: "slot",
-    //     target: "ability",
-    //     ability: this.label,
-    //   };
-    // },
-    // ...mapState(["abilities"]),
-    // ...mapGetters([
-    //   "getAbilityEvents",
-    //   "getAbility",
-    //   "getSlotCosts",
-    //   "getAbilitySlotEvents",
-    //   "getScores",
-    //   "getEmotions",
-    // ]),
     ...mapGetters({
       getAbilityDataCosts: "inventory/abilityDataCosts",
       getAbilityModels: "inventory/abilityModels",
+      getModel: "inventory/model",
     }),
   },
   methods: {
-    setDialogRef(el) {
-      this.dialogRef = el;
-    },
     showDialog() {
-      this.dialog = true;
-      // this.$refs.dialog.$el.showModal();
+      this.$refs?.dialog?.show();
     },
     cancelDialog() {
-      this.dialog = false;
-      // this.$refs.dialog.$el.close();
-      // this.resetEmotions();
+      this.selectedModelId = null;
+      this.$refs?.dialog?.close();
     },
-    // isSelected(event) {
-    //   return event ? this.selectedEvent.instance === event.instance : false;
-    // },
-    // isInstalled(event) {
-    //   return event
-    //     ? _.includes(this.installedInstances, event.instance)
-    //     : false;
-    // },
-    // isInstalledDeselected(event) {
-    //   return this.isInstalled(event) && !this.isSelected(event);
-    // },
-    // select(event) {
-    //   if (this.selectedEvent !== event) {
-    //     this.selectedEvent = event;
-    //   } else {
-    //     this.deselect();
-    //   }
-    // },
-    // deselect() {
-    //   this.selectedEvent = false;
-    // },
-    // highlight(event) {
-    //   this.highlightedEvent = event;
-    // },
-    // lowlight() {
-    //   this.highlightedEvent = false;
-    // },
-    // cancel() {
-    //   this.$emit("close");
-    //   this.deselect();
-    //   this.lowlight();
-    // },
-    // confirm() {
-    //   // this.setInteraction({
-    //   //   interaction: 'slot',
-    //   //   label: this.label,
-    //   //   ability: this.getAbility(this.label),
-    //   //   instance: this.selectedEvent.instance,
-    //   // });
-
-    //   this.$emit("select", this.selectedEvent.instance);
-    //   this.cancel();
-    // },
-    // tweakEmotions(emotions) {
-    //   return _.mapValues(emotions, function (emotion) {
-    //     return emotion === 0 ? 0.1 : emotion;
-    //   });
-    // },
-  },
-  watch: {
-    dialogRef(dialog) {
-      dialog.$el.showModal();
+    select(id) {
+      this.selectedModelId = id;
     },
+    install() {
+      console.log(this.selectedModelId);
+      this.installingModel(this.selectedModelId);
+      this.cancelDialog();
+    },
+    ...mapActions({
+      installingModel: "inventory/installingModel",
+    }),
   },
 };
 </script>
@@ -191,89 +72,40 @@ export default {
     @click="showDialog()"
   />
 
-  <teleport to="#app" v-if="dialog">
-    <util-dialog :ref="setDialogRef" tag="dialog" v-if="dialog" v-bem:dialog>
-      <template v-slot:title>
-        {{ $t("Install a {title} model", { title }) }}
-      </template>
-    </util-dialog>
-  </teleport>
-  <!-- <span
-      class="button text-lg uppercase font-bold px-4 py-2 text-navy bg-light"
-    >
-      <slot name="installToggle">
-        {{ $t("Installing") }}
-      </slot>
-    </span>
-
-    <button
-      class="button uppercase bg-sky px-4 py-2 mb-4 font-bold text-light"
-      :disabled="!submittable"
-      :class="{ 'opacity-10': !submittable }"
-      @click="confirm()"
-    >
-      <slot name="confirm">
-        {{ $t("Install") }}
-      </slot>
-    </button>
-
-    <button
-      class="button uppercase bg-blue px-4 py-2 font-bold text-light"
-      @click="cancel()"
-    >
-      <slot name="cancel">
-        {{ $t("Cancel") }}
-      </slot>
-    </button>
-
-    <template v-slot:buttons>
-      <button
-        v-for="event in events"
-        class="m-1 outline-none"
-        :class="{ 'opacity-75': isInstalled(event) }"
-        :key="event.label"
-        @click="select(event)"
-        @mouseover="highlight(event)"
-        @mouseout="lowlight()"
-      >
-        <emotion-diagram
-          class="w-24 h-24"
-          :values="event.emotions"
-          :color="isInstalledDeselected(event) ? 'sky' : 'light'"
-          :class="{ 'border border-light': isSelected(event) }"
+  <util-dialog ref="dialog">
+    <template v-slot:title>
+      {{ $t("Select a {title} model to install", { title }) }}
+    </template>
+    <template v-slot:default>
+      <div v-bem:models>
+        <button
+          v-bem:modelsTrigger="{ highlight: selectedModelId == m }"
+          v-for="(model, m) in models"
+          @click="select(m)"
+          :key="m"
         >
-          <div
-            class="w-full h-full flex items-center justify-center rounded-full z-30 relative"
-            :class="[
-              isSelected(event)
-                ? 'bg-light-25'
-                : isInstalled(event)
-                ? 'bg-sky bg-opacity-25'
-                : '',
-            ]"
-          >
-            <span
-              class="uppercase text-xs font-bold text-light p-1"
-              :class="[
-                isSelected(event)
-                  ? 'text-navy'
-                  : isInstalled(event)
-                  ? 'text-light'
-                  : '',
-              ]"
-            >
-              {{
-                isInstalledDeselected(event)
-                  ? $t("Installed")
-                  : isSelected(event)
-                  ? $t("Selected")
-                  : ""
-              }}
-            </span>
-          </div>
-        </emotion-diagram>
-      </button>
-    </template> -->
+          <emotion-diagram
+            v-bem:modelsEmotions
+            :values="model.feelings"
+            :scale="2"
+          />
+        </button>
+      </div>
+
+      <div v-bem:actions>
+        <button
+          v-bem:actionsButton.confirm="{ valid }"
+          @click="install"
+          :disabled="!selectedModelId"
+        >
+          {{ $t("Proceed") }}
+        </button>
+        <button v-bem:actionsButton.cancel @click="cancelDialog">
+          {{ $t("Cancel") }}
+        </button>
+      </div>
+    </template>
+  </util-dialog>
 </template>
 
 <style lang="scss">
@@ -290,6 +122,57 @@ export default {
     }
 
     @include icons("::before", data);
+
+    &--installing {
+      @apply bg-opacity-50;
+
+      &::before {
+        @apply mask-loading;
+        @apply animate-spin;
+        animation-direction: reverse;
+      }
+    }
+  }
+
+  &__models {
+    @apply flex flex-wrap justify-between;
+    @apply self-center;
+    @apply w-full;
+
+    &-trigger {
+      @apply p-2;
+      @apply border border-transparent;
+
+      &--highlight {
+        @apply border-light;
+        @apply bg-sky bg-opacity-10;
+        @apply rounded-full;
+      }
+    }
+
+    &-emotions {
+      @apply w-32 h-32;
+      @apply m-4;
+    }
+  }
+
+  &__actions {
+    @apply flex flex-row-reverse;
+    @apply self-end;
+    @apply mt-8;
+
+    &-button {
+      @apply button;
+
+      &--confirm {
+        @apply button-lg button-confirm;
+        @apply ml-2;
+      }
+
+      &--cancel {
+        @apply button-cancel;
+      }
+    }
   }
 }
 </style>

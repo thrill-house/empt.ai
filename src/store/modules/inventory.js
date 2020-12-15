@@ -32,19 +32,57 @@ export default {
 
     // Sources
     sources: {},
+
+    // Install
+    installing: {
+      gameId: null,
+      modelId: null,
+      sourceId: null,
+      abilityId: null,
+      socketId: null,
+      slotId: null,
+      slotIndex: null,
+    },
   }),
   getters: {
+    /*
+     ** Get All
+     */
+
     // Get all abilities
     abilities: (state) => state.abilities,
 
     // Get all models
     models: (state) => state.models,
 
+    // Get all sockets
+    sockets: (state) => state.sockets,
+
+    // Get all sources
+    sources: (state) => state.sources,
+
+    /*
+     ** Get All
+     */
+
     // Get one ability
     ability: (state) => (id) => state.abilities?.[id],
 
     // Get one model
     model: (state) => (id) => state.models?.[id],
+
+    // Get one socket
+    socket: (state) => (id) => state.sockets?.[id],
+
+    // Get one source
+    source: (state) => (id) => state.sources?.[id],
+
+    // Get install
+    installing: (state) => state.installing,
+
+    /*
+     ** Model & Ability helpers
+     */
 
     // Get ability for model
     modelAbility: (state, getters) => (id) =>
@@ -107,6 +145,10 @@ export default {
 
     abilityDataCosts: (state, getters) => (id) =>
       getters.abilityCosts(id)?.data,
+
+    /*
+     ** Socket & Source helpers
+     */
   },
   mutations: {
     abilities: (state, payload) => {
@@ -121,12 +163,21 @@ export default {
     sources: (state, payload) => {
       state.sources = payload;
     },
+    installing: (state, payload) => {
+      console.log({ payload });
+      state.installing = payload;
+    },
   },
   actions: {
+    /*
+     ** Init action
+     */
     init: async ({ dispatch, rootGetters }) => {
       const game = rootGetters["game"];
 
       if (game) {
+        dispatch("resetInstalling");
+
         await dispatch("fetchAbilities");
         await dispatch("fetchModels");
         await dispatch("fetchSockets");
@@ -134,6 +185,66 @@ export default {
       }
     },
 
+    /*
+     ** Installation actions
+     */
+    resetInstalling: ({ commit, rootState }) => {
+      commit("installing", {
+        gameId: rootState.gameId,
+        modelId: null,
+        abilityId: null,
+        sourceId: null,
+        socketId: null,
+        eraId: null,
+        treeId: null,
+        slotId: null,
+        slotIndex: null,
+      });
+    },
+
+    installingModel: ({ commit, getters, state }, payload) => {
+      const model = getters.model(payload);
+      const ability = getters.modelAbility(payload);
+
+      console.log({ model: model.$id, ability: ability.$id });
+
+      if (model.$id && ability.$id) {
+        const newInstalling = {
+          ...state.install,
+          modelId: model.$id,
+          abilityId: ability.$id,
+        };
+
+        console.log({ newInstalling });
+
+        commit("installing", newInstalling);
+      }
+    },
+
+    installingSource: ({ commit, getters, state }, ...payload) => () => {
+      const [id = null, slotIndex = null, slotId = null] = payload;
+
+      const source = getters.source(id);
+      const socket = getters.sourceSocket(id);
+
+      if (source.$id && socket.$id && slotIndex) {
+        const newInstalling = {
+          ...state.install,
+          sourceId: source.$id,
+          socketId: socket.$id,
+          eraId: socket.eraId,
+          treeId: socket.treeId,
+          slotId,
+          slotIndex,
+        };
+
+        commit("installing", newInstalling);
+      }
+    },
+
+    /*
+     ** Fetching actions
+     */
     fetchAbilities: async ({ commit, dispatch, rootGetters }) => {
       await dispatch("App/Abilities/all", null, { root: true });
 

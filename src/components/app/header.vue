@@ -1,11 +1,12 @@
 
 <script>
 import EmotionProfile from "../emotion/profile";
+import GameInstalling from "../game/installing";
 import GameScore from "../game/score";
 
 export default {
   name: "app-header",
-  components: { EmotionProfile, GameScore },
+  components: { EmotionProfile, GameInstalling, GameScore },
 };
 </script>
 
@@ -13,6 +14,7 @@ export default {
   <header v-bem>
     <emotion-profile />
     <game-score />
+    <game-installing />
   </header>
 </template>
 
