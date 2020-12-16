@@ -27,6 +27,8 @@ export default {
 </template>
 
 <style lang="scss">
+@import "styles/helper";
+
 .app {
   @apply relative;
   @apply min-h-screen min-w-full;

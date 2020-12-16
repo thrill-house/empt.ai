@@ -32,6 +32,8 @@ export default {
 </template>
 
 <style lang="scss">
+@import "../../styles/helper";
+
 .game-score {
   @apply flex flex-col flex-wrap items-center;
   @apply h-40 w-96 py-4 mt-4;

@@ -112,52 +112,7 @@ module.exports = {
   // TODO: Remove this in place of doing it the TW 2.0 way: https://tailwindcss.com/docs/functions-and-directives#layer
   plugins: [
     function({ addComponents, theme }) {
-      // TODO: Move these into a css import
-      const clipUtilities = {
-        ".clip-corners": {
-          "clip-path":
-            "polygon(0.333rem 0%, calc(100% - 0.333rem) 0%, 100% 0.333rem, 100% calc(100% - 0.333rem), calc(100% - 0.333rem) 100%, 0.333rem 100%, 0% calc(100% - 0.333rem), 0% 0.333rem)",
-        },
-        ".clip-2-corners": {
-          "clip-path":
-            "polygon(0.666rem 0%, 100% 0%, 100% calc(100% - 0.666rem), calc(100% - 0.666rem) 100%, 0% 100%, 0% 0.666rem)",
-        },
-        ".clip-hexagon": {
-          "clip-path":
-            "polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%)",
-        },
-        ".clip-parallelogram": {
-          "clip-path":
-            "polygon(calc(100% - 1.5rem) 0, 100% 1.5rem, 100% 100%, 40% 100%, 0 0)",
-        },
-        ".clip-1-corner": {
-          "clip-path": "polygon(0 0%, 75% 0%, 100% 100%, 0 100%)",
-        },
-      };
-
-      // TODO: Move these into a css import
-      const backgroundUtilities = {
-        ".bg-dots": {
-          "background-image": "var(--dots-x), var(--dots-y)",
-          "background-position": "center center",
-          "background-size": "2px 2px",
-        },
-        ".bg-tile": {
-          "background-image": `var(--image-tile), radial-gradient(circle at 50% 100%, var(--tw-gradient-stops))`,
-          "background-position": "left top, center top",
-          "background-repeat": "repeat, no-repeat",
-          "background-size": "auto, cover",
-          "background-attachment": "fixed, fixed",
-        },
-        ".bg-grout": {
-          "--grout": `linear-gradient(var(--grout-color) 0%, var(--grout-color) 100%)`,
-          "background-image": `var(--grout), var(--image-tile), radial-gradient(circle at 50% 100%, var(--tw-gradient-stops))`,
-          "background-position": "left top, left top, center top",
-          "background-repeat": "repeat, repeat, no-repeat",
-          "background-size": "auto, auto, cover",
-          "background-attachment": "fixed, fixed, fixed",
-        },
-      };
+      const backgroundUtilities = {};
 
       // TODO: Move these into a css import — NEED TO BE TW COMPONENTS BECAUSE OF SPECIFICITY ISSUES
       Object.keys(theme("colors")).forEach((color) => {
@@ -231,7 +186,7 @@ module.exports = {
         return result;
       }, {});
 
-      addComponents([clipUtilities, backgroundUtilities, maskUtilities], {
+      addComponents([backgroundUtilities, maskUtilities], {
         variants: ["responsive"],
       });
     },

@@ -38,6 +38,8 @@ export default {
 </template>
 
 <style lang="scss">
+@import "../../styles/helper";
+
 .emotion-profile {
   @apply relative block;
   @apply bg-tile;

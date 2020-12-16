@@ -88,8 +88,7 @@ export default {
 </template>
 
 <style lang="scss">
-@import "../../styles/components";
-@import "../../styles/mixins";
+@import "../../styles/helper";
 
 .game-settings {
   @apply w-full p-6;

@@ -56,8 +56,7 @@ export default {
 </template>
 
 <style lang="scss">
-@import "../../styles/components";
-@import "../../styles/mixins";
+@import "../../styles/helper";
 
 .game-installing {
   @apply relative;

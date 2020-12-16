@@ -227,8 +227,7 @@ export default {
 </template>
 
 <style lang="scss">
-@import "../../styles/components";
-@import "../../styles/mixins";
+@import "../../styles/helper";
 
 .ability-research {
   &__trigger {

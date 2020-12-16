@@ -31,6 +31,8 @@ export default {
 </template>
 
 <style lang="scss">
+@import "../../styles/helper";
+
 .util-dialog {
   @apply fixed inset-0;
   @apply w-192;
