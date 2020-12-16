@@ -157,7 +157,7 @@ export default {
   }
 
   &__models {
-    @apply flex flex-wrap justify-between;
+    @apply flex flex-wrap justify-evenly;
     @apply self-center;
     @apply w-full;
 
