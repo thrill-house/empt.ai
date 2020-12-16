@@ -1,17 +1,6 @@
 <script>
 import { mapState, mapGetters, mapActions } from "vuex";
-import {
-  add,
-  capitalize,
-  clamp,
-  mapValues,
-  max,
-  merge,
-  mergeWith,
-  reduce,
-  sum,
-  values,
-} from "lodash-es";
+import { clamp, mapValues, max, reduce, sum, values } from "lodash-es";
 
 import EmotionDiagram from "../emotion/diagram";
 import UtilDialog from "../util/dialog";
@@ -26,20 +15,20 @@ export default {
   data: () => ({
     loading: false,
     emotions: {
-      happiness: 0,
-      sadness: 0,
-      tenderness: 0,
-      anger: 0,
-      excitement: 0,
-      fear: 0,
+      Happiness: 0,
+      Sadness: 0,
+      Tenderness: 0,
+      Anger: 0,
+      Excitement: 0,
+      Fear: 0,
     },
     complements: {
-      happiness: "sadness",
-      sadness: "happiness",
-      tenderness: "anger",
-      anger: "tenderness",
-      excitement: "fear",
-      fear: "excitement",
+      Happiness: "Sadness",
+      Sadness: "Happiness",
+      Tenderness: "Anger",
+      Anger: "Tenderness",
+      Excitement: "Fear",
+      Fear: "Excitement",
     },
     requiredEmotions: 4,
   }),
@@ -59,38 +48,30 @@ export default {
     maximums() {
       return this.getMaxEmotions(this.emotions);
     },
-    emotionProfile() {
-      return this.feelings;
-    },
-    emotionalPreview() {
-      return mergeWith(
-        { color: "sky" },
-        this.emotionProfile,
+    feelings() {
+      return reduce(
         this.emotions,
-        add
+        (accum, emotion, label) => {
+          if (emotion > 0) {
+            accum.push({
+              emotionId: this.getEmotionByTitle(label)?.$id,
+              value: emotion,
+            });
+          }
+
+          return accum;
+        },
+        []
       );
-    },
-    emotionValues() {
-      return [
-        this.emotionalPreview,
-        merge({ color: "light" }, this.emotionProfile),
-      ];
     },
     affordability() {
-      return clamp(
-        (this.scores.confidence / this.costs.confidence) * 100,
-        0,
-        100
-      );
+      return clamp((this.scores.confidence / this.researchCost) * 100, 0, 100);
     },
     affordable() {
       return this.affordability === 100;
     },
-    costs() {
-      return this.getAbilityConfidenceCosts(this.id);
-    },
     scores() {
-      return { data: 0, confidence: 0 };
+      return { data: 999999, confidence: 999999 };
     },
     submittable() {
       return this.affordable && this.enoughEmotions;
@@ -98,7 +79,6 @@ export default {
     ...mapState(["gameId"]),
     ...mapGetters({
       getAbilityConfidenceCosts: "inventory/abilityConfidenceCosts",
-      feelings: "score/feelings",
       getEmotionByTitle: "labels/emotionByTitle",
     }),
   },
@@ -116,20 +96,7 @@ export default {
       const payload = {
         gameId: this.gameId,
         abilityId: this.id,
-        feelings: reduce(
-          this.emotions,
-          (accum, emotion, label) => {
-            if (emotion > 0) {
-              accum.push({
-                emotionId: this.getEmotionByTitle(capitalize(label))?.$id,
-                value: emotion,
-              });
-            }
-
-            return accum;
-          },
-          []
-        ),
+        feelings: this.feelings,
       };
 
       this.cancelDialog();
@@ -199,7 +166,6 @@ export default {
     isEmotionValue(emotion) {
       return this.isEmotionDecrementable(emotion);
     },
-    //   ...mapActions(["addAbilityEvent"]),
     ...mapActions({
       researchModel: "Game/Models/create",
     }),
@@ -222,7 +188,7 @@ export default {
     </template>
     <template v-slot:default>
       <div v-bem:emotions>
-        <emotion-diagram v-bem:emotionsModel :sets="emotions" :scale="2">
+        <emotion-diagram v-bem:emotionsModel :sets="feelings" :scale="2">
           <template
             v-for="(value, emotion) in emotions"
             v-slot:[emotion]

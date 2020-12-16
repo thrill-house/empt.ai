@@ -1,22 +1,3 @@
-<docs>
-### Emotion values
-Displays the provided values within an emotion diagram. 
-
-##### Properties
-- `color` — Color of the emotion values. Default light.
-- `scale` — Scale of the values provided. Default calculated based on values provided.
-- `values` — An object or array of objects of emotion values.
-
-##### Instantiation
-```
-<emotion-values
-  color.string="light"
-  scale.number="10"
-  values.object="{object}"
-></emotion-values>
-```
-</docs>
-
 <script>
 import { mapGetters } from "vuex";
 import { every, has, keyBy, map, max, partial, reduce } from "lodash-es";

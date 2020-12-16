@@ -1,24 +1,3 @@
-<docs>
-### Emotion diagram
-Displays the a diagram of emotions, given a single or set of value sets 
-
-##### Properties
-- `labels` — Boolean, if labels should be displayed for emotions. Default true.
-- `color` — Color of the emotion values. Default light.
-- `scale` — Scale of the values provided. Default calculated based on values provided.
-- `values` — An object or array of objects of emotion values.
-
-##### Instantiation
-```html
-<emotion-diagram
-  labels.boolean="true"
-  color.string="light"
-  scale.number="10"
-  values.object="{object}" OR values.array="[{object},...]"
->Optional label</emotion-diagram>
-```
-</docs>
-
 <script>
 import {
   each,
@@ -93,45 +72,39 @@ export default {
     },
     axisPositions() {
       return {
-        excitement: this.calculateRatio(this.maxScale, 30),
-        happiness: this.calculateRatio(this.maxScale, 90),
-        tenderness: this.calculateRatio(this.maxScale, 150),
-        fear: this.calculateRatio(this.maxScale, 210),
-        sadness: this.calculateRatio(this.maxScale, 270),
-        anger: this.calculateRatio(this.maxScale, 330),
+        Excitement: this.calculateRatio(this.maxScale, 30),
+        Happiness: this.calculateRatio(this.maxScale, 90),
+        Tenderness: this.calculateRatio(this.maxScale, 150),
+        Fear: this.calculateRatio(this.maxScale, 210),
+        Sadness: this.calculateRatio(this.maxScale, 270),
+        Anger: this.calculateRatio(this.maxScale, 330),
       };
     },
     axes() {
-      const happinessSadness = this.createPairs(
-        pick(this.axisPositions, ["happiness", "sadness"])
+      const HappinessSadness = this.createPairs(
+        pick(this.axisPositions, ["Happiness", "Sadness"])
       );
-      const excitementFear = this.createPairs(
-        pick(this.axisPositions, ["excitement", "fear"])
+      const ExcitementFear = this.createPairs(
+        pick(this.axisPositions, ["Excitement", "Fear"])
       );
-      const tendernessAnger = this.createPairs(
-        pick(this.axisPositions, ["tenderness", "anger"])
+      const TendernessAnger = this.createPairs(
+        pick(this.axisPositions, ["Tenderness", "Anger"])
       );
 
-      return { ...happinessSadness, ...excitementFear, ...tendernessAnger };
+      return { ...HappinessSadness, ...ExcitementFear, ...TendernessAnger };
     },
-    showLabels() {
-      return true;
-      // return false;
-      // return this.getLabelsEnabled() && !this.labels;
-    },
-    // ...mapGetters(["getLabelsEnabled"]),
   },
   methods: {
     calculateRatio(emotion, degree) {
-      let degreeUnit = degree * (Math.PI / 180),
-        circleSin = Math.sin(degreeUnit),
-        circleCos = Math.cos(degreeUnit),
-        maxRatio = this.maxScale > 0 ? this.max / this.maxScale : 0,
-        emotionRatio = emotion > 0 ? emotion / this.max : 0,
-        axisX = 50 * circleSin,
-        axisY = 50 * circleCos,
-        x = axisX * maxRatio * emotionRatio + 50,
-        y = axisY * maxRatio * emotionRatio + 50;
+      const degreeUnit = degree * (Math.PI / 180);
+      const circleSin = Math.sin(degreeUnit);
+      const circleCos = Math.cos(degreeUnit);
+      const maxRatio = this.maxScale > 0 ? this.max / this.maxScale : 0;
+      const emotionRatio = emotion > 0 ? emotion / this.max : 0;
+      const axisX = 50 * circleSin;
+      const axisY = 50 * circleCos;
+      const x = axisX * maxRatio * emotionRatio + 50;
+      const y = axisY * maxRatio * emotionRatio + 50;
 
       return {
         x: x,
@@ -140,12 +113,12 @@ export default {
       };
     },
     createPairs(positions) {
-      let paired = transform(
+      const paired = transform(
         positions,
         function (result, value, position) {
           each(positions, function (val, pos) {
             if (position !== pos) {
-              let label = join([position, pos].sort(), "-");
+              const label = join([position, pos].sort(), "-");
               if (!result[label]) {
                 result[label] = { from: value, to: val };
               }
@@ -180,9 +153,6 @@ export default {
         coordinatesJoin
       );
     },
-    label(label) {
-      return this.labels ? (this.showLabels ? label : "🤔") : "";
-    },
   },
 };
 </script>
@@ -207,6 +177,7 @@ export default {
         v-for="(value, axisPosition) in axisPositions"
         v-bem:label="{
           [axisPosition]: true,
+          Emotionless: false, // TODO: determine if label is shown based on corresponding ability
           top: value.y < 33,
           left: value.x < 33,
           bottom: value.y > 66,
@@ -214,7 +185,7 @@ export default {
         }"
         :key="axisPosition"
         :style="{ left: value.x + '%', top: value.y + '%' }"
-        :title="label(axisPosition)"
+        :title="$t(axisPosition)"
       >
         <slot :name="axisPosition" />
       </label>
@@ -286,26 +257,34 @@ export default {
 
     @include icons(
       "::before",
-      happiness,
-      sadness,
-      tenderness,
-      anger,
-      excitement,
-      fear
+      Happiness,
+      Sadness,
+      Tenderness,
+      Anger,
+      Excitement,
+      Fear,
+      Emotionless
     );
+
+    &--Emotionless {
+      &::before {
+        @apply bg-opacity-50;
+        // @apply animate-pulse;
+      }
+    }
 
     &--left {
       @apply -translate-x-full;
 
       &::before {
-        @apply ml-1;
+        @apply mx-1;
         @apply order-last;
       }
     }
 
     &--right {
       &::before {
-        @apply mr-1;
+        @apply mx-1;
         @apply order-first;
       }
     }

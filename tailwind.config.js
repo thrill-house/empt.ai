@@ -206,6 +206,7 @@ module.exports = {
         "fear",
         "tenderness",
         "anger",
+        "emotionless",
 
         // Nav
         "inventory",
