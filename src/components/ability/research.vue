@@ -222,7 +222,7 @@ export default {
     </template>
     <template v-slot:default>
       <div v-bem:emotions>
-        <emotion-diagram v-bem:emotionsModel :values="emotions" :scale="2">
+        <emotion-diagram v-bem:emotionsModel :sets="emotions" :scale="2">
           <template
             v-for="(value, emotion) in emotions"
             v-slot:[emotion]
@@ -239,7 +239,7 @@ export default {
 
         <!-- <emotion-diagram
           v-bem:emotionsPreview
-          :values="emotionValues"
+          :sets="emotionValues"
           :labels="false"
         /> -->
       </div>

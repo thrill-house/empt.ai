@@ -18,31 +18,18 @@ Displays the provided values within an emotion diagram.
 </docs>
 
 <script>
-// TODO: Refactor
-import _ from "lodash-es";
-
-// import { mapState, mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
+import { every, has, keyBy, map, max, partial, reduce } from "lodash-es";
 
 export default {
   name: "emotion-values",
-
   props: {
-    emotions: {
-      type: Object,
-      validator(value) {
-        return _.every(
-          ["happiness", "sadness", "excitement", "fear", "tenderness", "anger"],
-          _.partial(_.has, value)
-        );
+    values: {
+      type: Array,
+      validator(values) {
+        return every(["emotionId", "value"], partial(has, values));
       },
-      default: () => ({
-        happiness: 1,
-        sadness: 1,
-        excitement: 1,
-        fear: 1,
-        tenderness: 1,
-        anger: 1,
-      }),
+      default: () => [],
     },
     color: {
       type: String,
@@ -50,22 +37,41 @@ export default {
     },
     scale: Number,
   },
+  inject: [
+    "calculateRatio",
+    "createPairs",
+    "createCoordinates",
+    "joinCoordinates",
+  ],
   computed: {
     max() {
-      return _.max(_.filter(_.values(this.emotions), _.isFinite));
+      console.log({ v: map(this.values, "value") });
+      return max(map(this.values, "value"));
     },
     maxScale() {
       return this.scale || this.max;
     },
     positions() {
-      let emotions = this.emotions;
+      const values = keyBy(this.values, "emotionId");
+      const normalized = reduce(
+        this.emotions,
+        (accum, emotion, e) => {
+          if (values[e] !== undefined) {
+            accum[emotion.title] = values[e].value;
+          }
+
+          return accum;
+        },
+        {}
+      );
+
       return {
-        excitement: this.calculateRatio(emotions.excitement, 30),
-        happiness: this.calculateRatio(emotions.happiness, 90),
-        tenderness: this.calculateRatio(emotions.tenderness, 150),
-        fear: this.calculateRatio(emotions.fear, 210),
-        sadness: this.calculateRatio(emotions.sadness, 270),
-        anger: this.calculateRatio(emotions.anger, 330),
+        excitement: this.calculateRatio(normalized.Excitement || 0.1, 30),
+        happiness: this.calculateRatio(normalized.Happiness || 0.1, 90),
+        tenderness: this.calculateRatio(normalized.Tenderness || 0.1, 150),
+        fear: this.calculateRatio(normalized.Fear || 0.1, 210),
+        sadness: this.calculateRatio(normalized.Sadness || 0.1, 270),
+        anger: this.calculateRatio(normalized.Anger || 0.1, 330),
       };
     },
     pairs() {
@@ -77,66 +83,9 @@ export default {
     coordinatesPoints() {
       return this.joinCoordinates(this.coordinates);
     },
-  },
-  methods: {
-    calculateRatio(emotion, degree) {
-      let degreeUnit = degree * (Math.PI / 180),
-        circleSin = Math.sin(degreeUnit),
-        circleCos = Math.cos(degreeUnit),
-        maxRatio = this.maxScale > 0 ? this.max / this.maxScale : 0,
-        emotionRatio = emotion > 0 ? emotion / this.max : 0,
-        axisX = 50 * circleSin,
-        axisY = 50 * circleCos,
-        x = axisX * maxRatio * emotionRatio + 50,
-        y = axisY * maxRatio * emotionRatio + 50;
-
-      return {
-        x: x,
-        y: y,
-        ratio: emotionRatio,
-      };
-    },
-    createPairs(positions) {
-      let paired = _.transform(
-        positions,
-        function (result, value, position) {
-          _.each(positions, function (val, pos) {
-            if (position !== pos) {
-              let label = _.join([position, pos].sort(), "-");
-              if (!result[label]) {
-                result[label] = { from: value, to: val };
-              }
-            }
-          });
-        },
-        {}
-      );
-
-      return paired;
-    },
-    createCoordinates(positions, x = "x", y = "y") {
-      return _.map(positions, function (value) {
-        return [value[x], value[y]];
-      });
-    },
-    joinCoordinates(
-      coordinates,
-      postFix = "",
-      pointsJoin = ",",
-      coordinatesJoin = " "
-    ) {
-      return _.join(
-        _.map(coordinates, function (value) {
-          return _.join(
-            _.map(value, function (val) {
-              return val + postFix;
-            }),
-            pointsJoin
-          );
-        }),
-        coordinatesJoin
-      );
-    },
+    ...mapGetters({
+      emotions: "labels/emotions",
+    }),
   },
 };
 </script>

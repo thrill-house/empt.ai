@@ -33,7 +33,7 @@ export default {
 
 <template>
   <div v-bem @mouseover="labels = true" @mouseout="labels = false">
-    <emotion-diagram v-bem:diagram :labels="labels" :values="feelings" />
+    <emotion-diagram v-bem:diagram :labels="labels" :sets="feelings" />
   </div>
 </template>
 

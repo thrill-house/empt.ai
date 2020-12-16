@@ -20,8 +20,19 @@ Displays the a diagram of emotions, given a single or set of value sets
 </docs>
 
 <script>
-// TODO: Refactor
-import _ from "lodash-es";
+import {
+  each,
+  every,
+  has,
+  head,
+  join,
+  map,
+  max,
+  partial,
+  pick,
+  isArray,
+  transform,
+} from "lodash-es";
 
 import EmotionValues from "./values";
 
@@ -32,28 +43,22 @@ export default {
     EmotionValues,
   },
   props: {
-    values: {
-      type: [Object, Array],
-      validator(value) {
-        let valuesArray = !_.isArray(value) ? [value] : value,
-          required = [
-            "happiness",
-            "sadness",
-            "excitement",
-            "fear",
-            "tenderness",
-            "anger",
-          ],
+    sets: {
+      type: Array,
+      validator(sets) {
+        let allSets = !isArray(sets[0]) ? [sets] : sets,
+          required = ["emotionId", "value"],
           valid = true;
 
-        _.each(valuesArray, function (values) {
-          if (!_.every(required, _.partial(_.has, values))) {
+        each(allSets, function (set) {
+          if (!every(required, partial(has, set))) {
             return (valid = false);
           }
         });
 
         return valid;
       },
+      default: () => [[]],
     },
     scale: Number,
     color: {
@@ -65,42 +70,49 @@ export default {
       default: true,
     },
   },
+  provide() {
+    return {
+      calculateRatio: this.calculateRatio,
+      createPairs: this.createPairs,
+      createCoordinates: this.createCoordinates,
+      joinCoordinates: this.joinCoordinates,
+    };
+  },
   computed: {
-    valuesList() {
-      return !_.isArray(this.values) ? [this.values] : this.values;
+    setsList() {
+      return has(head(this.sets), "emotionId") ? [this.sets] : this.sets;
     },
-    allMax() {
-      return _.map(this.valuesList, function (values) {
-        return _.max(_.filter(_.values(values), _.isFinite));
-      });
+    maxAll() {
+      return map(this.setsList, (set) => max(map(set, "value")));
     },
     max() {
-      return _.max(this.allMax) || 1;
+      return max(this.maxAll) || 1;
     },
     maxScale() {
       return this.scale || this.max || 1;
     },
     axisPositions() {
       return {
-        happiness: this.calculateRatio(this.maxScale, 90),
-        sadness: this.calculateRatio(this.maxScale, 270),
-        tenderness: this.calculateRatio(this.maxScale, 150),
-        anger: this.calculateRatio(this.maxScale, 330),
         excitement: this.calculateRatio(this.maxScale, 30),
+        happiness: this.calculateRatio(this.maxScale, 90),
+        tenderness: this.calculateRatio(this.maxScale, 150),
         fear: this.calculateRatio(this.maxScale, 210),
+        sadness: this.calculateRatio(this.maxScale, 270),
+        anger: this.calculateRatio(this.maxScale, 330),
       };
     },
     axes() {
-      let happinessSadness = this.createPairs(
-          _.pick(this.axisPositions, ["happiness", "sadness"])
-        ),
-        excitementFear = this.createPairs(
-          _.pick(this.axisPositions, ["excitement", "fear"])
-        ),
-        tendernessAnger = this.createPairs(
-          _.pick(this.axisPositions, ["tenderness", "anger"])
-        );
-      return _.merge({}, happinessSadness, excitementFear, tendernessAnger);
+      const happinessSadness = this.createPairs(
+        pick(this.axisPositions, ["happiness", "sadness"])
+      );
+      const excitementFear = this.createPairs(
+        pick(this.axisPositions, ["excitement", "fear"])
+      );
+      const tendernessAnger = this.createPairs(
+        pick(this.axisPositions, ["tenderness", "anger"])
+      );
+
+      return { ...happinessSadness, ...excitementFear, ...tendernessAnger };
     },
     showLabels() {
       return true;
@@ -128,12 +140,12 @@ export default {
       };
     },
     createPairs(positions) {
-      let paired = _.transform(
+      let paired = transform(
         positions,
         function (result, value, position) {
-          _.each(positions, function (val, pos) {
+          each(positions, function (val, pos) {
             if (position !== pos) {
-              let label = _.join([position, pos].sort(), "-");
+              let label = join([position, pos].sort(), "-");
               if (!result[label]) {
                 result[label] = { from: value, to: val };
               }
@@ -146,7 +158,7 @@ export default {
       return paired;
     },
     createCoordinates(positions, x = "x", y = "y") {
-      return _.map(positions, function (value) {
+      return map(positions, function (value) {
         return [value[x], value[y]];
       });
     },
@@ -156,10 +168,10 @@ export default {
       pointsJoin = ",",
       coordinatesJoin = " "
     ) {
-      return _.join(
-        _.map(coordinates, function (value) {
-          return _.join(
-            _.map(value, function (val) {
+      return join(
+        map(coordinates, function (value) {
+          return join(
+            map(value, function (val) {
               return val + postFix;
             }),
             pointsJoin
@@ -208,10 +220,10 @@ export default {
       </label>
     </template>
     <emotion-values
-      v-for="(value, index) in valuesList"
+      v-for="(values, index) in setsList"
       :key="index"
-      :emotions="value"
-      :color="value.color || color"
+      :values="values"
+      :color="color"
       :scale="maxScale"
       v-bem:values
     />

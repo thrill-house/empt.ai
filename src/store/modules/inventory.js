@@ -164,7 +164,6 @@ export default {
       state.sources = payload;
     },
     installing: (state, payload) => {
-      console.log({ payload });
       state.installing = payload;
     },
   },
@@ -206,16 +205,12 @@ export default {
       const model = getters.model(payload);
       const ability = getters.modelAbility(payload);
 
-      console.log({ model: model.$id, ability: ability.$id });
-
       if (model.$id && ability.$id) {
         const newInstalling = {
           ...state.install,
           modelId: model.$id,
           abilityId: ability.$id,
         };
-
-        console.log({ newInstalling });
 
         commit("installing", newInstalling);
       }

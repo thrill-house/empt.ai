@@ -141,14 +141,32 @@ export default {
     // Feelings
     feelings: () =>
       // TODO: Complicated feelings calculation based on currently slotted models
-      ({
-        happiness: random(1, 7),
-        sadness: random(1, 7),
-        tenderness: random(1, 7),
-        anger: random(1, 7),
-        excitement: random(1, 7),
-        fear: random(1, 7),
-      }),
+      [
+        {
+          emotionId: "EVF3dZiWT3rTxRaBtU3vRFLag3rAancwwdTRHhYGnJ2f",
+          value: random(1, 7),
+        },
+        {
+          emotionId: "6qQiDQCYTEqczRz3ainM3Hhseu2i74pCz3oNXoJJUxoN",
+          value: random(1, 7),
+        },
+        {
+          emotionId: "8GX1JRx2sDAxd2jue2uN1h3U7DKemASh1YVZK3JwG67w",
+          value: random(1, 7),
+        },
+        {
+          emotionId: "9sJaEiULGtExcH4Swd4Tb9UTwaHJsKTisfYfYU6uyLLu",
+          value: random(1, 7),
+        },
+        {
+          emotionId: "3qYuKNz8XmLGWybTRT8bDvD86G3pVdLPTQAaYkEUZWPz",
+          value: random(1, 7),
+        },
+        {
+          emotionId: "5wDSrVEmQnVEF4EGyGd3qdeP7X8M9U5EtHhFDaUzFdgj",
+          value: random(1, 7),
+        },
+      ],
   },
   mutations: {
     interval: (state, payload) => {

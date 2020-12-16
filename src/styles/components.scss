@@ -11,6 +11,7 @@
 
     &:disabled {
       @apply bg-opacity-25;
+      @apply cursor-not-allowed;
     }
 
     &-icon::before {

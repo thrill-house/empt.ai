@@ -241,11 +241,7 @@ export default {
     </button>
 
     <template v-slot:emotions>
-      <emotion-diagram
-        class="w-64 h-64"
-        :values="emotionValues"
-        :labels="false"
-      >
+      <emotion-diagram class="w-64 h-64" :sets="emotionValues" :labels="false">
         <span
           v-for="(value, emotion) in emotions"
           class="inline-flex"
@@ -273,7 +269,7 @@ export default {
     <template v-slot:buttons>
       <emotion-diagram
         class="m-1 w-24 h-24 border border-light"
-        :values="emotions"
+        :sets="emotions"
         :scale="2"
       ></emotion-diagram>
     </template>

@@ -193,7 +193,7 @@ export default {
       >
         <emotion-diagram
           class="w-24 h-24"
-          :values="event.emotions"
+          :sets="event.emotions"
           :color="isInstalledDeselected(event) ? 'sky' : 'light'"
           :class="{ 'border border-light': isSelected(event) }"
         >

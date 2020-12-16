@@ -119,7 +119,7 @@ export default {
           <slot name="emotions">
             <emotion-diagram
               class="w-64 h-64"
-              :values="emotionValues"
+              :sets="emotionValues"
               :labels="false"
             ></emotion-diagram>
           </slot>

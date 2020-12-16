@@ -43,7 +43,7 @@ export default {
     <i v-bem:badge="{ [title]: true }" />
     <emotion-diagram
       v-bem:emotions
-      :values="model.feelings"
+      :sets="model.feelings"
       :scale="2"
       :labels="false"
     />

@@ -98,7 +98,7 @@ export default {
         >
           <emotion-diagram
             v-bem:modelsEmotions
-            :values="model.feelings"
+            :sets="model.feelings"
             :scale="2"
           />
         </button>
@@ -147,6 +147,7 @@ export default {
 
     &--installing {
       @apply animate-pulse;
+      @apply cursor-wait;
 
       &::before {
         @apply mask-installing;
