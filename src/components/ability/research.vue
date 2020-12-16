@@ -24,7 +24,7 @@ export default {
   },
   inject: ["id", "ability", "title"],
   data: () => ({
-    researching: false,
+    loading: false,
     emotions: {
       happiness: 0,
       sadness: 0,
@@ -111,7 +111,7 @@ export default {
       this.resetEmotions();
     },
     async research() {
-      this.researching = true;
+      this.loading = true;
 
       const payload = {
         gameId: this.gameId,
@@ -136,7 +136,7 @@ export default {
 
       await this.researchModel(payload);
 
-      this.researching = false;
+      this.loading = false;
     },
     adjust(emotion, amount) {
       let complement = this.getComplement(emotion);
@@ -210,10 +210,10 @@ export default {
 <template>
   <button
     v-bind="$attrs"
-    v-bem:trigger.confidence="{ researching }"
+    v-bem:trigger.confidence="{ loading }"
     v-format:confidence="researchCost"
-    :title="researching ? $t('Researching') : $t('Research')"
-    :disabled="researching"
+    :title="!loading ? $t('Research') : $t('Researching')"
+    :disabled="loading"
     @click="showDialog()"
   />
   <util-dialog ref="dialog">
@@ -275,7 +275,7 @@ export default {
 
     @include icons("::before", confidence);
 
-    &--researching {
+    &--loading {
       @apply bg-opacity-50;
 
       &::before {

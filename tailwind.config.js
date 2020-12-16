@@ -174,6 +174,7 @@ module.exports = {
       const maskUtilities = [
         // Util
         "loading",
+        "installing",
 
         // Values
         "base",

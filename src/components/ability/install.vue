@@ -15,10 +15,16 @@ export default {
   mixins: [hover],
   inject: ["id", "ability", "title"],
   data: () => ({
-    installing: false,
     selectedModelId: null,
   }),
   computed: {
+    loading() {
+      return false;
+    },
+    installing() {
+      return this.getInstalling?.abilityId === this.id;
+    },
+
     installCost() {
       return this.getAbilityDataCosts(this.id);
     },
@@ -38,6 +44,7 @@ export default {
       getAbilityDataCosts: "inventory/abilityDataCosts",
       getAbilityModels: "inventory/abilityModels",
       getModel: "inventory/model",
+      getInstalling: "inventory/installing",
     }),
   },
   methods: {
@@ -52,12 +59,12 @@ export default {
       this.selectedModelId = id;
     },
     install() {
-      console.log(this.selectedModelId);
       this.installingModel(this.selectedModelId);
       this.cancelDialog();
     },
     ...mapActions({
       installingModel: "inventory/installingModel",
+      installingReset: "inventory/installingReset",
     }),
   },
 };
@@ -66,10 +73,15 @@ export default {
 <template>
   <button
     v-bind="$attrs"
-    v-bem:trigger.data
+    v-bem:trigger.data="{ loading, installing }"
     v-format:data="installCost"
-    :title="`${$t('Install')} (${modelsAvailable}/${modelsTotal})`"
-    @click="showDialog()"
+    :title="
+      !installing
+        ? `${$t('Install')} (${modelsAvailable}/${modelsTotal})`
+        : $t('Installing')
+    "
+    :disabled="loading"
+    @click="!installing ? showDialog() : installingReset()"
   />
 
   <util-dialog ref="dialog">
@@ -123,13 +135,22 @@ export default {
 
     @include icons("::before", data);
 
-    &--installing {
+    &--loading {
       @apply bg-opacity-50;
 
       &::before {
         @apply mask-loading;
         @apply animate-spin;
         animation-direction: reverse;
+      }
+    }
+
+    &--installing {
+      @apply animate-pulse;
+
+      &::before {
+        @apply mask-installing;
+        @apply animate-bounce;
       }
     }
   }
