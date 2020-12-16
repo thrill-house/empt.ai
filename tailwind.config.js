@@ -1,5 +1,6 @@
 const withAlphaVariable = require("tailwindcss/lib/util/withAlphaVariable");
-
+const path = require("path");
+const glob = require("glob");
 const hexRatio = Math.sqrt(3 / 2);
 
 module.exports = {
@@ -111,12 +112,12 @@ module.exports = {
   },
   // TODO: Remove this in place of doing it the TW 2.0 way: https://tailwindcss.com/docs/functions-and-directives#layer
   plugins: [
-    function({ addComponents, theme }) {
-      const backgroundUtilities = {};
+    function({ addComponents, addBase, theme }) {
+      const backgroundComponents = {};
 
       // TODO: Move these into a css import — NEED TO BE TW COMPONENTS BECAUSE OF SPECIFICITY ISSUES
       Object.keys(theme("colors")).forEach((color) => {
-        backgroundUtilities[`.bg-grout-${color}`] = {
+        backgroundComponents[`.bg-grout-${color}`] = {
           ...withAlphaVariable.default({
             color: theme(`colors.${color}`),
             property: "--grout-color",
@@ -125,68 +126,27 @@ module.exports = {
         };
       });
 
-      // TODO: Move these into a css import
-      const maskUtilities = [
-        // Util
-        "loading",
-        "installing",
+      const imageBases = { ":root": {} };
+      const maskComponents = {};
 
-        // Values
-        "base",
-        "factor",
-        "data",
-        "confidence",
-        "bandwidth",
-        "influence",
+      glob.sync("src/assets/**/*.svg").forEach((file) => {
+        const image = path.basename(file, ".svg");
 
-        // Trees
-        "trees",
-        "neutral",
-        "science",
-        "economy",
-        "society",
-
-        // Eras
-        "eras",
-        "hobbyist",
-        "university",
-        "business",
-        "government",
-        "consciousness",
-
-        // Emotions
-        "happiness",
-        "sadness",
-        "excitement",
-        "fear",
-        "tenderness",
-        "anger",
-        "emotionless",
-
-        // Nav
-        "inventory",
-        "settings",
-
-        // Abilities
-        "empty",
-        "unknown",
-        "view",
-        "attributes",
-        "synergies",
-        "buzzie",
-        "gamebryo",
-      ].reduce((result, mask) => {
-        result[`.mask-${mask}`] = {
-          "mask-image": `var(--image-${mask})`,
+        imageBases[":root"][`--image-${image}`] = `url(${path.relative(
+          "./src/styles",
+          file
+        )})`;
+        maskComponents[`.mask-${image}`] = {
+          "mask-image": `var(--image-${image})`,
           "mask-size": "contain",
           "mask-repeat": "no-repeat",
           "mask-position": "center center",
         };
+      });
 
-        return result;
-      }, {});
+      addBase([imageBases]);
 
-      addComponents([backgroundUtilities, maskUtilities], {
+      addComponents([backgroundComponents, maskComponents], {
         variants: ["responsive"],
       });
     },
