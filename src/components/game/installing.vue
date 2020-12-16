@@ -28,7 +28,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      resetInstalling: "inventory/resetInstalling",
+      installingReset: "inventory/installingReset",
     }),
   },
 };
@@ -49,7 +49,7 @@ export default {
     />
     <button
       v-bem:cancel
-      @click="resetInstalling"
+      @click="installingReset"
       :title="$t(`Cancel installation`)"
     />
   </div>

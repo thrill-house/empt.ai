@@ -176,7 +176,7 @@ export default {
       const game = rootGetters["game"];
 
       if (game) {
-        dispatch("resetInstalling");
+        dispatch("installingReset");
 
         await dispatch("fetchAbilities");
         await dispatch("fetchModels");
@@ -188,7 +188,7 @@ export default {
     /*
      ** Installation actions
      */
-    resetInstalling: ({ commit, rootState }) => {
+    installingReset: ({ commit, rootState }) => {
       commit("installing", {
         gameId: rootState.gameId,
         modelId: null,
