@@ -32,17 +32,6 @@ export default {
 
     // Sources
     sources: {},
-
-    // Install
-    installing: {
-      gameId: null,
-      modelId: null,
-      sourceId: null,
-      abilityId: null,
-      socketId: null,
-      slotId: null,
-      slotIndex: null,
-    },
   }),
   getters: {
     /*
@@ -76,9 +65,6 @@ export default {
 
     // Get one source
     source: (state) => (id) => state.sources?.[id],
-
-    // Get install
-    installing: (state) => state.installing,
 
     /*
      ** Model & Ability helpers
@@ -170,9 +156,6 @@ export default {
     sources: (state, payload) => {
       state.sources = payload;
     },
-    installing: (state, payload) => {
-      state.installing = payload;
-    },
   },
   actions: {
     /*
@@ -182,65 +165,10 @@ export default {
       const game = rootGetters["game"];
 
       if (game) {
-        dispatch("installingReset");
-
         await dispatch("fetchAbilities");
         await dispatch("fetchModels");
         await dispatch("fetchSockets");
         await dispatch("fetchSources");
-      }
-    },
-
-    /*
-     ** Installation actions
-     */
-    installingReset: ({ commit, rootState }) => {
-      commit("installing", {
-        gameId: rootState.gameId,
-        modelId: null,
-        abilityId: null,
-        sourceId: null,
-        socketId: null,
-        eraId: null,
-        treeId: null,
-        slotId: null,
-        slotIndex: null,
-      });
-    },
-
-    installingModel: ({ commit, getters, state }, payload) => {
-      const model = getters.model(payload);
-      const ability = getters.modelAbility(payload);
-
-      if (model.$id && ability.$id) {
-        const newInstalling = {
-          ...state.install,
-          modelId: model.$id,
-          abilityId: ability.$id,
-        };
-
-        commit("installing", newInstalling);
-      }
-    },
-
-    installingSource: ({ commit, getters, state }, ...payload) => () => {
-      const [id = null, slotIndex = null, slotId = null] = payload;
-
-      const source = getters.source(id);
-      const socket = getters.sourceSocket(id);
-
-      if (source.$id && socket.$id && slotIndex) {
-        const newInstalling = {
-          ...state.install,
-          sourceId: source.$id,
-          socketId: socket.$id,
-          eraId: socket.eraId,
-          treeId: socket.treeId,
-          slotId,
-          slotIndex,
-        };
-
-        commit("installing", newInstalling);
       }
     },
 
