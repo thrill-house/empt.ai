@@ -44,7 +44,7 @@ export default {
       getAbilityDataCosts: "inventory/abilityDataCosts",
       getAbilityModels: "inventory/abilityModels",
       getModel: "inventory/model",
-      getInstalling: "inventory/installing",
+      getInstalling: "system/slotting",
     }),
   },
   methods: {
@@ -63,8 +63,8 @@ export default {
       this.cancelDialog();
     },
     ...mapActions({
-      installingModel: "inventory/installingModel",
-      installingReset: "inventory/installingReset",
+      installingModel: "system/slottingModel",
+      installingReset: "system/slottingReset",
     }),
   },
 };
@@ -107,12 +107,12 @@ export default {
       <div v-bem:actions>
         <button
           v-bem:actionsButton.confirm="{ valid }"
-          @click="install"
           :disabled="!selectedModelId"
+          @click="install()"
         >
           {{ $t("Proceed") }}
         </button>
-        <button v-bem:actionsButton.cancel @click="cancelDialog">
+        <button v-bem:actionsButton.cancel @click="cancelDialog()">
           {{ $t("Cancel") }}
         </button>
       </div>

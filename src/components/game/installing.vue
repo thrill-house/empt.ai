@@ -21,14 +21,14 @@ export default {
       return this.getModel(this.installing?.modelId);
     },
     ...mapGetters({
-      installing: "inventory/installing",
+      installing: "system/slotting",
       getAbility: "inventory/ability",
       getModel: "inventory/model",
     }),
   },
   methods: {
     ...mapActions({
-      installingReset: "inventory/installingReset",
+      installingReset: "system/slottingReset",
     }),
   },
 };
