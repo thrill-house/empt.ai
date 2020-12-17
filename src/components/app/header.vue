@@ -22,5 +22,6 @@ export default {
 .app-header {
   @apply fixed top-0 left-0;
   @apply flex items-start;
+  @apply z-10;
 }
 </style>

@@ -110,9 +110,9 @@ export default {
       // abilityBaseFactors: "inventory/abilityBaseFactors", // Not using this currently, maybe later?
       getAbilityTreeFactors: "inventory/abilityTreeFactors",
       getAbilityEraFactors: "inventory/abilityEraFactors",
-      getTree: "App/Trees/one",
-      getEras: "App/Eras/all",
-      getEra: "App/Eras/one",
+      getTree: "labels/tree",
+      getEras: "labels/eras",
+      getEra: "labels/era",
       // getIsEraActive,
       // getInteraction,
     }),
