@@ -202,23 +202,17 @@ export default {
             </button>
           </template>
         </emotion-diagram>
-
-        <!-- <emotion-diagram
-          v-bem:emotionsPreview
-          :sets="emotionValues"
-          :labels="false"
-        /> -->
       </div>
 
       <div v-bem:actions>
         <button
           v-bem:actionsButton.confirm="{ valid }"
-          @click="research"
+          @click="research()"
           :disabled="!submittable"
         >
           {{ $t("Research") }}
         </button>
-        <button v-bem:actionsButton.cancel @click="cancelDialog">
+        <button v-bem:actionsButton.cancel @click="cancelDialog()">
           {{ $t("Cancel") }}
         </button>
       </div>
@@ -266,10 +260,6 @@ export default {
         @apply rounded-full;
       }
     }
-
-    // &-preview {
-    //   @apply w-64 h-64;
-    // }
   }
 
   &__actions {
