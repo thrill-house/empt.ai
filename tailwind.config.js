@@ -124,6 +124,13 @@ module.exports = {
             variable: "--tw-bg-opacity",
           }),
         };
+        backgroundComponents[`.bg-dots-${color}`] = {
+          ...withAlphaVariable.default({
+            color: theme(`colors.${color}`),
+            property: "--dots-color",
+            variable: "--tw-bg-opacity",
+          }),
+        };
       });
 
       const imageBases = { ":root": {} };
