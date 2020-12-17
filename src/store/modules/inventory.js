@@ -149,6 +149,13 @@ export default {
     /*
      ** Socket & Source helpers
      */
+
+    socketCosts: (state, getters) => (id) => getters.socket(id)?.costs,
+
+    socketConfidenceCosts: (state, getters) => (id) =>
+      getters.socketCosts(id)?.confidence,
+
+    socketDataCosts: (state, getters) => (id) => getters.socketCosts(id)?.data,
   },
   mutations: {
     abilities: (state, payload) => {
