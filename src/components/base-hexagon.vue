@@ -32,10 +32,10 @@ export default {
 @import "../styles/util";
 
 .hexagon {
-  @apply relative 
-  w-48 h-hex*48
-  overflow-hidden
-  clip-hexagon;
+  @apply relative;
+  @apply w-48 h-hex*48;
+  @apply overflow-hidden;
+  @apply clip-hexagon;
 
   &:before {
     @apply absolute -z-10 clip-hexagon;
