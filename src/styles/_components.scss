@@ -129,4 +129,33 @@
       }
     }
   }
+
+  .hexagon {
+    @apply relative;
+    @apply w-48 h-hex*48;
+    @apply overflow-hidden;
+    @apply clip-hexagon;
+
+    &-grout {
+      background-color: none;
+
+      > * {
+        @apply relative;
+        @apply z-20;
+      }
+
+      &::before {
+        content: "";
+        @apply absolute inset-0;
+        @apply m-2;
+        @apply bg-grout;
+        @apply z-10;
+        @apply clip-hexagon;
+      }
+
+      &::after {
+        @apply z-0;
+      }
+    }
+  }
 }

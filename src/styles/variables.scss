@@ -1,7 +1,0 @@
-:root {
-  --dots-x: linear-gradient(to right, var(--dot-color) 1px, transparent 1%);
-  --dots-y: linear-gradient(to bottom, var(--dot-color) 1px, transparent 1%);
-  --grout-color: theme("colors.ash");
-  --grout: linear-gradient(var(--grout-color) 0%, var(--grout-color) 100%);
-  --radial: radial-gradient(circle at 50% 100%, var(--gradient-color-stops));
-}

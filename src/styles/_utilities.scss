@@ -38,9 +38,11 @@
   }
 
   .bg-dots {
+    --dots-x: linear-gradient(to right, var(--dots-color) 1px, transparent 1%);
+    --dots-y: linear-gradient(to bottom, var(--dots-color) 1px, transparent 1%);
     background-image: var(--dots-x), var(--dots-y);
     background-position: center center;
-    background-size: 2px 2px;
+    background-size: 4px 4px;
   }
   .bg-tile {
     background-image: var(--image-tile),
