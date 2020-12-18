@@ -30,7 +30,7 @@ export default {
     },
 
     bonus() {
-      return head(this.socket.bonuses).bonus;
+      return head(this.socket?.bonuses)?.bonus;
     },
     // affordability() {
     //   return _.clamp(
@@ -226,8 +226,8 @@ export default {
     @apply items-center justify-center;
     @apply text-center;
     @apply bg-light bg-opacity-25;
-    @apply p-2;
-    @apply w-5/6 h-12;
+    @apply p-2 mt-2;
+    @apply w-2/3 h-11;
     @apply order-2;
 
     &-title {

@@ -31,14 +31,14 @@ export default {
     },
     title() {
       //return this.socket?.title;
-      console.log(this.tempTitle);
       return this.tempTitle || this.socket?.title;
     },
     tree() {
-      return this.tempTree || this.getTree(this.socket.treeId)?.title;
+      //return this.getTree(this.socket?.treeId)?.title;
+      return this.tempTree || this.getTree(this.socket?.treeId)?.title;
     },
     era() {
-      return this.getEra(this.socket.eraId)?.stage || 0;
+      return this.getEra(this.socket?.eraId)?.stage || 0;
     },
     source() {
       return this.getSocketSource(this.id);
@@ -49,8 +49,7 @@ export default {
     },
     slots() {
       // return this.socket.slots;
-      console.log(this.tempSlots);
-      return this.tempSlots || this.socket.slots;
+      return this.tempSlots || this.socket?.slots;
     },
     ...mapGetters({
       getSocket: "inventory/socket",
@@ -169,7 +168,7 @@ export default {
       grid-area: e;
     }
   }
-  
+
   // Era 4
   &--BioImplants &__slot {
     &--0 {
@@ -270,6 +269,5 @@ export default {
       grid-area: g;
     }
   }
-
 }
 </style>
