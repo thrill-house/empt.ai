@@ -2,12 +2,12 @@
 <script>
 import { mapGetters } from "vuex";
 
-import SocketSource from "../socket/source";
+import SocketComponent from "../socket/component";
 
 export default {
   name: "game-system",
   components: {
-    SocketSource,
+    SocketComponent,
   },
   props: {
     label: String,
@@ -22,7 +22,7 @@ export default {
 
 <template>
   <section v-bem>
-    <socket-source v-for="(socket, s) in sockets" :key="s" :id="s" />
+    <socket-component v-for="(socket, s) in sockets" :key="s" :id="s" />
   </section>
 </template>
 
