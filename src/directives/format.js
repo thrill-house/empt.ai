@@ -11,7 +11,7 @@ numeral.register("format", "likes", {
     const space = endsWith(format, " /likes") ? " " : "";
     const newFormat = format.replace(/\s?\/likes/, "");
     const newValue = reduce(
-      { day: 7, hour: 24, min: 60, sec: 60 },
+      { day: 7, hr: 24, min: 60, sec: 60 },
       (accum, duration, label) => {
         const check = accum.value / duration;
         if (check > 1) {
@@ -20,7 +20,7 @@ numeral.register("format", "likes", {
 
         return accum;
       },
-      { value, label: "week" }
+      { value, label: "wk" }
     );
 
     const output = numeral._.numberToFormat(
@@ -51,7 +51,7 @@ export default (el, { arg, value, modifiers }) => {
 
   const confidence = (trust) => `${numeral(trust).format("0.[00]a")}`;
 
-  const influence = (likes) => `${numeral(likes).format("0.[00]a/likes")}`;
+  const influence = (likes) => `${numeral(likes).format("0.[00]a /likes")}`;
 
   const formatters = {
     duration,
