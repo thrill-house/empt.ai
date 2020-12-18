@@ -64,7 +64,7 @@ export default {
     },
 
     /*
-     ** Installation actions
+     ** Slotting actions
      */
     slottingReset: ({ commit, rootState }) => {
       commit("slotting", {
