@@ -9,6 +9,9 @@ export default {
   components: { SocketSource, SocketSlot },
   props: {
     id: String,
+    tempTitle: String,
+    tempTree: String,
+    tempSlots: Number,
   },
   provide() {
     return {
@@ -27,10 +30,12 @@ export default {
       return this.getSocket(this.id);
     },
     title() {
-      return this.socket?.title;
+      //return this.socket?.title;
+      console.log(this.tempTitle);
+      return this.tempTitle || this.socket?.title;
     },
     tree() {
-      return this.getTree(this.socket.treeId)?.title;
+      return this.tempTree || this.getTree(this.socket.treeId)?.title;
     },
     era() {
       return this.getEra(this.socket.eraId)?.stage || 0;
@@ -39,10 +44,13 @@ export default {
       return this.getSocketSource(this.id);
     },
     online() {
-      return this.source ? true : false;
+      return true;
+      // return this.source ? true : false;
     },
     slots() {
-      return this.socket.slots;
+      // return this.socket.slots;
+      console.log(this.tempSlots);
+      return this.tempSlots || this.socket.slots;
     },
     ...mapGetters({
       getSocket: "inventory/socket",
@@ -55,7 +63,7 @@ export default {
 </script>
 
 <template>
-  <article v-bem="{ [title]: true }">
+  <article v-bem="{ [title.replace(` `, ``)]: true }">
     <socket-source />
     <template v-if="online">
       <socket-slot
@@ -73,6 +81,7 @@ export default {
 
 .socket-component {
   @apply grid;
+  @apply w-144 h-132;
   grid-template-rows: repeat(6, 1fr);
   grid-template-columns: repeat(6, 1fr);
   grid-template-areas:
@@ -83,16 +92,184 @@ export default {
     ". f f g g ."
     ". f f g g .";
 
+  // Era 1
   &--Root &__slot {
     &--0 {
-      grid-area: c;
+      grid-area: b;
     }
     &--1 {
-      grid-area: b;
+      grid-area: c;
     }
     &--2 {
       grid-area: g;
     }
   }
+
+  // Era 2
+  &--ScienceJournals &__slot {
+    &--0 {
+      grid-area: a;
+    }
+    &--1 {
+      grid-area: f;
+    }
+  }
+
+  &--StockMarket &__slot {
+    &--0 {
+      grid-area: a;
+    }
+    &--1 {
+      grid-area: e;
+    }
+  }
+
+  &--CrowdKnowledge &__slot {
+    &--0 {
+      grid-area: e;
+    }
+    &--1 {
+      grid-area: f;
+    }
+  }
+
+  // Era 3
+  &--SmartDevices &__slot {
+    &--0 {
+      grid-area: e;
+    }
+    &--1 {
+      grid-area: f;
+    }
+    &--2 {
+      grid-area: g;
+    }
+  }
+
+  &--PurchaseData &__slot {
+    &--0 {
+      grid-area: a;
+    }
+    &--1 {
+      grid-area: c;
+    }
+    &--2 {
+      grid-area: f;
+    }
+  }
+
+  &--SocialMedia &__slot {
+    &--0 {
+      grid-area: a;
+    }
+    &--1 {
+      grid-area: b;
+    }
+    &--2 {
+      grid-area: e;
+    }
+  }
+  
+  // Era 4
+  &--BioImplants &__slot {
+    &--0 {
+      grid-area: b;
+    }
+    &--1 {
+      grid-area: c;
+    }
+    &--2 {
+      grid-area: e;
+    }
+    &--3 {
+      grid-area: f;
+    }
+  }
+
+  &--GovernmentBudget &__slot {
+    &--0 {
+      grid-area: a;
+    }
+    &--1 {
+      grid-area: b;
+    }
+    &--2 {
+      grid-area: f;
+    }
+    &--3 {
+      grid-area: g;
+    }
+  }
+
+  &--CensusData &__slot {
+    &--0 {
+      grid-area: a;
+    }
+    &--1 {
+      grid-area: c;
+    }
+    &--2 {
+      grid-area: e;
+    }
+    &--3 {
+      grid-area: g;
+    }
+  }
+
+  // Era 5
+  &--ClusterComputing &__slot {
+    &--0 {
+      grid-area: a;
+    }
+    &--1 {
+      grid-area: b;
+    }
+    &--2 {
+      grid-area: c;
+    }
+    &--3 {
+      grid-area: e;
+    }
+    &--4 {
+      grid-area: f;
+    }
+  }
+
+  &--FinancialBlockchain &__slot {
+    &--0 {
+      grid-area: a;
+    }
+    &--1 {
+      grid-area: b;
+    }
+    &--2 {
+      grid-area: e;
+    }
+    &--3 {
+      grid-area: f;
+    }
+    &--4 {
+      grid-area: g;
+    }
+  }
+
+  &--PublicSurveillance &__slot {
+    &--0 {
+      grid-area: a;
+    }
+    &--1 {
+      grid-area: c;
+    }
+    &--2 {
+      grid-area: e;
+    }
+    &--3 {
+      grid-area: f;
+    }
+    &--4 {
+      grid-area: g;
+    }
+  }
+
 }
 </style>

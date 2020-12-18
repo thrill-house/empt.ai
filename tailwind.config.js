@@ -2,6 +2,7 @@ const withAlphaVariable = require("tailwindcss/lib/util/withAlphaVariable");
 const path = require("path");
 const glob = require("glob");
 const hexRatio = Math.sqrt(3 / 2);
+console.log(hexRatio);
 
 module.exports = {
   purge: ["./src/**/*.{vue,js,ts,jsx,tsx}"],
@@ -48,12 +49,17 @@ module.exports = {
         "3xs": ".5rem",
         "2xs": ".625rem",
       },
+      inset: {
+        unset: "unset",
+      },
       spacing: {
         "28": "7rem",
         "48": "12rem",
         "80": "20rem",
         "96": "24rem",
         "128": "32rem",
+        "132": "33rem",
+        "144": "36rem",
         "160": "40rem",
         "192": "48rem",
         "1/2": "50%",
@@ -80,7 +86,6 @@ module.exports = {
         "hex*32": `${8 * hexRatio}rem`,
         "hex*48": `${12 * hexRatio}rem`,
         "hex*64": `${16 * hexRatio}rem`,
-        "hex/16": `${4 / hexRatio}rem`,
         "full*2": "200%",
       },
       minWidth: {

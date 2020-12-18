@@ -1,6 +1,6 @@
 <script>
 import { mapState, mapGetters, mapActions } from "vuex";
-import { capitalize, sortBy } from "lodash-es";
+import { capitalize, head, sortBy } from "lodash-es";
 
 import ValueList from "../value/list";
 
@@ -29,8 +29,8 @@ export default {
       };
     },
 
-    bonuses() {
-      return this.socket.bonuses;
+    bonus() {
+      return head(this.socket.bonuses).bonus;
     },
     // affordability() {
     //   return _.clamp(
@@ -136,7 +136,7 @@ export default {
     <button
       v-if="online"
       v-bem:bonus.confidence="{ loading }"
-      v-format:confidence.⇧="bonuses[0].bonus"
+      v-format:confidence.⇧="bonus"
       :title="$t(`Training bonus`)"
       @click="train()"
     />
@@ -172,7 +172,7 @@ export default {
   @apply w-48 h-hex*48;
   @apply text-center;
   @apply px-2 py-4;
-  @apply mx-1 -mt-hex/16;
+  @apply -mt-hex*6;
   @apply overflow-hidden;
   @apply clip-hexagon;
   grid-area: d;
@@ -227,7 +227,7 @@ export default {
     @apply text-center;
     @apply bg-light bg-opacity-25;
     @apply p-2;
-    @apply w-5/6 h-6;
+    @apply w-5/6 h-12;
     @apply order-2;
 
     &-title {
@@ -342,8 +342,8 @@ export default {
   }
 
   &__tree {
-    @apply w-8 h-8;
-    @apply mt-3;
+    @apply w-6 h-6;
+    @apply mt-1;
     @apply order-1;
 
     @include trees using ($tree) {
@@ -368,10 +368,6 @@ export default {
     &-item {
       @apply w-full h-1 mt-1;
       @apply bg-grey;
-
-      &:first-child {
-        @apply mb-1;
-      }
 
       &--active {
         @apply bg-sky;
