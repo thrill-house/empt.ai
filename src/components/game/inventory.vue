@@ -2,12 +2,12 @@
 import { mapGetters } from "vuex";
 import { invokeMap, pickBy } from "lodash-es";
 
-import AbilityProfile from "../ability/profile";
+import AbilityComponent from "../ability/component";
 
 export default {
   name: "game-inventory",
   components: {
-    AbilityProfile,
+    AbilityComponent,
   },
   data: () => ({
     toggles: null,
@@ -105,8 +105,8 @@ export default {
         </ul>
       </div>
     </nav>
-    <ability-profile
-      v-bem:profile
+    <ability-component
+      v-bem:component
       v-for="(ability, a) in filteredAbilities"
       :id="a"
       :key="a"

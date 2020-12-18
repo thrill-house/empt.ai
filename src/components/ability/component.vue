@@ -181,7 +181,7 @@ export default {
 
 .ability-component {
   @apply relative;
-  @apply w-80 h-32 my-8 ml-10 mr-6;
+  @apply w-80 h-36 my-8 ml-10 mr-6;
   @apply text-light;
 
   &:before {
@@ -241,7 +241,7 @@ export default {
   &__attributes {
     @apply relative hidden;
     @apply flex-col flex-wrap justify-between;
-    @apply h-16 ml-16 mt-1 pl-16 pr-4 py-1;
+    @apply h-16 ml-16 pl-16 pr-4 my-2;
     @apply z-10;
 
     &--active {
@@ -273,7 +273,7 @@ export default {
     }
 
     &-list {
-      @apply flex flex-col items-end justify-evenly;
+      @apply flex flex-col items-end justify-between;
 
       &--base {
         @apply items-stretch self-stretch;
@@ -300,7 +300,7 @@ export default {
 
   &__synergies {
     @apply relative hidden;
-    @apply h-16 ml-16 mt-1 pl-12 pr-1 pb-1;
+    @apply h-16 ml-16 pl-12 pr-1 my-2;
     @apply z-10;
 
     &--active {
