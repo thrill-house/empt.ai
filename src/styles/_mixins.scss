@@ -6,3 +6,11 @@
     }
   }
 }
+
+@mixin trees {
+  @each $tree in Neutral, Science, Economy, Society {
+    &--#{$tree} {
+      @content ($tree: to-lower-case($tree));
+    }
+  }
+}
