@@ -8,7 +8,7 @@ import AbilityInstall from "./install";
 import ValueList from "../value/list";
 
 export default {
-  name: "ability-profile",
+  name: "ability-component",
   components: {
     AbilitySynergies,
     AbilityResearch,
@@ -60,7 +60,7 @@ export default {
     },
 
     bases() {
-      return this.ability?.bases;
+      return this.getAbilityCoreBases(this.id);
     },
     treeFactors() {
       return this.getAbilityTreeFactors(this.id);
@@ -79,42 +79,16 @@ export default {
     eras() {
       return sortBy(this.getEras, "stage");
     },
-
-    // eraActive() {
-    //   return this.getIsEraActive(this.era);
-    // },
-    // install() {
-    //   return this.getInteraction("installingAbility");
-    // },
-    // installLabel() {
-    //   return this.install ? this.install.label : "";
-    // },
-    // research() {
-    //   return this.getInteraction("researchingAbility");
-    // },
-    // researchLabel() {
-    //   return this.research ? this.research.label : "";
-    // },
-    // interaction() {
-    //   return (
-    //     this.researchLabel === this.label || this.installLabel === this.label
-    //   );
-    // },
-    // ...mapState({
-    //   abilities: (state) => state.abilities.list,
-    // }),
     ...mapGetters({
       getAbility: "inventory/ability",
       getAbilityDependants: "inventory/abilityDependants",
       getAbilityDependees: "inventory/abilityDependees",
-      // abilityBaseFactors: "inventory/abilityBaseFactors", // Not using this currently, maybe later?
+      getAbilityCoreBases: "inventory/abilityCoreBases",
       getAbilityTreeFactors: "inventory/abilityTreeFactors",
       getAbilityEraFactors: "inventory/abilityEraFactors",
       getTree: "labels/tree",
       getEras: "labels/eras",
       getEra: "labels/era",
-      // getIsEraActive,
-      // getInteraction,
     }),
   },
   methods: {
@@ -122,37 +96,6 @@ export default {
     viewToggle(view) {
       this.toggle = view;
     },
-    // researchDialog() {
-    //   this.$refs.research.startResearching();
-    // },
-    // installDialog() {
-    //   this.$refs.install.startInstalling();
-    // },
-    // async research() {
-    //   const payload = {
-    //     gameId: "5JzFvZqxS7CkDte98qfsMamDqQPzgwYUuLwQggDximZj",
-    //     abilityId: "5JzFvZqxS7CkDte98qfsMamDqQPzgwYUuLwQggDximZj",
-    //     feelings: [
-    //       {
-    //         emotionId: "5JzFvZqxS7CkDte98qfsMamDqQPzgwYUuLwQggDximZj",
-    //         value: 2,
-    //       },
-    //       {
-    //         emotionId: "5JzFvZqxS7CkDte98qfsMamDqQPzgwYUuLwQggDximZj",
-    //         value: 1,
-    //       },
-    //       {
-    //         emotionId: "5JzFvZqxS7CkDte98qfsMamDqQPzgwYUuLwQggDximZj",
-    //         value: 1,
-    //       },
-    //     ],
-    //   };
-
-    //   await this.researchModel(payload);
-    // },
-    // ...mapActions({
-    //   researchModel: "Game/Models/create",
-    // }),
   },
 };
 </script>
@@ -236,7 +179,7 @@ export default {
 <style lang="scss">
 @import "../../styles/helper";
 
-.ability-profile {
+.ability-component {
   @apply relative;
   @apply w-80 h-32 my-8 ml-10 mr-6;
   @apply text-light;
@@ -449,20 +392,8 @@ export default {
       @apply w-6 h-6;
       @apply z-30;
 
-      &--Neutral {
-        @apply bg-neutral;
-      }
-
-      &--Science {
-        @apply bg-science;
-      }
-
-      &--Economy {
-        @apply bg-economy;
-      }
-
-      &--Society {
-        @apply bg-society;
+      @include trees using ($tree) {
+        @apply bg-#{$tree};
       }
 
       @include icons("", Neutral, Science, Economy, Society);
