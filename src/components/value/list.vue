@@ -47,8 +47,8 @@ export default {
       v-for="({ type, factor, base, value }, i) in normalizedItems"
       :key="i"
       :type="type"
-      :factor="factor"
       :base="base"
+      :factor="factor"
       :value="value"
     />
   </dl>
