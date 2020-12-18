@@ -35,7 +35,7 @@ export default {
   }),
   getters: {
     /*
-     ** Get All
+     ** Get all
      */
 
     // Get all abilities
@@ -51,7 +51,7 @@ export default {
     sources: (state) => state.sources,
 
     /*
-     ** Get All
+     ** Get one
      */
 
     // Get one ability
@@ -105,10 +105,18 @@ export default {
         )
       ),
 
+    abilityBases: (state, getters) => (id) => getters.ability(id)?.bases,
+
+    abilityCoreBases: (state, getters) => (id) =>
+      filter(
+        getters.abilityBases(id),
+        ({ dependency }) => dependency === undefined
+      ),
+
     abilityFactors: (state, getters) => (id) => getters.ability(id)?.factors,
 
     // It's possible for these to exist, but UI doesn't handle it, so ignore for now.
-    // abilityBaseFactors: (state, getters) => (id) =>
+    // abilityCoreFactors: (state, getters) => (id) =>
     //   filter(
     //     getters.abilityFactors(id),
     //     ({ dependency }) => dependency === undefined
@@ -135,6 +143,54 @@ export default {
     /*
      ** Socket & Source helpers
      */
+
+    // Socket sources
+    socketSource: (state) => (id) => find(state.sources, { socketId: id }),
+
+    sourceSocket: (state, getters) => (id) =>
+      getters.socket(getters.source(id)?.socketId),
+
+    // Socket Factors
+
+    socketBases: (state, getters) => (id) => getters.socket(id)?.bases,
+
+    socketCoreBases: (state, getters) => (id) =>
+      filter(
+        getters.socketBases(id),
+        ({ dependency }) => dependency === undefined
+      ),
+
+    socketTreeBases: (state, getters) => (id) =>
+      filter(getters.socketBases(id), ({ dependency }) =>
+        some(dependency?.where, (where) => where[0] === "treeId")
+      ),
+
+    socketEraBases: (state, getters) => (id) =>
+      filter(getters.socketBases(id), ({ dependency }) =>
+        some(dependency?.where, (where) => where[0] === "eraId")
+      ),
+
+    // Socket Factors
+
+    socketFactors: (state, getters) => (id) => getters.socket(id)?.factors,
+
+    socketBaseFactors: (state, getters) => (id) =>
+      filter(
+        getters.socketFactors(id),
+        ({ dependency }) => dependency === undefined
+      ),
+
+    socketTreeFactors: (state, getters) => (id) =>
+      filter(getters.socketFactors(id), ({ dependency }) =>
+        some(dependency?.where, (where) => where[0] === "treeId")
+      ),
+
+    socketEraFactors: (state, getters) => (id) =>
+      filter(getters.socketFactors(id), ({ dependency }) =>
+        some(dependency?.where, (where) => where[0] === "eraId")
+      ),
+
+    // Socket costs
 
     socketCosts: (state, getters) => (id) => getters.socket(id)?.costs,
 
