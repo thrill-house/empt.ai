@@ -98,7 +98,8 @@ export default {
 .game-system {
   @apply absolute top-16 left-0 2xl:left-unset;
   @apply grid;
-  @apply pb-16 px-8;
+  @apply px-8 -mt-48 -ml-48;
+
   grid-template-rows: repeat(22, 5.5rem);
   grid-template-columns: repeat(22, 6rem);
   grid-template-areas:
@@ -127,8 +128,6 @@ export default {
     ". . . . . . . . . . . . . . . . . . . . . ."; //22
 
   &__component {
-    @apply transform -translate-x-1/3 -translate-y-1/3;
-
     // Era 1
     &--Root {
       grid-area: z;
