@@ -189,8 +189,7 @@ export default {
 
   &::after {
     content: "";
-    @apply absolute inset-0 -top-1/2 -left-1/2;
-    @apply w-full*2 h-full*2;
+    @apply absolute -inset-1/4;
     @apply bg-dots;
     @apply bg-dots-light bg-opacity-50;
     @apply z-0;
@@ -226,8 +225,8 @@ export default {
     @apply items-center justify-center;
     @apply text-center;
     @apply bg-light bg-opacity-25;
-    @apply p-2 mt-2;
-    @apply w-2/3 h-11;
+    @apply p-1 my-1;
+    @apply w-2/3 h-10;
     @apply order-2;
 
     &-title {

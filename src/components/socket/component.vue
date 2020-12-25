@@ -80,7 +80,7 @@ export default {
 
 .socket-component {
   @apply grid;
-  @apply w-144 h-132;
+  @apply w-144 h-hex/144;
   grid-template-rows: repeat(6, 1fr);
   grid-template-columns: repeat(6, 1fr);
   grid-template-areas:
@@ -90,6 +90,14 @@ export default {
     "c c d d e e"
     ". f f g g ."
     ". f f g g .";
+
+  // &::before {
+  //   content: "";
+  //   @apply w-96 h-hex*48;
+  //   @apply bg-light;
+  //   @apply -mt-hex*6;
+  //   @apply animate-flow-left-right;
+  // }
 
   // Era 1
   &--Root &__slot {
@@ -104,6 +112,12 @@ export default {
     }
   }
 
+  &--Root {
+    &::before {
+      @apply hidden;
+    }
+  }
+
   // Era 2
   &--ScienceJournals &__slot {
     &--0 {
@@ -111,6 +125,12 @@ export default {
     }
     &--1 {
       grid-area: f;
+    }
+  }
+
+  &--ScienceJournals {
+    &::before {
+      grid-area: c;
     }
   }
 

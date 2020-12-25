@@ -100,7 +100,7 @@ export default {
   @apply grid;
   @apply px-8 -mt-48 -ml-48;
 
-  grid-template-rows: repeat(22, 5.5rem);
+  grid-template-rows: repeat(22, 5.2173913043rem);
   grid-template-columns: repeat(22, 6rem);
   grid-template-areas:
   // 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2

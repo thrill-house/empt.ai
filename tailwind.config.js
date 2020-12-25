@@ -1,8 +1,7 @@
 const withAlphaVariable = require("tailwindcss/lib/util/withAlphaVariable");
 const path = require("path");
 const glob = require("glob");
-const hexRatio = Math.sqrt(3 / 2);
-console.log(hexRatio);
+const hexRatio = 1 / (Math.sqrt(3) / 2);
 
 module.exports = {
   purge: ["./src/**/*.{vue,js,ts,jsx,tsx}"],
@@ -41,10 +40,6 @@ module.exports = {
       ],
     },
     extend: {
-      opacity: {
-        "10": "0.1",
-        "90": "0.9",
-      },
       fontSize: {
         "3xs": ".5rem",
         "2xs": ".625rem",
@@ -53,62 +48,12 @@ module.exports = {
         unset: "unset",
       },
       spacing: {
-        "28": "7rem",
-        "48": "12rem",
-        "80": "20rem",
-        "96": "24rem",
-        "128": "32rem",
-        "132": "33rem",
         "144": "36rem",
-        "160": "40rem",
         "192": "48rem",
-        "1/2": "50%",
-        "1/3": "33.33333%",
-        "2/3": "66.66667%",
-        "1/4": "25%",
-        "3/4": "75%",
-        "1/5": "20%",
-        "2/5": "40%",
-        "3/5": "60%",
-        "4/5": "80%",
-        "1/6": "16.66667%",
-        "5/6": "83.33333%",
-        "hex*1": `${0.25 * hexRatio}rem`,
-        "hex*2": `${0.5 * hexRatio}rem`,
-        "hex*3": `${0.75 * hexRatio}rem`,
-        "hex*4": `${1 * hexRatio}rem`,
-        "hex*6": `${1.5 * hexRatio}rem`,
-        "hex*8": `${2 * hexRatio}rem`,
-        "hex*10": `${2.5 * hexRatio}rem`,
-        "hex*12": `${3 * hexRatio}rem`,
-        "hex*16": `${4 * hexRatio}rem`,
-        "hex*24": `${6 * hexRatio}rem`,
-        "hex*32": `${8 * hexRatio}rem`,
-        "hex*48": `${12 * hexRatio}rem`,
-        "hex*64": `${16 * hexRatio}rem`,
-        "full*2": "200%",
-      },
-      minWidth: {
-        "1": "0.25rem",
-        "2": "0.5rem",
-        "3": "0.75rem",
-        "4": "1rem",
-        "6": "1.5rem",
-        "8": "2rem",
-        "10": "2.5rem",
-        "12": "3rem",
-        "16": "4rem",
-        "24": "6rem",
-        "28": "7rem",
-        "32": "8rem",
-        "48": "12rem",
-        "80": "20rem",
-        "96": "24rem",
-      },
-      maxWidth: {
-        "48": "12rem",
-        "80": "20rem",
-        "96": "24rem",
+        "hex*6": "calc(1.5rem * var(--hex-ratio))",
+        "hex*16": "calc(4rem * var(--hex-ratio))",
+        "hex*48": "calc(12rem * var(--hex-ratio))",
+        "hex/144": "calc(36rem / var(--hex-ratio))",
       },
       zIndex: {
         "-10": "-10",
@@ -138,7 +83,7 @@ module.exports = {
         };
       });
 
-      const imageBases = { ":root": {} };
+      const imageBases = { ":root": { "--hex-ratio": `${hexRatio}` } };
       const maskComponents = {};
 
       glob.sync("src/assets/**/*.svg").forEach((file) => {
