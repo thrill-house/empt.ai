@@ -91,13 +91,26 @@ export default {
     ". f f g g ."
     ". f f g g .";
 
-  // &::before {
-  //   content: "";
-  //   @apply w-96 h-hex*48;
-  //   @apply bg-light;
-  //   @apply -mt-hex*6;
-  //   @apply animate-flow-left-right;
-  // }
+  &::before {
+    content: "";
+    @apply self-center;
+    @apply w-48 h-8;
+    @apply transform;
+    @apply bg-dots;
+    animation: connect 1s linear infinite;
+
+    @at-root {
+      @keyframes connect {
+        0% {
+          background-position-x: 0;
+        }
+
+        100% {
+          background-position-x: 1rem;
+        }
+      }
+    }
+  }
 
   // Era 1
   &--Root &__slot {
@@ -130,6 +143,7 @@ export default {
 
   &--ScienceJournals {
     &::before {
+      @apply bg-dots-science bg-opacity-40;
       grid-area: c;
     }
   }
@@ -143,12 +157,26 @@ export default {
     }
   }
 
+  &--StockMarket {
+    &::before {
+      @apply bg-dots-economy bg-opacity-40 rotate-120;
+      grid-area: b;
+    }
+  }
+
   &--CrowdKnowledge &__slot {
     &--0 {
       grid-area: e;
     }
     &--1 {
       grid-area: f;
+    }
+  }
+
+  &--CrowdKnowledge {
+    &::before {
+      @apply bg-dots-society bg-opacity-40 rotate-240;
+      grid-area: g;
     }
   }
 
@@ -165,6 +193,13 @@ export default {
     }
   }
 
+  &--SmartDevices {
+    &::before {
+      @apply bg-dots-science bg-opacity-40;
+      grid-area: c;
+    }
+  }
+
   &--PurchaseData &__slot {
     &--0 {
       grid-area: a;
@@ -177,6 +212,13 @@ export default {
     }
   }
 
+  &--PurchaseData {
+    &::before {
+      @apply bg-dots-economy bg-opacity-40 rotate-120;
+      grid-area: b;
+    }
+  }
+
   &--SocialMedia &__slot {
     &--0 {
       grid-area: a;
@@ -186,6 +228,13 @@ export default {
     }
     &--2 {
       grid-area: e;
+    }
+  }
+
+  &--SocialMedia {
+    &::before {
+      @apply bg-dots-society bg-opacity-40 rotate-240;
+      grid-area: g;
     }
   }
 
@@ -205,6 +254,13 @@ export default {
     }
   }
 
+  &--BioImplants {
+    &::before {
+      @apply bg-dots-science bg-opacity-40 rotate-240;
+      grid-area: g;
+    }
+  }
+
   &--GovernmentBudget &__slot {
     &--0 {
       grid-area: a;
@@ -220,6 +276,13 @@ export default {
     }
   }
 
+  &--GovernmentBudget {
+    &::before {
+      @apply bg-dots-economy bg-opacity-40;
+      grid-area: c;
+    }
+  }
+
   &--CensusData &__slot {
     &--0 {
       grid-area: a;
@@ -232,6 +295,13 @@ export default {
     }
     &--3 {
       grid-area: g;
+    }
+  }
+
+  &--CensusData {
+    &::before {
+      @apply bg-dots-society bg-opacity-40 rotate-120;
+      grid-area: b;
     }
   }
 
@@ -254,6 +324,13 @@ export default {
     }
   }
 
+  &--ClusterComputing {
+    &::before {
+      @apply bg-dots-science bg-opacity-40 rotate-240;
+      grid-area: g;
+    }
+  }
+
   &--FinancialBlockchain &__slot {
     &--0 {
       grid-area: a;
@@ -272,6 +349,13 @@ export default {
     }
   }
 
+  &--FinancialBlockchain {
+    &::before {
+      @apply bg-dots-economy bg-opacity-40;
+      grid-area: c;
+    }
+  }
+
   &--PublicSurveillance &__slot {
     &--0 {
       grid-area: a;
@@ -287,6 +371,13 @@ export default {
     }
     &--4 {
       grid-area: g;
+    }
+  }
+
+  &--PublicSurveillance {
+    &::before {
+      @apply bg-dots-society bg-opacity-40 rotate-120;
+      grid-area: b;
     }
   }
 }

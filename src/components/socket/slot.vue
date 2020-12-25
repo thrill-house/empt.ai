@@ -41,7 +41,6 @@ export default {
   &:after {
     content: "";
     @apply absolute inset-1;
-
     @apply clip-hexagon;
     @apply bg-light;
   }

@@ -58,6 +58,14 @@ module.exports = {
       zIndex: {
         "-10": "-10",
       },
+      rotate: {
+        // 0 / 360
+        "60": "60deg",
+        "120": "120deg",
+        "180": "180deg",
+        "240": "240deg",
+        "300": "300deg",
+      },
     },
   },
   // TODO: Remove this in place of doing it the TW 2.0 way: https://tailwindcss.com/docs/functions-and-directives#layer

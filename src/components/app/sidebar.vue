@@ -49,7 +49,7 @@ export default {
 </template>
 
 <style lang="scss">
-@import "../../styles/mixins";
+@import "../../styles/helper";
 
 .app-sidebar {
   @apply fixed top-0 right-0;
@@ -74,7 +74,7 @@ export default {
   &__control {
     @apply w-10 h-10;
     @apply flex items-center justify-center;
-    @apply bg-sky bg-opacity-50;
+    @apply bg-grout bg-grout-sky bg-opacity-50;
 
     & + & {
       @apply mt-4;
