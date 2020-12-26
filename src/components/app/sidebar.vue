@@ -57,7 +57,7 @@ export default {
   @apply w-96 min-h-screen;
   @apply transform translate-x-full;
   @apply transition-transform duration-500;
-  @apply bg-ash bg-opacity-75;
+  @apply bg-ash bg-opacity-25;
   @apply shadow;
 
   &--open {
