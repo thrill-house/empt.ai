@@ -114,11 +114,11 @@ export default {
     @at-root {
       @keyframes connect {
         0% {
-          text-indent: -8.125rem;
+          text-indent: -0.25rem;
         }
 
         100% {
-          text-indent: -0.25rem;
+          text-indent: -8.125rem;
         }
       }
     }

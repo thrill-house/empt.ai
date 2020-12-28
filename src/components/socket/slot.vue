@@ -111,8 +111,8 @@ export default {
       </div>
       <util-era v-bem:era :era="era" />
     </template>
-    <div v-bem:install>
-      <button v-bem:installTrigger v-if="isInstalling" @click="install()">
+    <div v-if="isInstalling" v-bem:install>
+      <button v-bem:installTrigger @click="install()">
         {{ $t("Install") }}
       </button>
     </div>
