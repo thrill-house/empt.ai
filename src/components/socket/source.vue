@@ -3,23 +3,31 @@ import { mapState, mapGetters, mapActions } from "vuex";
 import { capitalize, head } from "lodash-es";
 
 import ValueList from "../value/list";
+import UtilEra from "../util/era";
 
 export default {
   name: "socket-source",
-  components: { ValueList },
+  components: { ValueList, UtilEra },
   data: () => ({
     loading: false,
   }),
-  inject: ["id", "socket", "title", "tree", "era", "source", "online"],
+  inject: ["socket", "socketId", "socketTitle", "socketTree", "socketEra"],
   computed: {
+    source() {
+      return this.getSocketSource(this.socketId);
+    },
+    online() {
+      return !!this.source?.$id;
+    },
+
     bases() {
-      return this.getSocketCoreBases(this.id);
+      return this.getSocketCoreBases(this.socketId);
     },
     treeFactors() {
-      return this.getSocketTreeFactors(this.id);
+      return this.getSocketTreeFactors(this.socketId);
     },
     eraFactors() {
-      return this.getSocketEraFactors(this.id);
+      return this.getSocketEraFactors(this.socketId);
     },
     sortedAttributes() {
       return {
@@ -47,7 +55,7 @@ export default {
     //   return this.socket.factors;
     // },
     costs() {
-      return this.getSocketCosts(this.id);
+      return this.getSocketCosts(this.socketId);
     },
     // scores() {
     //   return this.getScores();
@@ -72,7 +80,6 @@ export default {
       getSocketTreeFactors: "inventory/socketTreeFactors",
       getSocketEraFactors: "inventory/socketEraFactors",
       getSocketCosts: "inventory/socketCosts",
-      getTree: "labels/tree",
       // "getSlotsForSocket",
     }),
   },
@@ -82,7 +89,7 @@ export default {
 
       const payload = {
         gameId: this.gameId,
-        socketId: this.id,
+        socketId: this.socketId,
         eraId: this.socket.eraId,
         treeId: this.socket.treeId,
       };
@@ -93,6 +100,7 @@ export default {
     },
     ...mapActions({
       connectSource: "Game/Sources/create",
+      removeSource: "Game/Sources/delete",
     }),
     capitalize,
   },
@@ -100,9 +108,9 @@ export default {
 </script>
 
 <template>
-  <article v-bem="{ online, [tree]: online }">
+  <div v-bem="{ online, [socketTree]: online }">
     <header v-bem:header>
-      <h4 v-bem:headerTitle>{{ title }}</h4>
+      <h4 v-bem:headerTitle>{{ socketTitle }}</h4>
     </header>
     <dl v-bem:attributes="{ active: toggle === 'attributes' }">
       <template
@@ -142,8 +150,9 @@ export default {
       :title="$t(`Bring online`)"
       @click="connect()"
     />
-    <i v-bem:tree="{ [tree]: true }" />
-  </article>
+    <i v-bem:tree="{ [socketTree]: true }" />
+    <util-era v-bem:era :era="socketEra" />
+  </div>
   <div v-for="$i in slots" :key="$i">{{ $i }}</div>
 </template>
 
@@ -156,7 +165,7 @@ export default {
   @apply justify-between items-center;
   @apply w-48 h-hex*48;
   @apply text-center;
-  @apply px-2 pt-4 pb-14;
+  @apply px-2 py-4;
   @apply -mt-hex*6;
   @apply overflow-hidden;
   @apply clip-hexagon;
@@ -335,6 +344,11 @@ export default {
     }
 
     @include icons("", Neutral, Science, Economy, Society);
+  }
+
+  &__era {
+    @apply mt-1;
+    @apply order-4;
   }
 }
 </style>
