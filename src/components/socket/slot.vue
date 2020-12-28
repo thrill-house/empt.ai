@@ -111,9 +111,11 @@ export default {
       </div>
       <util-era v-bem:era :era="era" />
     </template>
-    <button v-if="isInstalling" @click="install()">
-      {{ $t("Install") }}
-    </button>
+    <div v-bem:install>
+      <button v-bem:installTrigger v-if="isInstalling" @click="install()">
+        {{ $t("Install") }}
+      </button>
+    </div>
   </div>
 </template>
 
@@ -128,6 +130,7 @@ export default {
   @apply text-center text-dark;
   @apply px-2 pt-4 pb-14;
   @apply -mt-hex*6;
+  @apply clip-hexagon;
   @apply overflow-hidden;
 
   &::before {
@@ -233,6 +236,32 @@ export default {
   &__era {
     @apply order-5;
     @apply mx-12;
+  }
+
+  &__install {
+    @apply absolute inset-0;
+    @apply flex items-center justify-center;
+    @apply w-full;
+    @apply p-1;
+    @apply clip-hexagon;
+
+    &::before {
+      content: "";
+      @apply bg-ash bg-opacity-50;
+      @apply w-full h-full;
+      @apply clip-hexagon;
+    }
+
+    &:hover &-trigger {
+      @apply animate-none;
+    }
+
+    &-trigger {
+      @apply button button-confirm;
+      @apply absolute;
+      @apply animate-ping;
+      animation-duration: 3s;
+    }
   }
 }
 </style>
