@@ -1,3 +1,5 @@
+import { find } from "lodash-es";
+
 export default {
   namespaced: true,
   state: () => ({
@@ -10,14 +12,14 @@ export default {
     // Events
     // events: {}, // Maybe one day ;)
 
-    // Install
+    // Slotting
     slotting: {
       gameId: null,
       modelId: null,
       sourceId: null,
       abilityId: null,
       socketId: null,
-      slotId: null,
+      slotId: "11111111111111111111111111111111111111111111",
       slotIndex: null,
     },
   }),
@@ -36,13 +38,17 @@ export default {
 
     // Get install
     slotting: (state) => state.slotting,
+
+    // Get one slot
+    sourceSlot: (state) => (sourceId, slotIndex) =>
+      find(state.slots, { sourceId, slotIndex }),
   },
   mutations: {
     slots: (state, payload) => {
-      state.abilities = payload;
+      state.slots = payload;
     },
     trainings: (state, payload) => {
-      state.models = payload;
+      state.trainings = payload;
     },
     slotting: (state, payload) => {
       state.slotting = payload;
@@ -75,7 +81,7 @@ export default {
         socketId: null,
         eraId: null,
         treeId: null,
-        slotId: null,
+        slotId: "11111111111111111111111111111111111111111111",
         slotIndex: null,
       });
     },
@@ -86,7 +92,7 @@ export default {
 
       if (model.$id && ability.$id) {
         const newSlotting = {
-          ...state.install,
+          ...state.slotting,
           modelId: model.$id,
           abilityId: ability.$id,
         };
@@ -95,25 +101,39 @@ export default {
       }
     },
 
-    slottingSource: ({ commit, rootGetters, state }, ...payload) => () => {
-      const [id = null, slotIndex = null, slotId = null] = payload;
+    slottingSource: ({ commit, rootGetters, state }, payload) => {
+      const source = rootGetters["inventory/source"](payload);
+      const socket = rootGetters["inventory/sourceSocket"](payload);
 
-      const source = rootGetters["inventory/source"](id);
-      const socket = rootGetters["inventory/sourceSocket"](id);
-
-      if (source.$id && socket.$id && slotIndex) {
+      if (source.$id && socket.$id) {
         const newSlotting = {
-          ...state.install,
+          ...state.slotting,
           sourceId: source.$id,
           socketId: socket.$id,
           eraId: socket.eraId,
           treeId: socket.treeId,
-          slotId,
-          slotIndex,
         };
 
         commit("slotting", newSlotting);
       }
+    },
+
+    slottingIndex: ({ commit, state }, payload) => {
+      const newSlotting = {
+        ...state.slotting,
+        slotIndex: payload,
+      };
+
+      commit("slotting", newSlotting);
+    },
+
+    slottingSlot: ({ commit, state }, payload) => {
+      const newSlotting = {
+        ...state.slotting,
+        slotId: payload,
+      };
+
+      commit("slotting", newSlotting);
     },
 
     /*
@@ -121,10 +141,12 @@ export default {
      */
     fetchSlots: async ({ commit, dispatch, rootGetters }) => {
       await dispatch("Game/Slots/all", null, { root: true });
+
       commit("slots", rootGetters["Game/Slots/all"]);
     },
     fetchTrainings: async ({ commit, dispatch, rootGetters }) => {
       await dispatch("Game/Trainings/all", null, { root: true });
+
       commit("trainings", rootGetters["Game/Trainings/all"]);
     },
   },
