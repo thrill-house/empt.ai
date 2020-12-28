@@ -76,6 +76,7 @@ export default createStore({
       commit("gameId", payload);
 
       await dispatch("score/init");
+      await dispatch("system/init");
       await dispatch("inventory/init");
     },
   },
