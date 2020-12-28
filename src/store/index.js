@@ -18,7 +18,6 @@ export default createStore({
   },
   getters: {
     game: (state) => state?.games?.[state.gameId],
-
     allOwnerQuery: (state) => ({
       where: [["$ownerId", "==", state.ownerId]],
     }),
