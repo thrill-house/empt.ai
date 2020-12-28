@@ -14,11 +14,14 @@ export default {
     title() {
       return this.ability?.title;
     },
+    isInstalling() {
+      return this.installing?.abilityId && this.installing?.modelId;
+    },
     ability() {
-      return this.getAbility(this.installing?.abilityId);
+      return this.isInstalling && this.getAbility(this.installing?.abilityId);
     },
     model() {
-      return this.getModel(this.installing?.modelId);
+      return this.isInstalling && this.getModel(this.installing?.modelId);
     },
     ...mapGetters({
       installing: "system/slotting",
