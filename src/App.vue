@@ -33,5 +33,6 @@ export default {
   @apply relative;
   @apply min-h-screen min-w-full;
   @apply bg-tile from-navy via-midnight to-dark text-light font-primary;
+  @apply overflow-x-hidden;
 }
 </style>
