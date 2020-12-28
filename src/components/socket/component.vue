@@ -15,13 +15,11 @@ export default {
   },
   provide() {
     return {
-      id: this.id,
       socket: this.socket,
-      title: this.title,
-      tree: this.tree,
-      era: this.era,
-      source: this.source,
-      online: this.online,
+      socketId: this.id,
+      socketTitle: this.title,
+      socketTree: this.tree,
+      socketEra: this.era,
       slots: this.slots,
     };
   },
@@ -30,12 +28,12 @@ export default {
       return this.getSocket(this.id);
     },
     title() {
-      //return this.socket?.title;
-      return this.tempTitle || this.socket?.title;
+      return this.socket?.title;
+      // return this.tempTitle || this.socket?.title;
     },
     tree() {
-      //return this.getTree(this.socket?.treeId)?.title;
-      return this.tempTree || this.getTree(this.socket?.treeId)?.title;
+      return this.getTree(this.socket?.treeId)?.title;
+      // return this.tempTree || this.getTree(this.socket?.treeId)?.title;
     },
     era() {
       return this.getEra(this.socket?.eraId)?.stage || 0;
@@ -44,8 +42,7 @@ export default {
       return this.getSocketSource(this.id);
     },
     online() {
-      return true;
-      // return this.source ? true : false;
+      return !!this.source?.$id;
     },
     slots() {
       // return this.socket.slots;
@@ -62,7 +59,7 @@ export default {
 </script>
 
 <template>
-  <article v-bem="{ [title.replace(` `, ``)]: true }">
+  <article v-bem="{ [title.replace(` `, ``)]: true, online }">
     <socket-source />
     <template v-if="online">
       <socket-slot
@@ -100,11 +97,18 @@ export default {
     @apply transform;
     @apply overflow-hidden;
     @apply opacity-50;
-    text-decoration-style: wavy;
+    text-decoration-style: dashed;
     text-decoration-skip-ink: none;
     text-decoration-thickness: 4px;
     text-underline-offset: calc(-0.5em + 14px);
-    text-decoration-color: theme("colors.science");
+  }
+
+  &:not(&--online)::before {
+    text-decoration-color: theme("colors.light") !important;
+  }
+
+  &--online::before {
+    text-decoration-style: wavy;
     animation: connect 4s linear infinite;
 
     @at-root {
