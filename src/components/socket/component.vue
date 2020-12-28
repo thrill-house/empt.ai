@@ -92,21 +92,29 @@ export default {
     ". f f g g .";
 
   &::before {
-    content: "";
+    content: ".....";
     @apply self-center;
-    @apply w-48 h-8;
+    @apply w-48 h-32;
+    @apply font-mono underline;
+    @apply text-9xl text-light text-opacity-0;
     @apply transform;
-    @apply bg-dots;
-    animation: connect 1s linear infinite;
+    @apply overflow-hidden;
+    @apply opacity-50;
+    text-decoration-style: wavy;
+    text-decoration-skip-ink: none;
+    text-decoration-thickness: 4px;
+    text-underline-offset: calc(-0.5em + 12px);
+    text-decoration-color: theme("colors.science");
+    animation: connect 4s linear infinite;
 
     @at-root {
       @keyframes connect {
         0% {
-          background-position-x: 0;
+          text-indent: -8.125rem;
         }
 
         100% {
-          background-position-x: 1rem;
+          text-indent: -0.25rem;
         }
       }
     }
@@ -143,7 +151,7 @@ export default {
 
   &--ScienceJournals {
     &::before {
-      @apply bg-dots-science bg-opacity-40;
+      text-decoration-color: theme("colors.science");
       grid-area: c;
     }
   }
@@ -159,7 +167,8 @@ export default {
 
   &--StockMarket {
     &::before {
-      @apply bg-dots-economy bg-opacity-40 rotate-120;
+      @apply rotate-120;
+      text-decoration-color: theme("colors.economy");
       grid-area: b;
     }
   }
@@ -175,7 +184,8 @@ export default {
 
   &--CrowdKnowledge {
     &::before {
-      @apply bg-dots-society bg-opacity-40 rotate-240;
+      @apply rotate-240;
+      text-decoration-color: theme("colors.society");
       grid-area: g;
     }
   }
@@ -195,7 +205,7 @@ export default {
 
   &--SmartDevices {
     &::before {
-      @apply bg-dots-science bg-opacity-40;
+      text-decoration-color: theme("colors.science");
       grid-area: c;
     }
   }
@@ -214,7 +224,8 @@ export default {
 
   &--PurchaseData {
     &::before {
-      @apply bg-dots-economy bg-opacity-40 rotate-120;
+      @apply rotate-120;
+      text-decoration-color: theme("colors.economy");
       grid-area: b;
     }
   }
@@ -233,7 +244,8 @@ export default {
 
   &--SocialMedia {
     &::before {
-      @apply bg-dots-society bg-opacity-40 rotate-240;
+      @apply rotate-240;
+      text-decoration-color: theme("colors.society");
       grid-area: g;
     }
   }
@@ -256,7 +268,8 @@ export default {
 
   &--BioImplants {
     &::before {
-      @apply bg-dots-science bg-opacity-40 rotate-240;
+      @apply rotate-240;
+      text-decoration-color: theme("colors.science");
       grid-area: g;
     }
   }
@@ -278,7 +291,7 @@ export default {
 
   &--GovernmentBudget {
     &::before {
-      @apply bg-dots-economy bg-opacity-40;
+      text-decoration-color: theme("colors.economy");
       grid-area: c;
     }
   }
@@ -300,7 +313,8 @@ export default {
 
   &--CensusData {
     &::before {
-      @apply bg-dots-society bg-opacity-40 rotate-120;
+      @apply rotate-120;
+      text-decoration-color: theme("colors.society");
       grid-area: b;
     }
   }
@@ -326,7 +340,8 @@ export default {
 
   &--ClusterComputing {
     &::before {
-      @apply bg-dots-science bg-opacity-40 rotate-240;
+      @apply rotate-240;
+      text-decoration-color: theme("colors.science");
       grid-area: g;
     }
   }
@@ -351,7 +366,7 @@ export default {
 
   &--FinancialBlockchain {
     &::before {
-      @apply bg-dots-economy bg-opacity-40;
+      text-decoration-color: theme("colors.economy");
       grid-area: c;
     }
   }
@@ -376,7 +391,8 @@ export default {
 
   &--PublicSurveillance {
     &::before {
-      @apply bg-dots-society bg-opacity-40 rotate-120;
+      @apply rotate-120;
+      text-decoration-color: theme("colors.society");
       grid-area: b;
     }
   }
