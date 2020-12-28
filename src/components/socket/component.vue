@@ -103,7 +103,7 @@ export default {
     text-decoration-style: wavy;
     text-decoration-skip-ink: none;
     text-decoration-thickness: 4px;
-    text-underline-offset: calc(-0.5em + 12px);
+    text-underline-offset: calc(-0.5em + 14px);
     text-decoration-color: theme("colors.science");
     animation: connect 4s linear infinite;
 
