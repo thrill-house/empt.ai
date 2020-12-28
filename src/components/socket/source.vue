@@ -1,6 +1,6 @@
 <script>
 import { mapState, mapGetters, mapActions } from "vuex";
-import { capitalize, head, sortBy } from "lodash-es";
+import { capitalize, head } from "lodash-es";
 
 import ValueList from "../value/list";
 
@@ -62,9 +62,6 @@ export default {
     //   };
     // },
 
-    eras() {
-      return sortBy(this.getEras, "stage");
-    },
     ...mapState(["gameId"]),
     ...mapGetters({
       // "getScores",
@@ -76,8 +73,6 @@ export default {
       getSocketEraFactors: "inventory/socketEraFactors",
       getSocketCosts: "inventory/socketCosts",
       getTree: "labels/tree",
-      getEras: "labels/eras",
-      getEra: "labels/era",
       // "getSlotsForSocket",
     }),
   },
@@ -92,7 +87,6 @@ export default {
         treeId: this.socket.treeId,
       };
 
-      // console.log(payload);
       await this.connectSource(payload);
 
       this.loading = false;
@@ -149,15 +143,6 @@ export default {
       @click="connect()"
     />
     <i v-bem:tree="{ [tree]: true }" />
-    <ol v-bem:eras>
-      <li
-        v-for="(eraItem, e) in eras"
-        v-bem:erasItem="{ active: eraItem.stage <= era }"
-        :key="e"
-      >
-        <span v-bem:erasLabel>{{ eraItem }}</span>
-      </li>
-    </ol>
   </article>
   <div v-for="$i in slots" :key="$i">{{ $i }}</div>
 </template>
@@ -171,7 +156,7 @@ export default {
   @apply justify-between items-center;
   @apply w-48 h-hex*48;
   @apply text-center;
-  @apply px-2 py-4;
+  @apply px-2 pt-4 pb-14;
   @apply -mt-hex*6;
   @apply overflow-hidden;
   @apply clip-hexagon;
@@ -350,32 +335,6 @@ export default {
     }
 
     @include icons("", Neutral, Science, Economy, Society);
-  }
-
-  &__era {
-    @apply w-2 h-6;
-    @apply mt-1;
-    @apply order-4;
-  }
-
-  &__eras {
-    @apply flex flex-col-reverse;
-    @apply w-3;
-    @apply z-10;
-    @apply order-4;
-
-    &-item {
-      @apply w-full h-1 mt-1;
-      @apply bg-grey;
-
-      &--active {
-        @apply bg-sky;
-      }
-    }
-
-    &-label {
-      @apply sr-only;
-    }
   }
 }
 </style>
