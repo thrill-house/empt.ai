@@ -1,11 +1,12 @@
 <script>
 import { mapGetters } from "vuex";
-import { capitalize, sortBy } from "lodash-es";
+import { capitalize } from "lodash-es";
 
 import AbilitySynergies from "./synergies";
 import AbilityResearch from "./research";
 import AbilityInstall from "./install";
 import ValueList from "../value/list";
+import UtilEra from "../util/era";
 
 export default {
   name: "ability-component",
@@ -14,6 +15,7 @@ export default {
     AbilityResearch,
     AbilityInstall,
     ValueList,
+    UtilEra,
   },
   props: {
     id: {
@@ -43,10 +45,10 @@ export default {
       return this.ability?.title;
     },
     tree() {
-      return this.getTree(this.ability.treeId)?.title;
+      return this.getTree(this.ability?.treeId)?.title;
     },
     era() {
-      return this.getEra(this.ability.eraId)?.stage || 0;
+      return this.getEra(this.ability?.eraId)?.stage || 0;
     },
 
     dependees() {
@@ -75,10 +77,6 @@ export default {
         eras: this.eraFactors,
       };
     },
-
-    eras() {
-      return sortBy(this.getEras, "stage");
-    },
     ...mapGetters({
       getAbility: "inventory/ability",
       getAbilityDependants: "inventory/abilityDependants",
@@ -87,7 +85,6 @@ export default {
       getAbilityTreeFactors: "inventory/abilityTreeFactors",
       getAbilityEraFactors: "inventory/abilityEraFactors",
       getTree: "labels/tree",
-      getEras: "labels/eras",
       getEra: "labels/era",
     }),
   },
@@ -162,16 +159,8 @@ export default {
     <div v-bem:tree>
       <i v-bem:treeIcon="{ [tree]: true }" />
     </div>
-    <div v-bem:eras>
-      <ol v-bem:erasList>
-        <li
-          v-for="(eraItem, e) in eras"
-          v-bem:erasItem="{ active: eraItem.stage <= era }"
-          :key="e"
-        >
-          <span v-bem:erasLabel>{{ eraItem }}</span>
-        </li>
-      </ol>
+    <div v-bem:era>
+      <util-era v-bem:eraIndicator :era="era" />
     </div>
   </article>
 </template>
@@ -400,7 +389,7 @@ export default {
     }
   }
 
-  &__eras {
+  &__era {
     @apply absolute top-0 left-0;
     @apply w-28 h-28 ml-1 mt-6;
     @apply bg-tile;
@@ -409,28 +398,10 @@ export default {
     @apply overflow-hidden;
     @apply z-0;
 
-    &-list {
+    &-indicator {
       @apply absolute bottom-0 left-0;
-      @apply flex flex-col-reverse;
-      @apply w-3 mb-8;
-      @apply z-10;
-    }
-
-    &-item {
-      @apply w-full h-1 mt-1;
-      @apply bg-grey;
-
-      &:first-child {
-        @apply mb-1;
-      }
-
-      &--active {
-        @apply bg-sky;
-      }
-    }
-
-    &-label {
-      @apply sr-only;
+      @apply w-3;
+      @apply mb-9;
     }
   }
 }
