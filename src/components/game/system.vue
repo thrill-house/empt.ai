@@ -28,7 +28,7 @@ export default {
       :key="s"
       :id="s"
     />
-    <socket-component
+    <!-- <socket-component
       v-bem:component="{ SmartDevices: true }"
       tempTitle="Smart Devices"
       tempTree="Science"
@@ -90,7 +90,7 @@ export default {
       tempTree="Society"
       :tempSlots="5"
       id="3szP67aF7ZnLQA8Fhwpj8Li6GbBCTLQxiT7Dh3R5EdwD"
-    />
+    /> -->
   </section>
 </template>
 
