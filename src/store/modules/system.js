@@ -1,4 +1,4 @@
-import { find } from "lodash-es";
+import { find, sortBy, reverse } from "lodash-es";
 
 export default {
   namespaced: true,
@@ -39,9 +39,12 @@ export default {
     // Get install
     slotting: (state) => state.slotting,
 
-    // Get one slot
+    // Get a slot, given a source and index
     sourceSlot: (state) => (sourceId, slotIndex) =>
-      find(state.slots, { sourceId, slotIndex }),
+      find(reverse(sortBy(state.slots, "$createdAt")), {
+        sourceId,
+        slotIndex,
+      }),
   },
   mutations: {
     slots: (state, payload) => {
