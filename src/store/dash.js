@@ -94,14 +94,12 @@ export default (config) => {
         (result, document) => {
           result[document] = {
             namespaced: true,
-            state() {
-              return {
-                documents: [],
-              };
+            state: {
+              documents: {},
             },
             getters: {
               all: (state) => state.documents,
-              one: (state) => (id) => state.documents[id],
+              one: (state) => (id) => state.documents?.[id],
             },
             mutations: {
               all: (state, payload) => {
@@ -249,7 +247,7 @@ export default (config) => {
                     identity
                   );
 
-                  commit("remove", payload);
+                  commit("remove", deleted.toJSON());
                 } catch (e) {
                   console.log(e);
                 }
