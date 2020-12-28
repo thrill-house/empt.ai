@@ -20,51 +20,33 @@ export const extractDependencyIds = (dependencies, type) =>
 
 export default {
   namespaced: true,
-  state: () => ({
-    // Abilities
-    abilities: {},
-
-    // Models
-    models: {},
-
-    // Sockets
-    sockets: {},
-
-    // Sources
-    sources: {},
-  }),
+  state: {},
   getters: {
     /*
-     ** Get all
+     ** Get all, mapping to Dash root states
      */
 
-    // Get all abilities
-    abilities: (state) => state.abilities,
-
-    // Get all models
-    models: (state) => state.models,
-
-    // Get all sockets
-    sockets: (state) => state.sockets,
-
-    // Get all sources
-    sources: (state) => state.sources,
+    abilities: (state, getters, rootState, rootGetters) =>
+      rootGetters["App/Abilities/all"],
+    models: (state, getters, rootState, rootGetters) =>
+      rootGetters["Game/Models/all"],
+    sockets: (state, getters, rootState, rootGetters) =>
+      rootGetters["App/Sockets/all"],
+    sources: (state, getters, rootState, rootGetters) =>
+      rootGetters["Game/Sources/all"],
 
     /*
-     ** Get one
+     ** Get one, mapping to Dash root states
      */
 
-    // Get one ability
-    ability: (state) => (id) => state.abilities?.[id],
-
-    // Get one model
-    model: (state) => (id) => state.models?.[id],
-
-    // Get one socket
-    socket: (state) => (id) => state.sockets?.[id],
-
-    // Get one source
-    source: (state) => (id) => state.sources?.[id],
+    ability: (state, getters, rootState, rootGetters) =>
+      rootGetters["App/Abilities/one"],
+    model: (state, getters, rootState, rootGetters) =>
+      rootGetters["Game/Models/one"],
+    socket: (state, getters, rootState, rootGetters) =>
+      rootGetters["App/Sockets/one"],
+    source: (state, getters, rootState, rootGetters) =>
+      rootGetters["Game/Sources/one"],
 
     /*
      ** Model & Ability helpers
@@ -75,12 +57,13 @@ export default {
       getters.ability(getters.model(id)?.abilityId),
 
     // Get all models for ability
-    abilityModels: (state) => (id) => pickBy(state.models, { abilityId: id }),
+    abilityModels: (state, getters) => (id) =>
+      pickBy(getters.models, { abilityId: id }),
 
     // Get dependee abilities
     abilityDependees: (state, getters) => (id) =>
       pickBy(
-        state.abilities,
+        getters.abilities,
         ({ $id }, a) =>
           a !== id &&
           includes(
@@ -90,9 +73,9 @@ export default {
       ),
 
     // Get dependant abilities
-    abilityDependants: (state) => (id) =>
+    abilityDependants: (state, getters) => (id) =>
       pickBy(
-        state.abilities,
+        getters.abilities,
         ({ factors }, a) =>
           a !== id && includes(extractDependencyIds(factors, "abilityId"), id)
       ),
@@ -145,7 +128,8 @@ export default {
      */
 
     // Socket sources
-    socketSource: (state) => (id) => find(state.sources, { socketId: id }),
+    socketSource: (state, getters) => (id) =>
+      find(getters.sources, { socketId: id }),
 
     sourceSocket: (state, getters) => (id) =>
       getters.socket(getters.source(id)?.socketId),
@@ -231,25 +215,17 @@ export default {
     /*
      ** Fetching actions
      */
-    fetchAbilities: async ({ commit, dispatch, rootGetters }) => {
+    fetchAbilities: async ({ dispatch }) => {
       await dispatch("App/Abilities/all", null, { root: true });
-
-      commit("abilities", rootGetters["App/Abilities/all"]);
     },
-    fetchModels: async ({ commit, dispatch, rootGetters }) => {
+    fetchModels: async ({ dispatch }) => {
       await dispatch("Game/Models/all", null, { root: true });
-
-      commit("models", rootGetters["Game/Models/all"]);
     },
-    fetchSockets: async ({ commit, dispatch, rootGetters }) => {
+    fetchSockets: async ({ dispatch }) => {
       await dispatch("App/Sockets/all", null, { root: true });
-
-      commit("sockets", rootGetters["App/Sockets/all"]);
     },
-    fetchSources: async ({ commit, dispatch, rootGetters }) => {
+    fetchSources: async ({ dispatch }) => {
       await dispatch("Game/Sources/all", null, { root: true });
-
-      commit("sources", rootGetters["Game/Sources/all"]);
     },
   },
 };
