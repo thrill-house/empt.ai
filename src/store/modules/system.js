@@ -3,15 +3,6 @@ import { find, sortBy, reverse } from "lodash-es";
 export default {
   namespaced: true,
   state: () => ({
-    // Slots
-    slots: {},
-
-    // Trainings
-    trainings: {},
-
-    // Events
-    // events: {}, // Maybe one day ;)
-
     // Slotting
     slotting: {
       gameId: null,
@@ -24,19 +15,25 @@ export default {
     },
   }),
   getters: {
-    // Get one ability
-    slots: (state) => state.slots,
+    /*
+     ** Get all, mapping to Dash root states
+     */
 
-    // Get one training
-    trainings: (state) => state.trainings,
+    slots: (state, getters, rootState, rootGetters) =>
+      rootGetters["Game/Slots/all"],
+    trainings: (state, getters, rootState, rootGetters) =>
+      rootGetters["Game/Trainings/all"],
 
-    // Get one slot
-    slot: (state, getters) => (id) => getters.slots?.[id],
+    /*
+     ** Get one, mapping to Dash root states
+     */
 
-    // Get one training
-    training: (state, getters) => (id) => getters.trainings?.[id],
+    slot: (state, getters, rootState, rootGetters) =>
+      rootGetters["Game/Slots/one"],
+    training: (state, getters, rootState, rootGetters) =>
+      rootGetters["Game/Trainings/one"],
 
-    // Get install
+    // Get slotting
     slotting: (state) => state.slotting,
 
     // Get a slot, given a source and index
@@ -47,12 +44,6 @@ export default {
       }),
   },
   mutations: {
-    slots: (state, payload) => {
-      state.slots = payload;
-    },
-    trainings: (state, payload) => {
-      state.trainings = payload;
-    },
     slotting: (state, payload) => {
       state.slotting = payload;
     },
@@ -142,15 +133,11 @@ export default {
     /*
      ** Fetching actions
      */
-    fetchSlots: async ({ commit, dispatch, rootGetters }) => {
+    fetchSlots: async ({ dispatch }) => {
       await dispatch("Game/Slots/all", null, { root: true });
-
-      commit("slots", rootGetters["Game/Slots/all"]);
     },
-    fetchTrainings: async ({ commit, dispatch, rootGetters }) => {
+    fetchTrainings: async ({ dispatch }) => {
       await dispatch("Game/Trainings/all", null, { root: true });
-
-      commit("trainings", rootGetters["Game/Trainings/all"]);
     },
   },
 };
