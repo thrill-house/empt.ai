@@ -244,6 +244,7 @@ export default {
   &__emotions {
     @apply hidden;
     @apply absolute inset-x-12 inset-y-hex*14;
+    @apply transform -translate-y-px;
     @apply w-24 h-24;
   }
 
