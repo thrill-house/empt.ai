@@ -44,11 +44,15 @@ export default {
     online() {
       return !!this.source?.$id;
     },
+    installing() {
+      return !!(this.getInstalling?.abilityId && this.getInstalling?.modelId);
+    },
     slots() {
       // return this.socket.slots;
       return this.tempSlots || this.socket?.slots;
     },
     ...mapGetters({
+      getInstalling: "system/slotting",
       getSocket: "inventory/socket",
       getSocketSource: "inventory/socketSource",
       getTree: "labels/tree",
@@ -59,7 +63,7 @@ export default {
 </script>
 
 <template>
-  <article v-bem="{ [title.replace(` `, ``)]: true, online }">
+  <article v-bem="{ [title.replace(` `, ``)]: true, online, installing }">
     <socket-source />
     <template v-if="online">
       <socket-slot
@@ -76,6 +80,7 @@ export default {
 @import "../../styles/helper";
 
 .socket-component {
+  @apply relative;
   @apply grid;
   @apply w-144 h-hex/144;
   grid-template-rows: repeat(6, 1fr);
@@ -87,6 +92,7 @@ export default {
     "c c d d e e"
     ". f f g g ."
     ". f f g g .";
+  // clip-path: polygon(0 0, 0% 100%, 100% 0);
 
   &::before {
     content: ".....";
@@ -103,8 +109,26 @@ export default {
     text-underline-offset: calc(-0.5em + 14px);
   }
 
-  &:not(&--online)::before {
-    text-decoration-color: theme("colors.light") !important;
+  &::after {
+    content: "";
+    @apply hidden;
+    @apply absolute inset-x-0 -inset-y-hex*6;
+    @apply -z-10;
+  }
+
+  &:not(&--online) {
+    &::before {
+      text-decoration-color: theme("colors.light") !important;
+    }
+    &::after {
+      @apply hidden;
+    }
+  }
+
+  &--online:hover {
+    &::after {
+      @apply block;
+    }
   }
 
   &--online::before {
@@ -138,8 +162,32 @@ export default {
   }
 
   &--Root {
+    @include hex-path(
+      0 42,
+      24 30,
+      48 42,
+      72 30,
+      72 6,
+      96 -6,
+      120 6,
+      120 30,
+      96 42,
+      96 66,
+      120 78,
+      120 102,
+      96 114,
+      72 102,
+      72 78,
+      48 66,
+      24 78,
+      0 66
+    );
+
     &::before {
       @apply hidden;
+    }
+    &::after {
+      @apply bg-neutral bg-opacity-25;
     }
   }
 
@@ -154,9 +202,29 @@ export default {
   }
 
   &--ScienceJournals {
+    @include hex-path(
+      0 42,
+      24 30,
+      24 6,
+      48 -6,
+      72 6,
+      72 30,
+      96 42,
+      96 66,
+      72 78,
+      72 102,
+      48 114,
+      24 102,
+      24 78,
+      0 66
+    );
+
     &::before {
       text-decoration-color: theme("colors.science");
       grid-area: c;
+    }
+    &::after {
+      @apply bg-science bg-opacity-25;
     }
   }
 
@@ -170,10 +238,30 @@ export default {
   }
 
   &--StockMarket {
+    @include hex-path(
+      24 6,
+      48 -6,
+      72 6,
+      96 -6,
+      120 6,
+      120 30,
+      144 42,
+      144 66,
+      120 78,
+      96 66,
+      72 78,
+      48 66,
+      48 42,
+      24 30
+    );
+
     &::before {
       @apply rotate-120;
       text-decoration-color: theme("colors.economy");
       grid-area: b;
+    }
+    &::after {
+      @apply bg-economy bg-opacity-25;
     }
   }
 
@@ -187,10 +275,30 @@ export default {
   }
 
   &--CrowdKnowledge {
+    @include hex-path(
+      48 42,
+      72 30,
+      96 42,
+      120 30,
+      144 42,
+      144 66,
+      120 78,
+      120 102,
+      96 114,
+      72 102,
+      48 114,
+      24 102,
+      24 78,
+      48 66
+    );
+
     &::before {
       @apply rotate-240;
       text-decoration-color: theme("colors.society");
       grid-area: g;
+    }
+    &::after {
+      @apply bg-society bg-opacity-25;
     }
   }
 
