@@ -1,6 +1,6 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
-import { keys } from "lodash-es";
+import { keys, some } from "lodash-es";
 
 import hover from "../../mixins/hover";
 import EmotionDiagram from "../emotion/diagram";
@@ -32,10 +32,18 @@ export default {
     models() {
       return this.getAbilityModels(this.id);
     },
+    modelKeys() {
+      return keys(this.models);
+    },
+    slotted() {
+      return this.getAbilitySlots(this.id);
+    },
+    slottedKeys() {
+      return keys(this.slotted);
+    },
 
     modelsAvailable() {
-      // TODO: Figure out how many are already installed
-      return keys(this.models).length || 0;
+      return this.modelKeys.length - this.slottedKeys.length;
     },
     modelsTotal() {
       return keys(this.models).length || 0;
@@ -45,6 +53,7 @@ export default {
       getAbilityModels: "inventory/abilityModels",
       getModel: "inventory/model",
       getInstalling: "system/slotting",
+      getAbilitySlots: "system/abilitySlots",
     }),
   },
   methods: {
@@ -61,6 +70,9 @@ export default {
     install() {
       this.installingModel(this.selectedModelId);
       this.cancelDialog();
+    },
+    modelSlotted(id) {
+      return some(this.slotted, { modelId: id });
     },
     ...mapActions({
       installingModel: "system/slottingModel",
@@ -91,13 +103,17 @@ export default {
     <template v-slot:default>
       <div v-bem:models>
         <button
-          v-bem:modelsTrigger="{ highlight: selectedModelId == m }"
+          v-bem:modelsTrigger="{
+            highlight: selectedModelId == m,
+            slotted: modelSlotted(m),
+          }"
           v-for="(model, m) in models"
           @click="select(m)"
           :key="m"
+          :data-slotted="modelSlotted(m) ? $t(`Installed`) : ``"
         >
           <emotion-diagram
-            v-bem:modelsEmotions
+            v-bem:modelsEmotions="{ slotted: modelSlotted(m) }"
             :sets="model.feelings"
             :scale="2"
           />
@@ -165,15 +181,40 @@ export default {
       @apply border border-transparent;
 
       &--highlight {
-        @apply border-light;
+        @apply border-light border-dashed;
         @apply bg-sky bg-opacity-10;
         @apply rounded-full;
+      }
+
+      &--slotted {
+        &::before {
+          content: attr(data-slotted);
+          @apply absolute inset-0 top-unset;
+          @apply flex items-center justify-center;
+          @apply p-1.5;
+          @apply text-2xs uppercase;
+          @apply text-light text-opacity-50;
+          @apply z-10;
+        }
+
+        // &:after {
+        //   content: "";
+        //   @apply absolute inset-10;
+        //   @apply rounded-full;
+        //   @apply bg-sky; // bg-opacity-25;
+        //   @apply -z-10;
+        //   @apply animate-ping;
+        // }
       }
     }
 
     &-emotions {
       @apply w-32 h-32;
       @apply m-4;
+
+      &--slotted {
+        @apply opacity-50;
+      }
     }
   }
 
