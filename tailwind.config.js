@@ -51,6 +51,7 @@ module.exports = {
         "144": "36rem",
         "192": "48rem",
         "hex*6": "calc(1.5rem * var(--hex-ratio))",
+        "hex*14": "calc(3.5rem * var(--hex-ratio))",
         "hex*16": "calc(4rem * var(--hex-ratio))",
         "hex*48": "calc(12rem * var(--hex-ratio))",
         "hex/144": "calc(36rem / var(--hex-ratio))",
