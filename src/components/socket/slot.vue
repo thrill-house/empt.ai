@@ -29,7 +29,11 @@ export default {
       return !!this.source?.$id;
     },
     installing() {
-      return !!(this.getInstalling?.abilityId && this.getInstalling?.modelId);
+      return !!(
+        this.getInstalling?.abilityId &&
+        this.getInstalling?.modelId &&
+        this.getInstalling?.modelId !== this.slot?.modelId
+      );
     },
     ability() {
       return this.getAbility(this.slot?.abilityId);
@@ -308,6 +312,7 @@ export default {
       @apply w-16 h-16;
       @apply bg-light;
       @apply animate-bounce;
+      @apply z-20;
     }
 
     @include icons("::before", installing);
