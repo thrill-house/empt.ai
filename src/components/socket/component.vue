@@ -92,7 +92,6 @@ export default {
     "c c d d e e"
     ". f f g g ."
     ". f f g g .";
-  // clip-path: polygon(0 0, 0% 100%, 100% 0);
 
   &::before {
     content: ".....";
@@ -260,6 +259,7 @@ export default {
       text-decoration-color: theme("colors.economy");
       grid-area: b;
     }
+
     &::after {
       @apply bg-economy bg-opacity-25;
     }
@@ -297,6 +297,7 @@ export default {
       text-decoration-color: theme("colors.society");
       grid-area: g;
     }
+
     &::after {
       @apply bg-society bg-opacity-25;
     }
@@ -316,9 +317,32 @@ export default {
   }
 
   &--SmartDevices {
+    @include hex-path(
+      0 42,
+      24 30,
+      48 42,
+      72 30,
+      96 42,
+      120 30,
+      144 42,
+      144 66,
+      120 78,
+      120 102,
+      96 114,
+      72 102,
+      48 114,
+      24 102,
+      24 78,
+      0 66
+    );
+
     &::before {
       text-decoration-color: theme("colors.science");
       grid-area: c;
+    }
+
+    &::after {
+      @apply bg-science bg-opacity-25;
     }
   }
 
@@ -335,10 +359,35 @@ export default {
   }
 
   &--PurchaseData {
+    @include hex-path(
+      0 42,
+      24 30,
+      24 6,
+      48 -6,
+      72 6,
+      72 30,
+      72 6,
+      96 -6,
+      120 6,
+      120 30,
+      96 42,
+      96 66,
+      72 78,
+      72 102,
+      48 114,
+      24 102,
+      24 78,
+      0 66
+    );
+
     &::before {
       @apply rotate-120;
       text-decoration-color: theme("colors.economy");
       grid-area: b;
+    }
+
+    &::after {
+      @apply bg-economy bg-opacity-25;
     }
   }
 
@@ -355,10 +404,35 @@ export default {
   }
 
   &--SocialMedia {
+    @include hex-path(
+      24 6,
+      48 -6,
+      72 6,
+      72 30,
+      72 6,
+      96 -6,
+      120 6,
+      120 30,
+      144 42,
+      144 66,
+      120 78,
+      120 102,
+      96 114,
+      72 102,
+      72 78,
+      48 66,
+      48 42,
+      24 30
+    );
+
     &::before {
       @apply rotate-240;
       text-decoration-color: theme("colors.society");
       grid-area: g;
+    }
+
+    &::after {
+      @apply bg-society bg-opacity-25;
     }
   }
 
@@ -379,10 +453,35 @@ export default {
   }
 
   &--BioImplants {
+    @include hex-path(
+      0 42,
+      24 30,
+      48 42,
+      72 30,
+      72 6,
+      96 -6,
+      120 6,
+      120 30,
+      144 42,
+      144 66,
+      120 78,
+      120 102,
+      96 114,
+      72 102,
+      48 114,
+      24 102,
+      24 78,
+      0 66
+    );
+
     &::before {
       @apply rotate-240;
       text-decoration-color: theme("colors.science");
       grid-area: g;
+    }
+
+    &::after {
+      @apply bg-science bg-opacity-25;
     }
   }
 
@@ -402,9 +501,36 @@ export default {
   }
 
   &--GovernmentBudget {
+    @include hex-path(
+      0 42,
+      24 30,
+      24 6,
+      48 -6,
+      72 6,
+      72 30,
+      72 6,
+      96 -6,
+      120 6,
+      120 30,
+      96 42,
+      96 66,
+      120 78,
+      120 102,
+      96 114,
+      72 102,
+      48 114,
+      24 102,
+      24 78,
+      0 66
+    );
+
     &::before {
       text-decoration-color: theme("colors.economy");
       grid-area: c;
+    }
+
+    &::after {
+      @apply bg-economy bg-opacity-25;
     }
   }
 
@@ -424,10 +550,37 @@ export default {
   }
 
   &--CensusData {
+    @include hex-path(
+      0 42,
+      24 30,
+      24 6,
+      48 -6,
+      72 6,
+      72 30,
+      72 6,
+      96 -6,
+      120 6,
+      120 30,
+      144 42,
+      144 66,
+      120 78,
+      120 102,
+      96 114,
+      72 102,
+      72 78,
+      48 66,
+      24 78,
+      0 66
+    );
+
     &::before {
       @apply rotate-120;
       text-decoration-color: theme("colors.society");
       grid-area: b;
+    }
+
+    &::after {
+      @apply bg-society bg-opacity-25;
     }
   }
 
@@ -451,10 +604,37 @@ export default {
   }
 
   &--ClusterComputing {
+    @include hex-path(
+      0 42,
+      24 30,
+      24 6,
+      48 -6,
+      72 6,
+      72 30,
+      72 6,
+      96 -6,
+      120 6,
+      120 30,
+      144 42,
+      144 66,
+      120 78,
+      120 102,
+      96 114,
+      72 102,
+      48 114,
+      24 102,
+      24 78,
+      0 66
+    );
+
     &::before {
       @apply rotate-240;
       text-decoration-color: theme("colors.science");
       grid-area: g;
+    }
+
+    &::after {
+      @apply bg-science bg-opacity-25;
     }
   }
 
@@ -477,9 +657,36 @@ export default {
   }
 
   &--FinancialBlockchain {
+    @include hex-path(
+      0 42,
+      24 30,
+      24 6,
+      48 -6,
+      72 6,
+      72 30,
+      72 6,
+      96 -6,
+      120 6,
+      120 30,
+      144 42,
+      144 66,
+      120 78,
+      120 102,
+      96 114,
+      72 102,
+      48 114,
+      24 102,
+      24 78,
+      0 66
+    );
+
     &::before {
       text-decoration-color: theme("colors.economy");
       grid-area: c;
+    }
+
+    &::after {
+      @apply bg-economy bg-opacity-25;
     }
   }
 
@@ -502,10 +709,37 @@ export default {
   }
 
   &--PublicSurveillance {
+    @include hex-path(
+      0 42,
+      24 30,
+      24 6,
+      48 -6,
+      72 6,
+      72 30,
+      72 6,
+      96 -6,
+      120 6,
+      120 30,
+      144 42,
+      144 66,
+      120 78,
+      120 102,
+      96 114,
+      72 102,
+      48 114,
+      24 102,
+      24 78,
+      0 66
+    );
+
     &::before {
       @apply rotate-120;
       text-decoration-color: theme("colors.society");
       grid-area: b;
+    }
+
+    &::after {
+      @apply bg-society bg-opacity-25;
     }
   }
 }
