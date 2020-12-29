@@ -19,6 +19,9 @@ export default {
     online() {
       return !!this.source?.$id;
     },
+    installing() {
+      return !!(this.getInstalling?.abilityId && this.getInstalling?.modelId);
+    },
 
     bases() {
       return this.getSocketCoreBases(this.socketId);
@@ -74,6 +77,7 @@ export default {
     ...mapGetters({
       // "getScores",
       // "getEventOfType",
+      getInstalling: "system/slotting",
       getSocket: "inventory/socket",
       getSocketSource: "inventory/socketSource",
       getSocketCoreBases: "inventory/socketCoreBases",
@@ -98,6 +102,13 @@ export default {
 
       this.loading = false;
     },
+    // async disconnect() {
+    //   this.loading = true;
+
+    //   await this.removeSource({ $id: this.source?.$id });
+
+    //   this.loading = false;
+    // },
     ...mapActions({
       connectSource: "Game/Sources/create",
       removeSource: "Game/Sources/delete",
@@ -108,7 +119,7 @@ export default {
 </script>
 
 <template>
-  <div v-bem="{ online, [socketTree]: online }">
+  <div v-bem="{ online, [socketTree]: online, loading, installing }">
     <header v-bem:header>
       <h4 v-bem:headerTitle>{{ socketTitle }}</h4>
     </header>
@@ -136,14 +147,14 @@ export default {
       </template>
     </dl>
     <button
-      v-if="online"
+      v-if="online && !installing"
       v-bem:bonus.confidence="{ loading }"
       v-format:confidence.⇧="bonus"
       :title="$t(`Training bonus`)"
       @click="train()"
     />
     <button
-      v-else
+      v-else-if="!installing"
       v-bem:connect.confidence="{ loading }"
       v-format:confidence="costs.confidence"
       :disabled="!affordable"
@@ -189,10 +200,6 @@ export default {
     @apply z-0;
   }
 
-  &:hover &__attributes {
-    @apply hidden;
-  }
-
   > * {
     @apply relative;
     @apply z-20;
@@ -228,7 +235,8 @@ export default {
     }
   }
 
-  &:hover &__attributes {
+  &:not(&--installing):hover &__attributes,
+  &--loading &__attributes {
     @apply hidden;
   }
 
@@ -305,7 +313,8 @@ export default {
   }
 
   &:hover &__connect,
-  &:hover &__bonus {
+  &:hover &__bonus,
+  &--loading &__connect {
     @apply flex;
   }
 
