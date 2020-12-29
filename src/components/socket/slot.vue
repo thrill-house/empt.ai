@@ -156,38 +156,17 @@ export default {
 
   &::before {
     content: "";
-    @apply absolute inset-0.5;
+    @apply absolute inset-1;
     @apply m-px;
     @apply bg-grout;
     @apply clip-hexagon;
     @apply z-10;
   }
 
-  &--online::before {
-    @apply inset-1;
-  }
-
-  &--slotting > * {
-    @apply hidden #{!important};
-  }
-
   &::after {
     content: "";
-    @apply absolute inset-0.5;
+    @apply absolute inset-1;
     @apply clip-hexagon;
-  }
-
-  & > * {
-    @apply z-20;
-  }
-
-  @include trees using ($tree) {
-    &::before {
-      @apply bg-grout-#{$tree} bg-opacity-20;
-    }
-    &::after {
-      @apply bg-#{$tree};
-    }
   }
 
   &:not(&--match) {
@@ -199,12 +178,21 @@ export default {
     }
   }
 
-  &:hover &__badge {
-    @apply invisible;
+  & > * {
+    @apply z-20;
   }
 
-  &:hover &__emotions {
-    @apply block;
+  &--slotting > * {
+    @apply hidden #{!important};
+  }
+
+  @include trees using ($tree) {
+    &::before {
+      @apply bg-grout-#{$tree} bg-opacity-20;
+    }
+    &::after {
+      @apply bg-#{$tree};
+    }
   }
 
   &__synergies {
@@ -220,6 +208,10 @@ export default {
         @apply order-4;
       }
     }
+  }
+
+  &:hover &__badge {
+    @apply invisible;
   }
 
   &__badge {
@@ -239,6 +231,10 @@ export default {
       // TODO: get all icons here somehow
       @include icons("", Buzzie, Gamebryo);
     }
+  }
+
+  &:hover &__emotions {
+    @apply block;
   }
 
   &__emotions {
