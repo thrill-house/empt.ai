@@ -14,3 +14,22 @@
     }
   }
 }
+
+@mixin hex-path($points...) {
+  $coords: ();
+
+  @each $x, $y in $points {
+    @debug $x;
+    @debug $y;
+
+    $coords: append(
+      $coords,
+      calc(#{$x} * 1rem / 4) calc(#{$y} * 1rem * var(--hex-ratio) / 4),
+      $separator: comma
+    );
+  }
+
+  @debug $coords;
+
+  clip-path: polygon($coords);
+}
