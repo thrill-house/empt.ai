@@ -1,4 +1,15 @@
-import { find, pickBy, reverse, sortBy } from "lodash-es";
+import {
+  filter,
+  find,
+  includes,
+  keyBy,
+  map,
+  pickBy,
+  reverse,
+  sortBy,
+  uniq,
+  without,
+} from "lodash-es";
 
 export default {
   namespaced: true,
@@ -36,9 +47,36 @@ export default {
     // Get slotting
     slotting: (state) => state.slotting,
 
+    // Get currently slotted
+    slotted: (state, getters) => (before) => {
+      const slots = getters.slots;
+      const sorted = sortBy(slots, "$createdAt");
+      const reversed = reverse(sorted);
+      const filteredBefore = filter(
+        reversed,
+        (slot) => before === undefined || slot.$createdAt < before
+      );
+      let modelKeys = uniq(map(filteredBefore, "modelId"));
+      const slotKeys = uniq(map(filteredBefore, "slotId"));
+      const filterModels = filter(filteredBefore, (slot) => {
+        if (includes(modelKeys, slot.modelId)) {
+          modelKeys = without(modelKeys, slot.modelId);
+          return true;
+        }
+
+        return false;
+      });
+      const filterSlots = filter(
+        filterModels,
+        (slot) => !includes(slotKeys, slot.$id)
+      );
+
+      return keyBy(filterSlots, "$id");
+    },
+
     // Get all slots, given a source
     sourceSlots: (state, getters) => (sourceId) =>
-      pickBy(reverse(sortBy(getters.slots, "$createdAt")), {
+      pickBy(getters.slotted(), {
         sourceId,
       }),
 
@@ -46,6 +84,18 @@ export default {
     sourceSlot: (state, getters) => (sourceId, slotIndex) =>
       find(getters.sourceSlots(sourceId), {
         slotIndex,
+      }),
+
+    // Get a slots, given a model
+    modelSlot: (state, getters) => (modelId) =>
+      find(getters.slotted(), {
+        modelId,
+      }),
+
+    // Get all slots, given a model
+    abilitySlots: (state, getters) => (abilityId) =>
+      pickBy(getters.slotted(), {
+        abilityId,
       }),
   },
   mutations: {
