@@ -48,8 +48,8 @@ export default {
       return !!(this.getInstalling?.abilityId && this.getInstalling?.modelId);
     },
     slots() {
-      // return this.socket.slots;
-      return this.tempSlots || this.socket?.slots;
+      return this.socket.slots;
+      // return this.tempSlots || this.socket?.slots;
     },
     ...mapGetters({
       getInstalling: "system/slotting",
@@ -224,6 +224,22 @@ export default {
     }
     &::after {
       @apply bg-science bg-opacity-25;
+      @include hex-path(
+        48 48,
+        24 36,
+        24 12,
+        48 0,
+        72 12,
+        72 36,
+        96 48,
+        96 72,
+        72 84,
+        72 108,
+        48 122,
+        24 108,
+        24 84,
+        48 72
+      );
     }
   }
 
@@ -262,6 +278,22 @@ export default {
 
     &::after {
       @apply bg-economy bg-opacity-25;
+      @include hex-path(
+        24 12,
+        48 0,
+        72 12,
+        72 36,
+        96 48,
+        120 36,
+        144 48,
+        144 72,
+        120 84,
+        96 72,
+        72 84,
+        48 72,
+        48 48,
+        24 36
+      );
     }
   }
 
@@ -300,6 +332,22 @@ export default {
 
     &::after {
       @apply bg-society bg-opacity-25;
+      @include hex-path(
+        48 48,
+        72 36,
+        96 48,
+        120 36,
+        144 48,
+        144 72,
+        120 84,
+        96 72,
+        72 84,
+        72 108,
+        48 120,
+        24 108,
+        24 84,
+        48 72
+      );
     }
   }
 
@@ -343,6 +391,22 @@ export default {
 
     &::after {
       @apply bg-science bg-opacity-25;
+      @include hex-path(
+        48 48,
+        72 36,
+        96 48,
+        120 36,
+        144 48,
+        144 72,
+        120 84,
+        120 108,
+        96 120,
+        72 108,
+        48 120,
+        24 108,
+        24 84,
+        48 72
+      );
     }
   }
 
@@ -365,8 +429,6 @@ export default {
       24 6,
       48 -6,
       72 6,
-      72 30,
-      72 6,
       96 -6,
       120 6,
       120 30,
@@ -388,6 +450,22 @@ export default {
 
     &::after {
       @apply bg-economy bg-opacity-25;
+      @include hex-path(
+        0 48,
+        24 36,
+        24 12,
+        48 0,
+        72 12,
+        72 36,
+        96 48,
+        96 72,
+        72 84,
+        72 108,
+        48 120,
+        24 108,
+        24 84,
+        0 72
+      );
     }
   }
 
@@ -407,8 +485,6 @@ export default {
     @include hex-path(
       24 6,
       48 -6,
-      72 6,
-      72 30,
       72 6,
       96 -6,
       120 6,
@@ -433,6 +509,22 @@ export default {
 
     &::after {
       @apply bg-society bg-opacity-25;
+      @include hex-path(
+        24 12,
+        48 0,
+        72 12,
+        96 0,
+        120 12,
+        120 36,
+        144 48,
+        144 72,
+        120 84,
+        96 72,
+        72 84,
+        48 72,
+        48 48,
+        24 36
+      );
     }
   }
 
@@ -482,6 +574,26 @@ export default {
 
     &::after {
       @apply bg-science bg-opacity-25;
+      @include hex-path(
+        0 48,
+        24 36,
+        48 48,
+        72 36,
+        72 12,
+        96 0,
+        120 12,
+        120 36,
+        144 48,
+        144 72,
+        120 84,
+        96 66,
+        72 78,
+        72 108,
+        48 120,
+        24 108,
+        24 84,
+        0 72
+      );
     }
   }
 
@@ -531,6 +643,28 @@ export default {
 
     &::after {
       @apply bg-economy bg-opacity-25;
+      @include hex-path(
+        48 48,
+        24 36,
+        24 12,
+        48 0,
+        72 12,
+        72 36,
+        72 12,
+        96 0,
+        120 12,
+        120 36,
+        96 48,
+        96 72,
+        120 84,
+        120 108,
+        96 120,
+        72 108,
+        48 120,
+        24 108,
+        24 84,
+        48 722
+      );
     }
   }
 
@@ -556,8 +690,6 @@ export default {
       24 6,
       48 -6,
       72 6,
-      72 30,
-      72 6,
       96 -6,
       120 6,
       120 30,
@@ -581,6 +713,26 @@ export default {
 
     &::after {
       @apply bg-society bg-opacity-25;
+      @include hex-path(
+        0 48,
+        24 36,
+        24 12,
+        48 0,
+        72 12,
+        72 36,
+        96 48,
+        120 36,
+        144 48,
+        144 72,
+        120 84,
+        120 108,
+        96 120,
+        72 108,
+        72 84,
+        48 72,
+        24 84,
+        0 72
+      );
     }
   }
 
@@ -635,6 +787,28 @@ export default {
 
     &::after {
       @apply bg-science bg-opacity-25;
+      @include hex-path(
+        0 48,
+        24 36,
+        24 12,
+        48 0,
+        72 12,
+        72 36,
+        72 12,
+        96 0,
+        120 12,
+        120 36,
+        144 48,
+        144 72,
+        120 84,
+        96 72,
+        72 84,
+        72 108,
+        48 120,
+        24 108,
+        24 84,
+        0 72
+      );
     }
   }
 
@@ -663,8 +837,6 @@ export default {
       24 6,
       48 -6,
       72 6,
-      72 30,
-      72 6,
       96 -6,
       120 6,
       120 30,
@@ -687,6 +859,26 @@ export default {
 
     &::after {
       @apply bg-economy bg-opacity-25;
+      @include hex-path(
+        48 48,
+        24 36,
+        24 12,
+        48 0,
+        72 12,
+        96 0,
+        120 12,
+        120 36,
+        144 48,
+        144 72,
+        120 84,
+        120 108,
+        96 120,
+        72 108,
+        48 120,
+        24 108,
+        24 84,
+        48 72
+      );
     }
   }
 
@@ -715,8 +907,6 @@ export default {
       24 6,
       48 -6,
       72 6,
-      72 30,
-      72 6,
       96 -6,
       120 6,
       120 30,
@@ -740,6 +930,26 @@ export default {
 
     &::after {
       @apply bg-society bg-opacity-25;
+      @include hex-path(
+        0 48,
+        24 36,
+        24 12,
+        48 0,
+        72 12,
+        72 36,
+        96 48,
+        120 36,
+        144 48,
+        144 72,
+        120 84,
+        120 108,
+        96 120,
+        72 108,
+        48 120,
+        24 108,
+        24 84,
+        0 72
+      );
     }
   }
 }
