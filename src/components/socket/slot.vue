@@ -2,14 +2,18 @@
 import { mapGetters, mapActions } from "vuex";
 
 import AbilitySynergies from "../ability/synergies";
+import EmotionDiagram from "../emotion/diagram";
 import UtilEra from "../util/era";
 
 export default {
   name: "socket-slot",
-  components: { AbilitySynergies, UtilEra },
+  components: { AbilitySynergies, EmotionDiagram, UtilEra },
   props: {
     slotIndex: Number,
   },
+  data: () => ({
+    slotting: false,
+  }),
   inject: ["socketId", "socketTree", "socketEra"],
   computed: {
     id() {
@@ -21,8 +25,11 @@ export default {
     slot() {
       return this.getSourceSlot(this.source.$id, this.slotIndex);
     },
-    isInstalling() {
-      return this.installing?.abilityId && this.installing?.modelId;
+    online() {
+      return !!this.source?.$id;
+    },
+    installing() {
+      return !!(this.getInstalling?.abilityId && this.getInstalling?.modelId);
     },
     ability() {
       return this.getAbility(this.slot?.abilityId);
@@ -34,7 +41,7 @@ export default {
       return this.ability?.title;
     },
     tree() {
-      return this.getTree(this.ability?.treeId)?.title;
+      return this.getTree(this.ability?.treeId)?.title || false;
     },
     era() {
       return this.getEra(this.ability?.eraId)?.stage || 0;
@@ -57,7 +64,7 @@ export default {
       return this.getModel(this.slot?.modelId);
     },
     ...mapGetters({
-      installing: "system/slotting",
+      getInstalling: "system/slotting",
       getSourceSlot: "system/sourceSlot",
       getSocketSource: "inventory/socketSource",
       getAbility: "inventory/ability",
@@ -70,16 +77,23 @@ export default {
   },
   methods: {
     async install() {
-      if (this.sourceId) {
-        await this.installingSource(this.sourceId);
+      if (this.source?.$id) {
+        this.slotting = true;
+
+        await this.installingSource(this.source?.$id);
         await this.installingIndex(this.slotIndex);
 
         if (this.id) {
           await this.installingSlot(this.id);
         }
 
-        this.installModel(this.installing);
+        const payload = this.getInstalling;
+
         this.installingReset();
+
+        await this.installModel(payload);
+
+        this.slotting = false;
       }
     },
     ...mapActions({
@@ -94,7 +108,7 @@ export default {
 </script>
 
 <template>
-  <div v-bem="{ online: !!slot, [tree]: true, match }">
+  <div v-bem="{ [tree]: true, online, match, installing, slotting }">
     <template v-if="slot && ability">
       <div v-bem:badge><i v-bem:badgeIcon="{ [title]: true }" /></div>
       <ability-synergies
@@ -106,16 +120,23 @@ export default {
         :synergies="synergies"
         :key="synergy"
       />
+      <emotion-diagram
+        v-bem:emotions
+        :sets="model.feelings"
+        :scale="2"
+        :labels="false"
+      />
       <div v-bem:tree="{ [tree]: true }">
         <i v-bem:treeIcon="{ [tree]: true }" />
       </div>
       <util-era v-bem:era :era="era" />
     </template>
-    <div v-if="isInstalling" v-bem:install>
+    <div v-if="installing" v-bem:install>
       <button v-bem:installTrigger @click="install()">
         {{ $t("Install") }}
       </button>
     </div>
+    <i v-if="slotting" v-bem:slotting="{ installing: slotting }" />
   </div>
 </template>
 
@@ -146,6 +167,10 @@ export default {
     @apply inset-1;
   }
 
+  &--slotting > * {
+    @apply hidden #{!important};
+  }
+
   &::after {
     content: "";
     @apply absolute inset-0.5;
@@ -174,6 +199,14 @@ export default {
     }
   }
 
+  &:hover &__badge {
+    @apply invisible;
+  }
+
+  &:hover &__emotions {
+    @apply block;
+  }
+
   &__synergies {
     &-list {
       @apply flex flex-col justify-between;
@@ -192,7 +225,7 @@ export default {
   &__badge {
     @apply flex justify-center items-center;
     @apply w-24 h-24;
-    @apply mx-1 mt-1;
+    @apply mx-1 my-1;
     @apply bg-light bg-opacity-25;
     @apply rounded-full;
     @apply order-3;
@@ -206,6 +239,12 @@ export default {
       // TODO: get all icons here somehow
       @include icons("", Buzzie, Gamebryo);
     }
+  }
+
+  &__emotions {
+    @apply hidden;
+    @apply absolute inset-x-12 inset-y-hex*14;
+    @apply w-24 h-24;
   }
 
   &__tree {
@@ -252,15 +291,36 @@ export default {
       @apply clip-hexagon;
     }
 
-    &:hover &-trigger {
-      @apply animate-none;
+    &-trigger {
+      @apply button button-confirm button-lg;
+      @apply absolute;
+    }
+  }
+
+  &__slotting {
+    @apply absolute inset-0;
+    @apply flex #{!important};
+    @apply items-center justify-center;
+    @apply w-full;
+    @apply p-1;
+    @apply clip-hexagon;
+
+    &::before {
+      content: "";
+      @apply absolute;
+      @apply w-16 h-16;
+      @apply bg-light;
+      @apply animate-bounce;
     }
 
-    &-trigger {
-      @apply button button-confirm;
-      @apply absolute;
-      @apply animate-ping;
-      animation-duration: 3s;
+    @include icons("::before", installing);
+
+    &::after {
+      content: "";
+      @apply bg-ash bg-opacity-50;
+      @apply w-full h-full;
+      @apply clip-hexagon;
+      @apply z-10;
     }
   }
 }
