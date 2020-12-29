@@ -183,20 +183,6 @@ export default {
 
     socketDataCosts: (state, getters) => (id) => getters.socketCosts(id)?.data,
   },
-  mutations: {
-    abilities: (state, payload) => {
-      state.abilities = payload;
-    },
-    models: (state, payload) => {
-      state.models = payload;
-    },
-    sockets: (state, payload) => {
-      state.sockets = payload;
-    },
-    sources: (state, payload) => {
-      state.sources = payload;
-    },
-  },
   actions: {
     /*
      ** Init action
