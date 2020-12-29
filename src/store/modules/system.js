@@ -1,4 +1,4 @@
-import { find, sortBy, reverse } from "lodash-es";
+import { find, pickBy, reverse, sortBy } from "lodash-es";
 
 export default {
   namespaced: true,
@@ -36,10 +36,15 @@ export default {
     // Get slotting
     slotting: (state) => state.slotting,
 
-    // Get a slot, given a source and index
-    sourceSlot: (state) => (sourceId, slotIndex) =>
-      find(reverse(sortBy(state.slots, "$createdAt")), {
+    // Get all slots, given a source
+    sourceSlots: (state, getters) => (sourceId) =>
+      pickBy(reverse(sortBy(getters.slots, "$createdAt")), {
         sourceId,
+      }),
+
+    // Get a slot, given a source and index
+    sourceSlot: (state, getters) => (sourceId, slotIndex) =>
+      find(getters.sourceSlots(sourceId), {
         slotIndex,
       }),
   },
