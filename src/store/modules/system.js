@@ -49,15 +49,16 @@ export default {
 
     // Get currently slotted
     slotted: (state, getters) => (before) => {
-      const slots = getters.slots;
-      const sorted = sortBy(slots, "$createdAt");
-      const reversed = reverse(sorted);
+      const slots = reverse(sortBy(getters.slots, "$createdAt"));
+
       const filteredBefore = filter(
-        reversed,
+        slots,
         (slot) => before === undefined || slot.$createdAt < before
       );
-      let modelKeys = uniq(map(filteredBefore, "modelId"));
-      const slotKeys = uniq(map(filteredBefore, "slotId"));
+
+      let modelKeys = uniq(map(filteredBefore, "modelId")),
+        slotKeys = uniq(map(filteredBefore, "slotId"));
+
       const filterModels = filter(filteredBefore, (slot) => {
         if (includes(modelKeys, slot.modelId)) {
           modelKeys = without(modelKeys, slot.modelId);
@@ -66,12 +67,24 @@ export default {
 
         return false;
       });
+
       const filterSlots = filter(
         filterModels,
         (slot) => !includes(slotKeys, slot.$id)
       );
 
       return keyBy(filterSlots, "$id");
+    },
+
+    trained: (state, getters) => (before) => {
+      const trainings = reverse(sortBy(getters.trainings, "$createdAt"));
+
+      const filteredBefore = filter(
+        trainings,
+        (training) => before === undefined || training.$createdAt < before
+      );
+
+      return keyBy(filteredBefore, "$id");
     },
 
     // Get all slots, given a source
