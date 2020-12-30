@@ -11,8 +11,8 @@ export default {
       factors: (state) => state.score.factors,
     }),
     ...mapGetters({
-      frequencies: "score/frequencies",
-      resources: "score/resources",
+      frequencies: "score/currentFrequencies",
+      resources: "score/currentResources",
     }),
   },
 };

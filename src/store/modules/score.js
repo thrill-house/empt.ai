@@ -1,104 +1,23 @@
-import { ceil, keyBy, map, mapValues, mergeWith, reduce } from "lodash-es";
-
-export const getScores = (getters) => {
-  const sources = getters["Game/Sources/all"];
-  const slots = getters["Game/Slots/all"];
-  const trainings = getters["Game/Trainings/all"];
-
-  return { sources, slots, trainings };
-};
-
-export const calculateBases = ({ sources, slots, trainings }) => {
-  const fromSources = reduce(
-    sources,
-    (result, source) => {
-      // TODO: Get actual impact on bases from this source event.
-      console.debug(source);
-      return {
-        influence: result.influence + 1,
-        bandwidth: result.bandwidth + 1,
-      };
-    },
-    {
-      influence: 1,
-      bandwidth: 1,
-    }
-  );
-
-  const fromSlots = reduce(
-    slots,
-    (result, slot) => {
-      // TODO: Get actual impact on bases from this slot event.
-      console.debug(slot);
-      return {
-        influence: result.influence + 1,
-        bandwidth: result.bandwidth + 1,
-      };
-    },
-    fromSources
-  );
-
-  const fromTrainings = reduce(
-    trainings,
-    (result, training) => {
-      // TODO: Get actual impact on bases from this training event.
-      console.debug(training);
-      return {
-        influence: result.influence + 1,
-        bandwidth: result.bandwidth + 1,
-      };
-    },
-    fromSlots
-  );
-
-  return fromTrainings;
-};
-
-export const calculateFactors = ({ sources, slots, trainings }) => {
-  const fromSources = reduce(
-    sources,
-    (result, source) => {
-      // TODO: Get actual impact on factors from this source event.
-      console.debug(source);
-      return {
-        influence: result.influence + 0.1,
-        bandwidth: result.bandwidth + 0.1,
-      };
-    },
-    {
-      influence: 0,
-      bandwidth: 0,
-    }
-  );
-
-  const fromSlots = reduce(
-    slots,
-    (result, slot) => {
-      // TODO: Get actual impact on factors from this slot event.
-      console.debug(slot);
-      return {
-        influence: result.influence + 0.1,
-        bandwidth: result.bandwidth + 0.1,
-      };
-    },
-    fromSources
-  );
-
-  const fromTrainings = reduce(
-    trainings,
-    (result, training) => {
-      // TODO: Get actual impact on factors from this training event.
-      console.debug(training);
-      return {
-        influence: result.influence + 0.1,
-        bandwidth: result.bandwidth + 0.1,
-      };
-    },
-    fromSlots
-  );
-
-  return fromTrainings;
-};
+import pluralize from "pluralize";
+import numeral from "numeral";
+import {
+  ceil,
+  defaults,
+  filter,
+  find,
+  head,
+  isArray,
+  keyBy,
+  map,
+  mapValues,
+  mergeWith,
+  nth,
+  reduce,
+  reduceRight,
+  reverse,
+  sortBy,
+  tail,
+} from "lodash-es";
 
 export default {
   namespaced: true,
@@ -107,35 +26,49 @@ export default {
     interval: null,
     currentTime: Date.now() / 1000,
     startTime: Date.now() / 1000,
+    updateTime: Date.now() / 1000,
+
+    transitions: [],
+
+    resources: {
+      confidence: 0,
+      data: 0,
+    },
 
     // Bases
-    bases: {
+    currentBases: {
       influence: 0,
       bandwidth: 0,
     },
 
-    // factors
-    factors: {
+    // Factors
+    currentFactors: {
       influence: 0,
       bandwidth: 0,
     },
   }),
   getters: {
     // Elapsed
-    elapsed: (state) => state.currentTime - state.startTime,
+    elapsed: (state) => state.currentTime - state.updateTime,
 
     // Resources
-    resources: (state, getters) =>
+    currentResources: (state, getters) =>
       // TODO: Complicated resource calculation including changes to frequencies over time
       ({
-        data: getters.elapsed * getters.frequencies.influence,
-        confidence: getters.elapsed * getters.frequencies.bandwidth,
+        confidence:
+          state.resources.confidence +
+          getters.elapsed * getters.currentFrequencies.influence,
+        data:
+          state.resources.data +
+          getters.elapsed * getters.currentFrequencies.bandwidth,
       }),
 
     // Frequencies
-    frequencies: (state) => ({
-      influence: state.bases.influence * (1 + state.factors.influence),
-      bandwidth: state.bases.bandwidth * (1 + state.factors.bandwidth),
+    currentFrequencies: (state) => ({
+      influence:
+        state.currentBases.influence * (1 + state.currentFactors.influence),
+      bandwidth:
+        state.currentBases.bandwidth * (1 + state.currentFactors.bandwidth),
     }),
 
     // Feelings
@@ -162,6 +95,12 @@ export default {
 
       return map(emotions, (value, emotionId) => ({ emotionId, value }));
     },
+    transitioned: (state) => (before) =>
+      filter(
+        state.transitions,
+        ({ transition }) =>
+          before === undefined || transition.$createdAt < before
+      ),
   },
   mutations: {
     interval: (state, payload) => {
@@ -173,11 +112,20 @@ export default {
     currentTime: (state, payload) => {
       state.currentTime = payload;
     },
-    bases: (state, payload) => {
-      state.bases = payload;
+    updateTime: (state, payload) => {
+      state.updateTime = payload;
     },
-    factors: (state, payload) => {
-      state.factors = payload;
+    transitions: (state, payload) => {
+      state.transitions = payload;
+    },
+    resources: (state, payload) => {
+      state.resources = payload;
+    },
+    currentBases: (state, payload) => {
+      state.currentBases = payload;
+    },
+    currentFactors: (state, payload) => {
+      state.currentFactors = payload;
     },
   },
   actions: {
@@ -187,8 +135,8 @@ export default {
       if (game) {
         await dispatch("setStartTime", game?.$createdAt / 1000);
 
-        await dispatch("calculateBases");
-        await dispatch("calculateFactors");
+        await dispatch("calculateResources");
+        await dispatch("calculateFrequencies");
 
         await dispatch("startTimer");
       }
@@ -210,25 +158,240 @@ export default {
       commit("interval", null);
     },
 
-    calculateBases: async ({ commit }) => {
-      // TODO: Pass in real events
-      const bases = calculateBases({
-        sources: [1, 2, 3],
-        slots: [1, 2, 3],
-        trainings: [1, 2, 3],
-      });
+    referenceTransitions: async ({ commit, rootGetters }, payload) => {
+      const rawTransitions = {
+        ...rootGetters["system/slotted"](),
+        ...rootGetters["inventory/sourced"](),
+        ...rootGetters["system/trained"](),
+        ...rootGetters["inventory/modeled"](),
+      };
 
-      commit("bases", bases);
+      const transitions = reverse(
+        sortBy(
+          map(payload || rawTransitions, (transition) => {
+            let reference = null;
+            let types = [];
+
+            switch (transition.$type) {
+              case "Slots":
+              case "Models":
+                reference = rootGetters["inventory/ability"](
+                  transition.abilityId
+                );
+                break;
+
+              case "Sources":
+              case "Trainings":
+                reference = rootGetters["inventory/socket"](
+                  transition.socketId
+                );
+                break;
+            }
+
+            switch (transition.$type) {
+              case "Slots":
+                types = ["cost", "base", "factor"];
+                break;
+              case "Models":
+                types = ["cost"];
+                break;
+              case "Sources":
+                types = ["cost", "base", "factor"];
+                break;
+              case "Trainings":
+                types = ["bonus"];
+                break;
+            }
+
+            return { document: transition.$type, transition, reference, types };
+          }),
+          "transition.$createdAt"
+        )
+      );
+
+      if (!payload) {
+        commit("transitions", transitions);
+      }
+
+      return transitions;
     },
-    calculateFactors: async ({ commit }) => {
-      // TODO: Pass in real events
-      const factors = calculateFactors({
-        sources: [1, 2, 3],
-        slots: [1, 2, 3],
-        trainings: [1, 2, 3],
+    calculateResources: async ({ state, getters, dispatch, commit }) => {
+      await dispatch("referenceTransitions");
+
+      const accruals = reduceRight(
+        state.transitions,
+        (accum, { transition }) => {
+          const transitionsBefore = getters.transitioned(
+            transition.$createdAt + 1
+          );
+          const first = head(transitionsBefore)?.transition;
+          const second = nth(transitionsBefore, 1)?.transition;
+          const elapsed =
+            (first?.$createdAt - (second?.$createdAt || first?.$createdAt)) /
+            1000;
+
+          const accrual = calculateAccruals({
+            transitions: tail(transitionsBefore),
+          });
+
+          accum.confidence +=
+            elapsed * accrual.bases.influence * (1 + accrual.factors.influence);
+          accum.data +=
+            elapsed * accrual.bases.bandwidth * (1 + accrual.factors.bandwidth);
+
+          return accum;
+        },
+        { confidence: 0, data: 0 }
+      );
+
+      const sums = calculateSums({
+        transitions: state.transitions,
       });
 
-      commit("factors", factors);
+      const resources = reduce(
+        [sums.costs, sums.bonuses, accruals],
+        (accum, total) => {
+          accum.confidence += total.confidence;
+          accum.data += total.data;
+
+          return accum;
+        },
+        { confidence: 0, data: 0 }
+      );
+
+      console.log(resources);
+
+      commit(
+        "updateTime",
+        head(state.transitions).transition.$createdAt / 1000
+      );
+      commit("resources", resources);
+    },
+
+    calculateFrequencies: async ({ commit, dispatch, rootGetters }) => {
+      const frequencies = calculateAccruals({
+        transitions: await dispatch("referenceTransitions", {
+          ...rootGetters["system/slotted"](),
+          ...rootGetters["inventory/sourced"](),
+        }),
+      });
+
+      commit("currentBases", frequencies.bases);
+      commit("currentBases", frequencies.factors);
     },
   },
+};
+
+export const extractValues = (payload) => {
+  const { transitions, initial } = payload;
+
+  const values = reduceRight(
+    transitions,
+    (accum, { reference, types }, key, collection) => {
+      const dependencies = {
+        slots: map(filter(collection, { document: "Slots" }), "transition"),
+        trainings: map(
+          filter(collection, { document: "Trainings" }),
+          "transition"
+        ),
+      };
+
+      const transitionValues = reduce(
+        types,
+        (accumValues, type) => {
+          let typeValues = reference?.[pluralize(type)];
+
+          // If it's an array, it's not a cost
+          if (isArray(typeValues)) {
+            typeValues = reduce(
+              typeValues,
+              (typeValuesAccum, typeValue) => {
+                let valid = true;
+
+                if (typeValue?.dependency?.document) {
+                  valid = !!find(
+                    dependencies[typeValue.dependency.document],
+                    reduce(
+                      typeValue.dependency.where,
+                      (accumWhere, where) => {
+                        accumWhere[where[0]] = where[2];
+                        return accumWhere;
+                      },
+                      {}
+                    )
+                  );
+                }
+
+                if (valid) {
+                  typeValuesAccum[typeValue.type] = numeral(
+                    typeValuesAccum[typeValue.type] || 0
+                  )
+                    .add(typeValue[type])
+                    .value();
+                }
+
+                return typeValuesAccum;
+              },
+              {}
+            );
+
+            // Turn costs into negatives
+            // TODO: Refactor this once costs have the same format as bases, factors and bonuses in data contract
+            // TODO: Costs should increase exponentially and be factored in here
+          } else {
+            typeValues = mapValues(
+              typeValues,
+              (typeValue) => Math.abs(typeValue) * -1
+            );
+          }
+
+          accumValues[pluralize(type)] = typeValues;
+
+          return accumValues;
+        },
+        {}
+      );
+
+      mergeWith(accum, transitionValues, (accumValue, transitionValue, key) => {
+        if (initial?.[key]) {
+          return mergeWith(accumValue, transitionValue, (aV, tV) => {
+            return numeral(aV || 0)
+              .add(tV)
+              .value();
+          });
+        }
+
+        return null;
+      });
+
+      return accum;
+    },
+    initial
+  );
+
+  return values;
+};
+
+export const calculateSums = (payload) => {
+  const { transitions, initial } = defaults(payload, {
+    initial: {
+      costs: { confidence: 0, data: 0 },
+      bonuses: { confidence: 0, data: 0 },
+    },
+    transitions: [],
+  });
+
+  return extractValues({ transitions, initial });
+};
+
+export const calculateAccruals = (payload) => {
+  const { transitions, initial } = defaults(payload, {
+    initial: {
+      bases: { influence: 0, bandwidth: 0 },
+      factors: { influence: 0, bandwidth: 0 },
+    },
+    transitions: [],
+  });
+
+  return extractValues({ transitions, initial });
 };
