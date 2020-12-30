@@ -1,4 +1,15 @@
-import { find, filter, includes, pickBy, reduce, some, uniq } from "lodash-es";
+import {
+  find,
+  filter,
+  includes,
+  keyBy,
+  pickBy,
+  reduce,
+  reverse,
+  some,
+  sortBy,
+  uniq,
+} from "lodash-es";
 
 export const extractDependencyIds = (dependencies, type) =>
   reduce(
@@ -47,6 +58,30 @@ export default {
       rootGetters["App/Sockets/one"],
     source: (state, getters, rootState, rootGetters) =>
       rootGetters["Game/Sources/one"],
+
+    // Get currently sourced
+    sourced: (state, getters) => (before) => {
+      const sources = reverse(sortBy(getters.sources, "$createdAt"));
+
+      const filteredBefore = filter(
+        sources,
+        (source) => before === undefined || source.$createdAt < before
+      );
+
+      return keyBy(filteredBefore, "$id");
+    },
+
+    // Get currently modeled
+    modeled: (state, getters) => (before) => {
+      const models = reverse(sortBy(getters.models, "$createdAt"));
+
+      const filteredBefore = filter(
+        models,
+        (model) => before === undefined || model.$createdAt < before
+      );
+
+      return keyBy(filteredBefore, "$id");
+    },
 
     /*
      ** Model & Ability helpers
