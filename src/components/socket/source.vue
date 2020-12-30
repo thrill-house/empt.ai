@@ -10,6 +10,7 @@ export default {
   components: { ValueList, UtilEra },
   data: () => ({
     loading: false,
+    training: false,
   }),
   inject: ["socket", "socketId", "socketTitle", "socketTree", "socketEra"],
   computed: {
@@ -102,6 +103,20 @@ export default {
 
       this.loading = false;
     },
+    async train() {
+      this.training = true;
+
+      const payload = {
+        gameId: this.gameId,
+        socketId: this.socketId,
+        sourceId: this.source.$id,
+        answer: { description: "The question is...", value: "My answer is..." },
+      };
+
+      await this.trainSource(payload);
+
+      this.training = false;
+    },
     // async disconnect() {
     //   this.loading = true;
 
@@ -111,6 +126,7 @@ export default {
     // },
     ...mapActions({
       connectSource: "Game/Sources/create",
+      trainSource: "Game/Trainings/create",
       removeSource: "Game/Sources/delete",
     }),
     capitalize,
@@ -119,7 +135,7 @@ export default {
 </script>
 
 <template>
-  <div v-bem="{ online, [socketTree]: online, loading, installing }">
+  <div v-bem="{ online, [socketTree]: online, loading, training, installing }">
     <header v-bem:header>
       <h4 v-bem:headerTitle>{{ socketTitle }}</h4>
     </header>
@@ -148,7 +164,7 @@ export default {
     </dl>
     <button
       v-if="online && !installing"
-      v-bem:bonus.confidence="{ loading }"
+      v-bem:bonus.confidence="{ loading: training }"
       v-format:confidence.⇧="bonus"
       :title="$t(`Training bonus`)"
       @click="train()"
@@ -236,6 +252,7 @@ export default {
   }
 
   &:not(&--installing):hover &__attributes,
+  &--training &__attributes,
   &--loading &__attributes {
     @apply hidden;
   }
@@ -314,7 +331,8 @@ export default {
 
   &:hover &__connect,
   &:hover &__bonus,
-  &--loading &__connect {
+  &--loading &__connect,
+  &--training &__bonus {
     @apply flex;
   }
 
