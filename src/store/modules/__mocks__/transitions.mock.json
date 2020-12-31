@@ -1,0 +1,212 @@
+[
+  {
+    "document": "Slots",
+    "transition": {
+      "$protocolVersion": 0,
+      "$id": "AF6itdw56yMas5yMFK8mr68CLysHHeWBuidpHtdRApV5",
+      "$type": "Slots",
+      "$dataContractId": "5cfDLia9hA5c48dnExHePyDswi5Usa2RwQgfpfKKhu6x",
+      "$ownerId": "BvKtVmsPKgdiEZNcEhR3FziTbkZT9dawLsKyLPJ8mvoH",
+      "$revision": 1,
+      "eraId": "3wZhRXJX8n4R1twAsKFLuVc58ppBnCjDY6gbzo9cVJFD",
+      "gameId": "2Q2nRPJWsikFXhgqS9seu7VgcMg72M3cebMVZowB5U7V",
+      "slotId": "11111111111111111111111111111111111111111111",
+      "treeId": "3WNP1rKdSXR8TyEgfQTSRKy6cH2Me59hJZSTxoQ3pW3Q",
+      "modelId": "9j2wCnMMqG42gcqbyBBnh3EyG7ct2skEne5X6FX3b9e3",
+      "socketId": "3szP67aF7ZnLQA8Fhwpj8Li6GbBCTLQxiT7Dh3R5EdwD",
+      "sourceId": "GpxX9qXihhBY4iBPFA2xkD6Ag9E1SDkcZK8uPiufEJi9",
+      "abilityId": "5JzFvZqxS7CkDte98qfsMamDqQPzgwYUuLwQggDximZj",
+      "slotIndex": 1,
+      "$createdAt": 1609270295336,
+      "$updatedAt": 1609270295336
+    },
+    "reference": {
+      "$protocolVersion": 0,
+      "$id": "5JzFvZqxS7CkDte98qfsMamDqQPzgwYUuLwQggDximZj",
+      "$type": "Abilities",
+      "$dataContractId": "5cfDLia9hA5c48dnExHePyDswi5Usa2RwQgfpfKKhu6x",
+      "$ownerId": "5YT97ejmefH5hRRQ8Q7qKBnz8RiNB5hUgWq6rggoo8NQ",
+      "$revision": 9,
+      "bases": [
+        { "base": 3, "type": "influence" },
+        { "base": 1, "type": "bandwidth" }
+      ],
+      "costs": { "data": 100, "confidence": 100 },
+      "eraId": "3wZhRXJX8n4R1twAsKFLuVc58ppBnCjDY6gbzo9cVJFD",
+      "title": "Buzzie",
+      "treeId": "3WNP1rKdSXR8TyEgfQTSRKy6cH2Me59hJZSTxoQ3pW3Q",
+      "factors": [
+        {
+          "type": "influence",
+          "factor": 0.05,
+          "dependency": {
+            "where": [
+              ["treeId", "==", "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX"],
+              [
+                "abilityId",
+                "==",
+                "5JzFvZqxS7CkDte98qfsMamDqQPzgwYUuLwQggDximZj"
+              ]
+            ],
+            "document": "slots"
+          }
+        },
+        {
+          "type": "bandwidth",
+          "factor": 0.05,
+          "dependency": {
+            "where": [
+              ["treeId", "==", "8fhv3d6MBXkUnZoFux7aReaisT26SoaDX5KnufEdFCfX"],
+              [
+                "abilityId",
+                "==",
+                "5JzFvZqxS7CkDte98qfsMamDqQPzgwYUuLwQggDximZj"
+              ]
+            ],
+            "document": "slots"
+          }
+        },
+        {
+          "type": "influence",
+          "factor": 0.05,
+          "dependency": {
+            "where": [
+              ["eraId", "==", "5vQrnTpK5fkGa1TndRPX4kbjLB7bjwhNizjdria565kk"],
+              [
+                "abilityId",
+                "==",
+                "5JzFvZqxS7CkDte98qfsMamDqQPzgwYUuLwQggDximZj"
+              ]
+            ],
+            "document": "slots"
+          }
+        },
+        {
+          "type": "bandwidth",
+          "factor": 0.05,
+          "dependency": {
+            "where": [
+              ["eraId", "==", "5vQrnTpK5fkGa1TndRPX4kbjLB7bjwhNizjdria565kk"],
+              [
+                "abilityId",
+                "==",
+                "5JzFvZqxS7CkDte98qfsMamDqQPzgwYUuLwQggDximZj"
+              ]
+            ],
+            "document": "slots"
+          }
+        },
+        {
+          "type": "influence",
+          "factor": 0.05,
+          "dependency": {
+            "where": [
+              [
+                "abilityId",
+                "==",
+                "4c93EkqS9mEpHW3VyhRafvCvaKCftBUzNsu3f43ip3sV"
+              ]
+            ],
+            "document": "slots"
+          }
+        }
+      ],
+      "description": "Your friendly neighbourhood chat bot",
+      "$createdAt": 1604836135452,
+      "$updatedAt": 1607344587797
+    },
+    "types": ["cost", "base", "factor"]
+  },
+  {
+    "document": "Sources",
+    "transition": {
+      "$protocolVersion": 0,
+      "$id": "GpxX9qXihhBY4iBPFA2xkD6Ag9E1SDkcZK8uPiufEJi9",
+      "$type": "Sources",
+      "$dataContractId": "5cfDLia9hA5c48dnExHePyDswi5Usa2RwQgfpfKKhu6x",
+      "$ownerId": "BvKtVmsPKgdiEZNcEhR3FziTbkZT9dawLsKyLPJ8mvoH",
+      "$revision": 1,
+      "eraId": "3wZhRXJX8n4R1twAsKFLuVc58ppBnCjDY6gbzo9cVJFD",
+      "gameId": "2Q2nRPJWsikFXhgqS9seu7VgcMg72M3cebMVZowB5U7V",
+      "treeId": "3WNP1rKdSXR8TyEgfQTSRKy6cH2Me59hJZSTxoQ3pW3Q",
+      "socketId": "3szP67aF7ZnLQA8Fhwpj8Li6GbBCTLQxiT7Dh3R5EdwD",
+      "$createdAt": 1608210902475,
+      "$updatedAt": 1608210902475
+    },
+    "reference": {
+      "$protocolVersion": 0,
+      "$id": "3szP67aF7ZnLQA8Fhwpj8Li6GbBCTLQxiT7Dh3R5EdwD",
+      "$type": "Sockets",
+      "$dataContractId": "5cfDLia9hA5c48dnExHePyDswi5Usa2RwQgfpfKKhu6x",
+      "$ownerId": "5YT97ejmefH5hRRQ8Q7qKBnz8RiNB5hUgWq6rggoo8NQ",
+      "$revision": 5,
+      "bases": [
+        { "base": 1, "type": "bandwidth" },
+        { "base": 1, "type": "influence" }
+      ],
+      "costs": { "data": 1, "confidence": 1000 },
+      "eraId": "3wZhRXJX8n4R1twAsKFLuVc58ppBnCjDY6gbzo9cVJFD",
+      "slots": 3,
+      "title": "Root",
+      "treeId": "3WNP1rKdSXR8TyEgfQTSRKy6cH2Me59hJZSTxoQ3pW3Q",
+      "bonuses": [
+        {
+          "type": "data",
+          "bonus": 500,
+          "dependency": {
+            "where": [
+              ["socketId", "==", "3szP67aF7ZnLQA8Fhwpj8Li6GbBCTLQxiT7Dh3R5EdwD"]
+            ],
+            "document": "trainings"
+          }
+        },
+        {
+          "type": "confidence",
+          "bonus": 500,
+          "dependency": {
+            "where": [
+              ["socketId", "==", "3szP67aF7ZnLQA8Fhwpj8Li6GbBCTLQxiT7Dh3R5EdwD"]
+            ],
+            "document": "trainings"
+          }
+        }
+      ],
+      "factors": [
+        {
+          "type": "bandwidth",
+          "factor": 0.2,
+          "dependency": {
+            "where": [
+              [
+                "socketId",
+                "==",
+                "3szP67aF7ZnLQA8Fhwpj8Li6GbBCTLQxiT7Dh3R5EdwD"
+              ],
+              ["treeId", "==", "3WNP1rKdSXR8TyEgfQTSRKy6cH2Me59hJZSTxoQ3pW3Q"]
+            ],
+            "document": "slots"
+          }
+        },
+        {
+          "type": "influence",
+          "factor": 0.2,
+          "dependency": {
+            "where": [
+              [
+                "socketId",
+                "==",
+                "3szP67aF7ZnLQA8Fhwpj8Li6GbBCTLQxiT7Dh3R5EdwD"
+              ],
+              ["eraId", "==", "3wZhRXJX8n4R1twAsKFLuVc58ppBnCjDY6gbzo9cVJFD"]
+            ],
+            "document": "slots"
+          }
+        }
+      ],
+      "description": "Startup",
+      "$createdAt": 1607595320038,
+      "$updatedAt": 1608228101784
+    },
+    "types": ["cost", "base", "factor"]
+  }
+]
