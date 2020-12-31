@@ -86,6 +86,7 @@ export default {
       getAbilityEraFactors: "inventory/abilityEraFactors",
       getTree: "labels/tree",
       getEra: "labels/era",
+      getCurrentEra: "score/currentEra",
     }),
   },
   methods: {
@@ -98,7 +99,7 @@ export default {
 </script>
 
 <template>
-  <article v-bem>
+  <article v-if="era <= getCurrentEra" v-bem>
     <header v-bem:header>
       <h4 v-bem:headerTitle>{{ title }}</h4>
       <nav v-bem:headerNav>

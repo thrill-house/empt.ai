@@ -52,6 +52,7 @@ export default {
       // return this.tempSlots || this.socket?.slots;
     },
     ...mapGetters({
+      getCurrentEra: "score/currentEra",
       getInstalling: "system/slotting",
       getSocket: "inventory/socket",
       getSocketSource: "inventory/socketSource",
@@ -63,7 +64,10 @@ export default {
 </script>
 
 <template>
-  <article v-bem="{ [title.replace(` `, ``)]: true, online, installing }">
+  <article
+    v-if="era <= getCurrentEra"
+    v-bem="{ [title.replace(` `, ``)]: true, online, installing }"
+  >
     <socket-source />
     <template v-if="online">
       <socket-slot
