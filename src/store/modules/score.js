@@ -2,14 +2,17 @@ import pluralize from "pluralize";
 import numeral from "numeral";
 import {
   ceil,
+  clamp,
   defaults,
   filter,
   find,
+  groupBy,
   head,
   isArray,
   isEmpty,
   keyBy,
   map,
+  mapKeys,
   mapValues,
   mergeWith,
   nth,
@@ -29,8 +32,6 @@ export default {
     currentTime: Date.now() / 1000,
     startTime: Date.now() / 1000,
     updateTime: Date.now() / 1000,
-
-    transitions: [],
 
     resources: {
       confidence: 0,
@@ -73,8 +74,38 @@ export default {
         state.currentBases.bandwidth * (1 + state.currentFactors.bandwidth),
     }),
 
+    currentEra: (state, getters, rootState, rootGetters) => {
+      const sources = filter(getters.transitioned(), { document: "Sources" });
+      const sourcesByEra = mapValues(
+        mapKeys(
+          groupBy(sources, "reference.eraId"),
+          (eraSources, id) => rootGetters["labels/era"](id)?.stage
+        ),
+        (eraSources) => eraSources.length
+      );
+
+      const era = reduce(
+        sourcesByEra,
+        (accum, sourceLength, eraStage) => {
+          if (
+            (eraStage < 2 && sourceLength === 1) ||
+            (eraStage > 1 && sourceLength === 3)
+          ) {
+            accum = numeral(eraStage)
+              .add(1)
+              .value();
+          }
+
+          return accum;
+        },
+        1
+      );
+
+      return clamp(era, 1, 5);
+    },
+
     // Feelings
-    feelings: (state, getters, rootState, rootGetters) => {
+    currentFeelings: (state, getters, rootState, rootGetters) => {
       const slotted = rootGetters["system/slotted"]();
       const emotions = reduce(
         slotted,
@@ -97,9 +128,25 @@ export default {
 
       return map(emotions, (value, emotionId) => ({ emotionId, value }));
     },
-    transitioned: (state) => (before) =>
+
+    transitions: (state, getters, rootState, rootGetters) => {
+      const transitions = referenceTransitions({
+        transitions: {
+          ...rootGetters["system/slotted"](),
+          ...rootGetters["inventory/sourced"](),
+          ...rootGetters["system/trained"](),
+          ...rootGetters["inventory/modeled"](),
+        },
+        getAbility: rootGetters["inventory/ability"],
+        getSocket: rootGetters["inventory/socket"],
+      });
+
+      return transitions;
+    },
+
+    transitioned: (state, getters) => (before) =>
       filter(
-        state.transitions,
+        getters.transitions,
         ({ transition }) =>
           before === undefined || transition.$createdAt < before
       ),
@@ -116,9 +163,6 @@ export default {
     },
     updateTime: (state, payload) => {
       state.updateTime = payload;
-    },
-    transitions: (state, payload) => {
-      state.transitions = payload;
     },
     resources: (state, payload) => {
       state.resources = payload;
@@ -160,68 +204,9 @@ export default {
       commit("interval", null);
     },
 
-    referenceTransitions: async ({ commit, rootGetters }, payload) => {
-      const rawTransitions = {
-        ...rootGetters["system/slotted"](),
-        ...rootGetters["inventory/sourced"](),
-        ...rootGetters["system/trained"](),
-        ...rootGetters["inventory/modeled"](),
-      };
-
-      const transitions = reverse(
-        sortBy(
-          map(payload || rawTransitions, (transition) => {
-            let reference = null;
-            let types = [];
-
-            switch (transition.$type) {
-              case "Slots":
-              case "Models":
-                reference = rootGetters["inventory/ability"](
-                  transition.abilityId
-                );
-                break;
-
-              case "Sources":
-              case "Trainings":
-                reference = rootGetters["inventory/socket"](
-                  transition.socketId
-                );
-                break;
-            }
-
-            switch (transition.$type) {
-              case "Slots":
-                types = ["cost", "base", "factor"];
-                break;
-              case "Models":
-                types = ["cost"];
-                break;
-              case "Sources":
-                types = ["cost", "base", "factor"];
-                break;
-              case "Trainings":
-                types = ["bonus"];
-                break;
-            }
-
-            return { document: transition.$type, transition, reference, types };
-          }),
-          "transition.$createdAt"
-        )
-      );
-
-      if (!payload) {
-        commit("transitions", transitions);
-      }
-
-      return transitions;
-    },
-    calculateResources: async ({ state, getters, dispatch, commit }) => {
-      await dispatch("referenceTransitions");
-
+    calculateResources: async ({ state, getters, commit }) => {
       const accruals = reduceRight(
-        state.transitions,
+        getters.transitions,
         (accum, { transition }) => {
           const transitionsBefore = getters.transitioned(
             transition.$createdAt + 1
@@ -261,18 +246,24 @@ export default {
         { confidence: 0, data: 0 }
       );
 
-      commit(
-        "updateTime",
-        head(state.transitions).transition.$createdAt / 1000
-      );
+      if (state.transitions) {
+        commit(
+          "updateTime",
+          head(state.transitions)?.transition?.$createdAt / 1000
+        );
+      }
       commit("resources", resources);
     },
 
-    calculateFrequencies: async ({ commit, dispatch, rootGetters }) => {
+    calculateFrequencies: async ({ commit, rootGetters }) => {
       const frequencies = calculateAccruals({
-        transitions: await dispatch("referenceTransitions", {
-          ...rootGetters["system/slotted"](),
-          ...rootGetters["inventory/sourced"](),
+        transitions: referenceTransitions({
+          transitions: {
+            ...rootGetters["system/slotted"](),
+            ...rootGetters["inventory/sourced"](),
+          },
+          getAbility: rootGetters["inventory/ability"],
+          getSocket: rootGetters["inventory/socket"],
         }),
       });
 
@@ -280,6 +271,51 @@ export default {
       commit("currentFactors", frequencies.factors);
     },
   },
+};
+
+export const referenceTransitions = (payload) => {
+  const { transitions, getAbility, getSocket } = payload;
+
+  const values = reverse(
+    sortBy(
+      map(transitions, (transition) => {
+        let reference = null;
+        let types = [];
+
+        switch (transition.$type) {
+          case "Slots":
+          case "Models":
+            reference = getAbility(transition.abilityId);
+            break;
+
+          case "Sources":
+          case "Trainings":
+            reference = getSocket(transition.socketId);
+            break;
+        }
+
+        switch (transition.$type) {
+          case "Slots":
+            types = ["cost", "base", "factor"];
+            break;
+          case "Models":
+            types = ["cost"];
+            break;
+          case "Sources":
+            types = ["cost", "base", "factor"];
+            break;
+          case "Trainings":
+            types = ["bonus"];
+            break;
+        }
+
+        return { document: transition.$type, transition, reference, types };
+      }),
+      "transition.$createdAt"
+    )
+  );
+
+  return values;
 };
 
 export const extractValues = (payload) => {
@@ -326,7 +362,7 @@ export const extractValues = (payload) => {
                   typeValuesAccum[typeValue.type] = numeral(
                     typeValuesAccum[typeValue.type] || 0
                   )
-                    .add(typeValue[type])
+                    .add(typeValue[type] || 0)
                     .value();
                 }
 
@@ -356,7 +392,7 @@ export const extractValues = (payload) => {
         if (initial?.[key]) {
           return mergeWith(accumValue, transitionValue, (aV, tV) => {
             return numeral(aV || 0)
-              .add(tV)
+              .add(tV || 0)
               .value();
           });
         }

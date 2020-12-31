@@ -25,7 +25,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      feelings: "score/feelings",
+      feelings: "score/currentFeelings",
     }),
   },
 };
