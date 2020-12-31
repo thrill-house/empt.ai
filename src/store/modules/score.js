@@ -246,10 +246,10 @@ export default {
         { confidence: 0, data: 0 }
       );
 
-      if (state.transitions) {
+      if (getters.transitions) {
         commit(
           "updateTime",
-          head(state.transitions)?.transition?.$createdAt / 1000
+          head(getters.transitions)?.transition?.$createdAt / 1000
         );
       }
       commit("resources", resources);
