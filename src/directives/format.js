@@ -40,18 +40,19 @@ export default (el, { arg, value, modifiers }) => {
   const duration = (milliseconds) =>
     dayjs().subtract(milliseconds / 1000, "seconds");
 
-  const percentage = (number) => `${numeral(number).format("0.[00]%")}`;
+  const percentage = (number) => `${numeral(number || 0).format("0.[00]%")}`;
 
   const data = (bytes) =>
-    `${numeral(bytes)
+    `${numeral(bytes || 0)
       .multiply(8)
       .format("0.[00] b")}`;
 
   const bandwidth = (bytes) => `${data(bytes)}`;
 
-  const confidence = (trust) => `${numeral(trust).format("0.[00]a")}`;
+  const confidence = (trust) => `${numeral(trust || 0).format("0.[00]a")}`;
 
-  const influence = (likes) => `${numeral(likes).format("0.[00]a /likes")}`;
+  const influence = (likes) =>
+    `${numeral(likes || 0).format("0.[00]a /likes")}`;
 
   const formatters = {
     duration,
