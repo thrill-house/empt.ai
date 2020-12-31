@@ -125,7 +125,7 @@ export default {
     @apply relative flex justify-between;
     @apply w-full h-16;
     @apply px-4 py-3;
-    @apply bg-grout bg-grout-sky bg-opacity-75;
+    @apply bg-grout bg-grout-sky bg-opacity-50;
     @apply z-50;
   }
 
