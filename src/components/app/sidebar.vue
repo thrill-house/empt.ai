@@ -4,18 +4,18 @@ import { reduce } from "lodash-es";
 
 import GameInventory from "../game/inventory";
 import GameSettings from "../game/settings";
-import GameTransitions from "../game/transitions";
+import GameLogs from "../game/logs";
 
 export default {
   name: "app-sidebar",
-  components: { GameInventory, GameSettings, GameTransitions },
+  components: { GameInventory, GameSettings, GameLogs },
   data() {
     return {
       open: true,
       panels: {
         inventory: true,
         settings: false,
-        transitions: false,
+        logs: false,
       },
     };
   },
@@ -44,13 +44,13 @@ export default {
       <button v-bem:control.settings @click="togglePanel('settings')">
         <label v-bem:controlLabel>{{ $t("Settings") }}</label>
       </button>
-      <button v-bem:control.transitions @click="togglePanel('transitions')">
-        <label v-bem:controlLabel>{{ $t("Transitions") }}</label>
+      <button v-bem:control.logs @click="togglePanel('logs')">
+        <label v-bem:controlLabel>{{ $t("Logs") }}</label>
       </button>
     </header>
     <game-inventory v-if="panels.inventory" />
     <game-settings v-if="panels.settings" />
-    <game-transitions v-if="panels.transitions" />
+    <game-logs v-if="panels.logs" />
   </aside>
 </template>
 
@@ -92,7 +92,7 @@ export default {
       @apply bg-light;
     }
 
-    @include icons("::before", inventory, settings);
+    @include icons("::before", inventory, settings, logs);
 
     &-label {
       @apply hidden absolute left-0;
