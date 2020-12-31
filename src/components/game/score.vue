@@ -79,7 +79,7 @@ export default {
     @apply flex flex-wrap w-32;
 
     dd {
-      @apply h-8;
+      @apply w-full h-8;
       @apply text-xl;
 
       &:before {
