@@ -276,8 +276,6 @@ export default {
         }),
       });
 
-      console.log(frequencies);
-
       commit("currentBases", frequencies.bases);
       commit("currentFactors", frequencies.factors);
     },
