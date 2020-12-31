@@ -7,11 +7,13 @@ import {
   find,
   head,
   isArray,
+  isEmpty,
   keyBy,
   map,
   mapValues,
   mergeWith,
   nth,
+  omitBy,
   reduce,
   reduceRight,
   reverse,
@@ -369,7 +371,7 @@ export const extractValues = (payload) => {
     initial
   );
 
-  return values;
+  return omitBy(values, isEmpty);
 };
 
 export const calculateSums = (payload) => {
