@@ -261,8 +261,6 @@ export default {
         { confidence: 0, data: 0 }
       );
 
-      console.log(resources);
-
       commit(
         "updateTime",
         head(state.transitions).transition.$createdAt / 1000
