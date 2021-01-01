@@ -11,6 +11,7 @@ export default {
     network: process.env.VUE_APP_GAME_NETWORK,
     contract: process.env.VUE_APP_GAME_CONTRACT,
     mnemonic: process.env.VUE_APP_GAME_MNEMONIC,
+    address: process.env.VUE_APP_GAME_ADDRESS,
     identity: process.env.VUE_APP_GAME_IDENTITY,
 
     // Wallet balances
@@ -47,12 +48,15 @@ export default {
     clientOptions() {
       const clientOptions = {
         network: this.network,
-        apps: {
+      };
+
+      if (this.contract) {
+        clientOptions.apps= {
           Contract: {
             contractId: this.contract,
-          },
-        },
-      };
+          }
+        };
+      }
 
       if (this.mnemonic) {
         clientOptions.wallet = {
@@ -71,6 +75,32 @@ export default {
     },
   },
   methods: {
+    // Retrieve address
+    createWallet() {
+      this.loading.address = true;
+
+      const client = new Dash.Client({
+        network: this.network,
+        wallet: {
+          mnemonic: null,
+        },
+      });
+
+      const createWallet = async () => {
+        await client.getWalletAccount();
+        const mnemonic = client.wallet.exportWallet();
+
+        this.mnemonic = mnemonic;
+      };
+
+      createWallet()
+        .catch((e) => console.error("Something went wrong:\n", e))
+        .finally(() => {
+          this.loading.address = false;
+          client.disconnect();
+        });
+    },
+
     // Retrieve address
     retrieveAddress() {
       this.loading.address = true;
@@ -102,7 +132,7 @@ export default {
 
       createIdentity()
         .then((d) => {
-          this.identity = d.toJSON();
+          this.identity = d.toJSON().id;
         })
         .catch((e) => console.error("Something went wrong:\n", e))
         .finally(() => {
@@ -310,7 +340,7 @@ export default {
 
 <template>
   <header
-    class="w-full h-96 flex-none flex items-top justify-between border-b p-8"
+    class="w-full h-144 flex-none flex items-top justify-between border-b p-8"
   >
     <div>
       <h1 class="text-5xl">EMPTH.AI</h1>
@@ -336,15 +366,27 @@ export default {
         />
       </dd>
       <dt class="text-xl w-1/4 border-b border-ash-50">Mnemonic</dt>
-      <dd class="w-3/4 p-1">
+      <dd class="flex w-3/4 p-1">
         <input
           type="text"
           v-model="mnemonic"
           class="bg-ash bg-opacity-25 p-2 text-xl mr-4 w-full rounded-lg"
         />
+        <button
+          v-if="!mnemonic" class="bg-light text-dark p-2 m-2 rounded" @click="createWallet">Create</button>
+      </dd>
+      <dt class="text-xl w-1/4 border-b border-ash-50">Address</dt>
+      <dd class="flex w-3/4 p-1">
+        <input
+          type="text"
+          v-model="address"
+          class="bg-ash bg-opacity-25 p-2 text-xl mr-4 w-full rounded-lg"
+        />
+        <button
+          v-if="!address" class="bg-light text-dark p-2 m-2 rounded" @click="retrieveAddress">Retrieve</button>
       </dd>
       <dt class="text-xl w-1/4 border-b border-ash-50">Identity</dt>
-      <dd class="w-3/4 p-1">
+      <dd class="flex w-3/4 p-1">
         <input
           type="text"
           v-model="identity"
@@ -356,7 +398,7 @@ export default {
           @click="retrieveIdentity"
           v-if="mnemonic && !identity"
         >
-          Retrieve identity
+          Retrieve
         </button>
         <button
           class="bg-light text-dark p-2 rounded"
@@ -364,11 +406,11 @@ export default {
           @click="registerIdentity"
           v-if="mnemonic && !identity"
         >
-          Register identity
+          Register
         </button>
       </dd>
       <dt class="text-xl w-1/4 border-b border-ash-50">Balance</dt>
-      <dd class="w-3/4 p-1 flex-inline">
+      <dd class="flex w-3/4 p-1">
         <span v-if="credit">
           <output class="text-xl">{{ credit }}</output> Credits |
         </span>
