@@ -126,7 +126,7 @@
   },
   "Condition": {
     "type": "object",
-    "additionalItems": false,
+    "additionalProperties": false,
     "properties": {
       "field": {
         "type": "string",
@@ -198,7 +198,7 @@
   },
   "Value": {
     "type": "object",
-    "additionalItems": false,
+    "additionalProperties": false,
     "properties": {
       "key": {
         "type": "string",
