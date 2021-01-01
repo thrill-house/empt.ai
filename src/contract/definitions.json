@@ -14,11 +14,32 @@
         "maximum": -1
       },
       "multiplier": {
-        "$ref": "#/definitions/Dependency"
+        "$ref": "#/definitions/Multiplier"
       }
     },
     "required": ["cost", "multiplier", "type"],
     "description": "An object representing a cost."
+  },
+  "Bonus": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "type": {
+        "type": "string",
+        "minLength": 4,
+        "maxLength": 10,
+        "pattern": "^data$|^confidence$"
+      },
+      "bonus": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "dependency": {
+        "$ref": "#/definitions/Dependency"
+      }
+    },
+    "required": ["bonus", "dependency", "type"],
+    "description": "An object representing a bonus."
   },
   "Base": {
     "type": "object",
@@ -71,31 +92,53 @@
         "maxLength": 9,
         "pattern": "^slots$|^trainings$"
       },
-      "where": {
+      "conditions": {
         "type": "array",
         "minItems": 1,
         "items": {
-          "type": "array",
-          "additionalItems": false,
-          "items": [
-            {
-              "type": "string",
-              "minLength": 1,
-              "maxLength": 128
-            },
-            {
-              "type": "string",
-              "enum": ["=="]
-            },
-            {
-              "$ref": "#/definitions/Id"
-            }
-          ]
+          "$ref": "#/definitions/Condition"
         }
       }
     },
-    "required": ["document", "where"],
+    "required": ["document", "conditions"],
     "description": "An object representing a dependency."
+  },
+  "Multiplier": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "document": {
+        "type": "string",
+        "minLength": 6,
+        "maxLength": 7,
+        "pattern": "^models$|^sources$"
+      },
+      "conditions": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "$ref": "#/definitions/Condition"
+        }
+      }
+    },
+    "required": ["document", "conditions"],
+    "description": "An object representing a multiplier."
+  },
+  "Condition": {
+    "type": "object",
+    "additionalItems": false,
+    "properties": {
+      "field": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 128
+      },
+      "id": {
+        "$ref": "#/definitions/Id"
+      }
+    },
+    "required": ["field", "id"],
+    "description": "An object representing a condition."
   },
   "Feeling": {
     "type": "object",
@@ -113,32 +156,11 @@
     "required": ["emotionId", "value"],
     "description": "An object representing a feeling."
   },
-  "Bonus": {
-    "type": "object",
-    "additionalProperties": false,
-    "properties": {
-      "type": {
-        "type": "string",
-        "minLength": 4,
-        "maxLength": 10,
-        "pattern": "^data$|^confidence$"
-      },
-      "bonus": {
-        "type": "integer",
-        "minimum": 1
-      },
-      "dependency": {
-        "$ref": "#/definitions/Dependency"
-      }
-    },
-    "required": ["bonus", "dependency", "type"],
-    "description": "An object representing a bonus."
-  },
   "Answer": {
     "type": "object",
     "additionalProperties": false,
     "properties": {
-      "description": {
+      "question": {
         "$ref": "#/definitions/Description"
       },
       "value": {
@@ -146,24 +168,13 @@
         "minLength": 1
       }
     },
-    "required": ["description", "value"],
+    "required": ["question", "value"],
     "description": "An object representing an answer."
   },
   "Meta": {
     "type": "array",
     "items": {
-      "type": "array",
-      "additionalItems": false,
-      "items": [
-        {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 128
-        },
-        {
-          "type": ["string", "number", "boolean"]
-        }
-      ]
+      "$ref": "#/definitions/Value"
     }
   },
   "Id": {
@@ -184,5 +195,21 @@
     "minLength": 1,
     "maxLength": 1024,
     "description": "A string representing a description."
+  },
+  "Value": {
+    "type": "object",
+    "additionalItems": false,
+    "properties": {
+      "key": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 128
+      },
+      "value": {
+        "type": ["string", "number", "boolean"]
+      }
+    },
+    "required": ["key", "value"],
+    "description": "An object representing a basic key value store."
   }
 }
