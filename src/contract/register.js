@@ -5,7 +5,7 @@ const Dash = require("dash");
 const fs = require("fs");
 
 const clientOpts = {
-  network: "evonet",
+  network: process.env.VUE_APP_GAME_NETWORK,
   wallet: {
     mnemonic: process.env.VUE_APP_GAME_MNEMONIC,
   },
