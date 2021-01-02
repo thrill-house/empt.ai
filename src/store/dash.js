@@ -4,9 +4,13 @@ import {
   head,
   includes,
   invokeMap,
+  isEqual,
   keyBy,
+  keys,
   omit,
+  pickBy,
   reduce,
+  startsWith,
 } from "lodash-es";
 
 export default (config) => {
@@ -54,8 +58,12 @@ export default (config) => {
       state: () => ({
         // Pass in the remaining options as our initial state
         options: pluginOptions,
+        identity: null,
       }),
       getters: {
+        options: (state) => {
+          return state.options;
+        },
         // Connection is dynamically created on demand and uses values from the local state.
         connection: (state) => {
           return {
@@ -79,8 +87,24 @@ export default (config) => {
         updateOptions: (state, payload) => {
           state.options = { ...state.options, ...payload };
         },
+        identity: (state, payload) => {
+          state.identity = payload;
+        },
       },
       actions: {
+        // Helper to return the identity and also cache it
+        identity: async ({ commit, state, getters }) => {
+          const client = getters.client;
+          let identity = state.identity;
+
+          if (client && !identity) {
+            identity = client.platform.identities.get(getters.options.ownerId);
+            commit("identity", identity);
+            commit("identity", await identity);
+          }
+
+          return identity;
+        },
         // Helper to run the "all" action for every document module
         all: async ({ dispatch }) => {
           each(documents, (document) => {
@@ -103,16 +127,21 @@ export default (config) => {
             },
             mutations: {
               all: (state, payload) => {
-                state.documents = keyBy(invokeMap(payload, "toJSON"), "$id");
+                const documents = keyBy(invokeMap(payload, "toJSON"), "$id");
+                state.documents = documents;
               },
               one: (state, payload) => {
+                const document = payload.toJSON();
                 state.documents = {
                   ...state.documents,
-                  [payload.$id]: payload,
+                  [document.$id]: document,
                 };
               },
               remove: (state, payload) => {
-                state.documents = { ...omit(state.documents, payload.$id) };
+                const document = payload.toJSON();
+                state.documents = {
+                  ...omit(state.documents, document.$id),
+                };
               },
             },
             actions: {
@@ -125,19 +154,24 @@ export default (config) => {
                   [namespace]: { options },
                 },
               }) => {
-                commit("all", await dispatch("retrieve", options.allQuery));
+                const all = await dispatch("retrieve", options.allQuery);
+
+                commit("all", all);
+
+                return all;
               },
 
               // Helper to wrap the "retrieve" action to return the first document matching the `id` passed in the payload.
-              one: async ({ dispatch, commit }, { id }) => {
-                commit(
-                  "one",
-                  head(
-                    await dispatch("retrieve", {
-                      where: [["$id", "==", id]],
-                    })
-                  )
+              one: async ({ dispatch, commit }, payload = null) => {
+                const one = head(
+                  await dispatch("retrieve", {
+                    where: [["$id", "==", payload]],
+                  })
                 );
+
+                commit("one", one);
+
+                return one;
               },
 
               // Retrieve from documents. `payload` is a query.
@@ -147,10 +181,8 @@ export default (config) => {
                 ].platform.documents.get(`Contract.${document}`, payload);
               },
 
-              // Create a new document. `payload` is the content of the document to create.
-              create: async (
+              compose: async (
                 {
-                  commit,
                   rootState: {
                     [namespace]: { options },
                   },
@@ -164,95 +196,105 @@ export default (config) => {
                   const identity = await client.platform.identities.get(
                     options.ownerId
                   );
-                  const created = await client.platform.documents.create(
+                  const composed = await client.platform.documents.create(
                     `Contract.${document}`,
                     identity,
                     payload
                   );
 
-                  await client.platform.documents.broadcast(
-                    { create: [created] },
-                    identity
-                  );
-
-                  commit("one", created.toJSON());
+                  return composed;
                 } catch (e) {
                   console.log(e);
                 }
+              },
 
-                client.disconnect();
+              // TODO: Test this!
+              // Add and edit multiple items at a time.
+              bulkEdit: async ({ commit, dispatch }, payload = {}) => {
+                let documents = { create: [], replace: [], delete: [] };
+
+                try {
+                  for await (const item of payload) {
+                    if (isEqual(keys(item), ["$id"])) {
+                      const deleted = await dispatch("one", item.$id);
+                      documents.delete.push(deleted);
+                    } else if (item.$id) {
+                      const replaced = await dispatch("one", item.$id);
+                      replaced.setData(
+                        pickBy(item, (value, key) => !startsWith(key, "$"))
+                      );
+                      documents.replace.push(replaced);
+                    } else {
+                      const created = await dispatch("compose", item);
+                      documents.create.push(created);
+                    }
+                  }
+
+                  await dispatch("broadcast", documents);
+
+                  each(
+                    [...documents.create, ...documents.replace],
+                    (document) => {
+                      commit("one", document);
+                    }
+                  );
+                  each(documents.delete, (document) => {
+                    commit("remove", document);
+                  });
+                } catch (e) {
+                  console.log(e);
+                }
+              },
+
+              // Create a new document. `payload` is the content of the document to create.
+              create: async ({ commit, dispatch }, payload = {}) => {
+                try {
+                  const created = await dispatch("compose", payload);
+
+                  await dispatch("broadcast", { create: [created] });
+
+                  commit("one", created);
+                } catch (e) {
+                  console.log(e);
+                }
               },
 
               // Replace a document. `payload` is the content of the document to replace and must include an `$id`.
-              replace: async (
-                {
-                  dispatch,
-                  commit,
-                  rootState: {
-                    [namespace]: { options },
-                  },
-                  rootGetters,
-                },
-                payload = {}
-              ) => {
-                const client = rootGetters[`${namespace}/client`];
-
+              replace: async ({ dispatch, commit }, payload = {}) => {
                 try {
-                  const identity = await client.platform.identities.get(
-                    options.ownerId
-                  );
-                  const [replaced] = await dispatch("retrieve", {
-                    where: [["$id", "==", payload.$id]],
-                  });
+                  const replaced = await dispatch("one", payload.$id);
 
                   replaced.setData(payload);
 
-                  await client.platform.documents.broadcast(
-                    { replace: [replaced] },
-                    identity
-                  );
+                  await dispatch("broadcast", { replace: [replaced] });
 
-                  commit("one", replaced.toJSON());
+                  commit("one", replaced);
                 } catch (e) {
                   console.log(e);
                 }
-
-                client.disconnect();
               },
 
               // Delete a document. `payload` must include an `$id`.
-              delete: async (
-                {
-                  dispatch,
-                  commit,
-                  rootState: {
-                    [namespace]: { options },
-                  },
-                  rootGetters,
-                },
-                payload = {}
-              ) => {
-                const client = rootGetters[`${namespace}/client`];
-
+              delete: async ({ dispatch, commit }, payload = {}) => {
                 try {
-                  const identity = await client.platform.identities.get(
-                    options.ownerId
-                  );
-                  const [deleted] = await dispatch("retrieve", {
-                    where: [["$id", "==", payload.$id]],
-                  });
+                  const deleted = await dispatch("one", payload.$id);
 
-                  await client.platform.documents.broadcast(
-                    { delete: [deleted] },
-                    identity
-                  );
+                  await dispatch("broadcast", { delete: [deleted] });
 
-                  commit("remove", deleted.toJSON());
+                  commit("remove", deleted);
                 } catch (e) {
                   console.log(e);
                 }
+              },
 
-                client.disconnect();
+              // Broadcast a set of documents. Payload is an object with create, replace and or delete keys.
+              broadcast: async ({ dispatch, rootGetters }, payload = {}) => {
+                const client = rootGetters[`${namespace}/client`];
+                const identity = await dispatch(`${namespace}/identity`, null, {
+                  root: true,
+                });
+
+                await client.platform.documents.broadcast(payload, identity);
               },
             },
           };
