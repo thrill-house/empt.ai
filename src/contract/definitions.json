@@ -17,7 +17,7 @@
         "$ref": "#/definitions/Multiplier"
       }
     },
-    "required": ["cost", "multiplier", "type"],
+    "required": ["cost", "type"],
     "description": "An object representing a cost."
   },
   "Bonus": {
@@ -38,7 +38,7 @@
         "$ref": "#/definitions/Dependency"
       }
     },
-    "required": ["bonus", "dependency", "type"],
+    "required": ["bonus", "type"],
     "description": "An object representing a bonus."
   },
   "Base": {
