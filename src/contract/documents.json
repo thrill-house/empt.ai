@@ -33,7 +33,10 @@
         "description": "The various factors that determine the contribution of this ability to the game score."
       },
       "costs": {
-        "$ref": "#/definitions/Costs",
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Costs"
+        },
         "description": "The various costs associated with this ability."
       },
       "meta": {
@@ -322,7 +325,10 @@
         "description": "The various bonuses that determine the contribution of this socket to the game score."
       },
       "costs": {
-        "$ref": "#/definitions/Costs",
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Costs"
+        },
         "description": "The various costs associated with this socket."
       },
       "meta": {
