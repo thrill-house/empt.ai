@@ -6,7 +6,7 @@
     ],
     "costs": [
       {
-        "cost": 100,
+        "cost": -100,
         "type": "confidence",
         "multiplier": {
           "conditions": [
@@ -19,7 +19,7 @@
         }
       },
       {
-        "cost": 10,
+        "cost": -100,
         "type": "data",
         "multiplier": {
           "conditions": [
@@ -114,7 +114,7 @@
     ],
     "costs": [
       {
-        "cost": 120,
+        "cost": -120,
         "type": "confidence",
         "multiplier": {
           "conditions": [
@@ -127,7 +127,7 @@
         }
       },
       {
-        "cost": 12,
+        "cost": -120,
         "type": "data",
         "multiplier": {
           "conditions": [
