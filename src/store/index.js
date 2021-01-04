@@ -101,7 +101,7 @@ export default createStore({
     new VuexDash({
       network: process.env.VUE_APP_GAME_NETWORK,
       contractId: process.env.VUE_APP_GAME_CONTRACT,
-      documents: ["Models", "Sources", "Slots", "Trainings"],
+      documents: ["Models", "Slots", "Sources", "Trainings"],
       namespace: "Game",
       subscribeToFrom: [
         { ownerId: "ownerId", mnemonic: "mnemonic", allQuery: "allGameQuery" },
