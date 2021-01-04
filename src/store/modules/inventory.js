@@ -3,6 +3,7 @@ import {
   filter,
   includes,
   keyBy,
+  map,
   pickBy,
   reduce,
   reverse,
@@ -10,6 +11,7 @@ import {
   sortBy,
   uniq,
 } from "lodash-es";
+import { extractValues, referenceTransitions } from "./score";
 
 export const extractDependencyIds = (dependencies, type) =>
   reduce(
@@ -149,7 +151,41 @@ export default {
         some(dependency?.where, (where) => where[0] === "eraId")
       ),
 
-    abilityCosts: (state, getters) => (id) => getters.ability(id)?.costs,
+    abilityCosts: (state, getters, rootState, rootGetters) => (id) => {
+      const abilityModels = map(getters["abilityModels"](id));
+      const abilitySlots = map(rootGetters["system/abilitySlots"](id));
+      const abilityTransitions = [...abilityModels, ...abilitySlots];
+
+      const dummyTransitions = [];
+
+      if (!abilityModels.length) {
+        dummyTransitions.push({
+          $type: "Models",
+          types: ["cost"],
+          abilityId: id,
+        });
+      }
+
+      if (!abilitySlots.length) {
+        dummyTransitions.push({
+          $type: "Slots",
+          types: ["cost"],
+          abilityId: id,
+        });
+      }
+
+      return extractValues({
+        transitions: [
+          ...abilityTransitions,
+          ...referenceTransitions({
+            transitions: dummyTransitions,
+            getAbility: getters["ability"],
+            getSocket: getters["socket"],
+          }),
+        ],
+        initial: { costs: { data: 0, confidence: 0 } },
+      }).costs;
+    },
 
     abilityConfidenceCosts: (state, getters) => (id) =>
       getters.abilityCosts(id)?.confidence,
@@ -209,8 +245,32 @@ export default {
       ),
 
     // Socket costs
+    socketCosts: (state, getters) => (id) => {
+      const socketSource = getters["socketSource"](id);
+      const socketTransitions = socketSource ? [socketSource] : [];
 
-    socketCosts: (state, getters) => (id) => getters.socket(id)?.costs,
+      const dummyTransitions = [];
+
+      if (!socketSource) {
+        dummyTransitions.push({
+          $type: "Sources",
+          types: ["cost"],
+          socketId: id,
+        });
+      }
+
+      return extractValues({
+        transitions: [
+          ...socketTransitions,
+          ...referenceTransitions({
+            transitions: dummyTransitions,
+            getAbility: getters["ability"],
+            getSocket: getters["socket"],
+          }),
+        ],
+        initial: { costs: { data: 0, confidence: 0 } },
+      }).costs;
+    },
 
     socketConfidenceCosts: (state, getters) => (id) =>
       getters.socketCosts(id)?.confidence,
