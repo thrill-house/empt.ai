@@ -90,7 +90,7 @@
         "type": "string",
         "minLength": 5,
         "maxLength": 9,
-        "pattern": "^slots$|^trainings$"
+        "pattern": "^models$|^slots$|^sources$|^trainings$"
       },
       "conditions": {
         "type": "array",
@@ -109,9 +109,9 @@
     "properties": {
       "document": {
         "type": "string",
-        "minLength": 6,
-        "maxLength": 7,
-        "pattern": "^models$|^sources$"
+        "minLength": 5,
+        "maxLength": 9,
+        "pattern": "^models$|^slots$|^sources$|^trainings$"
       },
       "conditions": {
         "type": "array",
