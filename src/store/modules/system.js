@@ -110,6 +110,12 @@ export default {
       pickBy(getters.slotted(), {
         abilityId,
       }),
+
+    // Get all slots, given a model
+    socketTrainings: (state, getters) => (socketId) =>
+      pickBy(getters.trained(), {
+        socketId,
+      }),
   },
   mutations: {
     slotting: (state, payload) => {
