@@ -181,21 +181,18 @@ export default (config) => {
                 ].platform.documents.get(`Contract.${document}`, payload);
               },
 
-              compose: async (
-                {
-                  rootState: {
-                    [namespace]: { options },
-                  },
-                  rootGetters,
-                },
-                payload = {}
-              ) => {
+              compose: async ({ dispatch, rootGetters }, payload = {}) => {
                 const client = rootGetters[`${namespace}/client`];
 
                 try {
-                  const identity = await client.platform.identities.get(
-                    options.ownerId
+                  const identity = await dispatch(
+                    `${namespace}/identity`,
+                    null,
+                    {
+                      root: true,
+                    }
                   );
+
                   const composed = await client.platform.documents.create(
                     `Contract.${document}`,
                     identity,
@@ -217,15 +214,19 @@ export default (config) => {
                   for await (const item of payload) {
                     if (isEqual(keys(item), ["$id"])) {
                       const deleted = await dispatch("one", item.$id);
+
                       documents.delete.push(deleted);
                     } else if (item.$id) {
                       const replaced = await dispatch("one", item.$id);
+
                       replaced.setData(
                         pickBy(item, (value, key) => !startsWith(key, "$"))
                       );
+
                       documents.replace.push(replaced);
                     } else {
                       const created = await dispatch("compose", item);
+
                       documents.create.push(created);
                     }
                   }
