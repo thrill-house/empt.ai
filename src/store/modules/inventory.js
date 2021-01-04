@@ -15,10 +15,9 @@ export const extractDependencyIds = (dependencies, type) =>
   reduce(
     dependencies,
     (result, dependency) => {
-      const dependantId = find(
-        dependency?.dependency?.where || [],
-        (where) => where[0] === type
-      )?.[2];
+      const dependantId = find(dependency?.dependency?.conditions || [], {
+        field: type,
+      })?.id;
 
       if (dependantId) {
         result.push(dependantId);
