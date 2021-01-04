@@ -66,6 +66,6 @@ export default (el, { arg, value, modifiers }) => {
   const [pre = "", post = ""] = keys(modifiers);
 
   if (formatters[arg] && value !== undefined) {
-    el.innerText = `${pre}${formatters[arg](value)}${post}`;
+    el.innerText = `${pre}${formatters[arg](Math.abs(value))}${post}`;
   }
 };
