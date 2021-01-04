@@ -5,10 +5,8 @@ import {
   clamp,
   defaults,
   filter,
-  find,
   groupBy,
   head,
-  isArray,
   isEmpty,
   keyBy,
   map,
@@ -23,6 +21,8 @@ import {
   sortBy,
   tail,
 } from "lodash-es";
+
+const DIFFICULTY = 1.1;
 
 export default {
   namespaced: true,
@@ -324,8 +324,10 @@ export const extractValues = (payload) => {
   const values = reduceRight(
     transitions,
     (accum, { reference, types }, key, collection) => {
-      const dependencies = {
+      const transitionsTypes = {
+        models: map(filter(collection, { document: "Models" }), "transition"),
         slots: map(filter(collection, { document: "Slots" }), "transition"),
+        sources: map(filter(collection, { document: "Sources" }), "transition"),
         trainings: map(
           filter(collection, { document: "Trainings" }),
           "transition"
@@ -337,49 +339,50 @@ export const extractValues = (payload) => {
         (accumValues, type) => {
           let typeValues = reference?.[pluralize(type)];
 
-          // If it's an array, it's not a cost
-          if (isArray(typeValues)) {
-            typeValues = reduce(
-              typeValues,
-              (typeValuesAccum, typeValue) => {
-                let valid = true;
+          typeValues = reduce(
+            typeValues,
+            (typeValuesAccum, typeValue) => {
+              const dependency = typeValue?.dependency;
+              const multiplier = typeValue?.multiplier;
+              const comparison = dependency || multiplier || false;
+              let comparisons = [];
+              let valid = true;
+              let multi = 0;
 
-                if (typeValue?.dependency?.document) {
-                  valid = !!find(
-                    dependencies[typeValue.dependency.document],
-                    reduce(
-                      typeValue.dependency.where,
-                      (accumWhere, where) => {
-                        accumWhere[where[0]] = where[2];
-                        return accumWhere;
-                      },
-                      {}
-                    )
-                  );
-                }
-
-                if (valid) {
-                  typeValuesAccum[typeValue.type] = numeral(
-                    typeValuesAccum[typeValue.type] || 0
+              if (comparison) {
+                comparisons = filter(
+                  transitionsTypes[comparison.document],
+                  reduce(
+                    comparison.conditions,
+                    (accumConditions, condition) => {
+                      accumConditions[condition.field] = condition.id;
+                      return accumConditions;
+                    },
+                    {}
                   )
-                    .add(typeValue[type] || 0)
-                    .value();
-                }
+                );
+              }
 
-                return typeValuesAccum;
-              },
-              {}
-            );
+              if (dependency && !multiplier) {
+                valid = !!comparisons;
+              }
 
-            // Turn costs into negatives
-            // TODO: Refactor this once costs have the same format as bases, factors and bonuses in data contract
-            // TODO: Costs should increase exponentially and be factored in here
-          } else {
-            typeValues = mapValues(
-              typeValues,
-              (typeValue) => Math.abs(typeValue) * -1
-            );
-          }
+              if (multiplier && !dependency) {
+                multi = comparisons.length - 1;
+              }
+
+              if (valid) {
+                typeValuesAccum[typeValue.type] = numeral(
+                  typeValuesAccum[typeValue.type] || 0
+                )
+                  .add((typeValue[type] || 0) * DIFFICULTY ** multi)
+                  .value();
+              }
+
+              return typeValuesAccum;
+            },
+            {}
+          );
 
           accumValues[pluralize(type)] = typeValues;
 
@@ -405,7 +408,7 @@ export const extractValues = (payload) => {
     initial
   );
 
-  return omitBy(values, isEmpty);
+  return { ...omitBy(values, isEmpty), ...initial };
 };
 
 export const calculateSums = (payload) => {
