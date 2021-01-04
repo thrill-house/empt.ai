@@ -1,0 +1,38 @@
+[
+  {
+    "title": "Happiness",
+    "emotionId": "11111111111111111111111111111111111111111111",
+    "sentiment": true,
+    "description": "I feel good"
+  },
+  {
+    "title": "Sadness",
+    "emotionId": "22222222222222222222222222222222222222222222",
+    "sentiment": false,
+    "description": "I feel bad"
+  },
+  {
+    "title": "Excitement",
+    "emotionId": "33333333333333333333333333333333333333333333",
+    "sentiment": true,
+    "description": "Hooray"
+  },
+  {
+    "title": "Fear",
+    "emotionId": "44444444444444444444444444444444444444444444",
+    "sentiment": false,
+    "description": "Eeep"
+  },
+  {
+    "title": "Tenderness",
+    "emotionId": "55555555555555555555555555555555555555555555",
+    "sentiment": true,
+    "description": "Awww"
+  },
+  {
+    "title": "Anger",
+    "emotionId": "66666666666666666666666666666666666666666666",
+    "sentiment": false,
+    "description": "Grr"
+  }
+]

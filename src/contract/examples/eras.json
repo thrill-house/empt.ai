@@ -1,0 +1,27 @@
+[
+  {
+    "stage": 1,
+    "title": "Hobbyist",
+    "description": "Just getting a start"
+  },
+  {
+    "stage": 2,
+    "title": "University",
+    "description": "Learning to walk"
+  },
+  {
+    "stage": 3,
+    "title": "Business",
+    "description": "Let's make some money"
+  },
+  {
+    "stage": 4,
+    "title": "Government",
+    "description": "Time to take the lead"
+  },
+  {
+    "stage": 5,
+    "title": "Consciousness",
+    "description": "Waking up to reality"
+  }
+]

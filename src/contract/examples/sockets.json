@@ -1,0 +1,292 @@
+[
+  {
+    "bases": [
+      { "base": 1, "type": "bandwidth" },
+      { "base": 1, "type": "influence" }
+    ],
+    "costs": [
+      { "cost": -1, "type": "data" },
+      { "cost": -1, "type": "confidence" }
+    ],
+    "eraId": "11111111111111111111111111111111111111111ERA",
+    "slots": 3,
+    "title": "Root",
+    "treeId": "1111111111111111111111111111111111111111TREE",
+    "bonuses": [
+      {
+        "type": "data",
+        "bonus": 500,
+        "dependency": {
+          "conditions": [
+            {
+              "field": "socketId",
+              "id": "11111111111111111111111111111111111111111111"
+            }
+          ],
+          "document": "trainings"
+        }
+      },
+      {
+        "type": "confidence",
+        "bonus": 500,
+        "dependency": {
+          "conditions": [
+            {
+              "field": "socketId",
+              "id": "11111111111111111111111111111111111111111111"
+            }
+          ],
+          "document": "trainings"
+        }
+      }
+    ],
+    "factors": [
+      {
+        "type": "bandwidth",
+        "factor": 0.2,
+        "dependency": {
+          "conditions": [
+            {
+              "field": "socketId",
+              "id": "11111111111111111111111111111111111111111111"
+            },
+            {
+              "field": "treeId",
+              "id": "1111111111111111111111111111111111111111TREE"
+            }
+          ],
+          "document": "slots"
+        }
+      },
+      {
+        "type": "influence",
+        "factor": 0.2,
+        "dependency": {
+          "conditions": [
+            {
+              "field": "socketId",
+              "id": "11111111111111111111111111111111111111111111"
+            },
+            {
+              "field": "eraId",
+              "id": "11111111111111111111111111111111111111111ERA"
+            }
+          ],
+          "document": "slots"
+        }
+      }
+    ],
+    "description": "Startup"
+  },
+  {
+    "bases": [
+      { "base": 3, "type": "bandwidth" },
+      { "base": 3, "type": "influence" }
+    ],
+    "costs": [
+      { "cost": -1, "type": "data" },
+      { "cost": -3000, "type": "confidence" }
+    ],
+    "eraId": "22222222222222222222222222222222222222222ERA",
+    "slots": 2,
+    "title": "Crowd Knowledge",
+    "treeId": "2222222222222222222222222222222222222222TREE",
+    "bonuses": [
+      {
+        "type": "data",
+        "bonus": 500,
+        "dependency": {
+          "conditions": [
+            {
+              "field": "socketId",
+              "id": "22222222222222222222222222222222222222222222"
+            }
+          ],
+          "document": "trainings"
+        }
+      },
+      {
+        "type": "confidence",
+        "bonus": 500,
+        "dependency": {
+          "conditions": [
+            {
+              "field": "socketId",
+              "id": "22222222222222222222222222222222222222222222"
+            }
+          ],
+          "document": "trainings"
+        }
+      }
+    ],
+    "factors": [
+      {
+        "type": "bandwidth",
+        "factor": 0.2,
+        "dependency": {
+          "conditions": [
+            {
+              "field": "socketId",
+              "id": "22222222222222222222222222222222222222222222"
+            },
+            {
+              "field": "treeId",
+              "id": "2222222222222222222222222222222222222222TREE"
+            }
+          ],
+          "document": "slots"
+        }
+      },
+      {
+        "type": "influence",
+        "factor": 0.2,
+        "dependency": {
+          "conditions": [
+            {
+              "field": "socketId",
+              "id": "22222222222222222222222222222222222222222222"
+            },
+            {
+              "field": "eraId",
+              "id": "22222222222222222222222222222222222222222ERA"
+            }
+          ],
+          "document": "slots"
+        }
+      }
+    ],
+    "description": "Harness the wisdom of the crowd."
+  },
+  {
+    "bases": [
+      { "base": 3, "type": "bandwidth" },
+      { "base": 3, "type": "influence" }
+    ],
+    "costs": [
+      { "cost": -1, "type": "data" },
+      { "cost": -3000, "type": "confidence" }
+    ],
+    "eraId": "22222222222222222222222222222222222222222ERA",
+    "slots": 2,
+    "title": "Science Journals",
+    "treeId": "3333333333333333333333333333333333333333TREE",
+    "bonuses": [
+      {
+        "type": "confidence",
+        "bonus": 1500,
+        "dependency": {
+          "conditions": [
+            {
+              "field": "socketId",
+              "id": "33333333333333333333333333333333333333333333"
+            }
+          ],
+          "document": "trainings"
+        }
+      }
+    ],
+    "factors": [
+      {
+        "type": "bandwidth",
+        "factor": 0.15,
+        "dependency": {
+          "conditions": [
+            {
+              "field": "socketId",
+              "id": "33333333333333333333333333333333333333333333"
+            },
+            {
+              "field": "treeId",
+              "id": "3333333333333333333333333333333333333333TREE"
+            }
+          ],
+          "document": "slots"
+        }
+      },
+      {
+        "type": "influence",
+        "factor": 0.15,
+        "dependency": {
+          "conditions": [
+            {
+              "field": "socketId",
+              "id": "33333333333333333333333333333333333333333333"
+            },
+            {
+              "field": "eraId",
+              "id": "22222222222222222222222222222222222222222ERA"
+            }
+          ],
+          "document": "slots"
+        }
+      }
+    ],
+    "description": "Harness the knowledge of Scientific journals."
+  },
+  {
+    "bases": [
+      { "base": 3, "type": "bandwidth" },
+      { "base": 3, "type": "influence" }
+    ],
+    "costs": [
+      { "cost": -1, "type": "data" },
+      { "cost": -3000, "type": "confidence" }
+    ],
+    "eraId": "22222222222222222222222222222222222222222ERA",
+    "slots": 2,
+    "title": "Stock Market",
+    "treeId": "4444444444444444444444444444444444444444TREE",
+    "bonuses": [
+      {
+        "type": "confidence",
+        "bonus": 1500,
+        "dependency": {
+          "conditions": [
+            {
+              "field": "socketId",
+              "id": "44444444444444444444444444444444444444444444"
+            }
+          ],
+          "document": "trainings"
+        }
+      }
+    ],
+    "factors": [
+      {
+        "type": "bandwidth",
+        "factor": 0.15,
+        "dependency": {
+          "conditions": [
+            {
+              "field": "socketId",
+              "id": "44444444444444444444444444444444444444444444"
+            },
+            {
+              "field": "treeId",
+              "id": "4444444444444444444444444444444444444444TREE"
+            }
+          ],
+          "document": "slots"
+        }
+      },
+      {
+        "type": "influence",
+        "factor": 0.15,
+        "dependency": {
+          "conditions": [
+            {
+              "field": "socketId",
+              "id": "44444444444444444444444444444444444444444444"
+            },
+            {
+              "field": "eraId",
+              "id": "22222222222222222222222222222222222222222ERA"
+            }
+          ],
+          "document": "slots"
+        }
+      }
+    ],
+    "description": "Harness the knowledge of the Stock Market."
+  }
+]
