@@ -11,7 +11,7 @@ import {
   sortBy,
   uniq,
 } from "lodash-es";
-import { extractValues, referenceTransitions } from "./score";
+import { extractValues } from "./score";
 
 export const extractDependencyIds = (dependencies, type) =>
   reduce(
@@ -155,47 +155,41 @@ export default {
         some(dependency?.conditions, (condition) => condition.field === "eraId")
       ),
 
-    abilityCosts: (state, getters, rootState, rootGetters) => (id) => {
+    abilityCosts: (state, getters) => (id) => getters.ability(id)?.costs,
+
+    abilityCoreCosts: (state, getters) => (id) =>
+      filter(
+        getters.abilityCosts(id),
+        ({ multiplier }) => multiplier === undefined
+      ),
+
+    abilityAdjustedCosts: (state, getters, rootState, rootGetters) => (id) => {
       const abilityModels = map(getters["abilityModels"](id));
       const abilitySlots = map(rootGetters["system/abilitySlots"](id));
-      const abilityTransitions = [...abilityModels, ...abilitySlots];
 
-      const dummyTransitions = [];
+      const abilityCoreCosts = reduce(
+        // getters.abilityCoreCosts(id),
+        getters.abilityCosts(id),
+        (accum, { type, cost }) => {
+          accum[type] = cost;
+          return accum;
+        },
+        {}
+      );
 
-      if (!abilityModels.length) {
-        dummyTransitions.push({
-          $type: "Models",
-          types: ["cost"],
-          abilityId: id,
-        });
-      }
+      const adjustedValues = extractValues({
+        transitions: [...abilityModels, ...abilitySlots],
+        initial: { costs: abilityCoreCosts },
+      });
 
-      if (!abilitySlots.length) {
-        dummyTransitions.push({
-          $type: "Slots",
-          types: ["cost"],
-          abilityId: id,
-        });
-      }
-
-      return extractValues({
-        transitions: [
-          ...abilityTransitions,
-          ...referenceTransitions({
-            transitions: dummyTransitions,
-            getAbility: getters["ability"],
-            getSocket: getters["socket"],
-          }),
-        ],
-        initial: { costs: { data: 0, confidence: 0 } },
-      }).costs;
+      return adjustedValues.costs;
     },
 
     abilityConfidenceCosts: (state, getters) => (id) =>
-      getters.abilityCosts(id)?.confidence,
+      getters.abilityAdjustedCosts(id)?.confidence,
 
     abilityDataCosts: (state, getters) => (id) =>
-      getters.abilityCosts(id)?.data,
+      getters.abilityAdjustedCosts(id)?.data,
 
     /*
      ** Socket & Source helpers
@@ -255,37 +249,39 @@ export default {
       ),
 
     // Socket costs
-    socketCosts: (state, getters) => (id) => {
+
+    socketCosts: (state, getters) => (id) => getters.socket(id)?.costs,
+
+    socketCoreCosts: (state, getters) => (id) =>
+      filter(
+        getters.socketCosts(id),
+        ({ multiplier }) => multiplier === undefined
+      ),
+
+    socketAdjustedCosts: (state, getters) => (id) => {
       const socketSource = getters["socketSource"](id);
-      const socketTransitions = socketSource ? [socketSource] : [];
+      const socketCoreCosts = reduce(
+        getters.socketCoreCosts(id),
+        (accum, { type, cost }) => {
+          accum[type] = cost;
+          return accum;
+        },
+        {}
+      );
 
-      const dummyTransitions = [];
+      const adjustedValues = extractValues({
+        transitions: socketSource ? [socketSource] : [],
+        initial: { costs: socketCoreCosts },
+      });
 
-      if (!socketSource) {
-        dummyTransitions.push({
-          $type: "Sources",
-          types: ["cost"],
-          socketId: id,
-        });
-      }
-
-      return extractValues({
-        transitions: [
-          ...socketTransitions,
-          ...referenceTransitions({
-            transitions: dummyTransitions,
-            getAbility: getters["ability"],
-            getSocket: getters["socket"],
-          }),
-        ],
-        initial: { costs: { data: 0, confidence: 0 } },
-      }).costs;
+      return adjustedValues.costs;
     },
 
     socketConfidenceCosts: (state, getters) => (id) =>
-      getters.socketCosts(id)?.confidence,
+      getters.socketAdjustedCosts(id)?.confidence,
 
-    socketDataCosts: (state, getters) => (id) => getters.socketCosts(id)?.data,
+    socketDataCosts: (state, getters) => (id) =>
+      getters.socketAdjustedCosts(id)?.data,
   },
   actions: {
     /*
