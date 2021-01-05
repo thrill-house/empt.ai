@@ -59,7 +59,7 @@ export default {
     //   return this.socket.factors;
     // },
     costs() {
-      return this.getSocketCosts(this.socketId);
+      return this.getSocketConfidenceCosts(this.socketId);
     },
     // scores() {
     //   return this.getScores();
@@ -84,7 +84,7 @@ export default {
       getSocketCoreBases: "inventory/socketCoreBases",
       getSocketTreeFactors: "inventory/socketTreeFactors",
       getSocketEraFactors: "inventory/socketEraFactors",
-      getSocketCosts: "inventory/socketCosts",
+      getSocketConfidenceCosts: "inventory/socketConfidenceCosts",
       // "getSlotsForSocket",
     }),
   },
@@ -172,7 +172,7 @@ export default {
     <button
       v-else-if="!installing"
       v-bem:connect.confidence="{ loading }"
-      v-format:confidence="costs.confidence"
+      v-format:confidence="costs"
       :disabled="!affordable"
       :title="$t(`Bring online`)"
       @click="connect()"
