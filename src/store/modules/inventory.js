@@ -119,8 +119,9 @@ export default {
     abilitySymbiosis: (state, getters) => (fromId, toId) =>
       filter(getters.abilityFactors(fromId), ({ dependency }) =>
         some(
-          dependency?.where,
-          (where) => where[0] === "abilityId" && where[2] === toId
+          dependency?.conditions,
+          (conditions) =>
+            conditions.field === "abilityId" && conditions.id === toId
         )
       ),
 
@@ -143,12 +144,15 @@ export default {
 
     abilityTreeFactors: (state, getters) => (id) =>
       filter(getters.abilityFactors(id), ({ dependency }) =>
-        some(dependency?.where, (where) => where[0] === "treeId")
+        some(
+          dependency?.conditions,
+          (condition) => condition.field === "treeId"
+        )
       ),
 
     abilityEraFactors: (state, getters) => (id) =>
       filter(getters.abilityFactors(id), ({ dependency }) =>
-        some(dependency?.where, (where) => where[0] === "eraId")
+        some(dependency?.conditions, (condition) => condition.field === "eraId")
       ),
 
     abilityCosts: (state, getters, rootState, rootGetters) => (id) => {
@@ -216,12 +220,15 @@ export default {
 
     socketTreeBases: (state, getters) => (id) =>
       filter(getters.socketBases(id), ({ dependency }) =>
-        some(dependency?.where, (where) => where[0] === "treeId")
+        some(
+          dependency?.conditions,
+          (condition) => condition.field === "treeId"
+        )
       ),
 
     socketEraBases: (state, getters) => (id) =>
       filter(getters.socketBases(id), ({ dependency }) =>
-        some(dependency?.where, (where) => where[0] === "eraId")
+        some(dependency?.conditions, (condition) => condition.field === "eraId")
       ),
 
     // Socket Factors
@@ -236,12 +243,15 @@ export default {
 
     socketTreeFactors: (state, getters) => (id) =>
       filter(getters.socketFactors(id), ({ dependency }) =>
-        some(dependency?.where, (where) => where[0] === "treeId")
+        some(
+          dependency?.conditions,
+          (condition) => condition.field === "treeId"
+        )
       ),
 
     socketEraFactors: (state, getters) => (id) =>
       filter(getters.socketFactors(id), ({ dependency }) =>
-        some(dependency?.where, (where) => where[0] === "eraId")
+        some(dependency?.conditions, (condition) => condition.field === "eraId")
       ),
 
     // Socket costs
