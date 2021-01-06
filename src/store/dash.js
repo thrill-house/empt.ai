@@ -58,7 +58,6 @@ export default (config) => {
       state: () => ({
         // Pass in the remaining options as our initial state
         options: pluginOptions,
-        identity: null,
       }),
       getters: {
         options: (state) => {
@@ -87,24 +86,8 @@ export default (config) => {
         updateOptions: (state, payload) => {
           state.options = { ...state.options, ...payload };
         },
-        identity: (state, payload) => {
-          state.identity = payload;
-        },
       },
       actions: {
-        // Helper to return the identity and also cache it
-        identity: async ({ commit, state, getters }) => {
-          const client = getters.client;
-          let identity = state.identity;
-
-          if (client && !identity) {
-            identity = client.platform.identities.get(getters.options.ownerId);
-            commit("identity", identity);
-            commit("identity", await identity);
-          }
-
-          return identity;
-        },
         // Helper to run the "all" action for every document module
         all: async ({ dispatch }) => {
           each(documents, (document) => {
@@ -181,16 +164,12 @@ export default (config) => {
                 ].platform.documents.get(`Contract.${document}`, payload);
               },
 
-              compose: async ({ dispatch, rootGetters }, payload = {}) => {
+              compose: async ({ rootGetters }, payload = {}) => {
                 const client = rootGetters[`${namespace}/client`];
 
                 try {
-                  const identity = await dispatch(
-                    `${namespace}/identity`,
-                    null,
-                    {
-                      root: true,
-                    }
+                  const identity = await client.platform.identities.get(
+                    rootGetters[`${namespace}/options`].ownerId
                   );
 
                   const composed = await client.platform.documents.create(
@@ -289,11 +268,11 @@ export default (config) => {
               },
 
               // Broadcast a set of documents. Payload is an object with create, replace and or delete keys.
-              broadcast: async ({ dispatch, rootGetters }, payload = {}) => {
+              broadcast: async ({ rootGetters }, payload = {}) => {
                 const client = rootGetters[`${namespace}/client`];
-                const identity = await dispatch(`${namespace}/identity`, null, {
-                  root: true,
-                });
+                const identity = await client.platform.identities.get(
+                  rootGetters[`${namespace}/options`].ownerId
+                );
 
                 await client.platform.documents.broadcast(payload, identity);
               },
