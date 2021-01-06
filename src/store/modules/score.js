@@ -415,7 +415,7 @@ export const extractValues = (payload) => {
     initial
   );
 
-  return { ...omitBy(values, isEmpty), ...initial };
+  return omitBy({ ...values, ...initial }, isEmpty);
 };
 
 export const calculateSums = (payload) => {
