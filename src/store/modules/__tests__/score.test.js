@@ -28,7 +28,7 @@ describe("score.extractValues", () => {
 
   test("Calculates a source and a slot with matching tree", () => {
     const payload = {
-      transitions: takeRight(transitions, 2),
+      transitions: takeRight(transitions, 3),
       initial: {
         bases: { influence: 0, bandwidth: 0 },
         factors: { influence: 0, bandwidth: 0 },
@@ -37,8 +37,8 @@ describe("score.extractValues", () => {
     const values = extractValues(payload);
 
     expect(values).toStrictEqual({
-      bases: { influence: 4, bandwidth: 2 },
-      factors: { influence: 0.2, bandwidth: 0.2 },
+      bases: { influence: 11, bandwidth: 2 },
+      factors: { influence: 0.25, bandwidth: 0.3 },
     });
   });
 });
