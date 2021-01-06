@@ -323,7 +323,7 @@ export const extractValues = (payload) => {
 
   const values = reduceRight(
     transitions,
-    (accum, { reference, types }, key, collection) => {
+    (accum, { reference, types }, transitionKey, collection) => {
       const transitionsTypes = {
         models: map(filter(collection, { document: "Models" }), "transition"),
         slots: map(filter(collection, { document: "Slots" }), "transition"),
@@ -345,9 +345,9 @@ export const extractValues = (payload) => {
               const dependency = typeValue?.dependency;
               const multiplier = typeValue?.multiplier;
               const comparison = dependency || multiplier || false;
+              const previousValue = typeValuesAccum[typeValue.type] || 0;
+              let addedValue = typeValue[type] || 0;
               let comparisons = [];
-              let valid = true;
-              let multi = 0;
 
               if (comparison) {
                 comparisons = filter(
@@ -363,21 +363,28 @@ export const extractValues = (payload) => {
                 );
               }
 
+              const comparisonsCount = comparisons.length;
+
               if (dependency && !multiplier) {
-                valid = !!comparisons;
+                if (comparisonsCount === 0) {
+                  addedValue = 0;
+                }
               }
 
               if (multiplier && !dependency) {
-                multi = comparisons.length - 1;
+                if (comparisonsCount > 0 && transitionKey === 0) {
+                  addedValue = numeral(addedValue)
+                    .multiply(Math.pow(DIFFICULTY, comparisonsCount))
+                    .subtract(addedValue)
+                    .value();
+                } else {
+                  addedValue = 0;
+                }
               }
 
-              if (valid) {
-                typeValuesAccum[typeValue.type] = numeral(
-                  typeValuesAccum[typeValue.type] || 0
-                )
-                  .add((typeValue[type] || 0) * DIFFICULTY ** multi)
-                  .value();
-              }
+              typeValuesAccum[typeValue.type] = numeral(previousValue)
+                .add(addedValue)
+                .value();
 
               return typeValuesAccum;
             },
