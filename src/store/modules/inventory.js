@@ -11,7 +11,7 @@ import {
   sortBy,
   uniq,
 } from "lodash-es";
-import { extractValues } from "./score";
+import { extractValues, referenceTransitions } from "./score";
 
 export const extractDependencyIds = (dependencies, type) =>
   reduce(
@@ -163,12 +163,14 @@ export default {
         ({ multiplier }) => multiplier === undefined
       ),
 
-    abilityAdjustedCosts: (state, getters, rootState, rootGetters) => (id) => {
-      const abilityModels = map(getters["abilityModels"](id));
-      const abilitySlots = map(rootGetters["system/abilitySlots"](id));
+    abilityAdjustedCosts: (state, getters) => (id, transitions) => {
+      const abilityTransitions = referenceTransitions({
+        transitions,
+        getAbility: getters["ability"],
+        getSocket: getters["socket"],
+      });
 
       const abilityCoreCosts = reduce(
-        // getters.abilityCoreCosts(id),
         getters.abilityCosts(id),
         (accum, { type, cost }) => {
           accum[type] = cost;
@@ -177,19 +179,23 @@ export default {
         {}
       );
 
-      const adjustedValues = extractValues({
-        transitions: [...abilityModels, ...abilitySlots],
+      const adjustedCosts = extractValues({
+        transitions: abilityTransitions,
         initial: { costs: abilityCoreCosts },
       });
 
-      return adjustedValues.costs;
+      return adjustedCosts.costs;
     },
 
-    abilityConfidenceCosts: (state, getters) => (id) =>
-      getters.abilityAdjustedCosts(id)?.confidence,
+    abilityConfidenceCosts: (state, getters) => (id) => {
+      const abilityModels = map(getters["abilityModels"](id));
+      return getters.abilityAdjustedCosts(id, abilityModels)?.confidence;
+    },
 
-    abilityDataCosts: (state, getters) => (id) =>
-      getters.abilityAdjustedCosts(id)?.data,
+    abilityDataCosts: (state, getters, rootState, rootGetters) => (id) => {
+      const abilitySlots = map(rootGetters["system/abilitySlots"](id));
+      return getters.abilityAdjustedCosts(id, abilitySlots)?.data;
+    },
 
     /*
      ** Socket & Source helpers
@@ -258,8 +264,13 @@ export default {
         ({ multiplier }) => multiplier === undefined
       ),
 
-    socketAdjustedCosts: (state, getters) => (id) => {
-      const socketSource = getters["socketSource"](id);
+    socketAdjustedCosts: (state, getters) => (id, transitions) => {
+      const socketTransitions = referenceTransitions({
+        transitions,
+        getAbility: getters["ability"],
+        getSocket: getters["socket"],
+      });
+
       const socketCoreCosts = reduce(
         getters.socketCoreCosts(id),
         (accum, { type, cost }) => {
@@ -269,19 +280,23 @@ export default {
         {}
       );
 
-      const adjustedValues = extractValues({
-        transitions: socketSource ? [socketSource] : [],
+      const adjustedCosts = extractValues({
+        transitions: socketTransitions,
         initial: { costs: socketCoreCosts },
       });
 
-      return adjustedValues.costs;
+      return adjustedCosts.costs;
     },
 
-    socketConfidenceCosts: (state, getters) => (id) =>
-      getters.socketAdjustedCosts(id)?.confidence,
+    socketConfidenceCosts: (state, getters) => (id) => {
+      const socketSource = getters["socketSource"](id);
+      return getters.socketAdjustedCosts(id, socketSource ? [socketSource] : [])
+        ?.confidence;
+    },
 
-    socketDataCosts: (state, getters) => (id) =>
-      getters.socketAdjustedCosts(id)?.data,
+    socketDataCosts: (state, getters) => (id) => {
+      return getters.socketAdjustedCosts(id, [])?.data;
+    },
   },
   actions: {
     /*
