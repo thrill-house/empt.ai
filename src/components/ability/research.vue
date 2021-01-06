@@ -65,7 +65,11 @@ export default {
       );
     },
     affordability() {
-      return clamp((this.scores.confidence / this.researchCost) * 100, 0, 100);
+      return clamp(
+        (this.scores.confidence / Math.abs(this.researchCost)) * 100,
+        0,
+        100
+      );
     },
     affordable() {
       return this.affordability === 100;
