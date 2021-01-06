@@ -6,6 +6,7 @@ module.exports = {
     admin: "src/admin.js",
   },
   configureWebpack: {
+    devtool: "source-map",
     resolve: {
       /*
        ** Emptying aliasFields is required so that the "browser" definition in the bn.js package is ignored.
