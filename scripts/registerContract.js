@@ -1,4 +1,3 @@
-// Run `node src/contract/register.js` from the root directory to register the contract.
 require("dotenv").config();
 
 const Dash = require("dash");
