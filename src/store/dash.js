@@ -184,8 +184,6 @@ export default (config) => {
                 }
               },
 
-              // TODO: Test this!
-              // Add and edit multiple items at a time.
               bulkEdit: async ({ commit, dispatch }, payload = {}) => {
                 let documents = { create: [], replace: [], delete: [] };
 
@@ -210,7 +208,10 @@ export default (config) => {
                     }
                   }
 
-                  await dispatch("broadcast", documents);
+                  await broadcastIn16kIntervals({
+                    documents,
+                    callback: async (d) => await dispatch("broadcast", d),
+                  });
 
                   each(
                     [...documents.create, ...documents.replace],
@@ -303,4 +304,46 @@ export default (config) => {
       }
     });
   };
+};
+
+const broadcastIn16kIntervals = async (payload) => {
+  const { documents, callback } = payload;
+  let size = 0;
+  let limit = 0;
+  const included = {
+    create: [],
+    replace: [],
+    delete: [],
+  };
+  const remainder = {
+    create: [],
+    replace: [],
+    delete: [],
+  };
+
+  each(documents, (items, key) => {
+    each(items, (item) => {
+      size += new TextEncoder().encode(JSON.stringify(item)).length / 1024;
+      limit += 1;
+
+      if (size < 16 && limit <= 10) {
+        included[key].push(item);
+      } else {
+        remainder[key].push(item);
+      }
+    });
+  });
+
+  await callback(included);
+
+  if (
+    remainder.create.length ||
+    remainder.replace.length ||
+    remainder.delete.length
+  ) {
+    await broadcastIn16kIntervals({
+      documents: remainder,
+      callback,
+    });
+  }
 };
