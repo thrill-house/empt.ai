@@ -2,7 +2,7 @@ const yargs = require("yargs");
 const fs = require("fs").promises;
 const parse = require("csv-parse/lib/sync");
 const ejs = require("ejs");
-const zipObject = require("lodash/zipObject");
+const zipObject = require("lodash.zipobject");
 
 const argv = yargs
   .option("input", {
