@@ -213,7 +213,7 @@ export default {
     class="w-full h-144 flex-none flex items-top justify-between border-b p-8"
   >
     <div>
-      <h1 class="text-5xl">EMPTH.AI</h1>
+      <h1 class="text-5xl">EmPT.ai</h1>
       <h2 class="text-2xl">Admin panel</h2>
     </div>
     <dl class="flex flex-wrap items-center max-w-3xl">
