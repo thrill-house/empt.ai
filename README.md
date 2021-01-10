@@ -1,6 +1,6 @@
 # EmPT.ai
 
-*EM*otional
+*EM*otionally
 *P*erceptive
 *T*echnology
 
