@@ -1,7 +1,7 @@
 {
   "name": "empt.ai",
   "version": "0.0.1",
-  "license": "GPLV3",
+  "license": "GPL-3.0-only",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
