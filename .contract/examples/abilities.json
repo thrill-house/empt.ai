@@ -1,0 +1,244 @@
+[
+  {
+    "bases": [
+      { "base": 10, "type": "influence" },
+      { "base": 1, "type": "bandwidth" }
+    ],
+    "costs": [
+      {
+        "cost": -100,
+        "type": "confidence",
+        "multiplier": {
+          "conditions": [
+            {
+              "field": "abilityId",
+              "id": "11111111111111111111111111111111111111111111"
+            }
+          ],
+          "document": "models"
+        }
+      },
+      {
+        "cost": -100,
+        "type": "data",
+        "multiplier": {
+          "conditions": [
+            {
+              "field": "abilityId",
+              "id": "11111111111111111111111111111111111111111111"
+            }
+          ],
+          "document": "slots"
+        }
+      }
+    ],
+    "eraId": "11111111111111111111111111111111111111111ERA",
+    "title": "Buzzie",
+    "treeId": "1111111111111111111111111111111111111111TREE",
+    "factors": [
+      {
+        "type": "influence",
+        "factor": 0.05,
+        "dependency": {
+          "conditions": [
+            {
+              "field": "treeId",
+              "id": "1111111111111111111111111111111111111111TREE"
+            },
+            {
+              "field": "abilityId",
+              "id": "11111111111111111111111111111111111111111111"
+            }
+          ],
+          "document": "slots"
+        }
+      },
+      {
+        "type": "bandwidth",
+        "factor": 0.05,
+        "dependency": {
+          "conditions": [
+            {
+              "field": "treeId",
+              "id": "1111111111111111111111111111111111111111TREE"
+            },
+            {
+              "field": "abilityId",
+              "id": "11111111111111111111111111111111111111111111"
+            }
+          ],
+          "document": "slots"
+        }
+      },
+      {
+        "type": "influence",
+        "factor": 0.05,
+        "dependency": {
+          "conditions": [
+            {
+              "field": "treeId",
+              "id": "2222222222222222222222222222222222222222TREE"
+            },
+            {
+              "field": "abilityId",
+              "id": "11111111111111111111111111111111111111111111"
+            }
+          ],
+          "document": "slots"
+        }
+      },
+      {
+        "type": "bandwidth",
+        "factor": 0.05,
+        "dependency": {
+          "conditions": [
+            {
+              "field": "eraId",
+              "id": "11111111111111111111111111111111111111111ERA"
+            },
+            {
+              "field": "abilityId",
+              "id": "11111111111111111111111111111111111111111111"
+            }
+          ],
+          "document": "slots"
+        }
+      }
+    ],
+    "description": "Your friendly neighbourhood chat bot"
+  },
+  {
+    "bases": [
+      { "base": 150, "type": "influence" },
+      { "base": 1, "type": "bandwidth" }
+    ],
+    "costs": [
+      {
+        "cost": -120,
+        "type": "confidence",
+        "multiplier": {
+          "conditions": [
+            {
+              "field": "abilityId",
+              "id": "22222222222222222222222222222222222222222222"
+            }
+          ],
+          "document": "models"
+        }
+      },
+      {
+        "cost": -120,
+        "type": "data",
+        "multiplier": {
+          "conditions": [
+            {
+              "field": "abilityId",
+              "id": "22222222222222222222222222222222222222222222"
+            }
+          ],
+          "document": "slots"
+        }
+      }
+    ],
+    "eraId": "22222222222222222222222222222222222222222ERA",
+    "title": "Gamebryo",
+    "treeId": "2222222222222222222222222222222222222222TREE",
+    "factors": [
+      {
+        "type": "influence",
+        "factor": 0.05,
+        "dependency": {
+          "conditions": [
+            {
+              "field": "treeId",
+              "id": "2222222222222222222222222222222222222222TREE"
+            },
+            {
+              "field": "abilityId",
+              "id": "22222222222222222222222222222222222222222222"
+            }
+          ],
+          "document": "slots"
+        }
+      },
+      {
+        "type": "bandwidth",
+        "factor": 0.05,
+        "dependency": {
+          "conditions": [
+            {
+              "field": "treeId",
+              "id": "2222222222222222222222222222222222222222TREE"
+            },
+            {
+              "field": "abilityId",
+              "id": "22222222222222222222222222222222222222222222"
+            }
+          ],
+          "document": "slots"
+        }
+      },
+      {
+        "type": "influence",
+        "factor": 0.05,
+        "dependency": {
+          "conditions": [
+            {
+              "field": "eraId",
+              "id": "22222222222222222222222222222222222222222ERA"
+            },
+            {
+              "field": "abilityId",
+              "id": "22222222222222222222222222222222222222222222"
+            }
+          ],
+          "document": "slots"
+        }
+      },
+      {
+        "type": "bandwidth",
+        "factor": 0.05,
+        "dependency": {
+          "conditions": [
+            {
+              "field": "eraId",
+              "id": "22222222222222222222222222222222222222222ERA"
+            },
+            {
+              "field": "abilityId",
+              "id": "22222222222222222222222222222222222222222222"
+            }
+          ],
+          "document": "slots"
+        }
+      },
+      {
+        "type": "influence",
+        "factor": 0.05,
+        "dependency": {
+          "conditions": [
+            {
+              "field": "abilityId",
+              "id": "11111111111111111111111111111111111111111111"
+            }
+          ],
+          "document": "slots"
+        }
+      },
+      {
+        "type": "bandwidth",
+        "factor": 0.05,
+        "dependency": {
+          "conditions": [
+            {
+              "field": "abilityId",
+              "id": "11111111111111111111111111111111111111111111"
+            }
+          ],
+          "document": "slots"
+        }
+      }
+    ],
+    "description": "Video game level solver"
+  }
+]

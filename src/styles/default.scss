@@ -1,0 +1,11 @@
+@import url("//fonts.googleapis.com/css?family=Titillium+Web:400,700");
+
+/*! @import */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  outline: none !important;
+  -webkit-transform: translate3d(0, 0, 0);
+}

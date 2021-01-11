@@ -1,0 +1,78 @@
+{
+  "name": "empt.ai",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "test": "jest",
+    "register-contract": "node scripts/registerContract.js",
+    "csv-extract": "node scripts/csvExtract.js",
+    "csv-update": "node scripts/csvupdate.js"
+  },
+  "dependencies": {
+    "autoprefixer": "^9",
+    "axios": "^0.21.0",
+    "bem-cn": "^3.0.1",
+    "core-js": "^3.6.5",
+    "dash": "^3.17.0",
+    "dayjs": "^1.9.4",
+    "dotenv": "^8.2.0",
+    "lodash-es": "^4.17.15",
+    "lodash.find": "^4.6.0",
+    "moment": "^2.29.1",
+    "numeral": "^2.0.6",
+    "pluralize": "^8.0.0",
+    "postcss": "^7",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat",
+    "tailwindcss-filters": "^3.0.0",
+    "vue": "^3.0.0",
+    "vue-i18n": "^9.0.0-beta.6",
+    "vue-json-editor": "^1.4.2",
+    "vue-localstorage": "^0.6.2",
+    "vuex": "^4.0.0-rc.2",
+    "vuex-persist": "^3.1.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/preset-env": "^7.12.11",
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "@vue/compiler-sfc": "^3.0.0",
+    "babel-eslint": "^10.1.0",
+    "babel-jest": "^26.6.3",
+    "eslint": "^6.7.2",
+    "eslint-plugin-vue": "^7.0.0-0",
+    "glob": "^7.1.6",
+    "jest": "^26.6.3",
+    "sass": "^1.27.1",
+    "sass-loader": "^10.0.4"
+  },
+  "optionalDependencies": {
+    "csv-parse": "^4.14.2",
+    "ejs": "^3.1.5",
+    "lodash.zipobject": "^4.1.3",
+    "yargs": "^16.2.0"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/vue3-essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}

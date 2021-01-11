@@ -1,0 +1,124 @@
+{
+  <% if (data['ID'] && data['ID'] !== "11111111111111111111111111111111111111111111") { %>"$id": "<%= data['ID'] %>",<% } %>
+  "title": "<%= data['Title'] %>",
+  "eraId": "<%= data['EraId'] %>",
+  "treeId": "<%= data['TreeId'] %>",
+  "description": "<%= data['Description'] %>",
+  "bases": [
+    { "base": <%= data['Influence (I)'] %>, "type": "influence" },
+    { "base": <%= data['Bandwidth (B)'] %>, "type": "bandwidth" }
+  ],
+  "costs": [
+    {
+      "cost": <%= data['Research cost (C)'] * -1 %>,
+      "type": "confidence",
+      "multiplier": {
+        "conditions": [
+          {
+            "field": "abilityId",
+            "id": "<%= data['ID'] %>"
+          }
+        ],
+        "document": "models"
+      }
+    },
+    {
+      "cost": <%= data['Install cost (D)'] * -1 %>,
+      "type": "data",
+      "multiplier": {
+        "conditions": [
+          {
+            "field": "abilityId",
+            "id": "<%= data['ID'] %>"
+          }
+        ],
+        "document": "slots"
+      }
+    }
+  ],
+  "factors": [
+    <% if (data['Tree boost (I)']) { %>  
+    {
+      "type": "influence",
+      "factor": <%= data['Tree boost (I)'] %>,
+      "dependency": {
+        "conditions": [
+          {
+            "field": "treeId",
+            "id": "<%= data['TreeId'] %>"
+          },
+          {
+            "field": "abilityId",
+            "id": "<%= data['ID'] %>"
+          }
+        ],
+        "document": "slots"
+      }
+    },
+    <% } %>
+    <% if (data['Era boost (B)']) { %>  
+    {
+      "type": "bandwidth",
+      "factor": <%= data['Era boost (B)'] %>,
+      "dependency": {
+        "conditions": [
+          {
+            "field": "eraId",
+            "id": "<%= data['EraId'] %>"
+          },
+          {
+            "field": "abilityId",
+            "id": "<%= data['ID'] %>"
+          }
+        ],
+        "document": "slots"
+      }
+    },
+    <% } %>
+    <% if (data['Synergy Boost 1 (C)']) { %>  
+    {
+      "type": "influence",
+      "factor": <%= data['Synergy Boost 1 (C)'] %>,
+      "dependency": {
+        "conditions": [
+          {
+            "field": "abilityId",
+            "id": "<%= data['Synergy1Id'] %>"
+          }
+        ],
+        "document": "slots"
+      }
+    },
+    <% } %>
+    <% if (data['Synergy Boost 2 (C)']) { %>  
+    {
+      "type": "influence",
+      "factor": <%= data['Synergy Boost 2 (C)'] %>,
+      "dependency": {
+        "conditions": [
+          {
+            "field": "abilityId",
+            "id": "<%= data['Synergy2Id'] %>"
+          }
+        ],
+        "document": "slots"
+      }
+    },
+    <% } %>
+    <% if (data['Synergy Boost 3 (C)']) { %>  
+    {
+      "type": "influence",
+      "factor": <%= data['Synergy Boost 3 (C)'] %>,
+      "dependency": {
+        "conditions": [
+          {
+            "field": "abilityId",
+            "id": "<%= data['Synergy3Id'] %>"
+          }
+        ],
+        "document": "slots"
+      }
+    },
+    <% } %>
+  ],
+}

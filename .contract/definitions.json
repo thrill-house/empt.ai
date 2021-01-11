@@ -1,0 +1,215 @@
+{
+  "Costs": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "type": {
+        "type": "string",
+        "minLength": 4,
+        "maxLength": 10,
+        "pattern": "^data$|^confidence$"
+      },
+      "cost": {
+        "type": "integer",
+        "maximum": -1
+      },
+      "multiplier": {
+        "$ref": "#/definitions/Multiplier"
+      }
+    },
+    "required": ["cost", "type"],
+    "description": "An object representing a cost."
+  },
+  "Bonus": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "type": {
+        "type": "string",
+        "minLength": 4,
+        "maxLength": 10,
+        "pattern": "^data$|^confidence$"
+      },
+      "bonus": {
+        "type": "integer",
+        "minimum": 1
+      },
+      "dependency": {
+        "$ref": "#/definitions/Dependency"
+      }
+    },
+    "required": ["bonus", "type"],
+    "description": "An object representing a bonus."
+  },
+  "Base": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "type": {
+        "type": "string",
+        "minLength": 9,
+        "maxLength": 9,
+        "pattern": "^bandwidth$|^influence$"
+      },
+      "base": {
+        "type": "integer"
+      },
+      "dependency": {
+        "$ref": "#/definitions/Dependency"
+      }
+    },
+    "required": ["base", "type"],
+    "description": "An object representing a base."
+  },
+  "Factor": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "type": {
+        "type": "string",
+        "minLength": 9,
+        "maxLength": 9,
+        "pattern": "^bandwidth$|^influence$"
+      },
+      "factor": {
+        "type": "number",
+        "multipleOf": 0.01
+      },
+      "dependency": {
+        "$ref": "#/definitions/Dependency"
+      }
+    },
+    "required": ["factor", "type"],
+    "description": "An object representing a factor."
+  },
+  "Dependency": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "document": {
+        "type": "string",
+        "minLength": 5,
+        "maxLength": 9,
+        "pattern": "^models$|^slots$|^sources$|^trainings$"
+      },
+      "conditions": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "$ref": "#/definitions/Condition"
+        }
+      }
+    },
+    "required": ["document", "conditions"],
+    "description": "An object representing a dependency."
+  },
+  "Multiplier": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "document": {
+        "type": "string",
+        "minLength": 5,
+        "maxLength": 9,
+        "pattern": "^models$|^slots$|^sources$|^trainings$"
+      },
+      "conditions": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "$ref": "#/definitions/Condition"
+        }
+      }
+    },
+    "required": ["document", "conditions"],
+    "description": "An object representing a multiplier."
+  },
+  "Condition": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "field": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 128
+      },
+      "id": {
+        "$ref": "#/definitions/Id"
+      }
+    },
+    "required": ["field", "id"],
+    "description": "An object representing a condition."
+  },
+  "Feeling": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "emotionId": {
+        "$ref": "#/definitions/Id"
+      },
+      "value": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 2
+      }
+    },
+    "required": ["emotionId", "value"],
+    "description": "An object representing a feeling."
+  },
+  "Answer": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "question": {
+        "$ref": "#/definitions/Description"
+      },
+      "value": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "required": ["question", "value"],
+    "description": "An object representing an answer."
+  },
+  "Meta": {
+    "type": "array",
+    "items": {
+      "$ref": "#/definitions/Value"
+    }
+  },
+  "Id": {
+    "type": "string",
+    "minLength": 42,
+    "maxLength": 44,
+    "pattern": "^[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]+$",
+    "description": "A string representing an ID."
+  },
+  "Title": {
+    "type": "string",
+    "minLength": 1,
+    "maxLength": 128,
+    "description": "A string representing a title."
+  },
+  "Description": {
+    "type": "string",
+    "minLength": 1,
+    "maxLength": 1024,
+    "description": "A string representing a description."
+  },
+  "Value": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "key": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 128
+      },
+      "value": {
+        "type": ["string", "number", "boolean"]
+      }
+    },
+    "required": ["key", "value"],
+    "description": "An object representing a basic key value store."
+  }
+}

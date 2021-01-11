@@ -1,0 +1,1014 @@
+[
+  {
+    "document": "Slots",
+    "transition": {
+      "$protocolVersion": 0,
+      "$id": "HBqYwUkWoLTETDun6Y1PQgLXiKrULJcxRPtGGL2QRecN",
+      "$type": "Slots",
+      "$dataContractId": "HVNpipv3UyZapzGatqJ8tWCkrEQSqAJS4ZSwaSJcFHjM",
+      "$ownerId": "Firv3eur4hbCW87fzdisX5MvTwqRQQ7gKrZYirjbGGY5",
+      "$revision": 1,
+      "eraId": "Cny6z4s9TMbrCHPC4ySpUaQz3PkD5zBz5cVPkVmsQfgL",
+      "gameId": "3nK4o8NuftmooM55Q2jAFB2m5hwzbH33neT54dhDvrKe",
+      "slotId": "11111111111111111111111111111111111111111111",
+      "treeId": "81qh8QmfuZaoQpr9v88yxvMXKv9QNEUQJEAux84xREnD",
+      "modelId": "81kgAeo3ji5eiErxpWEUZynCJbwnerRn2aCDHiuMrSFk",
+      "socketId": "G5YXPWfez5KQfyvfewo1U3Q2aYpUAUnRdwrQ13wom6bQ",
+      "sourceId": "4TUZdPh4Yw5hZu5jF7XwaWzRS9mqcmDPCRQpMtnf9VVh",
+      "abilityId": "GCtXBFA2HLAnqe1hmH8SUPkssNV5qubAYStJ7j4JFxFd",
+      "slotIndex": 1,
+      "$createdAt": 1609858609798,
+      "$updatedAt": 1609858609798
+    },
+    "reference": {
+      "$protocolVersion": 0,
+      "$id": "GCtXBFA2HLAnqe1hmH8SUPkssNV5qubAYStJ7j4JFxFd",
+      "$type": "Abilities",
+      "$dataContractId": "HVNpipv3UyZapzGatqJ8tWCkrEQSqAJS4ZSwaSJcFHjM",
+      "$ownerId": "EQ4ijQcbpwJnNWudTd1PRvUPL7Me6CBEBmQe8pcYtaUB",
+      "$revision": 2,
+      "bases": [
+        { "base": 10, "type": "influence" },
+        { "base": 1, "type": "bandwidth" }
+      ],
+      "costs": [
+        {
+          "cost": -100,
+          "type": "confidence",
+          "multiplier": {
+            "document": "models",
+            "conditions": [
+              {
+                "id": "GCtXBFA2HLAnqe1hmH8SUPkssNV5qubAYStJ7j4JFxFd",
+                "field": "abilityId"
+              }
+            ]
+          }
+        },
+        {
+          "cost": -100,
+          "type": "data",
+          "multiplier": {
+            "document": "slots",
+            "conditions": [
+              {
+                "id": "GCtXBFA2HLAnqe1hmH8SUPkssNV5qubAYStJ7j4JFxFd",
+                "field": "abilityId"
+              }
+            ]
+          }
+        }
+      ],
+      "eraId": "Cny6z4s9TMbrCHPC4ySpUaQz3PkD5zBz5cVPkVmsQfgL",
+      "title": "Buzzie",
+      "treeId": "81qh8QmfuZaoQpr9v88yxvMXKv9QNEUQJEAux84xREnD",
+      "factors": [
+        {
+          "type": "influence",
+          "factor": 0.05,
+          "dependency": {
+            "document": "slots",
+            "conditions": [
+              {
+                "id": "81qh8QmfuZaoQpr9v88yxvMXKv9QNEUQJEAux84xREnD",
+                "field": "treeId"
+              },
+              {
+                "id": "GCtXBFA2HLAnqe1hmH8SUPkssNV5qubAYStJ7j4JFxFd",
+                "field": "abilityId"
+              }
+            ]
+          }
+        },
+        {
+          "type": "bandwidth",
+          "factor": 0.05,
+          "dependency": {
+            "document": "slots",
+            "conditions": [
+              {
+                "id": "81qh8QmfuZaoQpr9v88yxvMXKv9QNEUQJEAux84xREnD",
+                "field": "treeId"
+              },
+              {
+                "id": "GCtXBFA2HLAnqe1hmH8SUPkssNV5qubAYStJ7j4JFxFd",
+                "field": "abilityId"
+              }
+            ]
+          }
+        },
+        {
+          "type": "influence",
+          "factor": 0.05,
+          "dependency": {
+            "document": "slots",
+            "conditions": [
+              {
+                "id": "Eg9t46tepsGgiZLSVw7fTqV1b4HHA95wRRVNsvLXF7yb",
+                "field": "treeId"
+              },
+              {
+                "id": "GCtXBFA2HLAnqe1hmH8SUPkssNV5qubAYStJ7j4JFxFd",
+                "field": "abilityId"
+              }
+            ]
+          }
+        },
+        {
+          "type": "bandwidth",
+          "factor": 0.05,
+          "dependency": {
+            "document": "slots",
+            "conditions": [
+              {
+                "id": "Cny6z4s9TMbrCHPC4ySpUaQz3PkD5zBz5cVPkVmsQfgL",
+                "field": "eraId"
+              },
+              {
+                "id": "GCtXBFA2HLAnqe1hmH8SUPkssNV5qubAYStJ7j4JFxFd",
+                "field": "abilityId"
+              }
+            ]
+          }
+        }
+      ],
+      "description": "Your friendly neighbourhood chat bot",
+      "$createdAt": 1609760301763,
+      "$updatedAt": 1609765358997
+    },
+    "types": ["cost", "base", "factor"]
+  },
+  {
+    "document": "Models",
+    "transition": {
+      "$protocolVersion": 0,
+      "$id": "81kgAeo3ji5eiErxpWEUZynCJbwnerRn2aCDHiuMrSFk",
+      "$type": "Models",
+      "$dataContractId": "HVNpipv3UyZapzGatqJ8tWCkrEQSqAJS4ZSwaSJcFHjM",
+      "$ownerId": "Firv3eur4hbCW87fzdisX5MvTwqRQQ7gKrZYirjbGGY5",
+      "$revision": 1,
+      "gameId": "3nK4o8NuftmooM55Q2jAFB2m5hwzbH33neT54dhDvrKe",
+      "feelings": [
+        {
+          "value": 1,
+          "emotionId": "8zFwTS2LFmdMi129k32nYoVyUkiXJWGaDYsV7zMbjxoa"
+        },
+        {
+          "value": 1,
+          "emotionId": "E3RJ55iLmN3YHk2EwsM7dY7iUEAMZso577Y5Z79a32QN"
+        },
+        {
+          "value": 2,
+          "emotionId": "AXiECEQyH8wUWJU3EBTgypWHWtnU8gynrJZT1CDAjk1M"
+        }
+      ],
+      "abilityId": "GCtXBFA2HLAnqe1hmH8SUPkssNV5qubAYStJ7j4JFxFd",
+      "$createdAt": 1609858275070,
+      "$updatedAt": 1609858275070
+    },
+    "reference": {
+      "$protocolVersion": 0,
+      "$id": "GCtXBFA2HLAnqe1hmH8SUPkssNV5qubAYStJ7j4JFxFd",
+      "$type": "Abilities",
+      "$dataContractId": "HVNpipv3UyZapzGatqJ8tWCkrEQSqAJS4ZSwaSJcFHjM",
+      "$ownerId": "EQ4ijQcbpwJnNWudTd1PRvUPL7Me6CBEBmQe8pcYtaUB",
+      "$revision": 2,
+      "bases": [
+        { "base": 10, "type": "influence" },
+        { "base": 1, "type": "bandwidth" }
+      ],
+      "costs": [
+        {
+          "cost": -100,
+          "type": "confidence",
+          "multiplier": {
+            "document": "models",
+            "conditions": [
+              {
+                "id": "GCtXBFA2HLAnqe1hmH8SUPkssNV5qubAYStJ7j4JFxFd",
+                "field": "abilityId"
+              }
+            ]
+          }
+        },
+        {
+          "cost": -100,
+          "type": "data",
+          "multiplier": {
+            "document": "slots",
+            "conditions": [
+              {
+                "id": "GCtXBFA2HLAnqe1hmH8SUPkssNV5qubAYStJ7j4JFxFd",
+                "field": "abilityId"
+              }
+            ]
+          }
+        }
+      ],
+      "eraId": "Cny6z4s9TMbrCHPC4ySpUaQz3PkD5zBz5cVPkVmsQfgL",
+      "title": "Buzzie",
+      "treeId": "81qh8QmfuZaoQpr9v88yxvMXKv9QNEUQJEAux84xREnD",
+      "factors": [
+        {
+          "type": "influence",
+          "factor": 0.05,
+          "dependency": {
+            "document": "slots",
+            "conditions": [
+              {
+                "id": "81qh8QmfuZaoQpr9v88yxvMXKv9QNEUQJEAux84xREnD",
+                "field": "treeId"
+              },
+              {
+                "id": "GCtXBFA2HLAnqe1hmH8SUPkssNV5qubAYStJ7j4JFxFd",
+                "field": "abilityId"
+              }
+            ]
+          }
+        },
+        {
+          "type": "bandwidth",
+          "factor": 0.05,
+          "dependency": {
+            "document": "slots",
+            "conditions": [
+              {
+                "id": "81qh8QmfuZaoQpr9v88yxvMXKv9QNEUQJEAux84xREnD",
+                "field": "treeId"
+              },
+              {
+                "id": "GCtXBFA2HLAnqe1hmH8SUPkssNV5qubAYStJ7j4JFxFd",
+                "field": "abilityId"
+              }
+            ]
+          }
+        },
+        {
+          "type": "influence",
+          "factor": 0.05,
+          "dependency": {
+            "document": "slots",
+            "conditions": [
+              {
+                "id": "Eg9t46tepsGgiZLSVw7fTqV1b4HHA95wRRVNsvLXF7yb",
+                "field": "treeId"
+              },
+              {
+                "id": "GCtXBFA2HLAnqe1hmH8SUPkssNV5qubAYStJ7j4JFxFd",
+                "field": "abilityId"
+              }
+            ]
+          }
+        },
+        {
+          "type": "bandwidth",
+          "factor": 0.05,
+          "dependency": {
+            "document": "slots",
+            "conditions": [
+              {
+                "id": "Cny6z4s9TMbrCHPC4ySpUaQz3PkD5zBz5cVPkVmsQfgL",
+                "field": "eraId"
+              },
+              {
+                "id": "GCtXBFA2HLAnqe1hmH8SUPkssNV5qubAYStJ7j4JFxFd",
+                "field": "abilityId"
+              }
+            ]
+          }
+        }
+      ],
+      "description": "Your friendly neighbourhood chat bot",
+      "$createdAt": 1609760301763,
+      "$updatedAt": 1609765358997
+    },
+    "types": ["cost"]
+  },
+  {
+    "document": "Slots",
+    "transition": {
+      "$protocolVersion": 0,
+      "$id": "AwikSQguJDeZ4hXepzy9vJCwLHgbYGRsz8ciTT6JQpdr",
+      "$type": "Slots",
+      "$dataContractId": "HVNpipv3UyZapzGatqJ8tWCkrEQSqAJS4ZSwaSJcFHjM",
+      "$ownerId": "Firv3eur4hbCW87fzdisX5MvTwqRQQ7gKrZYirjbGGY5",
+      "$revision": 1,
+      "eraId": "Cny6z4s9TMbrCHPC4ySpUaQz3PkD5zBz5cVPkVmsQfgL",
+      "gameId": "3nK4o8NuftmooM55Q2jAFB2m5hwzbH33neT54dhDvrKe",
+      "slotId": "11111111111111111111111111111111111111111111",
+      "treeId": "81qh8QmfuZaoQpr9v88yxvMXKv9QNEUQJEAux84xREnD",
+      "modelId": "CUBaFx7QXAkpu2P9sKSfDV26XBaRG4SSC2fypbSbnZKq",
+      "socketId": "G5YXPWfez5KQfyvfewo1U3Q2aYpUAUnRdwrQ13wom6bQ",
+      "sourceId": "4TUZdPh4Yw5hZu5jF7XwaWzRS9mqcmDPCRQpMtnf9VVh",
+      "abilityId": "ASsJ5drh1Dxj3aczUAEuzyE4gwn88ag8iLJpFvu8YABP",
+      "slotIndex": 2,
+      "$createdAt": 1609857874765,
+      "$updatedAt": 1609857874765
+    },
+    "reference": {
+      "$protocolVersion": 0,
+      "$id": "ASsJ5drh1Dxj3aczUAEuzyE4gwn88ag8iLJpFvu8YABP",
+      "$type": "Abilities",
+      "$dataContractId": "HVNpipv3UyZapzGatqJ8tWCkrEQSqAJS4ZSwaSJcFHjM",
+      "$ownerId": "EQ4ijQcbpwJnNWudTd1PRvUPL7Me6CBEBmQe8pcYtaUB",
+      "$revision": 2,
+      "bases": [
+        { "base": 150, "type": "influence" },
+        { "base": 1, "type": "bandwidth" }
+      ],
+      "costs": [
+        {
+          "cost": -120,
+          "type": "confidence",
+          "multiplier": {
+            "document": "models",
+            "conditions": [
+              {
+                "id": "ASsJ5drh1Dxj3aczUAEuzyE4gwn88ag8iLJpFvu8YABP",
+                "field": "abilityId"
+              }
+            ]
+          }
+        },
+        {
+          "cost": -120,
+          "type": "data",
+          "multiplier": {
+            "document": "slots",
+            "conditions": [
+              {
+                "id": "ASsJ5drh1Dxj3aczUAEuzyE4gwn88ag8iLJpFvu8YABP",
+                "field": "abilityId"
+              }
+            ]
+          }
+        }
+      ],
+      "eraId": "GdajddTXvrzxSzTctwejfZZXAvptnLYCnoTDUW7mjXC1",
+      "title": "Gamebryo",
+      "treeId": "Eg9t46tepsGgiZLSVw7fTqV1b4HHA95wRRVNsvLXF7yb",
+      "factors": [
+        {
+          "type": "influence",
+          "factor": 0.05,
+          "dependency": {
+            "document": "slots",
+            "conditions": [
+              {
+                "id": "Eg9t46tepsGgiZLSVw7fTqV1b4HHA95wRRVNsvLXF7yb",
+                "field": "treeId"
+              },
+              {
+                "id": "ASsJ5drh1Dxj3aczUAEuzyE4gwn88ag8iLJpFvu8YABP",
+                "field": "abilityId"
+              }
+            ]
+          }
+        },
+        {
+          "type": "bandwidth",
+          "factor": 0.05,
+          "dependency": {
+            "document": "slots",
+            "conditions": [
+              {
+                "id": "Eg9t46tepsGgiZLSVw7fTqV1b4HHA95wRRVNsvLXF7yb",
+                "field": "treeId"
+              },
+              {
+                "id": "ASsJ5drh1Dxj3aczUAEuzyE4gwn88ag8iLJpFvu8YABP",
+                "field": "abilityId"
+              }
+            ]
+          }
+        },
+        {
+          "type": "influence",
+          "factor": 0.05,
+          "dependency": {
+            "document": "slots",
+            "conditions": [
+              {
+                "id": "GdajddTXvrzxSzTctwejfZZXAvptnLYCnoTDUW7mjXC1",
+                "field": "eraId"
+              },
+              {
+                "id": "ASsJ5drh1Dxj3aczUAEuzyE4gwn88ag8iLJpFvu8YABP",
+                "field": "abilityId"
+              }
+            ]
+          }
+        },
+        {
+          "type": "bandwidth",
+          "factor": 0.05,
+          "dependency": {
+            "document": "slots",
+            "conditions": [
+              {
+                "id": "GdajddTXvrzxSzTctwejfZZXAvptnLYCnoTDUW7mjXC1",
+                "field": "eraId"
+              },
+              {
+                "id": "ASsJ5drh1Dxj3aczUAEuzyE4gwn88ag8iLJpFvu8YABP",
+                "field": "abilityId"
+              }
+            ]
+          }
+        },
+        {
+          "type": "influence",
+          "factor": 0.05,
+          "dependency": {
+            "document": "slots",
+            "conditions": [
+              {
+                "id": "GCtXBFA2HLAnqe1hmH8SUPkssNV5qubAYStJ7j4JFxFd",
+                "field": "abilityId"
+              }
+            ]
+          }
+        },
+        {
+          "type": "bandwidth",
+          "factor": 0.05,
+          "dependency": {
+            "document": "slots",
+            "conditions": [
+              {
+                "id": "GCtXBFA2HLAnqe1hmH8SUPkssNV5qubAYStJ7j4JFxFd",
+                "field": "abilityId"
+              }
+            ]
+          }
+        }
+      ],
+      "description": "Video game level solver",
+      "$createdAt": 1609760307984,
+      "$updatedAt": 1609765358997
+    },
+    "types": ["cost", "base", "factor"]
+  },
+  {
+    "document": "Models",
+    "transition": {
+      "$protocolVersion": 0,
+      "$id": "CUBaFx7QXAkpu2P9sKSfDV26XBaRG4SSC2fypbSbnZKq",
+      "$type": "Models",
+      "$dataContractId": "HVNpipv3UyZapzGatqJ8tWCkrEQSqAJS4ZSwaSJcFHjM",
+      "$ownerId": "Firv3eur4hbCW87fzdisX5MvTwqRQQ7gKrZYirjbGGY5",
+      "$revision": 1,
+      "gameId": "3nK4o8NuftmooM55Q2jAFB2m5hwzbH33neT54dhDvrKe",
+      "feelings": [
+        {
+          "value": 2,
+          "emotionId": "9tY8rNNHENqDGnFLAYEjwvt7BqS7ncm85XNyXDVA9sHq"
+        },
+        {
+          "value": 1,
+          "emotionId": "E3RJ55iLmN3YHk2EwsM7dY7iUEAMZso577Y5Z79a32QN"
+        },
+        {
+          "value": 1,
+          "emotionId": "AXiECEQyH8wUWJU3EBTgypWHWtnU8gynrJZT1CDAjk1M"
+        }
+      ],
+      "abilityId": "ASsJ5drh1Dxj3aczUAEuzyE4gwn88ag8iLJpFvu8YABP",
+      "$createdAt": 1609857453106,
+      "$updatedAt": 1609857453106
+    },
+    "reference": {
+      "$protocolVersion": 0,
+      "$id": "ASsJ5drh1Dxj3aczUAEuzyE4gwn88ag8iLJpFvu8YABP",
+      "$type": "Abilities",
+      "$dataContractId": "HVNpipv3UyZapzGatqJ8tWCkrEQSqAJS4ZSwaSJcFHjM",
+      "$ownerId": "EQ4ijQcbpwJnNWudTd1PRvUPL7Me6CBEBmQe8pcYtaUB",
+      "$revision": 2,
+      "bases": [
+        { "base": 150, "type": "influence" },
+        { "base": 1, "type": "bandwidth" }
+      ],
+      "costs": [
+        {
+          "cost": -120,
+          "type": "confidence",
+          "multiplier": {
+            "document": "models",
+            "conditions": [
+              {
+                "id": "ASsJ5drh1Dxj3aczUAEuzyE4gwn88ag8iLJpFvu8YABP",
+                "field": "abilityId"
+              }
+            ]
+          }
+        },
+        {
+          "cost": -120,
+          "type": "data",
+          "multiplier": {
+            "document": "slots",
+            "conditions": [
+              {
+                "id": "ASsJ5drh1Dxj3aczUAEuzyE4gwn88ag8iLJpFvu8YABP",
+                "field": "abilityId"
+              }
+            ]
+          }
+        }
+      ],
+      "eraId": "GdajddTXvrzxSzTctwejfZZXAvptnLYCnoTDUW7mjXC1",
+      "title": "Gamebryo",
+      "treeId": "Eg9t46tepsGgiZLSVw7fTqV1b4HHA95wRRVNsvLXF7yb",
+      "factors": [
+        {
+          "type": "influence",
+          "factor": 0.05,
+          "dependency": {
+            "document": "slots",
+            "conditions": [
+              {
+                "id": "Eg9t46tepsGgiZLSVw7fTqV1b4HHA95wRRVNsvLXF7yb",
+                "field": "treeId"
+              },
+              {
+                "id": "ASsJ5drh1Dxj3aczUAEuzyE4gwn88ag8iLJpFvu8YABP",
+                "field": "abilityId"
+              }
+            ]
+          }
+        },
+        {
+          "type": "bandwidth",
+          "factor": 0.05,
+          "dependency": {
+            "document": "slots",
+            "conditions": [
+              {
+                "id": "Eg9t46tepsGgiZLSVw7fTqV1b4HHA95wRRVNsvLXF7yb",
+                "field": "treeId"
+              },
+              {
+                "id": "ASsJ5drh1Dxj3aczUAEuzyE4gwn88ag8iLJpFvu8YABP",
+                "field": "abilityId"
+              }
+            ]
+          }
+        },
+        {
+          "type": "influence",
+          "factor": 0.05,
+          "dependency": {
+            "document": "slots",
+            "conditions": [
+              {
+                "id": "GdajddTXvrzxSzTctwejfZZXAvptnLYCnoTDUW7mjXC1",
+                "field": "eraId"
+              },
+              {
+                "id": "ASsJ5drh1Dxj3aczUAEuzyE4gwn88ag8iLJpFvu8YABP",
+                "field": "abilityId"
+              }
+            ]
+          }
+        },
+        {
+          "type": "bandwidth",
+          "factor": 0.05,
+          "dependency": {
+            "document": "slots",
+            "conditions": [
+              {
+                "id": "GdajddTXvrzxSzTctwejfZZXAvptnLYCnoTDUW7mjXC1",
+                "field": "eraId"
+              },
+              {
+                "id": "ASsJ5drh1Dxj3aczUAEuzyE4gwn88ag8iLJpFvu8YABP",
+                "field": "abilityId"
+              }
+            ]
+          }
+        },
+        {
+          "type": "influence",
+          "factor": 0.05,
+          "dependency": {
+            "document": "slots",
+            "conditions": [
+              {
+                "id": "GCtXBFA2HLAnqe1hmH8SUPkssNV5qubAYStJ7j4JFxFd",
+                "field": "abilityId"
+              }
+            ]
+          }
+        },
+        {
+          "type": "bandwidth",
+          "factor": 0.05,
+          "dependency": {
+            "document": "slots",
+            "conditions": [
+              {
+                "id": "GCtXBFA2HLAnqe1hmH8SUPkssNV5qubAYStJ7j4JFxFd",
+                "field": "abilityId"
+              }
+            ]
+          }
+        }
+      ],
+      "description": "Video game level solver",
+      "$createdAt": 1609760307984,
+      "$updatedAt": 1609765358997
+    },
+    "types": ["cost"]
+  },
+  {
+    "document": "Slots",
+    "transition": {
+      "$protocolVersion": 0,
+      "$id": "8Caa96qcWxUhxSoGM9htSHqDZBs8E4VwtHfzn1ve1Ez2",
+      "$type": "Slots",
+      "$dataContractId": "HVNpipv3UyZapzGatqJ8tWCkrEQSqAJS4ZSwaSJcFHjM",
+      "$ownerId": "Firv3eur4hbCW87fzdisX5MvTwqRQQ7gKrZYirjbGGY5",
+      "$revision": 1,
+      "eraId": "Cny6z4s9TMbrCHPC4ySpUaQz3PkD5zBz5cVPkVmsQfgL",
+      "gameId": "3nK4o8NuftmooM55Q2jAFB2m5hwzbH33neT54dhDvrKe",
+      "slotId": "11111111111111111111111111111111111111111111",
+      "treeId": "81qh8QmfuZaoQpr9v88yxvMXKv9QNEUQJEAux84xREnD",
+      "modelId": "J1xkdLpgU5hGwbVHpYkbJi148EMjpXL2VuLtbDcoRmMA",
+      "socketId": "G5YXPWfez5KQfyvfewo1U3Q2aYpUAUnRdwrQ13wom6bQ",
+      "sourceId": "4TUZdPh4Yw5hZu5jF7XwaWzRS9mqcmDPCRQpMtnf9VVh",
+      "abilityId": "GCtXBFA2HLAnqe1hmH8SUPkssNV5qubAYStJ7j4JFxFd",
+      "slotIndex": 0,
+      "$createdAt": 1609853943328,
+      "$updatedAt": 1609853943328
+    },
+    "reference": {
+      "$protocolVersion": 0,
+      "$id": "GCtXBFA2HLAnqe1hmH8SUPkssNV5qubAYStJ7j4JFxFd",
+      "$type": "Abilities",
+      "$dataContractId": "HVNpipv3UyZapzGatqJ8tWCkrEQSqAJS4ZSwaSJcFHjM",
+      "$ownerId": "EQ4ijQcbpwJnNWudTd1PRvUPL7Me6CBEBmQe8pcYtaUB",
+      "$revision": 2,
+      "bases": [
+        { "base": 10, "type": "influence" },
+        { "base": 1, "type": "bandwidth" }
+      ],
+      "costs": [
+        {
+          "cost": -100,
+          "type": "confidence",
+          "multiplier": {
+            "document": "models",
+            "conditions": [
+              {
+                "id": "GCtXBFA2HLAnqe1hmH8SUPkssNV5qubAYStJ7j4JFxFd",
+                "field": "abilityId"
+              }
+            ]
+          }
+        },
+        {
+          "cost": -100,
+          "type": "data",
+          "multiplier": {
+            "document": "slots",
+            "conditions": [
+              {
+                "id": "GCtXBFA2HLAnqe1hmH8SUPkssNV5qubAYStJ7j4JFxFd",
+                "field": "abilityId"
+              }
+            ]
+          }
+        }
+      ],
+      "eraId": "Cny6z4s9TMbrCHPC4ySpUaQz3PkD5zBz5cVPkVmsQfgL",
+      "title": "Buzzie",
+      "treeId": "81qh8QmfuZaoQpr9v88yxvMXKv9QNEUQJEAux84xREnD",
+      "factors": [
+        {
+          "type": "influence",
+          "factor": 0.05,
+          "dependency": {
+            "document": "slots",
+            "conditions": [
+              {
+                "id": "81qh8QmfuZaoQpr9v88yxvMXKv9QNEUQJEAux84xREnD",
+                "field": "treeId"
+              },
+              {
+                "id": "GCtXBFA2HLAnqe1hmH8SUPkssNV5qubAYStJ7j4JFxFd",
+                "field": "abilityId"
+              }
+            ]
+          }
+        },
+        {
+          "type": "bandwidth",
+          "factor": 0.05,
+          "dependency": {
+            "document": "slots",
+            "conditions": [
+              {
+                "id": "81qh8QmfuZaoQpr9v88yxvMXKv9QNEUQJEAux84xREnD",
+                "field": "treeId"
+              },
+              {
+                "id": "GCtXBFA2HLAnqe1hmH8SUPkssNV5qubAYStJ7j4JFxFd",
+                "field": "abilityId"
+              }
+            ]
+          }
+        },
+        {
+          "type": "influence",
+          "factor": 0.05,
+          "dependency": {
+            "document": "slots",
+            "conditions": [
+              {
+                "id": "Eg9t46tepsGgiZLSVw7fTqV1b4HHA95wRRVNsvLXF7yb",
+                "field": "treeId"
+              },
+              {
+                "id": "GCtXBFA2HLAnqe1hmH8SUPkssNV5qubAYStJ7j4JFxFd",
+                "field": "abilityId"
+              }
+            ]
+          }
+        },
+        {
+          "type": "bandwidth",
+          "factor": 0.05,
+          "dependency": {
+            "document": "slots",
+            "conditions": [
+              {
+                "id": "Cny6z4s9TMbrCHPC4ySpUaQz3PkD5zBz5cVPkVmsQfgL",
+                "field": "eraId"
+              },
+              {
+                "id": "GCtXBFA2HLAnqe1hmH8SUPkssNV5qubAYStJ7j4JFxFd",
+                "field": "abilityId"
+              }
+            ]
+          }
+        }
+      ],
+      "description": "Your friendly neighbourhood chat bot",
+      "$createdAt": 1609760301763,
+      "$updatedAt": 1609765358997
+    },
+    "types": ["cost", "base", "factor"]
+  },
+  {
+    "document": "Models",
+    "transition": {
+      "$protocolVersion": 0,
+      "$id": "J1xkdLpgU5hGwbVHpYkbJi148EMjpXL2VuLtbDcoRmMA",
+      "$type": "Models",
+      "$dataContractId": "HVNpipv3UyZapzGatqJ8tWCkrEQSqAJS4ZSwaSJcFHjM",
+      "$ownerId": "Firv3eur4hbCW87fzdisX5MvTwqRQQ7gKrZYirjbGGY5",
+      "$revision": 1,
+      "gameId": "3nK4o8NuftmooM55Q2jAFB2m5hwzbH33neT54dhDvrKe",
+      "feelings": [
+        {
+          "value": 2,
+          "emotionId": "8zFwTS2LFmdMi129k32nYoVyUkiXJWGaDYsV7zMbjxoa"
+        },
+        {
+          "value": 1,
+          "emotionId": "E3nvBejQeBYN7K2Q3QpFBNkSDGeRQVHFGFR6dg6Bu8Zb"
+        },
+        {
+          "value": 1,
+          "emotionId": "CKJdvNSeCdLvKAE4AJ5bCS7r6D2CosgF5TYjykNVxDos"
+        }
+      ],
+      "abilityId": "GCtXBFA2HLAnqe1hmH8SUPkssNV5qubAYStJ7j4JFxFd",
+      "$createdAt": 1609852331261,
+      "$updatedAt": 1609852331261
+    },
+    "reference": {
+      "$protocolVersion": 0,
+      "$id": "GCtXBFA2HLAnqe1hmH8SUPkssNV5qubAYStJ7j4JFxFd",
+      "$type": "Abilities",
+      "$dataContractId": "HVNpipv3UyZapzGatqJ8tWCkrEQSqAJS4ZSwaSJcFHjM",
+      "$ownerId": "EQ4ijQcbpwJnNWudTd1PRvUPL7Me6CBEBmQe8pcYtaUB",
+      "$revision": 2,
+      "bases": [
+        { "base": 10, "type": "influence" },
+        { "base": 1, "type": "bandwidth" }
+      ],
+      "costs": [
+        {
+          "cost": -100,
+          "type": "confidence",
+          "multiplier": {
+            "document": "models",
+            "conditions": [
+              {
+                "id": "GCtXBFA2HLAnqe1hmH8SUPkssNV5qubAYStJ7j4JFxFd",
+                "field": "abilityId"
+              }
+            ]
+          }
+        },
+        {
+          "cost": -100,
+          "type": "data",
+          "multiplier": {
+            "document": "slots",
+            "conditions": [
+              {
+                "id": "GCtXBFA2HLAnqe1hmH8SUPkssNV5qubAYStJ7j4JFxFd",
+                "field": "abilityId"
+              }
+            ]
+          }
+        }
+      ],
+      "eraId": "Cny6z4s9TMbrCHPC4ySpUaQz3PkD5zBz5cVPkVmsQfgL",
+      "title": "Buzzie",
+      "treeId": "81qh8QmfuZaoQpr9v88yxvMXKv9QNEUQJEAux84xREnD",
+      "factors": [
+        {
+          "type": "influence",
+          "factor": 0.05,
+          "dependency": {
+            "document": "slots",
+            "conditions": [
+              {
+                "id": "81qh8QmfuZaoQpr9v88yxvMXKv9QNEUQJEAux84xREnD",
+                "field": "treeId"
+              },
+              {
+                "id": "GCtXBFA2HLAnqe1hmH8SUPkssNV5qubAYStJ7j4JFxFd",
+                "field": "abilityId"
+              }
+            ]
+          }
+        },
+        {
+          "type": "bandwidth",
+          "factor": 0.05,
+          "dependency": {
+            "document": "slots",
+            "conditions": [
+              {
+                "id": "81qh8QmfuZaoQpr9v88yxvMXKv9QNEUQJEAux84xREnD",
+                "field": "treeId"
+              },
+              {
+                "id": "GCtXBFA2HLAnqe1hmH8SUPkssNV5qubAYStJ7j4JFxFd",
+                "field": "abilityId"
+              }
+            ]
+          }
+        },
+        {
+          "type": "influence",
+          "factor": 0.05,
+          "dependency": {
+            "document": "slots",
+            "conditions": [
+              {
+                "id": "Eg9t46tepsGgiZLSVw7fTqV1b4HHA95wRRVNsvLXF7yb",
+                "field": "treeId"
+              },
+              {
+                "id": "GCtXBFA2HLAnqe1hmH8SUPkssNV5qubAYStJ7j4JFxFd",
+                "field": "abilityId"
+              }
+            ]
+          }
+        },
+        {
+          "type": "bandwidth",
+          "factor": 0.05,
+          "dependency": {
+            "document": "slots",
+            "conditions": [
+              {
+                "id": "Cny6z4s9TMbrCHPC4ySpUaQz3PkD5zBz5cVPkVmsQfgL",
+                "field": "eraId"
+              },
+              {
+                "id": "GCtXBFA2HLAnqe1hmH8SUPkssNV5qubAYStJ7j4JFxFd",
+                "field": "abilityId"
+              }
+            ]
+          }
+        }
+      ],
+      "description": "Your friendly neighbourhood chat bot",
+      "$createdAt": 1609760301763,
+      "$updatedAt": 1609765358997
+    },
+    "types": ["cost"]
+  },
+  {
+    "document": "Sources",
+    "transition": {
+      "$protocolVersion": 0,
+      "$id": "4TUZdPh4Yw5hZu5jF7XwaWzRS9mqcmDPCRQpMtnf9VVh",
+      "$type": "Sources",
+      "$dataContractId": "HVNpipv3UyZapzGatqJ8tWCkrEQSqAJS4ZSwaSJcFHjM",
+      "$ownerId": "Firv3eur4hbCW87fzdisX5MvTwqRQQ7gKrZYirjbGGY5",
+      "$revision": 1,
+      "eraId": "Cny6z4s9TMbrCHPC4ySpUaQz3PkD5zBz5cVPkVmsQfgL",
+      "gameId": "3nK4o8NuftmooM55Q2jAFB2m5hwzbH33neT54dhDvrKe",
+      "treeId": "81qh8QmfuZaoQpr9v88yxvMXKv9QNEUQJEAux84xREnD",
+      "socketId": "G5YXPWfez5KQfyvfewo1U3Q2aYpUAUnRdwrQ13wom6bQ",
+      "$createdAt": 1609846943550,
+      "$updatedAt": 1609846943550
+    },
+    "reference": {
+      "$protocolVersion": 0,
+      "$id": "G5YXPWfez5KQfyvfewo1U3Q2aYpUAUnRdwrQ13wom6bQ",
+      "$type": "Sockets",
+      "$dataContractId": "HVNpipv3UyZapzGatqJ8tWCkrEQSqAJS4ZSwaSJcFHjM",
+      "$ownerId": "EQ4ijQcbpwJnNWudTd1PRvUPL7Me6CBEBmQe8pcYtaUB",
+      "$revision": 2,
+      "bases": [
+        { "base": 1, "type": "bandwidth" },
+        { "base": 1, "type": "influence" }
+      ],
+      "costs": [
+        { "cost": -1, "type": "data" },
+        { "cost": -1, "type": "confidence" }
+      ],
+      "eraId": "Cny6z4s9TMbrCHPC4ySpUaQz3PkD5zBz5cVPkVmsQfgL",
+      "slots": 3,
+      "title": "Root",
+      "treeId": "81qh8QmfuZaoQpr9v88yxvMXKv9QNEUQJEAux84xREnD",
+      "bonuses": [
+        {
+          "type": "data",
+          "bonus": 500,
+          "dependency": {
+            "document": "trainings",
+            "conditions": [
+              {
+                "id": "G5YXPWfez5KQfyvfewo1U3Q2aYpUAUnRdwrQ13wom6bQ",
+                "field": "socketId"
+              }
+            ]
+          }
+        },
+        {
+          "type": "confidence",
+          "bonus": 500,
+          "dependency": {
+            "document": "trainings",
+            "conditions": [
+              {
+                "id": "G5YXPWfez5KQfyvfewo1U3Q2aYpUAUnRdwrQ13wom6bQ",
+                "field": "socketId"
+              }
+            ]
+          }
+        }
+      ],
+      "factors": [
+        {
+          "type": "bandwidth",
+          "factor": 0.2,
+          "dependency": {
+            "document": "slots",
+            "conditions": [
+              {
+                "id": "G5YXPWfez5KQfyvfewo1U3Q2aYpUAUnRdwrQ13wom6bQ",
+                "field": "socketId"
+              },
+              {
+                "id": "81qh8QmfuZaoQpr9v88yxvMXKv9QNEUQJEAux84xREnD",
+                "field": "treeId"
+              }
+            ]
+          }
+        },
+        {
+          "type": "influence",
+          "factor": 0.2,
+          "dependency": {
+            "document": "slots",
+            "conditions": [
+              {
+                "id": "G5YXPWfez5KQfyvfewo1U3Q2aYpUAUnRdwrQ13wom6bQ",
+                "field": "socketId"
+              },
+              {
+                "id": "Cny6z4s9TMbrCHPC4ySpUaQz3PkD5zBz5cVPkVmsQfgL",
+                "field": "eraId"
+              }
+            ]
+          }
+        }
+      ],
+      "description": "Startup",
+      "$createdAt": 1609758263949,
+      "$updatedAt": 1609764569922
+    },
+    "types": ["cost", "base", "factor"]
+  }
+]

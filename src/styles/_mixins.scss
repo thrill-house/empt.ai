@@ -1,0 +1,30 @@
+// Mixins
+@mixin icons($before: "::before", $list...) {
+  @each $item in $list {
+    &--#{$item}#{$before} {
+      @apply mask-#{to-lower-case($item)};
+    }
+  }
+}
+
+@mixin trees {
+  @each $tree in Neutral, Science, Economy, Society {
+    &--#{$tree} {
+      @content ($tree: to-lower-case($tree));
+    }
+  }
+}
+
+@mixin hex-path($points...) {
+  $coords: ();
+
+  @each $x, $y in $points {
+    $coords: append(
+      $coords,
+      calc(#{$x} * 1rem / 4) calc(#{$y} * 1rem * var(--hex-ratio) / 4),
+      $separator: comma
+    );
+  }
+
+  clip-path: polygon($coords);
+}

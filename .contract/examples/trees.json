@@ -1,0 +1,18 @@
+[
+  {
+    "title": "Neutral",
+    "description": "The neutral tree comprises sockets and abilities of a generic nature that possess no special attributes."
+  },
+  {
+    "title": "Science",
+    "description": "The science tree comprises sockets and abilities that explore the properties of the natural world."
+  },
+  {
+    "title": "Society",
+    "description": "The society tree comprises sockets and abilities that explore the relationships between humans and their environments."
+  },
+  {
+    "title": "Economy",
+    "description": "The economy tree comprises sockets and abilities that explore the phenomena of market behaviour."
+  }
+]
