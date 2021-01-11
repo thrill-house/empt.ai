@@ -4,9 +4,7 @@
 *P*erceptive
 *T*echnology
 
-Pronounced like the German word for Empathy
-
-https://github.com/thrill-house/empt.ai/raw/feature/th-83-readme-file/EmPT.mp4
+Pronounced like the German word _Empathie_.
 
 ## Project setup
 
