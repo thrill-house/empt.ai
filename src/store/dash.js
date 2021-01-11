@@ -208,10 +208,7 @@ export default (config) => {
                     }
                   }
 
-                  await broadcastIn16kIntervals({
-                    documents,
-                    callback: async (d) => await dispatch("broadcast", d),
-                  });
+                  await dispatch("broadcast", documents);
 
                   each(
                     [...documents.create, ...documents.replace],
@@ -269,13 +266,54 @@ export default (config) => {
               },
 
               // Broadcast a set of documents. Payload is an object with create, replace and or delete keys.
-              broadcast: async ({ rootGetters }, payload = {}) => {
-                const client = rootGetters[`${namespace}/client`];
-                const identity = await client.platform.identities.get(
-                  rootGetters[`${namespace}/options`].ownerId
-                );
+              broadcast: async ({ dispatch, rootGetters }, payload = {}) => {
+                const included = {
+                  create: [],
+                  replace: [],
+                  delete: [],
+                };
+                const remainder = {
+                  create: [],
+                  replace: [],
+                  delete: [],
+                };
+                let size = 0;
+                let limit = 0;
 
-                await client.platform.documents.broadcast(payload, identity);
+                each(payload, (items, key) => {
+                  each(items, (item) => {
+                    size +=
+                      new TextEncoder().encode(JSON.stringify(item)).length /
+                      1024;
+                    limit += 1;
+
+                    if (size < 16 && limit <= 10) {
+                      included[key].push(item);
+                    } else {
+                      remainder[key].push(item);
+                    }
+                  });
+                });
+
+                if (
+                  included.create.length ||
+                  included.replace.length ||
+                  included.delete.length
+                ) {
+                  const client = rootGetters[`${namespace}/client`];
+                  const identity = await client.platform.identities.get(
+                    rootGetters[`${namespace}/options`].ownerId
+                  );
+                  await client.platform.documents.broadcast(included, identity);
+                }
+
+                if (
+                  remainder.create.length ||
+                  remainder.replace.length ||
+                  remainder.delete.length
+                ) {
+                  await dispatch("broadcast", remainder);
+                }
               },
             },
           };
@@ -304,46 +342,4 @@ export default (config) => {
       }
     });
   };
-};
-
-const broadcastIn16kIntervals = async (payload) => {
-  const { documents, callback } = payload;
-  let size = 0;
-  let limit = 0;
-  const included = {
-    create: [],
-    replace: [],
-    delete: [],
-  };
-  const remainder = {
-    create: [],
-    replace: [],
-    delete: [],
-  };
-
-  each(documents, (items, key) => {
-    each(items, (item) => {
-      size += new TextEncoder().encode(JSON.stringify(item)).length / 1024;
-      limit += 1;
-
-      if (size < 16 && limit <= 10) {
-        included[key].push(item);
-      } else {
-        remainder[key].push(item);
-      }
-    });
-  });
-
-  await callback(included);
-
-  if (
-    remainder.create.length ||
-    remainder.replace.length ||
-    remainder.delete.length
-  ) {
-    await broadcastIn16kIntervals({
-      documents: remainder,
-      callback,
-    });
-  }
 };
