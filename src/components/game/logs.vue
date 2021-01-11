@@ -37,10 +37,10 @@ export default {
         @click="clipboard(JSON.stringify(transition))"
         :title="$t(`Click to copy log to clipboard`)"
       >
-        <span v-bem:listItemTitle="{ [document]: true }">{{
-          reference.title
-        }}</span>
-        <span v-bem:listItemDuration>
+        <span v-bem:listItemTitle="{ [document]: true }" :title="document">
+          {{ reference.title }}
+        </span>
+        <span v-bem:listItemDuration :title="$t('Duration')">
           {{
             durationDiff(
               transition.$createdAt,

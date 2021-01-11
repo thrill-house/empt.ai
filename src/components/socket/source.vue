@@ -110,7 +110,7 @@ export default {
         gameId: this.gameId,
         socketId: this.socketId,
         sourceId: this.source.$id,
-        answer: { description: "The question is...", value: "My answer is..." },
+        answer: { question: "The question is...", value: "My answer is..." },
       };
 
       await this.trainSource(payload);

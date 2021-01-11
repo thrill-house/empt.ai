@@ -1,6 +1,6 @@
 <script>
 import { mapGetters } from "vuex";
-import { invokeMap, pickBy } from "lodash-es";
+import { invokeMap, keys, pickBy } from "lodash-es";
 
 import AbilityComponent from "../ability/component";
 
@@ -23,13 +23,17 @@ export default {
     actions() {
       return {
         trees: this.trees,
-        eras: this.eras,
+        eras:
+          this.currentEra > 1
+            ? pickBy(this.eras, (era) => era.stage <= this.currentEra)
+            : {},
       };
     },
     ...mapGetters({
       abilities: "inventory/abilities",
       trees: "labels/trees",
       eras: "labels/eras",
+      currentEra: "score/currentEra",
     }),
   },
   methods: {
@@ -42,6 +46,7 @@ export default {
     addFilter(key, value) {
       this.filters = { ...this.filters, [key]: value };
     },
+    keys,
     invokeMap,
   },
 };
@@ -57,7 +62,10 @@ export default {
         @mouseleave="delete toggles?.[action]"
         :key="action"
       >
-        <ol v-bem:filterList="{ [action]: true, active: toggles?.[action] }">
+        <ol
+          v-if="keys(actions[action]).length"
+          v-bem:filterList="{ [action]: true, active: toggles?.[action] }"
+        >
           <li v-bem:filterOption="{ active: !filters?.[actionFilter] }">
             <button
               v-bem:filterToggle="{ [action]: true }"
