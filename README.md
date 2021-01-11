@@ -6,7 +6,7 @@
 
 Pronounced like the German word for Empathy
 
-/EmPT.mp4
+https://github.com/thrill-house/empt.ai/raw/feature/th-83-readme-file/EmPT.mp4
 
 ## Project setup
 
