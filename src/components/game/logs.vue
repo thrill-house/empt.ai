@@ -1,23 +1,28 @@
 <script>
 import { mapGetters } from "vuex";
 import dayjs from "dayjs";
+import duration from "dayjs/plugin/duration";
+
+dayjs.extend(duration);
 
 export default {
   name: "game-logs",
   computed: {
-    transitions() {
-      return this.getTransitioned();
-    },
     ...mapGetters({
       elapsed: "score/elapsed",
-      getTransitioned: "score/transitioned",
+      transitions: "score/transitions",
     }),
   },
   methods: {
+    durationDiff(from, to) {
+      const fromDate = dayjs(from);
+      const toDate = dayjs(to);
+
+      return dayjs.duration(fromDate.diff(toDate)).humanize();
+    },
     clipboard(data) {
       navigator.clipboard.writeText(data);
     },
-    dayjs,
   },
 };
 </script>
@@ -27,20 +32,22 @@ export default {
     <ol v-bem:list>
       <li
         v-bem:listItem
-        v-for="(transition, t) in transitions"
+        v-for="({ document, transition, reference }, t) in transitions"
         :key="t"
         @click="clipboard(JSON.stringify(transition))"
         :title="$t(`Click to copy log to clipboard`)"
       >
-        {{ transition.document }} +
-        {{
-          Math.round(
-            (transition.transition.$createdAt -
-              transitions?.[t - 1]?.transition?.$createdAt || elapsed * -1000) /
-              -1000
-          )
-        }}
-        seconds
+        <span v-bem:listItemTitle="{ [document]: true }">{{
+          reference.title
+        }}</span>
+        <span v-bem:listItemDuration>
+          {{
+            durationDiff(
+              transition.$createdAt,
+              transitions?.[t - 1]?.transition?.$createdAt
+            )
+          }}
+        </span>
       </li>
     </ol>
     <button v-bem:clipboard @click="clipboard(JSON.stringify(transitions))">
@@ -58,6 +65,36 @@ export default {
 
   &__list {
     @apply font-mono;
+
+    &-item {
+      @apply flex;
+      @apply py-1;
+
+      &-title {
+        @apply flex items-center;
+        @apply mr-2;
+
+        &::before {
+          content: "";
+          @apply inline-block;
+          @apply w-4 h-4 mr-1;
+          @apply bg-light;
+        }
+        @include icons("::before", Models, Slots, Sources, Trainings);
+      }
+
+      &-duration {
+        @apply flex items-center;
+
+        &::before {
+          content: "";
+          @apply inline-block;
+          @apply w-4 h-4 mr-1;
+          @apply bg-light;
+          @apply mask-duration;
+        }
+      }
+    }
 
     &-item + &-item {
       @apply border-t border-light border-opacity-25;
