@@ -4,7 +4,9 @@
 *P*erceptive
 *T*echnology
 
-Pronounced _Em-Pah-Tee_
+Pronounced like the German word for Empathy <audio  source src="EmPT.mp3"></audio>.
+
+<script type="text/javascript" src="https://forvo.com/_ext/ext-prons.js?id=870275"></script>
 
 ## Project setup
 
