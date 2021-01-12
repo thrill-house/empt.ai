@@ -2,11 +2,13 @@
 import { mapGetters } from "vuex";
 import { capitalize } from "lodash-es";
 
+import hover from "../../mixins/hover";
 import AbilitySynergies from "./synergies";
 import AbilityResearch from "./research";
 import AbilityInstall from "./install";
 import ValueList from "../value/list";
 import UtilEra from "../util/era";
+import UtilTooltip from "../util/tooltip";
 
 export default {
   name: "ability-component",
@@ -16,7 +18,9 @@ export default {
     AbilityInstall,
     ValueList,
     UtilEra,
+    UtilTooltip,
   },
+  mixins: [hover],
   props: {
     id: {
       type: String,
@@ -43,6 +47,9 @@ export default {
     },
     title() {
       return this.ability?.title;
+    },
+    description() {
+      return this.ability?.description;
     },
     tree() {
       return this.getTree(this.ability?.treeId)?.title;
@@ -101,7 +108,14 @@ export default {
 <template>
   <article v-if="era <= getCurrentEra" v-bem>
     <header v-bem:header>
-      <h4 v-bem:headerTitle>{{ title }}</h4>
+      <h4
+        v-bem:headerTitle
+        @mouseenter="enter"
+        @mouseleave="leave"
+        @mousemove="move"
+      >
+        {{ title }}
+      </h4>
       <nav v-bem:headerNav>
         <button
           v-for="(viewLabel, view) in {
@@ -154,7 +168,7 @@ export default {
       <ability-research />
       <ability-install />
     </div>
-    <div v-bem:badge>
+    <div v-bem:badge @mouseenter="enter" @mouseleave="leave" @mousemove="move">
       <i v-bem:badgeIcon="{ [title]: true }" />
     </div>
     <div v-bem:tree>
@@ -164,6 +178,12 @@ export default {
       <util-era v-bem:eraIndicator :era="era" />
     </div>
   </article>
+  <teleport to="#app" v-if="!empty && hover">
+    <util-tooltip v-bem:tooltip :position="position">
+      <h3>{{ title }}</h3>
+      <p>{{ description }}</p>
+    </util-tooltip>
+  </teleport>
 </template>
 
 <style lang="scss">
@@ -402,6 +422,17 @@ export default {
       @apply absolute bottom-0 left-0;
       @apply w-3;
       @apply mb-9;
+    }
+  }
+
+  &__tooltip {
+    @apply w-48;
+
+    h3 {
+      @apply font-bold uppercase;
+    }
+    p {
+      @apply text-xs;
     }
   }
 }
