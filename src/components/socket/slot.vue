@@ -1,13 +1,16 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 
+import hover from "../../mixins/hover";
 import AbilitySynergies from "../ability/synergies";
 import EmotionDiagram from "../emotion/diagram";
 import UtilEra from "../util/era";
+import UtilTooltip from "../util/tooltip";
 
 export default {
   name: "socket-slot",
-  components: { AbilitySynergies, EmotionDiagram, UtilEra },
+  components: { AbilitySynergies, EmotionDiagram, UtilEra, UtilTooltip },
+  mixins: [hover],
   props: {
     slotIndex: Number,
   },
@@ -43,6 +46,9 @@ export default {
     },
     title() {
       return this.ability?.title;
+    },
+    description() {
+      return this.ability?.description;
     },
     tree() {
       return this.getTree(this.ability?.treeId)?.title || false;
@@ -114,7 +120,14 @@ export default {
 <template>
   <div v-bem="{ [tree]: true, online, match, installing, slotting }">
     <template v-if="slot && ability">
-      <div v-bem:badge><i v-bem:badgeIcon="{ [title]: true }" /></div>
+      <div
+        v-bem:badge
+        @mouseenter="enter"
+        @mouseleave="leave"
+        @mousemove="move"
+      >
+        <i v-bem:badgeIcon="{ [title]: true }" />
+      </div>
       <ability-synergies
         v-for="(synergies, synergy) in synergiesList"
         v-bem:synergiesList="{ [synergy]: true }"
@@ -129,6 +142,9 @@ export default {
         :sets="model.feelings"
         :scale="2"
         :labels="false"
+        @mouseenter="enter"
+        @mouseleave="leave"
+        @mousemove="move"
       />
       <div v-bem:tree="{ [tree]: true }">
         <i v-bem:treeIcon="{ [tree]: true }" />
@@ -141,6 +157,12 @@ export default {
       </button>
     </div>
     <i v-if="slotting" v-bem:slotting="{ installing: slotting }" />
+    <teleport to="#app" v-if="!empty && hover">
+      <util-tooltip v-bem:tooltip :position="position">
+        <h3>{{ title }}</h3>
+        <p>{{ description }}</p>
+      </util-tooltip>
+    </teleport>
   </div>
 </template>
 
@@ -322,6 +344,17 @@ export default {
       @apply w-full h-full;
       @apply clip-hexagon;
       @apply z-10;
+    }
+  }
+
+  &__tooltip {
+    @apply w-48;
+
+    h3 {
+      @apply font-bold uppercase;
+    }
+    p {
+      @apply text-xs;
     }
   }
 }
