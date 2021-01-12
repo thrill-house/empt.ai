@@ -99,8 +99,7 @@ export default {
       @apply z-30;
     }
 
-    // TODO: Get all icons here
-    @include icons("::before", Buzzie, Gamebryo);
+    @include icons("", $abilities...);
   }
 
   &__emotions {
