@@ -18,6 +18,7 @@ export default {
       socket: this.socket,
       socketId: this.id,
       socketTitle: this.title,
+      socketDescription: this.description,
       socketTree: this.tree,
       socketEra: this.era,
       slots: this.slots,
@@ -29,11 +30,12 @@ export default {
     },
     title() {
       return this.socket?.title;
-      // return this.tempTitle || this.socket?.title;
+    },
+    description() {
+      return this.socket?.description;
     },
     tree() {
       return this.getTree(this.socket?.treeId)?.title;
-      // return this.tempTree || this.getTree(this.socket?.treeId)?.title;
     },
     era() {
       return this.getEra(this.socket?.eraId)?.stage || 0;
@@ -49,7 +51,6 @@ export default {
     },
     slots() {
       return this.socket.slots;
-      // return this.tempSlots || this.socket?.slots;
     },
     ...mapGetters({
       getCurrentEra: "score/currentEra",
