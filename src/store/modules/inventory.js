@@ -11,7 +11,7 @@ import {
   sortBy,
   uniq,
 } from "lodash-es";
-import { extractValues, referenceTransitions } from "../../api";
+import { adjustValues, referenceTransitions } from "../../api";
 
 export const extractDependencyIds = (dependencies, type) =>
   reduce(
@@ -179,7 +179,7 @@ export default {
         {}
       );
 
-      const adjustedCosts = extractValues({
+      const adjustedCosts = adjustValues({
         transitions: abilityTransitions,
         initial: { costs: abilityCoreCosts },
       });
@@ -278,7 +278,7 @@ export default {
         {}
       );
 
-      const adjustedCosts = extractValues({
+      const adjustedCosts = adjustValues({
         transitions: socketTransitions,
         initial: { costs: socketCoreCosts },
       });
