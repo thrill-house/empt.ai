@@ -64,79 +64,22 @@ export const referenceTransitions = (payload) => {
   return values;
 };
 
-export const extractValues = (payload) => {
+export const adjustValues = (payload) => {
   const { transitions, initial } = payload;
 
   const values = reduceRight(
     transitions,
     (accum, { reference, types }, transitionKey, collection) => {
-      const transitionsTypes = {
-        models: map(filter(collection, { document: "Models" }), "transition"),
-        slots: map(filter(collection, { document: "Slots" }), "transition"),
-        sources: map(filter(collection, { document: "Sources" }), "transition"),
-        trainings: map(
-          filter(collection, { document: "Trainings" }),
-          "transition"
-        ),
-      };
-
       const transitionValues = reduce(
         types,
         (accumValues, type) => {
-          let typeValues = reference?.[pluralize(type)];
-          console.log({ typeValues });
+          const includeTransitions = type !== "cost" || transitionKey === 0;
 
-          typeValues = reduce(
-            typeValues,
-            (typeValuesAccum, typeValue) => {
-              const dependency = typeValue?.dependency;
-              const multiplier = typeValue?.multiplier;
-              const comparison = dependency || multiplier || false;
-              const previousValue = typeValuesAccum[typeValue.type] || 0;
-              let addedValue = typeValue[type] || 0;
-              let comparisons = [];
-
-              if (comparison) {
-                comparisons = filter(
-                  transitionsTypes[comparison.document],
-                  reduce(
-                    comparison.conditions,
-                    (accumConditions, condition) => {
-                      accumConditions[condition.field] = condition.id;
-                      return accumConditions;
-                    },
-                    {}
-                  )
-                );
-              }
-
-              const comparisonsCount = comparisons.length;
-
-              if (dependency && !multiplier) {
-                if (comparisonsCount === 0) {
-                  addedValue = 0;
-                }
-              }
-
-              if (multiplier && !dependency) {
-                if (comparisonsCount > 0 && transitionKey === 0) {
-                  addedValue = numeral(addedValue)
-                    .multiply(Math.pow(DIFFICULTY, comparisonsCount))
-                    .subtract(addedValue)
-                    .value();
-                } else {
-                  addedValue = 0;
-                }
-              }
-
-              typeValuesAccum[typeValue.type] = numeral(previousValue)
-                .add(addedValue)
-                .value();
-
-              return typeValuesAccum;
-            },
-            {}
-          );
+          const typeValues = extractValues({
+            values: reference?.[pluralize(type)],
+            type,
+            transitions: includeTransitions ? collection : [],
+          });
 
           accumValues[pluralize(type)] = typeValues;
 
@@ -145,7 +88,6 @@ export const extractValues = (payload) => {
         {}
       );
 
-      console.log({ accum, transitionValues });
       mergeWith(accum, transitionValues, (accumValue, transitionValue, key) => {
         if (initial?.[key]) {
           return sumValues({
@@ -163,6 +105,74 @@ export const extractValues = (payload) => {
   );
 
   return omitBy({ ...values, ...initial }, isEmpty);
+};
+
+export const extractValues = (payload) => {
+  const { values, type, transitions = [], compare = true } = payload;
+
+  const transitionsTypes = {
+    models: map(filter(transitions, { document: "Models" }), "transition"),
+    slots: map(filter(transitions, { document: "Slots" }), "transition"),
+    sources: map(filter(transitions, { document: "Sources" }), "transition"),
+    trainings: map(
+      filter(transitions, { document: "Trainings" }),
+      "transition"
+    ),
+  };
+
+  const results = reduce(
+    values,
+    (accum, typeValue) => {
+      const dependency = compare && typeValue?.dependency;
+      const multiplier = compare && typeValue?.multiplier;
+      const comparison = dependency || multiplier || false;
+      const previousValue = accum[typeValue.type] || 0;
+      let addedValue = typeValue[type] || 0;
+      let comparisons = [];
+
+      if (comparison) {
+        comparisons = filter(
+          transitionsTypes[comparison.document],
+          reduce(
+            comparison.conditions,
+            (accumConditions, condition) => {
+              accumConditions[condition.field] = condition.id;
+              return accumConditions;
+            },
+            {}
+          )
+        );
+      }
+
+      const comparisonsCount = comparisons.length;
+
+      if (dependency && !multiplier) {
+        if (comparisonsCount === 0) {
+          addedValue = 0;
+        }
+      }
+
+      if (multiplier && !dependency) {
+        if (comparisonsCount > 0) {
+          addedValue = numeral(addedValue)
+            .multiply(Math.pow(DIFFICULTY, comparisonsCount))
+            .subtract(addedValue)
+            .value();
+        } else {
+          addedValue = 0;
+        }
+      }
+
+      accum[typeValue.type] = numeral(previousValue)
+        .add(addedValue)
+        .value();
+
+      return accum;
+    },
+    {}
+  );
+
+  return results;
 };
 
 export const sumValues = (payload) => {
@@ -188,7 +198,7 @@ export const calculateSums = (payload) => {
     transitions: [],
   });
 
-  return extractValues({ transitions, initial });
+  return adjustValues({ transitions, initial });
 };
 
 export const calculateAccruals = (payload) => {
@@ -200,5 +210,5 @@ export const calculateAccruals = (payload) => {
     transitions: [],
   });
 
-  return extractValues({ transitions, initial });
+  return adjustValues({ transitions, initial });
 };

@@ -1,11 +1,11 @@
-import { extractValues } from "./api";
+import { adjustValues } from "./api";
 import { takeRight } from "lodash-es";
 import transitions from "./__mocks__/transitions.mock.json";
 
-describe("utils.extractValues", () => {
+describe("utils.adjustValues", () => {
   test("Handles empty state", () => {
     const payload = { transitions: [], initial: {} };
-    const values = extractValues(payload);
+    const values = adjustValues(payload);
 
     expect(values).toStrictEqual({});
   });
@@ -18,7 +18,7 @@ describe("utils.extractValues", () => {
         factors: { influence: 0, bandwidth: 0 },
       },
     };
-    const values = extractValues(payload);
+    const values = adjustValues(payload);
 
     expect(values).toStrictEqual({
       bases: { influence: 1, bandwidth: 1 },
@@ -34,7 +34,7 @@ describe("utils.extractValues", () => {
         factors: { influence: 0, bandwidth: 0 },
       },
     };
-    const values = extractValues(payload);
+    const values = adjustValues(payload);
 
     expect(values).toStrictEqual({
       bases: { influence: 11, bandwidth: 2 },
