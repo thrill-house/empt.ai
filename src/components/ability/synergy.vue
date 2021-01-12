@@ -96,6 +96,8 @@ export default {
 </template>
 
 <style lang="scss">
+@import "../../styles/helper";
+
 .ability-synergy {
   @apply flex items-center justify-center;
   @apply w-8 h-8;
@@ -125,18 +127,7 @@ export default {
     @apply w-5 h-5;
     @apply bg-light;
 
-    // TODO: Somehow import all icon modifiers in here in a loop
-    &--Buzzie {
-      @apply mask-buzzie;
-    }
-
-    &--Gamebryo {
-      @apply mask-gamebryo;
-    }
-
-    &--unknown {
-      @apply mask-unknown;
-    }
+    @include icons("", $abilities...);
 
     &--empty {
       @apply w-8 h-8;

@@ -354,7 +354,6 @@ export default {
       @apply bg-light;
       @apply z-30;
 
-      // TODO: get all icons here somehow
       @include icons("", $abilities...);
     }
   }
