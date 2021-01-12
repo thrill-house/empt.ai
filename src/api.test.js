@@ -1,8 +1,8 @@
-import { extractValues } from "../score";
+import { extractValues } from "./api";
 import { takeRight } from "lodash-es";
-import transitions from "../__mocks__/transitions.mock.json";
+import transitions from "./__mocks__/transitions.mock.json";
 
-describe("score.extractValues", () => {
+describe("utils.extractValues", () => {
   test("Handles empty state", () => {
     const payload = { transitions: [], initial: {} };
     const values = extractValues(payload);
