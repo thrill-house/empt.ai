@@ -2,17 +2,27 @@
 import { mapState, mapGetters, mapActions } from "vuex";
 import { capitalize, head } from "lodash-es";
 
+import hover from "../../mixins/hover";
 import ValueList from "../value/list";
 import UtilEra from "../util/era";
+import UtilTooltip from "../util/tooltip";
 
 export default {
   name: "socket-source",
-  components: { ValueList, UtilEra },
+  components: { ValueList, UtilEra, UtilTooltip },
+  mixins: [hover],
   data: () => ({
     loading: false,
     training: false,
   }),
-  inject: ["socket", "socketId", "socketTitle", "socketTree", "socketEra"],
+  inject: [
+    "socket",
+    "socketId",
+    "socketTitle",
+    "socketDescription",
+    "socketTree",
+    "socketEra",
+  ],
   computed: {
     source() {
       return this.getSocketSource(this.socketId);
@@ -136,7 +146,12 @@ export default {
 
 <template>
   <div v-bem="{ online, [socketTree]: online, loading, training, installing }">
-    <header v-bem:header>
+    <header
+      v-bem:header
+      @mouseenter="enter"
+      @mouseleave="leave"
+      @mousemove="move"
+    >
       <h4 v-bem:headerTitle>{{ socketTitle }}</h4>
     </header>
     <dl v-bem:attributes="{ active: toggle === 'attributes' }">
@@ -179,6 +194,12 @@ export default {
     />
     <i v-bem:tree="{ [socketTree]: true }" />
     <util-era v-bem:era :era="socketEra" />
+    <teleport to="#app" v-if="!empty && hover">
+      <util-tooltip v-bem:tooltip :position="position">
+        <h3>{{ socketTitle }}</h3>
+        <p>{{ socketDescription }}</p>
+      </util-tooltip>
+    </teleport>
   </div>
   <div v-for="$i in slots" :key="$i">{{ $i }}</div>
 </template>
@@ -376,6 +397,17 @@ export default {
   &__era {
     @apply mt-1;
     @apply order-4;
+  }
+
+  &__tooltip {
+    @apply w-48;
+
+    h3 {
+      @apply font-bold uppercase;
+    }
+    p {
+      @apply text-xs;
+    }
   }
 }
 </style>
