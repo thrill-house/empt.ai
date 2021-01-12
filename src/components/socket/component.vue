@@ -1,5 +1,6 @@
 <script>
 import { mapGetters } from "vuex";
+import { map, omit } from "lodash-es";
 
 import SocketSource from "./source";
 import SocketSlot from "./slot";
@@ -13,6 +14,9 @@ export default {
     tempTree: String,
     tempSlots: Number,
   },
+  data: () => ({
+    slotValues: {},
+  }),
   provide() {
     return {
       socket: this.socket,
@@ -25,6 +29,15 @@ export default {
     };
   },
   computed: {
+    slotBases() {
+      return map(this.slotValues, "bases");
+    },
+    slotTreeFactors() {
+      return map(this.slotValues, "treeFactors");
+    },
+    slotEraFactors() {
+      return map(this.slotValues, "eraFactors");
+    },
     socket() {
       return this.getSocket(this.id);
     },
@@ -61,6 +74,17 @@ export default {
       getEra: "labels/era",
     }),
   },
+  methods: {
+    updateSlotValues(payload) {
+      const { id, bases, treeFactors, eraFactors } = payload;
+
+      if ((bases, treeFactors, eraFactors)) {
+        this.slotValues[id] = { bases, treeFactors, eraFactors };
+      } else {
+        this.slotValues = omit(this.slotValues, [id]);
+      }
+    },
+  },
 };
 </script>
 
@@ -69,13 +93,18 @@ export default {
     v-if="era <= getCurrentEra"
     v-bem="{ [title.replace(` `, ``)]: true, online, installing }"
   >
-    <socket-source />
+    <socket-source
+      :slotBases="slotBases"
+      :slotTreeFactors="slotTreeFactors"
+      :slotEraFactors="slotEraFactors"
+    />
     <template v-if="online">
       <socket-slot
         v-for="$i in slots"
         v-bem:slot="{ [$i - 1]: true }"
         :key="$i"
         :slotIndex="$i - 1"
+        @updateSlotValues="updateSlotValues"
       />
     </template>
   </article>

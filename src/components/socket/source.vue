@@ -1,6 +1,7 @@
 <script>
 import { mapState, mapGetters, mapActions } from "vuex";
-import { capitalize, head } from "lodash-es";
+import { capitalize, flatten, head } from "lodash-es";
+import { extractValues } from "../../api";
 
 import hover from "../../mixins/hover";
 import ValueList from "../value/list";
@@ -11,6 +12,11 @@ export default {
   name: "socket-source",
   components: { ValueList, UtilEra, UtilTooltip },
   mixins: [hover],
+  props: {
+    slotBases: Array,
+    slotTreeFactors: Array,
+    slotEraFactors: Array,
+  },
   data: () => ({
     loading: false,
     training: false,
@@ -27,21 +33,54 @@ export default {
     source() {
       return this.getSocketSource(this.socketId);
     },
+    id() {
+      return this.source?.$id;
+    },
     online() {
-      return !!this.source?.$id;
+      return !!this.id;
     },
     installing() {
       return !!(this.getInstalling?.abilityId && this.getInstalling?.modelId);
     },
 
     bases() {
-      return this.getSocketCoreBases(this.socketId);
+      const bases = this.getSocketCoreBases(this.socketId);
+      const slotBases = this.slotBases;
+      const cumulativeBases = extractValues({
+        values: [...bases, ...flatten(slotBases)],
+        type: "base",
+        compare: false,
+      });
+
+      console.log({ cumulativeBases });
+
+      return cumulativeBases;
     },
     treeFactors() {
-      return this.getSocketTreeFactors(this.socketId);
+      const treeFactors = this.getSocketTreeFactors(this.socketId);
+      const slotTreeFactors = this.slotTreeFactors;
+      const cumulativeTreeFactors = extractValues({
+        values: [...treeFactors, ...flatten(slotTreeFactors)],
+        type: "factor",
+        compare: false,
+      });
+
+      console.log({ cumulativeTreeFactors, slotTreeFactors, treeFactors });
+
+      return cumulativeTreeFactors;
     },
     eraFactors() {
-      return this.getSocketEraFactors(this.socketId);
+      const eraFactors = this.getSocketEraFactors(this.socketId);
+      const slotEraFactors = this.slotEraFactors;
+      const cumulativeEraFactors = extractValues({
+        values: [...eraFactors, ...flatten(slotEraFactors)],
+        type: "factor",
+        compare: false,
+      });
+
+      console.log({ eraFactors, slotEraFactors, cumulativeEraFactors });
+
+      return cumulativeEraFactors;
     },
     sortedAttributes() {
       return {
@@ -65,37 +104,22 @@ export default {
       // return this.affordability === 100;
       return true;
     },
-    // factors() {
-    //   return this.socket.factors;
-    // },
     costs() {
       return this.getSocketConfidenceCosts(this.socketId);
     },
-    // scores() {
-    //   return this.getScores();
-    // },
-    // event() {
-    //   return this.getEventOfType(this.label, "socket");
-    // },
-    // newEvent() {
-    //   return {
-    //     type: "socket",
-    //     label: this.label,
-    //   };
-    // },
 
     ...mapState(["gameId"]),
     ...mapGetters({
-      // "getScores",
-      // "getEventOfType",
       getInstalling: "system/slotting",
       getSocket: "inventory/socket",
       getSocketSource: "inventory/socketSource",
+      getSocketBases: "inventory/socketBases",
       getSocketCoreBases: "inventory/socketCoreBases",
+      getSocketFactors: "inventory/socketFactors",
       getSocketTreeFactors: "inventory/socketTreeFactors",
       getSocketEraFactors: "inventory/socketEraFactors",
       getSocketConfidenceCosts: "inventory/socketConfidenceCosts",
-      // "getSlotsForSocket",
+      getAbility: "inventory/ability",
     }),
   },
   methods: {
