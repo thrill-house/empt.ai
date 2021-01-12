@@ -355,7 +355,7 @@ export default {
       @apply z-30;
 
       // TODO: get all icons here somehow
-      @include icons("", Buzzie, Gamebryo);
+      @include icons("", $abilities...);
     }
   }
 
