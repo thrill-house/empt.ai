@@ -149,6 +149,7 @@ export default {
           <value-list
             v-bem:attributesList="{ [attribute]: true }"
             :items="attributes"
+            :type="attribute !== `base` ? `factor` : attribute"
           />
         </dd>
       </template>

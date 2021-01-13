@@ -11,7 +11,7 @@ import {
   sortBy,
   uniq,
 } from "lodash-es";
-import { extractValues, referenceTransitions } from "./score";
+import { adjustValues, referenceTransitions } from "../../api";
 
 export const extractDependencyIds = (dependencies, type) =>
   reduce(
@@ -179,7 +179,7 @@ export default {
         {}
       );
 
-      const adjustedCosts = extractValues({
+      const adjustedCosts = adjustValues({
         transitions: abilityTransitions,
         initial: { costs: abilityCoreCosts },
       });
@@ -208,8 +208,7 @@ export default {
     sourceSocket: (state, getters) => (id) =>
       getters.socket(getters.source(id)?.socketId),
 
-    // Socket Factors
-
+    // Socket Bases
     socketBases: (state, getters) => (id) => getters.socket(id)?.bases,
 
     socketCoreBases: (state, getters) => (id) =>
@@ -232,14 +231,14 @@ export default {
       ),
 
     // Socket Factors
-
     socketFactors: (state, getters) => (id) => getters.socket(id)?.factors,
 
-    socketBaseFactors: (state, getters) => (id) =>
-      filter(
-        getters.socketFactors(id),
-        ({ dependency }) => dependency === undefined
-      ),
+    // It's possible for these to exist, but UI doesn't handle it, so ignore for now.
+    // socketCoreFactors: (state, getters) => (id) =>
+    //   filter(
+    //     getters.socketFactors(id),
+    //     ({ dependency }) => dependency === undefined
+    //   ),
 
     socketTreeFactors: (state, getters) => (id) =>
       filter(getters.socketFactors(id), ({ dependency }) =>
@@ -255,7 +254,6 @@ export default {
       ),
 
     // Socket costs
-
     socketCosts: (state, getters) => (id) => getters.socket(id)?.costs,
 
     socketCoreCosts: (state, getters) => (id) =>
@@ -280,7 +278,7 @@ export default {
         {}
       );
 
-      const adjustedCosts = extractValues({
+      const adjustedCosts = adjustValues({
         transitions: socketTransitions,
         initial: { costs: socketCoreCosts },
       });
