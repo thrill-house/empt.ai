@@ -108,7 +108,7 @@ export const adjustValues = (payload) => {
 };
 
 export const tabulateValues = (payload) => {
-  const { values, type, transitions = [], compare = true } = payload;
+  const { values, type, transitions = false } = payload;
 
   const transitionsTypes = {
     models: map(filter(transitions, { document: "Models" }), "transition"),
@@ -123,8 +123,8 @@ export const tabulateValues = (payload) => {
   const results = reduce(
     values,
     (accum, typeValue) => {
-      const dependency = compare && typeValue?.dependency;
-      const multiplier = compare && typeValue?.multiplier;
+      const dependency = transitions !== false && typeValue?.dependency;
+      const multiplier = transitions !== false && typeValue?.multiplier;
       const comparison = dependency || multiplier || false;
       const previousValue = accum[typeValue.type] || 0;
       let addedValue = typeValue[type] || 0;
