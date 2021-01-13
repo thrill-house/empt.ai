@@ -19,6 +19,9 @@ export default {
   }),
   inject: ["socketId", "socketTree", "socketEra"],
   emits: ["addSlotValues"],
+  created() {
+    this.updateSlotValues();
+  },
   computed: {
     id() {
       return this.slot?.$id;
@@ -126,17 +129,8 @@ export default {
         this.slotting = false;
       }
     },
-    ...mapActions({
-      installingReset: "system/slottingReset",
-      installingSource: "system/slottingSource",
-      installingIndex: "system/slottingIndex",
-      installingSlot: "system/slottingSlot",
-      installModel: "Game/Slots/create",
-    }),
-  },
-  watch: {
-    slot(newSlot) {
-      if (newSlot) {
+    updateSlotValues() {
+      if (this.slot) {
         this.$emit("updateSlotValues", {
           id: this.uniqueId,
           bases: this.bases,
@@ -148,6 +142,18 @@ export default {
           id: this.uniqueId,
         });
       }
+    },
+    ...mapActions({
+      installingReset: "system/slottingReset",
+      installingSource: "system/slottingSource",
+      installingIndex: "system/slottingIndex",
+      installingSlot: "system/slottingSlot",
+      installModel: "Game/Slots/create",
+    }),
+  },
+  watch: {
+    slot() {
+      this.updateSlotValues();
     },
   },
 };
