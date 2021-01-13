@@ -75,7 +75,7 @@ export const adjustValues = (payload) => {
         (accumValues, type) => {
           const includeTransitions = type !== "cost" || transitionKey === 0;
 
-          const typeValues = extractValues({
+          const typeValues = tabulateValues({
             values: reference?.[pluralize(type)],
             type,
             transitions: includeTransitions ? collection : [],
@@ -107,7 +107,7 @@ export const adjustValues = (payload) => {
   return omitBy({ ...values, ...initial }, isEmpty);
 };
 
-export const extractValues = (payload) => {
+export const tabulateValues = (payload) => {
   const { values, type, transitions = [], compare = true } = payload;
 
   const transitionsTypes = {

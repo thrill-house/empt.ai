@@ -1,7 +1,7 @@
 <script>
 import { mapState, mapGetters, mapActions } from "vuex";
 import { capitalize, flatten, head } from "lodash-es";
-import { extractValues } from "../../api";
+import { tabulateValues } from "../../api";
 
 import hover from "../../mixins/hover";
 import ValueList from "../value/list";
@@ -46,7 +46,7 @@ export default {
     bases() {
       const bases = this.getSocketCoreBases(this.socketId);
       const slotBases = this.slotBases;
-      const cumulativeBases = extractValues({
+      const cumulativeBases = tabulateValues({
         values: [...bases, ...flatten(slotBases)],
         type: "base",
         compare: false,
@@ -59,7 +59,7 @@ export default {
     treeFactors() {
       const treeFactors = this.getSocketTreeFactors(this.socketId);
       const slotTreeFactors = this.slotTreeFactors;
-      const cumulativeTreeFactors = extractValues({
+      const cumulativeTreeFactors = tabulateValues({
         values: [...treeFactors, ...flatten(slotTreeFactors)],
         type: "factor",
         compare: false,
@@ -72,7 +72,7 @@ export default {
     eraFactors() {
       const eraFactors = this.getSocketEraFactors(this.socketId);
       const slotEraFactors = this.slotEraFactors;
-      const cumulativeEraFactors = extractValues({
+      const cumulativeEraFactors = tabulateValues({
         values: [...eraFactors, ...flatten(slotEraFactors)],
         type: "factor",
         compare: false,
