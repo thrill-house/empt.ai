@@ -99,7 +99,7 @@ export default {
       @apply z-30;
     }
 
-    @include icons("", $abilities...);
+    @include icons("::before", $abilities...);
   }
 
   &__emotions {
