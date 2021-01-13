@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import { adjustValues } from "./api";
 import { takeRight } from "lodash-es";
 import transitions from "./__mocks__/transitions.mock.json";
