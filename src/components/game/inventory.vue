@@ -1,6 +1,6 @@
 <script>
 import { mapGetters } from "vuex";
-import { invokeMap, keys, pickBy } from "lodash-es";
+import { invokeMap, keys, pickBy, sortBy } from "lodash-es";
 
 import AbilityComponent from "../ability/component";
 
@@ -16,9 +16,10 @@ export default {
   }),
   computed: {
     filteredAbilities() {
-      return this.filters
-        ? pickBy(this.abilities, this.filters)
-        : this.abilities;
+      return sortBy(
+        this.filters ? pickBy(this.abilities, this.filters) : this.abilities,
+        "title"
+      );
     },
     actions() {
       return {
@@ -115,9 +116,9 @@ export default {
     </nav>
     <ability-component
       v-bem:component
-      v-for="(ability, a) in filteredAbilities"
-      :id="a"
-      :key="a"
+      v-for="{ $id } in filteredAbilities"
+      :id="$id"
+      :key="$id"
       :ref="setAbilityRef"
     />
   </section>

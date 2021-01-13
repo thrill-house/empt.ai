@@ -1,8 +1,6 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 
-// import ValueList from "../value/list";
-
 import EmotionDiagram from "../emotion/diagram";
 
 export default {
