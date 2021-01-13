@@ -1,28 +1,26 @@
-import pluralize from "pluralize";
 import numeral from "numeral";
 import {
   ceil,
   clamp,
-  defaults,
   filter,
   groupBy,
   head,
-  isEmpty,
   keyBy,
   map,
   mapKeys,
   mapValues,
   mergeWith,
   nth,
-  omitBy,
   reduce,
   reduceRight,
-  reverse,
-  sortBy,
   tail,
 } from "lodash-es";
 
-const DIFFICULTY = 1.1;
+import {
+  referenceTransitions,
+  calculateSums,
+  calculateAccruals,
+} from "../../api";
 
 export default {
   namespaced: true,
@@ -271,173 +269,4 @@ export default {
       commit("currentFactors", frequencies.factors);
     },
   },
-};
-
-export const referenceTransitions = (payload) => {
-  const { transitions, getAbility, getSocket } = payload;
-
-  const values = reverse(
-    sortBy(
-      map(transitions, (transition) => {
-        let reference = null;
-        let types = [];
-
-        switch (transition.$type) {
-          case "Slots":
-          case "Models":
-            reference = getAbility(transition.abilityId);
-            break;
-
-          case "Sources":
-          case "Trainings":
-            reference = getSocket(transition.socketId);
-            break;
-        }
-
-        switch (transition.$type) {
-          case "Slots":
-            types = ["cost", "base", "factor"];
-            break;
-          case "Models":
-            types = ["cost"];
-            break;
-          case "Sources":
-            types = ["cost", "base", "factor"];
-            break;
-          case "Trainings":
-            types = ["bonus"];
-            break;
-        }
-
-        return { document: transition.$type, transition, reference, types };
-      }),
-      "transition.$createdAt"
-    )
-  );
-
-  return values;
-};
-
-export const extractValues = (payload) => {
-  const { transitions, initial } = payload;
-
-  const values = reduceRight(
-    transitions,
-    (accum, { reference, types }, transitionKey, collection) => {
-      const transitionsTypes = {
-        models: map(filter(collection, { document: "Models" }), "transition"),
-        slots: map(filter(collection, { document: "Slots" }), "transition"),
-        sources: map(filter(collection, { document: "Sources" }), "transition"),
-        trainings: map(
-          filter(collection, { document: "Trainings" }),
-          "transition"
-        ),
-      };
-
-      const transitionValues = reduce(
-        types,
-        (accumValues, type) => {
-          let typeValues = reference?.[pluralize(type)];
-
-          typeValues = reduce(
-            typeValues,
-            (typeValuesAccum, typeValue) => {
-              const dependency = typeValue?.dependency;
-              const multiplier = typeValue?.multiplier;
-              const comparison = dependency || multiplier || false;
-              const previousValue = typeValuesAccum[typeValue.type] || 0;
-              let addedValue = typeValue[type] || 0;
-              let comparisons = [];
-
-              if (comparison) {
-                comparisons = filter(
-                  transitionsTypes[comparison.document],
-                  reduce(
-                    comparison.conditions,
-                    (accumConditions, condition) => {
-                      accumConditions[condition.field] = condition.id;
-                      return accumConditions;
-                    },
-                    {}
-                  )
-                );
-              }
-
-              const comparisonsCount = comparisons.length;
-
-              if (dependency && !multiplier) {
-                if (comparisonsCount === 0) {
-                  addedValue = 0;
-                }
-              }
-
-              if (multiplier && !dependency) {
-                if (comparisonsCount > 0 && transitionKey === 0) {
-                  addedValue = numeral(addedValue)
-                    .multiply(Math.pow(DIFFICULTY, comparisonsCount))
-                    .subtract(addedValue)
-                    .value();
-                } else {
-                  addedValue = 0;
-                }
-              }
-
-              typeValuesAccum[typeValue.type] = numeral(previousValue)
-                .add(addedValue)
-                .value();
-
-              return typeValuesAccum;
-            },
-            {}
-          );
-
-          accumValues[pluralize(type)] = typeValues;
-
-          return accumValues;
-        },
-        {}
-      );
-
-      mergeWith(accum, transitionValues, (accumValue, transitionValue, key) => {
-        if (initial?.[key]) {
-          return mergeWith(accumValue, transitionValue, (aV, tV) => {
-            return numeral(aV || 0)
-              .add(tV || 0)
-              .value();
-          });
-        }
-
-        return null;
-      });
-
-      return accum;
-    },
-    initial
-  );
-
-  return omitBy({ ...values, ...initial }, isEmpty);
-};
-
-export const calculateSums = (payload) => {
-  const { transitions, initial } = defaults(payload, {
-    initial: {
-      costs: { confidence: 0, data: 0 },
-      bonuses: { confidence: 0, data: 0 },
-    },
-    transitions: [],
-  });
-
-  return extractValues({ transitions, initial });
-};
-
-export const calculateAccruals = (payload) => {
-  const { transitions, initial } = defaults(payload, {
-    initial: {
-      bases: { influence: 0, bandwidth: 0 },
-      factors: { influence: 0, bandwidth: 0 },
-    },
-    transitions: [],
-  });
-
-  return extractValues({ transitions, initial });
 };

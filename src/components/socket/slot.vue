@@ -18,9 +18,19 @@ export default {
     slotting: false,
   }),
   inject: ["socketId", "socketTree", "socketEra"],
+  emits: ["addSlotValues"],
+  created() {
+    this.updateSlotValues();
+  },
   computed: {
     id() {
       return this.slot?.$id;
+    },
+    modelId() {
+      return this.slot?.modelId;
+    },
+    uniqueId() {
+      return `${this.socketId}-${this.slotIndex}`;
     },
     source() {
       return this.getSocketSource(this.socketId);
@@ -35,7 +45,7 @@ export default {
       return !!(
         this.getInstalling?.abilityId &&
         this.getInstalling?.modelId &&
-        this.getInstalling?.modelId !== this.slot?.modelId
+        this.getInstalling?.modelId !== this.modelId
       );
     },
     ability() {
@@ -67,11 +77,21 @@ export default {
       return { receives: this.dependees, provides: this.dependants };
     },
 
+    bases() {
+      return this.getAbilityCoreBases(this.abilityId);
+    },
+    treeFactors() {
+      return this.getAbilityTreeFactors(this.abilityId);
+    },
+    eraFactors() {
+      return this.getAbilityEraFactors(this.abilityId);
+    },
+
     match() {
       return this.tree === this.socketTree;
     },
     model() {
-      return this.getModel(this.slot?.modelId);
+      return this.getModel(this.modelId);
     },
     ...mapGetters({
       getInstalling: "system/slotting",
@@ -80,6 +100,9 @@ export default {
       getAbility: "inventory/ability",
       getAbilityDependants: "inventory/abilityDependants",
       getAbilityDependees: "inventory/abilityDependees",
+      getAbilityCoreBases: "inventory/abilityCoreBases",
+      getAbilityTreeFactors: "inventory/abilityTreeFactors",
+      getAbilityEraFactors: "inventory/abilityEraFactors",
       getModel: "inventory/model",
       getTree: "labels/tree",
       getEra: "labels/era",
@@ -106,6 +129,20 @@ export default {
         this.slotting = false;
       }
     },
+    updateSlotValues() {
+      if (this.slot) {
+        this.$emit("updateSlotValues", {
+          id: this.uniqueId,
+          bases: this.bases,
+          treeFactors: this.treeFactors,
+          eraFactors: this.eraFactors,
+        });
+      } else {
+        this.$emit("updateSlotValues", {
+          id: this.uniqueId,
+        });
+      }
+    },
     ...mapActions({
       installingReset: "system/slottingReset",
       installingSource: "system/slottingSource",
@@ -113,6 +150,11 @@ export default {
       installingSlot: "system/slottingSlot",
       installModel: "Game/Slots/create",
     }),
+  },
+  watch: {
+    slot() {
+      this.updateSlotValues();
+    },
   },
 };
 </script>

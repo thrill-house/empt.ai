@@ -28,6 +28,13 @@ export default {
     prefix() {
       return this.value !== undefined ? "" : "+";
     },
+    notZero() {
+      return (
+        (this.base && this.base !== 0) ||
+        (this.factor && this.factor !== 0) ||
+        (this.value && this.value !== 0)
+      );
+    },
   },
 };
 </script>
@@ -37,11 +44,13 @@ export default {
     {{ label }}
   </dt>
   <dd
+    v-if="notZero"
     v-bem:value="{ [type]: true }"
     v-format:[format]="value"
     v-format:[format].+="base || factor"
     :title="label"
   />
+  <dd v-else v-bem:value="{ [type]: true }" :title="label">—</dd>
 </template>
 
 <style lang="scss">
