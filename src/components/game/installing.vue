@@ -1,8 +1,6 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 
-// import ValueList from "../value/list";
-
 import EmotionDiagram from "../emotion/diagram";
 
 export default {
@@ -99,7 +97,7 @@ export default {
       @apply z-30;
     }
 
-    @include icons("", $abilities...);
+    @include icons("::before", $abilities...);
   }
 
   &__emotions {
