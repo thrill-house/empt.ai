@@ -19,20 +19,6 @@ export default {
   }),
   inject: ["socketId", "socketTree", "socketEra"],
   emits: ["addSlotValues"],
-  updated() {
-    if (this.slot && this.ability) {
-      this.$emit("updateSlotValues", {
-        id: this.uniqueId,
-        bases: this.bases,
-        treeFactors: this.treeFactors,
-        eraFactors: this.eraFactors,
-      });
-    } else {
-      this.$emit("updateSlotValues", {
-        id: this.uniqueId,
-      });
-    }
-  },
   computed: {
     id() {
       return this.slot?.$id;
@@ -147,6 +133,22 @@ export default {
       installingSlot: "system/slottingSlot",
       installModel: "Game/Slots/create",
     }),
+  },
+  watch: {
+    slot(newSlot) {
+      if (newSlot) {
+        this.$emit("updateSlotValues", {
+          id: this.uniqueId,
+          bases: this.bases,
+          treeFactors: this.treeFactors,
+          eraFactors: this.eraFactors,
+        });
+      } else {
+        this.$emit("updateSlotValues", {
+          id: this.uniqueId,
+        });
+      }
+    },
   },
 };
 </script>

@@ -52,7 +52,7 @@ export default {
         compare: false,
       });
 
-      console.log({ cumulativeBases });
+      // console.log({ cumulativeBases });
 
       return cumulativeBases;
     },
@@ -65,7 +65,7 @@ export default {
         compare: false,
       });
 
-      console.log({ cumulativeTreeFactors, slotTreeFactors, treeFactors });
+      // console.log({ cumulativeTreeFactors, slotTreeFactors, treeFactors });
 
       return cumulativeTreeFactors;
     },
@@ -78,7 +78,7 @@ export default {
         compare: false,
       });
 
-      console.log({ eraFactors, slotEraFactors, cumulativeEraFactors });
+      // console.log({ eraFactors, slotEraFactors, cumulativeEraFactors });
 
       return cumulativeEraFactors;
     },
