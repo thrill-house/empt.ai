@@ -49,10 +49,7 @@ export default {
       const cumulativeBases = tabulateValues({
         values: [...bases, ...flatten(slotBases)],
         type: "base",
-        compare: false,
       });
-
-      // console.log({ cumulativeBases });
 
       return cumulativeBases;
     },
@@ -62,10 +59,7 @@ export default {
       const cumulativeTreeFactors = tabulateValues({
         values: [...treeFactors, ...flatten(slotTreeFactors)],
         type: "factor",
-        compare: false,
       });
-
-      // console.log({ cumulativeTreeFactors, slotTreeFactors, treeFactors });
 
       return cumulativeTreeFactors;
     },
@@ -75,10 +69,7 @@ export default {
       const cumulativeEraFactors = tabulateValues({
         values: [...eraFactors, ...flatten(slotEraFactors)],
         type: "factor",
-        compare: false,
       });
-
-      // console.log({ eraFactors, slotEraFactors, cumulativeEraFactors });
 
       return cumulativeEraFactors;
     },
@@ -197,6 +188,7 @@ export default {
           <value-list
             v-bem:attributesList="{ [attribute]: true }"
             :items="attributes"
+            :type="attribute !== `base` ? `factor` : attribute"
           />
         </dd>
       </template>
@@ -360,16 +352,6 @@ export default {
             @apply hidden;
           }
         }
-      }
-
-      &--trees {
-        @apply justify-end;
-        &:before {
-        }
-      }
-
-      &--eras {
-        @apply justify-start;
       }
     }
   }
