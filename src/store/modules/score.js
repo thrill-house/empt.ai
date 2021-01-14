@@ -1,4 +1,3 @@
-import Big from "big.js";
 import {
   ceil,
   clamp,
@@ -10,17 +9,15 @@ import {
   mapKeys,
   mapValues,
   mergeWith,
-  nth,
   reduce,
-  reduceRight,
-  tail,
 } from "lodash-es";
 
 import {
   referenceTransitions,
   calculateSums,
   calculateAccruals,
-  sumValues,
+  sumAccruals,
+  tallyValues,
 } from "../../api";
 
 export default {
@@ -209,60 +206,28 @@ export default {
       commit("interval", null);
     },
 
-    traverseTransitions: async ({ getters }) => {
-      const accruals = reduceRight(
-        getters.transitions,
-        (accum, { transition }) => {
-          const transitionsBefore = getters.transitioned(
-            transition.$createdAt + 1
-          );
-          const first = head(transitionsBefore)?.transition;
-          const second = nth(transitionsBefore, 1)?.transition;
-          const elapsed =
-            (first?.$createdAt - (second?.$createdAt || first?.$createdAt)) /
-            1000;
-
-          const accrual = calculateAccruals({
-            transitions: tail(transitionsBefore),
-          });
-
-          accum.confidence += Big(accrual.factors.influence)
-            .plus(1)
-            .times(accrual.bases.influence)
-            .times(elapsed)
-            .toNumber();
-
-          accum.data += Big(accrual.factors.bandwidth)
-            .plus(1)
-            .times(accrual.bases.bandwidth)
-            .times(elapsed)
-            .toNumber();
-
-          return accum;
-        },
-        { confidence: 0, data: 0 }
-      );
-
-      return accruals;
-    },
-
-    calculateResources: async ({ getters, commit, dispatch }) => {
-      const traversedAccruals = await dispatch("traverseTransitions");
+    calculateResources: async ({ getters, commit }) => {
+      const accruals = sumAccruals({
+        transitions: getters.transitions,
+        getTransitioned: getters.transitioned,
+      });
 
       const sums = calculateSums({
         transitions: getters.transitions,
       });
 
       const resources = reduce(
-        [sums.costs, sums.bonuses, traversedAccruals],
+        [sums.costs, sums.bonuses, accruals],
         (accum, additional) => {
-          return sumValues({
+          return tallyValues({
             initial: accum,
             additional,
           });
         },
         { confidence: 0, data: 0 }
       );
+
+      console.log({ accruals, sums, resources });
 
       if (getters.transitions) {
         commit(

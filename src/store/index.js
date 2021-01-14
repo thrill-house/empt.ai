@@ -12,7 +12,8 @@ export default createStore({
     return {
       ownerId: process.env.VUE_APP_PLAYER_IDENTITY,
       mnemonic: process.env.VUE_APP_PLAYER_MNEMONIC,
-      gameId: null,
+      // gameId: null,
+      gameId: "3nK4o8NuftmooM55Q2jAFB2m5hwzbH33neT54dhDvrKe",
       games: null,
     };
   },
@@ -45,12 +46,12 @@ export default createStore({
   actions: {
     init: async ({ dispatch, state }) => {
       const { ownerId, mnemonic, gameId } = state;
-      dispatch("labels/init");
+      // dispatch("labels/init");
 
       if (ownerId && mnemonic) {
         await dispatch("setOwnerId", ownerId);
         await dispatch("setMnemonic", mnemonic);
-        await dispatch("fetchGames");
+        // await dispatch("fetchGames");
 
         if (gameId) {
           await dispatch("loadGame", gameId);
@@ -75,8 +76,8 @@ export default createStore({
       commit("gameId", payload);
 
       await dispatch("score/init");
-      await dispatch("system/init");
-      await dispatch("inventory/init");
+      // await dispatch("system/init");
+      // await dispatch("inventory/init");
     },
   },
   modules: { score, inventory, system, labels },
