@@ -1,4 +1,4 @@
-import numeral from "numeral";
+import Big from "big.js";
 import {
   ceil,
   clamp,
@@ -20,6 +20,7 @@ import {
   referenceTransitions,
   calculateSums,
   calculateAccruals,
+  sumValues,
 } from "../../api";
 
 export default {
@@ -89,9 +90,7 @@ export default {
             (eraStage < 2 && sourceLength === 1) ||
             (eraStage > 1 && sourceLength === 3)
           ) {
-            accum = numeral(eraStage)
-              .add(1)
-              .value();
+            accum = eraStage + 1;
           }
 
           return accum;
@@ -104,7 +103,7 @@ export default {
 
     // Feelings
     currentFeelings: (state, getters, rootState, rootGetters) => {
-      const slotted = rootGetters["system/slotted"]();
+      const slotted = rootGetters["system/adjustSlotted"]();
       const emotions = reduce(
         slotted,
         (accum, slot) => {
@@ -142,12 +141,20 @@ export default {
       return transitions;
     },
 
-    transitioned: (state, getters) => (before) =>
-      filter(
-        getters.transitions,
-        ({ transition }) =>
-          before === undefined || transition.$createdAt < before
-      ),
+    transitioned: (state, getters, rootState, rootGetters) => (before) => {
+      const transitions = referenceTransitions({
+        transitions: {
+          ...rootGetters["system/adjustSlotted"](before),
+          ...rootGetters["inventory/sourced"](before),
+          ...rootGetters["system/trained"](before),
+          ...rootGetters["inventory/modeled"](before),
+        },
+        getAbility: rootGetters["inventory/ability"],
+        getSocket: rootGetters["inventory/socket"],
+      });
+
+      return transitions;
+    },
   },
   mutations: {
     interval: (state, payload) => {
@@ -202,7 +209,7 @@ export default {
       commit("interval", null);
     },
 
-    calculateResources: async ({ state, getters, commit }) => {
+    traverseTransitions: async ({ getters }) => {
       const accruals = reduceRight(
         getters.transitions,
         (accum, { transition }) => {
@@ -219,27 +226,40 @@ export default {
             transitions: tail(transitionsBefore),
           });
 
-          accum.confidence +=
-            elapsed * accrual.bases.influence * (1 + accrual.factors.influence);
-          accum.data +=
-            elapsed * accrual.bases.bandwidth * (1 + accrual.factors.bandwidth);
+          accum.confidence += Big(accrual.factors.influence)
+            .plus(1)
+            .times(accrual.bases.influence)
+            .times(elapsed)
+            .toNumber();
+
+          accum.data += Big(accrual.factors.bandwidth)
+            .plus(1)
+            .times(accrual.bases.bandwidth)
+            .times(elapsed)
+            .toNumber();
 
           return accum;
         },
         { confidence: 0, data: 0 }
       );
 
+      return accruals;
+    },
+
+    calculateResources: async ({ getters, commit, dispatch }) => {
+      const traversedAccruals = await dispatch("traverseTransitions");
+
       const sums = calculateSums({
-        transitions: state.transitions,
+        transitions: getters.transitions,
       });
 
       const resources = reduce(
-        [sums.costs, sums.bonuses, accruals],
-        (accum, total) => {
-          accum.confidence += total.confidence;
-          accum.data += total.data;
-
-          return accum;
+        [sums.costs, sums.bonuses, traversedAccruals],
+        (accum, additional) => {
+          return sumValues({
+            initial: accum,
+            additional,
+          });
         },
         { confidence: 0, data: 0 }
       );
@@ -257,7 +277,7 @@ export default {
       const frequencies = calculateAccruals({
         transitions: referenceTransitions({
           transitions: {
-            ...rootGetters["system/slotted"](),
+            ...rootGetters["system/adjustSlotted"](),
             ...rootGetters["inventory/sourced"](),
           },
           getAbility: rootGetters["inventory/ability"],
