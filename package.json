@@ -8,9 +8,9 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "test": "jest",
-    "register-contract": "node scripts/registerContract.js",
-    "csv-extract": "node scripts/csvExtract.js",
-    "csv-update": "node scripts/csvupdate.js"
+    "register-contract": "node .contract/scripts/registerContract.js",
+    "csv-extract": "node .contract/scripts/csvExtract.js",
+    "csv-update": "node .contract/scripts/csvupdate.js"
   },
   "dependencies": {
     "bem-cn": "^3.0.1",
