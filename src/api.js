@@ -244,7 +244,7 @@ export const sumAccruals = (payload) => {
 
       return accum;
     },
-    SUMS
+    { ...SUMS }
   );
 
   return accruals;

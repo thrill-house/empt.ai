@@ -13,6 +13,7 @@ import {
 } from "lodash-es";
 
 import {
+  SUMS,
   referenceTransitions,
   calculateSums,
   calculateAccruals,
@@ -179,15 +180,15 @@ export default {
   actions: {
     init: async ({ dispatch, rootGetters }) => {
       const game = rootGetters["game"];
+      console.debug(game);
+      // if (game) {
+      //   await dispatch("setStartTime", game?.$createdAt / 1000);
 
-      if (game) {
-        await dispatch("setStartTime", game?.$createdAt / 1000);
+      await dispatch("calculateResources");
+      await dispatch("calculateFrequencies");
 
-        await dispatch("calculateResources");
-        await dispatch("calculateFrequencies");
-
-        await dispatch("startTimer");
-      }
+      //   await dispatch("startTimer");
+      // }
     },
 
     setStartTime: async ({ commit }, payload) => {
@@ -224,7 +225,7 @@ export default {
             additional,
           });
         },
-        { confidence: 0, data: 0 }
+        { ...SUMS }
       );
 
       console.log({ accruals, sums, resources });
