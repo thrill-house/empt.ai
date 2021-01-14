@@ -56,6 +56,12 @@ export default {
         (slot) => before === undefined || slot.$createdAt < before
       );
 
+      return keyBy(filteredBefore, "$id");
+    },
+
+    adjustSlotted: (state, getters) => (before) => {
+      const filteredBefore = getters.slotted(before);
+
       let modelKeys = uniq(map(filteredBefore, "modelId")),
         slotKeys = uniq(map(filteredBefore, "slotId"));
 
