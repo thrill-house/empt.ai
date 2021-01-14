@@ -1,7 +1,7 @@
 import { createStore } from "vuex";
 import VuexPersistence from "vuex-persist";
 
-import VuexDash from "./dash";
+import VuexDash from "./plugins/dash";
 import score from "./modules/score";
 import inventory from "./modules/inventory";
 import system from "./modules/system";
