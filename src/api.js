@@ -1,5 +1,5 @@
 import pluralize from "pluralize";
-import numeral from "numeral";
+import Big from "big.js";
 import {
   defaults,
   filter,
@@ -154,18 +154,18 @@ export const tabulateValues = (payload) => {
 
       if (multiplier && !dependency) {
         if (comparisonsCount > 0) {
-          addedValue = numeral(addedValue)
-            .multiply(Math.pow(DIFFICULTY, comparisonsCount))
-            .subtract(addedValue)
-            .value();
+          addedValue = Big(addedValue)
+            .times(Big(DIFFICULTY).pow(comparisonsCount))
+            .minus(addedValue)
+            .toNumber();
         } else {
           addedValue = 0;
         }
       }
 
-      accum[typeValue.type] = numeral(previousValue)
-        .add(addedValue)
-        .value();
+      accum[typeValue.type] = Big(previousValue)
+        .plus(addedValue)
+        .toNumber();
 
       return accum;
     },
@@ -181,9 +181,9 @@ export const sumValues = (payload) => {
     { ...initial },
     additional,
     (initialValue, additionalValue) =>
-      numeral(initialValue || 0)
-        .add(additionalValue || 0)
-        .value()
+      Big(initialValue || 0)
+        .plus(additionalValue || 0)
+        .toNumber()
   );
 
   return result;
