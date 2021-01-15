@@ -48,12 +48,27 @@ export default {
     modelsTotal() {
       return keys(this.models).length || 0;
     },
+
+    cost() {
+      return Math.abs(this.installCost);
+    },
+    available() {
+      return this.resources.data;
+    },
+    affordable() {
+      return this.available >= this.cost;
+    },
+    submittable() {
+      return this.affordable && this.selectedModelId;
+    },
+
     ...mapGetters({
       getAbilityDataCosts: "inventory/abilityDataCosts",
       getAbilityModels: "inventory/abilityModels",
       getModel: "inventory/model",
       getInstalling: "system/slotting",
       getAbilitySlots: "system/abilitySlots",
+      resources: "score/currentResources",
     }),
   },
   methods: {
@@ -83,19 +98,21 @@ export default {
 </script>
 
 <template>
-  <button
-    v-bind="$attrs"
-    v-bem:trigger.data="{ loading, installing }"
-    v-format:data="installCost"
-    :title="
-      !installing
-        ? `${$t('Install')} (${modelsAvailable}/${modelsTotal})`
-        : $t('Installing')
-    "
-    :disabled="loading"
-    @click="!installing ? showDialog() : installingReset()"
-  />
-
+  <div v-bem>
+    <button
+      v-bind="$attrs"
+      v-bem:trigger.data="{ loading, installing }"
+      v-format:data="installCost"
+      :title="
+        !installing
+          ? `${$t('Install')} (${modelsAvailable}/${modelsTotal})`
+          : $t('Installing')
+      "
+      :disabled="loading || !affordable"
+      @click="!installing ? showDialog() : installingReset()"
+    />
+    <progress v-bem:affordability :max="cost" :value="available" />
+  </div>
   <util-dialog ref="dialog">
     <template v-slot:title>
       {{ $t("Select a {title} model to install", { title }) }}
@@ -108,9 +125,9 @@ export default {
             slotted: modelSlotted(m),
           }"
           v-for="(model, m) in models"
-          @click="select(m)"
           :key="m"
           :data-slotted="modelSlotted(m) ? $t(`Installed`) : ``"
+          @click="select(m)"
         >
           <emotion-diagram
             v-bem:modelsEmotions="{ slotted: modelSlotted(m) }"
@@ -123,7 +140,7 @@ export default {
       <div v-bem:actions>
         <button
           v-bem:actionsButton.confirm="{ valid }"
-          :disabled="!selectedModelId"
+          :disabled="!submittable"
           @click="install()"
         >
           {{ $t("Proceed") }}
@@ -140,9 +157,13 @@ export default {
 @import "../../styles/helper";
 
 .ability-install {
+  @apply relative;
+  @apply w-1/2 mr-px;
+  @apply clip-corners;
+
   &__trigger {
     @apply button button-xs button-title button-icon;
-    @apply w-1/2 mr-px;
+    @apply w-full;
 
     &::before {
       @apply bg-data;
@@ -168,6 +189,22 @@ export default {
         @apply mask-installing;
         @apply animate-bounce;
       }
+    }
+  }
+
+  &__affordability {
+    @apply absolute;
+    @apply inset-x-1 bottom-0;
+    @apply w-auto h-px;
+    @apply bg-dark;
+    @apply appearance-none;
+
+    &::-webkit-progress-bar {
+      @apply bg-navy;
+    }
+
+    &::-webkit-progress-value {
+      @apply bg-data;
     }
   }
 
