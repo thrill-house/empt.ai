@@ -1,15 +1,11 @@
 <script>
-import { mapState, mapGetters } from "vuex";
+import { mapGetters } from "vuex";
 import ValueList from "../value/list";
 
 export default {
   name: "game-score",
   components: { ValueList },
   computed: {
-    ...mapState({
-      bases: (state) => state.score.bases,
-      factors: (state) => state.score.factors,
-    }),
     ...mapGetters({
       frequencies: "score/currentFrequencies",
       resources: "score/currentResources",
