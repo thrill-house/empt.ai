@@ -24,6 +24,7 @@ export default {
       slotId: "11111111111111111111111111111111111111111111",
       slotIndex: null,
     },
+    slotView: "values",
   }),
   getters: {
     /*
@@ -46,6 +47,9 @@ export default {
 
     // Get slotting
     slotting: (state) => state.slotting,
+
+    // Get Slot view
+    slotView: (state) => state.slotView,
 
     // Get currently slotted
     slotted: (state, getters) => (before) => {
@@ -128,6 +132,9 @@ export default {
     slotting: (state, payload) => {
       state.slotting = payload;
     },
+    slotView: (state, payload) => {
+      state.slotView = payload;
+    },
   },
   actions: {
     /*
@@ -142,6 +149,10 @@ export default {
         await dispatch("fetchSlots");
         await dispatch("fetchTrainings");
       }
+    },
+
+    slotView: ({ commit }, payload) => {
+      commit("slotView", payload);
     },
 
     /*
