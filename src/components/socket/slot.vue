@@ -16,7 +16,6 @@ export default {
   },
   data: () => ({
     slotting: false,
-    toggle: "badge",
   }),
   inject: ["socketId", "socketTree", "socketEra"],
   emits: ["addSlotValues"],
@@ -96,6 +95,7 @@ export default {
     },
     ...mapGetters({
       getInstalling: "system/slotting",
+      slotView: "system/slotView",
       getSourceSlot: "system/sourceSlot",
       getSocketSource: "inventory/socketSource",
       getAbility: "inventory/ability",
@@ -144,9 +144,6 @@ export default {
         });
       }
     },
-    viewToggle(view) {
-      this.toggle = view;
-    },
     ...mapActions({
       installingReset: "system/slottingReset",
       installingSource: "system/slottingSource",
@@ -167,7 +164,7 @@ export default {
   <div v-bem="{ [tree]: true, online, match, installing, slotting }">
     <template v-if="slot && ability">
       <div
-        v-bem:badge="{ active: toggle === 'badge' }"
+        v-bem:badge="{ active: slotView === 'values' }"
         @mouseenter="enter"
         @mouseleave="leave"
         @mousemove="move"
@@ -184,7 +181,7 @@ export default {
         :key="synergy"
       />
       <emotion-diagram
-        v-bem:emotions="{ active: toggle === 'emotions' }"
+        v-bem:emotions="{ active: slotView === 'emotions' }"
         :sets="model.feelings"
         :scale="2"
         :labels="false"
