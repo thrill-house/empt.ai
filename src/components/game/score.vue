@@ -32,7 +32,7 @@ export default {
 
 .game-score {
   @apply flex flex-col flex-wrap items-center;
-  @apply h-40 w-96 py-4 mt-4;
+  @apply h-36 w-96 pt-4 mt-4 mb-2;
 
   &__label {
     @apply text-xl font-bold uppercase;

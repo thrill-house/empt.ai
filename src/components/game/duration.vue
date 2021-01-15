@@ -37,10 +37,19 @@ export default {
 @import "../../styles/helper";
 
 .game-duration {
-  @apply block;
+  @apply relative;
+  @apply block self-stretch;
   @apply w-auto;
-  @apply -mt-2 mr-2 p-2;
-  @apply text-xs italic;
+  @apply py-2 pr-1;
+  @apply text-2xs italic;
   @apply bg-grout bg-grout-sky bg-opacity-50;
+
+  &::before {
+    content: "";
+    @apply absolute block top-0 left-0;
+    @apply transform -translate-x-full;
+    @apply h-8 w-28;
+    @apply bg-grout bg-grout-sky bg-opacity-50;
+  }
 }
 </style>
