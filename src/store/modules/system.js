@@ -59,7 +59,8 @@ export default {
       return keyBy(filteredBefore, "$id");
     },
 
-    adjustSlotted: (state, getters) => (before) => {
+    // Get currently slotted
+    currentlySlotted: (state, getters) => (before) => {
       const filteredBefore = getters.slotted(before);
 
       let modelKeys = uniq(map(filteredBefore, "modelId")),

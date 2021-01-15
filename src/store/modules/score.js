@@ -101,7 +101,7 @@ export default {
 
     // Feelings
     currentFeelings: (state, getters, rootState, rootGetters) => {
-      const slotted = rootGetters["system/adjustSlotted"]();
+      const slotted = rootGetters["system/currentlySlotted"]();
       const emotions = reduce(
         slotted,
         (accum, slot) => {
@@ -142,7 +142,7 @@ export default {
     transitioned: (state, getters, rootState, rootGetters) => (before) => {
       const transitions = referenceTransitions({
         transitions: {
-          ...rootGetters["system/adjustSlotted"](before),
+          ...rootGetters["system/currentlySlotted"](before),
           ...rootGetters["inventory/sourced"](before),
           ...rootGetters["system/trained"](before),
           ...rootGetters["inventory/modeled"](before),
@@ -241,7 +241,7 @@ export default {
       const frequencies = calculateAccruals({
         transitions: referenceTransitions({
           transitions: {
-            ...rootGetters["system/adjustSlotted"](),
+            ...rootGetters["system/currentlySlotted"](),
             ...rootGetters["inventory/sourced"](),
           },
           getAbility: rootGetters["inventory/ability"],
