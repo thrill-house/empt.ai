@@ -223,7 +223,7 @@ export const sumAccruals = (payload) => {
       const transitionsBefore = getTransitioned(transition.$createdAt + 1);
       const first = head(transitionsBefore)?.transition;
       const second = nth(transitionsBefore, 1)?.transition;
-      const elapsed =
+      const currentElapsed =
         (first?.$createdAt - (second?.$createdAt || first?.$createdAt)) / 1000;
 
       const accrual = calculateAccruals({
@@ -233,13 +233,13 @@ export const sumAccruals = (payload) => {
       accum.confidence += Big(accrual.factors.influence)
         .plus(1)
         .times(accrual.bases.influence)
-        .times(elapsed)
+        .times(currentElapsed)
         .toNumber();
 
       accum.data += Big(accrual.factors.bandwidth)
         .plus(1)
         .times(accrual.bases.bandwidth)
-        .times(elapsed)
+        .times(currentElapsed)
         .toNumber();
 
       return accum;
