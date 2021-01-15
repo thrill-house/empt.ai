@@ -1,6 +1,6 @@
 import { createStore } from "vuex";
 
-import VuexDash from "./dash";
+import VuexDash from "./plugins/dash";
 
 export default createStore({
   state() {

@@ -1,6 +1,6 @@
 <script>
 import { mapState, mapGetters, mapActions } from "vuex";
-import { clamp, mapValues, max, reduce, sum, values } from "lodash-es";
+import { mapValues, max, reduce, sum, values } from "lodash-es";
 
 import EmotionDiagram from "../emotion/diagram";
 import UtilDialog from "../util/dialog";
@@ -64,18 +64,14 @@ export default {
         []
       );
     },
-    affordability() {
-      return clamp(
-        (this.scores.confidence / Math.abs(this.researchCost)) * 100,
-        0,
-        100
-      );
+    cost() {
+      return Math.abs(this.researchCost);
+    },
+    available() {
+      return this.resources.confidence;
     },
     affordable() {
-      return this.affordability === 100;
-    },
-    scores() {
-      return { data: 999999, confidence: 999999 };
+      return this.available >= this.cost;
     },
     submittable() {
       return this.affordable && this.enoughEmotions;
@@ -84,6 +80,7 @@ export default {
     ...mapGetters({
       getAbilityConfidenceCosts: "inventory/abilityConfidenceCosts",
       getEmotionByTitle: "labels/emotionByTitle",
+      resources: "score/currentResources",
     }),
   },
   methods: {
@@ -178,14 +175,17 @@ export default {
 </script>
 
 <template>
-  <button
-    v-bind="$attrs"
-    v-bem:trigger.confidence="{ loading }"
-    v-format:confidence="researchCost"
-    :title="!loading ? $t('Research') : $t('Researching')"
-    :disabled="loading"
-    @click="showDialog()"
-  />
+  <div v-bem>
+    <button
+      v-bind="$attrs"
+      v-bem:trigger.confidence="{ loading }"
+      v-format:confidence="researchCost"
+      :title="!loading ? $t('Research') : $t('Researching')"
+      :disabled="loading || !affordable"
+      @click="showDialog()"
+    />
+    <progress v-bem:affordability :max="cost" :value="available" />
+  </div>
   <util-dialog ref="dialog">
     <template v-slot:title>
       {{ $t("Researching a new {title} model", { title }) }}
@@ -211,8 +211,8 @@ export default {
       <div v-bem:actions>
         <button
           v-bem:actionsButton.confirm="{ valid }"
-          @click="research()"
           :disabled="!submittable"
+          @click="research()"
         >
           {{ $t("Research") }}
         </button>
@@ -228,9 +228,13 @@ export default {
 @import "../../styles/helper";
 
 .ability-research {
+  @apply relative;
+  @apply w-1/2 ml-px;
+  @apply clip-corners;
+
   &__trigger {
     @apply button button-xs button-title button-icon;
-    @apply w-1/2 ml-px;
+    @apply w-full;
 
     &::before {
       @apply bg-confidence;
@@ -246,6 +250,22 @@ export default {
         @apply animate-spin;
         animation-direction: reverse;
       }
+    }
+  }
+
+  &__affordability {
+    @apply absolute;
+    @apply inset-x-1 bottom-0;
+    @apply w-auto h-px;
+    @apply bg-dark;
+    @apply appearance-none;
+
+    &::-webkit-progress-bar {
+      @apply bg-navy;
+    }
+
+    &::-webkit-progress-value {
+      @apply bg-confidence;
     }
   }
 

@@ -1,23 +1,24 @@
 import pluralize from "pluralize";
-import numeral from "numeral";
+import Big from "big.js";
 import {
   defaults,
   filter,
+  head,
   isEmpty,
   map,
   mergeWith,
+  nth,
   omitBy,
   reduce,
   reduceRight,
   reverse,
   sortBy,
+  tail,
 } from "lodash-es";
 
 export const DIFFICULTY = 1.1;
-export const COSTS = { confidence: 0, data: 0 };
-export const BONUSES = { confidence: 0, data: 0 };
-export const BASES = { influence: 0, bandwidth: 0 };
-export const FACTORS = { influence: 0, bandwidth: 0 };
+export const SUMS = { confidence: 0, data: 0 };
+export const ACCRUALS = { influence: 0, bandwidth: 0 };
 
 export const referenceTransitions = (payload) => {
   const { transitions, getAbility, getSocket } = payload;
@@ -90,7 +91,7 @@ export const adjustValues = (payload) => {
 
       mergeWith(accum, transitionValues, (accumValue, transitionValue, key) => {
         if (initial?.[key]) {
-          return sumValues({
+          return tallyValues({
             initial: accumValue,
             additional: transitionValue,
           });
@@ -154,18 +155,18 @@ export const tabulateValues = (payload) => {
 
       if (multiplier && !dependency) {
         if (comparisonsCount > 0) {
-          addedValue = numeral(addedValue)
-            .multiply(Math.pow(DIFFICULTY, comparisonsCount))
-            .subtract(addedValue)
-            .value();
+          addedValue = Big(addedValue)
+            .times(Big(DIFFICULTY).pow(comparisonsCount))
+            .minus(addedValue)
+            .toNumber();
         } else {
           addedValue = 0;
         }
       }
 
-      accum[typeValue.type] = numeral(previousValue)
-        .add(addedValue)
-        .value();
+      accum[typeValue.type] = Big(previousValue)
+        .plus(addedValue)
+        .toNumber();
 
       return accum;
     },
@@ -175,15 +176,15 @@ export const tabulateValues = (payload) => {
   return results;
 };
 
-export const sumValues = (payload) => {
+export const tallyValues = (payload) => {
   const { initial, additional } = payload;
   const result = mergeWith(
     { ...initial },
     additional,
     (initialValue, additionalValue) =>
-      numeral(initialValue || 0)
-        .add(additionalValue || 0)
-        .value()
+      Big(initialValue || 0)
+        .plus(additionalValue || 0)
+        .toNumber()
   );
 
   return result;
@@ -192,8 +193,8 @@ export const sumValues = (payload) => {
 export const calculateSums = (payload) => {
   const { transitions, initial } = defaults(payload, {
     initial: {
-      costs: COSTS,
-      bonuses: BONUSES,
+      costs: SUMS,
+      bonuses: SUMS,
     },
     transitions: [],
   });
@@ -204,11 +205,47 @@ export const calculateSums = (payload) => {
 export const calculateAccruals = (payload) => {
   const { transitions, initial } = defaults(payload, {
     initial: {
-      bases: BASES,
-      factors: FACTORS,
+      bases: ACCRUALS,
+      factors: ACCRUALS,
     },
     transitions: [],
   });
 
   return adjustValues({ transitions, initial });
+};
+
+export const sumAccruals = (payload) => {
+  const { transitions, getTransitioned } = payload;
+
+  const accruals = reduceRight(
+    transitions,
+    (accum, { transition }) => {
+      const transitionsBefore = getTransitioned(transition.$createdAt + 1);
+      const first = head(transitionsBefore)?.transition;
+      const second = nth(transitionsBefore, 1)?.transition;
+      const elapsed =
+        (first?.$createdAt - (second?.$createdAt || first?.$createdAt)) / 1000;
+
+      const accrual = calculateAccruals({
+        transitions: tail(transitionsBefore),
+      });
+
+      accum.confidence += Big(accrual.factors.influence)
+        .plus(1)
+        .times(accrual.bases.influence)
+        .times(elapsed)
+        .toNumber();
+
+      accum.data += Big(accrual.factors.bandwidth)
+        .plus(1)
+        .times(accrual.bases.bandwidth)
+        .times(elapsed)
+        .toNumber();
+
+      return accum;
+    },
+    { ...SUMS }
+  );
+
+  return accruals;
 };
