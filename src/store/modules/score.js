@@ -180,15 +180,15 @@ export default {
   actions: {
     init: async ({ dispatch, rootGetters }) => {
       const game = rootGetters["game"];
-      console.debug(game);
-      // if (game) {
-      //   await dispatch("setStartTime", game?.$createdAt / 1000);
 
-      await dispatch("calculateResources");
-      await dispatch("calculateFrequencies");
+      if (game) {
+        await dispatch("setStartTime", game?.$createdAt / 1000);
 
-      //   await dispatch("startTimer");
-      // }
+        await dispatch("calculateResources");
+        await dispatch("calculateFrequencies");
+
+        await dispatch("startTimer");
+      }
     },
 
     setStartTime: async ({ commit }, payload) => {
