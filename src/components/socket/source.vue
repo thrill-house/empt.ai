@@ -175,7 +175,7 @@ export default {
     >
       <h4 v-bem:headerTitle>{{ socketTitle }}</h4>
     </header>
-    <dl v-bem:attributes="{ active: toggle === 'attributes' }">
+    <dl v-bem:attributes>
       <template
         v-for="(attributes, attribute) in sortedAttributes"
         :key="attribute"

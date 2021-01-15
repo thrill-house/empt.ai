@@ -9,9 +9,6 @@ export default {
   components: {
     SocketComponent,
   },
-  props: {
-    label: String,
-  },
   computed: {
     ...mapGetters({
       sockets: "inventory/sockets",
@@ -28,69 +25,6 @@ export default {
       :key="s"
       :id="s"
     />
-    <!-- <socket-component
-      v-bem:component="{ SmartDevices: true }"
-      tempTitle="Smart Devices"
-      tempTree="Science"
-      :tempSlots="3"
-      id="3szP67aF7ZnLQA8Fhwpj8Li6GbBCTLQxiT7Dh3R5EdwD"
-    />
-    <socket-component
-      v-bem:component="{ PurchaseData: true }"
-      tempTitle="Purchase Data"
-      tempTree="Economy"
-      :tempSlots="3"
-      id="3szP67aF7ZnLQA8Fhwpj8Li6GbBCTLQxiT7Dh3R5EdwD"
-    />
-    <socket-component
-      v-bem:component="{ SocialMedia: true }"
-      tempTitle="Social Media"
-      tempTree="Society"
-      :tempSlots="3"
-      id="3szP67aF7ZnLQA8Fhwpj8Li6GbBCTLQxiT7Dh3R5EdwD"
-    />
-    <socket-component
-      v-bem:component="{ BioImplants: true }"
-      tempTitle="Bio Implants"
-      tempTree="Science"
-      :tempSlots="4"
-      id="3szP67aF7ZnLQA8Fhwpj8Li6GbBCTLQxiT7Dh3R5EdwD"
-    />
-    <socket-component
-      v-bem:component="{ GovernmentBudget: true }"
-      tempTitle="Government Budget"
-      tempTree="Economy"
-      :tempSlots="4"
-      id="3szP67aF7ZnLQA8Fhwpj8Li6GbBCTLQxiT7Dh3R5EdwD"
-    />
-    <socket-component
-      v-bem:component="{ CensusData: true }"
-      tempTitle="Census Data"
-      tempTree="Society"
-      :tempSlots="4"
-      id="3szP67aF7ZnLQA8Fhwpj8Li6GbBCTLQxiT7Dh3R5EdwD"
-    />
-    <socket-component
-      v-bem:component="{ ClusterComputing: true }"
-      tempTitle="Cluster Computing"
-      tempTree="Science"
-      :tempSlots="5"
-      id="3szP67aF7ZnLQA8Fhwpj8Li6GbBCTLQxiT7Dh3R5EdwD"
-    />
-    <socket-component
-      v-bem:component="{ FinancialBlockchain: true }"
-      tempTitle="Financial Blockchain"
-      tempTree="Economy"
-      :tempSlots="5"
-      id="3szP67aF7ZnLQA8Fhwpj8Li6GbBCTLQxiT7Dh3R5EdwD"
-    />
-    <socket-component
-      v-bem:component="{ PublicSurveillance: true }"
-      tempTitle="Public Surveillance"
-      tempTree="Society"
-      :tempSlots="5"
-      id="3szP67aF7ZnLQA8Fhwpj8Li6GbBCTLQxiT7Dh3R5EdwD"
-    /> -->
   </section>
 </template>
 

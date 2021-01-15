@@ -35,7 +35,7 @@ export default {
 
 .util-era {
   @apply flex flex-col-reverse;
-  @apply w-2;
+  @apply w-2 h-8;
   @apply z-10;
 
   &__item {
@@ -43,7 +43,7 @@ export default {
     @apply bg-grey;
 
     &:first-child {
-      @apply mb-1;
+      @apply mb-0.5;
     }
 
     &--active {

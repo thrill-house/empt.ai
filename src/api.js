@@ -3,6 +3,7 @@ import Big from "big.js";
 import {
   defaults,
   filter,
+  find,
   head,
   isEmpty,
   map,
@@ -14,6 +15,7 @@ import {
   reverse,
   sortBy,
   tail,
+  uniq,
 } from "lodash-es";
 
 export const DIFFICULTY = 1.1;
@@ -64,6 +66,23 @@ export const referenceTransitions = (payload) => {
 
   return values;
 };
+
+export const extractDependencyIds = (dependencies, type) =>
+  reduce(
+    dependencies,
+    (result, dependency) => {
+      const dependantId = find(dependency?.dependency?.conditions || [], {
+        field: type,
+      })?.id;
+
+      if (dependantId) {
+        result.push(dependantId);
+      }
+
+      return uniq(result);
+    },
+    []
+  );
 
 export const adjustValues = (payload) => {
   const { transitions, initial } = payload;

@@ -97,10 +97,10 @@ export default {
     }),
   },
   methods: {
-    capitalize,
     viewToggle(view) {
       this.toggle = view;
     },
+    capitalize,
   },
 };
 </script>

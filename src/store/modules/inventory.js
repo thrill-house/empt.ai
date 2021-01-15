@@ -9,26 +9,13 @@ import {
   reverse,
   some,
   sortBy,
-  uniq,
 } from "lodash-es";
-import { adjustValues, referenceTransitions } from "../../api";
 
-export const extractDependencyIds = (dependencies, type) =>
-  reduce(
-    dependencies,
-    (result, dependency) => {
-      const dependantId = find(dependency?.dependency?.conditions || [], {
-        field: type,
-      })?.id;
-
-      if (dependantId) {
-        result.push(dependantId);
-      }
-
-      return uniq(result);
-    },
-    []
-  );
+import {
+  referenceTransitions,
+  extractDependencyIds,
+  adjustValues,
+} from "../../api";
 
 export default {
   namespaced: true,
