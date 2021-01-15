@@ -84,19 +84,23 @@ export default {
     bonus() {
       return head(this.socket?.bonuses)?.bonus;
     },
-    // affordability() {
-    //   return _.clamp(
-    //     (this.scores.confidence / this.costs.confidence) * 100,
-    //     0,
-    //     100
-    //   );
-    // },
-    affordable() {
-      // return this.affordability === 100;
-      return true;
-    },
-    costs() {
+
+    sourceCost() {
       return this.getSocketConfidenceCosts(this.socketId);
+    },
+    trainingCost() {
+      return this.getSocketDataCosts(this.socketId);
+    },
+    cost() {
+      return this.online
+        ? Math.abs(this.trainingCost)
+        : Math.abs(this.sourceCost);
+    },
+    available() {
+      return this.online ? this.resources.data : this.resources.confidence;
+    },
+    affordable() {
+      return this.available >= this.cost;
     },
 
     ...mapState(["gameId"]),
@@ -110,7 +114,9 @@ export default {
       getSocketTreeFactors: "inventory/socketTreeFactors",
       getSocketEraFactors: "inventory/socketEraFactors",
       getSocketConfidenceCosts: "inventory/socketConfidenceCosts",
+      getSocketDataCosts: "inventory/socketDataCosts",
       getAbility: "inventory/ability",
+      resources: "score/currentResources",
     }),
   },
   methods: {
@@ -193,21 +199,29 @@ export default {
         </dd>
       </template>
     </dl>
-    <button
-      v-if="online && !installing"
-      v-bem:bonus.confidence="{ loading: training }"
-      v-format:confidence.⇧="bonus"
-      :title="$t(`Training bonus`)"
-      @click="train()"
-    />
-    <button
-      v-else-if="!installing"
-      v-bem:connect.confidence="{ loading }"
-      v-format:confidence="costs"
-      :disabled="!affordable"
-      :title="$t(`Bring online`)"
-      @click="connect()"
-    />
+    <div v-bem:action>
+      <button
+        v-if="online && !installing"
+        v-bem:bonus.confidence="{ loading: training }"
+        v-format:confidence.⇧="bonus"
+        :title="$t(`Training bonus`)"
+        :disabled="!affordable"
+        @click="train()"
+      />
+      <button
+        v-else-if="!installing"
+        v-bem:connect.confidence="{ loading }"
+        v-format:confidence="sourceCost"
+        :title="$t(`Bring online`)"
+        :disabled="!affordable"
+        @click="connect()"
+      />
+      <progress
+        v-bem:affordability="{ online }"
+        :max="cost"
+        :value="available"
+      />
+    </div>
     <i v-bem:tree="{ [socketTree]: true }" />
     <util-era v-bem:era :era="socketEra" />
     <teleport to="#app" v-if="!empty && hover">
@@ -356,20 +370,25 @@ export default {
     }
   }
 
-  &:hover &__connect,
-  &:hover &__bonus,
-  &--loading &__connect,
-  &--training &__bonus {
+  &:hover &__action,
+  &--loading &__action,
+  &--training &__action {
     @apply flex;
+  }
+
+  &__action {
+    @apply relative;
+    @apply hidden;
+    @apply w-28;
+    @apply my-3;
+    @apply order-3;
+    @apply clip-corners;
   }
 
   &__connect,
   &__bonus {
     @apply button button-title button-icon;
-    @apply hidden;
-    @apply w-28;
-    @apply my-3;
-    @apply order-3;
+    @apply w-full;
 
     &::before {
       @apply bg-confidence;
@@ -384,6 +403,28 @@ export default {
         @apply mask-loading;
         @apply animate-spin;
         animation-direction: reverse;
+      }
+    }
+  }
+
+  &__affordability {
+    @apply absolute;
+    @apply inset-x-1 bottom-0;
+    @apply w-auto h-px;
+    @apply bg-dark;
+    @apply appearance-none;
+
+    &::-webkit-progress-bar {
+      @apply bg-navy;
+    }
+
+    &::-webkit-progress-value {
+      @apply bg-confidence;
+    }
+
+    &--online {
+      &::-webkit-progress-value {
+        @apply bg-data;
       }
     }
   }

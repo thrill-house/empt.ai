@@ -1,4 +1,3 @@
-import numeral from "numeral";
 import {
   ceil,
   clamp,
@@ -10,16 +9,16 @@ import {
   mapKeys,
   mapValues,
   mergeWith,
-  nth,
   reduce,
-  reduceRight,
-  tail,
 } from "lodash-es";
 
 import {
+  SUMS,
   referenceTransitions,
   calculateSums,
   calculateAccruals,
+  sumAccruals,
+  tallyValues,
 } from "../../api";
 
 export default {
@@ -89,9 +88,7 @@ export default {
             (eraStage < 2 && sourceLength === 1) ||
             (eraStage > 1 && sourceLength === 3)
           ) {
-            accum = numeral(eraStage)
-              .add(1)
-              .value();
+            accum = eraStage + 1;
           }
 
           return accum;
@@ -104,7 +101,7 @@ export default {
 
     // Feelings
     currentFeelings: (state, getters, rootState, rootGetters) => {
-      const slotted = rootGetters["system/slotted"]();
+      const slotted = rootGetters["system/currentlySlotted"]();
       const emotions = reduce(
         slotted,
         (accum, slot) => {
@@ -142,12 +139,20 @@ export default {
       return transitions;
     },
 
-    transitioned: (state, getters) => (before) =>
-      filter(
-        getters.transitions,
-        ({ transition }) =>
-          before === undefined || transition.$createdAt < before
-      ),
+    transitioned: (state, getters, rootState, rootGetters) => (before) => {
+      const transitions = referenceTransitions({
+        transitions: {
+          ...rootGetters["system/currentlySlotted"](before),
+          ...rootGetters["inventory/sourced"](before),
+          ...rootGetters["system/trained"](before),
+          ...rootGetters["inventory/modeled"](before),
+        },
+        getAbility: rootGetters["inventory/ability"],
+        getSocket: rootGetters["inventory/socket"],
+      });
+
+      return transitions;
+    },
   },
   mutations: {
     interval: (state, payload) => {
@@ -202,46 +207,25 @@ export default {
       commit("interval", null);
     },
 
-    calculateResources: async ({ state, getters, commit }) => {
-      const accruals = reduceRight(
-        getters.transitions,
-        (accum, { transition }) => {
-          const transitionsBefore = getters.transitioned(
-            transition.$createdAt + 1
-          );
-          const first = head(transitionsBefore)?.transition;
-          const second = nth(transitionsBefore, 1)?.transition;
-          const elapsed =
-            (first?.$createdAt - (second?.$createdAt || first?.$createdAt)) /
-            1000;
-
-          const accrual = calculateAccruals({
-            transitions: tail(transitionsBefore),
-          });
-
-          accum.confidence +=
-            elapsed * accrual.bases.influence * (1 + accrual.factors.influence);
-          accum.data +=
-            elapsed * accrual.bases.bandwidth * (1 + accrual.factors.bandwidth);
-
-          return accum;
-        },
-        { confidence: 0, data: 0 }
-      );
+    calculateResources: async ({ getters, commit }) => {
+      const accruals = sumAccruals({
+        transitions: getters.transitions,
+        getTransitioned: getters.transitioned,
+      });
 
       const sums = calculateSums({
-        transitions: state.transitions,
+        transitions: getters.transitions,
       });
 
       const resources = reduce(
         [sums.costs, sums.bonuses, accruals],
-        (accum, total) => {
-          accum.confidence += total.confidence;
-          accum.data += total.data;
-
-          return accum;
+        (accum, additional) => {
+          return tallyValues({
+            initial: accum,
+            additional,
+          });
         },
-        { confidence: 0, data: 0 }
+        { ...SUMS }
       );
 
       if (getters.transitions) {
@@ -257,7 +241,7 @@ export default {
       const frequencies = calculateAccruals({
         transitions: referenceTransitions({
           transitions: {
-            ...rootGetters["system/slotted"](),
+            ...rootGetters["system/currentlySlotted"](),
             ...rootGetters["inventory/sourced"](),
           },
           getAbility: rootGetters["inventory/ability"],
