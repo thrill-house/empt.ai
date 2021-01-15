@@ -228,8 +228,6 @@ export default {
         { ...SUMS }
       );
 
-      console.log({ accruals, sums, resources });
-
       if (getters.transitions) {
         commit(
           "updateTime",
