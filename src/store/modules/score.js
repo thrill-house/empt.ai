@@ -1,3 +1,4 @@
+import Big from "big.js";
 import {
   ceil,
   clamp,
@@ -49,7 +50,16 @@ export default {
   }),
   getters: {
     // Elapsed
-    elapsed: (state) => state.currentTime - state.updateTime,
+    elapsed: (state) =>
+      Big(state.currentTime)
+        .minus(state.startTime)
+        .toFixed(0),
+
+    // Elapsed since last transition
+    currentElapsed: (state) =>
+      Big(state.currentTime)
+        .minus(state.updateTime)
+        .toFixed(0),
 
     // Resources
     currentResources: (state, getters) =>
@@ -57,10 +67,10 @@ export default {
       ({
         confidence:
           state.resources.confidence +
-          getters.elapsed * getters.currentFrequencies.influence,
+          getters.currentElapsed * getters.currentFrequencies.influence,
         data:
           state.resources.data +
-          getters.elapsed * getters.currentFrequencies.bandwidth,
+          getters.currentElapsed * getters.currentFrequencies.bandwidth,
       }),
 
     // Frequencies
@@ -71,6 +81,7 @@ export default {
         state.currentBases.bandwidth * (1 + state.currentFactors.bandwidth),
     }),
 
+    // Era
     currentEra: (state, getters, rootState, rootGetters) => {
       const sources = filter(getters.transitioned(), { document: "Sources" });
       const sourcesByEra = mapValues(

@@ -9,7 +9,7 @@ export default {
   name: "game-logs",
   computed: {
     ...mapGetters({
-      elapsed: "score/elapsed",
+      currentElapsed: "score/currentElapsed",
       transitions: "score/transitions",
     }),
   },
