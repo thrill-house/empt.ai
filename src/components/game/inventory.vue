@@ -59,9 +59,9 @@ export default {
       <div
         v-for="(actionFilter, action) in { trees: 'treeId', eras: 'eraId' }"
         v-bem:action.filter
+        :key="action"
         @mouseenter="addToggle(action)"
         @mouseleave="delete toggles?.[action]"
-        :key="action"
       >
         <ol
           v-if="keys(actions[action]).length"
