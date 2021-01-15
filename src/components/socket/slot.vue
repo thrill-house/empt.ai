@@ -16,6 +16,7 @@ export default {
   },
   data: () => ({
     slotting: false,
+    toggle: "badge",
   }),
   inject: ["socketId", "socketTree", "socketEra"],
   emits: ["addSlotValues"],
@@ -143,6 +144,9 @@ export default {
         });
       }
     },
+    viewToggle(view) {
+      this.toggle = view;
+    },
     ...mapActions({
       installingReset: "system/slottingReset",
       installingSource: "system/slottingSource",
@@ -163,7 +167,7 @@ export default {
   <div v-bem="{ [tree]: true, online, match, installing, slotting }">
     <template v-if="slot && ability">
       <div
-        v-bem:badge
+        v-bem:badge="{ active: toggle === 'badge' }"
         @mouseenter="enter"
         @mouseleave="leave"
         @mousemove="move"
@@ -180,7 +184,7 @@ export default {
         :key="synergy"
       />
       <emotion-diagram
-        v-bem:emotions
+        v-bem:emotions="{ active: toggle === 'emotions' }"
         :sets="model.feelings"
         :scale="2"
         :labels="false"
@@ -278,10 +282,6 @@ export default {
     }
   }
 
-  &:hover &__badge {
-    @apply invisible;
-  }
-
   &__badge {
     @apply flex justify-center items-center;
     @apply w-24 h-24;
@@ -289,6 +289,7 @@ export default {
     @apply bg-light bg-opacity-25;
     @apply rounded-full;
     @apply order-3;
+    @apply invisible;
 
     &-icon {
       @apply block;
@@ -298,10 +299,10 @@ export default {
 
       @include icons("", $abilities...);
     }
-  }
 
-  &:hover &__emotions {
-    @apply block;
+    &--active {
+      @apply visible;
+    }
   }
 
   &__emotions {
@@ -309,6 +310,10 @@ export default {
     @apply absolute inset-x-12 inset-y-hex*14;
     @apply transform -translate-y-px;
     @apply w-24 h-24;
+
+    &--active {
+      @apply block;
+    }
   }
 
   &__tree {
