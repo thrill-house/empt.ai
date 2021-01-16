@@ -1,15 +1,12 @@
 <script>
 import { mapGetters } from "vuex";
-import { every, has, keyBy, map, max, partial, reduce } from "lodash-es";
+import { keyBy, map, max, reduce } from "lodash-es";
 
 export default {
   name: "emotion-values",
   props: {
     values: {
       type: Array,
-      validator(values) {
-        return every(["emotionId", "value"], partial(has, values));
-      },
       default: () => [],
     },
     color: {
@@ -26,7 +23,6 @@ export default {
   ],
   computed: {
     max() {
-      console.log({ v: map(this.values, "value") });
       return max(map(this.values, "value"));
     },
     maxScale() {

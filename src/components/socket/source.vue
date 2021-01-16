@@ -224,14 +224,13 @@ export default {
     </div>
     <i v-bem:tree="{ [socketTree]: true }" />
     <util-era v-bem:era :era="socketEra" />
-    <teleport to="#app" v-if="!empty && hover">
+    <teleport to="#app" v-if="hover">
       <util-tooltip v-bem:tooltip :position="position">
         <h3>{{ socketTitle }}</h3>
         <p>{{ socketDescription }}</p>
       </util-tooltip>
     </teleport>
   </div>
-  <div v-for="$i in slots" :key="$i">{{ $i }}</div>
 </template>
 
 <style lang="scss">
