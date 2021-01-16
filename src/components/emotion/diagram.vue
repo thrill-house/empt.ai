@@ -1,17 +1,5 @@
 <script>
-import {
-  each,
-  every,
-  has,
-  head,
-  join,
-  map,
-  max,
-  partial,
-  pick,
-  isArray,
-  transform,
-} from "lodash-es";
+import { each, has, head, join, map, max, pick, transform } from "lodash-es";
 
 import EmotionValues from "./values";
 
@@ -24,19 +12,6 @@ export default {
   props: {
     sets: {
       type: Array,
-      validator(sets) {
-        let allSets = !isArray(sets[0]) ? [sets] : sets,
-          required = ["emotionId", "value"],
-          valid = true;
-
-        each(allSets, function (set) {
-          if (!every(required, partial(has, set))) {
-            return (valid = false);
-          }
-        });
-
-        return valid;
-      },
       default: () => [[]],
     },
     scale: Number,

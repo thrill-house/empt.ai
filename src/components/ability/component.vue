@@ -178,13 +178,13 @@ export default {
     <div v-bem:era>
       <util-era v-bem:eraIndicator :era="era" />
     </div>
+    <teleport to="#app" v-if="hover">
+      <util-tooltip v-bem:tooltip :position="position">
+        <h3>{{ title }}</h3>
+        <p>{{ description }}</p>
+      </util-tooltip>
+    </teleport>
   </article>
-  <teleport to="#app" v-if="!empty && hover">
-    <util-tooltip v-bem:tooltip :position="position">
-      <h3>{{ title }}</h3>
-      <p>{{ description }}</p>
-    </util-tooltip>
-  </teleport>
 </template>
 
 <style lang="scss">

@@ -18,7 +18,7 @@ export default {
     slotting: false,
   }),
   inject: ["socketId", "socketTree", "socketEra"],
-  emits: ["addSlotValues"],
+  emits: ["updateSlotValues"],
   created() {
     this.updateSlotValues();
   },
@@ -154,7 +154,7 @@ export default {
   },
   watch: {
     slot() {
-      this.updateSlotValues();
+      this.hover();
     },
   },
 };
@@ -200,7 +200,7 @@ export default {
       </button>
     </div>
     <i v-if="slotting" v-bem:slotting="{ installing: slotting }" />
-    <teleport to="#app" v-if="!empty && hover">
+    <teleport to="#app" v-if="hover">
       <util-tooltip v-bem:tooltip :position="position">
         <h3>{{ title }}</h3>
         <p>{{ description }}</p>
