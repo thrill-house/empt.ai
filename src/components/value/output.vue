@@ -11,15 +11,15 @@ export default {
     label() {
       return {
         influence: this.$t(
-          "Influence — a measure of how quickly confidence is amassed."
+          "Influence — a measure of how quickly confidence is amassed"
         ),
         bandwidth: this.$t(
-          "Bandwidth — a measure of how quickly data is collected."
+          "Bandwidth — a measure of how quickly data is collected"
         ),
         confidence: this.$t(
-          "Confidence — collected by expanding your influence."
+          "Confidence — collected by expanding your influence"
         ),
-        data: this.$t("Data — collected by broadening your bandwidth."),
+        data: this.$t("Data — collected by broadening your bandwidth"),
       }[this.type];
     },
     format() {
