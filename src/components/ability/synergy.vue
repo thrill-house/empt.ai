@@ -69,16 +69,18 @@ export default {
   </div>
   <teleport to="#app" v-if="!empty && hover">
     <util-tooltip tag="dl" v-bem:tooltip :position="position">
-      <dt v-bem:symbiosis>
+      <dt v-if="type === `receives`" v-bem:symbiosis>
         {{
-          {
-            receives: $t("Receives from {sourceTitle} when both installed.", {
-              sourceTitle,
-            }),
-            provides: $t("Provides to {sourceTitle} when both installed.", {
-              sourceTitle,
-            }),
-          }[type]
+          $t("Receives from {sourceTitle} when both installed", {
+            sourceTitle,
+          })
+        }}
+      </dt>
+      <dt v-else-if="type === `provides`" v-bem:symbiosis>
+        {{
+          $t("Provides to {sourceTitle} when both installed", {
+            sourceTitle,
+          })
         }}
       </dt>
       <dd>
