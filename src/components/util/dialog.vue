@@ -1,17 +1,34 @@
 <script>
 export default {
   name: "util-dialog",
+  props: {
+    open: Boolean,
+  },
   data: () => ({
-    open: false,
+    visible: false,
   }),
+  mounted() {
+    if (this.open) {
+      this.show();
+    }
+  },
   methods: {
     show() {
-      this.open = true;
+      this.visible = true;
       this.$el?.showModal();
     },
     close() {
-      this.open = false;
+      this.visible = false;
       this.$el?.close();
+    },
+  },
+  watch: {
+    open(openVal) {
+      if (openVal) {
+        this.show();
+      } else {
+        this.close();
+      }
     },
   },
 };
@@ -19,7 +36,7 @@ export default {
 
 <template>
   <dialog v-bem>
-    <template v-if="open">
+    <template v-if="visible">
       <header v-bem:header>
         <h3 v-bem:headerTitle><slot name="title" /></h3>
       </header>

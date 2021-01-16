@@ -14,6 +14,7 @@ export default {
   inject: ["id", "ability", "title"],
   data: () => ({
     loading: false,
+    open: false,
     emotions: {
       Happiness: 0,
       Sadness: 0,
@@ -85,10 +86,10 @@ export default {
   },
   methods: {
     showDialog() {
-      this.$refs?.dialog?.show();
+      this.open = true;
     },
     cancelDialog() {
-      this.$refs?.dialog?.close();
+      this.open = false;
       this.resetEmotions();
     },
     async research() {
@@ -186,7 +187,7 @@ export default {
     />
     <progress v-bem:affordability :max="cost" :value="available" />
   </div>
-  <util-dialog ref="dialog">
+  <util-dialog :open="open" ref="dialog">
     <template v-slot:title>
       {{ $t("Researching a new {title} model", { title }) }}
     </template>
