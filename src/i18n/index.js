@@ -6,5 +6,6 @@ export default createI18n({
   globalInjection: true,
   locale: "en",
   silentTranslationWarn: true,
+  formatFallbackMessages: true,
   messages: { en },
 });
