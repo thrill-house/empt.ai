@@ -71,14 +71,14 @@ export default {
     <util-tooltip tag="dl" v-bem:tooltip :position="position">
       <dt v-if="type === `receives`" v-bem:symbiosis>
         {{
-          $t("Receives from {sourceTitle} when both installed.", {
+          $t("Receives from {sourceTitle} when both installed", {
             sourceTitle,
           })
         }}
       </dt>
       <dt v-else-if="type === `provides`" v-bem:symbiosis>
         {{
-          $t("Provides to {sourceTitle} when both installed.", {
+          $t("Provides to {sourceTitle} when both installed", {
             sourceTitle,
           })
         }}
