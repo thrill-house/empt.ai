@@ -10,8 +10,8 @@ import labels from "./modules/labels";
 export default createStore({
   state() {
     return {
-      ownerId: process.env.VUE_APP_PLAYER_IDENTITY,
-      mnemonic: process.env.VUE_APP_PLAYER_MNEMONIC,
+      ownerId: null,
+      mnemonic: null,
       gameId: null,
       games: null,
     };
