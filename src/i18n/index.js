@@ -5,7 +5,8 @@ export default createI18n({
   legacy: false,
   globalInjection: true,
   locale: "en",
-  silentTranslationWarn: true,
+  fallbackLocale: "en",
   formatFallbackMessages: true,
+  silentTranslationWarn: true,
   messages: { en },
 });

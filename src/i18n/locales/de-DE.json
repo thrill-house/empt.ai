@@ -1,4 +1,5 @@
 {
+  "All {items}": "",
   "Attributes": "",
   "Bring online": "",
   "Cancel": "Stornieren",
@@ -21,15 +22,19 @@
   "Proceed": "",
   "Research": "Recherchiere",
   "Researching": "Recherchieren",
+  "Researching a new {title} model": "",
   "Resources": "Resourcen",
+  "Select a {title} model to install": "",
   "Settings": "",
   "Show ability badges": "",
   "Show ability emotions": "",
   "Show values": "",
   "Synergies": "",
   "Training bonus": "",
+  "Y [years], M [months], D [days], H [hrs], m [mins], s [secs] [since inception]": "",
   "bonus": "",
   "boost": "",
   "match": "",
-  "rate": ""
+  "rate": "",
+  "{attribute} {target} {type}": ""
 }

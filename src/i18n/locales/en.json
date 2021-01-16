@@ -1,4 +1,5 @@
 {
+  "All {items}": "All {items}",
   "Attributes": "Attributes",
   "Bring online": "Bring online",
   "Cancel": "Cancel",
@@ -21,15 +22,19 @@
   "Proceed": "Proceed",
   "Research": "Research",
   "Researching": "Researching",
+  "Researching a new {title} model": "Researching a new {title} model",
   "Resources": "Resources",
+  "Select a {title} model to install": "Select a {title} model to install",
   "Settings": "Settings",
   "Show ability badges": "Show ability badges",
   "Show ability emotions": "Show ability emotions",
   "Show values": "Show values",
   "Synergies": "Synergies",
   "Training bonus": "Training bonus",
+  "Y [years], M [months], D [days], H [hrs], m [mins], s [secs] [since inception]": "Y [years], M [months], D [days], H [hrs], m [mins], s [secs] [since inception]",
   "bonus": "bonus",
   "boost": "boost",
   "match": "match",
-  "rate": "rate"
+  "rate": "rate",
+  "{attribute} {target} {type}": "{attribute} {target} {type}"
 }
