@@ -15,6 +15,10 @@
       @apply cursor-not-allowed;
     }
 
+    &-inline {
+      @apply inline-flex flex-row flex-nowrap items-center;
+    }
+
     &-icon::before {
       content: "";
       @apply inline-block;
