@@ -95,7 +95,7 @@ export default createStore({
       namespace: "Player",
       subscribeToFrom: [
         { ownerId: "ownerId", mnemonic: "mnemonic", allQuery: "allOwnerQuery" },
-        ["gameId", "ownerId", "mnemonic"],
+        ["ownerId", "mnemonic"],
       ],
     }),
     new VuexDash({
@@ -105,7 +105,7 @@ export default createStore({
       namespace: "Game",
       subscribeToFrom: [
         { ownerId: "ownerId", mnemonic: "mnemonic", allQuery: "allGameQuery" },
-        ["ownerId", "mnemonic"],
+        ["gameId", "ownerId", "mnemonic"],
       ],
     }),
     new VuexPersistence({
