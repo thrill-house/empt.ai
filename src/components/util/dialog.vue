@@ -52,9 +52,10 @@ export default {
 
 .util-dialog {
   @apply fixed inset-0;
-  @apply w-192;
+  @apply w-192 max-h-full;
   @apply p-6;
   @apply text-light bg-ash bg-opacity-75;
+  @apply overflow-auto;
   @apply z-50;
   @apply clip-2-corners;
 
