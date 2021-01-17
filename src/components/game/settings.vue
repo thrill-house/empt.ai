@@ -34,7 +34,7 @@ export default {
     },
 
     ...mapActions({
-      setOwnerId: "setOwner",
+      setOwnerId: "setOwnerId",
       setMnemonic: "setMnemonic",
       loadGame: "loadGame",
       createGame: "Player/Games/create",
