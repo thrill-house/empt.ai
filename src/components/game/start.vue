@@ -25,11 +25,14 @@ export default {
   data: () => ({
     walletStep: ["current"],
     balanceStep: [],
-    identityStep: [],
+    identityStep: ["current"],
     creditStep: [],
     gameStep: [],
 
+    account: null,
     address: null,
+    balance: null,
+    identity: null,
 
     done: false,
   }),
@@ -61,6 +64,7 @@ export default {
     },
     ...mapState(["ownerId", "mnemonic", "gameId", "games"]),
     ...mapGetters({
+      options: "Player/options",
       connection: "Player/connection",
       client: "Player/client",
       game: "game",
@@ -77,9 +81,11 @@ export default {
 
       await this.setMnemonic(new Mnemonic().toString());
     },
-    completeWallet() {
+    async completeWallet() {
       this.walletStep.push("complete");
       this.balanceStep.push("current");
+      this.checkBalance();
+      this.checkIdentity();
     },
     async updateMnemonic(e) {
       const value = e.target.value.toString();
@@ -94,32 +100,87 @@ export default {
 
     // Balance step functions
     async provideBalance() {
-      const account = await this.client.wallet.getAccount();
-      const balance = account.getConfirmedBalance();
-      console.log({ balance });
+      this.checkBalance();
+
       this.balanceStep = ["provide"];
     },
     async createBalance() {
-      const account = await this.client.wallet.getAccount();
+      console.log("createBalance");
+      const account = await this.client.getWalletAccount();
+      console.log({ account, createBalance: true });
+
       const { address } = account.getUnusedAddress();
       this.address = address;
+
       this.balanceStep = ["create"];
+    },
+    async checkBalance() {
+      console.log("checkBalance");
+      const account = await this.client.getWalletAccount();
+      console.log({ account, checkBalance: true });
+
+      if (!this.balance) {
+        this.watchTransactions();
+      }
+
+      const confirmed = account.getConfirmedBalance();
+      const unconfirmed = account.getUnconfirmedBalance();
+
+      if (confirmed > 10000) {
+        this.completeBalance();
+      }
+
+      this.balance = { confirmed, unconfirmed };
+    },
+    async watchTransactions() {
+      console.log("watchTransactions");
+      const account = await this.client.getWalletAccount();
+      console.log({ account, watchTransactions: true });
+
+      account.on("FETCHED/UNCONFIRMED_TRANSACTION", (data) => {
+        console.debug(data);
+        this.checkBalance();
+      });
+      account.on("FETCHED/CONFIRMED_TRANSACTION", (data) => {
+        console.debug(data);
+        this.checkBalance();
+      });
     },
     completeBalance() {
       this.balanceStep.push("complete");
       this.identityStep.push("current");
+      this.checkIdentity();
     },
 
     // Identity step functions
     provideIdentity() {
+      this.checkIdentity();
+
       this.identityStep = ["provide"];
     },
-    createIdentity() {
+    async createIdentity() {
+      console.log("createIdentity");
       this.identityStep = ["create"];
+
+      console.log({ platform: this.client.platform });
+
+      const identity = await this.client.platform.identities.register(10000);
+      console.log({ identity, createIdentity: true });
+      console.log(identity);
+
+      this.identity.push(identity);
     },
     completeIdentity() {
       this.identityStep.push("complete");
       this.creditStep.push("current");
+    },
+    async checkIdentity() {
+      if (!this.identity) {
+        const account = await this.client.getWalletAccount();
+        console.log({ account, checkIdentity: true });
+
+        this.identity = account.getIdentityIds();
+      }
     },
 
     // Credit step functions
@@ -165,6 +226,12 @@ export default {
 
     dayjs,
     includes,
+  },
+
+  watch: {
+    client(client, oldclient) {
+      console.log({ client, oldclient });
+    },
   },
 };
 </script>
@@ -262,6 +329,7 @@ export default {
 
             <p v-bem:stepProceed v-if="includes(balanceStep, `provide`)">
               {{ $t("Checking your Dash balance") }}
+              {{ balance }}
 
               <button v-bem:button.complete @click="completeBalance()">
                 {{ $t("Go to the next step") }}
@@ -277,7 +345,7 @@ export default {
                 <template #link>
                   <a
                     v-bem:link
-                    href="https://testnet-faucet.dash.org/"
+                    href="http://testnet-452625393.us-west-2.elb.amazonaws.com/"
                     target="_blank"
                     >{{ $t("The Testnet Faucet") }}</a
                   >
@@ -334,6 +402,17 @@ export default {
               :placeholder="$t('Enter your registration identity')"
               @input="setOwnerId"
             />
+
+            {{ identity }}
+
+            <p v-bem:stepProceed v-if="includes(identityStep, `create`)">
+              {{ $t("Checking your Dash balance") }}
+              {{ balance }}
+
+              <button v-bem:button.complete @click="completeBalance()">
+                {{ $t("Go to the next step") }}
+              </button>
+            </p>
           </div>
         </li>
 
