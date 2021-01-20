@@ -8,6 +8,7 @@ import {
   keyBy,
   keys,
   omit,
+  once,
   pickBy,
   reduce,
   startsWith,
@@ -81,13 +82,107 @@ export default (config) => {
         client: (state, getters) => {
           return new Dash.Client(getters.connection);
         },
+        accountSynced: (state) => {
+          if (state.accountSynced) {
+            return state.accountSynced;
+          }
+
+          return null;
+        },
+        accountLoading: (state) => {
+          if (state.accountLoading) {
+            return state.accountLoading;
+          }
+
+          return null;
+        },
+        account: (state) => {
+          if (state.accountSynced) {
+            console.debug(state.accountSynced);
+          }
+
+          if (state.account && typeof state.account === "function") {
+            return state.account();
+          }
+
+          if (state.accountInit && typeof state.accountInit === "function") {
+            state.accountInit();
+          }
+
+          return null;
+        },
+        identities: (state, getters) => {
+          if (getters.account) {
+            return getters.account.getIdentityIds();
+          }
+
+          return [];
+        },
+        balance: (state, getters) => {
+          if (getters.account) {
+            return {
+              confirmed: getters.account.getConfirmedBalance(),
+              unconfirmed: getters.account.getUnconfirmedBalance(),
+            };
+          }
+
+          return { confirmed: 0, unconfirmed: 0 };
+        },
+        credit: (state, getters) => {
+          if (getters.account) {
+            return {
+              confirmed: getters.account.getConfirmedBalance(),
+              unconfirmed: getters.account.getUnconfirmedBalance(),
+            };
+          }
+
+          return { confirmed: 0, unconfirmed: 0 };
+        },
       },
       mutations: {
+        account: (state, payload) => {
+          state.account = payload;
+        },
+        accountInit: (state, payload) => {
+          state.accountInit = payload;
+        },
+        accountSynced: (state, payload) => {
+          state.accountSynced = payload;
+        },
+        accountLoading: (state, payload) => {
+          state.accountLoading = payload;
+        },
         updateOptions: (state, payload) => {
           state.options = { ...state.options, ...payload };
         },
       },
       actions: {
+        // Helper to run the "all" action for every document module
+        init: async ({ commit, getters }) => {
+          const accountInit = once(async () => {
+            console.log("fetching account");
+            commit("accountLoading", true);
+
+            const account = await getters.client.getWalletAccount();
+
+            account.on("FETCHED/UNCONFIRMED_TRANSACTION", () => {
+              commit("accountSynced", Date.now());
+            });
+
+            account.on("FETCHED/CONFIRMED_TRANSACTION", () => {
+              commit("accountSynced", Date.now());
+            });
+
+            commit("account", () => account);
+            commit("accountSynced", Date.now());
+
+            commit("accountInit", null);
+            commit("accountLoading", false);
+          });
+
+          commit("accountInit", accountInit);
+        },
+
         // Helper to run the "all" action for every document module
         all: async ({ dispatch }) => {
           each(documents, (document) => {
@@ -184,7 +279,7 @@ export default (config) => {
                 }
               },
 
-              bulkEdit: async ({ commit, dispatch }, payload = {}) => {
+              multiple: async ({ commit, dispatch }, payload = {}) => {
                 let documents = { create: [], replace: [], delete: [] };
 
                 try {
@@ -324,8 +419,15 @@ export default (config) => {
       ),
     });
 
+    // console.log(store);
+
     // Subscribe to root store mutations and sync root state values and getters to the plugin options.
     store.subscribe((mutation, state) => {
+      // if (mutation.type === `${namespace}/updateOptions`) {
+      //   console.log(mutation.type);
+      //   store.dispatch(`${namespace}/init`);
+      // }
+
       if (includes(fromRoot, mutation.type)) {
         const combined = { ...state, ...store.getters };
         store.commit(
@@ -341,5 +443,7 @@ export default (config) => {
         );
       }
     });
+
+    store.dispatch(`${namespace}/init`);
   };
 };
