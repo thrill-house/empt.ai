@@ -45,12 +45,12 @@ export default createStore({
   actions: {
     init: async ({ dispatch, state }) => {
       const { ownerId, mnemonic, gameId } = state;
-      // dispatch("labels/init");
+      dispatch("labels/init");
 
       if (ownerId && mnemonic) {
         await dispatch("setOwnerId", ownerId);
         await dispatch("setMnemonic", mnemonic);
-        // await dispatch("fetchGames");
+        await dispatch("fetchGames");
 
         if (gameId) {
           await dispatch("loadGame", gameId);
