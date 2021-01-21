@@ -153,18 +153,14 @@ export default (config) => {
           state.accountLoading = payload;
         },
         updateOptions: (state, payload) => {
-          console.log(payload);
           state.options = { ...state.options, ...payload };
         },
       },
       actions: {
-        // Helper to run the "all" action for every document module
+        // Init action, this will get run automatically when necessary to reinitialise the wallet account
         init: async ({ commit, getters }) => {
-          console.log({ reinit: true, mmm: getters.options.mnemonic });
-
           if (getters.options.mnemonic) {
             const accountInit = once(async () => {
-              console.log("fetching account");
               commit("accountLoading", true);
 
               const account = await getters.client.getWalletAccount();
