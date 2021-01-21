@@ -20,10 +20,13 @@ export default {
   },
   data: () => ({
     walletStep: ["current"],
-    identityStep: [],
     balanceStep: [],
+    syncStep: [],
+    identityStep: [],
     creditStep: [],
     gameStep: [],
+
+    newMnemonic: null,
 
     // address: null,
     // identity: null,
@@ -81,19 +84,23 @@ export default {
     },
     async completeWallet() {
       this.walletStep.push("complete");
-      this.identityStep.push("current");
-      this.checkIdentity();
-      // this.checkBalance();
-      // this.checkCredit();
-    },
-    async updateMnemonic(e) {
-      const value = e.target.value.toString();
-      const valid = Mnemonic.isValid(value);
 
-      console.log({ value, valid });
+      if (includes(this.walletStep, `create`)) {
+        this.balanceStep.push("current");
+      } else if (includes(this.walletStep, `provide`)) {
+        this.balanceStep.push("skip");
+        this.syncStep.push("current");
+      }
+    },
+    async updateMnemonic() {
+      const value = this.newMnemonic;
+      const valid = Mnemonic.isValid(value);
 
       if (valid) {
         await this.setMnemonic(value);
+        this.completeWallet();
+      } else if (this.mnemonic !== null) {
+        await this.setMnemonic(null);
       }
     },
 
@@ -268,7 +275,7 @@ export default {
             <input
               v-if="includes(walletStep, `provide`) || mnemonic"
               v-bem:input.mnemonic
-              :value="mnemonic"
+              v-model="newMnemonic"
               :placeholder="$t('Enter your private mnemonic')"
               @input="updateMnemonic"
             />
