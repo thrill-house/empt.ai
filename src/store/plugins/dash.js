@@ -159,28 +159,30 @@ export default (config) => {
       actions: {
         // Helper to run the "all" action for every document module
         init: async ({ commit, getters }) => {
-          const accountInit = once(async () => {
-            console.log("fetching account");
-            commit("accountLoading", true);
+          if (getters.options.mnemonic) {
+            const accountInit = once(async () => {
+              console.log("fetching account");
+              commit("accountLoading", true);
 
-            const account = await getters.client.getWalletAccount();
+              const account = await getters.client.getWalletAccount();
 
-            account.on("FETCHED/UNCONFIRMED_TRANSACTION", () => {
+              account.on("FETCHED/UNCONFIRMED_TRANSACTION", () => {
+                commit("accountSynced", Date.now());
+              });
+
+              account.on("FETCHED/CONFIRMED_TRANSACTION", () => {
+                commit("accountSynced", Date.now());
+              });
+
+              commit("account", () => account);
               commit("accountSynced", Date.now());
+
+              commit("accountInit", null);
+              commit("accountLoading", false);
             });
 
-            account.on("FETCHED/CONFIRMED_TRANSACTION", () => {
-              commit("accountSynced", Date.now());
-            });
-
-            commit("account", () => account);
-            commit("accountSynced", Date.now());
-
-            commit("accountInit", null);
-            commit("accountLoading", false);
-          });
-
-          commit("accountInit", accountInit);
+            commit("accountInit", accountInit);
+          }
         },
 
         // Helper to run the "all" action for every document module
@@ -419,28 +421,23 @@ export default (config) => {
       ),
     });
 
-    // console.log(store);
-
     // Subscribe to root store mutations and sync root state values and getters to the plugin options.
-    store.subscribe((mutation, state) => {
-      // if (mutation.type === `${namespace}/updateOptions`) {
-      //   console.log(mutation.type);
-      //   store.dispatch(`${namespace}/init`);
-      // }
-
-      if (includes(fromRoot, mutation.type)) {
+    store.subscribe(({ payload, type }, state) => {
+      if (type === `${namespace}/updateOptions`) {
+        if (payload.mnemonic) {
+          store.dispatch(`${namespace}/init`);
+        }
+      } else if (includes(fromRoot, type)) {
         const combined = { ...state, ...store.getters };
-        store.commit(
-          `${namespace}/updateOptions`,
-          reduce(
-            subscriptions,
-            (result, value, key) => {
-              result[key] = combined[value];
-              return result;
-            },
-            {}
-          )
+        const updatedOptions = reduce(
+          subscriptions,
+          (result, value, key) => {
+            result[key] = combined[value];
+            return result;
+          },
+          {}
         );
+        store.commit(`${namespace}/updateOptions`, updatedOptions);
       }
     });
 
