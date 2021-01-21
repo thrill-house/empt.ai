@@ -47,9 +47,15 @@ export default createStore({
       const { ownerId, mnemonic, gameId } = state;
       dispatch("labels/init");
 
-      if (ownerId && mnemonic) {
-        await dispatch("setOwnerId", ownerId);
+      if (mnemonic) {
         await dispatch("setMnemonic", mnemonic);
+      }
+
+      if (ownerId) {
+        await dispatch("setOwnerId", ownerId);
+      }
+
+      if (ownerId && mnemonic) {
         await dispatch("fetchGames");
 
         if (gameId) {
@@ -108,8 +114,6 @@ export default createStore({
         ["gameId", "ownerId", "mnemonic"],
       ],
     }),
-    new VuexPersistence({
-      storage: window.localStorage,
-    }).plugin,
+    new VuexPersistence().plugin,
   ],
 });
