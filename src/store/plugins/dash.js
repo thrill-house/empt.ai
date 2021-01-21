@@ -153,12 +153,15 @@ export default (config) => {
           state.accountLoading = payload;
         },
         updateOptions: (state, payload) => {
+          console.log(payload);
           state.options = { ...state.options, ...payload };
         },
       },
       actions: {
         // Helper to run the "all" action for every document module
         init: async ({ commit, getters }) => {
+          console.log({ reinit: true, mmm: getters.options.mnemonic });
+
           if (getters.options.mnemonic) {
             const accountInit = once(async () => {
               console.log("fetching account");
@@ -182,6 +185,12 @@ export default (config) => {
             });
 
             commit("accountInit", accountInit);
+          } else {
+            commit("account", null);
+            commit("accountSynced", null);
+
+            commit("accountInit", null);
+            commit("accountLoading", null);
           }
         },
 
@@ -422,11 +431,9 @@ export default (config) => {
     });
 
     // Subscribe to root store mutations and sync root state values and getters to the plugin options.
-    store.subscribe(({ payload, type }, state) => {
+    store.subscribe(({ type }, state) => {
       if (type === `${namespace}/updateOptions`) {
-        if (payload.mnemonic) {
-          store.dispatch(`${namespace}/init`);
-        }
+        store.dispatch(`${namespace}/init`);
       } else if (includes(fromRoot, type)) {
         const combined = { ...state, ...store.getters };
         const updatedOptions = reduce(
