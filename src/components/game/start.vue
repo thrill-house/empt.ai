@@ -35,16 +35,23 @@ export default {
   }),
   created() {
     if (this.mnemonic) {
-      this.provideWallet();
+      this.newMnemonic = this.mnemonic;
+      this.walletStep = ["provide"];
+      this.syncStep = ["skip"];
+      this.balanceStep = ["skip"];
+      this.identityStep = ["provide"];
+      this.creditStep = ["skip"];
       this.completeWallet();
     }
 
     if (this.ownerId) {
-      this.provideIdentity();
+      this.completeSync();
+      this.completeBalance();
       this.completeIdentity();
+      this.completeCredit();
     }
 
-    if (this.game) {
+    if (this.gameId) {
       this.provideGame();
       this.completeGame();
     }
@@ -61,13 +68,17 @@ export default {
     },
     ...mapState(["ownerId", "mnemonic", "gameId", "games"]),
     ...mapGetters({
-      options: "Player/options",
       connection: "Player/connection",
-      client: "Player/client",
-      balance: "Player/balance",
-      accountLoading: "Player/accountLoading",
+
+      accountSyncing: "Player/accountSyncing",
       accountSynced: "Player/accountSynced",
+      confirmedBalance: "Player/confirmedBalance",
+      unusedAddress: "Player/unusedAddress",
+
       identities: "Player/identities",
+      identity: "Player/identity",
+      credit: "Player/credit",
+
       game: "game",
       models: "inventory/models",
     }),
@@ -77,120 +88,76 @@ export default {
     provideWallet() {
       this.walletStep = ["provide"];
     },
-    async createWallet() {
+    createWallet() {
       this.walletStep = ["create"];
 
-      await this.setMnemonic(new Mnemonic().toString());
+      this.newMnemonic = new Mnemonic().toString();
+      this.updateMnemonic();
     },
-    async completeWallet() {
+    completeWallet() {
       this.walletStep.push("complete");
 
       if (includes(this.walletStep, `create`)) {
         this.balanceStep.push("current");
-      } else if (includes(this.walletStep, `provide`)) {
-        this.balanceStep.push("skip");
-        this.syncStep.push("current");
+        this.syncStep.push("skip");
       }
     },
-    async updateMnemonic() {
+    updateMnemonic() {
       const value = this.newMnemonic;
       const valid = Mnemonic.isValid(value);
 
       if (valid) {
-        await this.setMnemonic(value);
-        this.completeWallet();
+        this.setMnemonic(value);
       } else if (this.mnemonic !== null) {
-        await this.setMnemonic(null);
+        this.setMnemonic(null);
       }
+    },
+
+    completeSync() {
+      this.syncStep.push("complete");
+
+      if (includes(this.walletStep, `provide`)) {
+        this.identityStep.push("current");
+      }
+    },
+
+    // Balance step functions
+    provideBalance() {
+      this.balanceStep = ["provide"];
+    },
+    createBalance() {
+      const { address } = this.unusedAddress;
+      this.address = address;
+
+      this.balanceStep = ["create"];
+    },
+    completeBalance() {
+      this.balanceStep.push("complete");
+      this.identityStep.push("current");
     },
 
     // Identity step functions
     provideIdentity() {
-      this.checkIdentity();
-
       this.identityStep = ["provide"];
     },
-    async createIdentity() {
-      console.log("createIdentity");
+    createIdentity() {
       this.identityStep = ["create"];
 
-      console.log({ platform: this.client.platform });
-
-      const identity = await this.client.platform.identities.register(10000);
-      console.log({ identity, createIdentity: true });
-      console.log(identity);
-
-      this.identity.push(identity);
+      this.registerIdentity();
     },
     completeIdentity() {
       this.identityStep.push("complete");
       this.balanceStep.push("current");
     },
-    async checkIdentity() {
-      if (!this.identity || this.identity.length === 0) {
-        if (this.account) {
-          console.log({
-            account: this.account,
-            checkIdentity: true,
-          });
+    async registerIdentity() {
+      const identity = await this.register();
 
-          this.identity = this.account.getIdentityIds();
-        }
-      }
+      console.log(identity);
     },
+    changeOwnerId(e) {
+      const value = e.target.value;
 
-    // Balance step functions
-    async provideBalance() {
-      this.checkBalance();
-
-      this.balanceStep = ["provide"];
-    },
-    async createBalance() {
-      console.log("createBalance");
-      const account = await this.account;
-      console.log({ account, createBalance: true });
-
-      const { address } = account.getUnusedAddress();
-      this.address = address;
-
-      this.balanceStep = ["create"];
-    },
-    // async checkBalance() {
-    //   console.log("checkBalance");
-    //   const account = await this.account;
-    //   console.log({ account, checkBalance: true });
-
-    //   if (!this.balance) {
-    //     this.watchTransactions();
-    //   }
-
-    //   const confirmed = account.getConfirmedBalance();
-    //   const unconfirmed = account.getUnconfirmedBalance();
-
-    //   if (confirmed > 10000) {
-    //     this.completeBalance();
-    //   }
-
-    //   this.balance = { confirmed, unconfirmed };
-    // },
-    // async watchTransactions() {
-    //   console.log("watchTransactions");
-    //   const account = await this.account;
-    //   console.log({ account, watchTransactions: true });
-
-    //   account.on("FETCHED/UNCONFIRMED_TRANSACTION", (data) => {
-    //     console.debug(data);
-    //     this.checkBalance();
-    //   });
-    //   account.on("FETCHED/CONFIRMED_TRANSACTION", (data) => {
-    //     console.debug(data);
-    //     this.checkBalance();
-    //   });
-    // },
-    completeBalance() {
-      this.balanceStep.push("complete");
-      this.creditStep.push("current");
-      this.checkIdentity();
+      this.setOwnerId(value);
     },
 
     // Credit step functions
@@ -231,16 +198,48 @@ export default {
       setOwnerId: "setOwnerId",
       setMnemonic: "setMnemonic",
       loadGame: "loadGame",
+      register: "Player/register",
       createNewGame: "Player/Games/create",
     }),
 
     dayjs,
     includes,
   },
-
   watch: {
-    client(client, oldclient) {
-      console.log({ client, oldclient });
+    accountSynced(newSync) {
+      if (newSync && !this.accountSyncing) {
+        this.completeSync();
+      }
+    },
+    confirmedBalance(newBalance) {
+      if (newBalance > 10000) {
+        this.provideBalance();
+        this.completeBalance();
+      }
+    },
+    identities(newIdentities) {
+      if (newIdentities.length === 1) {
+        this.setOwnerId(newIdentities[0]);
+        this.completeIdentity();
+      } else if (newIdentities.length > 1) {
+        this.provideIdentity();
+      }
+    },
+    credit(newCredit) {
+      if (newCredit > 100000) {
+        this.provideCredit();
+        this.completeCredit();
+      }
+    },
+    games(newGames) {
+      console.log(newGames);
+      // if (newGames.length === 1) {
+      //   this.setGameId(newGames[0]);
+      //   this.completeGame();
+      // } else if (newGames.length > 1){
+      //   this.provideGame();
+      // }
+      this.provideGame();
     },
   },
 };
@@ -321,41 +320,35 @@ export default {
           </div>
         </li>
 
-        <li v-bem:step.identity="identityStep">
+        <li v-bem:step.sync="syncStep">
           <div v-bem:stepContent>
             <p v-bem:stepInstruction>
-              {{ $t("A registered Dash network identity") }} —
-
-              <button v-bem:button.provide @click="provideIdentity()">
-                {{ $t("I have registered") }}
-              </button>
-
-              {{ $t("or") }}
-
-              <button v-bem:button.create @click="createIdentity()">
-                {{ $t("Help me register") }}
-              </button>
+              {{ $t("A synchronised connection to the Dash network") }}
+              <template v-if="accountSyncing">
+                —
+                <button v-bem:button="{ loading: accountSyncing }">
+                  {{ $t("Synchronising") }}
+                </button>
+              </template>
             </p>
 
-            <input
-              v-if="includes(identityStep, `provide`)"
-              v-bem:input.ownerId
-              :value="ownerId"
-              :placeholder="$t('Enter your registration identity')"
-              @input="setOwnerId"
-            />
+            <p v-if="accountSyncing" v-bem:stepProceed>
+              {{
+                $t(
+                  "This step can take upwards of 5 minutes so please sit back and be patient"
+                )
+              }}
+            </p>
 
-            {{ accountLoading }}<br />
-            {{ accountSynced }}<br />
-            {{ identities }}
-
-            <p v-bem:stepProceed v-if="includes(identityStep, `create`)">
-              {{ $t("Checking your Dash balance") }}
-              {{ balance }}
-
-              <button v-bem:button.complete @click="completeBalance()">
-                {{ $t("Go to the next step") }}
-              </button>
+            <p v-else-if="!accountSyncing && accountSynced" v-bem:stepProceed>
+              {{
+                $t(
+                  "Account successfully synchronised most recently at {accountSynced}",
+                  {
+                    accountSynced,
+                  }
+                )
+              }}
             </p>
           </div>
         </li>
@@ -363,31 +356,29 @@ export default {
         <li v-bem:step.balance="balanceStep">
           <div v-bem:stepContent>
             <p v-bem:stepInstruction>
-              {{ $t("An existing balance in that wallet") }} —
-
-              <button v-bem:button.provide @click="provideBalance()">
-                {{ $t("I have some") }}
-              </button>
-
-              {{ $t("or") }}
-
-              <button v-bem:button.create @click="createBalance()">
-                {{ $t("Help me add some") }}
-              </button>
+              {{ $t("An existing balance in that wallet") }}
+              <template
+                v-if="
+                  includes(walletStep, `create`) ||
+                  (accountSynced && !confirmedBalance)
+                "
+              >
+                —
+                <button v-bem:button.create @click="createBalance()">
+                  {{ $t("Help me add some") }}
+                </button>
+              </template>
             </p>
 
-            {{ balance }}
-
-            <p v-bem:stepProceed v-if="includes(balanceStep, `provide`)">
-              {{ $t("Checking your Dash balance") }}
-              {{ balance }}
-
-              <button v-bem:button.complete @click="completeBalance()">
-                {{ $t("Go to the next step") }}
-              </button>
+            <p v-bem:stepProceed v-if="confirmedBalance">
+              {{
+                $t("Dash balance of {confirmedBalance} confirmed", {
+                  confirmedBalance,
+                })
+              }}
             </p>
 
-            <p v-bem:stepProceed v-if="includes(balanceStep, `create`)">
+            <p v-bem:stepProceed v-if="!confirmedBalance && unusedAddress">
               <i18n-t
                 v-if="connection.network === `testnet`"
                 keypath="You can fill up your test account by visiting {link} and entering {address} where prompted"
@@ -402,7 +393,7 @@ export default {
                   >
                 </template>
                 <template #address>
-                  <code v-bem:code>{{ address }}</code>
+                  <code v-bem:code>{{ unusedAddress }}</code>
                 </template>
               </i18n-t>
               <i18n-t
@@ -419,31 +410,71 @@ export default {
                   >
                 </template>
                 <template #address>
-                  <code v-bem:code>{{ address }}</code>
+                  <code v-bem:code>{{ unusedAddress }}</code>
                 </template>
               </i18n-t>
-
-              <button v-bem:button.complete @click="completeBalance()">
-                {{ $t("Go to the next step") }}
-              </button>
             </p>
+          </div>
+        </li>
+
+        <li v-bem:step.identity="identityStep">
+          <div v-bem:stepContent>
+            <p v-bem:stepInstruction>
+              {{ $t("A registered Dash network identity") }}
+              <template
+                v-if="
+                  includes(walletStep, `create`) ||
+                  (identitySynced && !identity)
+                "
+              >
+                —
+
+                <button v-bem:button.create @click="createIdentity()">
+                  {{ $t("Help me register") }}
+                </button>
+              </template>
+            </p>
+
+            <select
+              v-bem:input
+              v-if="!accountSyncing && accountSynced"
+              @input="changeOwnerId"
+            >
+              <option :selected="!ownerId">—</option>
+              <option
+                v-for="identity in identities"
+                :value="identity"
+                :selected="identity === ownerId"
+                :key="identity"
+              >
+                {{ identity }}
+              </option>
+            </select>
           </div>
         </li>
 
         <li v-bem:step.credit="creditStep">
           <div v-bem:stepContent>
             <p v-bem:stepInstruction>
-              {{ $t("Storage credits for your Dash identity") }} —
+              {{ $t("Storage credits for your Dash identity") }}
+              <template
+                v-if="
+                  includes(walletStep, `create`) || (identitySynced && !credit)
+                "
+              >
+                —
+                <button v-bem:button.create @click="createCredit()">
+                  {{ $t("Help me top up") }}
+                </button>
+              </template>
+            </p>
 
-              <button v-bem:button.provide @click="provideCredit()">
-                {{ $t("I have plenty") }}
-              </button>
-
-              {{ $t("or") }}
-
-              <button v-bem:button.create @click="createCredit()">
-                {{ $t("Help me top up") }}
-              </button>
+            <p v-bem:stepProceed v-if="credit">
+              {{
+                $t("Possession of {credit} credits confirmed", {
+                  credit,
+                })
+              }}
             </p>
           </div>
         </li>
@@ -451,17 +482,24 @@ export default {
         <li v-bem:step.game="gameStep">
           <div v-bem:stepContent>
             <p v-bem:stepInstruction>
-              {{ $t("A new or existing game to play") }} —
+              {{ $t("A new or existing game to play") }}
+              <template
+                v-if="
+                  includes(walletStep, `create`) || (identitySynced && !game)
+                "
+              >
+                —
 
-              <button v-bem:button.provide @click="provideGame()">
-                {{ $t("I’ll choose one") }}
-              </button>
+                <button v-bem:button.provide @click="provideGame()">
+                  {{ $t("I’ll choose one") }}
+                </button>
 
-              {{ $t("or") }}
+                {{ $t("or") }}
 
-              <button v-bem:button.create @click="createGame()">
-                {{ $t("Start a new one") }}
-              </button>
+                <button v-bem:button.create @click="createGame()">
+                  {{ $t("Start a new one") }}
+                </button>
+              </template>
             </p>
 
             <select
@@ -574,7 +612,8 @@ export default {
       }
     }
 
-    &--complete {
+    &--complete,
+    &--skip {
       &::after {
         content: "";
         @apply absolute left-1/2 bottom-0;
@@ -583,6 +622,15 @@ export default {
         @apply bg-sky;
         @apply z-10;
         @apply mask-confirmed;
+      }
+    }
+
+    // &--skip {
+    //   @apply hidden;
+    // }
+    &--skip {
+      &::after {
+        @apply mask-duration;
       }
     }
   }
@@ -599,6 +647,17 @@ export default {
     &::before {
       @apply bg-sky;
       @apply mask-confirmed;
+    }
+  }
+
+  &__button--loading {
+    @apply button-icon;
+
+    &::before {
+      @apply bg-sky;
+      @apply mask-loading;
+      @apply animate-spin;
+      animation-direction: reverse;
     }
   }
 
