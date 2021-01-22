@@ -50,7 +50,7 @@ export default {
       return this.options.contractId;
     },
     identity() {
-      return this.options.ownerId;
+      return this.options.identityId;
     },
     mnemonic() {
       return this.options.mnemonic;

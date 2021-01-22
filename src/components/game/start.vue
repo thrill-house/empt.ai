@@ -44,7 +44,7 @@ export default {
       this.completeWallet();
     }
 
-    if (this.ownerId) {
+    if (this.identityId) {
       this.completeSync();
       this.completeBalance();
       this.completeIdentity();
@@ -56,7 +56,7 @@ export default {
       this.completeGame();
     }
 
-    // if (this.mnemonic && this.ownerId) {
+    // if (this.mnemonic && this.identityId) {
     //   this.done = true;
     // }
   },
@@ -66,7 +66,7 @@ export default {
         ? `${this.game?.title} — ${dayjs(this.game?.$createdAt).fromNow()}`
         : `—`;
     },
-    ...mapState(["ownerId", "mnemonic", "gameId", "games"]),
+    ...mapState(["identityId", "mnemonic", "gameId", "games"]),
     ...mapGetters({
       connection: "Player/connection",
 
@@ -154,10 +154,10 @@ export default {
 
       console.log(identity);
     },
-    changeOwnerId(e) {
+    changeIdentityId(e) {
       const value = e.target.value;
 
-      this.setOwnerId(value);
+      this.setIdentityId(value);
     },
 
     // Credit step functions
@@ -195,7 +195,7 @@ export default {
     },
 
     ...mapActions({
-      setOwnerId: "setOwnerId",
+      setIdentityId: "setIdentityId",
       setMnemonic: "setMnemonic",
       loadGame: "loadGame",
       register: "Player/register",
@@ -219,7 +219,7 @@ export default {
     },
     identities(newIdentities) {
       if (newIdentities.length === 1) {
-        this.setOwnerId(newIdentities[0]);
+        this.setIdentityId(newIdentities[0]);
         this.completeIdentity();
       } else if (newIdentities.length > 1) {
         this.provideIdentity();
@@ -438,13 +438,13 @@ export default {
             <select
               v-bem:input
               v-if="!accountSyncing && accountSynced"
-              @input="changeOwnerId"
+              @input="changeIdentityId"
             >
-              <option :selected="!ownerId">—</option>
+              <option :selected="!identityId">—</option>
               <option
                 v-for="identity in identities"
                 :value="identity"
-                :selected="identity === ownerId"
+                :selected="identity === identityId"
                 :key="identity"
               >
                 {{ identity }}

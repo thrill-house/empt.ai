@@ -28,7 +28,7 @@ export default (config) => {
     contractId: null,
     // The owner to use for making changes
     // Attempts to create, edit or delete documents will fail if not included
-    ownerId: null,
+    identityId: null,
     // The mnemonic to use for making changes
     // Attempts to create, edit or delete documents will fail if not included
     mnemonic: null,
@@ -111,7 +111,10 @@ export default (config) => {
             return state.account.get();
           }
 
-          if (state?.account?.init && typeof state?.account?.init === "function") {
+          if (
+            state?.account?.init &&
+            typeof state?.account?.init === "function"
+          ) {
             state.account.init();
           }
 
@@ -160,7 +163,7 @@ export default (config) => {
           }
 
           if (
-            getters.options.ownerId &&
+            getters.options.identityId &&
             state.identity.init &&
             typeof state.identity.init === "function"
           ) {
@@ -248,12 +251,12 @@ export default (config) => {
             });
           }
 
-          if (getters.options.ownerId) {
+          if (getters.options.identityId) {
             const identityInit = once(async () => {
               commit("identityLoading", true);
 
               const identity = await getters.client.platform.identities.get(
-                getters.options.ownerId
+                getters.options.identityId
               );
 
               commit("identity", {
@@ -360,7 +363,7 @@ export default (config) => {
 
                 try {
                   const identity = await client.platform.identities.get(
-                    rootGetters[`${namespace}/options`].ownerId
+                    rootGetters[`${namespace}/options`].identityId
                   );
 
                   const composed = await client.platform.documents.create(
@@ -493,7 +496,7 @@ export default (config) => {
                 ) {
                   const client = rootGetters[`${namespace}/client`];
                   const identity = await client.platform.identities.get(
-                    rootGetters[`${namespace}/options`].ownerId
+                    rootGetters[`${namespace}/options`].identityId
                   );
                   await client.platform.documents.broadcast(included, identity);
                 }
