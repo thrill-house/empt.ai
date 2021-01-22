@@ -1,6 +1,6 @@
 <script>
 import { mapState, mapGetters, mapActions } from "vuex";
-import { includes } from "lodash-es";
+import { includes, keys } from "lodash-es";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import Dash from "dash";
@@ -19,41 +19,28 @@ export default {
     UtilDialog,
   },
   data: () => ({
-    walletStep: ["current"],
-    balanceStep: [],
-    syncStep: [],
-    identityStep: [],
-    creditStep: [],
-    gameStep: [],
-
-    newMnemonic: null,
-
-    // address: null,
-    // identity: null,
-
+    walletPath: null,
+    inputMnemonic: null,
+    inputIdentityId: null,
+    inputGameId: null,
+    inputGameTitle: null,
     done: false,
   }),
   created() {
     if (this.mnemonic) {
-      this.newMnemonic = this.mnemonic;
-      this.walletStep = ["provide"];
-      this.syncStep = ["skip"];
-      this.balanceStep = ["skip"];
-      this.identityStep = ["provide"];
-      this.creditStep = ["skip"];
-      this.completeWallet();
+      this.inputMnemonic = this.mnemonic;
+      this.walletPath = "provide";
+      this.updateMnemonic();
     }
 
     if (this.identityId) {
-      this.completeSync();
-      this.completeBalance();
-      this.completeIdentity();
-      this.completeCredit();
+      this.inputIdentityId = this.identityId;
+      this.updateIdentityId();
     }
 
     if (this.gameId) {
-      this.provideGame();
-      this.completeGame();
+      this.inputGameId = this.gameId;
+      this.updateGameId();
     }
 
     // if (this.mnemonic && this.identityId) {
@@ -61,6 +48,83 @@ export default {
     // }
   },
   computed: {
+    existingWallet() {
+      return (
+        this.walletPath === "provide" &&
+        !this.newWallet &&
+        !!this.mnemonic &&
+        !!this.accountSynced
+      );
+    },
+    newWallet() {
+      return this.walletPath === "create" && !!this.mnemonic;
+    },
+    steps() {
+      return {
+        wallet: {
+          current: true,
+          provide: this.walletPath === "provide",
+          create: this.walletPath === "create",
+        },
+        balance: {
+          current:
+            this.newWallet &&
+            (!this.existingWallet || (!this.confirmedBalance && !!this.credit)),
+          skip:
+            this.existingWallet &&
+            ((!this.credit && this.confirmedBalance > 10000) ||
+              this.haveIdentities ||
+              (this.identitySynced && !!this.credit) ||
+              this.accountSyncing),
+          create:
+            (this.newWallet && this.unusedAddress) ||
+            (this.existingWallet &&
+              !this.confirmedBalance &&
+              this.unusedAddress),
+        },
+        identity: {
+          current: !!this.walletPath && !!this.mnemonic,
+          select: this.existingWallet && this.haveIdentities,
+          provide:
+            (!!this.walletPath && !!this.mnemonic && !this.existingWallet) ||
+            (this.existingWallet && !this.haveIdentities),
+          create:
+            (this.newWallet || (this.existingWallet && !this.haveIdentities)) &&
+            this.confirmedBalance,
+        },
+        credit: {
+          current:
+            this.newWallet &&
+            (!this.existingWallet || (!this.credit && this.identitySynced)),
+          skip:
+            this.existingWallet &&
+            ((!!this.identitySynced && !!this.credit) ||
+              this.accountSyncing ||
+              this.identitySyncing ||
+              !this.inputIdentityId),
+          create:
+            (this.newWallet && this.identitySynced) ||
+            (this.existingWallet && !this.credit && this.identitySynced),
+        },
+        game: {
+          current:
+            !!this.walletPath &&
+            (!!this.identitySyncing || !!this.identitySynced) &&
+            !!this.identityId,
+          select: this.haveGames,
+          create:
+            !!this.walletPath &&
+            !!this.identitySynced &&
+            (this.newWallet || this.existingWallet),
+        },
+      };
+    },
+    haveGames() {
+      return keys(this.games).length > 0;
+    },
+    haveIdentities() {
+      return this.identities.length > 0;
+    },
     currentGame() {
       return this.game
         ? `${this.game?.title} — ${dayjs(this.game?.$createdAt).fromNow()}`
@@ -70,13 +134,15 @@ export default {
     ...mapGetters({
       connection: "Player/connection",
 
-      accountSyncing: "Player/accountSyncing",
       accountSynced: "Player/accountSynced",
+      accountSyncing: "Player/accountSyncing",
       confirmedBalance: "Player/confirmedBalance",
       unusedAddress: "Player/unusedAddress",
 
       identities: "Player/identities",
       identity: "Player/identity",
+      identitySynced: "Player/identitySynced",
+      identitySyncing: "Player/identitySyncing",
       credit: "Player/credit",
 
       game: "game",
@@ -86,24 +152,16 @@ export default {
   methods: {
     // Wallet step functions
     provideWallet() {
-      this.walletStep = ["provide"];
+      this.walletPath = "provide";
     },
     createWallet() {
-      this.walletStep = ["create"];
+      this.walletPath = "create";
 
-      this.newMnemonic = new Mnemonic().toString();
+      this.inputMnemonic = new Mnemonic().toString();
       this.updateMnemonic();
     },
-    completeWallet() {
-      this.walletStep.push("complete");
-
-      if (includes(this.walletStep, `create`)) {
-        this.balanceStep.push("current");
-        this.syncStep.push("skip");
-      }
-    },
     updateMnemonic() {
-      const value = this.newMnemonic;
+      const value = this.inputMnemonic;
       const valid = Mnemonic.isValid(value);
 
       if (valid) {
@@ -113,90 +171,49 @@ export default {
       }
     },
 
-    completeSync() {
-      this.syncStep.push("complete");
-
-      if (includes(this.walletStep, `provide`)) {
-        this.identityStep.push("current");
-      }
-    },
-
-    // Balance step functions
-    provideBalance() {
-      this.balanceStep = ["provide"];
-    },
-    createBalance() {
-      const { address } = this.unusedAddress;
-      this.address = address;
-
-      this.balanceStep = ["create"];
-    },
-    completeBalance() {
-      this.balanceStep.push("complete");
-      this.identityStep.push("current");
-    },
-
     // Identity step functions
-    provideIdentity() {
-      this.identityStep = ["provide"];
-    },
-    createIdentity() {
-      this.identityStep = ["create"];
-
-      this.registerIdentity();
-    },
-    completeIdentity() {
-      this.identityStep.push("complete");
-      this.balanceStep.push("current");
-    },
     async registerIdentity() {
       const identity = await this.register();
 
       console.log(identity);
     },
-    changeIdentityId(e) {
-      const value = e.target.value;
+    updateIdentityId() {
+      const value = this.inputIdentityId;
 
       this.setIdentityId(value);
     },
+    changeIdentityId(e) {
+      this.inputIdentityId = e.target.value;
 
-    // Credit step functions
-    provideCredit() {
-      this.creditStep = ["provide"];
-    },
-    createCredit() {
-      this.creditStep = ["create"];
-    },
-    completeCredit() {
-      this.creditStep.push("complete");
-      this.gameStep.push("current");
-    },
-
-    // Credit step functions
-    provideGame() {
-      this.gameStep = ["provide"];
-    },
-    createGame() {
-      this.gameStep = ["create"];
-    },
-    completeGame() {
-      this.gameStep.push("complete");
+      this.updateIdentityId();
     },
 
     // Game step functions
-    async newGame() {
+    async createGame() {
       await this.createNewGame({
         title: this.newGameTitle,
       });
+
+      const newGame = find(this.games, { title: this.newGameTitle });
+
+      if (newGame) {
+        await this.loadGame(newGame.$id);
+      }
     },
 
-    async updateGame(e) {
-      await this.loadGame(e.target.value);
+    async updateGame() {
+      const value = this.inputGameId;
+      await this.loadGame(value);
+    },
+    changeGame(e) {
+      this.inputGameId = e.target.value;
+      this.updateGame;
     },
 
     ...mapActions({
       setIdentityId: "setIdentityId",
       setMnemonic: "setMnemonic",
+      fetchGames: "fetchGames",
       loadGame: "loadGame",
       register: "Player/register",
       createNewGame: "Player/Games/create",
@@ -206,40 +223,10 @@ export default {
     includes,
   },
   watch: {
-    accountSynced(newSync) {
-      if (newSync && !this.accountSyncing) {
-        this.completeSync();
+    async identitySynced(newSynced) {
+      if (newSynced) {
+        this.fetchGames();
       }
-    },
-    confirmedBalance(newBalance) {
-      if (newBalance > 10000) {
-        this.provideBalance();
-        this.completeBalance();
-      }
-    },
-    identities(newIdentities) {
-      if (newIdentities.length === 1) {
-        this.setIdentityId(newIdentities[0]);
-        this.completeIdentity();
-      } else if (newIdentities.length > 1) {
-        this.provideIdentity();
-      }
-    },
-    credit(newCredit) {
-      if (newCredit > 100000) {
-        this.provideCredit();
-        this.completeCredit();
-      }
-    },
-    games(newGames) {
-      console.log(newGames);
-      // if (newGames.length === 1) {
-      //   this.setGameId(newGames[0]);
-      //   this.completeGame();
-      // } else if (newGames.length > 1){
-      //   this.provideGame();
-      // }
-      this.provideGame();
     },
   },
 };
@@ -255,7 +242,7 @@ export default {
         {{ $t("To get started, you‘re going to need a few things:") }}
       </p>
       <ol v-bem:steps>
-        <li v-bem:step.wallet="walletStep">
+        <li v-bem:step.wallet="steps.wallet">
           <div v-bem:stepContent>
             <p v-bem:stepInstruction>
               {{ $t("A mnemonic based Dash wallet") }} —
@@ -272,14 +259,14 @@ export default {
             </p>
 
             <input
-              v-if="includes(walletStep, `provide`) || mnemonic"
+              v-if="steps.wallet.provide || mnemonic"
               v-bem:input.mnemonic
-              v-model="newMnemonic"
+              v-model="inputMnemonic"
               :placeholder="$t('Enter your private mnemonic')"
               @input="updateMnemonic"
             />
 
-            <p v-bem:stepProceed v-if="includes(walletStep, `provide`)">
+            <p v-bem:stepProceed v-if="steps.wallet.provide">
               <template v-if="mnemonic">
                 {{ $t("This appears to be a valid mnemonic, we can continue") }}
               </template>
@@ -290,20 +277,9 @@ export default {
                   )
                 }}
               </template>
-
-              <button
-                v-if="mnemonic"
-                v-bem:button.complete
-                @click="completeWallet()"
-              >
-                {{ $t("Go to the next step") }}
-              </button>
             </p>
 
-            <p
-              v-bem:stepProceed
-              v-if="includes(walletStep, `create`) && mnemonic"
-            >
+            <p v-bem:stepProceed v-if="steps.wallet.create && mnemonic">
               {{
                 $t(
                   "You should copy this somewhere safe and treat it as securely as you would a password"
@@ -312,60 +288,19 @@ export default {
               {{
                 $t("But don’t worry, you’ll be given a chance to do this later")
               }}
-
-              <button v-bem:button.complete @click="completeWallet()">
-                {{ $t("Go to the next step") }}
-              </button>
             </p>
           </div>
         </li>
 
-        <li v-bem:step.sync="syncStep">
-          <div v-bem:stepContent>
-            <p v-bem:stepInstruction>
-              {{ $t("A synchronised connection to the Dash network") }}
-              <template v-if="accountSyncing">
-                —
-                <button v-bem:button="{ loading: accountSyncing }">
-                  {{ $t("Synchronising") }}
-                </button>
-              </template>
-            </p>
-
-            <p v-if="accountSyncing" v-bem:stepProceed>
-              {{
-                $t(
-                  "This step can take upwards of 5 minutes so please sit back and be patient"
-                )
-              }}
-            </p>
-
-            <p v-else-if="!accountSyncing && accountSynced" v-bem:stepProceed>
-              {{
-                $t(
-                  "Account successfully synchronised most recently at {accountSynced}",
-                  {
-                    accountSynced,
-                  }
-                )
-              }}
-            </p>
-          </div>
-        </li>
-
-        <li v-bem:step.balance="balanceStep">
+        <li v-bem:step.balance="steps.balance">
           <div v-bem:stepContent>
             <p v-bem:stepInstruction>
               {{ $t("An existing balance in that wallet") }}
-              <template
-                v-if="
-                  includes(walletStep, `create`) ||
-                  (accountSynced && !confirmedBalance)
-                "
-              >
+
+              <template v-if="accountSyncing">
                 —
-                <button v-bem:button.create @click="createBalance()">
-                  {{ $t("Help me add some") }}
+                <button v-bem:button.loading>
+                  {{ $t("Synchronising account") }}
                 </button>
               </template>
             </p>
@@ -378,7 +313,7 @@ export default {
               }}
             </p>
 
-            <p v-bem:stepProceed v-if="!confirmedBalance && unusedAddress">
+            <p v-bem:stepProceed v-if="steps.balance.create">
               <i18n-t
                 v-if="connection.network === `testnet`"
                 keypath="You can fill up your test account by visiting {link} and entering {address} where prompted"
@@ -417,54 +352,73 @@ export default {
           </div>
         </li>
 
-        <li v-bem:step.identity="identityStep">
+        <li v-bem:step.identity="steps.identity">
           <div v-bem:stepContent>
             <p v-bem:stepInstruction>
               {{ $t("A registered Dash network identity") }}
-              <template
-                v-if="
-                  includes(walletStep, `create`) ||
-                  (identitySynced && !identity)
-                "
-              >
-                —
 
-                <button v-bem:button.create @click="createIdentity()">
-                  {{ $t("Help me register") }}
+              <template v-if="accountSyncing">
+                —
+                <button v-bem:button.loading>
+                  {{ $t("Synchronising account") }}
+                </button>
+              </template>
+              <template v-if="identitySyncing">
+                —
+                <button v-bem:button.loading>
+                  {{ $t("Synchronising identity") }}
                 </button>
               </template>
             </p>
 
-            <select
-              v-bem:input
-              v-if="!accountSyncing && accountSynced"
-              @input="changeIdentityId"
-            >
-              <option :selected="!identityId">—</option>
-              <option
-                v-for="identity in identities"
-                :value="identity"
-                :selected="identity === identityId"
-                :key="identity"
-              >
-                {{ identity }}
-              </option>
-            </select>
+            <p v-bem:stepProceed v-if="steps.identity.create">
+              {{
+                $t(
+                  "You‘ll need to create a new identity to interact with the Dash network"
+                )
+              }}
+              <button v-bem:button.create @click="createIdentity()">
+                {{ $t("Help me register") }}
+              </button>
+            </p>
+
+            <p v-bem:stepProceed v-if="steps.identity.select">
+              <select v-bem:input @input="changeIdentityId">
+                <option :selected="!identityId">—</option>
+                <option
+                  v-for="identity in identities"
+                  :value="identity"
+                  :selected="identity === identityId"
+                  :key="identity"
+                >
+                  {{ identity }}
+                </option>
+              </select>
+            </p>
+
+            <p v-bem:stepProceed v-if="steps.identity.provide">
+              <input
+                v-bem:input.identityId
+                v-model="inputIdentityId"
+                :placeholder="
+                  $t(
+                    'Enter your identity if you already know it, otherwise wait a moment and they’ll be loaded'
+                  )
+                "
+                @input="updateIdentityId"
+              />
+            </p>
           </div>
         </li>
 
-        <li v-bem:step.credit="creditStep">
+        <li v-bem:step.credit="steps.credit">
           <div v-bem:stepContent>
             <p v-bem:stepInstruction>
               {{ $t("Storage credits for your Dash identity") }}
-              <template
-                v-if="
-                  includes(walletStep, `create`) || (identitySynced && !credit)
-                "
-              >
+              <template v-if="identitySyncing">
                 —
-                <button v-bem:button.create @click="createCredit()">
-                  {{ $t("Help me top up") }}
+                <button v-bem:button.loading>
+                  {{ $t("Synchronising identity") }}
                 </button>
               </template>
             </p>
@@ -476,54 +430,60 @@ export default {
                 })
               }}
             </p>
+
+            <p v-bem:stepProceed v-if="steps.credit.create">
+              {{
+                $t("You’ll need to convert some dash to credits for storage")
+              }}
+
+              <button v-bem:button.create @click="createCredit()">
+                {{ $t("Help me top up") }}
+              </button>
+            </p>
           </div>
         </li>
 
-        <li v-bem:step.game="gameStep">
+        <li v-bem:step.game="steps.game">
           <div v-bem:stepContent>
             <p v-bem:stepInstruction>
               {{ $t("A new or existing game to play") }}
-              <template
-                v-if="
-                  includes(walletStep, `create`) || (identitySynced && !game)
-                "
-              >
+              <template v-if="identitySyncing">
                 —
-
-                <button v-bem:button.provide @click="provideGame()">
-                  {{ $t("I’ll choose one") }}
-                </button>
-
-                {{ $t("or") }}
-
-                <button v-bem:button.create @click="createGame()">
-                  {{ $t("Start a new one") }}
+                <button v-bem:button.loading>
+                  {{ $t("Synchronising identity") }}
                 </button>
               </template>
             </p>
 
-            <select
-              v-bem:input
-              v-if="includes(gameStep, `provide`)"
-              @input="updateGame"
-            >
-              <option :selected="!gameId">—</option>
-              <option
-                v-for="(game, gId) in games"
-                :value="gId"
-                :selected="gameId === gId"
-                :key="gId"
-              >
-                {{ `${game.title}  — ${dayjs(game.$createdAt).fromNow()}` }}
-              </option>
-            </select>
+            <p v-bem:stepProceed v-if="steps.game.select">
+              <template v-if="steps.game.select">
+                <select v-bem:input @input="changeGame">
+                  <option :selected="!gameId">—</option>
+                  <option
+                    v-for="(game, gId) in games"
+                    :value="gId"
+                    :selected="gameId === gId"
+                    :key="gId"
+                  >
+                    {{ `${game.title}  — ${dayjs(game.$createdAt).fromNow()}` }}
+                  </option>
+                </select>
 
-            <input
-              v-if="includes(gameStep, `create`)"
-              v-bem:input
-              v-model="newGameTitle"
-              :placeholder="$t('Enter a catchy title')"
-            />
+                <span>{{ $t("or") }}</span>
+              </template>
+            </p>
+            <p v-bem:stepProceed v-if="steps.game.create">
+              <input
+                v-bem:input
+                v-model="inputGameTitle"
+                @input="updateGame"
+                :placeholder="$t('Enter a title for a new game')"
+              />
+
+              <button v-bem:button.create @click="createGame()">
+                {{ $t("Start a new one") }}
+              </button>
+            </p>
           </div>
         </li>
       </ol>
@@ -591,6 +551,11 @@ export default {
       // > span {
       //   @apply flex-shrink;
       // }
+      > input {
+        @apply flex-grow;
+        @apply w-auto;
+        @apply mr-2;
+      }
 
       > button {
         @apply flex-shrink-0;
