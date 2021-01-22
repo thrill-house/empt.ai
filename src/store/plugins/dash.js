@@ -1,4 +1,5 @@
 import Dash from "dash";
+import localforage from "localforage";
 import {
   each,
   head,
@@ -59,17 +60,31 @@ export default (config) => {
       state: () => ({
         // Pass in the remaining options as our initial state
         options: pluginOptions,
+        account: {
+          get: null,
+          init: null,
+          synced: null,
+          syncing: null,
+        },
+        identity: {
+          get: null,
+          init: null,
+          synced: null,
+          syncing: null,
+        },
       }),
       getters: {
         options: (state) => {
           return state.options;
         },
+
         // Connection is dynamically created on demand and uses values from the local state.
         connection: (state) => {
           return {
             network: state.options.network,
             wallet: {
               mnemonic: state.options.mnemonic,
+              adapter: localforage,
             },
             apps: {
               Contract: {
@@ -78,65 +93,97 @@ export default (config) => {
             },
           };
         },
+
         // Client uses the dynamic connection details above
         client: (state, getters) => {
           return new Dash.Client(getters.connection);
         },
-        accountSynced: (state) => {
-          if (state.accountSynced) {
-            return state.accountSynced;
+
+        // Account related getters
+        accountSynced: (state) => state?.account?.synced,
+        accountSyncing: (state) => state?.account?.syncing,
+        account: (state, getters) => {
+          if (
+            state?.account?.get &&
+            typeof state?.account?.get === "function" &&
+            getters.accountSynced
+          ) {
+            return state.account.get();
+          }
+
+          if (state?.account?.init && typeof state?.account?.init === "function") {
+            state.account.init();
           }
 
           return null;
         },
-        accountLoading: (state) => {
-          if (state.accountLoading) {
-            return state.accountLoading;
+        unusedAddress: (state, getters) => {
+          if (getters.account && getters.accountSynced) {
+            const { address } = getters.account.getUnusedAddress();
+            return address;
           }
 
           return null;
         },
-        account: (state) => {
-          if (state.accountSynced) {
-            console.debug(state.accountSynced);
+        confirmedBalance: (state, getters) => {
+          if (getters.account && getters.accountSynced) {
+            return getters.account.getConfirmedBalance();
           }
 
-          if (state.account && typeof state.account === "function") {
-            return state.account();
-          }
-
-          if (state.accountInit && typeof state.accountInit === "function") {
-            state.accountInit();
-          }
-
-          return null;
+          return 0;
         },
+        unconfirmedBalance: (state, getters) => {
+          if (getters.account && getters.accountSynced) {
+            return getters.account.getUnconfirmedBalance();
+          }
+
+          return 0;
+        },
+
+        // Identity related getters
+        identitySynced: (state) => state?.identity?.synced,
+        identitySyncing: (state) => state?.identity?.syncing,
         identities: (state, getters) => {
-          if (getters.account) {
+          if (getters.account && getters.accountSynced) {
             return getters.account.getIdentityIds();
           }
 
           return [];
         },
-        balance: (state, getters) => {
-          if (getters.account) {
-            return {
-              confirmed: getters.account.getConfirmedBalance(),
-              unconfirmed: getters.account.getUnconfirmedBalance(),
-            };
+        identity: (state, getters) => {
+          if (
+            state.identity.get &&
+            typeof state.identity.get === "function" &&
+            getters.identitySynced
+          ) {
+            return state.identity.get();
           }
 
-          return { confirmed: 0, unconfirmed: 0 };
+          if (
+            getters.options.ownerId &&
+            state.identity.init &&
+            typeof state.identity.init === "function"
+          ) {
+            state.identity.init();
+          }
+
+          return null;
         },
         credit: (state, getters) => {
-          if (getters.account) {
-            return {
-              confirmed: getters.account.getConfirmedBalance(),
-              unconfirmed: getters.account.getUnconfirmedBalance(),
-            };
+          if (getters.identity && getters.identitySynced) {
+            return getters.identity.getBalance();
           }
 
-          return { confirmed: 0, unconfirmed: 0 };
+          return 0;
+        },
+
+        // Utility getters
+        balance: (state, getters) => {
+          return {
+            confirmed: getters.confirmedBalance,
+            unconfirmed: getters.unconfirmedBalance,
+            credit: getters.credit,
+          };
         },
       },
       mutations: {
@@ -144,14 +191,28 @@ export default (config) => {
           state.account = payload;
         },
         accountInit: (state, payload) => {
-          state.accountInit = payload;
+          state.account = { ...state.account, init: payload };
         },
         accountSynced: (state, payload) => {
-          state.accountSynced = payload;
+          state.account = { ...state.account, synced: payload };
         },
-        accountLoading: (state, payload) => {
-          state.accountLoading = payload;
+        accountSyncing: (state, payload) => {
+          state.account = { ...state.account, syncing: payload };
         },
+
+        identity: (state, payload) => {
+          state.identity = payload;
+        },
+        identityInit: (state, payload) => {
+          state.identity = { ...state.identity, init: payload };
+        },
+        identitySynced: (state, payload) => {
+          state.identity = { ...state.identity, synced: payload };
+        },
+        identityLoading: (state, payload) => {
+          state.identity = { ...state.identity, syncing: payload };
+        },
+
         updateOptions: (state, payload) => {
           state.options = { ...state.options, ...payload };
         },
@@ -161,33 +222,61 @@ export default (config) => {
         init: async ({ commit, getters }) => {
           if (getters.options.mnemonic) {
             const accountInit = once(async () => {
-              commit("accountLoading", true);
+              commit("accountSyncing", true);
 
               const account = await getters.client.getWalletAccount();
 
-              account.on("FETCHED/UNCONFIRMED_TRANSACTION", () => {
+              account.on("TRANSACTION", () => {
                 commit("accountSynced", Date.now());
               });
 
-              account.on("FETCHED/CONFIRMED_TRANSACTION", () => {
-                commit("accountSynced", Date.now());
+              commit("account", {
+                get: () => account,
+                init: null,
+                synced: Date.now(),
+                syncing: false,
               });
-
-              commit("account", () => account);
-              commit("accountSynced", Date.now());
-
-              commit("accountInit", null);
-              commit("accountLoading", false);
             });
 
             commit("accountInit", accountInit);
           } else {
-            commit("account", null);
-            commit("accountSynced", null);
-
-            commit("accountInit", null);
-            commit("accountLoading", null);
+            commit("account", {
+              init: null,
+              get: null,
+              synced: null,
+              syncing: null,
+            });
           }
+
+          if (getters.options.ownerId) {
+            const identityInit = once(async () => {
+              commit("identityLoading", true);
+
+              const identity = await getters.client.platform.identities.get(
+                getters.options.ownerId
+              );
+
+              commit("identity", {
+                get: () => identity,
+                init: null,
+                synced: Date.now(),
+                syncing: false,
+              });
+            });
+
+            commit("identityInit", identityInit);
+          } else {
+            commit("identity", {
+              init: null,
+              get: null,
+              synced: null,
+              syncing: null,
+            });
+          }
+        },
+
+        register: async ({ getters }) => {
+          await getters.client.platform.identities.register();
         },
 
         // Helper to run the "all" action for every document module
