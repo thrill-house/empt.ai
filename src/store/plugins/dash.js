@@ -26,7 +26,7 @@ export default (config) => {
     network: "livenet",
     // The contract to sync with
     contractId: null,
-    // The owner to use for making changes
+    // The identity to use for making changes
     // Attempts to create, edit or delete documents will fail if not included
     identityId: null,
     // The mnemonic to use for making changes
@@ -100,22 +100,19 @@ export default (config) => {
         },
 
         // Account related getters
-        accountSynced: (state) => state?.account?.synced,
-        accountSyncing: (state) => state?.account?.syncing,
+        accountSynced: (state) => state?.accountSynced,
+        accountSyncing: (state) => state?.accountSyncing,
         account: (state, getters) => {
           if (
-            state?.account?.get &&
-            typeof state?.account?.get === "function" &&
+            state.account &&
+            typeof state.account === "function" &&
             getters.accountSynced
           ) {
-            return state.account.get();
+            return state.account();
           }
 
-          if (
-            state?.account?.init &&
-            typeof state?.account?.init === "function"
-          ) {
-            state.account.init();
+          if (state.accountInit && typeof state.accountInit === "function") {
+            state.accountInit();
           }
 
           return null;
@@ -144,8 +141,8 @@ export default (config) => {
         },
 
         // Identity related getters
-        identitySynced: (state) => state?.identity?.synced,
-        identitySyncing: (state) => state?.identity?.syncing,
+        identitySynced: (state) => state?.identitySynced,
+        identitySyncing: (state) => state?.identitySyncing,
         identities: (state, getters) => {
           if (getters.account && getters.accountSynced) {
             return getters.account.getIdentityIds();
@@ -155,19 +152,19 @@ export default (config) => {
         },
         identity: (state, getters) => {
           if (
-            state.identity.get &&
-            typeof state.identity.get === "function" &&
+            state.identity &&
+            typeof state.identity === "function" &&
             getters.identitySynced
           ) {
-            return state.identity.get();
+            return state.identity();
           }
 
           if (
             getters.options.identityId &&
-            state.identity.init &&
-            typeof state.identity.init === "function"
+            state.identityInit &&
+            typeof state.identityInit === "function"
           ) {
-            state.identity.init();
+            state.identityInit();
           }
 
           return null;
@@ -194,26 +191,26 @@ export default (config) => {
           state.account = payload;
         },
         accountInit: (state, payload) => {
-          state.account = { ...state.account, init: payload };
+          state.accountInit = payload;
         },
         accountSynced: (state, payload) => {
-          state.account = { ...state.account, synced: payload };
+          state.accountSynced = payload;
         },
         accountSyncing: (state, payload) => {
-          state.account = { ...state.account, syncing: payload };
+          state.accountSyncing = payload;
         },
 
         identity: (state, payload) => {
           state.identity = payload;
         },
         identityInit: (state, payload) => {
-          state.identity = { ...state.identity, init: payload };
+          state.identityInit = payload;
         },
         identitySynced: (state, payload) => {
-          state.identity = { ...state.identity, synced: payload };
+          state.identitySynced = payload;
         },
-        identityLoading: (state, payload) => {
-          state.identity = { ...state.identity, syncing: payload };
+        identitySyncing: (state, payload) => {
+          state.identitySyncing = payload;
         },
 
         updateOptions: (state, payload) => {
@@ -233,48 +230,40 @@ export default (config) => {
                 commit("accountSynced", Date.now());
               });
 
-              commit("account", {
-                get: () => account,
-                init: null,
-                synced: Date.now(),
-                syncing: false,
-              });
+              commit("account", () => account);
+              commit("accountInit", null);
+              commit("accountSynced", Date.now());
+              commit("accountSyncing", false);
             });
 
             commit("accountInit", accountInit);
           } else {
-            commit("account", {
-              init: null,
-              get: null,
-              synced: null,
-              syncing: null,
-            });
+            commit("account", null);
+            commit("accountInit", null);
+            commit("accountSynced", null);
+            commit("accountSyncing", null);
           }
 
           if (getters.options.identityId) {
             const identityInit = once(async () => {
-              commit("identityLoading", true);
+              commit("identitySyncing", true);
 
               const identity = await getters.client.platform.identities.get(
                 getters.options.identityId
               );
 
-              commit("identity", {
-                get: () => identity,
-                init: null,
-                synced: Date.now(),
-                syncing: false,
-              });
+              commit("identity", () => identity);
+              commit("identityInit", null);
+              commit("identitySynced", Date.now());
+              commit("identitySyncing", false);
             });
 
             commit("identityInit", identityInit);
           } else {
-            commit("identity", {
-              init: null,
-              get: null,
-              synced: null,
-              syncing: null,
-            });
+            commit("identity", null);
+            commit("identityInit", null);
+            commit("identitySynced", null);
+            commit("identitySyncing", null);
           }
         },
 
