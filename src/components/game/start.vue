@@ -92,7 +92,8 @@ export default {
           provide:
             this.walletPath === "provide" &&
             ((!!this.mnemonic && !this.existingWallet) ||
-              (this.existingWallet && !this.haveIdentities)),
+              this.accountSyncing ||
+              this.haveIdentities),
           create:
             (this.newWallet || (this.existingWallet && !this.haveIdentities)) &&
             this.confirmedBalance,
@@ -183,8 +184,8 @@ export default {
     createWallet() {
       this.walletPath = "create";
 
-      // this.inputMnemonic = new Mnemonic().toString();
-      // this.updateMnemonic();
+      this.inputMnemonic = new Mnemonic().toString();
+      this.updateMnemonic();
     },
     updateMnemonic() {
       const value = this.inputMnemonic;
@@ -265,7 +266,6 @@ export default {
   <util-dialog :open="!done" ref="dialog">
     <template v-slot:title>
       {{ $t("Looks like you’re new around here?") }}
-      — {{ currentStep + 1 }}/{{ totalSteps }}
     </template>
     <template v-slot:default>
       <p v-bem:intro>
