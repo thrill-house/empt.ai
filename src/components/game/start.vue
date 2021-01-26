@@ -128,6 +128,9 @@ export default {
     totalSteps() {
       return keys(filter(this.steps, { skip: false, current: true })).length;
     },
+    dashBalance() {
+      return this.confirmedBalance ? this.confirmedBalance / 100000000 : null;
+    },
     haveGames() {
       return keys(this.games).length > 0;
     },
@@ -359,8 +362,8 @@ export default {
 
               <p v-bem:stepProceed v-if="confirmedBalance">
                 {{
-                  $t("Dash balance of {confirmedBalance} confirmed", {
-                    confirmedBalance,
+                  $t("Dash balance of {dashBalance} confirmed", {
+                    dashBalance,
                   })
                 }}
                 <button v-bem:button @click="nextStep()">
