@@ -1,6 +1,6 @@
 <script>
 import { mapState, mapGetters, mapActions } from "vuex";
-import { includes, keys } from "lodash-es";
+import { filter, includes, keys } from "lodash-es";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import Dash from "dash";
@@ -19,33 +19,35 @@ export default {
     UtilDialog,
   },
   data: () => ({
+    currentStep: 0,
     walletPath: null,
     inputMnemonic: null,
     inputIdentityId: null,
     inputGameId: null,
     inputGameTitle: null,
+    gamesSyncing: false,
     done: false,
   }),
   created() {
-    if (this.mnemonic) {
-      this.inputMnemonic = this.mnemonic;
-      this.walletPath = "provide";
-      this.updateMnemonic();
-    }
+    if (this.mnemonic && this.identityId && this.gameId) {
+      this.done = true;
+    } else {
+      if (this.mnemonic) {
+        this.inputMnemonic = this.mnemonic;
+        this.walletPath = "provide";
+        this.updateMnemonic();
+      }
 
-    if (this.identityId) {
-      this.inputIdentityId = this.identityId;
-      this.updateIdentityId();
-    }
+      if (this.identityId) {
+        this.inputIdentityId = this.identityId;
+        this.updateIdentityId();
+      }
 
-    if (this.gameId) {
-      this.inputGameId = this.gameId;
-      this.updateGameId();
+      if (this.gameId) {
+        this.inputGameId = this.gameId;
+        this.updateGame();
+      }
     }
-
-    // if (this.mnemonic && this.identityId) {
-    //   this.done = true;
-    // }
   },
   computed: {
     existingWallet() {
@@ -63,6 +65,7 @@ export default {
       return {
         wallet: {
           current: true,
+          skip: false,
           provide: this.walletPath === "provide",
           create: this.walletPath === "create",
         },
@@ -84,10 +87,12 @@ export default {
         },
         identity: {
           current: !!this.walletPath && !!this.mnemonic,
+          skip: false,
           select: this.existingWallet && this.haveIdentities,
           provide:
-            (!!this.walletPath && !!this.mnemonic && !this.existingWallet) ||
-            (this.existingWallet && !this.haveIdentities),
+            this.walletPath === "provide" &&
+            ((!!this.mnemonic && !this.existingWallet) ||
+              (this.existingWallet && !this.haveIdentities)),
           create:
             (this.newWallet || (this.existingWallet && !this.haveIdentities)) &&
             this.confirmedBalance,
@@ -111,6 +116,7 @@ export default {
             !!this.walletPath &&
             (!!this.identitySyncing || !!this.identitySynced) &&
             !!this.identityId,
+          skip: false,
           select: this.haveGames,
           create:
             !!this.walletPath &&
@@ -118,6 +124,9 @@ export default {
             (this.newWallet || this.existingWallet),
         },
       };
+    },
+    totalSteps() {
+      return keys(filter(this.steps, { skip: false, current: true })).length;
     },
     haveGames() {
       return keys(this.games).length > 0;
@@ -150,6 +159,20 @@ export default {
     }),
   },
   methods: {
+    nextStep() {
+      if (this.currentStep < this.totalSteps - 1) {
+        this.currentStep++;
+      }
+    },
+    prevStep() {
+      if (this.currentStep > 0) {
+        this.currentStep--;
+      }
+    },
+    start() {
+      this.init();
+      this.done = true;
+    },
     // Wallet step functions
     provideWallet() {
       this.walletPath = "provide";
@@ -157,8 +180,8 @@ export default {
     createWallet() {
       this.walletPath = "create";
 
-      this.inputMnemonic = new Mnemonic().toString();
-      this.updateMnemonic();
+      // this.inputMnemonic = new Mnemonic().toString();
+      // this.updateMnemonic();
     },
     updateMnemonic() {
       const value = this.inputMnemonic;
@@ -207,13 +230,14 @@ export default {
     },
     changeGame(e) {
       this.inputGameId = e.target.value;
-      this.updateGame;
+      this.updateGame();
     },
 
     ...mapActions({
       setIdentityId: "setIdentityId",
       setMnemonic: "setMnemonic",
       fetchGames: "fetchGames",
+      init: "init",
       loadGame: "loadGame",
       register: "Player/register",
       createNewGame: "Player/Games/create",
@@ -225,7 +249,9 @@ export default {
   watch: {
     async identitySynced(newSynced) {
       if (newSynced) {
-        this.fetchGames();
+        this.gamesSyncing = true;
+        await this.fetchGames();
+        this.gamesSyncing = false;
       }
     },
   },
@@ -236,229 +262,280 @@ export default {
   <util-dialog :open="!done" ref="dialog">
     <template v-slot:title>
       {{ $t("Looks like you’re new around here?") }}
+      — {{ currentStep + 1 }}/{{ totalSteps }}
     </template>
     <template v-slot:default>
       <p v-bem:intro>
         {{ $t("To get started, you‘re going to need a few things:") }}
       </p>
-      <ol v-bem:steps>
-        <li v-bem:step.wallet="steps.wallet">
-          <div v-bem:stepContent>
-            <p v-bem:stepInstruction>
-              {{ $t("A mnemonic based Dash wallet") }} —
+      <div v-bem:content>
+        <ol
+          v-bem:steps
+          :style="{
+            transform: `translateX(${currentStep * (-100 / totalSteps)}%)`,
+            width: `${totalSteps * 100}%`,
+          }"
+        >
+          <li v-bem:step.wallet="steps.wallet">
+            <div v-bem:stepContent>
+              <p v-bem:stepInstruction>
+                {{ $t("A mnemonic based Dash wallet") }} —
 
-              <button v-bem:button.provide @click="provideWallet()">
-                {{ $t("I have one") }}
-              </button>
+                <button v-bem:button.provide @click="provideWallet()">
+                  {{ $t("I have one") }}
+                </button>
 
-              {{ $t("or") }}
+                {{ $t("or") }}
 
-              <button v-bem:button.create @click="createWallet()">
-                {{ $t("Create one for me") }}
-              </button>
-            </p>
+                <button v-bem:button.create @click="createWallet()">
+                  {{ $t("Create one for me") }}
+                </button>
+              </p>
 
-            <input
-              v-if="steps.wallet.provide || mnemonic"
-              v-bem:input.mnemonic
-              v-model="inputMnemonic"
-              :placeholder="$t('Enter your private mnemonic')"
-              @input="updateMnemonic"
-            />
+              <input
+                v-if="steps.wallet.provide || mnemonic"
+                v-bem:input.mnemonic
+                v-model="inputMnemonic"
+                :placeholder="$t('Enter your private mnemonic')"
+                @input="updateMnemonic"
+              />
 
-            <p v-bem:stepProceed v-if="steps.wallet.provide">
-              <template v-if="mnemonic">
-                {{ $t("This appears to be a valid mnemonic, we can continue") }}
-              </template>
-              <template v-else>
+              <p v-bem:stepProceed v-if="steps.wallet.provide">
+                <template v-if="mnemonic">
+                  {{
+                    $t("This appears to be a valid mnemonic, we can continue")
+                  }}
+                </template>
+                <template v-else>
+                  {{
+                    $t(
+                      "Note that this is NEVER stored anywhere but in your browser"
+                    )
+                  }}
+                </template>
+                <button v-if="mnemonic" v-bem:button @click="nextStep()">
+                  {{ $t("Next step") }}
+                </button>
+              </p>
+
+              <p v-bem:stepProceed v-if="steps.wallet.create && mnemonic">
                 {{
                   $t(
-                    "Note that this is NEVER stored anywhere but in your browser"
+                    "You should copy this somewhere safe and treat it as securely as you would a password"
+                  )
+                }}<br />
+                {{
+                  $t(
+                    "But don’t worry, you’ll be given a chance to do this later"
                   )
                 }}
-              </template>
-            </p>
-
-            <p v-bem:stepProceed v-if="steps.wallet.create && mnemonic">
-              {{
-                $t(
-                  "You should copy this somewhere safe and treat it as securely as you would a password"
-                )
-              }}<br />
-              {{
-                $t("But don’t worry, you’ll be given a chance to do this later")
-              }}
-            </p>
-          </div>
-        </li>
-
-        <li v-bem:step.balance="steps.balance">
-          <div v-bem:stepContent>
-            <p v-bem:stepInstruction>
-              {{ $t("An existing balance in that wallet") }}
-
-              <template v-if="accountSyncing">
-                —
-                <button v-bem:button.loading>
-                  {{ $t("Synchronising account") }}
+                <button v-bem:button @click="nextStep()">
+                  {{ $t("Next step") }}
                 </button>
-              </template>
-            </p>
+              </p>
+            </div>
+          </li>
 
-            <p v-bem:stepProceed v-if="confirmedBalance">
-              {{
-                $t("Dash balance of {confirmedBalance} confirmed", {
-                  confirmedBalance,
-                })
-              }}
-            </p>
+          <li v-bem:step.balance="steps.balance">
+            <div v-bem:stepContent>
+              <p v-bem:stepInstruction>
+                {{ $t("An existing balance in that wallet") }}
 
-            <p v-bem:stepProceed v-if="steps.balance.create">
-              <i18n-t
-                v-if="connection.network === `testnet`"
-                keypath="You can fill up your test account by visiting {link} and entering {address} where prompted"
-                tag="span"
-              >
-                <template #link>
-                  <a
-                    v-bem:link
-                    href="http://testnet-452625393.us-west-2.elb.amazonaws.com/"
-                    target="_blank"
-                    >{{ $t("The Testnet Faucet") }}</a
-                  >
+                <template v-if="accountSyncing">
+                  —
+                  <button v-bem:button.loading>
+                    {{ $t("Synchronising account") }}
+                  </button>
                 </template>
-                <template #address>
-                  <code v-bem:code>{{ unusedAddress }}</code>
-                </template>
-              </i18n-t>
-              <i18n-t
-                v-else
-                keypath="You can purchase Dash from {link} which we’ll receive a small referral bonus for, from there you should transfer some Dash to {address}"
-                tag="span"
-              >
-                <template #link>
-                  <a
-                    v-bem:link
-                    href="https://www.coinbase.com/join/600421d73a0f8815d128ec4b"
-                    target="_blank"
-                    >{{ $t("Coinbase") }}</a
-                  >
-                </template>
-                <template #address>
-                  <code v-bem:code>{{ unusedAddress }}</code>
-                </template>
-              </i18n-t>
-            </p>
-          </div>
-        </li>
+              </p>
 
-        <li v-bem:step.identity="steps.identity">
-          <div v-bem:stepContent>
-            <p v-bem:stepInstruction>
-              {{ $t("A registered Dash network identity") }}
-
-              <template v-if="accountSyncing">
-                —
-                <button v-bem:button.loading>
-                  {{ $t("Synchronising account") }}
-                </button>
-              </template>
-              <template v-if="identitySyncing">
-                —
-                <button v-bem:button.loading>
-                  {{ $t("Synchronising identity") }}
-                </button>
-              </template>
-            </p>
-
-            <p v-bem:stepProceed v-if="steps.identity.create">
-              {{
-                $t(
-                  "You‘ll need to create a new identity to interact with the Dash network"
-                )
-              }}
-              <button v-bem:button.create @click="createIdentity()">
-                {{ $t("Help me register") }}
-              </button>
-            </p>
-
-            <p v-bem:stepProceed v-if="steps.identity.select">
-              <select v-bem:input @input="changeIdentityId">
-                <option :selected="!identityId">—</option>
-                <option
-                  v-for="identity in identities"
-                  :value="identity"
-                  :selected="identity === identityId"
-                  :key="identity"
-                >
-                  {{ identity }}
-                </option>
-              </select>
-            </p>
-
-            <p v-bem:stepProceed v-if="steps.identity.provide">
-              <input
-                v-bem:input.identityId
-                v-model="inputIdentityId"
-                :placeholder="
+              <p v-bem:stepProceed v-if="!unusedAddress">
+                {{
                   $t(
-                    'Enter your identity if you already know it, otherwise wait a moment and they’ll be loaded'
+                    "Now synchronising your wallet account, please be patient as it can take up to five minutes if you’ve never done this before"
                   )
-                "
-                @input="updateIdentityId"
-              />
-            </p>
-          </div>
-        </li>
+                }}
+              </p>
 
-        <li v-bem:step.credit="steps.credit">
-          <div v-bem:stepContent>
-            <p v-bem:stepInstruction>
-              {{ $t("Storage credits for your Dash identity") }}
-              <template v-if="identitySyncing">
-                —
-                <button v-bem:button.loading>
-                  {{ $t("Synchronising identity") }}
+              <p v-bem:stepProceed v-if="confirmedBalance">
+                {{
+                  $t("Dash balance of {confirmedBalance} confirmed", {
+                    confirmedBalance,
+                  })
+                }}
+                <button v-bem:button @click="nextStep()">
+                  {{ $t("Next step") }}
                 </button>
-              </template>
-            </p>
+              </p>
 
-            <p v-bem:stepProceed v-if="credit">
-              {{
-                $t("Possession of {credit} credits confirmed", {
-                  credit,
-                })
-              }}
-            </p>
+              <p v-bem:stepProceed v-if="steps.balance.create">
+                <i18n-t
+                  v-if="connection.network === `testnet`"
+                  keypath="You can fill up your test account by visiting {link} and entering {address} where prompted"
+                  tag="span"
+                >
+                  <template #link>
+                    <a
+                      v-bem:link
+                      href="http://testnet-452625393.us-west-2.elb.amazonaws.com/"
+                      target="_blank"
+                      >{{ $t("The Testnet Faucet") }}</a
+                    >
+                  </template>
+                  <template #address>
+                    <code v-bem:code>{{ unusedAddress }}</code>
+                  </template>
+                </i18n-t>
+                <i18n-t
+                  v-else
+                  keypath="You can purchase Dash from {link} which we’ll receive a small referral bonus for, from there you should transfer some Dash to {address}"
+                  tag="span"
+                >
+                  <template #link>
+                    <a
+                      v-bem:link
+                      href="https://www.coinbase.com/join/600421d73a0f8815d128ec4b"
+                      target="_blank"
+                      >{{ $t("Coinbase") }}</a
+                    >
+                  </template>
+                  <template #address>
+                    <code v-bem:code>{{ unusedAddress }}</code>
+                  </template>
+                </i18n-t>
+              </p>
+            </div>
+          </li>
 
-            <p v-bem:stepProceed v-if="steps.credit.create">
-              {{
-                $t("You’ll need to convert some dash to credits for storage")
-              }}
+          <li v-bem:step.identity="steps.identity">
+            <div v-bem:stepContent>
+              <p v-bem:stepInstruction>
+                {{ $t("A registered Dash network identity") }}
 
-              <button v-bem:button.create @click="createCredit()">
-                {{ $t("Help me top up") }}
-              </button>
-            </p>
-          </div>
-        </li>
+                <template
+                  v-if="accountSyncing && !identitySyncing && !identitySynced"
+                >
+                  —
+                  <button v-bem:button.loading>
+                    {{ $t("Synchronising account") }}
+                  </button>
+                </template>
+                <template v-if="identitySyncing">
+                  —
+                  <button v-bem:button.loading>
+                    {{ $t("Synchronising identity") }}
+                  </button>
+                </template>
+              </p>
 
-        <li v-bem:step.game="steps.game">
-          <div v-bem:stepContent>
-            <p v-bem:stepInstruction>
-              {{ $t("A new or existing game to play") }}
-              <template v-if="identitySyncing">
-                —
-                <button v-bem:button.loading>
-                  {{ $t("Synchronising identity") }}
+              <p v-bem:stepProceed v-if="steps.identity.create">
+                {{
+                  $t(
+                    "You‘ll need to create a new identity to interact with the Dash network"
+                  )
+                }}
+                <button v-bem:button.create @click="registerIdentity()">
+                  {{ $t("Help me register") }}
                 </button>
-              </template>
-            </p>
+              </p>
 
-            <p v-bem:stepProceed v-if="steps.game.select">
-              <template v-if="steps.game.select">
-                <select v-bem:input @input="changeGame">
-                  <option :selected="!gameId">—</option>
+              <p v-bem:stepProceed v-if="steps.identity.select">
+                <select
+                  v-bem:input="{ placeholder: !identityId }"
+                  @input="changeIdentityId"
+                >
+                  <option :selected="!identityId" :value="null">
+                    {{ $t("Select an identity") }}
+                  </option>
+                  <option
+                    v-for="identity in identities"
+                    :value="identity"
+                    :selected="identity === identityId"
+                    :key="identity"
+                  >
+                    {{ identity }}
+                  </option>
+                </select>
+              </p>
+
+              <p v-bem:stepProceed v-if="steps.identity.provide">
+                <input
+                  v-bem:input.identityId
+                  v-model="inputIdentityId"
+                  :placeholder="
+                    $t(
+                      'Enter your identity if you already know it, otherwise wait a moment and they’ll be loaded'
+                    )
+                  "
+                  @input="updateIdentityId"
+                />
+              </p>
+
+              <p v-bem:stepProceed v-if="identitySynced">
+                {{ $t("Identity was successfully synced, we can proceed") }}
+                <button v-if="identitySynced" v-bem:button @click="nextStep()">
+                  {{ $t("Next step") }}
+                </button>
+              </p>
+            </div>
+          </li>
+
+          <li v-bem:step.credit="steps.credit">
+            <div v-bem:stepContent>
+              <p v-bem:stepInstruction>
+                {{ $t("Storage credits for your Dash identity") }}
+                <template v-if="identitySyncing">
+                  —
+                  <button v-bem:button.loading>
+                    {{ $t("Synchronising identity") }}
+                  </button>
+                </template>
+              </p>
+
+              <p v-bem:stepProceed v-if="credit">
+                {{
+                  $t("Possession of {credit} credits confirmed", {
+                    credit,
+                  })
+                }}
+                <button v-bem:button @click="nextStep()">
+                  {{ $t("Next step") }}
+                </button>
+              </p>
+
+              <p v-bem:stepProceed v-if="steps.credit.create">
+                {{
+                  $t("You’ll need to convert some dash to credits for storage")
+                }}
+
+                <button v-bem:button.create @click="createCredit()">
+                  {{ $t("Help me top up") }}
+                </button>
+              </p>
+            </div>
+          </li>
+
+          <li v-bem:step.game="steps.game">
+            <div v-bem:stepContent>
+              <p v-bem:stepInstruction>
+                {{ $t("A new or existing game to play") }}
+
+                <template v-if="identitySyncing || gamesSyncing">
+                  —
+                  <button v-bem:button.loading>
+                    {{ $t("Synchronising games") }}
+                  </button>
+                </template>
+              </p>
+
+              <p v-bem:stepProceed v-if="steps.game.select">
+                <select
+                  v-bem:input="{ placeholder: !gameId }"
+                  @input="changeGame"
+                >
+                  <option :selected="!gameId" :value="null">
+                    {{ $t("Select one of your existing games") }}
+                  </option>
                   <option
                     v-for="(game, gId) in games"
                     :value="gId"
@@ -468,25 +545,36 @@ export default {
                     {{ `${game.title}  — ${dayjs(game.$createdAt).fromNow()}` }}
                   </option>
                 </select>
+              </p>
 
-                <span>{{ $t("or") }}</span>
-              </template>
-            </p>
-            <p v-bem:stepProceed v-if="steps.game.create">
-              <input
-                v-bem:input
-                v-model="inputGameTitle"
-                @input="updateGame"
-                :placeholder="$t('Enter a title for a new game')"
-              />
+              <span v-if="steps.game.select && steps.game.create">
+                {{ $t("or") }}
+              </span>
 
-              <button v-bem:button.create @click="createGame()">
-                {{ $t("Start a new one") }}
-              </button>
-            </p>
-          </div>
-        </li>
-      </ol>
+              <p v-bem:stepProceed v-if="steps.game.create">
+                <input
+                  v-bem:input
+                  v-model="inputGameTitle"
+                  @input="updateGame"
+                  :placeholder="$t('Enter a title for a new game')"
+                />
+
+                <button v-bem:button.create @click="createGame()">
+                  {{ $t("Start a new one") }}
+                </button>
+              </p>
+
+              <p v-bem:stepProceed v-if="game">
+                {{ $t("Game was succesfully loaded, let’s go") }}
+
+                <button v-bem:button @click="start()">
+                  {{ $t("Start") }}
+                </button>
+              </p>
+            </div>
+          </li>
+        </ol>
+      </div>
     </template>
   </util-dialog>
 </template>
@@ -497,10 +585,26 @@ export default {
 .game-start {
   &__intro {
     @apply text-2xl;
+
+    &::after {
+      content: "...........................................................................................................................................";
+      @apply block w-full;
+      @apply underline text-opacity-0 text-light text-2xl;
+      text-decoration-color: theme("colors.navy") !important;
+      text-decoration-style: wavy;
+    }
+  }
+
+  &__content {
+    @apply overflow-hidden;
+    @apply w-auto;
+    @apply -mx-6;
   }
 
   &__steps {
+    @apply flex items-start;
     @apply mt-8;
+    @apply transition transition-transform duration-700;
   }
 
   &__step {
@@ -508,28 +612,11 @@ export default {
     @apply flex flex-wrap items-center;
     @apply text-xl;
     @apply overflow-hidden;
-    @apply pt-4;
+    @apply w-full;
+    @apply px-6;
 
-    & + & {
-      &::before {
-        content: "...........................................................................................................................................";
-        @apply block w-full;
-        @apply pb-10;
-        @apply underline text-opacity-0 text-light text-2xl;
-        text-decoration-color: theme("colors.navy") !important;
-        text-decoration-style: wavy;
-      }
-    }
-
-    &:not(&--current):not(&--create):not(&--provide) &-content {
-      @apply opacity-10;
-
-      &::before {
-        content: "";
-        @apply absolute inset-0;
-        @apply w-auto h-auto;
-        @apply z-10;
-      }
+    &:not(&--current):not(&--create):not(&--provide) {
+      @apply hidden;
     }
 
     &-content {
@@ -548,9 +635,6 @@ export default {
       @apply w-full;
       @apply text-sm;
 
-      // > span {
-      //   @apply flex-shrink;
-      // }
       > input {
         @apply flex-grow;
         @apply w-auto;
@@ -564,39 +648,6 @@ export default {
 
     &-instruction + &-proceed {
       @apply mt-4;
-    }
-
-    &--complete &-content {
-      @apply opacity-10;
-
-      &::before {
-        content: "";
-        @apply absolute inset-0;
-        @apply w-auto h-auto;
-        @apply z-10;
-      }
-    }
-
-    &--complete,
-    &--skip {
-      &::after {
-        content: "";
-        @apply absolute left-1/2 bottom-0;
-        @apply w-24 h-24;
-        @apply transform -translate-x-1/2;
-        @apply bg-sky;
-        @apply z-10;
-        @apply mask-confirmed;
-      }
-    }
-
-    // &--skip {
-    //   @apply hidden;
-    // }
-    &--skip {
-      &::after {
-        @apply mask-duration;
-      }
     }
   }
 
@@ -629,6 +680,10 @@ export default {
   &__input {
     @apply input;
     @apply my-4;
+
+    &--placeholder {
+      @apply input--placeholder;
+    }
   }
 
   &__link {
