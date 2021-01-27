@@ -16,7 +16,7 @@ export default {
         ? `${this.game?.title} — ${dayjs(this.game?.$createdAt).fromNow()}`
         : `—`;
     },
-    ...mapState(["ownerId", "mnemonic", "gameId", "games"]),
+    ...mapState(["identityId", "mnemonic", "gameId", "games"]),
     ...mapGetters({
       game: "game",
       models: "inventory/models",
@@ -34,7 +34,7 @@ export default {
     },
 
     ...mapActions({
-      setOwnerId: "setOwner",
+      setIdentityId: "setIdentityId",
       setMnemonic: "setMnemonic",
       loadGame: "loadGame",
       createGame: "Player/Games/create",
@@ -49,7 +49,7 @@ export default {
   <section v-bem>
     <div v-bem:form>
       <label v-bem:formLabel.owner>{{ $t("Owner ID") }}</label>
-      <input v-bem:formInput.owner :value="ownerId" @input="setOwnerId" />
+      <input v-bem:formInput.owner :value="identityId" @input="setIdentityId" />
 
       <label v-bem:formLabel.mnemonic>{{ $t("Mnemonic") }}</label>
       <input

@@ -1,5 +1,5 @@
 import { setup } from "bem-cn";
-import { kebabCase } from "lodash-es";
+import { isArray, kebabCase, stubTrue, times, zipObject } from "lodash-es";
 
 const block = setup({
   el: "__",
@@ -15,10 +15,19 @@ const bemClasses = (name, element, modifiers) => {
 };
 
 export default (el, { instance, arg, modifiers, value, oldValue }) => {
+  if (isArray(oldValue)) {
+    oldValue = zipObject(oldValue, times(oldValue.length, stubTrue));
+  }
+
+  if (isArray(value)) {
+    value = zipObject(value, times(value.length, stubTrue));
+  }
+
   const oldClasses = bemClasses(instance.$.type.name, arg, {
     ...modifiers,
     ...oldValue,
   });
+
   const newClasses = bemClasses(instance.$.type.name, arg, {
     ...modifiers,
     ...value,

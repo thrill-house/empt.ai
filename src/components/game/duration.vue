@@ -15,10 +15,11 @@ export default {
       return this.since.toISOString();
     },
     sinceHuman() {
+      const $t = this.$t;
       return this.since.format(
-        this.$t(
-          "Y [years], M [months], D [days], H [hrs], m [mins], s [secs] [since inception]"
-        )
+        `Y [${$t("years")}], M [${$t("months")}], D [${$t("days")}], H [${$t(
+          "hrs"
+        )}], m [${$t("mins")}], s [${$t("secs")}] [${$t("since inception")}]`
       );
     },
     ...mapGetters({

@@ -1,15 +1,17 @@
 
 <script>
+import GameStart from "../game/start";
 import GameSystem from "../game/system";
 
 export default {
   name: "app-main",
-  components: { GameSystem },
+  components: { GameStart, GameSystem },
 };
 </script>
 
 <template>
   <main v-bem>
+    <game-start />
     <game-system />
   </main>
 </template>

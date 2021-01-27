@@ -50,7 +50,7 @@ export default {
       return this.options.contractId;
     },
     identity() {
-      return this.options.ownerId;
+      return this.options.identityId;
     },
     mnemonic() {
       return this.options.mnemonic;
@@ -198,11 +198,11 @@ export default {
     random,
     ...mapActions({
       init: "init",
-      editSockets: "App/Sockets/bulkEdit",
-      editAbilities: "App/Abilities/bulkEdit",
-      editEras: "App/Eras/bulkEdit",
-      editTrees: "App/Trees/bulkEdit",
-      editEmotions: "App/Emotions/bulkEdit",
+      editSockets: "App/Sockets/multiple",
+      editAbilities: "App/Abilities/multiple",
+      editEras: "App/Eras/multiple",
+      editTrees: "App/Trees/multiple",
+      editEmotions: "App/Emotions/multiple",
     }),
   },
 };

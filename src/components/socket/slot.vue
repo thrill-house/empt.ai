@@ -154,7 +154,7 @@ export default {
   },
   watch: {
     slot() {
-      this.hover();
+      this.updateSlotValues();
     },
   },
 };

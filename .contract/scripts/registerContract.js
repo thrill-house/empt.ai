@@ -16,9 +16,11 @@ const registerContract = async () => {
   const identity = await platform.identities.get(
     process.env.VUE_APP_GAME_IDENTITY
   );
-  const documents = JSON.parse(fs.readFileSync(`${__dirname}/documents.json`));
+  const documents = JSON.parse(
+    fs.readFileSync(`${__dirname}/../documents.json`)
+  );
   const definitions = JSON.parse(
-    fs.readFileSync(`${__dirname}/definitions.json`)
+    fs.readFileSync(`${__dirname}/../definitions.json`)
   );
 
   const contract = await platform.contracts.create(documents, identity);

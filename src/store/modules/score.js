@@ -58,7 +58,7 @@ export default {
     // Elapsed since last transition
     currentElapsed: (state) =>
       Big(state.currentTime)
-        .minus(state.updateTime)
+        .minus(state.updateTime || Date.now() / 1000)
         .toFixed(0),
 
     // Resources
@@ -117,10 +117,9 @@ export default {
         slotted,
         (accum, slot) => {
           const model = rootGetters["inventory/model"](slot.modelId);
-          const feelings = mapValues(
-            keyBy(model.feelings, "emotionId"),
-            "value"
-          );
+          const feelings = model
+            ? mapValues(keyBy(model.feelings, "emotionId"), "value")
+            : [];
           mergeWith(
             accum,
             feelings,

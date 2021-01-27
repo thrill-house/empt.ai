@@ -16,6 +16,7 @@ export default {
   inject: ["id", "ability", "title"],
   data: () => ({
     selectedModelId: null,
+    open: false,
   }),
   computed: {
     loading() {
@@ -73,11 +74,11 @@ export default {
   },
   methods: {
     showDialog() {
-      this.$refs?.dialog?.show();
+      this.open = true;
     },
     cancelDialog() {
       this.selectedModelId = null;
-      this.$refs?.dialog?.close();
+      this.open = false;
     },
     select(id) {
       this.selectedModelId = id;
@@ -113,7 +114,7 @@ export default {
     />
     <progress v-bem:affordability :max="cost" :value="available" />
   </div>
-  <util-dialog ref="dialog">
+  <util-dialog :open="open" ref="dialog">
     <template v-slot:title>
       {{ $t("Select a {title} model to install", { title }) }}
     </template>

@@ -15,6 +15,10 @@
       @apply cursor-not-allowed;
     }
 
+    &-inline {
+      @apply inline-flex flex-row flex-nowrap items-center;
+    }
+
     &-icon::before {
       content: "";
       @apply inline-block;
@@ -83,9 +87,13 @@
     @apply border-b-2 border-light;
     @apply clip-2-corners;
 
-    &::placeholder {
+    &--placeholder {
       @apply italic font-normal;
       @apply text-light text-opacity-50;
+    }
+
+    &::placeholder {
+      @apply input--placeholder;
     }
 
     &-textarea {

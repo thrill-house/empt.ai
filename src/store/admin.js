@@ -5,13 +5,13 @@ import VuexDash from "./plugins/dash";
 export default createStore({
   state() {
     return {
-      ownerId: process.env.VUE_APP_GAME_IDENTITY,
+      identityId: process.env.VUE_APP_GAME_IDENTITY,
       mnemonic: process.env.VUE_APP_GAME_MNEMONIC,
     };
   },
   mutations: {
-    ownerId: (state, payload) => {
-      state.ownerId = payload;
+    identityId: (state, payload) => {
+      state.identityId = payload;
     },
     mnemonic: (state, payload) => {
       state.mnemonic = payload;
@@ -19,17 +19,17 @@ export default createStore({
   },
   actions: {
     init: async ({ dispatch, state }) => {
-      const { ownerId, mnemonic } = state;
+      const { identityId, mnemonic } = state;
 
-      if (ownerId && mnemonic) {
-        await dispatch("setOwnerId", ownerId);
+      if (identityId && mnemonic) {
+        await dispatch("setIdentityId", identityId);
         await dispatch("setMnemonic", mnemonic);
         await dispatch("App/all");
       }
     },
 
-    setOwnerId: async ({ commit }, payload) => {
-      commit("ownerId", payload);
+    setIdentityId: async ({ commit }, payload) => {
+      commit("identityId", payload);
     },
     setMnemonic: async ({ commit }, payload) => {
       commit("mnemonic", payload);
@@ -39,12 +39,12 @@ export default createStore({
     new VuexDash({
       network: process.env.VUE_APP_GAME_NETWORK,
       contractId: process.env.VUE_APP_GAME_CONTRACT,
-      ownerId: process.env.VUE_APP_GAME_IDENTITY,
+      identityId: process.env.VUE_APP_GAME_IDENTITY,
       documents: ["Sockets", "Abilities", "Trees", "Eras", "Emotions"],
       namespace: "App",
       subscribeToFrom: [
-        { ownerId: "ownerId", mnemonic: "mnemonic" },
-        ["ownerId", "mnemonic"],
+        { identityId: "identityId", mnemonic: "mnemonic" },
+        ["identityId", "mnemonic"],
       ],
     }),
   ],

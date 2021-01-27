@@ -10,8 +10,8 @@ import labels from "./modules/labels";
 export default createStore({
   state() {
     return {
-      ownerId: process.env.VUE_APP_PLAYER_IDENTITY,
-      mnemonic: process.env.VUE_APP_PLAYER_MNEMONIC,
+      identityId: null,
+      mnemonic: null,
       gameId: null,
       games: null,
     };
@@ -19,18 +19,18 @@ export default createStore({
   getters: {
     game: (state) => state?.games?.[state.gameId],
     allOwnerQuery: (state) => ({
-      where: [["$ownerId", "==", state.ownerId]],
+      where: [["$ownerId", "==", state.identityId]],
     }),
     allGameQuery: (state) => ({
       where: [
-        ["$ownerId", "==", state.ownerId],
+        ["$ownerId", "==", state.identityId],
         ["gameId", "==", state.gameId],
       ],
     }),
   },
   mutations: {
-    ownerId: (state, payload) => {
-      state.ownerId = payload;
+    identityId: (state, payload) => {
+      state.identityId = payload;
     },
     mnemonic: (state, payload) => {
       state.mnemonic = payload;
@@ -44,12 +44,13 @@ export default createStore({
   },
   actions: {
     init: async ({ dispatch, state }) => {
-      const { ownerId, mnemonic, gameId } = state;
-      dispatch("labels/init");
+      const { identityId, mnemonic, gameId } = state;
 
-      if (ownerId && mnemonic) {
-        await dispatch("setOwnerId", ownerId);
-        await dispatch("setMnemonic", mnemonic);
+      dispatch("labels/init");
+      dispatch("setMnemonic", mnemonic);
+      dispatch("setIdentityId", identityId);
+
+      if (identityId && mnemonic) {
         await dispatch("fetchGames");
 
         if (gameId) {
@@ -58,10 +59,10 @@ export default createStore({
       }
     },
 
-    setOwnerId: async ({ commit }, payload) => {
-      commit("ownerId", payload);
+    setIdentityId: ({ commit }, payload) => {
+      commit("identityId", payload);
     },
-    setMnemonic: async ({ commit }, payload) => {
+    setMnemonic: ({ commit }, payload) => {
       commit("mnemonic", payload);
     },
 
@@ -84,7 +85,7 @@ export default createStore({
     new VuexDash({
       network: process.env.VUE_APP_GAME_NETWORK,
       contractId: process.env.VUE_APP_GAME_CONTRACT,
-      ownerId: process.env.VUE_APP_GAME_IDENTITY,
+      identityId: process.env.VUE_APP_GAME_IDENTITY,
       documents: ["Abilities", "Sockets", "Trees", "Eras", "Emotions"],
       namespace: "App",
     }),
@@ -94,8 +95,12 @@ export default createStore({
       documents: ["Games"],
       namespace: "Player",
       subscribeToFrom: [
-        { ownerId: "ownerId", mnemonic: "mnemonic", allQuery: "allOwnerQuery" },
-        ["gameId", "ownerId", "mnemonic"],
+        {
+          identityId: "identityId",
+          mnemonic: "mnemonic",
+          allQuery: "allOwnerQuery",
+        },
+        ["identityId", "mnemonic"],
       ],
     }),
     new VuexDash({
@@ -104,12 +109,14 @@ export default createStore({
       documents: ["Models", "Slots", "Sources", "Trainings"],
       namespace: "Game",
       subscribeToFrom: [
-        { ownerId: "ownerId", mnemonic: "mnemonic", allQuery: "allGameQuery" },
-        ["ownerId", "mnemonic"],
+        {
+          identityId: "identityId",
+          mnemonic: "mnemonic",
+          allQuery: "allGameQuery",
+        },
+        ["gameId", "identityId", "mnemonic"],
       ],
     }),
-    new VuexPersistence({
-      storage: window.localStorage,
-    }).plugin,
+    new VuexPersistence().plugin,
   ],
 });

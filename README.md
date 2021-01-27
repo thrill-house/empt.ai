@@ -44,7 +44,7 @@ The project expects the following 3 environment variables to be set. The officia
 # Dash Platform contract identity
 VUE_APP_GAME_CONTRACT="HVNpipv3UyZapzGatqJ8tWCkrEQSqAJS4ZSwaSJcFHjM"
 
-# Dash Platform identity identity
+# Dash Platform identity ID
 VUE_APP_GAME_IDENTITY="EQ4ijQcbpwJnNWudTd1PRvUPL7Me6CBEBmQe8pcYtaUB"
 
 # One of "livenet", "testnet" or "evonet"
