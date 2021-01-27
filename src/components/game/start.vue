@@ -54,12 +54,12 @@ export default {
       return (
         this.walletPath === "provide" &&
         !this.newWallet &&
-        !!this.mnemonic &&
+        this.haveMnemonic &&
         !!this.accountSynced
       );
     },
     newWallet() {
-      return this.walletPath === "create" && !!this.mnemonic;
+      return this.walletPath === "create" && this.haveMnemonic;
     },
     steps() {
       return {
@@ -72,31 +72,32 @@ export default {
         balance: {
           current:
             this.newWallet &&
-            (!this.existingWallet || (!this.confirmedBalance && !!this.credit)),
+            (!this.existingWallet ||
+              (!this.confirmedBalance && this.haveCredit)),
           skip:
             this.existingWallet &&
             ((!this.credit && this.confirmedBalance > 10000) ||
               this.haveIdentities ||
-              (this.identitySynced && !!this.credit) ||
+              (this.identitySynced && this.haveCredit) ||
               this.accountSyncing),
           create:
-            (this.newWallet && this.unusedAddress) ||
+            (this.newWallet && this.haveUnusedAddress) ||
             (this.existingWallet &&
               !this.confirmedBalance &&
-              this.unusedAddress),
+              this.haveUnusedAddress),
         },
         identity: {
-          current: !!this.walletPath && !!this.mnemonic,
+          current: this.haveWalletPath && this.haveMnemonic,
           skip: false,
           select: this.existingWallet && this.haveIdentities,
           provide:
             this.walletPath === "provide" &&
-            ((!!this.mnemonic && !this.existingWallet) ||
+            ((this.haveMnemonic && !this.existingWallet) ||
               this.accountSyncing ||
               this.haveIdentities),
           create:
             (this.newWallet || (this.existingWallet && !this.haveIdentities)) &&
-            this.confirmedBalance,
+            this.haveConfirmedBalance,
         },
         credit: {
           current:
@@ -104,7 +105,7 @@ export default {
             (!this.existingWallet || (!this.credit && this.identitySynced)),
           skip:
             this.existingWallet &&
-            ((!!this.identitySynced && !!this.credit) ||
+            ((this.haveIdentitySynced && this.haveCredit) ||
               this.accountSyncing ||
               this.identitySyncing ||
               !this.inputIdentityId),
@@ -114,29 +115,51 @@ export default {
         },
         game: {
           current:
-            !!this.walletPath &&
-            (!!this.identitySyncing || !!this.identitySynced) &&
-            !!this.identityId,
+            this.haveWalletPath &&
+            (this.identitySyncing || this.haveIdentitySynced) &&
+            this.haveIdentityId,
           skip: false,
           select: this.haveGames,
           create:
-            !!this.walletPath &&
-            !!this.identitySynced &&
+            this.haveWalletPath &&
+            this.haveIdentitySynced &&
             (this.newWallet || this.existingWallet),
         },
       };
-    },
-    totalSteps() {
-      return keys(filter(this.steps, { skip: false, current: true })).length;
-    },
-    dashBalance() {
-      return this.confirmedBalance ? this.confirmedBalance / 100000000 : null;
     },
     haveGames() {
       return keys(this.games).length > 0;
     },
     haveIdentities() {
       return this.identities.length > 0;
+    },
+    haveMnemonic() {
+      return !!this.mnemonic;
+    },
+    haveWalletPath() {
+      return !!this.walletPath;
+    },
+    haveConfirmedBalance() {
+      return !!this.confirmedBalance;
+    },
+    haveCredit() {
+      return !!this.credit;
+    },
+    haveUnusedAddress() {
+      return !!this.unusedAddress;
+    },
+    haveIdentitySynced() {
+      return !!this.identitySynced;
+    },
+    haveIdentityId() {
+      return !!this.identityId;
+    },
+
+    totalSteps() {
+      return keys(filter(this.steps, { skip: false, current: true })).length;
+    },
+    dashBalance() {
+      return this.confirmedBalance ? this.confirmedBalance / 100000000 : null;
     },
     currentGame() {
       return this.game
@@ -156,6 +179,7 @@ export default {
       identity: "Player/identity",
       identitySynced: "Player/identitySynced",
       identitySyncing: "Player/identitySyncing",
+      identityRegistering: "Player/identityRegistering",
       credit: "Player/credit",
 
       game: "game",
@@ -251,6 +275,12 @@ export default {
     includes,
   },
   watch: {
+    async accountSynced(newSynced) {
+      if (newSynced && !this.confirmedBalance) {
+        this.walletPath = "create";
+        this.currentStep = 1;
+      }
+    },
     async identitySynced(newSynced) {
       if (newSynced) {
         this.gamesSyncing = true;
@@ -437,8 +467,12 @@ export default {
                     "You‘ll need to create a new identity to interact with the Dash network"
                   )
                 }}
-                <button v-bem:button.create @click="registerIdentity()">
-                  {{ $t("Help me register") }}
+                <button
+                  v-bem:button="{ loading: identityRegistering }"
+                  :disabled="identityRegistering"
+                  @click="registerIdentity()"
+                >
+                  {{ $t("Register identity") }}
                 </button>
               </p>
 
@@ -511,7 +545,7 @@ export default {
                   $t("You’ll need to convert some dash to credits for storage")
                 }}
 
-                <button v-bem:button.create @click="createCredit()">
+                <button v-bem:button @click="createCredit()">
                   {{ $t("Help me top up") }}
                 </button>
               </p>
@@ -562,7 +596,7 @@ export default {
                   :placeholder="$t('Enter a title for a new game')"
                 />
 
-                <button v-bem:button.create @click="createGame()">
+                <button v-bem:button @click="createGame()">
                   {{ $t("Start a new one") }}
                 </button>
               </p>
