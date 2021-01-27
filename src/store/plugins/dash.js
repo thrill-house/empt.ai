@@ -60,18 +60,19 @@ export default (config) => {
       state: () => ({
         // Pass in the remaining options as our initial state
         options: pluginOptions,
-        account: {
-          get: null,
-          init: null,
-          synced: null,
-          syncing: null,
-        },
-        identity: {
-          get: null,
-          init: null,
-          synced: null,
-          syncing: null,
-        },
+
+        // Account state defaults
+        account: null,
+        accountInit: null,
+        accountSynced: false,
+        accountSyncing: false,
+
+        // Identity state defaults
+        identity: null,
+        identityInit: null,
+        identitySynced: false,
+        identitySyncing: false,
+        identityRegistering: false,
       }),
       getters: {
         options: (state) => {
@@ -143,8 +144,13 @@ export default (config) => {
         // Identity related getters
         identitySynced: (state) => state?.identitySynced,
         identitySyncing: (state) => state?.identitySyncing,
+        identityRegistering: (state) => state?.identityRegistering,
         identities: (state, getters) => {
-          if (getters.account && getters.accountSynced) {
+          if (
+            getters.account &&
+            getters.accountSynced &&
+            (getters.identityRegistering || !getters.identityRegistering)
+          ) {
             return getters.account.getIdentityIds();
           }
 
@@ -187,6 +193,7 @@ export default (config) => {
         },
       },
       mutations: {
+        // Account related mutations
         account: (state, payload) => {
           state.account = payload;
         },
@@ -200,6 +207,7 @@ export default (config) => {
           state.accountSyncing = payload;
         },
 
+        // Identity related mutations
         identity: (state, payload) => {
           state.identity = payload;
         },
@@ -212,63 +220,101 @@ export default (config) => {
         identitySyncing: (state, payload) => {
           state.identitySyncing = payload;
         },
+        identityRegistering: (state, payload) => {
+          state.identityRegistering = payload;
+        },
 
+        // Update options
         updateOptions: (state, payload) => {
           state.options = { ...state.options, ...payload };
         },
       },
       actions: {
         // Init action, this will get run automatically when necessary to reinitialise the wallet account
-        init: async ({ commit, getters }) => {
+        init: async ({ commit, getters, dispatch }) => {
+          // Reset everything account related that might have been persisted
+          commit("account", null);
+          commit("accountSynced", false);
+          commit("accountSyncing", false);
+
+          // Reset everything identity related that might have been persisted
+          commit("identity", null);
+          commit("identitySynced", false);
+          commit("identitySyncing", false);
+          commit("identityRegistering", false);
+
+          // If we have a mnemonic, we can try to fetch an account
           if (getters.options.mnemonic) {
-            const accountInit = once(async () => {
-              commit("accountSyncing", true);
-
-              const account = await getters.client.getWalletAccount();
-
-              account.on("TRANSACTION", () => {
-                commit("accountSynced", Date.now());
-              });
-
-              commit("account", () => account);
-              commit("accountInit", null);
-              commit("accountSynced", Date.now());
-              commit("accountSyncing", false);
-            });
-
-            commit("accountInit", accountInit);
+            commit(
+              "accountInit",
+              once(() => dispatch("accountInit"))
+            );
           } else {
-            commit("account", null);
             commit("accountInit", null);
-            commit("accountSynced", null);
-            commit("accountSyncing", null);
           }
 
+          // If we have an identity ID, we can try to fetch the identity
           if (getters.options.identityId) {
-            const identityInit = once(async () => {
-              commit("identitySyncing", true);
-
-              const identity = await getters.client.platform.identities.get(
-                getters.options.identityId
-              );
-
-              commit("identity", () => identity);
-              commit("identityInit", null);
-              commit("identitySynced", Date.now());
-              commit("identitySyncing", false);
-            });
-
-            commit("identityInit", identityInit);
+            commit(
+              "identityInit",
+              once(() => dispatch("identityInit"))
+            );
           } else {
-            commit("identity", null);
             commit("identityInit", null);
-            commit("identitySynced", null);
-            commit("identitySyncing", null);
           }
         },
 
-        register: async ({ getters }) => {
-          await getters.client.platform.identities.register();
+        accountInit: async ({ commit, getters }) => {
+          commit("accountSyncing", true);
+
+          try {
+            const account = await getters.client.getWalletAccount();
+
+            account.on("TRANSACTION", () => {
+              commit("accountSynced", Date.now());
+            });
+
+            commit("account", () => account);
+            commit("accountInit", null);
+            commit("accountSynced", Date.now());
+          } catch (e) {
+            console.debug(e);
+          }
+
+          commit("accountSyncing", false);
+        },
+
+        identityInit: async ({ commit, getters }) => {
+          commit("identitySyncing", true);
+
+          try {
+            const identity = await getters.client.platform.identities.get(
+              getters.options.identityId
+            );
+
+            commit("identity", () => identity);
+            commit("identityInit", null);
+            commit("identitySynced", Date.now());
+          } catch (e) {
+            console.debug(e);
+          }
+
+          commit("identitySyncing", false);
+        },
+
+        register: async ({ commit, getters }) => {
+          commit("identityRegistering", true);
+          let register = null;
+
+          try {
+            register = await getters.client.platform.identities.register();
+          } catch (e) {
+            console.debug(e);
+          }
+
+          commit("identityRegistering", false);
+
+          return register;
         },
 
         // Helper to run the "all" action for every document module
@@ -363,7 +409,7 @@ export default (config) => {
 
                   return composed;
                 } catch (e) {
-                  console.log(e);
+                  console.debug(e);
                 }
               },
 
@@ -403,7 +449,7 @@ export default (config) => {
                     commit("remove", document);
                   });
                 } catch (e) {
-                  console.log(e);
+                  console.debug(e);
                 }
               },
 
@@ -416,7 +462,7 @@ export default (config) => {
 
                   commit("one", created);
                 } catch (e) {
-                  console.log(e);
+                  console.debug(e);
                 }
               },
 
@@ -431,7 +477,7 @@ export default (config) => {
 
                   commit("one", replaced);
                 } catch (e) {
-                  console.log(e);
+                  console.debug(e);
                 }
               },
 
@@ -444,58 +490,68 @@ export default (config) => {
 
                   commit("remove", deleted);
                 } catch (e) {
-                  console.log(e);
+                  console.debug(e);
                 }
               },
 
               // Broadcast a set of documents. Payload is an object with create, replace and or delete keys.
               broadcast: async ({ dispatch, rootGetters }, payload = {}) => {
-                const included = {
-                  create: [],
-                  replace: [],
-                  delete: [],
-                };
-                const remainder = {
-                  create: [],
-                  replace: [],
-                  delete: [],
-                };
-                let size = 0;
-                let limit = 0;
+                try {
+                  const included = {
+                    create: [],
+                    replace: [],
+                    delete: [],
+                  };
+                  const remainder = {
+                    create: [],
+                    replace: [],
+                    delete: [],
+                  };
 
-                each(payload, (items, key) => {
-                  each(items, (item) => {
-                    size +=
-                      new TextEncoder().encode(JSON.stringify(item)).length /
-                      1024;
-                    limit += 1;
+                  let size = 0;
+                  let limit = 0;
 
-                    if (size < 16 && limit <= 10) {
-                      included[key].push(item);
-                    } else {
-                      remainder[key].push(item);
-                    }
+                  each(payload, (items, key) => {
+                    each(items, (item) => {
+                      const encoded = new TextEncoder().encode(
+                        JSON.stringify(item)
+                      );
+
+                      size += encoded.length / 1024;
+                      limit += 1;
+
+                      if (size < 16 && limit <= 10) {
+                        included[key].push(item);
+                      } else {
+                        remainder[key].push(item);
+                      }
+                    });
                   });
-                });
 
-                if (
-                  included.create.length ||
-                  included.replace.length ||
-                  included.delete.length
-                ) {
-                  const client = rootGetters[`${namespace}/client`];
-                  const identity = await client.platform.identities.get(
-                    rootGetters[`${namespace}/options`].identityId
-                  );
-                  await client.platform.documents.broadcast(included, identity);
-                }
+                  if (
+                    included.create.length ||
+                    included.replace.length ||
+                    included.delete.length
+                  ) {
+                    const client = rootGetters[`${namespace}/client`];
+                    const identity = await client.platform.identities.get(
+                      rootGetters[`${namespace}/options`].identityId
+                    );
+                    await client.platform.documents.broadcast(
+                      included,
+                      identity
+                    );
+                  }
 
-                if (
-                  remainder.create.length ||
-                  remainder.replace.length ||
-                  remainder.delete.length
-                ) {
-                  await dispatch("broadcast", remainder);
+                  if (
+                    remainder.create.length ||
+                    remainder.replace.length ||
+                    remainder.delete.length
+                  ) {
+                    await dispatch("broadcast", remainder);
+                  }
+                } catch (e) {
+                  console.debug(e);
                 }
               },
             },
