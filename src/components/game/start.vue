@@ -226,16 +226,18 @@ export default {
     async registerIdentity() {
       const identity = await this.register();
 
-      console.log(identity);
+      if (identity) {
+        // TODO: Need to know what the ID of the identity that is returned here, then pass it to our local value and update
+        // this.inputIdentityId = identity.$id; // <-- Pseudo code
+        this.updateIdentityId();
+      }
     },
     updateIdentityId() {
       const value = this.inputIdentityId;
-
       this.setIdentityId(value);
     },
     changeIdentityId(e) {
       this.inputIdentityId = e.target.value;
-
       this.updateIdentityId();
     },
 
