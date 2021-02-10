@@ -32,11 +32,11 @@ export default {
 
 .game-score {
   @apply flex flex-col flex-wrap items-center;
-  @apply h-36 w-96 pt-4 mt-4 mb-2;
+  @apply h-32 w-96 pt-4 mt-4 mb-2;
 
   &__label {
     @apply text-xl font-bold uppercase;
-    @apply h-12 w-48 px-4 py-2;
+    @apply h-8 w-48 px-4 py-2;
     @apply bg-grout bg-grout-sky bg-opacity-50;
 
     &--resources {
@@ -47,7 +47,7 @@ export default {
         content: "";
         @apply absolute block top-0 left-0;
         @apply transform -translate-x-full;
-        @apply h-32 w-28;
+        @apply h-28 w-28;
         @apply bg-grout bg-grout-sky bg-opacity-50;
       }
     }
