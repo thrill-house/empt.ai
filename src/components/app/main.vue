@@ -2,11 +2,10 @@
 <script>
 import GameStart from "../game/start";
 import GameSystem from "../game/system";
-import GameWallet from "../game/wallet";
 
 export default {
   name: "app-main",
-  components: { GameStart, GameSystem, GameWallet },
+  components: { GameStart, GameSystem },
 };
 </script>
 
@@ -14,7 +13,6 @@ export default {
   <main v-bem>
     <game-start />
     <game-system />
-    <game-wallet />
   </main>
 </template>
 

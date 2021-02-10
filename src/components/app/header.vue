@@ -6,6 +6,7 @@ import EmotionProfile from "../emotion/profile";
 import GameScore from "../game/score";
 import GameDuration from "../game/duration";
 import GameInstalling from "../game/installing";
+import GameWallet from "../game/wallet";
 
 export default {
   name: "app-header",
@@ -14,6 +15,7 @@ export default {
     GameScore,
     GameDuration,
     GameInstalling,
+    GameWallet,
   },
   computed: {
     ...mapGetters({
@@ -49,6 +51,7 @@ export default {
       >
         <label v-bem:toggleLabel>{{ $t(`Show ability badges`) }}</label>
       </button>
+      <game-wallet />
     </div>
     <game-installing />
   </header>
@@ -63,7 +66,7 @@ export default {
   @apply z-10;
 
   &__values {
-    @apply flex flex-wrap  items-stretch;
+    @apply flex flex-wrap items-stretch;
     @apply w-96;
   }
 
