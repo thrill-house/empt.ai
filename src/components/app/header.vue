@@ -9,7 +9,12 @@ import GameInstalling from "../game/installing";
 
 export default {
   name: "app-header",
-  components: { EmotionProfile, GameScore, GameDuration, GameInstalling },
+  components: {
+    EmotionProfile,
+    GameScore,
+    GameDuration,
+    GameInstalling,
+  },
   computed: {
     ...mapGetters({
       getSlotView: "system/slotView",
