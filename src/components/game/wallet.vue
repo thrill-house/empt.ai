@@ -94,7 +94,6 @@ export default {
   &__sync {
     @apply relative;
     @apply flex items-center;
-    @apply ml-2;
     @apply text-xs;
 
     & + & {
