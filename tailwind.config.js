@@ -25,6 +25,9 @@ module.exports = {
       bandwidth: "#94e4f8",
       data: "#94e4f8",
       neutral: "#a6d3ff",
+      stop: "#DC2626",
+      wait: "#F59E0B",
+      go: "#34D399",
     },
 
     /* Font families */
