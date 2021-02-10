@@ -41,8 +41,8 @@ export default {
   @apply relative;
   @apply block self-stretch;
   @apply w-auto;
-  @apply py-2 pr-1;
-  @apply text-2xs italic;
+  @apply py-2 pr-2;
+  @apply text-xs italic;
   @apply bg-grout bg-grout-sky bg-opacity-50;
 
   &::before {
