@@ -131,13 +131,8 @@ export default {
     @apply ml-2;
     @apply border-none;
 
+    //Webkit styling
     &::-webkit-meter-bar {
-      @apply w-4 h-2;
-      @apply mr-1;
-      @apply border-none;
-      @apply rounded-sm;
-    }
-    &::-moz-meter-bar {
       @apply w-4 h-2;
       @apply mr-1;
       @apply border-none;
@@ -147,22 +142,39 @@ export default {
     &::-webkit-meter-optimum-value {
       @apply bg-go;
     }
-    &::-moz-meter-optimum {
-      @apply bg-go;
-    }
 
     &::-webkit-meter-suboptimum-value {
-      @apply bg-wait;
-    }
-    &::-moz-meter-sub-optimum {
       @apply bg-wait;
     }
 
     &::-webkit-meter-even-less-good-value {
       @apply bg-stop;
     }
-    &::-moz-meter-sub-sub-optimum {
-      @apply bg-stop;
+
+    //Mozilla styling
+    @supports (-moz-appearance: none) {
+      @apply w-4 h-2;
+      @apply mr-1;
+      @apply border-none;
+      @apply rounded-sm;
+      @apply bg-none bg-light;
+    }
+
+    &::-moz-meter-bar {
+      @apply border-none;
+      @apply rounded-sm;
+    }
+
+    &:-moz-meter-optimum::-moz-meter-bar {
+      @apply bg-none bg-go;
+    }
+
+    &:-moz-meter-sub-optimum::-moz-meter-bar {
+      @apply bg-none bg-wait;
+    }
+
+    &:-moz-meter-sub-sub-optimum::-moz-meter-bar {
+      @apply bg-none bg-stop;
     }
 
     &::after {
