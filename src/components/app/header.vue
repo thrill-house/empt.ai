@@ -73,11 +73,11 @@ export default {
   &__toggle {
     @apply flex items-center justify-center;
     @apply bg-grout bg-grout-sky bg-opacity-50;
-    @apply w-8 h-8 mx-2;
+    @apply w-6 h-6 mx-2;
 
     &::before {
       content: "";
-      @apply block w-4 h-4;
+      @apply block w-3.5 h-3.5;
       @apply bg-light;
     }
 

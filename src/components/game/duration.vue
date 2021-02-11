@@ -19,7 +19,7 @@ export default {
       return this.since.format(
         `Y [${$t("years")}], M [${$t("months")}], D [${$t("days")}], H [${$t(
           "hrs"
-        )}], m [${$t("mins")}], s [${$t("secs")}] [${$t("since inception")}]`
+        )}], m [${$t("mins")}], s [${$t("secs")}]`
       );
     },
     ...mapGetters({
@@ -31,7 +31,13 @@ export default {
 </script>
 
 <template>
-  <time v-bem :datetime="sinceDateTime">{{ sinceHuman }}</time>
+  <time
+    v-bem
+    :datetime="sinceDateTime"
+    :title="$t(`Time elapsed since inception`)"
+  >
+    {{ sinceHuman }}
+  </time>
 </template>
 
 <style lang="scss">
@@ -41,7 +47,7 @@ export default {
   @apply relative;
   @apply block self-stretch;
   @apply w-auto;
-  @apply py-2 pr-2;
+  @apply py-1 pr-2;
   @apply text-xs;
   @apply bg-grout bg-grout-sky bg-opacity-50;
 
@@ -49,7 +55,7 @@ export default {
     content: "";
     @apply absolute block top-0 left-0;
     @apply transform -translate-x-full;
-    @apply h-8 w-28;
+    @apply h-6 w-28;
     @apply bg-grout bg-grout-sky bg-opacity-50;
   }
 }
