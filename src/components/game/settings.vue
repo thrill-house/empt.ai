@@ -70,7 +70,7 @@ export default {
 <template>
   <section v-bem>
     <div v-bem:form>
-      <label v-bem:formLabel.owner>{{ $t("Identity ID") }}</label>
+      <label v-bem:formLabel.owner>{{ $t("Identity") }}</label>
       <input
         v-bem:formInput.owner
         v-model="inputIdentityId"
