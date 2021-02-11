@@ -2,6 +2,11 @@
 import { mapState, mapGetters, mapActions } from "vuex";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import Dash from "dash";
+
+const {
+  Core: { Mnemonic },
+} = Dash;
 
 dayjs.extend(relativeTime);
 
@@ -9,6 +14,8 @@ export default {
   name: "game-settings",
   data: () => ({
     newGameTitle: null,
+    inputMnemonic: null,
+    inputIdentityId: null,
   }),
   computed: {
     currentGame() {
@@ -23,6 +30,21 @@ export default {
     }),
   },
   methods: {
+    updateMnemonic() {
+      const value = this.inputMnemonic;
+      const valid = Mnemonic.isValid(value);
+
+      if (valid) {
+        this.setMnemonic(value);
+      } else if (this.mnemonic !== null) {
+        this.setMnemonic(null);
+      }
+    },
+    updateIdentityId() {
+      const value = this.inputIdentityId;
+      this.setIdentityId(value);
+    },
+
     async newGame() {
       await this.createGame({
         title: this.newGameTitle,
@@ -48,15 +70,19 @@ export default {
 <template>
   <section v-bem>
     <div v-bem:form>
-      <label v-bem:formLabel.owner>{{ $t("Owner ID") }}</label>
-      <input v-bem:formInput.owner :value="identityId" @input="setIdentityId" />
+      <label v-bem:formLabel.owner>{{ $t("Identity ID") }}</label>
+      <input
+        v-bem:formInput.owner
+        v-model="inputIdentityId"
+        @input="updateIdentityId"
+      />
 
       <label v-bem:formLabel.mnemonic>{{ $t("Mnemonic") }}</label>
       <input
         v-bem:formInput.mnemonic
-        :value="mnemonic"
-        @input="setMnemonic"
-        type="password"
+        v-model="inputMnemonic"
+        @input="updateMnemonic"
+        type="text"
       />
 
       <label v-bem:formLabel.game>{{ $t("Loaded game") }}</label>

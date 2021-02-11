@@ -6,10 +6,17 @@ import EmotionProfile from "../emotion/profile";
 import GameScore from "../game/score";
 import GameDuration from "../game/duration";
 import GameInstalling from "../game/installing";
+import GameWallet from "../game/wallet";
 
 export default {
   name: "app-header",
-  components: { EmotionProfile, GameScore, GameDuration, GameInstalling },
+  components: {
+    EmotionProfile,
+    GameScore,
+    GameDuration,
+    GameInstalling,
+    GameWallet,
+  },
   computed: {
     ...mapGetters({
       getSlotView: "system/slotView",
@@ -44,6 +51,7 @@ export default {
       >
         <label v-bem:toggleLabel>{{ $t(`Show ability badges`) }}</label>
       </button>
+      <game-wallet />
     </div>
     <game-installing />
   </header>
@@ -58,18 +66,18 @@ export default {
   @apply z-10;
 
   &__values {
-    @apply flex flex-wrap  items-stretch;
+    @apply flex flex-wrap items-stretch;
     @apply w-96;
   }
 
   &__toggle {
     @apply flex items-center justify-center;
     @apply bg-grout bg-grout-sky bg-opacity-50;
-    @apply w-8 h-8 mx-2;
+    @apply w-6 h-6 mx-2;
 
     &::before {
       content: "";
-      @apply block w-4 h-4;
+      @apply block w-3.5 h-3.5;
       @apply bg-light;
     }
 

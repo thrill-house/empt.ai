@@ -15,11 +15,17 @@ export default {
   methods: {
     show() {
       this.visible = true;
-      this.$el?.showModal();
+
+      if (typeof this.$el?.showModal === "function") {
+        this.$el?.showModal();
+      }
     },
     close() {
       this.visible = false;
-      this.$el?.close();
+
+      if (typeof this.$el?.close === "function") {
+        this.$el?.close();
+      }
     },
   },
   watch: {
