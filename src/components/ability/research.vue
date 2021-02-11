@@ -211,7 +211,7 @@ export default {
 
       <div v-bem:actions>
         <button
-          v-bem:actionsButton.confirm="{ valid }"
+          v-bem:actionsButton.confirm
           :disabled="!submittable"
           @click="research()"
         >

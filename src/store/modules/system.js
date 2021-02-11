@@ -122,6 +122,11 @@ export default {
         abilityId,
       }),
 
+    currentAbilitySlots: (state, getters) => (abilityId) =>
+      pickBy(getters.currentlySlotted(), {
+        abilityId,
+      }),
+
     // Get all slots, given a model
     socketTrainings: (state, getters) => (socketId) =>
       pickBy(getters.trained(), {

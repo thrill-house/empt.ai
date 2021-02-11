@@ -36,15 +36,15 @@ export default {
     modelKeys() {
       return keys(this.models);
     },
-    slotted() {
-      return this.getAbilitySlots(this.id);
+    currentSlotted() {
+      return this.getCurrentAbilitySlots(this.id);
     },
-    slottedKeys() {
-      return keys(this.slotted);
+    currentSlottedKeys() {
+      return keys(this.currentSlotted);
     },
 
     modelsAvailable() {
-      return this.modelKeys.length - this.slottedKeys.length;
+      return this.modelKeys.length - this.currentSlottedKeys.length;
     },
     modelsTotal() {
       return keys(this.models).length || 0;
@@ -68,7 +68,7 @@ export default {
       getAbilityModels: "inventory/abilityModels",
       getModel: "inventory/model",
       getInstalling: "system/slotting",
-      getAbilitySlots: "system/abilitySlots",
+      getCurrentAbilitySlots: "system/currentAbilitySlots",
       resources: "score/currentResources",
     }),
   },
@@ -88,7 +88,7 @@ export default {
       this.cancelDialog();
     },
     modelSlotted(id) {
-      return some(this.slotted, { modelId: id });
+      return some(this.currentSlotted, { modelId: id });
     },
     ...mapActions({
       installingModel: "system/slottingModel",
@@ -140,7 +140,7 @@ export default {
 
       <div v-bem:actions>
         <button
-          v-bem:actionsButton.confirm="{ valid }"
+          v-bem:actionsButton.confirm
           :disabled="!submittable"
           @click="install()"
         >

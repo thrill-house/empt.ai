@@ -34,7 +34,7 @@ export default {
 </script>
 
 <template>
-  <div v-bem>
+  <div v-bem :data-label="$t(`Status`)">
     <time
       v-bem:sync="{ syncing: accountSyncing, synced: !!accountSynced }"
       :datetime="accountSynced"
@@ -80,10 +80,13 @@ export default {
   @apply bg-grout bg-grout-sky bg-opacity-50;
 
   &::before {
-    content: "";
-    @apply absolute block top-0 left-0;
+    content: attr(data-label);
+    @apply absolute top-0 left-0;
+    @apply flex items-center justify-end;
     @apply transform -translate-x-full;
     @apply h-6 w-28;
+    @apply pr-1;
+    @apply text-2xs text-grey;
     @apply bg-grout bg-grout-sky bg-opacity-50;
   }
 
