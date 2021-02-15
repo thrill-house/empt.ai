@@ -63,6 +63,7 @@ export default {
       optimum="8000000"
       max="10000000"
       :value="credit || `0`"
+      :data-postfix="$t(`credits`)"
       :title="$t(`Available credit`)"
     >
       {{ credit }}
@@ -181,10 +182,11 @@ export default {
     }
 
     &::after {
-      content: attr(value);
+      content: attr(value) " " attr(data-postfix);
       @apply block;
       @apply w-auto;
       @apply text-xs;
+      @apply whitespace-nowrap;
     }
   }
 }
