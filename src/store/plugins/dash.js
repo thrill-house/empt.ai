@@ -397,13 +397,9 @@ export default (config) => {
                 const client = rootGetters[`${namespace}/client`];
 
                 try {
-                  const identity = await client.platform.identities.get(
-                    rootGetters[`${namespace}/options`].identityId
-                  );
-
                   const composed = await client.platform.documents.create(
                     `Contract.${document}`,
-                    identity,
+                    rootGetters[`${namespace}/identity`],
                     payload
                   );
 
@@ -513,17 +509,19 @@ export default (config) => {
 
                   each(payload, (items, key) => {
                     each(items, (item) => {
-                      const encoded = new TextEncoder().encode(
-                        JSON.stringify(item)
-                      );
+                      if (item) {
+                        const encoded = new TextEncoder().encode(
+                          JSON.stringify(item)
+                        );
 
-                      size += encoded.length / 1024;
-                      limit += 1;
+                        size += encoded.length / 1024;
+                        limit += 1;
 
-                      if (size < 16 && limit <= 10) {
-                        included[key].push(item);
-                      } else {
-                        remainder[key].push(item);
+                        if (size < 12 && limit <= 10) {
+                          included[key].push(item);
+                        } else {
+                          remainder[key].push(item);
+                        }
                       }
                     });
                   });
@@ -534,12 +532,9 @@ export default (config) => {
                     included.delete.length
                   ) {
                     const client = rootGetters[`${namespace}/client`];
-                    const identity = await client.platform.identities.get(
-                      rootGetters[`${namespace}/options`].identityId
-                    );
                     await client.platform.documents.broadcast(
                       included,
-                      identity
+                      rootGetters[`${namespace}/identity`]
                     );
                   }
 
