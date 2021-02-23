@@ -15,6 +15,8 @@ import {
   startsWith,
 } from "lodash-es";
 
+const MAX_DOCUMENTS_PER_QUERY = 100;
+
 export default (config) => {
   const defaultOptions = {
     // Namespace for the plugin.
@@ -366,7 +368,20 @@ export default (config) => {
                   [namespace]: { options },
                 },
               }) => {
-                const all = await dispatch("retrieve", options.allQuery);
+                let all = [];
+                let page = 0;
+
+                while (all.length >= page * MAX_DOCUMENTS_PER_QUERY) {
+                  const query = {
+                    ...options.allQuery,
+                    startAt: page * MAX_DOCUMENTS_PER_QUERY,
+                    limit: MAX_DOCUMENTS_PER_QUERY,
+                  };
+
+                  all = [...all, ...(await dispatch("retrieve", query))];
+
+                  page++;
+                }
 
                 commit("all", all);
 
@@ -517,7 +532,7 @@ export default (config) => {
                         size += encoded.length / 1024;
                         limit += 1;
 
-                        if (size < 12 && limit <= 10) {
+                        if (size < 15 && limit <= 10) {
                           included[key].push(item);
                         } else {
                           remainder[key].push(item);
@@ -532,6 +547,7 @@ export default (config) => {
                     included.delete.length
                   ) {
                     const client = rootGetters[`${namespace}/client`];
+
                     await client.platform.documents.broadcast(
                       included,
                       rootGetters[`${namespace}/identity`]
@@ -543,7 +559,7 @@ export default (config) => {
                     remainder.replace.length ||
                     remainder.delete.length
                   ) {
-                    await dispatch("broadcast", remainder);
+                    dispatch("broadcast", remainder);
                   }
                 } catch (e) {
                   console.debug(e);
