@@ -85,7 +85,7 @@ export default {
     @click="topUp()"
   >
     <label v-bem:topupLabel>{{
-      !toppingUp ? $t(`Top up credits`) : $t(`Topping up credits...`)
+      !toppingUp ? $t(`Top up credits`) : $t(`Topping up credits`)
     }}</label>
   </button>
 </template>
