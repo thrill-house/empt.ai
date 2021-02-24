@@ -448,17 +448,19 @@ export default (config) => {
                     }
                   }
 
-                  await dispatch("broadcast", documents);
+                  const success = await dispatch("broadcast", documents);
 
-                  each(
-                    [...documents.create, ...documents.replace],
-                    (document) => {
-                      commit("one", document);
-                    }
-                  );
-                  each(documents.delete, (document) => {
-                    commit("remove", document);
-                  });
+                  if (success) {
+                    each(
+                      [...documents.create, ...documents.replace],
+                      (document) => {
+                        commit("one", document);
+                      }
+                    );
+                    each(documents.delete, (document) => {
+                      commit("remove", document);
+                    });
+                  }
                 } catch (e) {
                   console.debug(e);
                 }
@@ -469,9 +471,13 @@ export default (config) => {
                 try {
                   const created = await dispatch("compose", payload);
 
-                  await dispatch("broadcast", { create: [created] });
+                  const success = await dispatch("broadcast", {
+                    create: [created],
+                  });
 
-                  commit("one", created);
+                  if (success) {
+                    commit("one", created);
+                  }
                 } catch (e) {
                   console.debug(e);
                 }
@@ -484,9 +490,13 @@ export default (config) => {
 
                   replaced.setData(payload);
 
-                  await dispatch("broadcast", { replace: [replaced] });
+                  const success = await dispatch("broadcast", {
+                    replace: [replaced],
+                  });
 
-                  commit("one", replaced);
+                  if (success) {
+                    commit("one", replaced);
+                  }
                 } catch (e) {
                   console.debug(e);
                 }
@@ -497,9 +507,13 @@ export default (config) => {
                 try {
                   const deleted = await dispatch("one", payload.$id);
 
-                  await dispatch("broadcast", { delete: [deleted] });
+                  const success = await dispatch("broadcast", {
+                    delete: [deleted],
+                  });
 
-                  commit("remove", deleted);
+                  if (success) {
+                    commit("remove", deleted);
+                  }
                 } catch (e) {
                   console.debug(e);
                 }
@@ -559,11 +573,15 @@ export default (config) => {
                     remainder.replace.length ||
                     remainder.delete.length
                   ) {
-                    dispatch("broadcast", remainder);
+                    return dispatch("broadcast", remainder);
                   }
+
+                  return true;
                 } catch (e) {
                   console.debug(e);
                 }
+
+                return false;
               },
             },
           };
