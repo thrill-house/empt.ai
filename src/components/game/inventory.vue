@@ -137,6 +137,8 @@ export default {
     @apply w-full h-16;
     @apply px-4 py-3;
     @apply bg-grout bg-grout-sky bg-opacity-50;
+    @apply shadow-lg;
+    @apply border-b border-navy;
     @apply z-50;
   }
 
