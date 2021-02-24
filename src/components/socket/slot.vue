@@ -181,6 +181,7 @@ export default {
         :key="synergy"
       />
       <emotion-diagram
+        v-if="model"
         v-bem:emotions="{ active: slotView === 'emotions' }"
         :sets="model.feelings"
         :scale="2"

@@ -34,6 +34,12 @@
       @apply order-last;
     }
 
+    &-2xs {
+      @apply h-5;
+      @apply text-2xs;
+      @apply px-1.5;
+    }
+
     &-xs {
       @apply h-8;
       @apply text-xs;
