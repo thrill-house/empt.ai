@@ -17,6 +17,10 @@ export default {
     inputMnemonic: null,
     inputIdentityId: null,
   }),
+  created() {
+    this.inputMnemonic = this.mnemonic;
+    this.inputIdentityId = this.identityId;
+  },
   computed: {
     currentGame() {
       return this.game
