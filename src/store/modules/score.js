@@ -96,18 +96,18 @@ export default {
         sourcesByEra,
         (accum, sourceLength, eraStage) => {
           if (
-            (eraStage < 2 && sourceLength === 1) ||
+            (eraStage === 1 && sourceLength === 1) ||
             (eraStage > 1 && sourceLength === 3)
           ) {
-            accum = eraStage + 1;
+            accum = eraStage * 1;
           }
 
           return accum;
         },
-        1
+        0
       );
 
-      return clamp(era, 1, 5);
+      return clamp(era, 0, 5);
     },
 
     // Feelings
