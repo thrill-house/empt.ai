@@ -17,6 +17,10 @@ export default {
     inputMnemonic: null,
     inputIdentityId: null,
   }),
+  created() {
+    this.inputMnemonic = this.mnemonic;
+    this.inputIdentityId = this.identityId;
+  },
   computed: {
     currentGame() {
       return this.game
@@ -76,7 +80,6 @@ export default {
         v-model="inputIdentityId"
         @input="updateIdentityId"
       />
-
       <label v-bem:formLabel.mnemonic>{{ $t("Mnemonic") }}</label>
       <input
         v-bem:formInput.mnemonic
@@ -84,7 +87,6 @@ export default {
         @input="updateMnemonic"
         type="text"
       />
-
       <label v-bem:formLabel.game>{{ $t("Loaded game") }}</label>
       <div v-bem:formInput.game :data-value="currentGame">
         <select @input="updateGame">
@@ -99,7 +101,6 @@ export default {
           </option>
         </select>
       </div>
-
       <label v-bem:formLabel.mnemonic>{{ $t("New game") }}</label>
       <input
         v-bem:formInput.mnemonic
