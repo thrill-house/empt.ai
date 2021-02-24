@@ -8,7 +8,7 @@ dayjs.extend(duration);
 export default {
   name: "game-logs",
   data: () => ({
-    devMode: false,
+    zapMode: false,
   }),
   computed: {
     ...mapGetters({
@@ -33,7 +33,7 @@ export default {
         )
       );
 
-      if (proceed) {
+      if (this.zapMode && proceed) {
         await this.$store.dispatch(`Game/${document}/delete`, {
           $id: id,
         });
@@ -65,7 +65,7 @@ export default {
           }}
         </span>
         <button
-          v-if="devMode"
+          v-if="zapMode"
           v-bem:listItemRemove
           @click="remove(document, transition.$id)"
         >
@@ -80,8 +80,8 @@ export default {
       >
         {{ $t(`Copy all to clipboard`) }}
       </button>
-      <button v-bem:actionsTrigger.danger @click="devMode = !devMode">
-        {{ !devMode ? $t(`Enable Zap Mode`) : $t(`Disable Zap Mode`) }}
+      <button v-bem:actionsTrigger.danger @click="zapMode = !zapMode">
+        {{ !zapMode ? $t(`Enable Zap Mode`) : $t(`Disable Zap Mode`) }}
       </button>
     </div>
   </section>
