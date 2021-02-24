@@ -23,6 +23,21 @@ export default {
     clipboard(data) {
       navigator.clipboard.writeText(data);
     },
+    async remove(document, id) {
+      const proceed = window.confirm(
+        this.$t(
+          "Please be sure you want to do this, it could break the game and should only be used in emergencies"
+        )
+      );
+
+      if (proceed) {
+        const remove = await this.$store.dispatch(`Game/${document}/delete`, {
+          $id: id,
+        });
+
+        console.log({ document, id, remove });
+      }
+    },
   },
 };
 </script>
@@ -48,6 +63,9 @@ export default {
             )
           }}
         </span>
+        <button v-bem:listItemRemove @click="remove(document, transition.$id)">
+          {{ $t(`Remove`) }}
+        </button>
       </li>
     </ol>
     <button v-bem:clipboard @click="clipboard(JSON.stringify(transitions))">
@@ -93,6 +111,11 @@ export default {
           @apply bg-light;
           @apply mask-duration;
         }
+      }
+
+      &-remove {
+        @apply button button-2xs button-confirm;
+        @apply ml-2;
       }
     }
 
