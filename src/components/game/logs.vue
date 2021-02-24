@@ -7,6 +7,9 @@ dayjs.extend(duration);
 
 export default {
   name: "game-logs",
+  data: () => ({
+    devMode: false,
+  }),
   computed: {
     ...mapGetters({
       currentElapsed: "score/currentElapsed",
@@ -31,11 +34,9 @@ export default {
       );
 
       if (proceed) {
-        const remove = await this.$store.dispatch(`Game/${document}/delete`, {
+        await this.$store.dispatch(`Game/${document}/delete`, {
           $id: id,
         });
-
-        console.log({ document, id, remove });
       }
     },
   },
@@ -63,14 +64,26 @@ export default {
             )
           }}
         </span>
-        <button v-bem:listItemRemove @click="remove(document, transition.$id)">
-          {{ $t(`Remove`) }}
+        <button
+          v-if="devMode"
+          v-bem:listItemRemove
+          @click="remove(document, transition.$id)"
+        >
+          {{ $t(`Zap`) }}
         </button>
       </li>
     </ol>
-    <button v-bem:clipboard @click="clipboard(JSON.stringify(transitions))">
-      {{ $t(`Copy all to clipboard`) }}
-    </button>
+    <div v-bem:actions>
+      <button
+        v-bem:actionsTrigger
+        @click="clipboard(JSON.stringify(transitions))"
+      >
+        {{ $t(`Copy all to clipboard`) }}
+      </button>
+      <button v-bem:actionsTrigger.danger @click="devMode = !devMode">
+        {{ !devMode ? $t(`Enable Zap Mode`) : $t(`Disable Zap Mode`) }}
+      </button>
+    </div>
   </section>
 </template>
 
@@ -85,7 +98,7 @@ export default {
     @apply font-mono;
 
     &-item {
-      @apply flex;
+      @apply flex items-center justify-start;
       @apply py-1;
 
       &-title {
@@ -114,8 +127,9 @@ export default {
       }
 
       &-remove {
-        @apply button button-2xs button-confirm;
-        @apply ml-2;
+        @apply button button-2xs button-cancel;
+        @apply absolute;
+        @apply right-0;
       }
     }
 
@@ -124,9 +138,17 @@ export default {
     }
   }
 
-  &__clipboard {
-    @apply button button-sm button-confirm;
-    @apply mt-6;
+  &__actions {
+    @apply flex justify-between;
+
+    &-trigger {
+      @apply button button-xs button-confirm;
+      @apply mt-6;
+
+      &--danger {
+        @apply button-cancel;
+      }
+    }
   }
 }
 </style>
