@@ -63,7 +63,7 @@ export default {
   @apply relative;
   @apply flex;
   @apply h-20;
-  @apply mt-20 p-2;
+  @apply mt-16 p-2;
 
   &::before {
     content: "";

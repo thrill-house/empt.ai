@@ -15,6 +15,8 @@ import {
   startsWith,
 } from "lodash-es";
 
+const MAX_DOCUMENTS_PER_QUERY = 100;
+
 export default (config) => {
   const defaultOptions = {
     // Namespace for the plugin.
@@ -366,7 +368,20 @@ export default (config) => {
                   [namespace]: { options },
                 },
               }) => {
-                const all = await dispatch("retrieve", options.allQuery);
+                let all = [];
+                let page = 0;
+
+                while (all.length >= page * MAX_DOCUMENTS_PER_QUERY) {
+                  const query = {
+                    ...options.allQuery,
+                    startAt: page * MAX_DOCUMENTS_PER_QUERY,
+                    limit: MAX_DOCUMENTS_PER_QUERY,
+                  };
+
+                  all = [...all, ...(await dispatch("retrieve", query))];
+
+                  page++;
+                }
 
                 commit("all", all);
 
@@ -397,13 +412,9 @@ export default (config) => {
                 const client = rootGetters[`${namespace}/client`];
 
                 try {
-                  const identity = await client.platform.identities.get(
-                    rootGetters[`${namespace}/options`].identityId
-                  );
-
                   const composed = await client.platform.documents.create(
                     `Contract.${document}`,
-                    identity,
+                    rootGetters[`${namespace}/identity`],
                     payload
                   );
 
@@ -437,17 +448,19 @@ export default (config) => {
                     }
                   }
 
-                  await dispatch("broadcast", documents);
+                  const success = await dispatch("broadcast", documents);
 
-                  each(
-                    [...documents.create, ...documents.replace],
-                    (document) => {
-                      commit("one", document);
-                    }
-                  );
-                  each(documents.delete, (document) => {
-                    commit("remove", document);
-                  });
+                  if (success) {
+                    each(
+                      [...documents.create, ...documents.replace],
+                      (document) => {
+                        commit("one", document);
+                      }
+                    );
+                    each(documents.delete, (document) => {
+                      commit("remove", document);
+                    });
+                  }
                 } catch (e) {
                   console.debug(e);
                 }
@@ -458,9 +471,13 @@ export default (config) => {
                 try {
                   const created = await dispatch("compose", payload);
 
-                  await dispatch("broadcast", { create: [created] });
+                  const success = await dispatch("broadcast", {
+                    create: [created],
+                  });
 
-                  commit("one", created);
+                  if (success) {
+                    commit("one", created);
+                  }
                 } catch (e) {
                   console.debug(e);
                 }
@@ -473,9 +490,13 @@ export default (config) => {
 
                   replaced.setData(payload);
 
-                  await dispatch("broadcast", { replace: [replaced] });
+                  const success = await dispatch("broadcast", {
+                    replace: [replaced],
+                  });
 
-                  commit("one", replaced);
+                  if (success) {
+                    commit("one", replaced);
+                  }
                 } catch (e) {
                   console.debug(e);
                 }
@@ -486,9 +507,13 @@ export default (config) => {
                 try {
                   const deleted = await dispatch("one", payload.$id);
 
-                  await dispatch("broadcast", { delete: [deleted] });
+                  const success = await dispatch("broadcast", {
+                    delete: [deleted],
+                  });
 
-                  commit("remove", deleted);
+                  if (success) {
+                    commit("remove", deleted);
+                  }
                 } catch (e) {
                   console.debug(e);
                 }
@@ -513,17 +538,19 @@ export default (config) => {
 
                   each(payload, (items, key) => {
                     each(items, (item) => {
-                      const encoded = new TextEncoder().encode(
-                        JSON.stringify(item)
-                      );
+                      if (item) {
+                        const encoded = new TextEncoder().encode(
+                          JSON.stringify(item)
+                        );
 
-                      size += encoded.length / 1024;
-                      limit += 1;
+                        size += encoded.length / 1024;
+                        limit += 1;
 
-                      if (size < 16 && limit <= 10) {
-                        included[key].push(item);
-                      } else {
-                        remainder[key].push(item);
+                        if (size < 15 && limit <= 10) {
+                          included[key].push(item);
+                        } else {
+                          remainder[key].push(item);
+                        }
                       }
                     });
                   });
@@ -534,12 +561,10 @@ export default (config) => {
                     included.delete.length
                   ) {
                     const client = rootGetters[`${namespace}/client`];
-                    const identity = await client.platform.identities.get(
-                      rootGetters[`${namespace}/options`].identityId
-                    );
+
                     await client.platform.documents.broadcast(
                       included,
-                      identity
+                      rootGetters[`${namespace}/identity`]
                     );
                   }
 
@@ -548,11 +573,15 @@ export default (config) => {
                     remainder.replace.length ||
                     remainder.delete.length
                   ) {
-                    await dispatch("broadcast", remainder);
+                    return dispatch("broadcast", remainder);
                   }
+
+                  return true;
                 } catch (e) {
                   console.debug(e);
                 }
+
+                return false;
               },
             },
           };

@@ -7,6 +7,9 @@ dayjs.extend(duration);
 
 export default {
   name: "game-logs",
+  data: () => ({
+    zapMode: false,
+  }),
   computed: {
     ...mapGetters({
       currentElapsed: "score/currentElapsed",
@@ -22,6 +25,19 @@ export default {
     },
     clipboard(data) {
       navigator.clipboard.writeText(data);
+    },
+    async remove(document, id) {
+      const proceed = window.confirm(
+        this.$t(
+          "Please be sure you want to do this, it could break the game and should only be used in emergencies"
+        )
+      );
+
+      if (this.zapMode && proceed) {
+        await this.$store.dispatch(`Game/${document}/delete`, {
+          $id: id,
+        });
+      }
     },
   },
 };
@@ -48,11 +64,26 @@ export default {
             )
           }}
         </span>
+        <button
+          v-if="zapMode"
+          v-bem:listItemRemove
+          @click="remove(document, transition.$id)"
+        >
+          {{ $t(`Zap`) }}
+        </button>
       </li>
     </ol>
-    <button v-bem:clipboard @click="clipboard(JSON.stringify(transitions))">
-      {{ $t(`Copy all to clipboard`) }}
-    </button>
+    <div v-bem:actions>
+      <button
+        v-bem:actionsTrigger
+        @click="clipboard(JSON.stringify(transitions))"
+      >
+        {{ $t(`Copy all to clipboard`) }}
+      </button>
+      <button v-bem:actionsTrigger.danger @click="zapMode = !zapMode">
+        {{ !zapMode ? $t(`Enable Zap Mode`) : $t(`Disable Zap Mode`) }}
+      </button>
+    </div>
   </section>
 </template>
 
@@ -67,7 +98,7 @@ export default {
     @apply font-mono;
 
     &-item {
-      @apply flex;
+      @apply flex items-center justify-start;
       @apply py-1;
 
       &-title {
@@ -94,6 +125,12 @@ export default {
           @apply mask-duration;
         }
       }
+
+      &-remove {
+        @apply button button-2xs button-cancel;
+        @apply absolute;
+        @apply right-0;
+      }
     }
 
     &-item + &-item {
@@ -101,9 +138,17 @@ export default {
     }
   }
 
-  &__clipboard {
-    @apply button button-sm button-confirm;
-    @apply mt-6;
+  &__actions {
+    @apply flex justify-between;
+
+    &-trigger {
+      @apply button button-xs button-confirm;
+      @apply mt-6;
+
+      &--danger {
+        @apply button-cancel;
+      }
+    }
   }
 }
 </style>

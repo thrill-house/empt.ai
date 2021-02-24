@@ -1,9 +1,12 @@
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 import dayjs from "dayjs";
 
 export default {
   name: "game-wallet",
+  data: () => ({
+    toppingUp: false,
+  }),
   computed: {
     dashBalance() {
       return this.confirmedBalance ? this.confirmedBalance / 100000000 : 0;
@@ -14,6 +17,9 @@ export default {
     identitySyncedAgo() {
       return dayjs(this.identitySynced).fromNow();
     },
+    ...mapState({
+      identityId: "identityId",
+    }),
     ...mapGetters({
       accountSynced: "Player/accountSynced",
       accountSyncing: "Player/accountSyncing",
@@ -22,12 +28,15 @@ export default {
       unusedAddress: "Player/unusedAddress",
       identitySynced: "Player/identitySynced",
       identitySyncing: "Player/identitySyncing",
+      client: "Player/client",
       credit: "Player/credit",
     }),
   },
   methods: {
     async topUp() {
-      // TODO: Top up
+      this.toppingUp = true;
+      await this.client.platform.identities.topUp(this.identityId, 10000);
+      this.toppingUp = false;
     },
   },
 };
@@ -63,11 +72,22 @@ export default {
       optimum="8000000"
       max="10000000"
       :value="credit || `0`"
+      :data-postfix="$t(`credits`)"
       :title="$t(`Available credit`)"
     >
       {{ credit }}
     </meter>
   </div>
+  <button
+    v-bem:topup="{ loading: toppingUp }"
+    :title="$t(`Top up credits`)"
+    :disabled="toppingUp"
+    @click="topUp()"
+  >
+    <label v-bem:topupLabel>{{
+      !toppingUp ? $t(`Top up credits`) : $t(`Topping up credits`)
+    }}</label>
+  </button>
 </template>
 
 <style lang="scss">
@@ -181,10 +201,44 @@ export default {
     }
 
     &::after {
-      content: attr(value);
+      content: attr(value) " " attr(data-postfix);
       @apply block;
       @apply w-auto;
       @apply text-xs;
+      @apply whitespace-nowrap;
+    }
+  }
+
+  &__topup {
+    @apply flex items-center justify-center;
+    @apply bg-grout bg-grout-sky bg-opacity-50;
+    @apply w-6 h-6 mx-2 mt-2;
+
+    &::before {
+      content: "";
+      @apply block w-3.5 h-3.5;
+      @apply bg-light;
+      @apply mask-topup;
+    }
+
+    &--loading {
+      &:before {
+        @apply mask-loading;
+        @apply animate-spin;
+        animation-direction: reverse;
+      }
+    }
+
+    &-label {
+      @apply hidden absolute right-0;
+      @apply whitespace-nowrap;
+      @apply -mr-2;
+      @apply transform translate-x-full;
+      @apply uppercase;
+    }
+
+    &:hover &-label {
+      @apply block;
     }
   }
 }
