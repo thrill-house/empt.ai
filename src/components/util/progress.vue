@@ -5,17 +5,17 @@ export default {
   name: "util-progress",
   props: {
     cost: Number,
+    resource: String,
   },
   emits: ["updateAffordability"],
   created() {
-    this.$emit("updateAffordability", this.affordable);
+    this.$emit("updateAffordability", this.threshold);
   },
   computed: {
     available() {
-      return this.resources.data;
+      return this.resources[this.resource];
     },
-    affordable() {
-      // console.log({ available: this.available, cost: this.cost });
+    threshold() {
       return this.available > this.cost;
     },
     ...mapGetters({
@@ -23,15 +23,15 @@ export default {
     }),
   },
   watch: {
-    affordable(oldAffordable, newAffordable) {
-      this.$emit("updateAffordability", newAffordable);
+    threshold(oldThreshold, newThreshold) {
+      this.$emit("updateAffordability", newThreshold);
     },
   },
 };
 </script>
 
 <template>
-  <progress v-bem :max="cost" :value="available" />
+  <progress v-bem="{ [resource]: true }" :max="cost" :value="available" />
 </template>
 
 <style lang="scss">
@@ -46,8 +46,16 @@ export default {
     @apply bg-navy;
   }
 
-  &::-webkit-progress-value {
-    @apply bg-data;
+  &--data {
+    &::-webkit-progress-value {
+      @apply bg-data;
+    }
+  }
+
+  &--confidence {
+    &::-webkit-progress-value {
+      @apply bg-confidence;
+    }
   }
 }
 </style>

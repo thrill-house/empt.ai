@@ -6,11 +6,12 @@ import { tabulateValues } from "../../api";
 import hover from "../../mixins/hover";
 import ValueList from "../value/list";
 import UtilEra from "../util/era";
+import UtilProgress from "../util/progress";
 import UtilTooltip from "../util/tooltip";
 
 export default {
   name: "socket-source",
-  components: { ValueList, UtilEra, UtilTooltip },
+  components: { ValueList, UtilEra, UtilProgress, UtilTooltip },
   mixins: [hover],
   props: {
     slotBases: Array,
@@ -20,6 +21,7 @@ export default {
   data: () => ({
     loading: false,
     training: false,
+    affordable: false,
   }),
   inject: [
     "socket",
@@ -96,11 +98,8 @@ export default {
         ? Math.abs(this.trainingCost)
         : Math.abs(this.sourceCost);
     },
-    available() {
-      return this.online ? this.resources.data : this.resources.confidence;
-    },
-    affordable() {
-      return this.available >= this.cost;
+    resource() {
+      return this.online ? "data" : "confidence";
     },
 
     ...mapState(["gameId"]),
@@ -116,7 +115,6 @@ export default {
       getSocketConfidenceCosts: "inventory/socketConfidenceCosts",
       getSocketDataCosts: "inventory/socketDataCosts",
       getAbility: "inventory/ability",
-      resources: "score/currentResources",
     }),
   },
   methods: {
@@ -147,6 +145,9 @@ export default {
       await this.trainSource(payload);
 
       this.training = false;
+    },
+    updateAffordability(payload) {
+      this.affordable = payload;
     },
     // async disconnect() {
     //   this.loading = true;
@@ -216,10 +217,11 @@ export default {
         :disabled="!affordable"
         @click="connect()"
       />
-      <progress
-        v-bem:affordability="{ online }"
-        :max="cost"
-        :value="available"
+      <util-progress
+        v-bem:affordability
+        :cost="cost"
+        :resource="resource"
+        @updateAffordability="updateAffordability"
       />
     </div>
     <i v-bem:tree="{ [socketTree]: true }" />
@@ -409,23 +411,6 @@ export default {
   &__affordability {
     @apply absolute;
     @apply inset-x-1 bottom-0;
-    @apply w-auto h-px;
-    @apply bg-dark;
-    @apply appearance-none;
-
-    &::-webkit-progress-bar {
-      @apply bg-navy;
-    }
-
-    &::-webkit-progress-value {
-      @apply bg-confidence;
-    }
-
-    &--online {
-      &::-webkit-progress-value {
-        @apply bg-data;
-      }
-    }
   }
 
   &__tree {

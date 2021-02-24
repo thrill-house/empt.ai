@@ -187,6 +187,7 @@ export default {
     <util-progress
       v-bem:affordability
       :cost="cost"
+      resource="confidence"
       @updateAffordability="updateAffordability"
     />
   </div>
