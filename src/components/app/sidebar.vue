@@ -60,7 +60,7 @@ export default {
 .app-sidebar {
   @apply fixed top-0 right-0;
   @apply flex items-start;
-  @apply w-96 min-h-screen;
+  @apply w-96 h-screen;
   @apply transform translate-x-full;
   @apply transition-transform duration-500;
   @apply bg-ash bg-opacity-25;

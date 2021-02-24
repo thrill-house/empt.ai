@@ -128,10 +128,12 @@ export default {
 @import "../../styles/helper";
 
 .game-inventory {
-  @apply w-full;
+  @apply w-full h-full;
+  @apply overflow-auto;
 
   &__actions {
-    @apply relative flex justify-between;
+    @apply sticky flex justify-between;
+    @apply top-0;
     @apply w-full h-16;
     @apply px-4 py-3;
     @apply bg-grout bg-grout-sky bg-opacity-50;
