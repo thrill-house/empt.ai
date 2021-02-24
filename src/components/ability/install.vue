@@ -5,18 +5,21 @@ import { keys, some } from "lodash-es";
 import hover from "../../mixins/hover";
 import EmotionDiagram from "../emotion/diagram";
 import UtilDialog from "../util/dialog";
+import UtilProgress from "../util/progress";
 
 export default {
   name: "ability-install",
   components: {
     EmotionDiagram,
     UtilDialog,
+    UtilProgress,
   },
   mixins: [hover],
   inject: ["id", "ability", "title"],
   data: () => ({
     selectedModelId: null,
     open: false,
+    affordable: false,
   }),
   computed: {
     loading() {
@@ -53,12 +56,6 @@ export default {
     cost() {
       return Math.abs(this.installCost);
     },
-    available() {
-      return this.resources.data;
-    },
-    affordable() {
-      return this.available >= this.cost;
-    },
     submittable() {
       return this.affordable && this.selectedModelId;
     },
@@ -69,7 +66,6 @@ export default {
       getModel: "inventory/model",
       getInstalling: "system/slotting",
       getCurrentAbilitySlots: "system/currentAbilitySlots",
-      resources: "score/currentResources",
     }),
   },
   methods: {
@@ -79,6 +75,9 @@ export default {
     cancelDialog() {
       this.selectedModelId = null;
       this.open = false;
+    },
+    updateAffordability(payload) {
+      this.affordable = payload;
     },
     select(id) {
       this.selectedModelId = id;
@@ -109,10 +108,15 @@ export default {
           ? `${$t('Install')} (${modelsAvailable}/${modelsTotal})`
           : $t('Installing')
       "
-      :disabled="loading || !affordable"
+      :disabled="loading || !affordable || !modelsAvailable"
       @click="!installing ? showDialog() : installingReset()"
     />
-    <progress v-bem:affordability :max="cost" :value="available" />
+    <util-progress
+      v-bem:affordability
+      :cost="cost"
+      resource="data"
+      @updateAffordability="updateAffordability"
+    />
   </div>
   <util-dialog :open="open" ref="dialog">
     <template v-slot:title>
@@ -137,7 +141,6 @@ export default {
           />
         </button>
       </div>
-
       <div v-bem:actions>
         <button
           v-bem:actionsButton.confirm
@@ -196,17 +199,6 @@ export default {
   &__affordability {
     @apply absolute;
     @apply inset-x-1 bottom-0;
-    @apply w-auto h-px;
-    @apply bg-dark;
-    @apply appearance-none;
-
-    &::-webkit-progress-bar {
-      @apply bg-navy;
-    }
-
-    &::-webkit-progress-value {
-      @apply bg-data;
-    }
   }
 
   &__models {

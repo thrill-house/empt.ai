@@ -4,17 +4,20 @@ import { mapValues, max, reduce, sum, values } from "lodash-es";
 
 import EmotionDiagram from "../emotion/diagram";
 import UtilDialog from "../util/dialog";
+import UtilProgress from "../util/progress";
 
 export default {
   name: "ability-research",
   components: {
-    UtilDialog,
     EmotionDiagram,
+    UtilDialog,
+    UtilProgress,
   },
   inject: ["id", "ability", "title"],
   data: () => ({
     loading: false,
     open: false,
+    affordable: false,
     emotions: {
       Happiness: 0,
       Sadness: 0,
@@ -68,12 +71,6 @@ export default {
     cost() {
       return Math.abs(this.researchCost);
     },
-    available() {
-      return this.resources.confidence;
-    },
-    affordable() {
-      return this.available >= this.cost;
-    },
     submittable() {
       return this.affordable && this.enoughEmotions;
     },
@@ -81,7 +78,6 @@ export default {
     ...mapGetters({
       getAbilityConfidenceCosts: "inventory/abilityConfidenceCosts",
       getEmotionByTitle: "labels/emotionByTitle",
-      resources: "score/currentResources",
     }),
   },
   methods: {
@@ -91,6 +87,9 @@ export default {
     cancelDialog() {
       this.open = false;
       this.resetEmotions();
+    },
+    updateAffordability(payload) {
+      this.affordable = payload;
     },
     async research() {
       this.loading = true;
@@ -185,7 +184,12 @@ export default {
       :disabled="loading || !affordable"
       @click="showDialog()"
     />
-    <progress v-bem:affordability :max="cost" :value="available" />
+    <util-progress
+      v-bem:affordability
+      :cost="cost"
+      resource="confidence"
+      @updateAffordability="updateAffordability"
+    />
   </div>
   <util-dialog :open="open" ref="dialog">
     <template v-slot:title>
@@ -257,17 +261,6 @@ export default {
   &__affordability {
     @apply absolute;
     @apply inset-x-1 bottom-0;
-    @apply w-auto h-px;
-    @apply bg-dark;
-    @apply appearance-none;
-
-    &::-webkit-progress-bar {
-      @apply bg-navy;
-    }
-
-    &::-webkit-progress-value {
-      @apply bg-confidence;
-    }
   }
 
   &__emotions {

@@ -406,7 +406,7 @@ export default {
               <p v-bem:stepProceed v-if="steps.balance.create">
                 <i18n-t
                   v-if="connection.network === `testnet`"
-                  keypath="You can fill up your test account by visiting {link} and entering {address} where prompted"
+                  keypath="You can fill up your test account by visiting {link} and entering {address} where prompted and monitor transactions made to the address at {insights}"
                   tag="span"
                 >
                   <template #link>
@@ -415,6 +415,14 @@ export default {
                       href="http://testnet-452625393.us-west-2.elb.amazonaws.com/"
                       target="_blank"
                       >{{ $t("The Testnet Faucet") }}</a
+                    >
+                  </template>
+                  <template #insights>
+                    <a
+                      v-bem:link
+                      :href="`https://testnet-insight.dashevo.org/insight/address/${unusedAddress}`"
+                      target="_blank"
+                      >{{ $t("Testnet Insights explorer") }}</a
                     >
                   </template>
                   <template #address>
