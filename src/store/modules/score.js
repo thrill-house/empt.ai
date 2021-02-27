@@ -150,7 +150,7 @@ export default {
     },
 
     transitioned: (state, getters, rootState, rootGetters) => (before) => {
-      const transitions = referenceTransitions({
+      const transitioned = referenceTransitions({
         transitions: {
           ...rootGetters["system/currentlySlotted"](before),
           ...rootGetters["inventory/sourced"](before),
@@ -161,7 +161,7 @@ export default {
         getSocket: rootGetters["inventory/socket"],
       });
 
-      return transitions;
+      return transitioned;
     },
   },
   mutations: {
@@ -244,6 +244,7 @@ export default {
           head(getters.transitions)?.transition?.$createdAt / 1000
         );
       }
+
       commit("resources", resources);
     },
 
