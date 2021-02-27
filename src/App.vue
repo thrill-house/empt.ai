@@ -13,6 +13,19 @@ export default {
   },
   created() {
     this.init();
+
+    this.unwatch = this.$store.watch(
+      (state, getters) => getters["score/transitions"],
+      async (newTransitions, oldTransitions) => {
+        if (newTransitions.length !== oldTransitions.length) {
+          await this.$store.dispatch("score/calculateResources");
+          await this.$store.dispatch("score/calculateFrequencies");
+        }
+      }
+    );
+  },
+  unmounted() {
+    this.unwatch();
   },
   methods: {
     ...mapActions(["init"]),
