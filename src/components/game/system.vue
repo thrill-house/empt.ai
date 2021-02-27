@@ -64,12 +64,12 @@ export default {
 
   &__component {
     // Era 1
-    &--Root {
+    &--RootInstance {
       grid-area: z;
     }
 
     // Era 2
-    &--ScienceJournals {
+    &--ScientificJournals {
       grid-area: y;
     }
 
