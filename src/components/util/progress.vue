@@ -16,7 +16,7 @@ export default {
       return this.resources[this.resource];
     },
     threshold() {
-      return this.available > this.cost;
+      return this.available >= this.cost;
     },
     ...mapGetters({
       resources: "score/currentResources",
