@@ -23,7 +23,7 @@ export default {
     }),
   },
   watch: {
-    threshold(oldThreshold, newThreshold) {
+    threshold(newThreshold) {
       this.$emit("updateAffordability", newThreshold);
     },
   },
