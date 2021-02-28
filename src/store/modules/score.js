@@ -236,8 +236,8 @@ export default {
             additional,
           });
         },
-        // Start with 1 of each
-        { confidence: 1, data: 1 }
+        // Start with 1 confidence
+        { confidence: 1, data: 0 }
       );
 
       if (getters.transitions) {
