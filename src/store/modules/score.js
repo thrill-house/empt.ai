@@ -94,11 +94,13 @@ export default {
       const era = reduce(
         sourcesByEra,
         (accum, sourceLength, eraStage) => {
+          const eraStageNumeric = eraStage * 1;
+
           if (
-            (eraStage === 1 && sourceLength === 1) ||
-            (eraStage > 1 && sourceLength === 3)
+            (eraStageNumeric === 1 && sourceLength === 1) ||
+            (eraStageNumeric > 1 && sourceLength === 3)
           ) {
-            accum = eraStage * 1;
+            accum = eraStageNumeric;
           }
 
           return accum;
