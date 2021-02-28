@@ -61,16 +61,14 @@ export default {
         .toFixed(0),
 
     // Resources
-    currentResources: (state, getters) =>
-      // TODO: Complicated resource calculation including changes to frequencies over time
-      ({
-        confidence:
-          state.resources.confidence +
-          getters.currentElapsed * getters.currentFrequencies.influence,
-        data:
-          state.resources.data +
-          getters.currentElapsed * getters.currentFrequencies.bandwidth,
-      }),
+    currentResources: (state, getters) => ({
+      confidence:
+        state.resources.confidence +
+        getters.currentElapsed * getters.currentFrequencies.influence,
+      data:
+        state.resources.data +
+        getters.currentElapsed * getters.currentFrequencies.bandwidth,
+    }),
 
     // Frequencies
     currentFrequencies: (state) => ({
