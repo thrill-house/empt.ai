@@ -14,7 +14,6 @@ import {
 } from "lodash-es";
 
 import {
-  SUMS,
   referenceTransitions,
   calculateSums,
   calculateAccruals,
@@ -192,7 +191,7 @@ export default {
       const game = rootGetters["game"];
 
       if (game) {
-        await dispatch("setStartTime", game?.$createdAt / 1000);
+        await dispatch("setStartTime", ceil(game?.$createdAt / 1000));
 
         await dispatch("calculateResources");
         await dispatch("calculateFrequencies");
@@ -235,13 +234,14 @@ export default {
             additional,
           });
         },
-        { ...SUMS }
+        // Start with 1 of each
+        { confidence: 1, data: 1 }
       );
 
       if (getters.transitions) {
         commit(
           "updateTime",
-          head(getters.transitions)?.transition?.$createdAt / 1000
+          ceil(head(getters.transitions)?.transition?.$createdAt / 1000)
         );
       }
 
