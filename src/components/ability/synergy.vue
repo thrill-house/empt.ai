@@ -1,5 +1,6 @@
 <script>
 import { mapGetters } from "vuex";
+import { keys } from "lodash-es";
 
 import hover from "../../mixins/hover";
 import UtilTooltip from "../util/tooltip";
@@ -24,23 +25,23 @@ export default {
     ability() {
       return this.getAbility(this.id);
     },
+    eraStage() {
+      return this.getEra(this.ability?.eraId)?.stage;
+    },
     title() {
-      // TODO: Figure out title based on if we are active or not.
       return this.ability?.title || null;
     },
     slotted() {
-      // TODO: Figure out if this symbiosis is active currently.
-      return false;
+      return !!keys(this.getCurrentAbilitySlots(this.id)).length;
     },
     unknown() {
-      // TODO: Figure out if we are allowed to see this yet?
-      return false;
+      return this.eraStage > this.currentEra;
     },
     empty() {
       return !this.id;
     },
     sourceTitle() {
-      return this.source?.title || null;
+      return !this.unknown ? this.ability?.title : this.$t("Unknown");
     },
     relationship() {
       return this.type === "receives"
@@ -53,6 +54,9 @@ export default {
     ...mapGetters({
       getAbility: "inventory/ability",
       getAbilitySymbiosis: "inventory/abilitySymbiosis",
+      getCurrentAbilitySlots: "system/currentAbilitySlots",
+      getEra: "labels/era",
+      currentEra: "score/currentEra",
     }),
   },
 };
@@ -104,10 +108,11 @@ export default {
   @apply flex items-center justify-center;
   @apply w-8 h-8;
   @apply rounded-full;
+  @apply opacity-50;
 
   &--slotted {
-    @apply animate-pulse;
     @apply border border-light;
+    @apply opacity-100;
   }
 
   &--receives {
