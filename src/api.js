@@ -1,6 +1,7 @@
 import pluralize from "pluralize";
 import Big from "big.js";
 import {
+  ceil,
   defaults,
   filter,
   find,
@@ -242,8 +243,9 @@ export const sumAccruals = (payload) => {
       const transitionsBefore = getTransitioned(transition.$createdAt + 1);
       const first = head(transitionsBefore)?.transition;
       const second = nth(transitionsBefore, 1)?.transition;
-      const currentElapsed =
-        (first?.$createdAt - (second?.$createdAt || first?.$createdAt)) / 1000;
+      const currentElapsed = ceil(
+        (first?.$createdAt - (second?.$createdAt || first?.$createdAt)) / 1000
+      );
 
       const accrual = calculateAccruals({
         transitions: tail(transitionsBefore),
