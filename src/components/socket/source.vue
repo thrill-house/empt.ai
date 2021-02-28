@@ -101,7 +101,6 @@ export default {
     resource() {
       return this.online ? "data" : "confidence";
     },
-
     ...mapState(["gameId"]),
     ...mapGetters({
       getInstalling: "system/slotting",
