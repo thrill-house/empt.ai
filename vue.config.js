@@ -19,4 +19,9 @@ module.exports = {
       aliasFields: [],
     },
   },
+  pluginOptions: {
+    webpackBundleAnalyzer: {
+      openAnalyzer: false,
+    },
+  },
 };
