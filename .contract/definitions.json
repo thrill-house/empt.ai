@@ -119,14 +119,9 @@
         "items": {
           "$ref": "#/definitions/Condition"
         }
-      },
-      "coefficient": {
-        "type": "number",
-        "multipleOf": 0.01,
-        "minimum": 1
       }
     },
-    "required": ["document", "conditions", "coefficient"],
+    "required": ["document", "conditions"],
     "description": "An object representing a multiplier."
   },
   "Condition": {
