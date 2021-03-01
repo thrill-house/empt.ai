@@ -276,9 +276,11 @@ export default {
     },
 
     socketConfidenceCosts: (state, getters) => (id) => {
-      const socketSource = getters["socketSource"](id);
-      return getters.socketAdjustedCosts(id, socketSource ? [socketSource] : [])
-        ?.confidence;
+      // Do we actually want to do this? This would make sockets cost more, but they can only be purchased once
+      // const socketSource = getters["socketSource"](id);
+      // return getters.socketAdjustedCosts(id, socketSource ? [socketSource] : [])
+      //   ?.confidence;
+      return getters.socketAdjustedCosts(id, [])?.confidence;
     },
 
     socketDataCosts: (state, getters) => (id) => {
