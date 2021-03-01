@@ -11,7 +11,7 @@
       },
       "cost": {
         "type": "integer",
-        "maximum": -1
+        "maximum": 0
       },
       "multiplier": {
         "$ref": "#/definitions/Multiplier"
@@ -119,9 +119,14 @@
         "items": {
           "$ref": "#/definitions/Condition"
         }
+      },
+      "coefficient": {
+        "type": "number",
+        "multipleOf": 0.01,
+        "minimum": 1
       }
     },
-    "required": ["document", "conditions"],
+    "required": ["document", "conditions", "coefficient"],
     "description": "An object representing a multiplier."
   },
   "Condition": {
