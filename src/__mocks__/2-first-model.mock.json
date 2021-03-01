@@ -1,0 +1,226 @@
+[
+  {
+    "document": "Models",
+    "transition": {
+      "$protocolVersion": 0,
+      "$id": "EXrESviRErfd3hUFBJwQrpb7LhiiFnwk5PCFAQZ6XDvx",
+      "$type": "Models",
+      "$dataContractId": "HVNpipv3UyZapzGatqJ8tWCkrEQSqAJS4ZSwaSJcFHjM",
+      "$ownerId": "Firv3eur4hbCW87fzdisX5MvTwqRQQ7gKrZYirjbGGY5",
+      "$revision": 1,
+      "gameId": "9SzaYSYy1Rx1obvdUwW6sPnCiSmYCvpjCeaAmQhdzYQt",
+      "abilityId": "GCtXBFA2HLAnqe1hmH8SUPkssNV5qubAYStJ7j4JFxFd",
+      "feelings": [
+        {
+          "emotionId": "8zFwTS2LFmdMi129k32nYoVyUkiXJWGaDYsV7zMbjxoa",
+          "value": 2
+        },
+        {
+          "emotionId": "E3nvBejQeBYN7K2Q3QpFBNkSDGeRQVHFGFR6dg6Bu8Zb",
+          "value": 1
+        },
+        {
+          "emotionId": "CKJdvNSeCdLvKAE4AJ5bCS7r6D2CosgF5TYjykNVxDos",
+          "value": 1
+        }
+      ],
+      "$createdAt": 1614602992597,
+      "$updatedAt": 1614602992597
+    },
+    "reference": {
+      "$protocolVersion": 0,
+      "$id": "GCtXBFA2HLAnqe1hmH8SUPkssNV5qubAYStJ7j4JFxFd",
+      "$type": "Abilities",
+      "$dataContractId": "HVNpipv3UyZapzGatqJ8tWCkrEQSqAJS4ZSwaSJcFHjM",
+      "$ownerId": "EQ4ijQcbpwJnNWudTd1PRvUPL7Me6CBEBmQe8pcYtaUB",
+      "$revision": 4,
+      "bases": [
+        { "base": 1, "type": "influence" },
+        { "base": 1, "type": "bandwidth" }
+      ],
+      "costs": [
+        {
+          "cost": -21,
+          "type": "confidence",
+          "multiplier": {
+            "document": "models",
+            "conditions": [
+              {
+                "id": "GCtXBFA2HLAnqe1hmH8SUPkssNV5qubAYStJ7j4JFxFd",
+                "field": "abilityId"
+              }
+            ]
+          }
+        },
+        {
+          "cost": -89,
+          "type": "data",
+          "multiplier": {
+            "document": "slots",
+            "conditions": [
+              {
+                "id": "GCtXBFA2HLAnqe1hmH8SUPkssNV5qubAYStJ7j4JFxFd",
+                "field": "abilityId"
+              }
+            ]
+          }
+        }
+      ],
+      "eraId": "Cny6z4s9TMbrCHPC4ySpUaQz3PkD5zBz5cVPkVmsQfgL",
+      "title": "Buzzie",
+      "treeId": "81qh8QmfuZaoQpr9v88yxvMXKv9QNEUQJEAux84xREnD",
+      "factors": [
+        {
+          "type": "influence",
+          "factor": 0.05,
+          "dependency": {
+            "document": "slots",
+            "conditions": [
+              {
+                "id": "81qh8QmfuZaoQpr9v88yxvMXKv9QNEUQJEAux84xREnD",
+                "field": "treeId"
+              },
+              {
+                "id": "GCtXBFA2HLAnqe1hmH8SUPkssNV5qubAYStJ7j4JFxFd",
+                "field": "abilityId"
+              }
+            ]
+          }
+        },
+        {
+          "type": "bandwidth",
+          "factor": 0.05,
+          "dependency": {
+            "document": "slots",
+            "conditions": [
+              {
+                "id": "Cny6z4s9TMbrCHPC4ySpUaQz3PkD5zBz5cVPkVmsQfgL",
+                "field": "eraId"
+              },
+              {
+                "id": "GCtXBFA2HLAnqe1hmH8SUPkssNV5qubAYStJ7j4JFxFd",
+                "field": "abilityId"
+              }
+            ]
+          }
+        },
+        {
+          "type": "influence",
+          "factor": 0.08,
+          "dependency": {
+            "document": "slots",
+            "conditions": [
+              {
+                "id": "12w84rJWXkqNg1QDhmL4VCtuQg1HKZGgX85ySAhJGDfF",
+                "field": "abilityId"
+              }
+            ]
+          }
+        }
+      ],
+      "description": "chat buddy",
+      "$createdAt": 1609760301763,
+      "$updatedAt": 1614436831439
+    },
+    "types": ["cost"]
+  },
+  {
+    "document": "Sources",
+    "transition": {
+      "$protocolVersion": 0,
+      "$id": "FoV6VT93fNE7NcS1BVyvu7oxu2G6H8r67oxR7EwBvUfa",
+      "$type": "Sources",
+      "$dataContractId": "HVNpipv3UyZapzGatqJ8tWCkrEQSqAJS4ZSwaSJcFHjM",
+      "$ownerId": "Firv3eur4hbCW87fzdisX5MvTwqRQQ7gKrZYirjbGGY5",
+      "$revision": 1,
+      "gameId": "9SzaYSYy1Rx1obvdUwW6sPnCiSmYCvpjCeaAmQhdzYQt",
+      "socketId": "G5YXPWfez5KQfyvfewo1U3Q2aYpUAUnRdwrQ13wom6bQ",
+      "eraId": "Cny6z4s9TMbrCHPC4ySpUaQz3PkD5zBz5cVPkVmsQfgL",
+      "treeId": "81qh8QmfuZaoQpr9v88yxvMXKv9QNEUQJEAux84xREnD",
+      "$createdAt": 1614602888327,
+      "$updatedAt": 1614602888327
+    },
+    "reference": {
+      "$protocolVersion": 0,
+      "$id": "G5YXPWfez5KQfyvfewo1U3Q2aYpUAUnRdwrQ13wom6bQ",
+      "$type": "Sockets",
+      "$dataContractId": "HVNpipv3UyZapzGatqJ8tWCkrEQSqAJS4ZSwaSJcFHjM",
+      "$ownerId": "EQ4ijQcbpwJnNWudTd1PRvUPL7Me6CBEBmQe8pcYtaUB",
+      "$revision": 7,
+      "bases": [
+        { "base": 1, "type": "influence" },
+        { "base": 1, "type": "bandwidth" }
+      ],
+      "costs": [
+        {
+          "cost": -1,
+          "type": "confidence",
+          "multiplier": {
+            "document": "sources",
+            "conditions": [
+              {
+                "id": "G5YXPWfez5KQfyvfewo1U3Q2aYpUAUnRdwrQ13wom6bQ",
+                "field": "socketId"
+              }
+            ]
+          }
+        },
+        {
+          "cost": -6765,
+          "type": "data",
+          "multiplier": {
+            "document": "trainings",
+            "conditions": [
+              {
+                "id": "G5YXPWfez5KQfyvfewo1U3Q2aYpUAUnRdwrQ13wom6bQ",
+                "field": "socketId"
+              }
+            ]
+          }
+        }
+      ],
+      "eraId": "Cny6z4s9TMbrCHPC4ySpUaQz3PkD5zBz5cVPkVmsQfgL",
+      "slots": 3,
+      "title": "Root Instance",
+      "treeId": "81qh8QmfuZaoQpr9v88yxvMXKv9QNEUQJEAux84xREnD",
+      "bonuses": [
+        {
+          "type": "confidence",
+          "bonus": 10,
+          "dependency": {
+            "document": "trainings",
+            "conditions": [
+              {
+                "id": "G5YXPWfez5KQfyvfewo1U3Q2aYpUAUnRdwrQ13wom6bQ",
+                "field": "socketId"
+              }
+            ]
+          }
+        }
+      ],
+      "factors": [
+        {
+          "type": "influence",
+          "factor": 0.05,
+          "dependency": {
+            "document": "slots",
+            "conditions": [
+              {
+                "id": "81qh8QmfuZaoQpr9v88yxvMXKv9QNEUQJEAux84xREnD",
+                "field": "treeId"
+              },
+              {
+                "id": "G5YXPWfez5KQfyvfewo1U3Q2aYpUAUnRdwrQ13wom6bQ",
+                "field": "socketId"
+              }
+            ]
+          }
+        }
+      ],
+      "description": "A little server for running scripts and tools.",
+      "$createdAt": 1609758263949,
+      "$updatedAt": 1614528574371
+    },
+    "types": ["cost", "base", "factor"]
+  }
+]
