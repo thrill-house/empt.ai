@@ -1,5 +1,6 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
-import { adjustValues } from "./api";
+import { SUMS, ACCRUALS, adjustValues } from "./api";
 import { takeRight } from "lodash-es";
 import transitions from "./__mocks__/transitions.mock.json";
 
@@ -15,8 +16,8 @@ describe("utils.adjustValues", () => {
     const payload = {
       transitions: takeRight(transitions),
       initial: {
-        bases: { influence: 0, bandwidth: 0 },
-        factors: { influence: 0, bandwidth: 0 },
+        bases: { ...ACCRUALS },
+        factors: { ...ACCRUALS },
       },
     };
     const values = adjustValues(payload);
@@ -31,8 +32,8 @@ describe("utils.adjustValues", () => {
     const payload = {
       transitions: takeRight(transitions, 3),
       initial: {
-        bases: { influence: 0, bandwidth: 0 },
-        factors: { influence: 0, bandwidth: 0 },
+        bases: { ...ACCRUALS },
+        factors: { ...ACCRUALS },
       },
     };
     const values = adjustValues(payload);
