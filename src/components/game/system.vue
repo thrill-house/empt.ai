@@ -19,7 +19,7 @@ export default {
 </script>
 
 <template>
-  <section v-bem="{ era: currentEra }">
+  <section v-bem="{ era: `${currentEra}` }">
     <socket-component
       v-for="(socket, s) in sockets"
       v-bem:component="{ [socket.title.replace(` `, ``)]: true }"
@@ -62,8 +62,10 @@ export default {
     ". . . . . . . . . . . . . . . . . . . . . . . ." // 23
     ". . . . . . . . . . . . . . . . . . . . . . . ."; //24
 
+  &--era-0,
   &--era-1,
   &--era-2 {
+    @apply relative;
     grid-template-rows: repeat(16, calc(6rem / var(--hex-ratio)));
     grid-template-columns: repeat(16, 6rem);
     grid-template-areas:
