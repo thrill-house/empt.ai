@@ -304,7 +304,8 @@ export default {
 
   &:not(&--installing):hover &__attributes,
   &--training &__attributes,
-  &--loading &__attributes {
+  &--loading &__attributes,
+  &:not(&--online) &__attributes {
     @apply hidden;
   }
 
@@ -372,7 +373,8 @@ export default {
 
   &:hover &__action,
   &--loading &__action,
-  &--training &__action {
+  &--training &__action,
+  &:not(&--online) &__action {
     @apply flex;
   }
 
