@@ -228,12 +228,11 @@ export default {
 
       const resources = reduce(
         [sums.costs, sums.bonuses, accruals],
-        (accum, additional) => {
-          return tallyValues({
+        (accum, additional) =>
+          tallyValues({
             initial: accum,
             additional,
-          });
-        },
+          }),
         // Start with 1 confidence
         { confidence: 1, data: 0 }
       );
