@@ -1,11 +1,9 @@
 <script>
 import { map, random } from "lodash-es";
 import { mapGetters, mapActions } from "vuex";
-import VueJsonEditor from "vue-json-editor";
 
 export default {
   name: "app",
-  components: { VueJsonEditor },
   created() {
     this.init();
   },
@@ -19,7 +17,7 @@ export default {
 
     // Editing
     document: "",
-    field: [],
+    field: "",
 
     // Loading states
     loading: {
@@ -168,8 +166,9 @@ export default {
     async saveDocument(document, content) {
       if (document && content) {
         this.loading[document] = true;
+        const jsonContent = JSON.parse(content);
 
-        await this[`edit${document}`](content);
+        await this[`edit${document}`](jsonContent);
 
         this.loading[document] = false;
       }
@@ -177,16 +176,12 @@ export default {
 
     open(document, data) {
       this.document = document;
-      this.onJsonChange(data);
-    },
-
-    onJsonChange(data) {
-      this.field = data;
+      this.field = JSON.stringify(data);
     },
 
     reset() {
       this.document = "";
-      this.field = {};
+      this.field = "";
       this.id = "";
     },
 
@@ -209,108 +204,104 @@ export default {
 </script>
 
 <template>
-  <header
-    class="w-full h-144 flex-none flex items-top justify-between border-b p-8"
-  >
-    <div>
-      <h1 class="text-5xl">EmPT.ai</h1>
-      <h2 class="text-2xl">Admin panel</h2>
-    </div>
-    <dl class="flex flex-wrap items-center max-w-3xl">
-      <dt class="text-xl w-1/4 border-b border-ash-50">Network</dt>
-      <dd class="w-3/4 p-1">
-        <select v-model="network" class="input">
-          <option value="evonet">Evonet</option>
-          <option value="testnet">Testnet</option>
-        </select>
-      </dd>
-      <dt class="text-xl w-1/4 border-b border-ash-50">Contract</dt>
-      <dd class="w-3/4 p-1">
-        <input type="text" v-model="contract" class="input" />
-      </dd>
-      <dt class="text-xl w-1/4 border-b border-ash-50">Mnemonic</dt>
-      <dd class="flex w-3/4 p-1">
-        <input type="text" v-model="mnemonic" class="input" />
-        <button v-if="!mnemonic" class="button" @click="createWallet">
-          Create
-        </button>
-      </dd>
-      <dt class="text-xl w-1/4 border-b border-ash-50">Address</dt>
-      <dd class="flex w-3/4 p-1">
-        <input type="text" v-model="address" class="input" />
-        <button v-if="!address" class="button" @click="retrieveAddress">
-          Retrieve
-        </button>
-      </dd>
-      <dt class="text-xl w-1/4 border-b border-ash-50">Identity</dt>
-      <dd class="flex w-3/4 p-1">
-        <input type="text" v-model="identity" class="input" />
-        <button
-          class="button"
-          :disabled="loading.identity"
-          @click="retrieveIdentity"
-          v-if="mnemonic && !identity"
-        >
-          Retrieve
-        </button>
-        <button
-          class="button"
-          :disabled="loading.identity"
-          @click="registerIdentity"
-          v-if="mnemonic && !identity"
-        >
-          Register
-        </button>
-      </dd>
-      <dt class="text-xl w-1/4 border-b border-ash-50">Balance</dt>
-      <dd class="flex w-3/4 p-1">
-        <span v-if="credit">
-          <output class="text-xl">{{ credit }}</output> Credits |
-        </span>
-        <span v-if="balance" class="mr-4">
-          <output class="text-xl">{{ balance }}</output> Dash
-        </span>
-        <button
-          class="button"
-          :disabled="loading.balance"
-          @click="retrieveBalance"
-          v-if="mnemonic && identity"
-        >
-          {{ balance ? "Refresh" : "Retrieve" }} balance
-        </button>
-      </dd>
-    </dl>
-  </header>
-  <main
-    id="main"
-    class="flex flex-1 self-stretch w-full max-h-full justify-center items-stretch"
-  >
-    <section class="w-full h-full p-4">
-      <button
-        v-for="(doc, d) in documents"
-        :key="d"
-        @click="open(d, doc)"
-        :class="`button m-2 ${d === document ? 'button-confirm' : ''}`"
-      >
-        {{ d }}
-      </button>
-      <vue-json-editor
-        class="bg-light"
-        v-model="field"
-        :value="field"
-        :show-btns="false"
-        :expandedOnStart="true"
-        mode="code"
-        @json-change="onJsonChange"
-      />
-      <button
-        @click="saveDocument(document, field)"
-        class="button button-confirm"
-      >
-        Save changes
-      </button>
-    </section>
-  </main>
+  <div class="w-full flex">
+    <header class="w-1/5 h-144 flex-none items-top justify-between p-8">
+      <div>
+        <h1 class="text-5xl">EmPT.ai</h1>
+        <h2 class="text-2xl">Admin panel</h2>
+      </div>
+      <dl class="flex flex-wrap items-center max-w-3xl">
+        <dt class="text-xl w-1/4 border-b border-ash-50">Network</dt>
+        <dd class="w-3/4 p-1">
+          <select v-model="network" class="input">
+            <option value="evonet">Evonet</option>
+            <option value="testnet">Testnet</option>
+          </select>
+        </dd>
+        <dt class="text-xl w-1/4 border-b border-ash-50">Contract</dt>
+        <dd class="w-3/4 p-1">
+          <input type="text" v-model="contract" class="input" />
+        </dd>
+        <dt class="text-xl w-1/4 border-b border-ash-50">Mnemonic</dt>
+        <dd class="flex w-3/4 p-1">
+          <input type="text" v-model="mnemonic" class="input" />
+          <button v-if="!mnemonic" class="button" @click="createWallet">
+            Create
+          </button>
+        </dd>
+        <dt class="text-xl w-1/4 border-b border-ash-50">Address</dt>
+        <dd class="flex w-3/4 p-1">
+          <input type="text" v-model="address" class="input" />
+          <button v-if="!address" class="button" @click="retrieveAddress">
+            Retrieve
+          </button>
+        </dd>
+        <dt class="text-xl w-1/4 border-b border-ash-50">Identity</dt>
+        <dd class="flex w-3/4 p-1">
+          <input type="text" v-model="identity" class="input" />
+          <button
+            class="button"
+            :disabled="loading.identity"
+            @click="retrieveIdentity"
+            v-if="mnemonic && !identity"
+          >
+            Retrieve
+          </button>
+          <button
+            class="button"
+            :disabled="loading.identity"
+            @click="registerIdentity"
+            v-if="mnemonic && !identity"
+          >
+            Register
+          </button>
+        </dd>
+        <dt class="text-xl w-1/4 border-b border-ash-50">Balance</dt>
+        <dd class="flex w-3/4 p-1">
+          <span v-if="credit">
+            <output class="text-xl">{{ credit }}</output> Credits |
+          </span>
+          <span v-if="balance" class="mr-4">
+            <output class="text-xl">{{ balance }}</output> Dash
+          </span>
+          <button
+            class="button"
+            :disabled="loading.balance"
+            @click="retrieveBalance"
+            v-if="mnemonic && identity"
+          >
+            {{ balance ? "Refresh" : "Retrieve" }} balance
+          </button>
+        </dd>
+      </dl>
+    </header>
+    <main
+      id="main"
+      class="flex flex-1 self-stretch w-4/5 h-full justify-center items-stretch"
+    >
+      <section class="w-full flex">
+        <div class="w-1/5">
+          <button
+            v-for="(doc, d) in documents"
+            :key="d"
+            @click="open(d, doc)"
+            :class="`button m-2 ${d === document ? 'button-confirm' : ''}`"
+          >
+            {{ d }}
+          </button>
+        </div>
+        <div class="w-4/5 h-screen">
+          <textarea class="h-full w-full -mb-16 text-dark" v-model="field" />
+          <button
+            @click="saveDocument(document, field)"
+            class="button button-confirm absolute right-4"
+          >
+            Save changes
+          </button>
+        </div>
+      </section>
+    </main>
+  </div>
 </template>
 
 <style lang="scss">
