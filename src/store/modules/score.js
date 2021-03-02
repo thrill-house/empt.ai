@@ -14,10 +14,11 @@ import {
 } from "lodash-es";
 
 import {
+  INITIAL_SUMS,
   referenceTransitions,
-  calculateSums,
   calculateAccruals,
   sumAccruals,
+  calculateSums,
   tallyValues,
 } from "../../api";
 
@@ -233,8 +234,7 @@ export default {
             initial: accum,
             additional,
           }),
-        // Start with 1 confidence
-        { confidence: 1, data: 0 }
+        { ...INITIAL_SUMS }
       );
 
       if (getters.transitions) {

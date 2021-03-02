@@ -19,9 +19,9 @@ import {
   uniq,
 } from "lodash-es";
 
-export const DIFFICULTY = 1.1;
-export const SUMS = { confidence: 0, data: 0 };
-export const ACCRUALS = { influence: 0, bandwidth: 0 };
+export const DIFFICULTY_COEFFICIENT = 5;
+export const INITIAL_SUMS = { confidence: 0, data: 0 };
+export const INITIAL_ACCRUALS = { influence: 0, bandwidth: 0 };
 
 export const referenceTransitions = (payload) => {
   const { transitions, getAbility, getSocket } = payload;
@@ -158,6 +158,7 @@ export const tabulateValues = (payload) => {
             comparison.conditions,
             (accumConditions, condition) => {
               accumConditions[condition.field] = condition.id;
+
               return accumConditions;
             },
             {}
@@ -176,7 +177,7 @@ export const tabulateValues = (payload) => {
       if (multiplier && !dependency) {
         if (comparisonsCount > 0) {
           addedValue = Big(addedValue)
-            .times(Big(DIFFICULTY).pow(comparisonsCount))
+            .times(Big(DIFFICULTY_COEFFICIENT).pow(comparisonsCount))
             .minus(addedValue)
             .toNumber();
         } else {
@@ -213,8 +214,8 @@ export const tallyValues = (payload) => {
 export const calculateSums = (payload) => {
   const { transitions, initial } = defaults(payload, {
     initial: {
-      costs: SUMS,
-      bonuses: SUMS,
+      costs: INITIAL_SUMS,
+      bonuses: INITIAL_SUMS,
     },
     transitions: [],
   });
@@ -225,8 +226,8 @@ export const calculateSums = (payload) => {
 export const calculateAccruals = (payload) => {
   const { transitions, initial } = defaults(payload, {
     initial: {
-      bases: ACCRUALS,
-      factors: ACCRUALS,
+      bases: INITIAL_ACCRUALS,
+      factors: INITIAL_ACCRUALS,
     },
     transitions: [],
   });
@@ -265,7 +266,7 @@ export const sumAccruals = (payload) => {
 
       return accum;
     },
-    { ...SUMS }
+    { ...INITIAL_SUMS }
   );
 
   return accruals;
