@@ -13,16 +13,37 @@
     {
       "cost": <%= data['Source cost (C)'] * -1 %>,
       "type": "confidence",
+    },
+    <% if (data['Multiplier1Id']) { %>  
+    {
+      "cost": <%= data['Source cost (C)'] * data['Multiplier 1 coefficient (C)'] * -1 %>,
+      "type": "confidence",
       "multiplier": {
         "conditions": [
           {
             "field": "socketId",
-            "id": "<%= data['ID'] %>"
+            "id": "<%= data['Multiplier1Id'] %>"
           }
         ],
         "document": "sources"
       }
     },
+    <% } %>
+    <% if (data['Multiplier2Id']) { %>  
+    {
+      "cost": <%= data['Source cost (C)'] * data['Multiplier 2 coefficient (C)'] * -1 %>,
+      "type": "confidence",
+      "multiplier": {
+        "conditions": [
+          {
+            "field": "socketId",
+            "id": "<%= data['Multiplier2Id'] %>"
+          }
+        ],
+        "document": "sources"
+      }
+    },
+    <% } %>
     {
       "cost": <%= data['Train cost (D)'] * -1 %>,
       "type": "data",

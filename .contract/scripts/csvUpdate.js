@@ -31,7 +31,7 @@ const { input, output } = argv;
 
   const keys = records[0];
 
-  await records.splice(1).map(async (record) => {
+  await records.map(async (record) => {
     const data = zipObject(keys, record);
     const update = find(updates, { title: data["Title"] });
 
@@ -42,10 +42,5 @@ const { input, output } = argv;
     items.push(record);
   });
 
-  // console.log(items);
-
-  await fs.writeFile(
-    `/Users/Mike/Desktop/Balancing/output2.csv`,
-    `${items.join("\n")}`
-  );
+  await fs.writeFile(output, `${items.join("\n")}`);
 })();
