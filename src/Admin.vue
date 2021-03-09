@@ -168,7 +168,11 @@ export default {
         this.loading[document] = true;
         const jsonContent = JSON.parse(content);
 
-        await this[`edit${document}`](jsonContent);
+        try {
+          await this[`edit${document}`](jsonContent);
+        } catch (e) {
+          console.log({ "Editing did not complete": e });
+        }
 
         this.loading[document] = false;
       }
@@ -289,6 +293,7 @@ export default {
           >
             {{ d }}
           </button>
+          <pre>{{ loading }}</pre>
         </div>
         <div class="w-4/5 h-screen">
           <textarea class="h-full w-full -mb-16 text-dark" v-model="field" />
