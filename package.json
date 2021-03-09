@@ -9,6 +9,7 @@
     "lint": "vue-cli-service lint",
     "test": "jest",
     "register-contract": "node .contract/scripts/registerContract.js",
+    "register-identity": "node .contract/scripts/registerIdentity.js",
     "csv-extract": "node .contract/scripts/csvExtract.js",
     "csv-update": "node .contract/scripts/csvupdate.js"
   },
