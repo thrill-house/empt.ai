@@ -549,7 +549,7 @@ export default (config) => {
                         size += encoded.length / 1024;
                         limit += 1;
 
-                        if (size < 15 && limit <= 10) {
+                        if (size < 12 && limit <= 10) {
                           included[key].push(item);
                         } else {
                           remainder[key].push(item);
