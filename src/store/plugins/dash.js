@@ -1,5 +1,5 @@
 import Dash from "dash";
-import localforage from "localforage";
+// import localforage from "localforage";
 import {
   each,
   head,
@@ -87,7 +87,10 @@ export default (config) => {
             network: state.options.network,
             wallet: {
               mnemonic: state.options.mnemonic,
-              adapter: localforage,
+              // adapter: localforage,
+              unsafeOptions: {
+                skipSynchronizationBeforeHeight: 415000,
+              },
             },
             apps: {
               Contract: {
@@ -153,7 +156,7 @@ export default (config) => {
             getters.accountSynced &&
             (getters.identityRegistering || !getters.identityRegistering)
           ) {
-            return getters.account.getIdentityIds();
+            return getters.account.identities.getIdentityIds();
           }
 
           return [];
