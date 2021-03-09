@@ -42,12 +42,12 @@ The project expects the following 3 environment variables to be set. The officia
 
 ```toml
 # Dash Platform contract identity
-VUE_APP_GAME_CONTRACT="HVNpipv3UyZapzGatqJ8tWCkrEQSqAJS4ZSwaSJcFHjM"
+VUE_APP_GAME_CONTRACT="7bpZn6tH9s8ekJTVCi4nxKQJLhNk6YTRQ7BboY15mfUA"
 
 # Dash Platform identity ID
-VUE_APP_GAME_IDENTITY="EQ4ijQcbpwJnNWudTd1PRvUPL7Me6CBEBmQe8pcYtaUB"
+VUE_APP_GAME_IDENTITY="EDf5x3feZxtxATjau3hBmHDTedDibdAa6KVv6wJ5bHoF"
 
-# One of "livenet", "testnet" or "evonet"
+# One of "livenet" or "testnet"
 VUE_APP_GAME_NETWORK="testnet"
 ```
 
