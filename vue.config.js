@@ -3,7 +3,6 @@ require("dotenv").config();
 module.exports = {
   pages: {
     index: "src/main.js",
-    admin: "src/admin.js",
   },
   configureWebpack: {
     devtool: "source-map",
