@@ -144,11 +144,12 @@ export default {
 
     abilityCosts: (state, getters) => (id) => getters.ability(id)?.costs,
 
-    abilityCoreCosts: (state, getters) => (id) =>
-      filter(
-        getters.abilityCosts(id),
-        ({ multiplier }) => multiplier === undefined
-      ),
+    // Looks like we don't need this.
+    // abilityCoreCosts: (state, getters) => (id) =>
+    //   filter(
+    //     getters.abilityCosts(id),
+    //     ({ multiplier }) => multiplier === undefined
+    //   ),
 
     abilityAdjustedCosts: (state, getters) => (id, transitions) => {
       const abilityTransitions = referenceTransitions({
@@ -243,11 +244,12 @@ export default {
     // Socket costs
     socketCosts: (state, getters) => (id) => getters.socket(id)?.costs,
 
-    socketCoreCosts: (state, getters) => (id) =>
-      filter(
-        getters.socketCosts(id),
-        ({ multiplier }) => multiplier === undefined
-      ),
+    // Looks like we don't need this.
+    // socketCoreCosts: (state, getters) => (id) =>
+    //   filter(
+    //     getters.socketCosts(id),
+    //     ({ multiplier }) => multiplier === undefined
+    //   ),
 
     socketAdjustedCosts: (state, getters) => (id, transitions) => {
       const socketTransitions = referenceTransitions({
@@ -257,7 +259,7 @@ export default {
       });
 
       const socketCoreCosts = reduce(
-        getters.socketCoreCosts(id),
+        getters.socketCosts(id),
         (accum, { type, cost }) => {
           accum[type] = cost;
           return accum;
@@ -274,9 +276,11 @@ export default {
     },
 
     socketConfidenceCosts: (state, getters) => (id) => {
-      const socketSource = getters["socketSource"](id);
-      return getters.socketAdjustedCosts(id, socketSource ? [socketSource] : [])
-        ?.confidence;
+      // Do we actually want to do this? This would make sockets cost more, but they can only be purchased once
+      // const socketSource = getters["socketSource"](id);
+      // return getters.socketAdjustedCosts(id, socketSource ? [socketSource] : [])
+      //   ?.confidence;
+      return getters.socketAdjustedCosts(id, [])?.confidence;
     },
 
     socketDataCosts: (state, getters) => (id) => {

@@ -1,0 +1,118 @@
+{
+  <% if (data['ID'] && data['ID'] !== "11111111111111111111111111111111111111111111") { %>"$id": "<%= data['ID'] %>",<% } %>
+  "title": "<%= data['Title'] %>",
+  "eraId": "<%= data['EraId'] %>",
+  "treeId": "<%= data['TreeId'] %>",
+  "description": "<%= data['Description'] %>",
+  "slots": <%= data['Slots'] %>,
+  "bases": [
+    { "base": <%= data['Influence (I)'] %>, "type": "influence" },
+    { "base": <%= data['Bandwidth (B)'] %>, "type": "bandwidth" }
+  ],
+  "costs": [
+    {
+      "cost": <%= data['Source cost (C)'] * -1 %>,
+      "type": "confidence",
+    },
+    <% if (data['Multiplier1Id']) { %>  
+    {
+      "cost": <%= data['Source cost (C)'] * data['Multiplier 1 coefficient (C)'] * -1 %>,
+      "type": "confidence",
+      "multiplier": {
+        "conditions": [
+          {
+            "field": "socketId",
+            "id": "<%= data['Multiplier1Id'] %>"
+          }
+        ],
+        "document": "sources"
+      }
+    },
+    <% } %>
+    <% if (data['Multiplier2Id']) { %>  
+    {
+      "cost": <%= data['Source cost (C)'] * data['Multiplier 2 coefficient (C)'] * -1 %>,
+      "type": "confidence",
+      "multiplier": {
+        "conditions": [
+          {
+            "field": "socketId",
+            "id": "<%= data['Multiplier2Id'] %>"
+          }
+        ],
+        "document": "sources"
+      }
+    },
+    <% } %>
+    {
+      "cost": <%= data['Train cost (D)'] * -1 %>,
+      "type": "data",
+      "multiplier": {
+        "conditions": [
+          {
+            "field": "socketId",
+            "id": "<%= data['ID'] %>"
+          }
+        ],
+        "document": "trainings"
+      }
+    }
+  ],
+  "factors": [
+    <% if (data['Tree boost (I)']) { %>  
+    {
+      "type": "influence",
+      "factor": <%= data['Tree boost (I)'] %>,
+      "dependency": {
+        "conditions": [
+          {
+            "field": "treeId",
+            "id": "<%= data['TreeId'] %>"
+          },
+          {
+            "field": "socketId",
+            "id": "<%= data['ID'] %>"
+          }
+        ],
+        "document": "slots"
+      }
+    },
+    <% } %>
+    <% if (data['Era boost (B)']) { %>  
+    {
+      "type": "bandwidth",
+      "factor": <%= data['Era boost (B)'] %>,
+      "dependency": {
+        "conditions": [
+          {
+            "field": "eraId",
+            "id": "<%= data['EraId'] %>"
+          },
+          {
+            "field": "socketId",
+            "id": "<%= data['ID'] %>"
+          }
+        ],
+        "document": "slots"
+      }
+    },
+    <% } %>
+  ],
+  "bonuses": [
+    <% if (data['Train bonus (C)']) { %>  
+      {
+        "type": "confidence",
+        "bonus": <%= data['Train bonus (C)'] %>,
+        "dependency": {
+          "conditions": [
+            {
+              "field": "socketId",
+              "id": "<%= data['ID'] %>"
+            }
+          ],
+          "document": "trainings"
+        }
+      }
+    <% } %>
+  ],
+}

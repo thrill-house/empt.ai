@@ -1,51 +1,52 @@
 {
   "Abilities": {
+    "type": "object",
     "additionalProperties": false,
     "properties": {
       "title": {
-        "$ref": "#/definitions/Title",
+        "$ref": "#/$defs/Title",
         "description": "The name of this ability."
       },
       "description": {
-        "$ref": "#/definitions/Description",
+        "$ref": "#/$defs/Description",
         "description": "The description of this ability."
       },
-      "treeId": {
-        "$ref": "#/definitions/Id",
+      "treeUid": {
+        "$ref": "#/$defs/Uid",
         "description": "A reference to the tree to which this ability belongs."
       },
-      "eraId": {
-        "$ref": "#/definitions/Id",
+      "eraUid": {
+        "$ref": "#/$defs/Uid",
         "description": "A reference to the era to which this ability belongs."
       },
       "bases": {
         "type": "array",
         "items": {
-          "$ref": "#/definitions/Base"
+          "$ref": "#/$defs/Base"
         },
         "description": "The various bases that determine the contribution of this ability to the game score."
       },
       "factors": {
         "type": "array",
         "items": {
-          "$ref": "#/definitions/Factor"
+          "$ref": "#/$defs/Factor"
         },
         "description": "The various factors that determine the contribution of this ability to the game score."
       },
       "costs": {
         "type": "array",
         "items": {
-          "$ref": "#/definitions/Costs"
+          "$ref": "#/$defs/Costs"
         },
         "description": "The various costs associated with this ability."
       },
       "meta": {
-        "$ref": "#/definitions/Meta"
+        "$ref": "#/$defs/Meta"
       }
     },
     "required": [
-      "eraId",
-      "treeId",
+      "eraUid",
+      "treeUid",
       "bases",
       "costs",
       "description",
@@ -59,29 +60,30 @@
         "properties": [{ "$ownerId": "asc" }]
       },
       {
-        "properties": [{ "treeId": "asc" }]
+        "properties": [{ "treeUid": "asc" }]
       },
       {
-        "properties": [{ "eraId": "asc" }]
+        "properties": [{ "eraUid": "asc" }]
       },
       {
-        "properties": [{ "treeId": "asc" }, { "eraId": "asc" }]
+        "properties": [{ "treeUid": "asc" }, { "eraUid": "asc" }]
       }
     ]
   },
   "Emotions": {
+    "type": "object",
     "additionalProperties": false,
     "properties": {
       "title": {
-        "$ref": "#/definitions/Title",
+        "$ref": "#/$defs/Title",
         "description": "The name of this emotion."
       },
       "description": {
-        "$ref": "#/definitions/Description",
+        "$ref": "#/$defs/Description",
         "description": "The description of this emotion."
       },
-      "emotionId": {
-        "$ref": "#/definitions/Id",
+      "emotionUid": {
+        "$ref": "#/$defs/Uid",
         "description": "A reference to the complementary emotion with which this emotion shares an axis."
       },
       "sentiment": {
@@ -89,11 +91,11 @@
         "description": "The extent to which this is a positive or negative emotion. A value of `true` represents positive while a value of `false` represents negative."
       },
       "meta": {
-        "$ref": "#/definitions/Meta"
+        "$ref": "#/$defs/Meta"
       }
     },
     "required": [
-      "emotionId",
+      "emotionUid",
       "description",
       "sentiment",
       "title",
@@ -105,7 +107,7 @@
         "properties": [{ "$ownerId": "asc" }]
       },
       {
-        "properties": [{ "emotionId": "asc" }]
+        "properties": [{ "emotionUid": "asc" }]
       },
       {
         "properties": [{ "sentiment": "asc" }]
@@ -113,14 +115,15 @@
     ]
   },
   "Eras": {
+    "type": "object",
     "additionalProperties": false,
     "properties": {
       "title": {
-        "$ref": "#/definitions/Title",
+        "$ref": "#/$defs/Title",
         "description": "The name of this era."
       },
       "description": {
-        "$ref": "#/definitions/Description",
+        "$ref": "#/$defs/Description",
         "description": "The description of this era."
       },
       "stage": {
@@ -129,7 +132,7 @@
         "description": "The stage of this era used to determine the order of the previous and next eras."
       },
       "meta": {
-        "$ref": "#/definitions/Meta"
+        "$ref": "#/$defs/Meta"
       }
     },
     "required": ["description", "stage", "title", "$createdAt", "$updatedAt"],
@@ -140,13 +143,14 @@
     ]
   },
   "Games": {
+    "type": "object",
     "properties": {
       "title": {
-        "$ref": "#/definitions/Title",
+        "$ref": "#/$defs/Title",
         "description": "The memorable name assigned to this game."
       },
       "meta": {
-        "$ref": "#/definitions/Meta"
+        "$ref": "#/$defs/Meta"
       }
     },
     "required": ["title", "$createdAt", "$updatedAt"],
@@ -158,14 +162,15 @@
     "additionalProperties": false
   },
   "Models": {
+    "type": "object",
     "additionalProperties": false,
     "properties": {
-      "gameId": {
-        "$ref": "#/definitions/Id",
+      "gameUid": {
+        "$ref": "#/$defs/Uid",
         "description": "A reference to the game to which this model belongs."
       },
-      "abilityId": {
-        "$ref": "#/definitions/Id",
+      "abilityUid": {
+        "$ref": "#/$defs/Uid",
         "description": "A reference to the ability upon which this model is based."
       },
       "feelings": {
@@ -173,60 +178,67 @@
         "minItems": 3,
         "maxItems": 3,
         "items": {
-          "$ref": "#/definitions/Feeling"
+          "$ref": "#/$defs/Feeling"
         },
         "description": "The various emotional values associated with this model."
       }
     },
-    "required": ["abilityId", "gameId", "feelings", "$createdAt", "$updatedAt"],
+    "required": [
+      "abilityUid",
+      "gameUid",
+      "feelings",
+      "$createdAt",
+      "$updatedAt"
+    ],
     "indices": [
       {
         "properties": [{ "$ownerId": "asc" }]
       },
       {
-        "properties": [{ "gameId": "asc" }]
+        "properties": [{ "gameUid": "asc" }]
       },
       {
-        "properties": [{ "abilityId": "asc" }]
+        "properties": [{ "abilityUid": "asc" }]
       },
       {
-        "properties": [{ "gameId": "asc" }, { "abilityId": "asc" }]
+        "properties": [{ "gameUid": "asc" }, { "abilityUid": "asc" }]
       }
     ]
   },
   "Slots": {
+    "type": "object",
     "additionalProperties": false,
     "properties": {
-      "gameId": {
-        "$ref": "#/definitions/Id",
+      "gameUid": {
+        "$ref": "#/$defs/Uid",
         "description": "A reference to the game to which this slot belongs."
       },
-      "modelId": {
-        "$ref": "#/definitions/Id",
+      "modelUid": {
+        "$ref": "#/$defs/Uid",
         "description": "A reference to the model to which this slot belongs."
       },
-      "sourceId": {
-        "$ref": "#/definitions/Id",
+      "sourceUid": {
+        "$ref": "#/$defs/Uid",
         "description": "A reference to the source to which this slot belongs."
       },
-      "abilityId": {
-        "$ref": "#/definitions/Id",
+      "abilityUid": {
+        "$ref": "#/$defs/Uid",
         "description": "A reference to the ability derived from the model to which this slot belongs."
       },
-      "socketId": {
-        "$ref": "#/definitions/Id",
+      "socketUid": {
+        "$ref": "#/$defs/Uid",
         "description": "A reference to the socket derived from the source to which this slot belongs."
       },
-      "eraId": {
-        "$ref": "#/definitions/Id",
+      "eraUid": {
+        "$ref": "#/$defs/Uid",
         "description": "A reference to the era derived from the socket derived from the source to which this slot belongs."
       },
-      "treeId": {
-        "$ref": "#/definitions/Id",
+      "treeUid": {
+        "$ref": "#/$defs/Uid",
         "description": "A reference to the tree derived from the socket derived from the source to which this slot belongs."
       },
-      "slotId": {
-        "$ref": "#/definitions/Id",
+      "slotUid": {
+        "$ref": "#/$defs/Uid",
         "description": "An optional reference to the previous slot over the top of which this slot is being installed."
       },
       "slotIndex": {
@@ -237,13 +249,13 @@
       }
     },
     "required": [
-      "abilityId",
-      "eraId",
-      "gameId",
-      "modelId",
-      "socketId",
-      "sourceId",
-      "treeId",
+      "abilityUid",
+      "eraUid",
+      "gameUid",
+      "modelUid",
+      "socketUid",
+      "sourceUid",
+      "treeUid",
       "slotIndex",
       "$createdAt",
       "$updatedAt"
@@ -253,48 +265,49 @@
         "properties": [{ "$ownerId": "asc" }]
       },
       {
-        "properties": [{ "gameId": "asc" }]
+        "properties": [{ "gameUid": "asc" }]
       },
       {
-        "properties": [{ "modelId": "asc" }]
+        "properties": [{ "modelUid": "asc" }]
       },
       {
-        "properties": [{ "sourceId": "asc" }]
+        "properties": [{ "sourceUid": "asc" }]
       },
       {
-        "properties": [{ "abilityId": "asc" }]
+        "properties": [{ "abilityUid": "asc" }]
       },
       {
-        "properties": [{ "abilityId": "asc" }, { "eraId": "asc" }]
+        "properties": [{ "abilityUid": "asc" }, { "eraUid": "asc" }]
       },
       {
-        "properties": [{ "abilityId": "asc" }, { "treeId": "asc" }]
+        "properties": [{ "abilityUid": "asc" }, { "treeUid": "asc" }]
       },
       {
-        "properties": [{ "socketId": "asc" }]
+        "properties": [{ "socketUid": "asc" }]
       },
       {
-        "properties": [{ "slotId": "asc" }]
+        "properties": [{ "slotUid": "asc" }]
       }
     ]
   },
   "Sockets": {
+    "type": "object",
     "additionalProperties": false,
     "properties": {
       "title": {
-        "$ref": "#/definitions/Title",
+        "$ref": "#/$defs/Title",
         "description": "The name of this socket."
       },
       "description": {
-        "$ref": "#/definitions/Description",
+        "$ref": "#/$defs/Description",
         "description": "The description of this socket."
       },
-      "treeId": {
-        "$ref": "#/definitions/Id",
+      "treeUid": {
+        "$ref": "#/$defs/Uid",
         "description": "A reference to the tree to which this socket belongs."
       },
-      "eraId": {
-        "$ref": "#/definitions/Id",
+      "eraUid": {
+        "$ref": "#/$defs/Uid",
         "description": "A reference to the era to which this socket belongs."
       },
       "slots": {
@@ -306,38 +319,38 @@
       "bases": {
         "type": "array",
         "items": {
-          "$ref": "#/definitions/Base"
+          "$ref": "#/$defs/Base"
         },
         "description": "The various bases that determine the contribution of this socket to the game score."
       },
       "factors": {
         "type": "array",
         "items": {
-          "$ref": "#/definitions/Factor"
+          "$ref": "#/$defs/Factor"
         },
         "description": "The various factors that determine the contribution of this socket to the game score."
       },
       "bonuses": {
         "type": "array",
         "items": {
-          "$ref": "#/definitions/Bonus"
+          "$ref": "#/$defs/Bonus"
         },
         "description": "The various bonuses that determine the contribution of this socket to the game score."
       },
       "costs": {
         "type": "array",
         "items": {
-          "$ref": "#/definitions/Costs"
+          "$ref": "#/$defs/Costs"
         },
         "description": "The various costs associated with this socket."
       },
       "meta": {
-        "$ref": "#/definitions/Meta"
+        "$ref": "#/$defs/Meta"
       }
     },
     "required": [
-      "eraId",
-      "treeId",
+      "eraUid",
+      "treeUid",
       "bases",
       "bonuses",
       "costs",
@@ -353,41 +366,42 @@
         "properties": [{ "$ownerId": "asc" }]
       },
       {
-        "properties": [{ "treeId": "asc" }]
+        "properties": [{ "treeUid": "asc" }]
       },
       {
-        "properties": [{ "eraId": "asc" }]
+        "properties": [{ "eraUid": "asc" }]
       },
       {
-        "properties": [{ "treeId": "asc" }, { "eraId": "asc" }]
+        "properties": [{ "treeUid": "asc" }, { "eraUid": "asc" }]
       }
     ]
   },
   "Sources": {
+    "type": "object",
     "additionalProperties": false,
     "properties": {
-      "gameId": {
-        "$ref": "#/definitions/Id",
+      "gameUid": {
+        "$ref": "#/$defs/Uid",
         "description": "A reference to the game to which this source belongs."
       },
-      "socketId": {
-        "$ref": "#/definitions/Id",
+      "socketUid": {
+        "$ref": "#/$defs/Uid",
         "description": "A reference to the socket to which this source belongs."
       },
-      "treeId": {
-        "$ref": "#/definitions/Id",
+      "treeUid": {
+        "$ref": "#/$defs/Uid",
         "description": "A reference to the tree derived from the socket to which this source belongs."
       },
-      "eraId": {
-        "$ref": "#/definitions/Id",
+      "eraUid": {
+        "$ref": "#/$defs/Uid",
         "description": "A reference to the era derived from the socket to which this source belongs."
       }
     },
     "required": [
-      "eraId",
-      "gameId",
-      "socketId",
-      "treeId",
+      "eraUid",
+      "gameUid",
+      "socketUid",
+      "treeUid",
       "$createdAt",
       "$updatedAt"
     ],
@@ -396,45 +410,46 @@
         "properties": [{ "$ownerId": "asc" }]
       },
       {
-        "properties": [{ "gameId": "asc" }]
+        "properties": [{ "gameUid": "asc" }]
       },
       {
-        "properties": [{ "socketId": "asc" }]
+        "properties": [{ "socketUid": "asc" }]
       },
       {
-        "properties": [{ "treeId": "asc" }]
+        "properties": [{ "treeUid": "asc" }]
       },
       {
-        "properties": [{ "eraId": "asc" }]
+        "properties": [{ "eraUid": "asc" }]
       },
       {
-        "properties": [{ "gameId": "asc" }, { "socketId": "asc" }]
+        "properties": [{ "gameUid": "asc" }, { "socketUid": "asc" }]
       }
     ]
   },
   "Trainings": {
+    "type": "object",
     "additionalProperties": false,
     "properties": {
-      "gameId": {
-        "$ref": "#/definitions/Id",
+      "gameUid": {
+        "$ref": "#/$defs/Uid",
         "description": "A reference to the game to which this training belongs."
       },
-      "sourceId": {
-        "$ref": "#/definitions/Id",
+      "sourceUid": {
+        "$ref": "#/$defs/Uid",
         "description": "A reference to the source to which this training belongs."
       },
-      "socketId": {
-        "$ref": "#/definitions/Id",
+      "socketUid": {
+        "$ref": "#/$defs/Uid",
         "description": "A reference to the socket derived from the source to which this training belongs."
       },
       "answer": {
-        "$ref": "#/definitions/Answer"
+        "$ref": "#/$defs/Answer"
       }
     },
     "required": [
-      "gameId",
-      "socketId",
-      "sourceId",
+      "gameUid",
+      "socketUid",
+      "sourceUid",
       "answer",
       "$createdAt",
       "$updatedAt"
@@ -444,29 +459,30 @@
         "properties": [{ "$ownerId": "asc" }]
       },
       {
-        "properties": [{ "gameId": "asc" }]
+        "properties": [{ "gameUid": "asc" }]
       },
       {
-        "properties": [{ "sourceId": "asc" }]
+        "properties": [{ "sourceUid": "asc" }]
       },
       {
-        "properties": [{ "socketId": "asc" }]
+        "properties": [{ "socketUid": "asc" }]
       }
     ]
   },
   "Trees": {
+    "type": "object",
     "additionalProperties": false,
     "properties": {
       "title": {
-        "$ref": "#/definitions/Title",
+        "$ref": "#/$defs/Title",
         "description": "The name of this tree."
       },
       "description": {
-        "$ref": "#/definitions/Description",
+        "$ref": "#/$defs/Description",
         "description": "The description of this tree."
       },
       "meta": {
-        "$ref": "#/definitions/Meta"
+        "$ref": "#/$defs/Meta"
       }
     },
     "required": ["description", "title", "$createdAt", "$updatedAt"],

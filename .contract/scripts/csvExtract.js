@@ -9,10 +9,6 @@ const argv = yargs
     alias: "i",
     description: "Provide a file path to a CSV you want to convert.",
   })
-  .option("output", {
-    alias: "o",
-    description: "Provide a location to output the converted file.",
-  })
   .option("template", {
     alias: "t",
     description: "Which template should be used to convert this CSV.",
@@ -24,7 +20,9 @@ const argv = yargs
   .help()
   .alias("help", "h").argv;
 
-const { input, output, template } = argv;
+const { input, template } = argv;
+
+const output = input.replace(".csv", ".json");
 
 (async function() {
   const content = await fs.readFile(input);
@@ -42,5 +40,5 @@ const { input, output, template } = argv;
     }
   });
 
-  await fs.writeFile(`${output}/output.json`, `[${items.join(",")}]`);
+  await fs.writeFile(output, `[${items.join(",")}]`);
 })();

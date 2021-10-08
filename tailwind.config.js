@@ -72,7 +72,6 @@ module.exports = {
       },
     },
   },
-  // TODO: Remove this in place of doing it the TW 2.0 way: https://tailwindcss.com/docs/functions-and-directives#layer
   plugins: [
     function({ addComponents, addBase, theme }) {
       const backgroundComponents = {};

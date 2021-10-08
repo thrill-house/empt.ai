@@ -182,7 +182,7 @@ export default {
   }
 
   // Era 1
-  &--Root &__slot {
+  &--RootInstance &__slot {
     &--0 {
       grid-area: b;
     }
@@ -194,7 +194,7 @@ export default {
     }
   }
 
-  &--Root {
+  &--RootInstance {
     @include hex-path(
       0 42,
       24 30,
@@ -225,7 +225,7 @@ export default {
   }
 
   // Era 2
-  &--ScienceJournals &__slot {
+  &--ScientificJournals &__slot {
     &--0 {
       grid-area: a;
     }
@@ -234,7 +234,7 @@ export default {
     }
   }
 
-  &--ScienceJournals {
+  &--ScientificJournals {
     @include hex-path(
       0 42,
       24 30,

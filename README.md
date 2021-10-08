@@ -41,14 +41,14 @@ yarn install
 The project expects the following 3 environment variables to be set. The official test values are listed below. Using these will get you up and running right away.
 
 ```toml
-# Dash Platform contract identity
-VUE_APP_GAME_CONTRACT="HVNpipv3UyZapzGatqJ8tWCkrEQSqAJS4ZSwaSJcFHjM"
-
-# Dash Platform identity ID
-VUE_APP_GAME_IDENTITY="EQ4ijQcbpwJnNWudTd1PRvUPL7Me6CBEBmQe8pcYtaUB"
-
 # One of "livenet", "testnet" or "evonet"
 VUE_APP_GAME_NETWORK="testnet"
+
+# Dash Platform contract identity
+VUE_APP_GAME_CONTRACT="HvFxmkiUhhhLvLJuSeq9FKomiEnSnmLj298YBKkqWmWP"
+
+# Dash Platform identity ID
+VUE_APP_GAME_IDENTITY="BFFra7uHApVBaAcnfW1Ae1rsDsQhCdxNFz9ya1auGSEe"
 ```
 
 To use values you have defined yourself, you'll need to create a new identity for yourself on and then submit a valid set of your own documents to the contract. There is a rudimentary admin interface for this where you can provide the Mnemonic required to make writes, however if you're running this locally you can also save yourself some trouble by storing an additional environment variable to speed up that process.

@@ -12,13 +12,14 @@ export default {
   computed: {
     ...mapGetters({
       sockets: "inventory/sockets",
+      currentEra: "score/currentEra",
     }),
   },
 };
 </script>
 
 <template>
-  <section v-bem>
+  <section v-bem="{ era: `${currentEra}` }">
     <socket-component
       v-for="(socket, s) in sockets"
       v-bem:component="{ [socket.title.replace(` `, ``)]: true }"
@@ -32,7 +33,6 @@ export default {
 .game-system {
   @apply absolute top-0 left-0 2xl:left-unset;
   @apply grid;
-
   grid-template-rows: repeat(24, calc(6rem / var(--hex-ratio)));
   grid-template-columns: repeat(24, 6rem);
   grid-template-areas:
@@ -62,14 +62,40 @@ export default {
     ". . . . . . . . . . . . . . . . . . . . . . . ." // 23
     ". . . . . . . . . . . . . . . . . . . . . . . ."; //24
 
+  &--era-0,
+  &--era-1,
+  &--era-2 {
+    @apply relative;
+    grid-template-rows: repeat(16, calc(6rem / var(--hex-ratio)));
+    grid-template-columns: repeat(16, 6rem);
+    grid-template-areas:
+    // 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6
+      ". . . . . . . . . . . . . . . ." // 1
+      ". . . w w . . . . . . . . . . ." // 2
+      ". . . w w . . . . . . . . . . ." // 3
+      ". . . . . . . . . . . . . . . ." // 4
+      ". . . . . . . . . . . . . . . ." // 5
+      ". . . . . z z . . y y . . . . ." // 6
+      ". . . . . z z . . y y . . . . ." // 7
+      ". . . . . . . . . . . . . . . ." // 8
+      ". . . . . . . . . . . . . . . ." // 9
+      ". . . x x . . . . . . . . . . ." // 0
+      ". . . x x . . . . . . . . . . ." // 1
+      ". . . . . . . . . . . . . . . ." // 2
+      ". . . . . . . . . . . . . . . ." // 3
+      ". . . . . . . . . . . . . . . ." // 4
+      ". . . . . . . . . . . . . . . ." // 5
+      ". . . . . . . . . . . . . . . ."; //6
+  }
+
   &__component {
     // Era 1
-    &--Root {
+    &--RootInstance {
       grid-area: z;
     }
 
     // Era 2
-    &--ScienceJournals {
+    &--ScientificJournals {
       grid-area: y;
     }
 

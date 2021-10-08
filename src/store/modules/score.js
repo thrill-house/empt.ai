@@ -14,11 +14,11 @@ import {
 } from "lodash-es";
 
 import {
-  SUMS,
+  INITIAL_SUMS,
   referenceTransitions,
-  calculateSums,
   calculateAccruals,
   sumAccruals,
+  calculateSums,
   tallyValues,
 } from "../../api";
 
@@ -62,16 +62,14 @@ export default {
         .toFixed(0),
 
     // Resources
-    currentResources: (state, getters) =>
-      // TODO: Complicated resource calculation including changes to frequencies over time
-      ({
-        confidence:
-          state.resources.confidence +
-          getters.currentElapsed * getters.currentFrequencies.influence,
-        data:
-          state.resources.data +
-          getters.currentElapsed * getters.currentFrequencies.bandwidth,
-      }),
+    currentResources: (state, getters) => ({
+      confidence:
+        state.resources.confidence +
+        getters.currentElapsed * getters.currentFrequencies.influence,
+      data:
+        state.resources.data +
+        getters.currentElapsed * getters.currentFrequencies.bandwidth,
+    }),
 
     // Frequencies
     currentFrequencies: (state) => ({
@@ -95,11 +93,13 @@ export default {
       const era = reduce(
         sourcesByEra,
         (accum, sourceLength, eraStage) => {
+          const eraStageNumeric = eraStage * 1;
+
           if (
-            (eraStage === 1 && sourceLength === 1) ||
-            (eraStage > 1 && sourceLength === 3)
+            (eraStageNumeric === 1 && sourceLength === 1) ||
+            (eraStageNumeric > 1 && sourceLength === 3)
           ) {
-            accum = eraStage * 1;
+            accum = eraStageNumeric;
           }
 
           return accum;
@@ -192,7 +192,7 @@ export default {
       const game = rootGetters["game"];
 
       if (game) {
-        await dispatch("setStartTime", game?.$createdAt / 1000);
+        await dispatch("setStartTime", ceil(game?.$createdAt / 1000));
 
         await dispatch("calculateResources");
         await dispatch("calculateFrequencies");
@@ -229,19 +229,18 @@ export default {
 
       const resources = reduce(
         [sums.costs, sums.bonuses, accruals],
-        (accum, additional) => {
-          return tallyValues({
+        (accum, additional) =>
+          tallyValues({
             initial: accum,
             additional,
-          });
-        },
-        { ...SUMS }
+          }),
+        { ...INITIAL_SUMS }
       );
 
       if (getters.transitions) {
         commit(
           "updateTime",
-          head(getters.transitions)?.transition?.$createdAt / 1000
+          ceil(head(getters.transitions)?.transition?.$createdAt / 1000)
         );
       }
 

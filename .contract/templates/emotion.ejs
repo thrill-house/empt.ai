@@ -1,0 +1,7 @@
+{
+  <% if (data['ID'] && data['ID'] !== "11111111111111111111111111111111111111111111") { %>"$id": "<%= data['ID'] %>",<% } %>
+  "title": "<%= data['Title'] %>",
+  "emotionId": "<%= data['EmotionId'] %>",
+  "sentiment": <%= data['Sentiment'].toLowerCase() %>,
+  "description": "<%= data['Description'] %>"
+}

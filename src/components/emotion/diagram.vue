@@ -178,6 +178,7 @@ export default {
 </template>
 
 <style lang="scss">
+@use "sass:math";
 @import "../../styles/helper";
 
 .emotion-diagram {
@@ -196,14 +197,14 @@ export default {
 
   &:before {
     @apply w-2/3 h-2/3;
-    left: 1/6 * 100%;
-    top: 1/6 * 100%;
+    left: math.div(1, 6) * 100%;
+    top: math.div(1, 6) * 100%;
   }
 
   &:after {
     @apply w-1/3 h-1/3;
-    left: 1/3 * 100%;
-    top: 1/3 * 100%;
+    left: math.div(1, 3) * 100%;
+    top: math.div(1, 3) * 100%;
   }
 
   &__axes {

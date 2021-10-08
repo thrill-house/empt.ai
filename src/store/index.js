@@ -1,7 +1,7 @@
 import { createStore } from "vuex";
+import VuexDashDpp from "vuex-dash-dpp";
 import VuexPersistence from "vuex-persist";
 
-import VuexDash from "./plugins/dash";
 import score from "./modules/score";
 import inventory from "./modules/inventory";
 import system from "./modules/system";
@@ -82,14 +82,14 @@ export default createStore({
   },
   modules: { score, inventory, system, labels },
   plugins: [
-    new VuexDash({
+    new VuexDashDpp({
       network: process.env.VUE_APP_GAME_NETWORK,
       contractId: process.env.VUE_APP_GAME_CONTRACT,
       identityId: process.env.VUE_APP_GAME_IDENTITY,
       documents: ["Abilities", "Sockets", "Trees", "Eras", "Emotions"],
       namespace: "App",
     }),
-    new VuexDash({
+    new VuexDashDpp({
       network: process.env.VUE_APP_GAME_NETWORK,
       contractId: process.env.VUE_APP_GAME_CONTRACT,
       documents: ["Games"],
@@ -103,7 +103,7 @@ export default createStore({
         ["identityId", "mnemonic"],
       ],
     }),
-    new VuexDash({
+    new VuexDashDpp({
       network: process.env.VUE_APP_GAME_NETWORK,
       contractId: process.env.VUE_APP_GAME_CONTRACT,
       documents: ["Models", "Slots", "Sources", "Trainings"],

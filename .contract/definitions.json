@@ -11,10 +11,10 @@
       },
       "cost": {
         "type": "integer",
-        "maximum": -1
+        "maximum": 0
       },
       "multiplier": {
-        "$ref": "#/definitions/Multiplier"
+        "$ref": "#/$defs/Multiplier"
       }
     },
     "required": ["cost", "type"],
@@ -35,7 +35,7 @@
         "minimum": 1
       },
       "dependency": {
-        "$ref": "#/definitions/Dependency"
+        "$ref": "#/$defs/Dependency"
       }
     },
     "required": ["bonus", "type"],
@@ -55,7 +55,7 @@
         "type": "integer"
       },
       "dependency": {
-        "$ref": "#/definitions/Dependency"
+        "$ref": "#/$defs/Dependency"
       }
     },
     "required": ["base", "type"],
@@ -76,7 +76,7 @@
         "multipleOf": 0.01
       },
       "dependency": {
-        "$ref": "#/definitions/Dependency"
+        "$ref": "#/$defs/Dependency"
       }
     },
     "required": ["factor", "type"],
@@ -96,7 +96,7 @@
         "type": "array",
         "minItems": 1,
         "items": {
-          "$ref": "#/definitions/Condition"
+          "$ref": "#/$defs/Condition"
         }
       }
     },
@@ -117,7 +117,7 @@
         "type": "array",
         "minItems": 1,
         "items": {
-          "$ref": "#/definitions/Condition"
+          "$ref": "#/$defs/Condition"
         }
       }
     },
@@ -133,19 +133,19 @@
         "minLength": 1,
         "maxLength": 128
       },
-      "id": {
-        "$ref": "#/definitions/Id"
+      "uid": {
+        "$ref": "#/$defs/Uid"
       }
     },
-    "required": ["field", "id"],
+    "required": ["field", "uid"],
     "description": "An object representing a condition."
   },
   "Feeling": {
     "type": "object",
     "additionalProperties": false,
     "properties": {
-      "emotionId": {
-        "$ref": "#/definitions/Id"
+      "emotionUid": {
+        "$ref": "#/$defs/Uid"
       },
       "value": {
         "type": "integer",
@@ -153,7 +153,7 @@
         "maximum": 2
       }
     },
-    "required": ["emotionId", "value"],
+    "required": ["emotionUid", "value"],
     "description": "An object representing a feeling."
   },
   "Answer": {
@@ -161,7 +161,7 @@
     "additionalProperties": false,
     "properties": {
       "question": {
-        "$ref": "#/definitions/Description"
+        "$ref": "#/$defs/Description"
       },
       "value": {
         "type": "string",
@@ -174,10 +174,10 @@
   "Meta": {
     "type": "array",
     "items": {
-      "$ref": "#/definitions/Value"
+      "$ref": "#/$defs/Value"
     }
   },
-  "Id": {
+  "Uid": {
     "type": "string",
     "minLength": 42,
     "maxLength": 44,
@@ -205,11 +205,17 @@
         "minLength": 1,
         "maxLength": 128
       },
-      "value": {
-        "type": ["string", "number", "boolean"]
+      "stringValue": {
+        "type": "string"
+      },
+      "numberValue": {
+        "type": "number"
+      },
+      "booleanValue": {
+        "type": "boolean"
       }
     },
-    "required": ["key", "value"],
+    "required": ["key"],
     "description": "An object representing a basic key value store."
   }
 }
